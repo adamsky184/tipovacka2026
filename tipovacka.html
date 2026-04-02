@@ -396,8 +396,10 @@ async function sb(path, opts = {}) {
     'apikey': SB_KEY,
     'Authorization': 'Bearer ' + SB_KEY,
     'Content-Type': 'application/json',
+    'Prefer': opts.prefer || 'return=representation',
   };
-  if (opts.prefer) headers['Prefer'] = opts.prefer;
+  // Override headers if explicitly passed
+  if (opts.headers) Object.assign(headers, opts.headers);
   const r = await fetch(SB_URL + '/rest/v1/' + path, {
     method: opts.method || 'GET',
     headers,
@@ -485,6 +487,7 @@ async function saveTips() {
       method: 'POST',
       body: JSON.stringify(rows),
       prefer: 'resolution=merge-duplicates,return=minimal',
+      headers: {'Prefer': 'resolution=merge-duplicates,return=minimal'},
     });
     await loadMyTips();
     setSt('st-tipy', 'Ulozeno ' + rows.length + ' tipu!', false, true);
