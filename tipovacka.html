@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipovacka MS 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080e18;
+  --bg2: #0d1724;
+  --bg3: #121f30;
+  --border: #1a2e44;
+  --border2: #223650;
+  --text: #e2eaf4;
+  --muted: #5a7a96;
+  --accent: #0ea5e9;
+  --green: #22c55e;
+  --red: #ef4444;
+  --gold: #f59e0b;
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* LAYOUT */
+.wrap { max-width: 860px; margin: 0 auto; padding: 1rem; }
+
+/* HEADER */
+.hdr { 
+  background: var(--bg2); 
+  border: 1px solid var(--border); 
+  border-radius: 16px; 
+  padding: 1rem 1.4rem; 
+  margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.hdr-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; letter-spacing: .02em; color: #fff; }
+.hdr-sub { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.player-pill { 
+  font-size: .82rem; font-weight: 600; 
+  background: var(--bg3); border: 1px solid var(--border2); 
+  border-radius: 20px; padding: 4px 12px; color: var(--text);
+}
+
+/* NAV */
+.nav { 
+  display: flex; gap: 2px; background: var(--bg2); 
+  border: 1px solid var(--border); border-radius: 12px; 
+  padding: 3px; margin-bottom: 1rem; overflow-x: auto;
+}
+.nav-btn { 
+  padding: 7px 16px; border-radius: 9px; font-size: .82rem; font-weight: 600;
+  font-family: var(--font-head); letter-spacing: .04em; text-transform: uppercase;
+  cursor: pointer; color: var(--muted); background: none; border: none; white-space: nowrap; transition: .15s;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.on { background: var(--accent); color: #fff; }
+
+/* CARD */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem; margin-bottom: .85rem; }
+.card-label { font-family: var(--font-head); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .85rem; }
+
+/* BUTTONS */
+.btn { padding: 8px 18px; border-radius: 9px; border: none; cursor: pointer; font-size: .85rem; font-weight: 600; font-family: var(--font-body); transition: .15s; }
+.btn:active { transform: scale(.97); }
+.btn-blue { background: var(--accent); color: #fff; }
+.btn-blue:hover { background: #0284c7; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: #16a34a; }
+.btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--muted); }
+.btn-outline:hover { border-color: var(--accent); color: var(--text); }
+.btn-sm { padding: 5px 12px; font-size: .78rem; }
+
+/* PHASE TABS */
+.ptabs { display: flex; gap: 5px; margin-bottom: .85rem; }
+.ptab { padding: 5px 14px; border-radius: 7px; font-size: .8rem; font-weight: 600; cursor: pointer; background: var(--bg3); color: var(--muted); border: 1px solid var(--border); transition: .12s; }
+.ptab.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* PLAYER GRID */
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+.pcard { padding: 12px 8px; border-radius: 11px; border: 1.5px solid var(--border); cursor: pointer; text-align: center; transition: .13s; }
+.pcard:hover { border-color: var(--accent); background: var(--bg3); }
+.pcard.on { border-color: var(--green); background: #0a1f12; }
+.pcard .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: .95rem; margin: 0 auto 7px; }
+.pcard .nm { font-size: .85rem; font-weight: 600; }
+.pcard .pt { font-size: .73rem; color: var(--muted); margin-top: 2px; }
+.add-form { display: flex; gap: 8px; margin-top: 12px; }
+.add-form input { flex: 1; padding: 8px 12px; border-radius: 9px; border: 1px solid var(--border2); background: var(--bg); color: var(--text); font-size: .9rem; font-family: var(--font-body); }
+.add-form input:focus { outline: none; border-color: var(--accent); }
+.add-form input::placeholder { color: var(--muted); }
+
+/* MATCH ROWS */
+.grp-head { font-family: var(--font-head); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 0 4px; border-bottom: 1px solid var(--border); margin-bottom: 4px; margin-top: 12px; }
+.grp-head:first-child { margin-top: 0; }
+.mrow { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #0d1724; }
+.mrow:last-child { border-bottom: none; }
+.mrow-teams { font-size: .9rem; font-weight: 600; }
+.mrow-meta { font-size: .73rem; color: var(--muted); margin-top: 2px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mrow-right { display: flex; align-items: center; gap: 6px; }
+.tip-in { 
+  width: 60px; text-align: center; padding: 6px 4px; 
+  border-radius: 7px; border: 1px solid var(--border2); 
+  background: var(--bg); color: var(--text); font-size: .92rem; font-weight: 700; font-family: var(--font-body);
+}
+.tip-in:focus { outline: none; border-color: var(--accent); }
+.tip-in:disabled { opacity: .3; cursor: default; }
+.tip-in.saved { border-color: var(--green); }
+.tip-in.bad { border-color: var(--red); }
+.res-tag { font-size: .73rem; padding: 2px 8px; border-radius: 20px; background: var(--bg3); color: var(--muted); }
+.pts-tag { font-size: .73rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+.pts-5 { background: #052010; color: var(--green); }
+.pts-2 { background: #051525; color: var(--accent); }
+.pts-0 { background: #1f0808; color: var(--red); }
+
+/* LEADERBOARD */
+.lbrow { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 11px; margin-bottom: 5px; background: var(--bg3); border: 1px solid var(--border); transition: .12s; }
+.lbrow.me { border-color: var(--green); background: #071510; }
+.lbrow:hover { border-color: var(--border2); }
+.lb-rank { font-family: var(--font-head); font-size: 1.3rem; font-weight: 800; width: 34px; text-align: center; flex-shrink: 0; }
+.lb-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: .82rem; flex-shrink: 0; }
+.lb-name { flex: 1; font-size: .95rem; font-weight: 600; }
+.lb-stats { font-size: .72rem; color: var(--muted); display: flex; gap: 8px; margin-top: 2px; flex-wrap: wrap; }
+.lb-pts { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; color: var(--gold); min-width: 50px; text-align: right; }
+
+/* RESULTS */
+.rrow { display: grid; grid-template-columns: 1fr 72px 1fr; gap: 6px; align-items: center; padding: 7px 0; border-bottom: 1px solid #0d1724; }
+.rrow:last-child { border-bottom: none; }
+.rrow-home { text-align: right; font-size: .88rem; font-weight: 600; }
+.rrow-score { text-align: center; font-family: var(--font-head); font-size: 1rem; font-weight: 800; }
+.rrow-score.done { color: var(--green); }
+.rrow-score.tbd { color: var(--muted); font-size: .78rem; font-weight: 400; }
+.rrow-away { text-align: left; font-size: .88rem; font-weight: 600; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.tbl th { text-align: left; padding: 8px 10px; color: var(--muted); font-size: .71rem; font-weight: 700; font-family: var(--font-head); letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.tbl td { padding: 8px 10px; border-bottom: 1px solid #0d1724; }
+.tbl tr:last-child td { border-bottom: none; }
+.country-us { color: #60a5fa; }
+.country-ca { color: #f87171; }
+.country-mx { color: var(--green); }
+.phase-chip { font-size: .7rem; padding: 2px 7px; border-radius: 20px; background: var(--bg3); color: var(--muted); }
+
+/* STATUS */
+.status { font-size: .8rem; color: var(--muted); min-height: 20px; padding: 3px 0; }
+.status.ok { color: var(--green); }
+.status.err { color: var(--red); }
+
+/* SPINNER */
+.spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spinning .7s linear infinite; vertical-align: middle; margin-right: 5px; }
+@keyframes spinning { to { transform: rotate(360deg); } }
+
+.empty { text-align: center; padding: 2.5rem; color: var(--muted); font-size: .9rem; }
+.me-tag { font-size: .68rem; color: var(--green); font-weight: 600; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Tipovacka MS 2026</div>
+      <div class="hdr-sub">USA &bull; Kanada &bull; Mexiko &mdash; 11. 6. &ndash; 19. 7. 2026 &mdash; 48 tymu &bull; 104 zapasu</div>
+    </div>
+    <div class="hdr-right">
+      <div class="player-pill" id="player-pill" style="display:none"></div>
+      <button class="btn btn-outline btn-sm" id="btn-change" style="display:none" onclick="showTab('hrac')">Zmenit hrace</button>
+      <button class="btn btn-blue btn-sm" onclick="fetchResults()">&#8635; Aktualizovat vysledky</button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="nav-btn on" onclick="showTab('tipy')" id="tab-tipy">Moje tipy</button>
+    <button class="nav-btn" onclick="showTab('zebricek')" id="tab-zebricek">Zebricek</button>
+    <button class="nav-btn" onclick="showTab('vysledky')" id="tab-vysledky">Vysledky</button>
+    <button class="nav-btn" onclick="showTab('kalendar')" id="tab-kalendar">Kalendar</button>
+    <button class="nav-btn" onclick="showTab('stadiony')" id="tab-stadiony">Stadiony</button>
+    <button class="nav-btn" onclick="showTab('hrac')" id="tab-hrac">Hrac</button>
+  </nav>
+
+  <!-- HRAC -->
+  <div id="page-hrac">
+    <div class="card">
+      <div class="card-label">Kdo jsi?</div>
+      <div class="pgrid" id="pgrid"><div class="empty"><span class="spin"></span>Nacitam hrace...</div></div>
+      <div class="add-form">
+        <input id="new-name" placeholder="Zadej sve jmeno..." maxlength="30" onkeydown="if(event.key==='Enter')addPlayer()">
+        <button class="btn btn-green" onclick="addPlayer()">Pridat se</button>
+      </div>
+      <div class="status" id="st-hrac"></div>
+    </div>
+  </div>
+
+  <!-- TIPY -->
+  <div id="page-tipy" style="display:none">
+    <div class="ptabs">
+      <button class="ptab on" onclick="switchPhase('tipy','sk',this)">Skupinova faze</button>
+      <button class="ptab" onclick="switchPhase('tipy','po',this)">Play-off</button>
+    </div>
+    <div class="card">
+      <div id="tipy-list"><div class="empty"><span class="spin"></span>Nacitam...</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;flex-wrap:wrap;gap:8px">
+        <div class="status" id="st-tipy"></div>
+        <button class="btn btn-green btn-sm" onclick="saveTips()">Ulozit tipy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZEBRICEK -->
+  <div id="page-zebricek" style="display:none">
+    <div class="ptabs">
+      <button class="ptab on" onclick="switchPhase('zeb','cel',this)">Celkovy</button>
+      <button class="ptab" onclick="switchPhase('zeb','sk',this)">Skupiny</button>
+      <button class="ptab" onclick="switchPhase('zeb','po',this)">Play-off</button>
+    </div>
+    <div id="zeb-list"><div class="empty"><span class="spin"></span>Nacitam...</div></div>
+  </div>
+
+  <!-- VYSLEDKY -->
+  <div id="page-vysledky" style="display:none">
+    <div class="ptabs">
+      <button class="ptab on" onclick="switchPhase('vysl','sk',this)">Skupinova faze</button>
+      <button class="ptab" onclick="switchPhase('vysl','po',this)">Play-off</button>
+    </div>
+    <div class="card">
+      <div id="vysl-list"><div class="empty">Klikni Aktualizovat vysledky nahore</div></div>
+      <div class="status" id="st-vysl"></div>
+    </div>
+  </div>
+
+  <!-- KALENDAR -->
+  <div id="page-kalendar" style="display:none">
+    <div class="card">
+      <div class="card-label">Vsechny zapasy (casy v SELC)</div>
+      <div style="overflow-x:auto"><div id="kal-list"></div></div>
+    </div>
+  </div>
+
+  <!-- STADIONY -->
+  <div id="page-stadiony" style="display:none">
+    <div class="card">
+      <div class="card-label">Stadiony MS 2026</div>
+      <div style="overflow-x:auto"><div id="stad-list"></div></div>
+    </div>
+  </div>
+
+</div>
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const SB_URL = 'https://xzlebpzepnhkedlxntgv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
+const AVC = ['#0e4f8c','#0e6b3e','#5c2d8c','#8c2d0e','#0e5c5c','#6b4e0e','#1a3a6b','#4e0e5c','#0e5c3a','#5c4e0e'];
+const SKU = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+
+// ── DATA ────────────────────────────────────────────────
+const SZ = [
+  [1,'A','Mexiko','Jihoafricka rep.','11.6. 21:00','Mexico City'],
+  [2,'A','Jizni Korea','Cesko','12.6. 04:00','Guadalajara'],
+  [3,'A','Mexiko','Jizni Korea','17.6. 03:00','Mexico City'],
+  [4,'A','Cesko','Jihoafricka rep.','18.6. 18:00','Atlanta'],
+  [5,'A','Cesko','Mexiko','25.6. 03:00','Mexico City'],
+  [6,'A','Jihoafricka rep.','Jizni Korea','25.6. 03:00','Guadalajara'],
+  [7,'B','Kanada','Bosna a Hercegovina','12.6. 21:00','Toronto'],
+  [8,'B','Katar','Svycarsko','13.6. 21:00','San Francisco'],
+  [9,'B','Kanada','Katar','17.6. 21:00','Toronto'],
+  [10,'B','Bosna a Hercegovina','Svycarsko','18.6. 00:00','Kansas City'],
+  [11,'B','Kanada','Svycarsko','26.6. 22:00','Vancouver'],
+  [12,'B','Bosna a Hercegovina','Katar','26.6. 22:00','Seattle'],
+  [13,'C','Brazilie','Maroko','14.6. 00:00','New York'],
+  [14,'C','Haiti','Skotsko','14.6. 03:00','Boston'],
+  [15,'C','Brazilie','Haiti','18.6. 21:00','Dallas'],
+  [16,'C','Maroko','Skotsko','19.6. 00:00','Los Angeles'],
+  [17,'C','Brazilie','Skotsko','27.6. 00:00','Kansas City'],
+  [18,'C','Haiti','Maroko','27.6. 00:00','Atlanta'],
+  [19,'D','USA','Paraguay','13.6. 03:00','Los Angeles'],
+  [20,'D','Australie','Turecko','14.6. 06:00','Vancouver'],
+  [21,'D','USA','Australie','18.6. 03:00','Seattle'],
+  [22,'D','Paraguay','Turecko','18.6. 06:00','Dallas'],
+  [23,'D','USA','Turecko','27.6. 22:00','Seattle'],
+  [24,'D','Paraguay','Australie','27.6. 22:00','Los Angeles'],
+  [25,'E','Nemecko','Curacao','14.6. 19:00','Houston'],
+  [26,'E','Pobrezi slonoviny','Ekvador','15.6. 01:00','Philadelphia'],
+  [27,'E','Nemecko','Ekvador','19.6. 22:00','San Francisco'],
+  [28,'E','Pobrezi slonoviny','Curacao','20.6. 01:00','Dallas'],
+  [29,'E','Nemecko','Pobrezi slonoviny','28.6. 22:00','Philadelphia'],
+  [30,'E','Ekvador','Curacao','28.6. 22:00','Houston'],
+  [31,'F','Nizozemsko','Japonsko','14.6. 22:00','Dallas'],
+  [32,'F','Svedsko','Tunisko','15.6. 04:00','Monterrey'],
+  [33,'F','Nizozemsko','Tunisko','19.6. 21:00','Miami'],
+  [34,'F','Japonsko','Svedsko','20.6. 00:00','Kansas City'],
+  [35,'F','Japonsko','Tunisko','28.6. 18:00','Houston'],
+  [36,'F','Nizozemsko','Svedsko','28.6. 18:00','Dallas'],
+  [37,'G','Belgie','Egypt','15.6. 21:00','Seattle'],
+  [38,'G','Iran','Novy Zeland','16.6. 03:00','Los Angeles'],
+  [39,'G','Belgie','Novy Zeland','20.6. 21:00','Atlanta'],
+  [40,'G','Iran','Egypt','21.6. 00:00','Miami'],
+  [41,'G','Belgie','Iran','28.6. 18:00','Dallas'],
+  [42,'G','Egypt','Novy Zeland','28.6. 21:00','Seattle'],
+  [43,'H','Spanelsko','Kapverdy','15.6. 18:00','Atlanta'],
+  [44,'H','Saudska Arabie','Uruguay','16.6. 00:00','Miami'],
+  [45,'H','Spanelsko','Saudska Arabie','21.6. 22:00','Los Angeles'],
+  [46,'H','Kapverdy','Uruguay','22.6. 01:00','Boston'],
+  [47,'H','Spanelsko','Uruguay','28.6. 19:00','Kansas City'],
+  [48,'H','Kapverdy','Saudska Arabie','28.6. 19:00','Miami'],
+  [49,'I','Francie','Senegal','16.6. 21:00','New York'],
+  [50,'I','Irak','Norsko','17.6. 00:00','Boston'],
+  [51,'I','Francie','Irak','21.6. 19:00','New York'],
+  [52,'I','Norsko','Senegal','21.6. 22:00','Dallas'],
+  [53,'I','Francie','Norsko','28.6. 21:00','New York'],
+  [54,'I','Irak','Senegal','28.6. 21:00','Boston'],
+  [55,'J','Argentina','Alzirsko','17.6. 03:00','Kansas City'],
+  [56,'J','Rakousko','Jordansko','17.6. 06:00','San Francisco'],
+  [57,'J','Argentina','Jordansko','22.6. 22:00','Miami'],
+  [58,'J','Alzirsko','Rakousko','22.6. 19:00','Atlanta'],
+  [59,'J','Argentina','Rakousko','27.6. 22:00','Dallas'],
+  [60,'J','Alzirsko','Jordansko','27.6. 22:00','San Francisco'],
+  [61,'K','Portugalsko','DR Kongo','17.6. 19:00','Houston'],
+  [62,'K','Uzbekistan','Ghana','17.6. 22:00','Los Angeles'],
+  [63,'K','Portugalsko','Ghana','22.6. 22:00','Dallas'],
+  [64,'K','DR Kongo','Uzbekistan','22.6. 19:00','Boston'],
+  [65,'K','Portugalsko','Uzbekistan','27.6. 19:00','Kansas City'],
+  [66,'K','DR Kongo','Ghana','27.6. 19:00','Houston'],
+  [67,'L','Anglie','Chorvatsko','17.6. 22:00','Dallas'],
+  [68,'L','Ghana','Panama','18.6. 01:00','Atlanta'],
+  [69,'L','Anglie','Ghana','22.6. 19:00','Houston'],
+  [70,'L','Panama','Chorvatsko','22.6. 22:00','Los Angeles'],
+  [71,'L','Anglie','Panama','27.6. 22:00','Miami'],
+  [72,'L','Ghana','Chorvatsko','27.6. 19:00','Dallas'],
+];
+const PZ = [
+  [73,'16F','2. sk.A','2. sk.B','28.6. 21:00','Los Angeles'],
+  [74,'16F','1. sk.E','3. nejl.','29.6. 20:30','Boston'],
+  [75,'16F','1. sk.F','2. sk.C','29.6. 01:00','Monterrey'],
+  [76,'16F','1. sk.C','2. sk.F','29.6. 19:00','Houston'],
+  [77,'16F','2. sk.E','2. sk.I','30.6. 19:00','Dallas'],
+  [78,'16F','1. sk.I','3. nejl.','30.6. 23:00','New York'],
+  [79,'16F','1. sk.A','3. nejl.','30.6. 03:00','Mexico City'],
+  [80,'16F','1. sk.L','3. nejl.','1.7. 18:00','Atlanta'],
+  [81,'16F','1. sk.D','3. nejl.','1.7. 00:00','San Francisco'],
+  [82,'16F','1. sk.G','3. nejl.','1.7. 22:00','Seattle'],
+  [83,'16F','1. sk.H','2. sk.J','2.7. 21:00','Los Angeles'],
+  [84,'16F','2. sk.K','2. sk.L','2.7. 01:00','Toronto'],
+  [85,'16F','1. sk.B','3. nejl.','2.7. 05:00','Vancouver'],
+  [86,'16F','2. sk.D','2. sk.G','3.7. 20:00','Dallas'],
+  [87,'16F','1. sk.J','2. sk.H','3.7. 00:00','Miami'],
+  [88,'16F','1. sk.K','3. nejl.','3.7. 03:30','Kansas City'],
+  [89,'OF','Vitez Z73','Vitez Z75','4.7. 19:00','Houston'],
+  [90,'OF','Vitez Z74','Vitez Z77','4.7. 23:00','Philadelphia'],
+  [91,'OF','Vitez Z76','Vitez Z79','5.7. 19:00','Houston'],
+  [92,'OF','Vitez Z78','Vitez Z81','5.7. 23:00','New York'],
+  [93,'OF','Vitez Z80','Vitez Z83','6.7. 19:00','Atlanta'],
+  [94,'OF','Vitez Z82','Vitez Z85','6.7. 23:00','Seattle'],
+  [95,'OF','Vitez Z84','Vitez Z87','7.7. 19:00','Los Angeles'],
+  [96,'OF','Vitez Z86','Vitez Z88','7.7. 23:00','Miami'],
+  [97,'CF','Vitez OF1','Vitez OF2','9.7. 23:00','Dallas'],
+  [98,'CF','Vitez OF3','Vitez OF4','10.7. 23:00','Los Angeles'],
+  [99,'CF','Vitez OF5','Vitez OF6','11.7. 23:00','Houston'],
+  [100,'CF','Vitez OF7','Vitez OF8','12.7. 23:00','New York'],
+  [101,'SF','Vitez CF1','Vitez CF2','14.7. 23:00','Dallas'],
+  [102,'SF','Vitez CF3','Vitez CF4','15.7. 23:00','New York'],
+  [103,'O3','Porazeny SF1','Porazeny SF2','18.7. 23:00','Miami'],
+  [104,'FIN','Vitez SF1','Vitez SF2','19.7. 21:00','New York'],
+];
+const STAD = [
+  ['MetLife Stadium','New York / NJ','USA','82 500','Finale, SF, OF'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zapasu — nejvice'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny'],
+  ['Gillette Stadium','Boston / Foxborough','USA','65 878','16F, skupiny'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','otevraci zapas, skupiny'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','skupiny'],
+];
+
+// ── STATE ───────────────────────────────────────────────
+let me = null, players = [], results = {}, myTips = {}, allTips = {};
+let tipPhase = 'sk', zebPhase = 'cel', vyslPhase = 'sk';
+
+// ── SUPABASE ────────────────────────────────────────────
+async function sb(path, opts = {}) {
+  const headers = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json',
+  };
+  if (opts.prefer) headers['Prefer'] = opts.prefer;
+  const r = await fetch(SB_URL + '/rest/v1/' + path, {
+    method: opts.method || 'GET',
+    headers,
+    body: opts.body || undefined,
+  });
+  if (!r.ok) { const t = await r.text(); throw new Error(t); }
+  return r.status === 204 ? null : r.json();
+}
+
+async function loadPlayers() {
+  try {
+    players = await sb('hrace?order=vytvoreno.asc');
+    renderPlayers();
+  } catch(e) { setSt('st-hrac', 'Chyba nacitani: ' + e.message, true); }
+}
+
+async function loadMyTips() {
+  if (!me) return;
+  try {
+    const d = await sb('tipy?hrac_id=eq.' + me.id + '&select=zapas_id,tip');
+    myTips = {};
+    d.forEach(t => myTips[t.zapas_id] = t.tip);
+    renderTips();
+  } catch(e) { console.error(e); }
+}
+
+async function loadAllTips() {
+  try {
+    const d = await sb('tipy?select=hrac_id,zapas_id,tip');
+    allTips = {};
+    d.forEach(t => {
+      if (!allTips[t.hrac_id]) allTips[t.hrac_id] = {};
+      allTips[t.hrac_id][t.zapas_id] = t.tip;
+    });
+  } catch(e) { console.error(e); }
+}
+
+async function loadResults() {
+  try {
+    const d = await sb('vysledky?select=zapas_id,skore');
+    results = {};
+    d.forEach(v => results[v.zapas_id] = v.skore);
+  } catch(e) { console.error(e); }
+}
+
+async function addPlayer() {
+  const inp = document.getElementById('new-name');
+  const name = inp.value.trim();
+  if (!name) return;
+  setSt('st-hrac', 'Pridavam...');
+  try {
+    const res = await sb('hrace', {
+      method: 'POST',
+      body: JSON.stringify({ jmeno: name }),
+      prefer: 'return=representation',
+    });
+    inp.value = '';
+    await loadPlayers();
+    selectPlayer(res[0]);
+    setSt('st-hrac', 'Vitej, ' + name + '!', false, true);
+  } catch(e) {
+    if (e.message.includes('23505') || e.message.includes('unique')) {
+      const found = players.find(p => p.jmeno.toLowerCase() === name.toLowerCase());
+      if (found) { selectPlayer(found); setSt('st-hrac', 'Vitej zpet, ' + name + '!', false, true); inp.value = ''; }
+      else setSt('st-hrac', 'Toto jmeno uz existuje, vyber se ze seznamu', true);
+    } else { setSt('st-hrac', 'Chyba: ' + e.message, true); }
+  }
+}
+
+async function saveTips() {
+  if (!me) { setSt('st-tipy', 'Nejdrive vyber hrace', true); return; }
+  const zapasy = tipPhase === 'sk' ? SZ : PZ;
+  const rows = [];
+  zapasy.forEach(([id]) => {
+    const inp = document.getElementById('t' + id);
+    if (inp && inp.value.trim() && !inp.disabled) {
+      if (!/^\d+:\d+$/.test(inp.value.trim())) return;
+      rows.push({ hrac_id: me.id, zapas_id: id, tip: inp.value.trim() });
+    }
+  });
+  if (!rows.length) { setSt('st-tipy', 'Zadne platne tipy k ulozeni (format: 2:1)'); return; }
+  setSt('st-tipy', 'Ukladam ' + rows.length + ' tipu...');
+  try {
+    await sb('tipy', {
+      method: 'POST',
+      body: JSON.stringify(rows),
+      prefer: 'resolution=merge-duplicates,return=minimal',
+    });
+    await loadMyTips();
+    setSt('st-tipy', 'Ulozeno ' + rows.length + ' tipu!', false, true);
+  } catch(e) { setSt('st-tipy', 'Chyba ukladani: ' + e.message, true); }
+}
+
+async function fetchResults() {
+  setSt('st-vysl', 'Stahuji vysledky z ESPN...');
+  try {
+    const r = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard');
+    const json = await r.json();
+    const found = {};
+    (json.events || []).forEach(ev => {
+      (ev.competitions || []).forEach(comp => {
+        if (!comp.status?.type?.completed) return;
+        const home = comp.competitors?.find(c => c.homeAway === 'home');
+        const away = comp.competitors?.find(c => c.homeAway === 'away');
+        if (!home || !away) return;
+        const score = home.score + ':' + away.score;
+        const hn = (home.team?.displayName || '').toLowerCase();
+        const an = (away.team?.displayName || '').toLowerCase();
+        [...SZ, ...PZ].forEach(([id,, d, h]) => {
+          const dk = d.toLowerCase().split(' ')[0];
+          const hk = h.toLowerCase().split(' ')[0];
+          if ((hn.includes(dk) || dk.includes(hn)) && (an.includes(hk) || hk.includes(an))) {
+            found[id] = score;
+          }
+        });
+      });
+    });
+    if (Object.keys(found).length) {
+      const rows = Object.entries(found).map(([zapas_id, skore]) => ({ zapas_id: +zapas_id, skore }));
+      await sb('vysledky', {
+        method: 'POST',
+        body: JSON.stringify(rows),
+        prefer: 'resolution=merge-duplicates,return=minimal',
+      });
+      results = { ...results, ...found };
+    }
+    setSt('st-vysl', 'Aktualizovano ' + Object.keys(found).length + ' vysledku (turnaj zacina 11.6.)', false, true);
+    renderResults();
+    renderTips();
+  } catch(e) { setSt('st-vysl', 'Chyba ESPN: ' + e.message, true); }
+}
+
+// ── RENDER ──────────────────────────────────────────────
+function ini(name) {
+  return name.split(' ').map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || '?';
+}
+
+function calcPts(tip, res) {
+  const t = tip.split(':').map(Number), r = res.split(':').map(Number);
+  if (isNaN(t[0]) || isNaN(r[0])) return null;
+  if (t[0] === r[0] && t[1] === r[1]) return 5;
+  const s = x => x > 0 ? 1 : x < 0 ? -1 : 0;
+  return s(t[0] - t[1]) === s(r[0] - r[1]) ? 2 : 0;
+}
+
+function ptsForPlayer(pid) {
+  const tips = pid === me?.id ? myTips : (allTips[pid] || {});
+  return Object.entries(tips).reduce((sum, [id, tip]) => {
+    const res = results[+id];
+    return sum + (res ? (calcPts(tip, res) || 0) : 0);
+  }, 0);
+}
+
+function selectPlayer(p) {
+  me = p;
+  try { localStorage.setItem('ms26_player', JSON.stringify(p)); } catch(e) {}
+  document.getElementById('player-pill').textContent = p.jmeno;
+  document.getElementById('player-pill').style.display = 'inline-block';
+  document.getElementById('btn-change').style.display = 'inline-block';
+  renderPlayers();
+  showTab('tipy');
+  loadMyTips();
+}
+
+function renderPlayers() {
+  const el = document.getElementById('pgrid');
+  if (!players.length) { el.innerHTML = '<div class="empty">Zatim zadni hraci. Pridej se!</div>'; return; }
+  el.innerHTML = players.map((p, i) => {
+    const isMe = me && me.id === p.id;
+    const pts = ptsForPlayer(p.id);
+    return '<div class="pcard' + (isMe ? ' on' : '') + '" onclick=\'selectPlayer(' + JSON.stringify(p) + ')\'>'
+      + '<div class="av" style="background:' + AVC[i % AVC.length] + '">' + ini(p.jmeno) + '</div>'
+      + '<div class="nm">' + p.jmeno + '</div>'
+      + '<div class="pt">' + pts + ' bodu</div></div>';
+  }).join('');
+}
+
+function renderTips() {
+  if (!me) { document.getElementById('tipy-list').innerHTML = '<div class="empty">Nejdrive vyber hrace v zalozce Hrac</div>'; return; }
+  const zapasy = tipPhase === 'sk' ? SZ : PZ;
+  let html = '', prev = null;
+  zapasy.forEach(([id, sk, d, h, dat]) => {
+    if (sk !== prev) {
+      html += '<div class="grp-head">' + (SKU.includes(sk) ? 'Skupina ' + sk : sk) + '</div>';
+      prev = sk;
+    }
+    const res = results[id], tip = myTips[id] || '', locked = !!res;
+    const pts = locked && tip ? calcPts(tip, res) : null;
+    const pb = pts === 5 ? '<span class="pts-tag pts-5">5b</span>'
+              : pts === 2 ? '<span class="pts-tag pts-2">2b</span>'
+              : pts === 0 && tip ? '<span class="pts-tag pts-0">0b</span>' : '';
+    html += '<div class="mrow">'
+      + '<div><div class="mrow-teams">' + d + ' &ndash; ' + h + '</div>'
+      + '<div class="mrow-meta">' + dat + (res ? '<span class="res-tag">' + res + '</span>' : '') + '</div></div>'
+      + '<div class="mrow-right">' + pb
+      + '<input class="tip-in' + (tip && !locked ? ' saved' : '') + '" id="t' + id + '" value="' + tip + '" placeholder="2:1" maxlength="6"'
+      + (locked ? ' disabled' : '') + ' oninput="chk(this)"></div></div>';
+  });
+  document.getElementById('tipy-list').innerHTML = html;
+}
+
+function chk(inp) {
+  const v = inp.value.trim();
+  inp.classList.remove('saved', 'bad');
+  if (!v) return;
+  if (!/^\d+:\d+$/.test(v)) inp.classList.add('bad');
+  else inp.classList.add('saved');
+}
+
+function renderResults() {
+  const zapasy = vyslPhase === 'sk' ? SZ : PZ;
+  let html = '', prev = null;
+  zapasy.forEach(([id, sk, d, h, dat]) => {
+    if (sk !== prev) {
+      html += '<div class="grp-head">' + (SKU.includes(sk) ? 'Skupina ' + sk : sk) + '</div>';
+      prev = sk;
+    }
+    const res = results[id];
+    html += '<div class="rrow">'
+      + '<div class="rrow-home">' + d + '</div>'
+      + '<div class="rrow-score ' + (res ? 'done' : 'tbd') + '">' + (res || (dat.split(' ')[1] || '—')) + '</div>'
+      + '<div class="rrow-away">' + h + '</div></div>';
+  });
+  document.getElementById('vysl-list').innerHTML = html || '<div class="empty">Klikni Aktualizovat vysledky</div>';
+}
+
+function renderZeb() {
+  const zapasy = zebPhase === 'po' ? PZ : zebPhase === 'sk' ? SZ : [...SZ, ...PZ];
+  const scored = players.map((p, i) => {
+    const tips = p.id === me?.id ? myTips : (allTips[p.id] || {});
+    let total = 0, pre = 0, spr = 0, spa = 0;
+    zapasy.forEach(([id]) => {
+      const res = results[id], tip = tips[id];
+      if (res && tip) {
+        const pts = calcPts(tip, res);
+        if (pts != null) { total += pts; if (pts === 5) pre++; else if (pts === 2) spr++; else spa++; }
+      }
+    });
+    return { p, i, total, pre, spr, spa };
+  }).sort((a, b) => b.total - a.total || b.pre - a.pre);
+
+  const med = ['🥇', '🥈', '🥉'];
+  document.getElementById('zeb-list').innerHTML = scored.map(({ p, i, total, pre, spr, spa }, rank) => {
+    const isMe = me && me.id === p.id;
+    return '<div class="lbrow' + (isMe ? ' me' : '') + '">'
+      + '<div class="lb-rank">' + (med[rank] || rank + 1) + '</div>'
+      + '<div class="lb-av" style="background:' + AVC[i % AVC.length] + '">' + ini(p.jmeno) + '</div>'
+      + '<div style="flex:1">'
+      + '<div class="lb-name">' + p.jmeno + (isMe ? '<span class="me-tag">(ty)</span>' : '') + '</div>'
+      + '<div class="lb-stats"><span>' + pre + 'x presne</span><span>' + spr + 'x spravne</span><span>' + spa + 'x spatne</span></div></div>'
+      + '<div class="lb-pts">' + total + '</div></div>';
+  }).join('') || '<div class="empty">Zatim zadni hraci</div>';
+}
+
+function renderKal() {
+  let html = '<table class="tbl"><thead><tr><th>#</th><th>Datum (SELC)</th><th>Skupina</th><th>Domaci</th><th>Hoste</th><th>Stadion</th></tr></thead><tbody>';
+  [...SZ, ...PZ].forEach(([id, sk, d, h, dat, stad]) => {
+    const res = results[id];
+    html += '<tr><td style="color:var(--muted);font-size:.75rem">' + id + '</td>'
+      + '<td style="font-size:.8rem">' + dat + '</td>'
+      + '<td><span class="phase-chip">' + (sk.length <= 2 ? 'Sk.' + sk : sk) + '</span></td>'
+      + '<td style="font-weight:600">' + d + '</td>'
+      + '<td style="font-weight:600">' + h + '</td>'
+      + '<td style="font-size:.78rem;color:var(--muted)">' + (stad || '') + '</td></tr>';
+  });
+  document.getElementById('kal-list').innerHTML = html + '</tbody></table>';
+}
+
+function renderStad() {
+  let html = '<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
+  STAD.forEach(([n, c, co, cap, f]) => {
+    const cc = co === 'USA' ? 'country-us' : co === 'Kanada' ? 'country-ca' : 'country-mx';
+    html += '<tr><td style="font-weight:700">' + n + '</td><td>' + c + '</td>'
+      + '<td class="' + cc + '" style="font-weight:700">' + co + '</td>'
+      + '<td style="text-align:center;font-weight:600">' + cap + '</td>'
+      + '<td style="font-size:.78rem;color:var(--muted)">' + f + '</td></tr>';
+  });
+  document.getElementById('stad-list').innerHTML = html + '</tbody></table>';
+}
+
+// ── TABS ────────────────────────────────────────────────
+function showTab(name) {
+  ['tipy', 'zebricek', 'vysledky', 'kalendar', 'stadiony', 'hrac'].forEach(t => {
+    const p = document.getElementById('page-' + t);
+    const b = document.getElementById('tab-' + t);
+    if (p) p.style.display = t === name ? 'block' : 'none';
+    if (b) b.classList.toggle('on', t === name);
+  });
+  if (name === 'zebricek') loadAllTips().then(renderZeb);
+  if (name === 'vysledky') renderResults();
+  if (name === 'kalendar') renderKal();
+  if (name === 'stadiony') renderStad();
+  if (name === 'hrac') loadPlayers();
+}
+
+function switchPhase(ctx, phase, btn) {
+  if (ctx === 'tipy') { tipPhase = phase; renderTips(); }
+  else if (ctx === 'zeb') { zebPhase = phase; renderZeb(); }
+  else if (ctx === 'vysl') { vyslPhase = phase; renderResults(); }
+  btn.closest('.ptabs').querySelectorAll('.ptab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function setSt(id, msg, err = false, ok = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'status' + (err ? ' err' : ok ? ' ok' : '');
+}
+
+// ── INIT ────────────────────────────────────────────────
+async function init() {
+  await loadResults();
+  await loadPlayers();
+  renderKal();
+  renderStad();
+  try {
+    const saved = localStorage.getItem('ms26_player');
+    if (saved) {
+      const p = JSON.parse(saved);
+      const found = players.find(x => x.id === p.id);
+      if (found) { selectPlayer(found); return; }
+    }
+  } catch(e) {}
+  showTab('hrac');
+}
+
+init();
+</script>
+</body>
+</html>
