@@ -483,12 +483,37 @@ async function saveTips() {
   if (!rows.length) { setSt('st-tipy', 'Zadne platne tipy k ulozeni (format: 2:1)'); return; }
   setSt('st-tipy', 'Ukladam ' + rows.length + ' tipu...');
   try {
-    await sb('tipy', {
-      method: 'POST',
-      body: JSON.stringify(rows),
-      prefer: 'resolution=merge-duplicates,return=minimal',
-      headers: {'Prefer': 'resolution=merge-duplicates,return=minimal'},
-    });
+    // Uloz kazdy tip zvlast - nejdrive zkus update, pak insert
+    for (const row of rows) {
+      // Zkus update existujiciho tipu
+      const upd = await fetch(SB_URL + '/rest/v1/tipy?hrac_id=eq.' + row.hrac_id + '&zapas_id=eq.' + row.zapas_id, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify({ tip: row.tip }),
+      });
+      if (!upd.ok) { await upd.text(); continue; }
+      // Zjisti jestli update neco zmenil (count v hlavicke)
+      const count = upd.headers.get('content-range');
+      const updated = count && !count.startsWith('0');
+      if (!updated) {
+        // Zaznam neexistuje - vloz novy
+        await fetch(SB_URL + '/rest/v1/tipy', {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify(row),
+        });
+      }
+    }
     await loadMyTips();
     setSt('st-tipy', 'Ulozeno ' + rows.length + ' tipu!', false, true);
   } catch(e) { setSt('st-tipy', 'Chyba ukladani: ' + e.message, true); }
