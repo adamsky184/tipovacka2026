@@ -475,50 +475,35 @@ async function saveTips() {
   const rows = [];
   zapasy.forEach(([id]) => {
     const inp = document.getElementById('t' + id);
-    if (inp && inp.value.trim() && !inp.disabled) {
-      if (!/^\d+:\d+$/.test(inp.value.trim())) return;
-      rows.push({ hrac_id: me.id, zapas_id: id, tip: inp.value.trim() });
+    const v = inp ? inp.value.trim() : '';
+    if (v && !inp.disabled && /^\d+:\d+$/.test(v)) {
+      rows.push({ hrac_id: me.id, zapas_id: id, tip: v });
     }
   });
   if (!rows.length) { setSt('st-tipy', 'Zadne platne tipy k ulozeni (format: 2:1)'); return; }
   setSt('st-tipy', 'Ukladam ' + rows.length + ' tipu...');
   try {
-    // Uloz kazdy tip zvlast - nejdrive zkus update, pak insert
+    // Pouzivame RPC upsert_tip funkci - spolehlivy upsert bez konfliktu
     for (const row of rows) {
-      // Zkus update existujiciho tipu
-      const upd = await fetch(SB_URL + '/rest/v1/tipy?hrac_id=eq.' + row.hrac_id + '&zapas_id=eq.' + row.zapas_id, {
-        method: 'PATCH',
+      const r = await fetch(SB_URL + '/rest/v1/rpc/upsert_tip', {
+        method: 'POST',
         headers: {
           'apikey': SB_KEY,
           'Authorization': 'Bearer ' + SB_KEY,
           'Content-Type': 'application/json',
-          'Prefer': 'return=minimal',
         },
-        body: JSON.stringify({ tip: row.tip }),
+        body: JSON.stringify({
+          p_hrac_id: row.hrac_id,
+          p_zapas_id: row.zapas_id,
+          p_tip: row.tip,
+        }),
       });
-      if (!upd.ok) { await upd.text(); continue; }
-      // Zjisti jestli update neco zmenil (count v hlavicke)
-      const count = upd.headers.get('content-range');
-      const updated = count && !count.startsWith('0');
-      if (!updated) {
-        // Zaznam neexistuje - vloz novy
-        await fetch(SB_URL + '/rest/v1/tipy', {
-          method: 'POST',
-          headers: {
-            'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal',
-          },
-          body: JSON.stringify(row),
-        });
-      }
+      if (!r.ok) { const t = await r.text(); throw new Error(t); }
     }
     await loadMyTips();
     setSt('st-tipy', 'Ulozeno ' + rows.length + ' tipu!', false, true);
-  } catch(e) { setSt('st-tipy', 'Chyba ukladani: ' + e.message, true); }
+  } catch(e) { setSt('st-tipy', 'Chyba: ' + e.message, true); }
 }
-
 async function fetchResults() {
   setSt('st-vysl', 'Stahuji vysledky z ESPN...');
   try {
