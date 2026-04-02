@@ -421,9 +421,9 @@ async function loadMyTips() {
   try {
     const d = await sb('tipy?hrac_id=eq.' + me.id + '&select=zapas_id,tip');
     myTips = {};
-    d.forEach(t => myTips[t.zapas_id] = t.tip);
+    d.forEach(t => { myTips[parseInt(t.zapas_id)] = t.tip; });
     renderTips();
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error('loadMyTips error:', e); }
 }
 
 async function loadAllTips() {
@@ -441,7 +441,7 @@ async function loadResults() {
   try {
     const d = await sb('vysledky?select=zapas_id,skore');
     results = {};
-    d.forEach(v => results[v.zapas_id] = v.skore);
+    d.forEach(v => { results[parseInt(v.zapas_id)] = v.skore; });
   } catch(e) { console.error(e); }
 }
 
@@ -597,7 +597,7 @@ function renderTips() {
       html += '<div class="grp-head">' + (SKU.includes(sk) ? 'Skupina ' + sk : sk) + '</div>';
       prev = sk;
     }
-    const res = results[id], tip = myTips[id] || '', locked = !!res;
+    const res = results[id], tip = myTips[parseInt(id)] || '', locked = !!res;
     const pts = locked && tip ? calcPts(tip, res) : null;
     const pb = pts === 5 ? '<span class="pts-tag pts-5">5b</span>'
               : pts === 2 ? '<span class="pts-tag pts-2">2b</span>'
@@ -606,8 +606,8 @@ function renderTips() {
       + '<div><div class="mrow-teams">' + d + ' &ndash; ' + h + '</div>'
       + '<div class="mrow-meta">' + dat + (res ? '<span class="res-tag">' + res + '</span>' : '') + '</div></div>'
       + '<div class="mrow-right">' + pb
-      + '<input class="tip-in' + (tip && !locked ? ' saved' : '') + '" id="t' + id + '" value="' + tip + '" placeholder="2:1" maxlength="6"'
-      + (locked ? ' disabled' : '') + ' oninput="chk(this)"></div></div>';
+      + '<input class="tip-in' + (tip ? (locked ? '' : ' saved') : '') + '" id="t' + id + '" value="' + (tip || '') + '" placeholder="2:1" maxlength="6"'
+      + (locked ? ' disabled title="Zapas uz odehran"' : '') + ' oninput="chk(this)"></div></div>';
   });
   document.getElementById('tipy-list').innerHTML = html;
 }
