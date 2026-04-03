@@ -156,10 +156,57 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 
 .empty { text-align: center; padding: 2.5rem; color: var(--muted); font-size: .9rem; }
 .me-tag { font-size: .68rem; color: var(--green); font-weight: 600; margin-left: 4px; }
+.edit-btn { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg3); color: var(--muted); cursor: pointer; font-size: .82rem; transition: .12s; }
+.edit-btn:hover { border-color: var(--accent); color: var(--accent); }
+.stad-img { width: 48px; height: 32px; object-fit: cover; border-radius: 4px; vertical-align: middle; margin-right: 8px; opacity: .85; }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay" style="position:fixed;inset:0;background:#080e18;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:#151f2b;border:1px solid #1a2e44;border-radius:18px;padding:2rem;width:100%;max-width:380px">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:4px">Tipovacka MS 2026</div>
+    <div style="font-size:.82rem;color:#5a7a96;margin-bottom:1.5rem">USA &bull; Kanada &bull; Mexiko &bull; 11.6.&ndash;19.7.2026</div>
+
+    <div id="login-reg-tabs" style="display:flex;gap:4px;background:#0f1923;border-radius:9px;padding:3px;margin-bottom:1.25rem">
+      <button onclick="switchLoginTab('login')" id="ltab-login" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:#1a3a5c;color:#fff">Prihlasit se</button>
+      <button onclick="switchLoginTab('reg')" id="ltab-reg" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:none;color:#5a7a96">Registrovat se</button>
+    </div>
+
+    <div id="login-form">
+      <div style="margin-bottom:.85rem">
+        <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">JMENO</label>
+        <input id="l-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('l-pin').focus()">
+      </div>
+      <div style="margin-bottom:1.25rem">
+        <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">PIN (heslo)</label>
+        <input id="l-pin" type="password" placeholder="Tvuj PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button onclick="doLogin()" style="width:100%;padding:10px;border-radius:9px;border:none;background:#0ea5e9;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Prihlasit se</button>
+      <div id="login-err" style="font-size:.82rem;color:#ef4444;margin-top:8px;min-height:20px"></div>
+    </div>
+
+    <div id="reg-form" style="display:none">
+      <div style="margin-bottom:.85rem">
+        <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">JMENO</label>
+        <input id="r-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('r-pin').focus()">
+      </div>
+      <div style="margin-bottom:.85rem">
+        <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">PIN (4+ znaky, zapamatuj si ho!)</label>
+        <input id="r-pin" type="password" placeholder="Zvol si PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('r-pin2').focus()">
+      </div>
+      <div style="margin-bottom:1.25rem">
+        <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">POTVRD PIN</label>
+        <input id="r-pin2" type="password" placeholder="Znovu PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+      <button onclick="doRegister()" style="width:100%;padding:10px;border-radius:9px;border:none;background:#22c55e;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Registrovat se</button>
+      <div id="reg-err" style="font-size:.82rem;color:#ef4444;margin-top:8px;min-height:20px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="main-app" style="display:none">
 
   <!-- HEADER -->
   <div class="hdr">
@@ -169,7 +216,8 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     </div>
     <div class="hdr-right">
       <div class="player-pill" id="player-pill" style="display:none"></div>
-      <button class="btn btn-outline btn-sm" id="btn-change" style="display:none" onclick="showTab('hrac')">Zmenit hrace</button>
+      <span id="admin-badge" style="display:none;font-size:.72rem;font-weight:700;background:#f59e0b;color:#0f1923;padding:2px 8px;border-radius:20px">ADMIN</span>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Odhlasit</button>
       <button class="btn btn-blue btn-sm" onclick="fetchResults()">&#8635; Aktualizovat vysledky</button>
     </div>
   </div>
@@ -181,7 +229,8 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <button class="nav-btn" onclick="showTab('vysledky')" id="tab-vysledky">Vysledky</button>
     <button class="nav-btn" onclick="showTab('kalendar')" id="tab-kalendar">Kalendar</button>
     <button class="nav-btn" onclick="showTab('stadiony')" id="tab-stadiony">Stadiony</button>
-    <button class="nav-btn" onclick="showTab('hrac')" id="tab-hrac">Hrac</button>
+    <!-- tab hrac odstranen - login je pres overlay -->
+    <button class="nav-btn" onclick="showTab('admin')" id="tab-admin" style="display:none">Admin</button>
   </nav>
 
   <!-- HRAC -->
@@ -250,7 +299,15 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     </div>
   </div>
 
-</div>
+  <!-- ADMIN -->
+  <div id="page-admin" style="display:none">
+    <div class="card">
+      <div class="card-label">Prehled vsech hracu a jejich tipu</div>
+      <div id="admin-content"><div class="empty">Nacitam...</div></div>
+    </div>
+  </div>
+
+</div><!-- /main-app -->
 <script>
 // ── CONFIG ──────────────────────────────────────────────
 const SB_URL = 'https://xzlebpzepnhkedlxntgv.supabase.co';
@@ -373,7 +430,7 @@ const STAD = [
   ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny'],
   ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny'],
   ['Lumen Field','Seattle','USA','69 000','CF, skupiny'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny'],
+  ["Levis Stadium",'San Francisco','USA','68 500','16F, skupiny'],
   ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny'],
   ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny'],
   ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny'],
@@ -387,7 +444,7 @@ const STAD = [
 ];
 
 // ── STATE ───────────────────────────────────────────────
-let me = null, players = [], results = {}, myTips = {}, allTips = {};
+let me = null, myPin = null, players = [], results = {}, myTips = {}, allTips = {};
 let tipPhase = 'sk', zebPhase = 'cel', vyslPhase = 'sk';
 
 // ── SUPABASE ────────────────────────────────────────────
@@ -485,7 +542,7 @@ async function saveTips() {
   try {
     // Pouzivame RPC upsert_tip funkci - spolehlivy upsert bez konfliktu
     for (const row of rows) {
-      const r = await fetch(SB_URL + '/rest/v1/rpc/upsert_tip', {
+      const r = await fetch(SB_URL + '/rest/v1/rpc/ulozit_tip_secure', {
         method: 'POST',
         headers: {
           'apikey': SB_KEY,
@@ -494,15 +551,29 @@ async function saveTips() {
         },
         body: JSON.stringify({
           p_hrac_id: row.hrac_id,
+          p_pin: myPin,
           p_zapas_id: row.zapas_id,
           p_tip: row.tip,
         }),
       });
       if (!r.ok) { const t = await r.text(); throw new Error(t); }
+      const resp = await r.json();
+      if (resp && resp.chyba) throw new Error(resp.chyba);
     }
     await loadMyTips();
     setSt('st-tipy', 'Ulozeno ' + rows.length + ' tipu!', false, true);
   } catch(e) { setSt('st-tipy', 'Chyba: ' + e.message, true); }
+}
+
+function unlockTip(id) {
+  const inp = document.getElementById('t' + id);
+  if (!inp) return;
+  inp.disabled = false;
+  inp.classList.remove('saved');
+  inp.focus();
+  // Skryj tlacitko upravit, zobraz ulozit
+  const btn = document.getElementById('edit-btn-' + id);
+  if (btn) btn.style.display = 'none';
 }
 async function fetchResults() {
   setSt('st-vysl', 'Stahuji vysledky z ESPN...');
@@ -605,9 +676,11 @@ function renderTips() {
     html += '<div class="mrow">'
       + '<div><div class="mrow-teams">' + d + ' &ndash; ' + h + '</div>'
       + '<div class="mrow-meta">' + dat + (res ? '<span class="res-tag">' + res + '</span>' : '') + '</div></div>'
-      + '<div class="mrow-right">' + pb
-      + '<input class="tip-in' + (tip ? (locked ? '' : ' saved') : '') + '" id="t' + id + '" value="' + (tip || '') + '" placeholder="2:1" maxlength="6"'
-      + (locked ? ' disabled title="Zapas uz odehran"' : '') + ' oninput="chk(this)"></div></div>';
+      + '<div class="mrow-right"><span style="font-size:.68rem;color:var(--muted);margin-right:4px;font-weight:600">MUJ TIP</span>' + pb
+      + '<input class="tip-in' + (tip ? ' saved' : '') + '" id="t' + id + '" value="' + (tip || '') + '" placeholder="2:1" maxlength="6"'
+      + ((locked || tip) ? ' disabled' : '') + ' oninput="chk(this)">'
+      + (tip && !locked ? '<button class="edit-btn" id="edit-btn-' + id + '" onclick="unlockTip(' + id + ')" title="Upravit tip">&#9998;</button>' : '')
+      + '</div></div>';
   });
   document.getElementById('tipy-list').innerHTML = html;
 }
@@ -629,9 +702,15 @@ function renderResults() {
       prev = sk;
     }
     const res = results[id];
+    const datParts = dat.split(' ');
+    const datStr = datParts[0] || '';
+    const casStr = datParts[1] || '';
     html += '<div class="rrow">'
       + '<div class="rrow-home">' + d + '</div>'
-      + '<div class="rrow-score ' + (res ? 'done' : 'tbd') + '">' + (res || (dat.split(' ')[1] || '—')) + '</div>'
+      + '<div style="text-align:center">'
+      + '<div class="rrow-score ' + (res ? 'done' : 'tbd') + '">' + (res || '—') + '</div>'
+      + '<div style="font-size:.7rem;color:var(--muted);margin-top:1px">' + datStr + ' ' + casStr + '</div>'
+      + '</div>'
       + '<div class="rrow-away">' + h + '</div></div>';
   });
   document.getElementById('vysl-list').innerHTML = html || '<div class="empty">Klikni Aktualizovat vysledky</div>';
@@ -674,7 +753,7 @@ function renderKal() {
       + '<td><span class="phase-chip">' + (sk.length <= 2 ? 'Sk.' + sk : sk) + '</span></td>'
       + '<td style="font-weight:600">' + d + '</td>'
       + '<td style="font-weight:600">' + h + '</td>'
-      + '<td style="font-size:.78rem;color:var(--muted)">' + (stad || '') + '</td></tr>';
+      + '<td style="font-size:.78rem;color:var(--muted)">' + (stad ? '<a href="https://en.wikipedia.org/wiki/Special:Search?search=' + encodeURIComponent(stad) + '" target="_blank" style="color:var(--muted);text-decoration:underline">' + stad + '</a>' : '') + '</td></tr>';
   });
   document.getElementById('kal-list').innerHTML = html + '</tbody></table>';
 }
@@ -683,7 +762,11 @@ function renderStad() {
   let html = '<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
   STAD.forEach(([n, c, co, cap, f]) => {
     const cc = co === 'USA' ? 'country-us' : co === 'Kanada' ? 'country-ca' : 'country-mx';
-    html += '<tr><td style="font-weight:700">' + n + '</td><td>' + c + '</td>'
+    const STAD_IMGS = {"MetLife Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/120px-MetLife_Stadium_-_aerial_view.jpg", "AT&T Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/120px-Cowboys_Stadium_Arlington.jpg", "SoFi Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/120px-SoFi_Stadium_-_2022.jpg", "Hard Rock Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/120px-Hard_Rock_Stadium_aerial_2018.jpg", "Lumen Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/120px-Lumen_Field_September_2021.jpg", "Levis Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/120px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg", "Arrowhead Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/120px-Arrowhead_Stadium_2015.jpg", "NRG Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/120px-NRG_Stadium_2015.jpg", "Lincoln Financial Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/120px-Lincoln_Financial_Field_2017.jpg", "Mercedes-Benz Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/120px-Mercedes-Benz_Stadium.jpg", "Gillette Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/120px-Gillette_Stadium_2015.jpg", "BMO Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/120px-BMO_Field_2016.jpg", "BC Place": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/120px-BC_Place_Stadium_2011.jpg", "Estadio Azteca": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/120px-Azteca_estadio.jpg", "Estadio BBVA": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/120px-Estadio_BBVA_2015.jpg", "Estadio Akron": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/120px-Estadio_Akron_2010.jpg"};
+    const stadLink = {"MetLife Stadium": "https://en.wikipedia.org/wiki/MetLife_Stadium", "AT&T Stadium": "https://en.wikipedia.org/wiki/AT%26T_Stadium", "SoFi Stadium": "https://en.wikipedia.org/wiki/SoFi_Stadium", "Hard Rock Stadium": "https://en.wikipedia.org/wiki/Hard_Rock_Stadium", "Lumen Field": "https://en.wikipedia.org/wiki/Lumen_Field", "Levis Stadium": "https://en.wikipedia.org/wiki/Levi%27s_Stadium", "Arrowhead Stadium": "https://en.wikipedia.org/wiki/Arrowhead_Stadium", "NRG Stadium": "https://en.wikipedia.org/wiki/NRG_Stadium", "Lincoln Financial Field": "https://en.wikipedia.org/wiki/Lincoln_Financial_Field", "Mercedes-Benz Stadium": "https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium", "Gillette Stadium": "https://en.wikipedia.org/wiki/Gillette_Stadium", "BMO Field": "https://en.wikipedia.org/wiki/BMO_Field", "BC Place": "https://en.wikipedia.org/wiki/BC_Place", "Estadio Azteca": "https://en.wikipedia.org/wiki/Estadio_Azteca", "Estadio BBVA": "https://en.wikipedia.org/wiki/Estadio_BBVA", "Estadio Akron": "https://en.wikipedia.org/wiki/Estadio_Akron"};
+    const link = stadLink[n] ? '<a href="' + stadLink[n] + '" target="_blank" style="color:var(--text);text-decoration:underline;text-decoration-color:var(--muted)">' + n + '</a>' : n;
+    const img = STAD_IMGS[n] ? '<img src="' + STAD_IMGS[n] + '" class="stad-img" onerror="this.style.display='none'" alt="">' : '';
+    html += '<tr><td style="font-weight:700">' + img + link + '</td><td>' + c + '</td>'
       + '<td class="' + cc + '" style="font-weight:700">' + co + '</td>'
       + '<td style="text-align:center;font-weight:600">' + cap + '</td>'
       + '<td style="font-size:.78rem;color:var(--muted)">' + f + '</td></tr>';
@@ -693,7 +776,7 @@ function renderStad() {
 
 // ── TABS ────────────────────────────────────────────────
 function showTab(name) {
-  ['tipy', 'zebricek', 'vysledky', 'kalendar', 'stadiony', 'hrac'].forEach(t => {
+  ['tipy', 'zebricek', 'vysledky', 'kalendar', 'stadiony', 'admin'].forEach(t => {
     const p = document.getElementById('page-' + t);
     const b = document.getElementById('tab-' + t);
     if (p) p.style.display = t === name ? 'block' : 'none';
@@ -703,7 +786,7 @@ function showTab(name) {
   if (name === 'vysledky') renderResults();
   if (name === 'kalendar') renderKal();
   if (name === 'stadiony') renderStad();
-  if (name === 'hrac') loadPlayers();
+  if (name === 'admin' && me?.je_admin) renderAdmin();
 }
 
 function switchPhase(ctx, phase, btn) {
@@ -721,21 +804,134 @@ function setSt(id, msg, err = false, ok = false) {
   el.className = 'status' + (err ? ' err' : ok ? ' ok' : '');
 }
 
+// ── LOGIN / LOGOUT ──────────────────────────────────────
+function switchLoginTab(tab) {
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('reg-form').style.display = tab === 'reg' ? 'block' : 'none';
+  document.getElementById('ltab-login').style.background = tab === 'login' ? '#1a3a5c' : 'none';
+  document.getElementById('ltab-login').style.color = tab === 'login' ? '#fff' : '#5a7a96';
+  document.getElementById('ltab-reg').style.background = tab === 'reg' ? '#1a3a5c' : 'none';
+  document.getElementById('ltab-reg').style.color = tab === 'reg' ? '#fff' : '#5a7a96';
+}
+
+async function doLogin() {
+  const jmeno = document.getElementById('l-jmeno').value.trim();
+  const pin = document.getElementById('l-pin').value.trim();
+  if (!jmeno || !pin) { document.getElementById('login-err').textContent = 'Vyplnte jmeno i PIN'; return; }
+  document.getElementById('login-err').textContent = 'Prihlasuji...';
+  try {
+    const r = await fetch(SB_URL + '/rest/v1/rpc/prihlasit_hrace', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin }),
+    });
+    const data = await r.json();
+    if (data.chyba) { document.getElementById('login-err').textContent = data.chyba; return; }
+    finishLogin(data);
+  } catch(e) { document.getElementById('login-err').textContent = 'Chyba: ' + e.message; }
+}
+
+async function doRegister() {
+  const jmeno = document.getElementById('r-jmeno').value.trim();
+  const pin = document.getElementById('r-pin').value.trim();
+  const pin2 = document.getElementById('r-pin2').value.trim();
+  if (!jmeno || !pin) { document.getElementById('reg-err').textContent = 'Vyplnte jmeno i PIN'; return; }
+  if (pin !== pin2) { document.getElementById('reg-err').textContent = 'PINy se neshoduji'; return; }
+  if (pin.length < 4) { document.getElementById('reg-err').textContent = 'PIN musi mit aspon 4 znaky'; return; }
+  document.getElementById('reg-err').textContent = 'Registruji...';
+  try {
+    const r = await fetch(SB_URL + '/rest/v1/rpc/registruj_hrace', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin }),
+    });
+    const data = await r.json();
+    if (data.chyba) { document.getElementById('reg-err').textContent = data.chyba; return; }
+    finishLogin(data);
+  } catch(e) { document.getElementById('reg-err').textContent = 'Chyba: ' + e.message; }
+}
+
+function finishLogin(data) {
+  me = { id: data.id, jmeno: data.jmeno, je_admin: data.je_admin || false };
+  myPin = document.getElementById('l-pin').value.trim() || document.getElementById('r-pin').value.trim();
+  try { localStorage.setItem('ms26_session', JSON.stringify({ id: me.id, jmeno: me.jmeno, je_admin: me.je_admin, pin: myPin })); } catch(e) {}
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  document.getElementById('player-pill').textContent = me.jmeno;
+  document.getElementById('player-pill').style.display = 'inline-block';
+  if (me.je_admin) {
+    document.getElementById('admin-badge').style.display = 'inline-block';
+    document.getElementById('tab-admin').style.display = 'inline-block';
+  }
+  loadResults().then(() => { loadPlayers(); loadMyTips(); renderKal(); renderStad(); });
+  showTab('tipy');
+}
+
+function doLogout() {
+  me = null; myPin = null; myTips = {}; players = []; results = {}; allTips = {};
+  try { localStorage.removeItem('ms26_session'); } catch(e) {}
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('admin-badge').style.display = 'none';
+  document.getElementById('player-pill').style.display = 'none';
+  document.getElementById('tab-admin').style.display = 'none';
+  document.getElementById('l-jmeno').value = '';
+  document.getElementById('l-pin').value = '';
+  document.getElementById('login-err').textContent = '';
+}
+
+// ── ADMIN ───────────────────────────────────────────────
+async function renderAdmin() {
+  await loadAllTips();
+  await loadPlayers();
+  const el = document.getElementById('admin-content');
+  if (!players.length) { el.innerHTML = '<div class="empty">Zatim zadni hraci</div>'; return; }
+  
+  let html = '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.82rem">';
+  html += '<thead><tr><th style="text-align:left;padding:7px 10px;color:var(--muted);border-bottom:1px solid var(--border)">Zapas</th>';
+  players.forEach((p,i) => {
+    html += '<th style="padding:7px 8px;color:' + AVC[i%AVC.length] + ';border-bottom:1px solid var(--border);text-align:center;min-width:80px">' + p.jmeno + '</th>';
+  });
+  html += '</tr></thead><tbody>';
+  
+  [...SZ,...PZ].forEach(([id,,d,h]) => {
+    const res = results[id];
+    html += '<tr><td style="padding:6px 10px;border-bottom:1px solid #0d1724;font-size:.8rem">' + d + ' – ' + h + (res ? ' <span style="color:var(--green);font-weight:700">(' + res + ')</span>' : '') + '</td>';
+    players.forEach(p => {
+      const tips = p.id === me?.id ? myTips : (allTips[p.id] || {});
+      const tip = tips[id] || '';
+      const pts = res && tip ? calcPts(tip, res) : null;
+      const bg = pts === 5 ? '#052010' : pts === 2 ? '#051525' : pts === 0 && tip ? '#1f0808' : '';
+      const col = pts === 5 ? 'var(--green)' : pts === 2 ? 'var(--accent)' : pts === 0 && tip ? 'var(--red)' : 'var(--muted)';
+      html += '<td style="padding:6px 8px;border-bottom:1px solid #0d1724;text-align:center;background:' + bg + ';color:' + col + ';font-weight:' + (tip?'700':'400') + '">' + (tip || '—') + '</td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
 // ── INIT ────────────────────────────────────────────────
 async function init() {
-  await loadResults();
-  await loadPlayers();
   renderKal();
   renderStad();
+  // Zkus obnovit session z localStorage
   try {
-    const saved = localStorage.getItem('ms26_player');
+    const saved = localStorage.getItem('ms26_session');
     if (saved) {
-      const p = JSON.parse(saved);
-      const found = players.find(x => x.id === p.id);
-      if (found) { selectPlayer(found); return; }
+      const s = JSON.parse(saved);
+      // Overi session prihlasenim
+      const r = await fetch(SB_URL + '/rest/v1/rpc/prihlasit_hrace', {
+        method: 'POST',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_jmeno: s.jmeno, p_pin: s.pin }),
+      });
+      const data = await r.json();
+      if (!data.chyba) { finishLogin(data); return; }
     }
   } catch(e) {}
-  showTab('hrac');
+  // Zobraz login
+  document.getElementById('login-overlay').style.display = 'flex';
 }
 
 init();
