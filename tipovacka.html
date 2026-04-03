@@ -358,7 +358,7 @@ var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
 var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','admin'];
 
-// ── I18N ──────────────────────────────────────────────────
+// \u2500\u2500 I18N \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var LANG='cs';
 var TX={
   cs:{
@@ -374,7 +374,7 @@ var TX={
     'ibox_tymy':'Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).',
     'clbl_stad':'Stadiony MS 2026','clbl_tymy':'Kvalifikovane tymy MS 2026',
     'my_tip':'MUJ TIP','vys_empty':'Klikni Vysledky nahore',
-    'leg1':'1. misto — postupuje primo','leg2':'2. misto — postupuje primo','leg3':'3. misto — potencialne postupuje',
+    'leg1':'1. misto \u2014 postupuje primo','leg2':'2. misto \u2014 postupuje primo','leg3':'3. misto \u2014 potencialne postupuje',
     'hdr_sub':'USA \u2022 Kanada \u2022 Mexiko \u2014 48 tymu \u2022 104 zapasu \u2022 11.6.\u201319.7.2026',
     'by':'by Adam','prihl':'Prihlasit se','reg':'Registrovat se'
   },
@@ -392,8 +392,8 @@ var TX={
     'ibox_tymy':'Rosters will be added after nominations close (end of May 2026).',
     'clbl_stad':'World Cup 2026 Stadiums','clbl_tymy':'Qualified Teams WC 2026',
     'my_tip':'MY TIP','vys_empty':'Click Refresh above',
-    'leg1':'1st place — qualify directly','leg2':'2nd place — qualify directly',
-    'leg3':'3rd place — potentially qualify',
+    'leg1':'1st place \u2014 qualify directly','leg2':'2nd place \u2014 qualify directly',
+    'leg3':'3rd place \u2014 potentially qualify',
     'tab_3m':'3rd Place Table','tab_sk':'Group Stage',
     'hdr_sub':'USA \u2022 Canada \u2022 Mexico \u2014 48 teams \u2022 104 matches \u2022 11.6.\u201319.7.2026',
     'by':'by Adam','prihl':'Log In','reg':'Register'
@@ -424,7 +424,7 @@ function applyI18n(){
   var btnMap={'btn-logout':'logout','btn-refresh':'refresh','btn-exp':'exp','btn-sav':'sav','blo':'prihl','brg':'reg'};
   Object.keys(btnMap).forEach(function(id){
     var b=document.getElementById(id);
-    if(b) b.textContent=b.id==='btn-refresh'?'↺ '+tr('refresh'):tr(btnMap[id]);
+    if(b) b.textContent=b.id==='btn-refresh'?'\u21BA '+tr('refresh'):tr(btnMap[id]);
   });
   // misc
   setText('ibox-tipy',tr('ibox_tipy'));
@@ -437,7 +437,7 @@ function applyI18n(){
   setText('by-adam',tr('by'));
   setText('hdr-sub',tr('hdr_sub'));
   var mt=document.getElementById('main-title');
-  if(mt) mt.textContent=LANG==='en'?'WORLD CUP 2026 TIPS':'TIPOVAČKA MS 2026';
+  if(mt) mt.textContent=LANG==='en'?'WORLD CUP 2026 TIPS':'TIPOVACKA MS 2026';
   // Fix progress text with correct lang
   updProgress();
   // legend
@@ -468,7 +468,7 @@ function applyI18n(){
 
 function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
 
-// ── FLAGS ─────────────────────────────────────────────────
+// \u2500\u2500 FLAGS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
@@ -509,7 +509,7 @@ function fT(n){
   return f?f+' '+tN(n):tN(n);
 }
 
-// ── FIFA RANKING (1 April 2026) ───────────────────────────
+// \u2500\u2500 FIFA RANKING (1 April 2026) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var FIFA={
   'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,
   'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,
@@ -523,7 +523,7 @@ var FIFA={
   'Uzbekistan':77,'Jordansko':80,'Curacao':85,'Haiti':83,'Katar':93
 };
 
-// ── TEAMS ─────────────────────────────────────────────────
+// \u2500\u2500 TEAMS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var TEAMS={
   A:[['Mexiko'],['Jihoafricka rep.'],['Jizni Korea'],['Cesko']],
   B:[['Kanada'],['Katar'],['Svycarsko'],['Bosna a Hercegovina']],
@@ -539,7 +539,7 @@ var TEAMS={
   L:[['Anglie'],['Chorvatsko'],['Ghana'],['Panama']]
 };
 
-// ── MATCHES (year,month,day,hour,min) ────────────────────
+// \u2500\u2500 MATCHES (year,month,day,hour,min) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var SZ=[
   [1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City'],
   [2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara'],
@@ -667,11 +667,11 @@ var STAD=[
   ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/400px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
-// ── STATE ─────────────────────────────────────────────────
+// \u2500\u2500 STATE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
 
-// ── DATES ─────────────────────────────────────────────────
+// \u2500\u2500 DATES \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
 function dStr(z){
@@ -699,7 +699,7 @@ function sortArr(arr,sort){
   return arr;
 }
 
-// ── SUPABASE ──────────────────────────────────────────────
+// \u2500\u2500 SUPABASE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function sbf(path,method,body,prefer){
   var h={'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'};
   if(prefer) h['Prefer']=prefer;
@@ -718,7 +718,7 @@ function rpc(fn,p){
   }).then(function(r){return r.json();});
 }
 
-// ── DATA LOADING ──────────────────────────────────────────
+// \u2500\u2500 DATA LOADING \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
@@ -750,7 +750,7 @@ function updProgress(){
   if(f) f.style.width=pct+'%';
 }
 
-// ── AUTH ──────────────────────────────────────────────────
+// \u2500\u2500 AUTH \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function doLogin(){
   var j=document.getElementById('lj').value.trim(),p=document.getElementById('lp').value.trim();
   if(!j||!p){setText('le','Vyplnte jmeno i PIN');return;}
@@ -811,7 +811,7 @@ function swLoginTab(t){
   document.getElementById('ltr').classList.toggle('on',!il);
 }
 
-// ── TABS ──────────────────────────────────────────────────
+// \u2500\u2500 TABS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function showTab(name){
   TABS.forEach(function(t){
     var p=document.getElementById('page-'+t),b=document.getElementById('tab-'+t);
@@ -825,7 +825,7 @@ function showTab(name){
   if(name==='admin') loadAllTips().then(renderAdmin);
 }
 
-// ── PHASE SWITCHING ───────────────────────────────────────
+// \u2500\u2500 PHASE SWITCHING \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
   ['sk','dt','po','cel','3m','rk'].forEach(function(p){
@@ -840,7 +840,7 @@ function swPhase(ctx,phase){
   else if(ctx==='tym'){tymPhase=phase;renderTymy();}
 }
 
-// ── HELPERS ───────────────────────────────────────────────
+// \u2500\u2500 HELPERS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
 function calcPts(tip,res){
   var t=tip.split(':').map(Number),r=res.split(':').map(Number);
@@ -863,7 +863,7 @@ function ptsBdg(pts,tip){
 }
 function ghL(sk){return SKU.indexOf(sk)>=0?(LANG==='en'?'Group ':'Skupina ')+sk:sk;}
 
-// ── TIPY ──────────────────────────────────────────────────
+// \u2500\u2500 TIPY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderTipy(){
   if(!me) return;
   var isAdmin=me.je_admin;
@@ -958,7 +958,7 @@ function adminEditTip(zapasId,cur){
     .catch(function(e){alert('Chyba: '+e.message);});
 }
 
-// ── TIPY OSTATNICH ────────────────────────────────────────
+// \u2500\u2500 TIPY OSTATNICH \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderOst(){
   var el=document.getElementById('ost-list');
   var arr=ostSort==='po'?PZ:ostSort==='dt'?sortByDate(SZ):SZ;
@@ -1051,7 +1051,7 @@ function renderZeb(){
   }).join('')||'<div class="empty">Zatim zadni hraci</div>';
 }
 
-// ── VYSLEDKY ──────────────────────────────────────────────
+// \u2500\u2500 VYSLEDKY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderVys(){
   var arr=vysSort==='po'?PZ:sortArr(SZ,vysSort);
   var html='',prev=null;
@@ -1070,7 +1070,7 @@ function renderVys(){
   document.getElementById('vys-list').innerHTML=html||'<div class="empty">'+tr('vys_empty')+'</div>';
 }
 
-// ── TABULKA ───────────────────────────────────────────────
+// \u2500\u2500 TABULKA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function calcTables(){
   var tbls={};
   SKU.forEach(function(sk){
@@ -1126,7 +1126,7 @@ function render3m(tbls){
   var thirds=[];
   SKU.forEach(function(sk){var t=sortGrp(tbls[sk]);if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
   thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;});
-  var h3lbl=LANG==='en'?'3RD PLACE TABLE — top 8 advance to R16':'TABULKA 3. MIST — top 8 postupuje do 16F';
+  var h3lbl=LANG==='en'?'3RD PLACE TABLE \u2014 top 8 advance to R16':'TABULKA 3. MIST \u2014 top 8 postupuje do 16F';
   var wL=LANG==='en'?'W':'V',dL=LANG==='en'?'D':'R',lL=LANG==='en'?'L':'P';
   var grpL=LANG==='en'?'Gr.':'Sk.', tL=LANG==='en'?'Team':'Tym', pL=LANG==='en'?'Pts':'Body';
   var html='<div class="stc" style="max-width:600px"><div class="stc-h">'+h3lbl+'</div><table>';
@@ -1187,8 +1187,8 @@ function renderTymy(){
 }
 function renderPavouk(){
   var rlbls=LANG==='en'?
-    ['R16 (28 Jun–3 Jul)','R8 (4–7 Jul)','QF (9–12 Jul)','SF (14–15 Jul)','3rd Place (18 Jul)','Final (19 Jul)']:
-    ['16F (28.6–3.7)','Osmifinale (4–7.7)','Ctvrfinale (9–12.7)','Semifinale (14–15.7)','O 3. misto (18.7)','Finale (19.7)'];
+    ['R16 (28 Jun\u20133 Jul)','R8 (4\u20137 Jul)','QF (9\u201312 Jul)','SF (14\u201315 Jul)','3rd Place (18 Jul)','Final (19 Jul)']:
+    ['16F (28.6\u20133.7)','Osmifinale (4\u20137.7)','Ctvrfinale (9\u201312.7)','Semifinale (14\u201315.7)','O 3. misto (18.7)','Finale (19.7)'];
   var rounds=[
     {lbl:rlbls[0],matches:PZ.slice(0,16)},
     {lbl:rlbls[1],matches:PZ.slice(16,24)},
