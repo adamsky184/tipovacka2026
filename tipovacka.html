@@ -24,7 +24,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .clk{font-family:'Space Grotesk',sans-serif;font-size:.75rem;color:var(--mu2);text-align:right;line-height:1.5;white-space:pre-line}
 .pill{font-size:.78rem;font-weight:600;background:var(--bg4);border:1px solid var(--bd2);border-radius:20px;padding:3px 11px}
 .abadge{font-size:.68rem;font-weight:700;background:var(--gd);color:#0a0a0a;padding:3px 9px;border-radius:20px;display:none;letter-spacing:.03em}
-.lang-btn{font-size:.71rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s}
+.lang-btn{font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s;min-width:52px}
 .lang-btn:hover{border-color:var(--ac);color:var(--ac2)}
 .btn{padding:6px 14px;border-radius:9px;border:none;cursor:pointer;font-size:.79rem;font-weight:600;font-family:'Inter',sans-serif;transition:.15s;white-space:nowrap}
 .btn:active{transform:scale(.97)}
@@ -145,6 +145,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-name{font-weight:700;font-size:.84rem;margin-bottom:3px}
 .stad-meta{font-size:.72rem;color:var(--mu);display:flex;gap:8px;flex-wrap:wrap}
 .stad-phase{font-size:.7rem;color:var(--mu2);margin-top:4px}
+.stad-ph{display:none}
+.ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
+.ftr span{color:var(--mu2)}
 @media(max-width:600px){
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
@@ -201,7 +204,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
         <div class="hdr-r">
           <div class="clk" id="clk"></div>
-          <button class="lang-btn" id="langbtn">EN</button>
+          <button class="lang-btn" id="langbtn">🇬🇧</button>
           <div class="pill" id="pp" style="display:none"></div>
           <span class="abadge" id="ab">ADMIN</span>
           <button class="btn btn-ol btn-sm" id="btn-logout">Odhlásit</button>
@@ -320,6 +323,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div style="overflow-x:auto"><div id="adm-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
       </div>
     </div>
+
+    <div class="ftr">
+      <span>© Adam184</span> · <span id="ver-lbl">v1.41</span> · <span id="date-lbl">4. 4. 2026</span>
+    </div>
   </div>
 </div>
 
@@ -363,7 +370,6 @@ var T={
     pins_no_match:'PINy se neshodují',
     pin_too_short:'PIN musí mít aspoň 4 znaky',
     error_generic:'Chyba',
-    tip_prompt_match:'Tip pro zápas #',
     tip_prompt_admin:'Tip #',
     format_21:'Formát: 2:1',
     delete_player:'Smazat',
@@ -371,9 +377,12 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
+    footer_ver:'v1.41',
+    footer_date:'4. 4. 2026',
     days:['Ne','Po','Út','St','Čt','Pá','So'],
     months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],
-    in_days:'za',in_h:'h',in_min:'min',in_d:'d'
+    in_days:'za',in_h:'h',in_min:'min',in_d:'d',
+    lang_flag:'🇬🇧'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -406,7 +415,6 @@ var T={
     pins_no_match:'PINs do not match',
     pin_too_short:'PIN must be at least 4 characters',
     error_generic:'Error',
-    tip_prompt_match:'Tip for match #',
     tip_prompt_admin:'Tip #',
     format_21:'Format: 2:1',
     delete_player:'Delete',
@@ -414,9 +422,12 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
+    footer_ver:'v1.41',
+    footer_date:'4 Apr 2026',
     days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
     months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    in_days:'in',in_h:'h',in_min:'min',in_d:'d'
+    in_days:'in',in_h:'h',in_min:'min',in_d:'d',
+    lang_flag:'🇨🇿'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -430,6 +441,7 @@ function escHtml(s){
     .replace(/'/g,'&#39;');
 }
 function escAttr(s){return escHtml(s);}
+function stadImgAttrs(){return 'loading="lazy" decoding="async" referrerpolicy="no-referrer"';}
 
 var TMEN={
   'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
@@ -730,6 +742,7 @@ function setHtml(id,v){var e=document.getElementById(id);if(e) e.innerHTML=v;}
 function doLogin(){
   var j=document.getElementById('lj').value.trim(),p=document.getElementById('lp').value.trim();
   if(!j||!p){setText('le',tr('name_pin_required'));return;}
+  if(p.length<4){setText('le',tr('pin_too_short'));return;}
   setText('le','...');
   rpc('prihlasit_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
     if(d&&d.chyba){setText('le',d.chyba);return;}
@@ -830,6 +843,8 @@ function applyI18n(){
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
   setText('admin-clbl',tr('admin_overview'));
   setHtml('admin-ibox',tr('admin_info'));
+  setText('ver-lbl',tr('footer_ver'));
+  setText('date-lbl',tr('footer_date'));
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -837,7 +852,7 @@ function applyI18n(){
   document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
   document.getElementById('rp2').placeholder=LANG==='en'?'PIN again...':'Znovu PIN...';
 
-  document.getElementById('langbtn').textContent=LANG==='cs'?'EN':'CS';
+  document.getElementById('langbtn').textContent=tr('lang_flag');
 
   var leg=document.getElementById('tab-legend');
   if(leg){
@@ -970,10 +985,13 @@ function renderMatchRow(z,isAdmin){
   return html;
 }
 
-function saveTips(){
+async function saveTips(){
   if(!me) return;
   var arr=tipSort==='po'?PZ:SZ;
-  var now=new Date(),rows=[],btn=document.getElementById('btn-sav');
+  var now=new Date();
+  var rows=[];
+  var btn=document.getElementById('btn-sav');
+
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(!inp||inp.disabled) return;
@@ -981,21 +999,38 @@ function saveTips(){
     var v=inp.value.trim();
     if(v&&/^[0-9]+:[0-9]+$/.test(v)) rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
   });
+
   if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
   setSt('st-tipy','...');
   btn.disabled=true;
+
   var ok=0,err=0;
-  function done(){
-    if(ok+err<rows.length) return;
+
+  try{
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i];
+      try{
+        var d=await rpc('ulozit_tip_secure',{
+          p_hrac_id:row.hrac_id,
+          p_pin:myPin,
+          p_zapas_id:row.zapas_id,
+          p_tip:row.tip
+        });
+        if(d&&d.chyba) err++;
+        else ok++;
+      }catch(e){
+        err++;
+      }
+    }
+
+    await loadMyTips();
+    renderTipy();
+
+    if(err===0) setSt('st-tipy','✓ '+ok,false,true);
+    else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
+  }finally{
     btn.disabled=false;
-    if(err===0){loadMyTips().then(renderTipy);setSt('st-tipy','✓ '+ok,false,true);}
-    else setSt('st-tipy',tr('error_generic'),true);
   }
-  rows.forEach(function(row){
-    rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
-      .then(function(d){if(d&&d.chyba) err++;else ok++;done();})
-      .catch(function(){err++;done();});
-  });
 }
 
 function renderOst(){
@@ -1206,8 +1241,8 @@ function renderStadiony(){
     var coLbl=coLabel[co]||co;
     html+='<div class="stad-card">';
     html+='<div class="stad-img-wrap">';
-    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.querySelector(&quot;.stad-ph&quot;).style.display=&quot;flex&quot;;">';
-    html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2)">🏟️</div>';
+    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" '+stadImgAttrs()+' onerror="this.style.display=&quot;none&quot;;this.parentNode.querySelector(&quot;.stad-ph&quot;).style.display=&quot;flex&quot;;">';
+    html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div>';
     html+='<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div>';
     html+='</div>';
     html+='<div class="stad-body">';
