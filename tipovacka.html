@@ -214,6 +214,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
       <div class="hdr-title">Tipovacka MS 2026</div>
       <div class="hdr-sub">USA &bull; Kanada &bull; Mexiko &mdash; 11. 6. &ndash; 19. 7. 2026 &mdash; 48 tymu &bull; 104 zapasu</div>
     </div>
+    <div id="clock" style="font-size:.8rem;color:#5a7a96;font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em"></div>
     <div class="hdr-right">
       <div class="player-pill" id="player-pill" style="display:none"></div>
       <span id="admin-badge" style="display:none;font-size:.72rem;font-weight:700;background:#f59e0b;color:#0f1923;padding:2px 8px;border-radius:20px">ADMIN</span>
@@ -230,6 +231,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <button class="nav-btn" onclick="showTab('kalendar')" id="tab-kalendar">Kalendar</button>
     <button class="nav-btn" onclick="showTab('stadiony')" id="tab-stadiony">Stadiony</button>
     <!-- tab hrac odstranen - login je pres overlay -->
+    <button class="nav-btn" onclick="showTab('ostatni')" id="tab-ostatni">Tipy ostatnich</button>
     <button class="nav-btn" onclick="showTab('admin')" id="tab-admin" style="display:none">Admin</button>
   </nav>
 
@@ -296,6 +298,20 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <div class="card">
       <div class="card-label">Stadiony MS 2026</div>
       <div style="overflow-x:auto"><div id="stad-list"></div></div>
+    </div>
+  </div>
+
+  <!-- TIPY OSTATNICH -->
+  <div id="page-ostatni" style="display:none">
+    <div style="background:#1a2f4a;border:1px solid #1e4a6e;border-radius:12px;padding:.85rem 1.1rem;margin-bottom:.85rem;font-size:.85rem;color:#7ab8e8">
+      Tipy ostatnich hracu jsou viditelne pouze pro zapasy, ktere jsi sam jiz uzavrel (ulozil tip). Pro nezavrete zapasy jsou tipy skryty.
+    </div>
+    <div class="ptabs">
+      <button class="ptab on" onclick="switchPhase('ostatni','sk',this)">Skupinova faze</button>
+      <button class="ptab" onclick="switchPhase('ostatni','po',this)">Play-off</button>
+    </div>
+    <div class="card">
+      <div id="ostatni-list"><div class="empty">Nacitam...</div></div>
     </div>
   </div>
 
@@ -445,7 +461,7 @@ const STAD = [
 
 // ── STATE ───────────────────────────────────────────────
 let me = null, myPin = null, players = [], results = {}, myTips = {}, allTips = {};
-let tipPhase = 'sk', zebPhase = 'cel', vyslPhase = 'sk';
+let tipPhase = 'sk', zebPhase = 'cel', vyslPhase = 'sk', ostatniPhase = 'sk';
 
 // ── SUPABASE ────────────────────────────────────────────
 async function sb(path, opts = {}) {
@@ -677,7 +693,7 @@ function renderTips() {
       + '<div><div class="mrow-teams">' + d + ' &ndash; ' + h + '</div>'
       + '<div class="mrow-meta">' + dat + (res ? '<span class="res-tag">' + res + '</span>' : '') + '</div></div>'
       + '<div class="mrow-right"><span style="font-size:.68rem;color:var(--muted);margin-right:4px;font-weight:600">MUJ TIP</span>' + pb
-      + '<input class="tip-in' + (tip ? ' saved' : '') + '" id="t' + id + '" value="' + (tip || '') + '" placeholder="2:1" maxlength="6"'
+      + '<input class="tip-in' + (tip ? ' saved' : '') + '" id="t' + id + '" value="' + (tip || '') + '" placeholder=":" maxlength="6"'
       + ((locked || tip) ? ' disabled' : '') + ' oninput="chk(this)">'
       + (tip && !locked ? '<button class="edit-btn" id="edit-btn-' + id + '" onclick="unlockTip(' + id + ')" title="Upravit tip">&#9998;</button>' : '')
       + '</div></div>';
@@ -807,13 +823,15 @@ function showTab(name) {
   if (name === 'vysledky') renderResults();
   if (name === 'kalendar') renderKal();
   if (name === 'stadiony') renderStad();
-  if (name === 'admin' && me?.je_admin) renderAdmin();
+  if (name === 'admin' && me && me.je_admin) renderAdmin();
+  if (name === 'ostatni') loadAllTips().then(renderOstatni);
 }
 
 function switchPhase(ctx, phase, btn) {
   if (ctx === 'tipy') { tipPhase = phase; renderTips(); }
   else if (ctx === 'zeb') { zebPhase = phase; renderZeb(); }
   else if (ctx === 'vysl') { vyslPhase = phase; renderResults(); }
+  else if (ctx === 'ostatni') { ostatniPhase = phase; renderOstatni(); }
   btn.closest('.ptabs').querySelectorAll('.ptab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
 }
@@ -901,6 +919,55 @@ function doLogout() {
   document.getElementById('login-err').textContent = '';
 }
 
+// ── TIPY OSTATNICH ──────────────────────────────────────
+async function renderOstatni() {
+  await loadAllTips();
+  var el = document.getElementById('ostatni-list');
+  var zapasy = ostatniPhase === 'sk' ? SZ : PZ;
+
+  if (!players.length) { el.innerHTML = '<div class="empty">Zatim zadni hraci</div>'; return; }
+
+  var otherPlayers = players.filter(function(p) { return !me || p.id !== me.id; });
+  if (!otherPlayers.length) { el.innerHTML = '<div class="empty">Zatim zadni dalsi hraci</div>'; return; }
+
+  var html = '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.82rem">';
+  html += '<thead><tr><th style="text-align:left;padding:7px 10px;color:var(--muted);border-bottom:1px solid var(--border)">Zapas</th>';
+  otherPlayers.forEach(function(p, i) {
+    html += '<th style="padding:7px 8px;color:' + AVC[players.indexOf(p) % AVC.length] + ';border-bottom:1px solid var(--border);text-align:center;min-width:80px">' + p.jmeno + '</th>';
+  });
+  html += '</tr></thead><tbody>';
+
+  zapasy.forEach(function(z) {
+    var id = z[0], d = z[2], h = z[3];
+    var res = results[id];
+    var myTip = myTips[id];
+    // Zobraz tipy ostatnich pouze pokud mam svuj tip uzavren (ulozen)
+    var canSee = !!myTip;
+
+    html += '<tr><td style="padding:6px 10px;border-bottom:1px solid #0d1724;font-size:.8rem">';
+    html += d + ' – ' + h;
+    if (res) html += ' <span style="color:var(--green);font-weight:700">(' + res + ')</span>';
+    html += '</td>';
+
+    otherPlayers.forEach(function(p) {
+      var tips = allTips[p.id] || {};
+      var tip = tips[id] || '';
+      var pts = res && tip ? calcPts(tip, res) : null;
+      if (!canSee) {
+        html += '<td style="padding:6px 8px;border-bottom:1px solid #0d1724;text-align:center;color:var(--muted)">?</td>';
+      } else {
+        var bg = pts === 5 ? '#052010' : pts === 2 ? '#051525' : pts === 0 && tip ? '#1f0808' : '';
+        var col = pts === 5 ? 'var(--green)' : pts === 2 ? 'var(--accent)' : pts === 0 && tip ? 'var(--red)' : 'var(--muted)';
+        html += '<td style="padding:6px 8px;border-bottom:1px solid #0d1724;text-align:center;background:' + bg + ';color:' + col + ';font-weight:' + (tip ? '700' : '400') + '">' + (tip || '—') + '</td>';
+      }
+    });
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
 // ── ADMIN ───────────────────────────────────────────────
 async function renderAdmin() {
   await loadAllTips();
@@ -957,6 +1024,27 @@ async function init() {
 
   renderKal();
   renderStad();
+  // Hodiny
+  function updateClock() {
+    var now = new Date();
+    var days = ['Ne','Po','Ut','St','Ct','Pa','So'];
+    var d = days[now.getDay()];
+    var date = now.getDate() + '.' + (now.getMonth()+1) + '.' + now.getFullYear();
+    var time = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+    var el = document.getElementById('clock');
+    if (el) el.textContent = d + ' ' + date + ' ' + time;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+  // Progress turnaje
+  function updateProgress() {
+    var played = Object.keys(results).length;
+    var total = 104;
+    var pct = Math.round(played / total * 100);
+    var el = document.getElementById('tournament-progress');
+    if (el) el.textContent = 'Odehrano: ' + played + ' / ' + total + ' zapasu (' + pct + '%)';
+  }
+  updateProgress();
   // Zkus obnovit session z localStorage
   try {
     const saved = localStorage.getItem('ms26_session');
