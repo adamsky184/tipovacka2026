@@ -117,11 +117,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 .stc td:first-child{padding-left:9px;color:var(--mu);font-size:.74rem}
 .stc td:nth-child(2){text-align:left;font-weight:600}
 .stc tr:last-child td{border-bottom:none}
-.stc tr.p1{background:rgba(59,130,246,.1)}
+.stc tr.p1{background:rgba(59,130,246,.18);border-left:3px solid var(--ac)}
 .stc tr.p1 td:first-child{color:var(--gn2);font-weight:700}
-.stc tr.p2{background:rgba(59,130,246,.06)}
+.stc tr.p2{background:rgba(59,130,246,.09);border-left:3px solid rgba(59,130,246,.5)}
 .stc tr.p2 td:first-child{color:var(--ac2);font-weight:700}
-.stc tr.p3{background:rgba(168,85,247,.05)}
+.stc tr.p3{background:rgba(168,85,247,.08);border-left:3px solid rgba(168,85,247,.4)}
 .stc tr.p3 td:first-child{color:var(--pu);font-weight:600}
 /* TEAMS */
 .tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:5px}
@@ -303,9 +303,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
     <button class="ptab" id="ptab-tab-3m">Tabulka 3. mist</button>
   </div>
   <div id="tab-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
-  <div style="font-size:.7rem;color:var(--mu);margin-top:.5rem;display:flex;gap:12px;flex-wrap:wrap" id="tab-legend">
-    <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(59,130,246,.25);margin-right:4px"></span>Postupuje primo do 16F</span>
-    <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(168,85,247,.15);margin-right:4px"></span>Potencialne postupuje (top 8 3. mist)</span>
+  <div style="font-size:.7rem;color:var(--mu);margin-top:.5rem;display:flex;gap:14px;flex-wrap:wrap" id="tab-legend">
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);margin-right:5px;vertical-align:middle"></span>1. misto — postupuje primo</span>
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);margin-right:5px;vertical-align:middle"></span>2. misto — postupuje primo</span>
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);margin-right:5px;vertical-align:middle"></span>3. misto — potencialne postupuje</span>
   </div>
 </div>
 
@@ -319,13 +320,13 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 <div id="page-stadiony" style="display:none">
   <div class="card">
     <div class="clbl" id="clbl-stad">Stadiony MS 2026</div>
-    <div style="border-radius:10px;overflow:hidden;height:380px;margin-bottom:1rem;background:var(--bg3);border:1px solid var(--bd)">
+    <div style="border-radius:10px;overflow:hidden;height:420px;margin-bottom:1rem;background:var(--bg3);border:1px solid var(--bd)">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m2!1m1!1s0x0:0x0!2m2!1d-100!2d40!3m2!1i1024!2i768!4f13.1!5e0!3m2!1scs!2sus!4v1234567890"
-        width="100%" height="100%" style="border:none;filter:brightness(.9)" loading="lazy"
-        allowfullscreen referrerpolicy="no-referrer-when-downgrade">
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-130%2C15%2C-60%2C55&amp;layer=mapnik&amp;marker=40%2C-100"
+        width="100%" height="100%" style="border:none" loading="lazy">
       </iframe>
     </div>
+    <div style="font-size:.73rem;color:var(--mu);margin-bottom:.75rem">📍 Klikni na město ve sloupci pro otevření Google Maps</div>
     <div style="overflow-x:auto"><div id="stad-list"></div></div>
   </div>
 </div>
@@ -378,7 +379,7 @@ var TX={
     'ibox_tymy':'Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).',
     'clbl_stad':'Stadiony MS 2026','clbl_tymy':'Kvalifikovane tymy MS 2026',
     'my_tip':'MUJ TIP','vys_empty':'Klikni Vysledky nahore',
-    'leg1':'Postupuje primo do 16F','leg2':'Potencialne postupuje (top 8 3. mist)',
+    'leg1':'1. misto — postupuje primo','leg2':'2. misto — postupuje primo','leg3':'3. misto — potencialne postupuje',
     'hdr_sub':'USA \u2022 Kanada \u2022 Mexiko \u2014 48 tymu \u2022 104 zapasu \u2022 11.6.\u201319.7.2026',
     'by':'by Adam','prihl':'Prihlasit se','reg':'Registrovat se'
   },
@@ -388,14 +389,17 @@ var TX={
     'nav_stadiony':'Stadiums','nav_tymy':'Teams','nav_admin':'Admin',
     'sk':'Group Stage','dt':'By Date','po':'Playoff','cel':'Overall','3m':'3rd Place Table',
     'tym_sk':'By Group','tym_rk':'FIFA Ranking','zeb_sk':'Groups','zeb_po':'Playoff',
+    'zeb_cel':'Overall',
     'logout':'Log Out','refresh':'Results','exp':'Export CSV','sav':'Save Tips',
     'ibox_tipy':'Tips can only be entered before kickoff. Once saved they are permanently locked.',
     'ibox_ost':"Others' tips are visible only for matches where you have a saved tip.",
     'ibox_pav':'Playoff bracket auto-fills after group stage (28.6.2026).',
     'ibox_tymy':'Rosters will be added after nominations close (end of May 2026).',
     'clbl_stad':'World Cup 2026 Stadiums','clbl_tymy':'Qualified Teams WC 2026',
-    'my_tip':'MY TIP','vys_empty':'Click Results above',
-    'leg1':'Qualify directly to R16','leg2':'Potentially qualify (top 8 3rd places)',
+    'my_tip':'MY TIP','vys_empty':'Click Refresh above',
+    'leg1':'1st place — qualify directly','leg2':'2nd place — qualify directly',
+    'leg3':'3rd place — potentially qualify',
+    'tab_3m':'3rd Place Table','tab_sk':'Group Stage',
     'hdr_sub':'USA \u2022 Canada \u2022 Mexico \u2014 48 teams \u2022 104 matches \u2022 11.6.\u201319.7.2026',
     'by':'by Adam','prihl':'Log In','reg':'Register'
   }
@@ -437,9 +441,14 @@ function applyI18n(){
   setText('vys-empty',tr('vys_empty'));
   setText('by-adam',tr('by'));
   setText('hdr-sub',tr('hdr_sub'));
+  // Fix progress text with correct lang
+  updProgress();
   // legend
   var l1=document.getElementById('tab-legend');
-  if(l1) l1.innerHTML='<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(59,130,246,.25);margin-right:4px"></span>'+tr('leg1')+'</span> <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(168,85,247,.15);margin-right:4px"></span>'+tr('leg2')+'</span>';
+  if(l1) l1.innerHTML=
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);margin-right:5px;vertical-align:middle"></span>'+tr('leg1')+'</span> '+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);margin-right:5px;vertical-align:middle"></span>'+tr('leg2')+'</span> '+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);margin-right:5px;vertical-align:middle"></span>'+(TX[LANG].leg3||'3. misto - potencialne postupuje')+'</span>';
   // lang button
   var lb=document.getElementById('langbtn');
   if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
@@ -605,22 +614,22 @@ var PZ=[
   [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York']
 ];
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/320px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ["AT&T Stadium",'Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Cowboys_Stadium_2009.jpg/320px-Cowboys_Stadium_2009.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/SoFi_Stadium_2020.jpg/320px-SoFi_Stadium_2020.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hard_Rock_Stadium_2016.jpg/320px-Hard_Rock_Stadium_2016.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lumen_Field_2020.jpg/320px-Lumen_Field_2020.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Levi%27s_Stadium_2014.jpg/320px-Levi%27s_Stadium_2014.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Arrowhead_Stadium_2013.jpg/320px-Arrowhead_Stadium_2013.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/NRG_Stadium_Houston.jpg/320px-NRG_Stadium_Houston.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Lincoln_Financial_Field_2013.jpg/320px-Lincoln_Financial_Field_2013.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Mercedes-Benz_Stadium%2C_Atlanta_2017.jpg/320px-Mercedes-Benz_Stadium%2C_Atlanta_2017.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Gillette_Stadium_2012.jpg/320px-Gillette_Stadium_2012.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BMO_Field_2016.jpg/320px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/BC_Place_2011.jpg/320px-BC_Place_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_stadium_2009.jpg/320px-Azteca_stadium_2009.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Estadio_BBVA_Bancomer%2C_Monterrey_2015.jpg/320px-Estadio_BBVA_Bancomer%2C_Monterrey_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Estadio_Omnilife_2010.jpg/320px-Estadio_Omnilife_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/240px-MetLife_Stadium_-_aerial_view.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ["AT&T Stadium",'Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/240px-Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/240px-SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/240px-Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/240px-Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/240px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/240px-Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/240px-NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/240px-Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/240px-Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/240px-Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/240px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/240px-BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/240px-Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/240px-Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/240px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 // ── STATE ─────────────────────────────────────────────────
@@ -690,7 +699,7 @@ function loadResults(){
 }
 function updProgress(){
   var n=Object.keys(results).length,pct=Math.round(n/104*100);
-  setText('ptxt','Odehrano: '+n+' / 104 zapasu ('+pct+'%)');
+  setText('ptxt',(LANG==='en'?'Played: ':'Odehrano: ')+n+' / 104 '+(LANG==='en'?'matches':'zapasu')+' ('+pct+'%)');
   var f=document.getElementById('pfil');
   if(f) f.style.width=pct+'%';
 }
@@ -821,7 +830,9 @@ function renderTipy(){
     var res=results[id];
     var tip=myTips[id]||'';
     // Lock if: match started OR res exists OR (not admin and tip already saved)
-    var locked=started||!!res||(!isAdmin&&!!tip);
+    // Also lock play-off if teams are not yet known (contain 'sk.' or 'nejl.')
+    var teamsUnknown=(d.indexOf('sk.')>=0||d.indexOf('nejl.')>=0||h.indexOf('sk.')>=0||h.indexOf('nejl.')>=0);
+    var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
     var pts=(res&&tip)?calcPts(tip,res):null;
     var cd=cdStr(z);
 
@@ -835,9 +846,14 @@ function renderTipy(){
     else if(started) html+='<span class="rt" style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2)">probiha/skoncilo</span>';
     else if(cd) html+='<span class="cd">'+cd+'</span>';
     html+='</div></div>';
-    html+='<div class="mr-r"><span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
-    html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
-    if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
+    html+='<div class="mr-r">';
+    if(teamsUnknown){
+      html+='<span style="font-size:.67rem;color:var(--mu);font-style:italic">Tymy nejsou zname</span>';
+    } else {
+      html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
+      html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+      if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
+    }
     html+='</div></div>';
   });
   document.getElementById('tipy-list').innerHTML=html||'<div class="empty">Zadne zapasy</div>';
