@@ -759,19 +759,40 @@ function renderKal() {
 }
 
 function renderStad() {
-  let html = '<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
-  STAD.forEach(([n, c, co, cap, f]) => {
-    const cc = co === 'USA' ? 'country-us' : co === 'Kanada' ? 'country-ca' : 'country-mx';
-    const STAD_IMGS = {"MetLife Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/120px-MetLife_Stadium_-_aerial_view.jpg", "AT&T Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/120px-Cowboys_Stadium_Arlington.jpg", "SoFi Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/120px-SoFi_Stadium_-_2022.jpg", "Hard Rock Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/120px-Hard_Rock_Stadium_aerial_2018.jpg", "Lumen Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/120px-Lumen_Field_September_2021.jpg", "Levis Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/120px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg", "Arrowhead Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/120px-Arrowhead_Stadium_2015.jpg", "NRG Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/120px-NRG_Stadium_2015.jpg", "Lincoln Financial Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/120px-Lincoln_Financial_Field_2017.jpg", "Mercedes-Benz Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/120px-Mercedes-Benz_Stadium.jpg", "Gillette Stadium": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/120px-Gillette_Stadium_2015.jpg", "BMO Field": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/120px-BMO_Field_2016.jpg", "BC Place": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/120px-BC_Place_Stadium_2011.jpg", "Estadio Azteca": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/120px-Azteca_estadio.jpg", "Estadio BBVA": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/120px-Estadio_BBVA_2015.jpg", "Estadio Akron": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/120px-Estadio_Akron_2010.jpg"};
-    const stadLink = {"MetLife Stadium": "https://en.wikipedia.org/wiki/MetLife_Stadium", "AT&T Stadium": "https://en.wikipedia.org/wiki/AT%26T_Stadium", "SoFi Stadium": "https://en.wikipedia.org/wiki/SoFi_Stadium", "Hard Rock Stadium": "https://en.wikipedia.org/wiki/Hard_Rock_Stadium", "Lumen Field": "https://en.wikipedia.org/wiki/Lumen_Field", "Levis Stadium": "https://en.wikipedia.org/wiki/Levi%27s_Stadium", "Arrowhead Stadium": "https://en.wikipedia.org/wiki/Arrowhead_Stadium", "NRG Stadium": "https://en.wikipedia.org/wiki/NRG_Stadium", "Lincoln Financial Field": "https://en.wikipedia.org/wiki/Lincoln_Financial_Field", "Mercedes-Benz Stadium": "https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium", "Gillette Stadium": "https://en.wikipedia.org/wiki/Gillette_Stadium", "BMO Field": "https://en.wikipedia.org/wiki/BMO_Field", "BC Place": "https://en.wikipedia.org/wiki/BC_Place", "Estadio Azteca": "https://en.wikipedia.org/wiki/Estadio_Azteca", "Estadio BBVA": "https://en.wikipedia.org/wiki/Estadio_BBVA", "Estadio Akron": "https://en.wikipedia.org/wiki/Estadio_Akron"};
-    const link = stadLink[n] ? '<a href="' + stadLink[n] + '" target="_blank" style="color:var(--text);text-decoration:underline;text-decoration-color:var(--muted)">' + n + '</a>' : n;
-    const img = STAD_IMGS[n] ? '<img src=' + JSON.stringify(STAD_IMGS[n]) + ' class="stad-img" onerror="this.style.display=\"none\"" alt="">' : '';
-    html += '<tr><td style="font-weight:700">' + img + link + '</td><td>' + c + '</td>'
-      + '<td class="' + cc + '" style="font-weight:700">' + co + '</td>'
-      + '<td style="text-align:center;font-weight:600">' + cap + '</td>'
-      + '<td style="font-size:.78rem;color:var(--muted)">' + f + '</td></tr>';
+  var stadLinks = {
+    'MetLife Stadium': 'https://en.wikipedia.org/wiki/MetLife_Stadium',
+    'AT&T Stadium': 'https://en.wikipedia.org/wiki/AT%26T_Stadium',
+    'SoFi Stadium': 'https://en.wikipedia.org/wiki/SoFi_Stadium',
+    'Hard Rock Stadium': 'https://en.wikipedia.org/wiki/Hard_Rock_Stadium',
+    'Lumen Field': 'https://en.wikipedia.org/wiki/Lumen_Field',
+    'Levis Stadium': 'https://en.wikipedia.org/wiki/Levi%27s_Stadium',
+    'Arrowhead Stadium': 'https://en.wikipedia.org/wiki/Arrowhead_Stadium',
+    'NRG Stadium': 'https://en.wikipedia.org/wiki/NRG_Stadium',
+    'Lincoln Financial Field': 'https://en.wikipedia.org/wiki/Lincoln_Financial_Field',
+    'Mercedes-Benz Stadium': 'https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium',
+    'Gillette Stadium': 'https://en.wikipedia.org/wiki/Gillette_Stadium',
+    'BMO Field': 'https://en.wikipedia.org/wiki/BMO_Field',
+    'BC Place': 'https://en.wikipedia.org/wiki/BC_Place',
+    'Estadio Azteca': 'https://en.wikipedia.org/wiki/Estadio_Azteca',
+    'Estadio BBVA': 'https://en.wikipedia.org/wiki/Estadio_BBVA',
+    'Estadio Akron': 'https://en.wikipedia.org/wiki/Estadio_Akron',
+  };
+  var html = '<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
+  STAD.forEach(function(row) {
+    var n = row[0], c = row[1], co = row[2], cap = row[3], f = row[4];
+    var cc = co === 'USA' ? 'country-us' : co === 'Kanada' ? 'country-ca' : 'country-mx';
+    var lnk = stadLinks[n];
+    var nameCell = lnk ? '<a href="' + lnk + '" target="_blank" style="color:var(--text);text-decoration:underline">' + n + '</a>' : n;
+    html += '<tr>';
+    html += '<td style="font-weight:700">' + nameCell + '</td>';
+    html += '<td>' + c + '</td>';
+    html += '<td class="' + cc + '" style="font-weight:700">' + co + '</td>';
+    html += '<td style="text-align:center;font-weight:600">' + cap + '</td>';
+    html += '<td style="font-size:.78rem;color:var(--muted)">' + f + '</td>';
+    html += '</tr>';
   });
-  document.getElementById('stad-list').innerHTML = html + '</tbody></table>';
+  html += '</tbody></table>';
+  document.getElementById('stad-list').innerHTML = html;
 }
 
 // ── TABS ────────────────────────────────────────────────
