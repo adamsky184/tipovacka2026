@@ -170,37 +170,37 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <div style="font-size:.82rem;color:#5a7a96;margin-bottom:1.5rem">USA &bull; Kanada &bull; Mexiko &bull; 11.6.&ndash;19.7.2026</div>
 
     <div id="login-reg-tabs" style="display:flex;gap:4px;background:#0f1923;border-radius:9px;padding:3px;margin-bottom:1.25rem">
-      <button onclick="switchLoginTab('login')" id="ltab-login" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:#1a3a5c;color:#fff">Prihlasit se</button>
-      <button onclick="switchLoginTab('reg')" id="ltab-reg" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:none;color:#5a7a96">Registrovat se</button>
+      <button id="ltab-login" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:#1a3a5c;color:#fff">Prihlasit se</button>
+      <button id="ltab-reg" style="flex:1;padding:7px;border-radius:7px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;background:none;color:#5a7a96">Registrovat se</button>
     </div>
 
     <div id="login-form">
       <div style="margin-bottom:.85rem">
         <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">JMENO</label>
-        <input id="l-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('l-pin').focus()">
+        <input id="l-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" id="l-jmeno-in">
       </div>
       <div style="margin-bottom:1.25rem">
         <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">PIN (heslo)</label>
-        <input id="l-pin" type="password" placeholder="Tvuj PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')doLogin()">
+        <input id="l-pin" type="password" placeholder="Tvuj PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" id="l-pin-in">
       </div>
-      <button onclick="doLogin()" style="width:100%;padding:10px;border-radius:9px;border:none;background:#0ea5e9;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Prihlasit se</button>
+      <button id="btn-login" style="width:100%;padding:10px;border-radius:9px;border:none;background:#0ea5e9;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Prihlasit se</button>
       <div id="login-err" style="font-size:.82rem;color:#ef4444;margin-top:8px;min-height:20px"></div>
     </div>
 
     <div id="reg-form" style="display:none">
       <div style="margin-bottom:.85rem">
         <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">JMENO</label>
-        <input id="r-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('r-pin').focus()">
+        <input id="r-jmeno" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" id="r-jmeno-in">
       </div>
       <div style="margin-bottom:.85rem">
         <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">PIN (4+ znaky, zapamatuj si ho!)</label>
-        <input id="r-pin" type="password" placeholder="Zvol si PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')document.getElementById('r-pin2').focus()">
+        <input id="r-pin" type="password" placeholder="Zvol si PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" id="r-pin-in">
       </div>
       <div style="margin-bottom:1.25rem">
         <label style="font-size:.78rem;color:#5a7a96;font-weight:600;display:block;margin-bottom:5px">POTVRD PIN</label>
-        <input id="r-pin2" type="password" placeholder="Znovu PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" onkeydown="if(event.key==='Enter')doRegister()">
+        <input id="r-pin2" type="password" placeholder="Znovu PIN..." style="width:100%;padding:9px 12px;border-radius:9px;border:1px solid #1a2e44;background:#0f1923;color:#e2eaf4;font-size:.95rem" id="r-pin2-in">
       </div>
-      <button onclick="doRegister()" style="width:100%;padding:10px;border-radius:9px;border:none;background:#22c55e;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Registrovat se</button>
+      <button id="btn-register" style="width:100%;padding:10px;border-radius:9px;border:none;background:#22c55e;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">Registrovat se</button>
       <div id="reg-err" style="font-size:.82rem;color:#ef4444;margin-top:8px;min-height:20px"></div>
     </div>
   </div>
@@ -913,6 +913,27 @@ async function renderAdmin() {
 
 // ── INIT ────────────────────────────────────────────────
 async function init() {
+  // Attach login event listeners safely after DOM ready
+  const lje = document.getElementById('l-jmeno-in');
+  const lpe = document.getElementById('l-pin-in');
+  const rje = document.getElementById('r-jmeno-in');
+  const rpi = document.getElementById('r-pin-in');
+  const rp2 = document.getElementById('r-pin2-in');
+  const bli = document.getElementById('btn-login');
+  const brg = document.getElementById('btn-register');
+  const tl  = document.getElementById('ltab-login');
+  const tr  = document.getElementById('ltab-reg');
+
+  if (lje) lje.addEventListener('keydown', e => { if(e.key==='Enter') lpe.focus(); });
+  if (lpe) lpe.addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  if (rje) rje.addEventListener('keydown', e => { if(e.key==='Enter') rpi.focus(); });
+  if (rpi) rpi.addEventListener('keydown', e => { if(e.key==='Enter') rp2.focus(); });
+  if (rp2) rp2.addEventListener('keydown', e => { if(e.key==='Enter') doRegister(); });
+  if (bli) bli.addEventListener('click', doLogin);
+  if (brg) brg.addEventListener('click', doRegister);
+  if (tl)  tl.addEventListener('click', () => switchLoginTab('login'));
+  if (tr)  tr.addEventListener('click', () => switchLoginTab('reg'));
+
   renderKal();
   renderStad();
   // Zkus obnovit session z localStorage
