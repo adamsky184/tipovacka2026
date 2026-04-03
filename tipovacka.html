@@ -347,62 +347,469 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','
 var LANG='cs';
 var T={
   cs:{
-    app_title:'Tipovačka MS 2026',app_title_short:'TIPOVAČKA MS 2026',login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'↺ Výsledky',exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',tab_stadiony:'Stadiony',tab_tymy:'Týmy',by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',overall:'Celkový',groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Dle skupin',ranking:'FIFA Ranking',ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen.',ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',ibox_vys_note:'Výsledky aktualizuje admin ručně.',clbl_stad:'Stadiony MS 2026',clbl_tymy:'Kvalifikované týmy MS 2026',hdr_sub:'USA · Kanada · Mexiko - 48 týmů · 104 zápasů · 11.6.–19.7.2026',vys_empty:'Klikni ↺ Výsledky nahoře',my_tip:'MŮJ TIP',my_tip_col:'Můj tip',leg1:'1. místo - postupuje přímo',leg2:'2. místo - postupuje přímo',leg3:'3. místo - potenciálně postupuje',group:'Skupina',played:'Odehráno',exact:'přesně',correct:'správně',wrong:'špatně',saved_tips:'uložených',rated:'hodnoceno',teams_tbd:'Týmy nejsou známy',roster:'Soupisky: brzy',you:'(ty)',r16:'16F (28.6-3.7)',r8:'Osmifinále (4-7.7)',qf:'Čtvrtfinále (9-12.7)',sf:'Semifinále (14-15.7)',fin:'Finále (19.7)',o3:'O 3. místo (18.7)',live:'probíhá',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',team:'Tým',points:'Body',goals:'Skóre',won:'V',drawn:'R',lost:'P',match:'Zápas',date:'Datum',rank:'Pořadí',result:'Výsledek',name_pin_required:'Jméno i PIN jsou povinné',fill_name_pin:'Vyplňte jméno i PIN',pins_no_match:'PINy se neshodují',pin_too_short:'PIN musí mít aspoň 4 znaky',error_generic:'Chyba',tip_prompt_admin:'Tip #',format_21:'Formát: 2:1',delete_player:'Smazat',click_delete:'Klikni pro smazání',tournament_not_started:'0 (turnaj začíná 11.6.)',admin_overview:'Admin - přehled všech tipů',admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',footer_ver:'v1.48',footer_date:'4. 4. 2026',saved:'Uloženo',group_stage:'Skupiny',playoff_stage:'Play-off',today:'Dnes',missing:'bez tipu',lang_flag:'🇬🇧 EN',updated:'Aktualizace:',groups_none:'Skupiny neuvedeny',groups_prefix:'Skupiny ',days:['Ne','Po','Út','St','Čt','Pá','So'],months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],in_days:'za',in_h:'h',in_min:'min',in_d:'d'
+    app_title:'Tipovačka MS 2026',
+    app_title_short:'TIPOVAČKA MS 2026',
+    login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'↺ Výsledky',
+    exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',
+    pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',
+    lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',
+    tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
+    tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
+    tab_stadiony:'Stadiony',tab_tymy:'Týmy',
+    by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',overall:'Celkový',
+    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Dle skupin',ranking:'FIFA Ranking',
+    ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
+    ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen.',
+    ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
+    ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
+    ibox_vys_note:'Výsledky aktualizuje admin ručně.',
+    clbl_stad:'Stadiony MS 2026',clbl_tymy:'Kvalifikované týmy MS 2026',
+    hdr_sub:'USA · Kanada · Mexiko - 48 týmů · 104 zápasů · 11.6.–19.7.2026',
+    vys_empty:'Klikni ↺ Výsledky nahoře',my_tip:'MŮJ TIP',my_tip_col:'Můj tip',
+    leg1:'1. místo - postupuje přímo',leg2:'2. místo - postupuje přímo',leg3:'3. místo - potenciálně postupuje',
+    group:'Skupina',played:'Odehráno',
+    exact:'přesně',correct:'správně',wrong:'špatně',saved_tips:'uložených',rated:'hodnoceno',
+    teams_tbd:'Týmy nejsou známy',roster:'Soupisky: brzy',you:'(ty)',
+    r16:'16F (28.6-3.7)',r8:'Osmifinále (4-7.7)',qf:'Čtvrtfinále (9-12.7)',sf:'Semifinále (14-15.7)',fin:'Finále (19.7)',o3:'O 3. místo (18.7)',
+    live:'probíhá',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',
+    team:'Tým',points:'Body',goals:'Skóre',won:'V',drawn:'R',lost:'P',
+    match:'Zápas',date:'Datum',rank:'Pořadí',result:'Výsledek',
+    name_pin_required:'Jméno i PIN jsou povinné',
+    fill_name_pin:'Vyplňte jméno i PIN',
+    pins_no_match:'PINy se neshodují',
+    pin_too_short:'PIN musí mít aspoň 4 znaky',
+    error_generic:'Chyba',
+    tip_prompt_admin:'Tip #',
+    format_21:'Formát: 2:1',
+    delete_player:'Smazat',
+    click_delete:'Klikni pro smazání',
+    tournament_not_started:'0 (turnaj začíná 11.6.)',
+    admin_overview:'Admin - přehled všech tipů',
+    admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
+    footer_ver:'v1.48',
+    footer_date:'4. 4. 2026',
+    saved:'Uloženo',
+    group_stage:'Skupiny',
+    playoff_stage:'Play-off',
+    today:'Dnes',
+    missing:'bez tipu',
+    days:['Ne','Po','Út','St','Čt','Pá','So'],
+    months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],
+    in_days:'za',in_h:'h',in_min:'min',in_d:'d',
+    lang_flag:'🇬🇧 EN',
+    updated:'Aktualizace:',
+    groups_none:'Skupiny neuvedeny',
+    groups_prefix:'Skupiny '
   },
   en:{
-    app_title:'WC 2026 Tipping Challenge',app_title_short:'WC 2026 TIPPING CHALLENGE',login:'Log In',register:'Register',logout:'Log Out',refresh:'↺ Results',exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',lo_meta:'Your PIN is used for login and saving tips.',tab_tipy:'My Tips',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',tab_stadiony:'Stadiums',tab_tymy:'Teams',by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',groups:'Groups',third:'3rd Place Table',by_group:'By Group',ranking:'FIFA Ranking',ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',ibox_ost:"Others' tips are visible only for matches where you have a saved tip.",ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',ibox_vys_note:'Results are refreshed manually by admin.',clbl_stad:'World Cup 2026 Stadiums',clbl_tymy:'Qualified Teams WC 2026',hdr_sub:'USA · Canada · Mexico - 48 teams · 104 matches · 11 Jun - 19 Jul 2026',vys_empty:'Click ↺ Results above',my_tip:'MY TIP',my_tip_col:'My tip',leg1:'1st place - qualify directly',leg2:'2nd place - qualify directly',leg3:'3rd place - potentially qualify',group:'Group',played:'Played',exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',r16:'R16 (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',live:'live',no_matches:'No matches',no_others:'No other players yet',team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',match:'Match',date:'Date',rank:'Rank',result:'Result',name_pin_required:'Name and PIN are required',fill_name_pin:'Enter name and PIN',pins_no_match:'PINs do not match',pin_too_short:'PIN must be at least 4 characters',error_generic:'Error',tip_prompt_admin:'Tip #',format_21:'Format: 2:1',delete_player:'Delete',click_delete:'Click to delete',tournament_not_started:'0 (tournament starts on 11 Jun)',admin_overview:'Admin - overview of all tips',admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',footer_ver:'v1.48',footer_date:'4 Apr 2026',saved:'Saved',group_stage:'Groups',playoff_stage:'Playoff',today:'Today',missing:'missing',lang_flag:'🇨🇿 CZ',updated:'Updated:',groups_none:'Groups not assigned',groups_prefix:'Groups ',days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],in_days:'in',in_h:'h',in_min:'min',in_d:'d'
+    app_title:'WC 2026 Tipping Challenge',
+    app_title_short:'WC 2026 TIPPING CHALLENGE',
+    login:'Log In',register:'Register',logout:'Log Out',refresh:'↺ Results',
+    exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
+    pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',
+    lo_meta:'Your PIN is used for login and saving tips.',
+    tab_tipy:'My Tips',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',
+    tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
+    tab_stadiony:'Stadiums',tab_tymy:'Teams',
+    by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
+    groups:'Groups',third:'3rd Place Table',by_group:'By Group',ranking:'FIFA Ranking',
+    ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',
+    ibox_ost:"Others' tips are visible only for matches where you have a saved tip.",
+    ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
+    ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
+    ibox_vys_note:'Results are refreshed manually by admin.',
+    clbl_stad:'World Cup 2026 Stadiums',clbl_tymy:'Qualified Teams WC 2026',
+    hdr_sub:'USA · Canada · Mexico - 48 teams · 104 matches · 11 Jun - 19 Jul 2026',
+    vys_empty:'Click ↺ Results above',my_tip:'MY TIP',my_tip_col:'My tip',
+    leg1:'1st place - qualify directly',leg2:'2nd place - qualify directly',leg3:'3rd place - potentially qualify',
+    group:'Group',played:'Played',
+    exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',
+    teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',
+    r16:'R16 (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
+    live:'live',no_matches:'No matches',no_others:'No other players yet',
+    team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',
+    match:'Match',date:'Date',rank:'Rank',result:'Result',
+    name_pin_required:'Name and PIN are required',
+    fill_name_pin:'Enter name and PIN',
+    pins_no_match:'PINs do not match',
+    pin_too_short:'PIN must be at least 4 characters',
+    error_generic:'Error',
+    tip_prompt_admin:'Tip #',
+    format_21:'Format: 2:1',
+    delete_player:'Delete',
+    click_delete:'Click to delete',
+    tournament_not_started:'0 (tournament starts on 11 Jun)',
+    admin_overview:'Admin - overview of all tips',
+    admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
+    footer_ver:'v1.48',
+    footer_date:'4 Apr 2026',
+    saved:'Saved',
+    group_stage:'Groups',
+    playoff_stage:'Playoff',
+    today:'Today',
+    missing:'missing',
+    days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    in_days:'in',in_h:'h',in_min:'min',in_d:'d',
+    lang_flag:'🇨🇿 CZ',
+    updated:'Updated:',
+    groups_none:'Groups not assigned',
+    groups_prefix:'Groups '
   }
 };
+function tr(k){return T[LANG][k]||T.cs[k]||k;}
 
-var TMEN={'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia','Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.','Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia','Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador','Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia','Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand','Spanelsko':'Spain','Kapverdy':'Cape Verde','Saudska Arabie':'Saudi Arabia','Uruguay':'Uruguay','Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway','Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan','Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana','Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti','Paraguay':'Paraguay','Curacao':'Curacao','Kolumbie':'Colombia'};
-var FLAGS={'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿','Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦','Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴','USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷','Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨','Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳','Belgie':'🇧🇪','Egypt':'🇪🇬','Iran':'🇮🇷','Novy Zeland':'🇳🇿','Spanelsko':'🇪🇸','Kapverdy':'🇨🇻','Saudska Arabie':'🇸🇦','Uruguay':'🇺🇾','Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴','Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴','Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭','Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'};
-var FIFA={'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,'Chorvatsko':11,'Japonsko':13,'Senegal':14,'USA':15,'Svycarsko':16,'Uruguay':17,'Mexiko':18,'Turecko':19,'Kanada':20,'Iran':21,'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,'Svedsko':28,'Egypt':29,'Rakousko':32,'Skotsko':33,'Alzirsko':34,'Cesko':37,'Pobrezi slonoviny':40,'Tunisko':43,'Bosna a Hercegovina':49,'DR Kongo':59,'Ghana':54,'Saudska Arabie':56,'Paraguay':60,'Irak':64,'Jihoafricka rep.':66,'Kapverdy':71,'Panama':72,'Uzbekistan':77,'Jordansko':80,'Haiti':83,'Curacao':85,'Katar':93,'Novy Zeland':96};
-var TEAMS={A:[['Mexiko'],['Jihoafricka rep.'],['Jizni Korea'],['Cesko']],B:[['Kanada'],['Katar'],['Svycarsko'],['Bosna a Hercegovina']],C:[['Brazilie'],['Maroko'],['Haiti'],['Skotsko']],D:[['USA'],['Paraguay'],['Australie'],['Turecko']],E:[['Nemecko'],['Curacao'],['Pobrezi slonoviny'],['Ekvador']],F:[['Nizozemsko'],['Japonsko'],['Svedsko'],['Tunisko']],G:[['Belgie'],['Egypt'],['Iran'],['Novy Zeland']],H:[['Spanelsko'],['Kapverdy'],['Saudska Arabie'],['Uruguay']],I:[['Francie'],['Senegal'],['Irak'],['Norsko']],J:[['Argentina'],['Alzirsko'],['Rakousko'],['Jordansko']],K:[['Portugalsko'],['DR Kongo'],['Uzbekistan'],['Kolumbie']],L:[['Anglie'],['Chorvatsko'],['Ghana'],['Panama']]};
-var SZ=[[1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City / Azteca'],[2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara / Akron'],[3,'A','Mexiko','Jizni Korea',2026,6,17,3,0,'Mexico City / Azteca'],[4,'A','Cesko','Jihoafricka rep.',2026,6,18,18,0,'Atlanta / Mercedes-Benz'],[5,'A','Cesko','Mexiko',2026,6,25,3,0,'Mexico City / Azteca'],[6,'A','Jihoafricka rep.','Jizni Korea',2026,6,25,3,0,'Guadalajara / Akron'],[7,'B','Kanada','Bosna a Hercegovina',2026,6,12,21,0,'Toronto / BMO Field'],[8,'B','Katar','Svycarsko',2026,6,13,21,0,'San Francisco / Levi\'s'],[9,'B','Kanada','Katar',2026,6,17,21,0,'Toronto / BMO Field'],[10,'B','Bosna a Hercegovina','Svycarsko',2026,6,18,0,0,'Kansas City / Arrowhead'],[11,'B','Kanada','Svycarsko',2026,6,26,22,0,'Vancouver / BC Place'],[12,'B','Bosna a Hercegovina','Katar',2026,6,26,22,0,'Seattle / Lumen Field'],[13,'C','Brazilie','Maroko',2026,6,14,0,0,'New York / MetLife'],[14,'C','Haiti','Skotsko',2026,6,14,3,0,'Boston / Gillette'],[15,'C','Brazilie','Haiti',2026,6,18,21,0,'Dallas / AT&T'],[16,'C','Maroko','Skotsko',2026,6,19,0,0,'Los Angeles / SoFi'],[17,'C','Brazilie','Skotsko',2026,6,27,0,0,'Kansas City / Arrowhead'],[18,'C','Haiti','Maroko',2026,6,27,0,0,'Atlanta / Mercedes-Benz'],[19,'D','USA','Paraguay',2026,6,13,3,0,'Los Angeles / SoFi'],[20,'D','Australie','Turecko',2026,6,14,6,0,'Vancouver / BC Place'],[21,'D','USA','Australie',2026,6,18,3,0,'Seattle / Lumen Field'],[22,'D','Paraguay','Turecko',2026,6,18,6,0,'Dallas / AT&T'],[23,'D','USA','Turecko',2026,6,27,22,0,'Seattle / Lumen Field'],[24,'D','Paraguay','Australie',2026,6,27,22,0,'Los Angeles / SoFi'],[25,'E','Nemecko','Curacao',2026,6,14,19,0,'Houston / NRG'],[26,'E','Pobrezi slonoviny','Ekvador',2026,6,15,1,0,'Philadelphia / Lincoln Financial'],[27,'E','Nemecko','Ekvador',2026,6,19,22,0,'San Francisco / Levi\'s'],[28,'E','Pobrezi slonoviny','Curacao',2026,6,20,1,0,'Dallas / AT&T'],[29,'E','Nemecko','Pobrezi slonoviny',2026,6,28,22,0,'Philadelphia / Lincoln Financial'],[30,'E','Ekvador','Curacao',2026,6,28,22,0,'Houston / NRG'],[31,'F','Nizozemsko','Japonsko',2026,6,14,22,0,'Dallas / AT&T'],[32,'F','Svedsko','Tunisko',2026,6,15,4,0,'Monterrey / BBVA'],[33,'F','Nizozemsko','Tunisko',2026,6,19,21,0,'Miami / Hard Rock'],[34,'F','Japonsko','Svedsko',2026,6,20,0,0,'Kansas City / Arrowhead'],[35,'F','Japonsko','Tunisko',2026,6,28,18,0,'Houston / NRG'],[36,'F','Nizozemsko','Svedsko',2026,6,28,18,0,'Dallas / AT&T'],[37,'G','Belgie','Egypt',2026,6,15,21,0,'Seattle / Lumen Field'],[38,'G','Iran','Novy Zeland',2026,6,16,3,0,'Los Angeles / SoFi'],[39,'G','Belgie','Novy Zeland',2026,6,20,21,0,'Atlanta / Mercedes-Benz'],[40,'G','Iran','Egypt',2026,6,21,0,0,'Miami / Hard Rock'],[41,'G','Belgie','Iran',2026,6,28,18,0,'Dallas / AT&T'],[42,'G','Egypt','Novy Zeland',2026,6,28,21,0,'Seattle / Lumen Field'],[43,'H','Spanelsko','Kapverdy',2026,6,15,18,0,'Atlanta / Mercedes-Benz'],[44,'H','Saudska Arabie','Uruguay',2026,6,16,0,0,'Miami / Hard Rock'],[45,'H','Spanelsko','Saudska Arabie',2026,6,21,22,0,'Los Angeles / SoFi'],[46,'H','Kapverdy','Uruguay',2026,6,22,1,0,'Boston / Gillette'],[47,'H','Spanelsko','Uruguay',2026,6,28,19,0,'Kansas City / Arrowhead'],[48,'H','Kapverdy','Saudska Arabie',2026,6,28,19,0,'Miami / Hard Rock'],[49,'I','Francie','Senegal',2026,6,16,21,0,'New York / MetLife'],[50,'I','Irak','Norsko',2026,6,17,0,0,'Boston / Gillette'],[51,'I','Francie','Irak',2026,6,21,19,0,'New York / MetLife'],[52,'I','Norsko','Senegal',2026,6,21,22,0,'Dallas / AT&T'],[53,'I','Francie','Norsko',2026,6,28,21,0,'New York / MetLife'],[54,'I','Irak','Senegal',2026,6,28,21,0,'Boston / Gillette'],[55,'J','Argentina','Alzirsko',2026,6,17,3,0,'Kansas City / Arrowhead'],[56,'J','Rakousko','Jordansko',2026,6,17,6,0,'San Francisco / Levi\'s'],[57,'J','Argentina','Jordansko',2026,6,22,22,0,'Miami / Hard Rock'],[58,'J','Alzirsko','Rakousko',2026,6,22,19,0,'Atlanta / Mercedes-Benz'],[59,'J','Argentina','Rakousko',2026,6,27,22,0,'Dallas / AT&T'],[60,'J','Alzirsko','Jordansko',2026,6,27,22,0,'San Francisco / Levi\'s'],[61,'K','Portugalsko','DR Kongo',2026,6,17,19,0,'Houston / NRG'],[62,'K','Uzbekistan','Kolumbie',2026,6,17,22,0,'Los Angeles / SoFi'],[63,'K','Portugalsko','Kolumbie',2026,6,22,22,0,'Dallas / AT&T'],[64,'K','DR Kongo','Uzbekistan',2026,6,22,19,0,'Boston / Gillette'],[65,'K','Portugalsko','Uzbekistan',2026,6,27,19,0,'Kansas City / Arrowhead'],[66,'K','DR Kongo','Kolumbie',2026,6,27,19,0,'Houston / NRG'],[67,'L','Anglie','Chorvatsko',2026,6,17,22,0,'Dallas / AT&T'],[68,'L','Ghana','Panama',2026,6,18,1,0,'Atlanta / Mercedes-Benz'],[69,'L','Anglie','Ghana',2026,6,22,19,0,'Houston / NRG'],[70,'L','Panama','Chorvatsko',2026,6,22,22,0,'Los Angeles / SoFi'],[71,'L','Anglie','Panama',2026,6,27,22,0,'Miami / Hard Rock'],[72,'L','Ghana','Chorvatsko',2026,6,27,19,0,'Dallas / AT&T']];
-var PZ=[[73,'16F','2. sk.A','2. sk.B',2026,6,28,21,0,'Los Angeles / SoFi'],[74,'16F','1. sk.E','3. nejl.',2026,6,29,20,30,'Boston / Gillette'],[75,'16F','1. sk.F','2. sk.C',2026,6,29,1,0,'Monterrey / BBVA'],[76,'16F','1. sk.C','2. sk.F',2026,6,29,19,0,'Houston / NRG'],[77,'16F','2. sk.E','2. sk.I',2026,6,30,19,0,'Dallas / AT&T'],[78,'16F','1. sk.I','3. nejl.',2026,6,30,23,0,'New York / MetLife'],[79,'16F','1. sk.A','3. nejl.',2026,6,30,3,0,'Mexico City / Azteca'],[80,'16F','1. sk.L','3. nejl.',2026,7,1,18,0,'Atlanta / Mercedes-Benz'],[81,'16F','1. sk.D','3. nejl.',2026,7,1,0,0,'San Francisco / Levi\'s'],[82,'16F','1. sk.G','3. nejl.',2026,7,1,22,0,'Seattle / Lumen Field'],[83,'16F','1. sk.H','2. sk.J',2026,7,2,21,0,'Los Angeles / SoFi'],[84,'16F','2. sk.K','2. sk.L',2026,7,2,1,0,'Toronto / BMO Field'],[85,'16F','1. sk.B','3. nejl.',2026,7,2,5,0,'Vancouver / BC Place'],[86,'16F','2. sk.D','2. sk.G',2026,7,3,20,0,'Dallas / AT&T'],[87,'16F','1. sk.J','2. sk.H',2026,7,3,0,0,'Miami / Hard Rock'],[88,'16F','1. sk.K','3. nejl.',2026,7,3,3,30,'Kansas City / Arrowhead'],[89,'OF','Vitez Z73','Vitez Z75',2026,7,4,19,0,'Houston / NRG'],[90,'OF','Vitez Z74','Vitez Z77',2026,7,4,23,0,'Philadelphia / Lincoln Financial'],[91,'OF','Vitez Z76','Vitez Z79',2026,7,5,19,0,'Houston / NRG'],[92,'OF','Vitez Z78','Vitez Z81',2026,7,5,23,0,'New York / MetLife'],[93,'OF','Vitez Z80','Vitez Z83',2026,7,6,19,0,'Atlanta / Mercedes-Benz'],[94,'OF','Vitez Z82','Vitez Z85',2026,7,6,23,0,'Seattle / Lumen Field'],[95,'OF','Vitez Z84','Vitez Z87',2026,7,7,19,0,'Los Angeles / SoFi'],[96,'OF','Vitez Z86','Vitez Z88',2026,7,7,23,0,'Miami / Hard Rock'],[97,'CF','Vitez OF1','Vitez OF2',2026,7,9,23,0,'Dallas / AT&T'],[98,'CF','Vitez OF3','Vitez OF4',2026,7,10,23,0,'Los Angeles / SoFi'],[99,'CF','Vitez OF5','Vitez OF6',2026,7,11,23,0,'Houston / NRG'],[100,'CF','Vitez OF7','Vitez OF8',2026,7,12,23,0,'New York / MetLife'],[101,'SF','Vitez CF1','Vitez CF2',2026,7,14,23,0,'Dallas / AT&T'],[102,'SF','Vitez CF3','Vitez CF4',2026,7,15,23,0,'New York / MetLife'],[103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami / Hard Rock'],[104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York / MetLife']];
-var STAD=[['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,"Levi's_Stadium_-_Santa_Clara,_CA_-_Aerial.jpg",'https://en.wikipedia.org/wiki/Levi%27s_Stadium'],['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']];
-var VENUE_ALIASES={'MetLife Stadium':['New York / MetLife','New York/New Jersey / MetLife','East Rutherford / MetLife'],'AT&T Stadium':['Dallas / AT&T','Arlington / AT&T'],'SoFi Stadium':['Los Angeles / SoFi'],'Hard Rock Stadium':['Miami / Hard Rock'],'Lumen Field':['Seattle / Lumen Field'],"Levi's Stadium":["San Francisco / Levi's","Santa Clara / Levi's"],'Arrowhead Stadium':['Kansas City / Arrowhead'],'NRG Stadium':['Houston / NRG'],'Lincoln Financial Field':['Philadelphia / Lincoln Financial'],'Mercedes-Benz Stadium':['Atlanta / Mercedes-Benz'],'Gillette Stadium':['Boston / Gillette','Foxborough / Gillette'],'BMO Field':['Toronto / BMO Field'],'BC Place':['Vancouver / BC Place'],'Estadio Azteca':['Mexico City / Azteca'],'Estadio BBVA':['Monterrey / BBVA','Guadalupe / BBVA'],'Estadio Akron':['Guadalajara / Akron']};
+function escHtml(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+function escAttr(s){return escHtml(s);}
+function stadImgAttrs(){return 'loading="lazy" decoding="async"';}
+
+var TMEN={
+  'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
+  'Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.',
+  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia',
+  'Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador',
+  'Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia',
+  'Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand',
+  'Spanelsko':'Spain','Kapverdy':'Cape Verde','Saudska Arabie':'Saudi Arabia','Uruguay':'Uruguay',
+  'Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway',
+  'Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan',
+  'Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana',
+  'Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
+  'Paraguay':'Paraguay','Curacao':'Curacao','Kolumbie':'Colombia'
+};
+function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
+
+var FLAGS={
+  'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
+  'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
+  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴',
+  'USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷',
+  'Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨',
+  'Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳',
+  'Belgie':'🇧🇪','Egypt':'🇪🇬','Iran':'🇮🇷','Novy Zeland':'🇳🇿',
+  'Spanelsko':'🇪🇸','Kapverdy':'🇨🇻','Saudska Arabie':'🇸🇦','Uruguay':'🇺🇾',
+  'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
+  'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
+  'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
+  'Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+};
+function fl(n){return FLAGS[n]||'';}
+
+function fT(n){
+  if(LANG==='en'){
+    var s=n;
+    s=s.replace('sk.','Gr.');
+    s=s.replace('nejl.','best 3rd');
+    s=s.replace('Vitez','Winner');
+    s=s.replace('Porazeny','Loser');
+    s=s.replace('1.','1st');
+    s=s.replace('2.','2nd');
+    s=s.replace('3.','3rd');
+    if(s!==n) return s;
+  }
+  var f=fl(n);
+  return f?f+' '+tN(n):tN(n);
+}
+
+var FIFA={
+  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,'Brazilie':6,
+  'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,'Chorvatsko':11,'Japonsko':13,
+  'Senegal':14,'USA':15,'Svycarsko':16,'Uruguay':17,'Mexiko':18,'Turecko':19,
+  'Kanada':20,'Iran':21,'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,
+  'Svedsko':28,'Egypt':29,'Rakousko':32,'Skotsko':33,'Alzirsko':34,'Cesko':37,
+  'Pobrezi slonoviny':40,'Tunisko':43,'Bosna a Hercegovina':49,'DR Kongo':59,
+  'Ghana':54,'Saudska Arabie':56,'Paraguay':60,'Irak':64,'Jihoafricka rep.':66,
+  'Kapverdy':71,'Panama':72,'Uzbekistan':77,'Jordansko':80,'Haiti':83,
+  'Curacao':85,'Katar':93,'Novy Zeland':96
+};
+
+var TEAMS={
+  A:[['Mexiko'],['Jihoafricka rep.'],['Jizni Korea'],['Cesko']],
+  B:[['Kanada'],['Katar'],['Svycarsko'],['Bosna a Hercegovina']],
+  C:[['Brazilie'],['Maroko'],['Haiti'],['Skotsko']],
+  D:[['USA'],['Paraguay'],['Australie'],['Turecko']],
+  E:[['Nemecko'],['Curacao'],['Pobrezi slonoviny'],['Ekvador']],
+  F:[['Nizozemsko'],['Japonsko'],['Svedsko'],['Tunisko']],
+  G:[['Belgie'],['Egypt'],['Iran'],['Novy Zeland']],
+  H:[['Spanelsko'],['Kapverdy'],['Saudska Arabie'],['Uruguay']],
+  I:[['Francie'],['Senegal'],['Irak'],['Norsko']],
+  J:[['Argentina'],['Alzirsko'],['Rakousko'],['Jordansko']],
+  K:[['Portugalsko'],['DR Kongo'],['Uzbekistan'],['Kolumbie']],
+  L:[['Anglie'],['Chorvatsko'],['Ghana'],['Panama']]
+};
+
+var SZ=[
+  [1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City / Azteca'],
+  [2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara / Akron'],
+  [3,'A','Mexiko','Jizni Korea',2026,6,17,3,0,'Mexico City / Azteca'],
+  [4,'A','Cesko','Jihoafricka rep.',2026,6,18,18,0,'Atlanta / Mercedes-Benz'],
+  [5,'A','Cesko','Mexiko',2026,6,25,3,0,'Mexico City / Azteca'],
+  [6,'A','Jihoafricka rep.','Jizni Korea',2026,6,25,3,0,'Guadalajara / Akron'],
+  [7,'B','Kanada','Bosna a Hercegovina',2026,6,12,21,0,'Toronto / BMO Field'],
+  [8,'B','Katar','Svycarsko',2026,6,13,21,0,'San Francisco / Levi\'s'],
+  [9,'B','Kanada','Katar',2026,6,17,21,0,'Toronto / BMO Field'],
+  [10,'B','Bosna a Hercegovina','Svycarsko',2026,6,18,0,0,'Kansas City / Arrowhead'],
+  [11,'B','Kanada','Svycarsko',2026,6,26,22,0,'Vancouver / BC Place'],
+  [12,'B','Bosna a Hercegovina','Katar',2026,6,26,22,0,'Seattle / Lumen Field'],
+  [13,'C','Brazilie','Maroko',2026,6,14,0,0,'New York / MetLife'],
+  [14,'C','Haiti','Skotsko',2026,6,14,3,0,'Boston / Gillette'],
+  [15,'C','Brazilie','Haiti',2026,6,18,21,0,'Dallas / AT&T'],
+  [16,'C','Maroko','Skotsko',2026,6,19,0,0,'Los Angeles / SoFi'],
+  [17,'C','Brazilie','Skotsko',2026,6,27,0,0,'Kansas City / Arrowhead'],
+  [18,'C','Haiti','Maroko',2026,6,27,0,0,'Atlanta / Mercedes-Benz'],
+  [19,'D','USA','Paraguay',2026,6,13,3,0,'Los Angeles / SoFi'],
+  [20,'D','Australie','Turecko',2026,6,14,6,0,'Vancouver / BC Place'],
+  [21,'D','USA','Australie',2026,6,18,3,0,'Seattle / Lumen Field'],
+  [22,'D','Paraguay','Turecko',2026,6,18,6,0,'Dallas / AT&T'],
+  [23,'D','USA','Turecko',2026,6,27,22,0,'Seattle / Lumen Field'],
+  [24,'D','Paraguay','Australie',2026,6,27,22,0,'Los Angeles / SoFi'],
+  [25,'E','Nemecko','Curacao',2026,6,14,19,0,'Houston / NRG'],
+  [26,'E','Pobrezi slonoviny','Ekvador',2026,6,15,1,0,'Philadelphia / Lincoln Financial'],
+  [27,'E','Nemecko','Ekvador',2026,6,19,22,0,'San Francisco / Levi\'s'],
+  [28,'E','Pobrezi slonoviny','Curacao',2026,6,20,1,0,'Dallas / AT&T'],
+  [29,'E','Nemecko','Pobrezi slonoviny',2026,6,28,22,0,'Philadelphia / Lincoln Financial'],
+  [30,'E','Ekvador','Curacao',2026,6,28,22,0,'Houston / NRG'],
+  [31,'F','Nizozemsko','Japonsko',2026,6,14,22,0,'Dallas / AT&T'],
+  [32,'F','Svedsko','Tunisko',2026,6,15,4,0,'Monterrey / BBVA'],
+  [33,'F','Nizozemsko','Tunisko',2026,6,19,21,0,'Miami / Hard Rock'],
+  [34,'F','Japonsko','Svedsko',2026,6,20,0,0,'Kansas City / Arrowhead'],
+  [35,'F','Japonsko','Tunisko',2026,6,28,18,0,'Houston / NRG'],
+  [36,'F','Nizozemsko','Svedsko',2026,6,28,18,0,'Dallas / AT&T'],
+  [37,'G','Belgie','Egypt',2026,6,15,21,0,'Seattle / Lumen Field'],
+  [38,'G','Iran','Novy Zeland',2026,6,16,3,0,'Los Angeles / SoFi'],
+  [39,'G','Belgie','Novy Zeland',2026,6,20,21,0,'Atlanta / Mercedes-Benz'],
+  [40,'G','Iran','Egypt',2026,6,21,0,0,'Miami / Hard Rock'],
+  [41,'G','Belgie','Iran',2026,6,28,18,0,'Dallas / AT&T'],
+  [42,'G','Egypt','Novy Zeland',2026,6,28,21,0,'Seattle / Lumen Field'],
+  [43,'H','Spanelsko','Kapverdy',2026,6,15,18,0,'Atlanta / Mercedes-Benz'],
+  [44,'H','Saudska Arabie','Uruguay',2026,6,16,0,0,'Miami / Hard Rock'],
+  [45,'H','Spanelsko','Saudska Arabie',2026,6,21,22,0,'Los Angeles / SoFi'],
+  [46,'H','Kapverdy','Uruguay',2026,6,22,1,0,'Boston / Gillette'],
+  [47,'H','Spanelsko','Uruguay',2026,6,28,19,0,'Kansas City / Arrowhead'],
+  [48,'H','Kapverdy','Saudska Arabie',2026,6,28,19,0,'Miami / Hard Rock'],
+  [49,'I','Francie','Senegal',2026,6,16,21,0,'New York / MetLife'],
+  [50,'I','Irak','Norsko',2026,6,17,0,0,'Boston / Gillette'],
+  [51,'I','Francie','Irak',2026,6,21,19,0,'New York / MetLife'],
+  [52,'I','Norsko','Senegal',2026,6,21,22,0,'Dallas / AT&T'],
+  [53,'I','Francie','Norsko',2026,6,28,21,0,'New York / MetLife'],
+  [54,'I','Irak','Senegal',2026,6,28,21,0,'Boston / Gillette'],
+  [55,'J','Argentina','Alzirsko',2026,6,17,3,0,'Kansas City / Arrowhead'],
+  [56,'J','Rakousko','Jordansko',2026,6,17,6,0,'San Francisco / Levi\'s'],
+  [57,'J','Argentina','Jordansko',2026,6,22,22,0,'Miami / Hard Rock'],
+  [58,'J','Alzirsko','Rakousko',2026,6,22,19,0,'Atlanta / Mercedes-Benz'],
+  [59,'J','Argentina','Rakousko',2026,6,27,22,0,'Dallas / AT&T'],
+  [60,'J','Alzirsko','Jordansko',2026,6,27,22,0,'San Francisco / Levi\'s'],
+  [61,'K','Portugalsko','DR Kongo',2026,6,17,19,0,'Houston / NRG'],
+  [62,'K','Uzbekistan','Kolumbie',2026,6,17,22,0,'Los Angeles / SoFi'],
+  [63,'K','Portugalsko','Kolumbie',2026,6,22,22,0,'Dallas / AT&T'],
+  [64,'K','DR Kongo','Uzbekistan',2026,6,22,19,0,'Boston / Gillette'],
+  [65,'K','Portugalsko','Uzbekistan',2026,6,27,19,0,'Kansas City / Arrowhead'],
+  [66,'K','DR Kongo','Kolumbie',2026,6,27,19,0,'Houston / NRG'],
+  [67,'L','Anglie','Chorvatsko',2026,6,17,22,0,'Dallas / AT&T'],
+  [68,'L','Ghana','Panama',2026,6,18,1,0,'Atlanta / Mercedes-Benz'],
+  [69,'L','Anglie','Ghana',2026,6,22,19,0,'Houston / NRG'],
+  [70,'L','Panama','Chorvatsko',2026,6,22,22,0,'Los Angeles / SoFi'],
+  [71,'L','Anglie','Panama',2026,6,27,22,0,'Miami / Hard Rock'],
+  [72,'L','Ghana','Chorvatsko',2026,6,27,19,0,'Dallas / AT&T']
+];
+
+var PZ=[
+  [73,'16F','2. sk.A','2. sk.B',2026,6,28,21,0,'Los Angeles / SoFi'],
+  [74,'16F','1. sk.E','3. nejl.',2026,6,29,20,30,'Boston / Gillette'],
+  [75,'16F','1. sk.F','2. sk.C',2026,6,29,1,0,'Monterrey / BBVA'],
+  [76,'16F','1. sk.C','2. sk.F',2026,6,29,19,0,'Houston / NRG'],
+  [77,'16F','2. sk.E','2. sk.I',2026,6,30,19,0,'Dallas / AT&T'],
+  [78,'16F','1. sk.I','3. nejl.',2026,6,30,23,0,'New York / MetLife'],
+  [79,'16F','1. sk.A','3. nejl.',2026,6,30,3,0,'Mexico City / Azteca'],
+  [80,'16F','1. sk.L','3. nejl.',2026,7,1,18,0,'Atlanta / Mercedes-Benz'],
+  [81,'16F','1. sk.D','3. nejl.',2026,7,1,0,0,'San Francisco / Levi\'s'],
+  [82,'16F','1. sk.G','3. nejl.',2026,7,1,22,0,'Seattle / Lumen Field'],
+  [83,'16F','1. sk.H','2. sk.J',2026,7,2,21,0,'Los Angeles / SoFi'],
+  [84,'16F','2. sk.K','2. sk.L',2026,7,2,1,0,'Toronto / BMO Field'],
+  [85,'16F','1. sk.B','3. nejl.',2026,7,2,5,0,'Vancouver / BC Place'],
+  [86,'16F','2. sk.D','2. sk.G',2026,7,3,20,0,'Dallas / AT&T'],
+  [87,'16F','1. sk.J','2. sk.H',2026,7,3,0,0,'Miami / Hard Rock'],
+  [88,'16F','1. sk.K','3. nejl.',2026,7,3,3,30,'Kansas City / Arrowhead'],
+  [89,'OF','Vitez Z73','Vitez Z75',2026,7,4,19,0,'Houston / NRG'],
+  [90,'OF','Vitez Z74','Vitez Z77',2026,7,4,23,0,'Philadelphia / Lincoln Financial'],
+  [91,'OF','Vitez Z76','Vitez Z79',2026,7,5,19,0,'Houston / NRG'],
+  [92,'OF','Vitez Z78','Vitez Z81',2026,7,5,23,0,'New York / MetLife'],
+  [93,'OF','Vitez Z80','Vitez Z83',2026,7,6,19,0,'Atlanta / Mercedes-Benz'],
+  [94,'OF','Vitez Z82','Vitez Z85',2026,7,6,23,0,'Seattle / Lumen Field'],
+  [95,'OF','Vitez Z84','Vitez Z87',2026,7,7,19,0,'Los Angeles / SoFi'],
+  [96,'OF','Vitez Z86','Vitez Z88',2026,7,7,23,0,'Miami / Hard Rock'],
+  [97,'CF','Vitez OF1','Vitez OF2',2026,7,9,23,0,'Dallas / AT&T'],
+  [98,'CF','Vitez OF3','Vitez OF4',2026,7,10,23,0,'Los Angeles / SoFi'],
+  [99,'CF','Vitez OF5','Vitez OF6',2026,7,11,23,0,'Houston / NRG'],
+  [100,'CF','Vitez OF7','Vitez OF8',2026,7,12,23,0,'New York / MetLife'],
+  [101,'SF','Vitez CF1','Vitez CF2',2026,7,14,23,0,'Dallas / AT&T'],
+  [102,'SF','Vitez CF3','Vitez CF4',2026,7,15,23,0,'New York / MetLife'],
+  [103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami / Hard Rock'],
+  [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York / MetLife']
+];
+
+var STAD=[
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://commons.wikimedia.org/wiki/Special:FilePath/MetLife_Stadium_New_Jersey.jpg?width=900','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'https://commons.wikimedia.org/wiki/Special:FilePath/Cowboys_Stadium_Arlington.jpg?width=900','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://commons.wikimedia.org/wiki/Special:FilePath/SoFi_Stadium_-_2022.jpg?width=900','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'https://commons.wikimedia.org/wiki/Special:FilePath/Hard_Rock_Stadium_aerial_2018.jpg?width=900','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://commons.wikimedia.org/wiki/Special:FilePath/Lumen_Field_September_2021.jpg?width=900','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://commons.wikimedia.org/wiki/Special:FilePath/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg?width=900','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://commons.wikimedia.org/wiki/Special:FilePath/Arrowhead_Stadium_2015.jpg?width=900','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://commons.wikimedia.org/wiki/Special:FilePath/NRG_Stadium_2015.jpg?width=900','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://commons.wikimedia.org/wiki/Special:FilePath/Lincoln_Financial_Field_2017.jpg?width=900','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://commons.wikimedia.org/wiki/Special:FilePath/Mercedes-Benz_Stadium.jpg?width=900','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://commons.wikimedia.org/wiki/Special:FilePath/Gillette_Stadium_2015.jpg?width=900','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://commons.wikimedia.org/wiki/Special:FilePath/BMO_Field_2016.jpg?width=900','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://commons.wikimedia.org/wiki/Special:FilePath/BC_Place_Stadium_2011.jpg?width=900','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'https://commons.wikimedia.org/wiki/Special:FilePath/Azteca_estadio.jpg?width=900','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://commons.wikimedia.org/wiki/Special:FilePath/Estadio_BBVA_2015.jpg?width=900','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://commons.wikimedia.org/wiki/Special:FilePath/Estadio_Akron_2010.jpg?width=900','https://en.wikipedia.org/wiki/Estadio_Akron']
+];
+
+var VENUE_ALIASES={
+  'MetLife Stadium':['New York / MetLife','New York/New Jersey / MetLife','East Rutherford / MetLife'],
+  'AT&T Stadium':['Dallas / AT&T','Arlington / AT&T'],
+  'SoFi Stadium':['Los Angeles / SoFi'],
+  'Hard Rock Stadium':['Miami / Hard Rock'],
+  'Lumen Field':['Seattle / Lumen Field'],
+  "Levi's Stadium":["San Francisco / Levi's","Santa Clara / Levi's"],
+  'Arrowhead Stadium':['Kansas City / Arrowhead'],
+  'NRG Stadium':['Houston / NRG'],
+  'Lincoln Financial Field':['Philadelphia / Lincoln Financial'],
+  'Mercedes-Benz Stadium':['Atlanta / Mercedes-Benz'],
+  'Gillette Stadium':['Boston / Gillette','Foxborough / Gillette'],
+  'BMO Field':['Toronto / BMO Field'],
+  'BC Place':['Vancouver / BC Place'],
+  'Estadio Azteca':['Mexico City / Azteca'],
+  'Estadio BBVA':['Monterrey / BBVA','Guadalupe / BBVA'],
+  'Estadio Akron':['Guadalajara / Akron']
+};
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
-function dStr(z){var ms=tr('months'); if(LANG==='en') return z[6]+' '+ms[z[5]-1]+' '+pad(z[7])+':'+pad(z[8]); return z[6]+'.'+z[5]+'. '+pad(z[7])+':'+pad(z[8]);}
+function dStr(z){
+  var ms=tr('months');
+  if(LANG==='en') return z[6]+' '+ms[z[5]-1]+' '+pad(z[7])+':'+pad(z[8]);
+  return z[6]+'.'+z[5]+'. '+pad(z[7])+':'+pad(z[8]);
+}
 function dKey(z){return z[4]+'-'+pad(z[5])+'-'+pad(z[6]);}
-function dLabel(z){var ms=tr('months'); var ds=tr('days'); var d=mDate(z); if(LANG==='en') return ds[d.getDay()]+', '+z[6]+' '+ms[z[5]-1]+' '+z[4]; return ds[d.getDay()]+' '+z[6]+'.'+z[5]+'.'+z[4];}
-function cdStr(z){var diff=mDate(z)-new Date(); if(diff<=0) return null; var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000); var pre=tr('in_days'); if(days>0) return pre+' '+days+tr('in_d')+' '+h+tr('in_h')+' '+m+tr('in_min'); if(h>0) return pre+' '+h+tr('in_h')+' '+m+tr('in_min'); return pre+' '+m+' '+tr('in_min');}
-function getVenueGroups(stadiumName){var aliases=VENUE_ALIASES[stadiumName]||[]; var groups={}; SZ.forEach(function(z){var venue=z[9]||''; if(aliases.indexOf(venue)>=0 && SKU.indexOf(z[1])>=0) groups[z[1]]=true;}); return Object.keys(groups).sort();}
-function getResultsLastUpdated(){try{return localStorage.getItem('ms26_results_updated_at')||'';}catch(e){return '';}}
-function setResultsLastUpdated(){try{localStorage.setItem('ms26_results_updated_at', new Date().toISOString());}catch(e){}}
-function formatLastUpdated(){var raw=getResultsLastUpdated(); if(!raw) return ''; var d=new Date(raw); if(isNaN(d.getTime())) return ''; if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes()); return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());}
-function buildWikiImageUrl(file){return 'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(file)+'?width=900';}
+function dLabel(z){
+  var ms=tr('months');
+  var ds=tr('days');
+  var d=mDate(z);
+  if(LANG==='en') return ds[d.getDay()]+', '+z[6]+' '+ms[z[5]-1]+' '+z[4];
+  return ds[d.getDay()]+' '+z[6]+'.'+z[5]+'.'+z[4];
+}
+function cdStr(z){
+  var diff=mDate(z)-new Date();
+  if(diff<=0) return null;
+  var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+  var pre=tr('in_days');
+  if(days>0) return pre+' '+days+tr('in_d')+' '+h+tr('in_h')+' '+m+tr('in_min');
+  if(h>0) return pre+' '+h+tr('in_h')+' '+m+tr('in_min');
+  return pre+' '+m+' '+tr('in_min');
+}
+function getVenueGroups(stadiumName){
+  var aliases=VENUE_ALIASES[stadiumName]||[];
+  var groups={};
+  SZ.forEach(function(z){
+    var venue=z[9]||'';
+    if(aliases.indexOf(venue)>=0 && SKU.indexOf(z[1])>=0) groups[z[1]]=true;
+  });
+  return Object.keys(groups).sort();
+}
+function getResultsLastUpdated(){
+  try{return localStorage.getItem('ms26_results_updated_at')||'';}catch(e){return '';}
+}
+function setResultsLastUpdated(){
+  try{localStorage.setItem('ms26_results_updated_at', new Date().toISOString());}catch(e){}
+}
+function formatLastUpdated(){
+  var raw=getResultsLastUpdated();
+  if(!raw) return '';
+  var d=new Date(raw);
+  if(isNaN(d.getTime())) return '';
+  if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+  return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
 
 function sbf(path,method,body,prefer){
   var h={'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'};
   if(prefer) h.Prefer=prefer;
-  return fetch(SBU+'/rest/v1/'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined}).then(function(r){
+  return fetch(SBU+'/rest/v1/'+path,{
+    method:method||'GET',
+    headers:h,
+    body:body?JSON.stringify(body):undefined
+  }).then(function(r){
     if(!r.ok) return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});
     if(r.status===204) return null;
-    return r.json();
+    return r.text().then(function(t){
+      if(!t) return null;
+      try{return JSON.parse(t);}catch(e){return null;}
+    });
   });
 }
 
 function rpc(fn,p){
-  return fetch(SBU+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},body:JSON.stringify(p)}).then(function(r){
+  return fetch(SBU+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{
+      'apikey':SBK,
+      'Authorization':'Bearer '+SBK,
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify(p)
+  }).then(function(r){
     return r.text().then(function(t){
       if(!r.ok) throw new Error(t || ('HTTP '+r.status));
       if(!t) return null;
-      try{return JSON.parse(t);}catch(e){throw new Error('Invalid JSON response');}
+      try{return JSON.parse(t);}catch(e){throw new Error('Invalid JSON response from RPC');}
     });
   });
 }
 
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
-function loadMyTips(){if(!me) return Promise.resolve(); return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){myTips={};(d||[]).forEach(function(t){myTips[parseInt(t.zapas_id,10)]=t.tip;});});}
-function loadAllTips(){return sbf('tipy?select=hrac_id,zapas_id,tip').then(function(d){allTips={};(d||[]).forEach(function(t){if(!allTips[t.hrac_id]) allTips[t.hrac_id]={}; allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;});});}
-function loadResults(){return sbf('vysledky?select=zapas_id,skore').then(function(d){results={};(d||[]).forEach(function(v){results[parseInt(v.zapas_id,10)]=v.skore;}); updProgress();});}
-function updProgress(){var n=Object.keys(results).length,pct=Math.round(n/104*100); var el=document.getElementById('ptxt'); if(el) el.textContent=tr('played')+': '+n+' / 104 ('+pct+'%)'; var f=document.getElementById('pfil'); if(f) f.style.width=pct+'%';}
+function loadMyTips(){
+  if(!me) return Promise.resolve();
+  return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){
+    myTips={};(d||[]).forEach(function(t){myTips[parseInt(t.zapas_id,10)]=t.tip;});
+  });
+}
+function loadAllTips(){
+  return sbf('tipy?select=hrac_id,zapas_id,tip').then(function(d){
+    allTips={};(d||[]).forEach(function(t){
+      if(!allTips[t.hrac_id]) allTips[t.hrac_id]={};
+      allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
+    });
+  });
+}
+function loadResults(){
+  return sbf('vysledky?select=zapas_id,skore').then(function(d){
+    results={};(d||[]).forEach(function(v){results[parseInt(v.zapas_id,10)]=v.skore;});
+    updProgress();
+  });
+}
+function updProgress(){
+  var n=Object.keys(results).length,pct=Math.round(n/104*100);
+  var el=document.getElementById('ptxt');
+  if(el) el.textContent=tr('played')+': '+n+' / 104 ('+pct+'%)';
+  var f=document.getElementById('pfil');
+  if(f) f.style.width=pct+'%';
+}
+
+function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
+function setHtml(id,v){var e=document.getElementById(id);if(e) e.innerHTML=v;}
 
 function doLogin(){
   var j=document.getElementById('lj').value.trim(),p=document.getElementById('lp').value.trim();
@@ -434,15 +841,19 @@ function finishLogin(d){
   document.getElementById('app').style.display='block';
   setText('pp',me.jmeno);
   document.getElementById('pp').style.display='inline-block';
-  if(me.je_admin){ 
-    document.getElementById('ab').style.display='inline-block'; 
-    document.getElementById('tab-admin').style.display='inline-block'; 
+  if(me.je_admin){
+    document.getElementById('ab').style.display='inline-block';
+    document.getElementById('tab-admin').style.display='inline-block';
     document.getElementById('btn-refresh').style.display='inline-block';
-  }else{ 
-    document.getElementById('btn-refresh').style.display='none'; 
+  }else{
+    document.getElementById('btn-refresh').style.display='none';
   }
   loadResults().then(loadPlayers).then(loadMyTips).then(function(){
-    renderTipy(); renderStadiony(); renderTymy(); renderPavouk(); setText('st-vys-upd',formatLastUpdated());
+    renderTipy();
+    renderStadiony();
+    renderTymy();
+    renderPavouk();
+    setText('st-vys-upd',formatLastUpdated());
   });
   showTab('tipy');
 }
@@ -496,20 +907,28 @@ function applyI18n(){
   document.title=tr('app_title');
   setText('lo-title','⚽ '+tr('app_title_short'));
   setText('hdr-title-main',tr('app_title_short'));
+
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
   setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));
+
   setText('ptab-tipy-sk',tr('by_groups'));setText('ptab-tipy-dt',tr('by_date'));setText('ptab-tipy-po',tr('playoff'));
   setText('ptab-ost-sk',tr('groups'));setText('ptab-ost-dt',tr('by_date'));setText('ptab-ost-po',tr('playoff'));
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-sk',tr('by_groups'));setText('ptab-vys-dt',tr('by_date'));setText('ptab-vys-po',tr('playoff'));
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
   setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking'));
-  setText('btn-logout',tr('logout'));setText('btn-refresh',tr('refresh'));
-  setText('btn-exp',tr('exp'));setText('btn-sav',tr('save'));
-  setText('blo',tr('login'));setText('brg',tr('register'));
-  setText('ltl',tr('login'));setText('ltr',tr('register'));
+
+  setText('btn-logout',tr('logout'));
+  setText('btn-refresh',tr('refresh'));
+  setText('btn-exp',tr('exp'));
+  setText('btn-sav',tr('save'));
+  setText('blo',tr('login'));
+  setText('brg',tr('register'));
+  setText('ltl',tr('login'));
+  setText('ltr',tr('register'));
+
   setText('ibox-tipy',tr('ibox_tipy'));setText('ibox-ost',tr('ibox_ost'));
   setText('ibox-pav',tr('ibox_pav'));setText('ibox-tymy',tr('ibox_tymy'));
   setText('ibox-vys-note',tr('ibox_vys_note'));
@@ -518,21 +937,28 @@ function applyI18n(){
   setText('lo-sub',tr('lo_sub'));setText('lo-meta',tr('lo_meta'));
   setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
-  setText('admin-clbl',tr('admin_overview'));setHtml('admin-ibox',tr('admin_info'));
-  setText('ver-lbl',tr('footer_ver'));setText('date-lbl',tr('footer_date'));
+  setText('admin-clbl',tr('admin_overview'));
+  setHtml('admin-ibox',tr('admin_info'));
+  setText('ver-lbl',tr('footer_ver'));
+  setText('date-lbl',tr('footer_date'));
+
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
   document.getElementById('rj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
   document.getElementById('rp2').placeholder=LANG==='en'?'PIN again...':'Znovu PIN...';
+
   document.getElementById('langbtn').textContent=tr('lang_flag');
   document.getElementById('lo-lang').textContent=tr('lang_flag');
+
   var leg=document.getElementById('tab-legend');
   if(leg){
-    leg.innerHTML='<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.3);border:1px solid var(--ac);margin-right:5px;vertical-align:middle"></span>'+tr('leg1')+'</span> '+
+    leg.innerHTML=
+      '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.3);border:1px solid var(--ac);margin-right:5px;vertical-align:middle"></span>'+tr('leg1')+'</span> '+
       '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.5);margin-right:5px;vertical-align:middle"></span>'+tr('leg2')+'</span> '+
       '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);margin-right:5px;vertical-align:middle"></span>'+tr('leg3')+'</span>';
   }
+
   renderTipyMeta();
   setText('st-vys-upd',formatLastUpdated());
   updProgress();
@@ -548,10 +974,7 @@ function showTab(name){
   if(name==='ostatni') loadAllTips().then(renderOst);
   if(name==='vysledky') renderVys();
   if(name==='tabulka') renderTab();
-  if(name==='admin') {
-    document.getElementById('adm-list').innerHTML = '<div class="empty"><span class="sp"></span>Načítám...</div>';
-    loadPlayers().then(loadAllTips).then(renderAdmin);
-  }
+  if(name==='admin') loadAllTips().then(renderAdmin);
 }
 
 function swPhase(ctx,phase){
@@ -575,11 +998,27 @@ function calcPts(tip,res){
   var s=function(x){return x>0?1:x<0?-1:0;};
   return s(t[0]-t[1])===s(r[0]-r[1])?2:0;
 }
-function setSt(id,msg,err,ok){var e=document.getElementById(id);if(!e) return; e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');}
-function ptsBdg(pts,tip){if(pts===5) return '<span class="pt p5">5b</span>'; if(pts===2) return '<span class="pt p2">2b</span>'; if(pts===0&&tip) return '<span class="pt p0">0b</span>'; return '';}
+function setSt(id,msg,err,ok){
+  var e=document.getElementById(id);if(!e) return;
+  e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');
+}
+function ptsBdg(pts,tip){
+  if(pts===5) return '<span class="pt p5">5b</span>';
+  if(pts===2) return '<span class="pt p2">2b</span>';
+  if(pts===0&&tip) return '<span class="pt p0">0b</span>';
+  return '';
+}
 function ghL(sk){return SKU.indexOf(sk)>=0?tr('group')+' '+sk:sk;}
 function sortByDate(arr){return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});}
-function groupByDate(arr){var groups={},keys=[]; sortByDate(arr).forEach(function(z){var k=dKey(z); if(!groups[k]){groups[k]=[];keys.push(k);} groups[k].push(z);}); return {groups:groups,keys:keys};}
+function groupByDate(arr){
+  var groups={},keys=[];
+  sortByDate(arr).forEach(function(z){
+    var k=dKey(z);
+    if(!groups[k]){groups[k]=[];keys.push(k);}
+    groups[k].push(z);
+  });
+  return {groups:groups,keys:keys};
+}
 
 function renderTipy(){
   if(!me) return;
@@ -587,23 +1026,32 @@ function renderTipy(){
   var isAdmin=me.je_admin;
   var arr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
   var html='',prev=null;
+
   if(tipSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
-      var matches=gbd.groups[k]; html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
+      var matches=gbd.groups[k];
+      html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
       matches.forEach(function(z){html+=renderMatchRow(z,isAdmin);});
     });
   } else {
     arr.forEach(function(z){
-      var sk=z[1]; if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
+      var sk=z[1];
+      if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
       html+=renderMatchRow(z,isAdmin);
     });
   }
   document.getElementById('tipy-list').innerHTML=html||'<div class="empty">'+tr('no_matches')+'</div>';
+
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(inp&&!inp.disabled){
-      inp.addEventListener('input',function(){this.classList.remove('sv','bd'); var v=this.value.trim(); if(!v) return; this.classList.add(/^[0-9]+:[0-9]+$/.test(v)?'sv':'bd');});
+      inp.addEventListener('input',function(){
+        this.classList.remove('sv','bd');
+        var v=this.value.trim();
+        if(!v) return;
+        this.classList.add(/^[0-9]+:[0-9]+$/.test(v)?'sv':'bd');
+      });
     }
   });
 }
@@ -614,18 +1062,27 @@ function renderMatchRow(z,isAdmin){
   var res=results[id],tip=myTips[id]||'';
   var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
   var teamsUnknown=false;
-  for(var i=0;i<unknown_keywords.length;i++){if(d.indexOf(unknown_keywords[i])>=0||h.indexOf(unknown_keywords[i])>=0){teamsUnknown=true;break;}}
+  for(var i=0;i<unknown_keywords.length;i++){
+    if(d.indexOf(unknown_keywords[i])>=0||h.indexOf(unknown_keywords[i])>=0){teamsUnknown=true;break;}
+  }
   var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
-  var html='<div class="mr"><div><div class="mt">'+fT(d)+' – '+fT(h)+'</div><div class="mm">'+dStr(z);
+  var html='<div class="mr">';
+  html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
+  html+='<div class="mm">'+dStr(z);
   if(res) html+=' <span class="rt rt-d">'+escHtml(res)+'</span>';
   else if(started) html+=' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>';
   else if(cd) html+=' <span class="cd">'+escHtml(cd)+'</span>';
   if(venue) html+=' <span class="venue">📍 '+escHtml(venue)+'</span>';
-  html+='</div></div><div class="mr-r">';
-  if(teamsUnknown){ html+='<span style="font-size:.66rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
-  } else { html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip); html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">'; }
+  html+='</div></div>';
+  html+='<div class="mr-r">';
+  if(teamsUnknown){
+    html+='<span style="font-size:.66rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
+  } else {
+    html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
+    html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+  }
   html+='</div></div>';
   return html;
 }
@@ -633,27 +1090,49 @@ function renderMatchRow(z,isAdmin){
 async function saveTips(){
   if(!me) return;
   var arr=tipSort==='po'?PZ:SZ;
-  var now=new Date(),rows=[],btn=document.getElementById('btn-sav');
+  var now=new Date();
+  var rows=[];
+  var btn=document.getElementById('btn-sav');
+
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(!inp||inp.disabled) return;
     if(mDate(z)<=now) return;
-    var v=inp.value.trim(); if(v&&/^[0-9]+:[0-9]+$/.test(v)) rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
+    var v=inp.value.trim();
+    if(v&&/^[0-9]+:[0-9]+$/.test(v)) rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
   });
+
   if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
+  setSt('st-tipy','...');
   btn.disabled=true;
+
   var ok=0,err=0;
+
   try{
     for(var i=0;i<rows.length;i++){
-      var row=rows[i]; setSt('st-tipy', (i+1) + ' / ' + rows.length + '...');
+      var row=rows[i];
       try{
-        var d=await rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip});
-        if(d&&d.chyba) err++; else ok++;
-      }catch(e){err++;}
+        var d=await rpc('ulozit_tip_secure',{
+          p_hrac_id:row.hrac_id,
+          p_pin:myPin,
+          p_zapas_id:row.zapas_id,
+          p_tip:row.tip
+        });
+        if(d&&d.chyba) err++;
+        else ok++;
+      }catch(e){
+        err++;
+      }
     }
-    await loadMyTips(); renderTipy();
-    if(err===0) setSt('st-tipy','✓ '+ok,false,true); else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
-  }finally{btn.disabled=false;}
+
+    await loadMyTips();
+    renderTipy();
+
+    if(err===0) setSt('st-tipy','✓ '+ok,false,true);
+    else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
+  }finally{
+    btn.disabled=false;
+  }
 }
 
 function renderOst(){
@@ -661,47 +1140,70 @@ function renderOst(){
   var arr=ostSort==='po'?PZ:ostSort==='dt'?sortByDate(SZ):SZ;
   var others=players.filter(function(p){return !me||p.id!==me.id;});
   if(!others.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><thead><tr>';
-  html+='<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:220px;z-index:2">'+tr('match')+'</th>';
-  html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--mu);border-bottom:1px solid var(--bd);text-align:center;min-width:68px;z-index:2">'+tr('result')+'</th>';
-  html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--gn2);border-bottom:1px solid var(--bd);text-align:center;min-width:72px;z-index:2">'+tr('my_tip_col')+'</th>';
-  others.forEach(function(p,ci){html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;z-index:2">'+escHtml(p.jmeno)+'</th>';});
+
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
+  html+='<thead><tr>';
+  html+='<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:220px">'+tr('match')+'</th>';
+  html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--mu);border-bottom:1px solid var(--bd);text-align:center;min-width:68px">'+tr('result')+'</th>';
+  html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--gn2);border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+tr('my_tip_col')+'</th>';
+  others.forEach(function(p){
+    var ci=players.indexOf(p);
+    html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px">'+escHtml(p.jmeno)+'</th>';
+  });
   html+='</tr></thead><tbody>';
+
   if(ostSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
-      var matches=gbd.groups[k]; html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">📅 '+dLabel(matches[0])+'</td></tr>';
+      var matches=gbd.groups[k];
+      html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">📅 '+dLabel(matches[0])+'</td></tr>';
       matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
     var prev=null;
     arr.forEach(function(z){
-      var sk=z[1]; if(sk!==prev){html+='<tr><td colspan="'+(others.length+3)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';prev=sk;}
+      var sk=z[1];
+      if(sk!==prev){
+        html+='<tr><td colspan="'+(others.length+3)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
+        prev=sk;
+      }
       html+=renderOstRow(z,others);
     });
   }
+
   html+='</tbody></table></div>';
   el.innerHTML=html;
 }
 
 function renderOstRow(z,others){
-  var id=z[0],res=results[id],myTip=myTips[id]||'',canSee=!!myTip;
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
+  var res=results[id],myTip=myTips[id]||'',canSee=!!myTip;
+
   var myPts=(res&&myTip)?calcPts(myTip,res):null;
   var myBg=myPts===5?'rgba(34,197,94,.1)':myPts===2?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'';
   var myCol=myPts===5?'var(--gn2)':myPts===2?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)';
-  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+fT(z[2])+' – '+fT(z[3])+'</div><div style="font-size:.65rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(z[9]?' <span style="color:var(--bd2)">📍 '+escHtml(z[9].split('/')[0])+'</span>':'')+'</div></td>';
-  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'—')+'</td>';
-  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'—')+'</td>';
+
+  var html='<tr>';
+  html+='<td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+
+    '<div style="font-weight:600">'+fT(d)+' &ndash; '+fT(h)+'</div>'+
+    '<div style="font-size:.65rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venue?' <span style="color:var(--bd2)">📍 '+escHtml(venue.split('/')[0])+'</span>':'')+'</div>'+
+    '</td>';
+
+  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
+  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
+
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
-    if(!canSee){ html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
+    if(!canSee){
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
     } else {
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'—')+'</td>';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>';
     }
   });
+
   return html+'</tr>';
 }
 
@@ -711,15 +1213,22 @@ function renderZeb(){
     var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
     var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
     arr.forEach(function(z){
-      var res=results[z[0]],tip=tips[z[0]]; if(tip) uzam++;
-      if(res&&tip){var pts=calcPts(tip,res); if(pts!==null){total+=pts;hod++; if(pts===5) pre++; else if(pts===2) spr++; else spa++;}}
+      var res=results[z[0]],tip=tips[z[0]];
+      if(tip) uzam++;
+      if(res&&tip){var pts=calcPts(tip,res);if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}}
     });
     return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
   }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
   var med=['🥇','🥈','🥉'];
   document.getElementById('zeb-list').innerHTML=scored.map(function(s,rank){
     var isMe=me&&me.id===s.p.id;
-    return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'"><div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div><div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div><div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div><div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div></div><div class="lp">'+s.total+'</div></div>';
+    return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
+      '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
+      '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
+      '<div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div>'+
+      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span>'+
+      '<span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div></div>'+
+      '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
 }
 
@@ -729,12 +1238,14 @@ function renderVys(){
   if(vysSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
-      var matches=gbd.groups[k]; html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
+      var matches=gbd.groups[k];
+      html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
       matches.forEach(function(z){html+=renderVysRow(z);});
     });
   } else {
     arr.forEach(function(z){
-      var sk=z[1]; if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
+      var sk=z[1];
+      if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
       html+=renderVysRow(z);
     });
   }
@@ -742,57 +1253,101 @@ function renderVys(){
 }
 
 function renderVysRow(z){
-  var id=z[0],res=results[id],cd=cdStr(z);
-  return '<div class="rr"><div class="rh">'+fT(z[2])+'</div><div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'—')+'</div><div style="font-size:.63rem;color:var(--mu)">'+dStr(z)+'</div>'+(z[9]?'<div style="font-size:.61rem;color:var(--bd2)">📍'+escHtml(z[9].split('/')[0])+'</div>':'')+(!res&&cd?'<div style="font-size:.63rem;color:var(--ac2)">'+escHtml(cd)+'</div>':'')+'</div><div class="ra">'+fT(z[3])+'</div></div>';
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
+  var res=results[id],cd=cdStr(z);
+  return '<div class="rr">'+
+    '<div class="rh">'+fT(d)+'</div>'+
+    '<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'&mdash;')+'</div>'+
+    '<div style="font-size:.63rem;color:var(--mu)">'+dStr(z)+'</div>'+
+    (venue?'<div style="font-size:.61rem;color:var(--bd2)">📍'+escHtml(venue.split('/')[0])+'</div>':'')+
+    (!res&&cd?'<div style="font-size:.63rem;color:var(--ac2)">'+escHtml(cd)+'</div>':'')+
+    '</div><div class="ra">'+fT(h)+'</div></div>';
 }
 
 function calcTables(){
-  var tbls={}; SKU.forEach(function(sk){tbls[sk]={};TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});});
+  var tbls={};
+  SKU.forEach(function(sk){tbls[sk]={};TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});});
   SZ.forEach(function(z){
-    var id=z[0],sk=z[1],home=z[2],away=z[3],res=results[id]; if(!res||!tbls[sk]) return;
-    var sp=res.split(':').map(Number),hg=sp[0],ag=sp[1]; if(isNaN(hg)||isNaN(ag)) return;
-    var ht=tbls[sk][home],at=tbls[sk][away]; if(!ht||!at) return;
+    var id=z[0],sk=z[1],home=z[2],away=z[3],res=results[id];
+    if(!res||!tbls[sk]) return;
+    var sp=res.split(':').map(Number),hg=sp[0],ag=sp[1];
+    if(isNaN(hg)||isNaN(ag)) return;
+    var ht=tbls[sk][home],at=tbls[sk][away];if(!ht||!at) return;
     ht.z++;at.z++;ht.gf+=hg;ht.ga+=ag;at.gf+=ag;at.ga+=hg;
     if(hg>ag){ht.v++;ht.pts+=3;at.p++;}else if(hg<ag){at.v++;at.pts+=3;ht.p++;}else{ht.r++;at.r++;ht.pts++;at.pts++;}
   });
   return tbls;
 }
-function sortGrp(obj){return Object.keys(obj).map(function(t){return {name:t,d:obj[t]};}).sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts; var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga; if(gb!==ga) return gb-ga; return b.d.gf-a.d.gf;});}
+function sortGrp(obj){
+  return Object.keys(obj).map(function(t){return {name:t,d:obj[t]};})
+    .sort(function(a,b){
+      if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
+      var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
+      if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;
+    });
+}
 function renderTab(){
-  var tbls=calcTables(); if(tabPhase==='3m'){render3m(tbls);return;}
+  var tbls=calcTables();
+  if(tabPhase==='3m'){render3m(tbls);return;}
   var html='<div class="stg">';
   SKU.forEach(function(sk){
     var teams=sortGrp(tbls[sk]);
-    html+='<div class="stc"><div class="stc-h">'+tr('group').toUpperCase()+' '+sk+'</div><table><thead><tr><th>#</th><th>'+tr('team')+'</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
+    html+='<div class="stc"><div class="stc-h">'+tr('group').toUpperCase()+' '+sk+'</div><table>';
+    html+='<thead><tr><th>#</th><th>'+tr('team')+'</th><th title="'+tr('played')+'">Z</th><th title="'+tr('won')+'">'+tr('won')+'</th><th title="'+tr('drawn')+'">'+tr('drawn')+'</th><th title="'+tr('lost')+'">'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
     teams.forEach(function(tm,i){
       var pc=i===0?'p1':i===1?'p2':i===2?'p3':'';
-      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
+      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td>';
+      html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
+      html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
     });
     html+='</tbody></table></div>';
   });
-  html+='</div>'; document.getElementById('tab-list').innerHTML=html;
+  html+='</div>';
+  document.getElementById('tab-list').innerHTML=html;
 }
 function render3m(tbls){
-  var thirds=[]; SKU.forEach(function(sk){var t=sortGrp(tbls[sk]); if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
-  thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts; var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga; if(gb!==ga) return gb-ga; return b.d.gf-a.d.gf;});
-  var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+tr('third').toUpperCase()+' - TOP 8 → R16</div><table><thead><tr><th>#</th><th>'+tr('team')+'</th><th>'+tr('group').slice(0,2)+'.</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
+  var thirds=[];
+  SKU.forEach(function(sk){var t=sortGrp(tbls[sk]);if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
+  thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;});
+  var h3=tr('third').toUpperCase();
+  var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+h3+' - TOP 8 → R16</div><table>';
+  html+='<thead><tr><th>#</th><th>'+tr('team')+'</th><th>'+tr('group').slice(0,2)+'.</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
   thirds.forEach(function(tm,i){
-    html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td style="color:var(--mu)">'+tm.sk+'</td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
+    html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td>';
+    html+='<td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td style="color:var(--mu)">'+tm.sk+'</td>';
+    html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
+    html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
   });
-  html+='</tbody></table></div>'; document.getElementById('tab-list').innerHTML=html;
+  html+='</tbody></table></div>';
+  document.getElementById('tab-list').innerHTML=html;
 }
 
 function renderPavouk(){
-  var rounds=[{lbl:tr('r16'),matches:PZ.slice(0,16)},{lbl:tr('r8'),matches:PZ.slice(16,24)},{lbl:tr('qf'),matches:PZ.slice(24,28)},{lbl:tr('sf'),matches:PZ.slice(28,30)},{lbl:tr('o3'),matches:[PZ[30]]},{lbl:tr('fin'),matches:[PZ[31]]}];
+  var rounds=[
+    {lbl:tr('r16'),matches:PZ.slice(0,16)},
+    {lbl:tr('r8'),matches:PZ.slice(16,24)},
+    {lbl:tr('qf'),matches:PZ.slice(24,28)},
+    {lbl:tr('sf'),matches:PZ.slice(28,30)},
+    {lbl:tr('o3'),matches:[PZ[30]]},
+    {lbl:tr('fin'),matches:[PZ[31]]}
+  ];
   var html='<div style="display:flex;gap:8px">';
   rounds.forEach(function(round){
-    html+='<div style="flex:1;min-width:135px"><div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+escHtml(round.lbl)+'</div>';
+    html+='<div style="flex:1;min-width:135px">';
+    html+='<div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+escHtml(round.lbl)+'</div>';
     round.matches.forEach(function(z){
-      if(!z) return; var id=z[0],res=results[id]; var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
-      html+='<div class="bm"><div class="bm-t"><span class="bm-n">'+fT(z[2])+'</span><span class="bm-s">'+escHtml(hg)+'</span></div><div class="bm-t"><span class="bm-n">'+fT(z[3])+'</span><span class="bm-s">'+escHtml(ag)+'</span></div><div class="bm-d">'+dStr(z)+(z[9]?' 📍'+escHtml(z[9].split('/')[0]):'')+'</div></div>';
+      if(!z) return;
+      var id=z[0],d=z[2],h=z[3],venue=(z[9]||'').split('/')[0].trim(),res=results[id];
+      var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
+      html+='<div class="bm">';
+      html+='<div class="bm-t"><span class="bm-n">'+fT(d)+'</span><span class="bm-s">'+escHtml(hg)+'</span></div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fT(h)+'</span><span class="bm-s">'+escHtml(ag)+'</span></div>';
+      html+='<div class="bm-d">'+dStr(z)+(venue?' 📍'+escHtml(venue):'')+'</div>';
+      html+='</div>';
     });
     html+='</div>';
   });
+  html+='</div>';
   document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
 }
 
@@ -801,116 +1356,381 @@ function renderStadiony(){
   var coBg={USA:'#3b82f6',Kanada:'#ef4444',Mexiko:'#22c55e'};
   var html='<div class="stad-grid">';
   STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],file=row[7],wiki=row[8];
-    var gmaps='https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(n + ' ' + c);
-    var img=buildWikiImageUrl(file);
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
+    var gmaps='https://maps.google.com/?q='+encodeURIComponent(lat+','+lon);
+    var coLbl=coLabel[co]||co;
     var groups=getVenueGroups(n);
     var groupsLabel=groups.length?(tr('groups_prefix')+groups.join(', ')):tr('groups_none');
-    html+='<div class="stad-card"><div class="stad-img-wrap"><img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.stad-ph\').style.display=\'flex\';"><div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div><div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLabel[co]||co)+'</div></div><div class="stad-body"><div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div><div class="stad-meta"><a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a><span>👥 '+escHtml(cap)+'</span></div><div class="stad-phase">'+escHtml(f)+'</div><div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div></div></div>';
+    html+='<div class="stad-card">';
+    html+='<div class="stad-img-wrap">';
+    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" '+stadImgAttrs()+' onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.stad-ph\').style.display=\'flex\';">';
+    html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div>';
+    html+='<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div>';
+    html+='</div>';
+    html+='<div class="stad-body">';
+    html+='<div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div>';
+    html+='<div class="stad-meta">';
+    html+='<a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a>';
+    html+='<span>👥 '+escHtml(cap)+'</span>';
+    html+='</div>';
+    html+='<div class="stad-phase">'+escHtml(f)+'</div>';
+    html+='<div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div>';
+    html+='</div></div>';
   });
+  html+='</div>';
   document.getElementById('stad-grid').innerHTML=html;
 }
 
 function renderTymy(){
   if(tymPhase==='rk'){renderFifaRanking();return;}
-  var html=''; Object.keys(TEAMS).sort().forEach(function(sk){
-    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
+  var html='';
+  Object.keys(TEAMS).sort().forEach(function(sk){
+    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div>';
+    html+='<div class="tm-grid">';
     TEAMS[sk].forEach(function(tm){
       var name=tm[0],rk=FIFA[name];
-      html+='<div class="tc"><div class="tf">'+fl(name)+'</div><div><div class="tn">'+tN(name)+'</div><div class="tgrp">'+tr('group')+' '+sk+'</div>'+(rk?'<div class="trk">FIFA #'+rk+'</div>':'')+'<div class="tsk">'+tr('roster')+'</div></div></div>';
+      html+='<div class="tc"><div class="tf">'+fl(name)+'</div>';
+      html+='<div><div class="tn">'+tN(name)+'</div>';
+      html+='<div class="tgrp">'+tr('group')+' '+sk+'</div>';
+      if(rk) html+='<div class="trk">FIFA #'+rk+'</div>';
+      html+='<div class="tsk">'+tr('roster')+'</div></div></div>';
     });
     html+='</div></div>';
   });
   document.getElementById('tym-list').innerHTML=html;
 }
 function renderFifaRanking(){
-  var all=[],seen={}; Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0]; if(!seen[n]){seen[n]=true; all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
+  var all=[],seen={};
+  Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
   var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
-    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td><td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td><td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
+    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
+    html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
+    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
   });
-  html+='</tbody></table>'; document.getElementById('tym-list').innerHTML=html;
+  html+='</tbody></table>';
+  document.getElementById('tym-list').innerHTML=html;
+}
+
+function adminInsertTipRaw(hid,zid,nt){
+  return fetch(SBU+'/rest/v1/tipy',{
+    method:'POST',
+    headers:{
+      'apikey':SBK,
+      'Authorization':'Bearer '+SBK,
+      'Content-Type':'application/json',
+      'Prefer':'return=minimal'
+    },
+    body:JSON.stringify({hrac_id:hid,zapas_id:parseInt(zid,10),tip:nt})
+  }).then(function(r){
+    if(!r.ok) return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});
+    return null;
+  });
 }
 
 function adminUpsertTip(hid,zid,nt){
-  if(!hid||!zid) return Promise.reject("Missing IDs");
-  var exists=allTips[hid] && Object.prototype.hasOwnProperty.call(allTips[hid], parseInt(zid,10));
-  if(nt===''){return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zid),'DELETE',null,'return=minimal');}
-  if(exists){return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zid),'PATCH',{tip:nt},'return=minimal');}
-  return sbf('tipy','POST',{hrac_id:hid,zapas_id:parseInt(zid,10),tip:nt},'return=minimal');
+  var zidNum=parseInt(zid,10);
+  var exists=!!(allTips[hid] && Object.prototype.hasOwnProperty.call(allTips[hid], zidNum));
+  if(nt===''){
+    return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zidNum),'DELETE',null,'return=minimal');
+  }
+  if(exists){
+    return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zidNum),'PATCH',{tip:nt},'return=minimal');
+  }
+  return adminInsertTipRaw(hid,zidNum,nt);
 }
 
 function renderAdmin(){
   if(!me||!me.je_admin) return;
   var el=document.getElementById('adm-list'),all=SZ.concat(PZ);
-  if(!players||players.length===0){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr>';
-  html+='<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px;z-index:2">'+tr('match')+'</th>';
-  players.forEach(function(p,i){html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="position:sticky;top:0;background:var(--bg2);padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer;z-index:2">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">🗑</span></th>';});
+  if(!players.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem">';
+  html+='<thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
+  players.forEach(function(p,i){
+    html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="'+escAttr(tr('click_delete'))+'">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
+  });
   html+='</tr></thead><tbody>';
   all.forEach(function(z){
-    var id=z[0],res=results[id];
-    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(z[2])+' – '+fT(z[3])+(res?' <span style="color:var(--gn2);font-weight:700">('+escHtml(res)+')</span>':'')+'</td>';
+    var id=z[0],d=z[2],h=z[3],res=results[id];
+    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(d)+' &ndash; '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+escHtml(res)+')</span>':'')+'</td>';
     players.forEach(function(p){
-      var tips=allTips[p.id]||{}, tip=tips[id]||''; if(me&&p.id===me.id) tip=myTips[id]||tip||'';
+      var tips=allTips[p.id]||{},tip=tips[id]||'';
+      if(me&&p.id===me.id) tip=myTips[id]||tip||'';
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'—')+'</td>';
+      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+'</td>';
     });
     html+='</tr>';
   });
-  html+='</tbody></table></div>'; el.innerHTML=html;
-  el.querySelectorAll('.adh').forEach(function(th){th.onclick=function(){if(!confirm(tr('delete_player')+' "'+this.dataset.jmeno+'"?')) return; rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:this.dataset.hid}).then(function(d){if(d&&d.chyba){alert(tr('error_generic')+': '+d.chyba);return;} loadPlayers().then(loadAllTips).then(renderAdmin);}).catch(function(e){alert(tr('error_generic')+': '+e.message);});};});
-  el.querySelectorAll('.atc').forEach(function(td){td.onclick=function(){
-    var nt=prompt(tr('tip_prompt_admin')+this.dataset.zid+' (2:1):',this.dataset.tip||''); if(nt===null) return; nt=nt.trim(); if(nt && !/^[0-9]+:[0-9]+$/.test(nt)){alert(tr('format_21'));return;}
-    var zid=this.dataset.zid, hid=this.dataset.hid;
-    adminUpsertTip(hid,zid,nt).then(function(){ if(String(hid)===String(me.id)){if(nt==='') delete myTips[parseInt(zid,10)]; else myTips[parseInt(zid,10)]=nt;} return loadAllTips(); }).then(function(){renderAdmin(); if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();}).catch(function(e){alert(tr('error_generic')+': '+e.message);});
-  };});
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+
+  el.querySelectorAll('.adh').forEach(function(th){
+    th.addEventListener('click',function(){
+      if(!confirm(tr('delete_player')+' "'+th.dataset.jmeno+'"?')) return;
+      rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
+        .then(function(d){
+          if(d&&d.chyba){alert(tr('error_generic')+': '+d.chyba);return;}
+          loadPlayers().then(function(){return loadAllTips();}).then(renderAdmin);
+        })
+        .catch(function(e){alert(tr('error_generic')+': '+e.message);});
+    });
+  });
+
+  el.querySelectorAll('.atc').forEach(function(td){
+    td.addEventListener('click',function(){
+      var nt=prompt(tr('tip_prompt_admin')+td.dataset.zid+' (2:1):',td.dataset.tip||'');
+      if(nt===null) return;
+      nt=nt.trim();
+
+      if(nt && !/^[0-9]+:[0-9]+$/.test(nt)){
+        alert(tr('format_21'));
+        return;
+      }
+
+      var zid=td.dataset.zid;
+      var hid=td.dataset.hid;
+
+      adminUpsertTip(hid,zid,nt)
+        .then(function(){
+          if(String(hid)===String(me.id)){
+            if(nt==='') delete myTips[parseInt(zid,10)];
+            else myTips[parseInt(zid,10)]=nt;
+          }
+          return loadAllTips();
+        })
+        .then(function(){
+          renderAdmin();
+          if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
+          if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
+        })
+        .catch(function(e){alert(tr('error_generic')+': '+e.message);});
+    });
+  });
+}
+
+function normTeamName(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,' a ').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+}
+var TEAM_ALIASES={
+  'mexiko':['mexico'],
+  'jihoafricka rep':['south africa'],
+  'jizni korea':['south korea','korea republic','republic of korea'],
+  'cesko':['czechia','czech republic'],
+  'kanada':['canada'],
+  'katar':['qatar'],
+  'svycarsko':['switzerland'],
+  'bosna a hercegovina':['bosnia and herzegovina','bosnia herzegovina'],
+  'brazilie':['brazil'],
+  'maroko':['morocco'],
+  'haiti':['haiti'],
+  'skotsko':['scotland'],
+  'usa':['united states','united states of america','usa','usmnt'],
+  'paraguay':['paraguay'],
+  'australie':['australia'],
+  'turecko':['turkey','turkiye'],
+  'nemecko':['germany'],
+  'curacao':['curacao','curaçao'],
+  'pobrezi slonoviny':['ivory coast','cote d ivoire','cote divoire'],
+  'ekvador':['ecuador'],
+  'nizozemsko':['netherlands','holland'],
+  'japonsko':['japan'],
+  'svedsko':['sweden'],
+  'tunisko':['tunisia'],
+  'belgie':['belgium'],
+  'egypt':['egypt'],
+  'iran':['iran','ir iran'],
+  'novy zeland':['new zealand'],
+  'spanelsko':['spain'],
+  'kapverdy':['cape verde','cabo verde'],
+  'saudska arabie':['saudi arabia'],
+  'uruguay':['uruguay'],
+  'francie':['france'],
+  'senegal':['senegal'],
+  'irak':['iraq'],
+  'norsko':['norway'],
+  'argentina':['argentina'],
+  'alzirsko':['algeria'],
+  'rakousko':['austria'],
+  'jordansko':['jordan'],
+  'portugalsko':['portugal'],
+  'dr kongo':['dr congo','congo dr','democratic republic of the congo'],
+  'uzbekistan':['uzbekistan'],
+  'ghana':['ghana'],
+  'anglie':['england'],
+  'chorvatsko':['croatia'],
+  'panama':['panama'],
+  'kolumbie':['colombia']
+};
+function teamMatches(appName,providerName){
+  var a=normTeamName(appName),e=normTeamName(providerName);
+  if(a===e) return true;
+  var aliases=TEAM_ALIASES[a]||[];
+  return aliases.some(function(x){return normTeamName(x)===e;});
 }
 
 function fetchResults(){
-  if(!me||!me.je_admin) return; setSt('st-vys','...'); document.getElementById('btn-refresh').disabled=true;
-  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard').then(function(r){if(!r.ok) throw new Error('HTTP '+r.status); return r.json();}).then(function(json){
-    var found={}, allMatches=SZ.concat(PZ);
-    (json.events||[]).forEach(function(ev){ (ev.competitions||[]).forEach(function(comp){ var st=comp.status; if(!st||!st.type||!st.type.completed) return; var home=null,away=null; (comp.competitors||[]).forEach(function(c){if(c.homeAway==='home') home=c; if(c.homeAway==='away') away=c;}); if(!home||!away) return; var hn=(home.team&&home.team.displayName)||'', an=(away.team&&away.team.displayName)||'', hs=Number(home.score), as=Number(away.score); if(isNaN(hs)||isNaN(as)) return; var score=hs+':'+as; allMatches.forEach(function(z){if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) found[z[0]]=score;}); });});
-    var cnt=Object.keys(found).length;
-    if(cnt>0){ var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};}); sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){ Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];}); setResultsLastUpdated(); updProgress(); renderVys(); renderTipy(); renderTab(); renderPavouk(); if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb); if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin); setSt('st-vys','✓ '+cnt,false,true); setText('st-vys-upd',formatLastUpdated()); document.getElementById('btn-refresh').disabled=false; }).catch(function(e){setSt('st-vys',tr('error_generic')+': '+e.message,true); document.getElementById('btn-refresh').disabled=false;});
-    } else { setSt('st-vys',tr('tournament_not_started'),false,true); setText('st-vys-upd',formatLastUpdated()); document.getElementById('btn-refresh').disabled=false;}
-  }).catch(function(e){setSt('st-vys',tr('error_generic')+': '+e.message,true); document.getElementById('btn-refresh').disabled=false;});
+  if(!me||!me.je_admin) return;
+  setSt('st-vys','...');
+  document.getElementById('btn-refresh').disabled=true;
+  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(json){
+      var found={},allMatches=SZ.concat(PZ);
+      (json.events||[]).forEach(function(ev){
+        (ev.competitions||[]).forEach(function(comp){
+          var st=comp.status;
+          if(!st||!st.type||!st.type.completed) return;
+          var home=null,away=null;
+          (comp.competitors||[]).forEach(function(c){
+            if(c.homeAway==='home') home=c;
+            if(c.homeAway==='away') away=c;
+          });
+          if(!home||!away) return;
+          var hn=(home.team&&home.team.displayName)||'';
+          var an=(away.team&&away.team.displayName)||'';
+          var hs=Number(home.score),as=Number(away.score);
+          if(isNaN(hs)||isNaN(as)) return;
+          var score=hs+':'+as;
+          allMatches.forEach(function(z){
+            if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) found[z[0]]=score;
+          });
+        });
+      });
+      var cnt=Object.keys(found).length;
+      if(cnt>0){
+        var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
+        sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
+          Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
+          setResultsLastUpdated();
+          updProgress();
+          renderVys();
+          renderTipy();
+          renderTab();
+          renderPavouk();
+          if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
+          if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
+          if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
+          setSt('st-vys','✓ '+cnt,false,true);
+          setText('st-vys-upd',formatLastUpdated());
+          document.getElementById('btn-refresh').disabled=false;
+        }).catch(function(e){
+          setSt('st-vys',tr('error_generic')+': '+e.message,true);
+          document.getElementById('btn-refresh').disabled=false;
+        });
+      } else {
+        setSt('st-vys',tr('tournament_not_started'),false,true);
+        setText('st-vys-upd',formatLastUpdated());
+        document.getElementById('btn-refresh').disabled=false;
+      }
+    })
+    .catch(function(e){
+      setSt('st-vys',tr('error_generic')+': '+e.message,true);
+      document.getElementById('btn-refresh').disabled=false;
+    });
 }
 
 function exportCSV(){
-  if(!me) return; var header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2',tr('date'),tr('goals'),tr('my_tip'),tr('points')]; var data=[];
-  if(me.je_admin){ header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2',tr('date'),tr('goals')].concat(players.map(function(p){return p.jmeno;})); SZ.concat(PZ).forEach(function(z){var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||'']; players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{}); row.push(tips[z[0]]||'');}); data.push(row);});
-  } else { SZ.concat(PZ).forEach(function(z){var res=results[z[0]]||'', tip=myTips[z[0]]||'', pts=(res&&tip)?calcPts(tip,res):''; data.push([z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),res,tip,pts!==''?pts+'b':'']);});}
-  var csv=[header].concat(data).map(function(row){return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
-  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  if(!me) return;
+  var header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2',tr('date'),tr('goals'),tr('my_tip'),tr('points')];
+  var data=[];
+  if(me.je_admin){
+    header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2',tr('date'),tr('goals')].concat(players.map(function(p){return p.jmeno;}));
+    SZ.concat(PZ).forEach(function(z){
+      var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
+      players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{});row.push(tips[z[0]]||'');});
+      data.push(row);
+    });
+  } else {
+    SZ.concat(PZ).forEach(function(z){
+      var res=results[z[0]]||'',tip=myTips[z[0]]||'';
+      var pts=(res&&tip)?calcPts(tip,res):'';
+      data.push([z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),res,tip,pts!==''?pts+'b':'']);
+    });
+  }
+  var csv=[header].concat(data).map(function(row){
+    return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
+  }).join('\r\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
 function updClock(){
-  var now=new Date(), ds=tr('days'); var el=document.getElementById('clk'); if(!el) return;
-  el.textContent=ds[now.getDay()]+' '+now.getDate()+(LANG==='en'?' '+tr('months')[now.getMonth()]:'.'+(now.getMonth()+1)+'.')+' '+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  var now=new Date(),ds=tr('days');
+  var el=document.getElementById('clk');if(!el) return;
+  if(LANG==='en') el.textContent=ds[now.getDay()]+' '+now.getDate()+' '+tr('months')[now.getMonth()]+' '+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  else el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
 }
 
-function toggleLang(){ LANG=LANG==='cs'?'en':'cs'; applyI18n(); var active=null; TABS.forEach(function(t){var p=document.getElementById('page-'+t); if(p&&p.style.display!=='none') active=t;}); if(active) showTab(active); if(me){renderTipy(); renderVys(); renderTab(); renderPavouk(); renderStadiony(); renderTymy(); if(active==='zebricek') renderZeb(); if(active==='ostatni') renderOst(); if(active==='admin') renderAdmin();} updClock();}
-
-function teamMatches(appName,providerName){var a=normTeamName(appName),e=normTeamName(providerName); if(a===e) return true; var aliases=TEAM_ALIASES[a]||[]; return aliases.some(function(x){return normTeamName(x)===e;});}
+function toggleLang(){
+  LANG=LANG==='cs'?'en':'cs';
+  applyI18n();
+  var active=null;
+  TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
+  if(active) showTab(active);
+  if(me){
+    renderTipy();
+    renderVys();
+    renderTab();
+    renderPavouk();
+    renderStadiony();
+    renderTymy();
+    if(active==='zebricek') renderZeb();
+    if(active==='ostatni') renderOst();
+    if(active==='admin') renderAdmin();
+  }
+  updClock();
+}
 
 function init(){
-  document.getElementById('ltl').onclick=function(){swLTab('l');}; document.getElementById('ltr').onclick=function(){swLTab('r');};
-  document.getElementById('blo').onclick=doLogin; document.getElementById('brg').onclick=doReg;
-  document.getElementById('lp').onkeydown=function(e){if(e.key==='Enter') doLogin();}; document.getElementById('rp2').onkeydown=function(e){if(e.key==='Enter') doReg();};
-  document.getElementById('btn-logout').onclick=doLogout; document.getElementById('btn-refresh').onclick=fetchResults;
-  document.getElementById('btn-sav').onclick=saveTips; document.getElementById('btn-exp').onclick=function(){loadAllTips().then(exportCSV);};
-  document.getElementById('langbtn').onclick=toggleLang; document.getElementById('lo-lang').onclick=toggleLang;
-  TABS.forEach(function(t){var b=document.getElementById('tab-'+t); if(b) b.onclick=function(){showTab(t);};});
-  var ptCfg=[['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']];
-  ptCfg.forEach(function(pt){var b=document.getElementById(pt[0]); if(b) b.onclick=function(){swPhase(pt[1],pt[2]);};});
-  applyI18n(); updClock(); setInterval(updClock,1000);
-  try{var saved=localStorage.getItem('ms26s'); if(saved){var s=JSON.parse(saved); myPin=s.pin; rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){if(!d||d.chyba) document.getElementById('lo').style.display='flex'; else finishLogin(d);}).catch(function(){document.getElementById('lo').style.display='flex';}); return;}}catch(e){}
+  document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
+  document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
+  document.getElementById('blo').addEventListener('click',doLogin);
+  document.getElementById('brg').addEventListener('click',doReg);
+  document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
+  document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
+  document.getElementById('btn-logout').addEventListener('click',doLogout);
+  document.getElementById('btn-refresh').addEventListener('click',fetchResults);
+  document.getElementById('btn-sav').addEventListener('click',saveTips);
+  document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
+  document.getElementById('langbtn').addEventListener('click',toggleLang);
+  document.getElementById('lo-lang').addEventListener('click',toggleLang);
+
+  TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
+  var ptCfg=[
+    ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
+    ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
+    ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
+    ['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],
+    ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
+    ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
+  ];
+  ptCfg.forEach(function(pt){var b=document.getElementById(pt[0]);if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});});
+
+  applyI18n();
+  updClock();
+  setInterval(updClock,1000);
+
+  try{
+    var saved=localStorage.getItem('ms26s');
+    if(saved){
+      var s=JSON.parse(saved);myPin=s.pin;
+      rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
+        if(!d||d.chyba) document.getElementById('lo').style.display='flex';
+        else finishLogin(d);
+      }).catch(function(){document.getElementById('lo').style.display='flex';});
+      return;
+    }
+  }catch(e){}
   document.getElementById('lo').style.display='flex';
 }
 init();
