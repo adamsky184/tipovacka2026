@@ -449,6 +449,21 @@ function applyI18n(){
   // lang button
   var lb=document.getElementById('langbtn');
   if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
+  // Re-render active tab so translations apply immediately
+  var activeTab=null;
+  TABS.forEach(function(t){
+    var p=document.getElementById('page-'+t);
+    if(p&&p.style.display!=='none') activeTab=t;
+  });
+  if(activeTab==='tipy') renderTipy();
+  else if(activeTab==='ostatni') loadAllTips().then(renderOst);
+  else if(activeTab==='zebricek') loadAllTips().then(renderZeb);
+  else if(activeTab==='vysledky') renderVys();
+  else if(activeTab==='tabulka') renderTab();
+  else if(activeTab==='pavouk') renderPavouk();
+  else if(activeTab==='stadiony') renderStadiony();
+  else if(activeTab==='tymy') renderTymy();
+  else if(activeTab==='admin') loadAllTips().then(renderAdmin);
 }
 
 function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
@@ -946,50 +961,59 @@ function adminEditTip(zapasId,cur){
 // ── TIPY OSTATNICH ────────────────────────────────────────
 function renderOst(){
   var el=document.getElementById('ost-list');
-  var arr=ostSort==='po'?PZ:sortArr(SZ,ostSort);
+  var arr=ostSort==='po'?PZ:ostSort==='dt'?sortByDate(SZ):SZ;
   var others=players.filter(function(p){return !me||p.id!==me.id;});
   if(!others.length){el.innerHTML='<div class="empty">'+(LANG==='en'?'No other players yet':'Zatim zadni dalsi hraci')+'</div>';return;}
-
+  var matchLbl=LANG==='en'?'Match':'Zapas';
   var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
-  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:140px">Zapas</th>';
+  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:145px">'+matchLbl+'</th>';
   others.forEach(function(p){
     var ci=players.indexOf(p);
-    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+p.jmeno+'</th>';
+    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px">'+p.jmeno+'</th>';
   });
   html+='</tr></thead><tbody>';
-
-  var prev=null;
-  arr.forEach(function(z){
-    var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var res=results[id],myTip=myTips[id];
-    var canSee=!!myTip;
-
-    if(ostSort!=='dt'&&sk!==prev){
-      html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
-      prev=sk;
-    }
-
-    html+='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fl(d)+' '+d+' &ndash; '+fl(h)+' '+h;
-    if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
-    html+='</td>';
-    others.forEach(function(p){
-      var tips=allTips[p.id]||{},tip=tips[id]||'';
-      if(!canSee){
-        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
-      } else {
-        var pts=(res&&tip)?calcPts(tip,res):null;
-        var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
-        var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?'700':'400')+'">'+(tip||'&mdash;')+'</td>';
-      }
+  if(ostSort==='dt'){
+    var gbd=groupByDate(arr);
+    gbd.keys.forEach(function(k){
+      var matches=gbd.groups[k];
+      html+='<tr><td colspan="'+(others.length+1)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">&#128197; '+dLabel(matches[0])+'</td></tr>';
+      matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
-    html+='</tr>';
-  });
+  } else {
+    var prev=null;
+    arr.forEach(function(z){
+      var sk=z[1];
+      if(sk!==prev){
+        html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
+        prev=sk;
+      }
+      html+=renderOstRow(z,others);
+    });
+  }
   html+='</tbody></table></div>';
   el.innerHTML=html;
 }
 
-// ── ZEBRICEK ──────────────────────────────────────────────
+function renderOstRow(z,others){
+  var id=z[0],d=z[2],h=z[3];
+  var res=results[id],myTip=myTips[id],canSee=!!myTip;
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fT(d)+' &ndash; '+fT(h);
+  if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
+  html+='</td>';
+  others.forEach(function(p){
+    var tips=allTips[p.id]||{},tip=tips[id]||'';
+    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    else{
+      var pts=(res&&tip)?calcPts(tip,res):null;
+      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip||'&mdash;')+'</td>';
+    }
+  });
+  return html+'</tr>';
+}
+
+
 function renderZeb(){
   var arr=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
   var scored=players.map(function(p,i){
@@ -1078,15 +1102,18 @@ function sortGrp(obj){
 }
 function renderTab(){
   var tbls=calcTables();
-  if(tabPhase==='3m'){render3mista(tbls);return;}
+  if(tabPhase==='3m'){render3m(tbls);return;}
+  var grpLbl=LANG==='en'?'GROUP ':'SKUPINA ';
   var html='<div class="stg">';
   SKU.forEach(function(sk){
     var teams=sortGrp(tbls[sk]);
-    html+='<div class="stc"><div class="stc-h">'+(LANG==='en'?'GROUP ':'SKUPINA ')+sk+'</div><table>';
-    html+='<thead><tr><th>#</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th title="'+(LANG==='en'?'Played':'Zapasy')+'">Z</th><th title="'+(LANG==='en'?'Won':'Vyhry')+'">V</th><th title="'+(LANG==='en'?'Drawn':'Remizy')+'">R</th><th title="'+(LANG==='en'?'Lost':'Prohry')+'">P</th><th title="'+(LANG==='en'?'Goals':'Skore')+'">G</th><th title="'+(LANG==='en'?'Points':'Body')+'">B</th></tr></thead><tbody>';
+    html+='<div class="stc"><div class="stc-h">'+grpLbl+sk+'</div><table>';
+    var wLbl=LANG==='en'?'W':'V', dLbl=LANG==='en'?'D':'R', lLbl=LANG==='en'?'L':'P';
+    var gLbl=LANG==='en'?'Goals':'Skore', bLbl=LANG==='en'?'Pts':'Body', tLbl=LANG==='en'?'Team':'Tym';
+    html+='<thead><tr><th>#</th><th>'+tLbl+'</th><th>Z</th><th>'+wLbl+'</th><th>'+dLbl+'</th><th>'+lLbl+'</th><th>'+gLbl+'</th><th>'+bLbl+'</th></tr></thead><tbody>';
     teams.forEach(function(tm,i){
       var pc=i===0?'p1':i===1?'p2':i===2?'p3':'';
-      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tm.name+'</td>';
+      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td>';
       html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
       html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
     });
@@ -1095,20 +1122,15 @@ function renderTab(){
   html+='</div>';
   document.getElementById('tab-list').innerHTML=html;
 }
-function render3mista(tbls){
+function render3m(tbls){
   var thirds=[];
-  SKU.forEach(function(sk){
-    var t=sortGrp(tbls[sk]);
-    if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});
-  });
-  thirds.sort(function(a,b){
-    if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-    var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
-    if(gb!==ga) return gb-ga;
-    return b.d.gf-a.d.gf;
-  });
-  var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+(LANG==='en'?'3RD PLACE TABLE — top 8 advance to R16':'TABULKA 3. MIST — top 8 postupuje do 16F')+'</div><table>';
-  html+='<thead><tr><th>#</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th>'+(LANG==='en'?'Gr.':'Sk.')+'</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>G</th><th>B</th></tr></thead><tbody>';
+  SKU.forEach(function(sk){var t=sortGrp(tbls[sk]);if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
+  thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;});
+  var h3lbl=LANG==='en'?'3RD PLACE TABLE — top 8 advance to R16':'TABULKA 3. MIST — top 8 postupuje do 16F';
+  var wL=LANG==='en'?'W':'V',dL=LANG==='en'?'D':'R',lL=LANG==='en'?'L':'P';
+  var grpL=LANG==='en'?'Gr.':'Sk.', tL=LANG==='en'?'Team':'Tym', pL=LANG==='en'?'Pts':'Body';
+  var html='<div class="stc" style="max-width:600px"><div class="stc-h">'+h3lbl+'</div><table>';
+  html+='<thead><tr><th>#</th><th>'+tL+'</th><th>'+grpL+'</th><th>Z</th><th>'+wL+'</th><th>'+dL+'</th><th>'+lL+'</th><th>Goals</th><th>'+pL+'</th></tr></thead><tbody>';
   thirds.forEach(function(tm,i){
     html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td>';
     html+='<td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td style="color:var(--mu)">'+tm.sk+'</td>';
@@ -1118,32 +1140,74 @@ function render3mista(tbls){
   html+='</tbody></table></div>';
   document.getElementById('tab-list').innerHTML=html;
 }
-
-// ── PAVOUK ────────────────────────────────────────────────
+function renderStadiony(){
+  var coLabel={'USA':'USA','Kanada':LANG==='en'?'Canada':'Kanada','Mexiko':LANG==='en'?'Mexico':'Mexiko'};
+  var coBg={'USA':'#3b82f6','Kanada':'#ef4444','Mexiko':'#22c55e'};
+  var html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px">';
+  STAD.forEach(function(row){
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
+    var gmaps='https://maps.google.com/?q='+lat+','+lon;
+    var coLbl=coLabel[co]||co;
+    html+='<div style="background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden">';
+    html+='<div style="height:140px;background:var(--bg4);overflow:hidden;position:relative">';
+    html+='<img src="'+img+'" alt="'+n+'" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">';
+    html+='<div style="position:absolute;top:7px;right:7px;background:'+coBg[co]+';color:#07101c;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:20px">'+coLbl+'</div>';
+    html+='</div>';
+    html+='<div style="padding:9px 11px">';
+    html+='<div style="font-weight:700;font-size:.84rem;margin-bottom:4px"><a href="'+wiki+'" target="_blank" style="color:var(--tx)">'+n+'</a></div>';
+    html+='<div style="font-size:.73rem;color:var(--mu);display:flex;gap:9px;flex-wrap:wrap">';
+    html+='<a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">&#128205; '+c+'</a>';
+    html+='<span>&#128101; '+cap+'</span>';
+    html+='</div>';
+    html+='<div style="font-size:.7rem;color:var(--mu2);margin-top:4px">'+f+'</div>';
+    html+='</div></div>';
+  });
+  html+='</div>';
+  document.getElementById('stad-list').innerHTML=html;
+}
+function renderTymy(){
+  if(tymPhase==='rk'){renderFifaRanking();return;}
+  var grpLbl=LANG==='en'?'Group ':'Skupina ';
+  var html='';
+  Object.keys(TEAMS).sort().forEach(function(sk){
+    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+grpLbl+sk+'</div>';
+    html+='<div class="tm-grid">';
+    TEAMS[sk].forEach(function(tm){
+      var name=tm[0],rk=FIFA[name];
+      html+='<div class="tc"><div class="tf">'+fl(name)+'</div>';
+      html+='<div><div class="tn">'+tN(name)+'</div>';
+      html+='<div style="font-size:.67rem;color:var(--ac2);margin-top:1px">'+grpLbl+sk+'</div>';
+      if(rk) html+='<div style="font-size:.67rem;color:var(--gd);margin-top:1px">FIFA #'+rk+'</div>';
+      html+='<div style="font-size:.67rem;color:var(--mu);margin-top:1px">'+(LANG==='en'?'Roster: coming soon':'Soupisky: brzy')+'</div>';
+      html+='</div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('tym-list').innerHTML=html;
+}
 function renderPavouk(){
-  var r16=LANG==='en'?'R16 (28.6–3.7)':'16F (28.6–3.7)';
-  var r8=LANG==='en'?'R8 (4–7.7)':'Osmifinale (4–7.7)';
-  var qf=LANG==='en'?'QF (9–12.7)':'Ctvrfinale (9–12.7)';
-  var sf=LANG==='en'?'SF (14–15.7)':'Semifinale (14–15.7)';
-  var fin=LANG==='en'?'Final (19.7)':'Finale (19.7)';
+  var rlbls=LANG==='en'?
+    ['R16 (28 Jun–3 Jul)','R8 (4–7 Jul)','QF (9–12 Jul)','SF (14–15 Jul)','3rd Place (18 Jul)','Final (19 Jul)']:
+    ['16F (28.6–3.7)','Osmifinale (4–7.7)','Ctvrfinale (9–12.7)','Semifinale (14–15.7)','O 3. misto (18.7)','Finale (19.7)'];
   var rounds=[
-    {lbl:r16,matches:PZ.slice(0,16)},
-    {lbl:r8,matches:PZ.slice(16,24)},
-    {lbl:qf,matches:PZ.slice(24,28)},
-    {lbl:sf,matches:PZ.slice(28,30)},
-    {lbl:fin,matches:[PZ[31]]}
+    {lbl:rlbls[0],matches:PZ.slice(0,16)},
+    {lbl:rlbls[1],matches:PZ.slice(16,24)},
+    {lbl:rlbls[2],matches:PZ.slice(24,28)},
+    {lbl:rlbls[3],matches:PZ.slice(28,30)},
+    {lbl:rlbls[4],matches:[PZ[30]]},
+    {lbl:rlbls[5],matches:[PZ[31]]}
   ];
   var html='<div style="display:flex;gap:8px">';
   rounds.forEach(function(round){
-    html+='<div style="flex:1;min-width:140px">';
+    html+='<div style="flex:1;min-width:130px">';
     html+='<div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+round.lbl+'</div>';
     round.matches.forEach(function(z){
       if(!z) return;
       var id=z[0],d=z[2],h=z[3],res=results[id];
       var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
       html+='<div class="bm">';
-      html+='<div class="bm-t"><span class="bm-n">'+fl(d)+' '+d+'</span><span class="bm-s">'+hg+'</span></div>';
-      html+='<div class="bm-t"><span class="bm-n">'+fl(h)+' '+h+'</span><span class="bm-s">'+ag+'</span></div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fT(d)+'</span><span class="bm-s">'+hg+'</span></div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fT(h)+'</span><span class="bm-s">'+ag+'</span></div>';
       html+='<div class="bm-d">'+dStr(z)+'</div>';
       html+='</div>';
     });
@@ -1153,262 +1217,3 @@ function renderPavouk(){
   document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
 }
 
-// ── STADIONY ──────────────────────────────────────────────
-function renderStadiony(){
-  var html='<table class="tbl"><thead><tr><th>Foto</th><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze</th></tr></thead><tbody>';
-  STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
-    var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
-    var gmaps='https://maps.google.com/?q='+lat+','+lon;
-    html+='<tr>';
-    html+='<td><img src="'+img+'" class="stad-img" alt="'+n+'" loading="lazy"></td>';
-    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:underline;text-underline-offset:2px">'+n+'</a></td>';
-    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">'+c+' 📍</a></td>';
-    html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
-    html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
-    html+='<td style="font-size:.73rem;color:var(--mu)">'+f+'</td>';
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  document.getElementById('stad-list').innerHTML=html;
-}
-
-// ── TYMY ──────────────────────────────────────────────────
-function renderTymy(){
-  if(tymPhase==='rk'){renderFifaRanking();return;}
-  var html='';
-  Object.keys(TEAMS).sort().forEach(function(sk){
-    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">Skupina '+sk+'</div>';
-    html+='<div class="tm-grid">';
-    TEAMS[sk].forEach(function(tm){
-      var name=tm[0],rk=FIFA[name];
-      html+='<div class="tc" onclick="showTab(\'tymy\')">';
-      html+='<div class="tf">'+fl(name)+'</div>';
-      html+='<div><div class="tn">'+name+'</div>';
-      if(rk) html+='<div class="trk">FIFA #'+rk+'</div>';
-      html+='<div class="tsk">'+(LANG==='en'?'Roster: coming soon':'Soupisky: brzy')+'</div></div></div>';
-    });
-    html+='</div></div>';
-  });
-  document.getElementById('tym-list').innerHTML=html;
-}
-function renderFifaRanking(){
-  var all=[],seen={};
-  Object.keys(TEAMS).forEach(function(sk){
-    TEAMS[sk].forEach(function(tm){
-      var name=tm[0];
-      if(!seen[name]){seen[name]=true;all.push({name:name,sk:sk,rk:FIFA[name]||999});}
-    });
-  });
-  all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl"><thead><tr><th style="width:42px">Rank</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th>'+(LANG==='en'?'Group':'Skupina')+'</th></tr></thead><tbody>';
-  all.forEach(function(tm){
-    var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
-    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
-    html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
-    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">Sk.'+tm.sk+'</span></td>';
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  document.getElementById('tym-list').innerHTML=html;
-}
-
-// ── ADMIN ─────────────────────────────────────────────────
-function renderAdmin(){
-  if(!me||!me.je_admin) return;
-  var el=document.getElementById('adm-list');
-  var all=SZ.concat(PZ);
-  if(!players.length){el.innerHTML='<div class="empty">Zatim zadni hraci</div>';return;}
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem">';
-  html+='<thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">Zapas</th>';
-  players.forEach(function(p,i){
-    html+='<th class="adh" data-hid="'+p.id+'" data-jmeno="'+p.jmeno+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="Klikni pro smazani">'+p.jmeno+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
-  });
-  html+='</tr></thead><tbody>';
-  all.forEach(function(z){
-    var id=z[0],d=z[2],h=z[3],res=results[id];
-    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+d+' \u2013 '+h+(res?' <span style="color:var(--gn2);font-weight:700">('+res+')</span>':'')+'</td>';
-    players.forEach(function(p){
-      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
-      var tip=tips[id]||'',pts=(res&&tip)?calcPts(tip,res):null;
-      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
-      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer" title="Klikni pro upravu">'+(tip||'&mdash;')+'</td>';
-    });
-    html+='</tr>';
-  });
-  html+='</tbody></table></div>';
-  el.innerHTML=html;
-  el.querySelectorAll('.adh').forEach(function(th){
-    th.addEventListener('click',function(){
-      if(!confirm('Smazat hrace "'+th.dataset.jmeno+'"? Smaze se i vsechny jeho tipy.')) return;
-      rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
-        .then(function(d){
-          if(d&&d.chyba){alert('Chyba: '+d.chyba);return;}
-          loadPlayers().then(function(){renderAdmin();});
-        }).catch(function(e){alert('Chyba: '+e.message);});
-    });
-  });
-  el.querySelectorAll('.atc').forEach(function(td){
-    td.addEventListener('click',function(){
-      var nt=prompt('Novy tip pro zapas #'+td.dataset.zid+' (format: 2:1):',td.dataset.tip||'');
-      if(nt===null) return;
-      nt=nt.trim();
-      if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Neplatny format. Pouzij 2:1');return;}
-      sbf('tipy?hrac_id=eq.'+td.dataset.hid+'&zapas_id=eq.'+td.dataset.zid,'PATCH',{tip:nt},'return=minimal')
-        .then(function(){loadAllTips().then(renderAdmin);})
-        .catch(function(){
-          sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid),tip:nt}],'resolution=merge-duplicates,return=minimal')
-            .then(function(){loadAllTips().then(renderAdmin);})
-            .catch(function(e){alert('Chyba: '+e.message);});
-        });
-    });
-  });
-}
-
-// ── ESPN ──────────────────────────────────────────────────
-function fetchResults(){
-  setSt('st-vys','Stahuji z ESPN...');
-  document.getElementById('btn-refresh').disabled=true;
-  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
-    .then(function(r){return r.json();})
-    .then(function(json){
-      var found={};
-      (json.events||[]).forEach(function(ev){
-        (ev.competitions||[]).forEach(function(comp){
-          var st=comp.status;
-          if(!st||!st.type||!st.type.completed) return;
-          var home=null,away=null;
-          (comp.competitors||[]).forEach(function(c){
-            if(c.homeAway==='home') home=c;
-            if(c.homeAway==='away') away=c;
-          });
-          if(!home||!away) return;
-          var score=home.score+':'+away.score;
-          var hn=((home.team&&home.team.displayName)||'').toLowerCase();
-          var an=((away.team&&away.team.displayName)||'').toLowerCase();
-          SZ.concat(PZ).forEach(function(z){
-            var dk=z[2].toLowerCase().split(' ')[0],hk=z[3].toLowerCase().split(' ')[0];
-            if((hn.indexOf(dk)>=0||dk.indexOf(hn)>=0)&&(an.indexOf(hk)>=0||hk.indexOf(an)>=0)) found[z[0]]=score;
-          });
-        });
-      });
-      var cnt=Object.keys(found).length;
-      if(cnt>0){
-        var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id),skore:found[id]};});
-        sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
-          Object.keys(found).forEach(function(id){results[parseInt(id)]=found[id];});
-          updProgress();renderVys();renderTipy();renderStadiony();
-          setSt('st-vys','Aktualizovano '+cnt+' vysledku',false,true);
-          document.getElementById('btn-refresh').disabled=false;
-        });
-      } else {
-        setSt('st-vys','Zadne nove vysledky (turnaj zacina 11.6.2026)',false,true);
-        document.getElementById('btn-refresh').disabled=false;
-      }
-    })
-    .catch(function(e){setSt('st-vys','Chyba ESPN: '+e.message,true);document.getElementById('btn-refresh').disabled=false;});
-}
-
-// ── EXPORT ────────────────────────────────────────────────
-function exportCSV(){
-  if(!me) return;
-  var header=['#','Skupina','Domaci','Hoste','Datum','Vysledek'];
-  var data=[];
-  if(me.je_admin){
-    header=header.concat(players.map(function(p){return p.jmeno;}));
-    SZ.concat(PZ).forEach(function(z){
-      var row=[z[0],z[1],z[2],z[3],dStr(z),results[z[0]]||''];
-      players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{});row.push(tips[z[0]]||'');});
-      data.push(row);
-    });
-  } else {
-    header=header.concat(['Muj tip','Body']);
-    SZ.concat(PZ).forEach(function(z){
-      var res=results[z[0]]||'',tip=myTips[z[0]]||'';
-      var pts=(res&&tip)?calcPts(tip,res):'';
-      data.push([z[0],z[1],z[2],z[3],dStr(z),res,tip,pts!==''?pts+'b':'']);
-    });
-  }
-  var csv=[header].concat(data).map(function(row){
-    return row.map(function(c){return '"'+String(c===null||c===undefined?'':c).replace(/"/g,'""')+'"';}).join(',');
-  }).join('\r\n');
-  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-}
-
-// ── CLOCK ─────────────────────────────────────────────────
-function updClock(){
-  var now=new Date();
-  var daysCS=['Ne','Po','Ut','St','Ct','Pa','So'];
-  var daysEN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var days=LANG==='en'?daysEN:daysCS;
-  var el=document.getElementById('clk');
-  if(el) el.textContent=days[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-}
-
-// ── INIT ──────────────────────────────────────────────────
-function init(){
-  // Login tabs
-  document.getElementById('ltl').addEventListener('click',function(){swLoginTab('l');});
-  document.getElementById('ltr').addEventListener('click',function(){swLoginTab('r');});
-  document.getElementById('blo').addEventListener('click',doLogin);
-  document.getElementById('brg').addEventListener('click',doReg);
-  document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
-  document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
-  // App buttons
-  document.getElementById('btn-logout').addEventListener('click',doLogout);
-  document.getElementById('btn-refresh').addEventListener('click',fetchResults);
-  document.getElementById('btn-sav').addEventListener('click',saveTips);
-  document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
-  // Lang
-  document.getElementById('langbtn').addEventListener('click',function(){
-    LANG=LANG==='cs'?'en':'cs';
-    applyI18n();
-    // Re-render current tab content
-    var active=null;
-    TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
-    if(active) showTab(active);
-  });
-  // Nav tabs
-  TABS.forEach(function(t){
-    var b=document.getElementById('tab-'+t);
-    if(b) b.addEventListener('click',function(){showTab(t);});
-  });
-  // Phase tabs
-  var ptCfg=[
-    ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
-    ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
-    ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
-    ['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],
-    ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
-    ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
-  ];
-  ptCfg.forEach(function(pt){
-    var b=document.getElementById(pt[0]);
-    if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
-  });
-  // Clock
-  updClock();setInterval(updClock,1000);
-  // Restore session
-  try{
-    var saved=localStorage.getItem('ms26s');
-    if(saved){
-      var s=JSON.parse(saved);
-      myPin=s.pin;
-      rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
-        if(!d.chyba) finishLogin(d);
-        else document.getElementById('lo').style.display='flex';
-      }).catch(function(){document.getElementById('lo').style.display='flex';});
-      return;
-    }
-  }catch(e){}
-  document.getElementById('lo').style.display='flex';
-}
-init();
-</script>
-</body>
-</html>
