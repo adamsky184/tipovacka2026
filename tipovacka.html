@@ -4,69 +4,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tipovacka MS 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--fh:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif}
+:root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
 .w{max-width:960px;margin:0 auto;padding:.75rem}
-/* HEADER */
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1.2rem;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
 .hdr-in{display:flex;align-items:flex-start;justify-content:space-between;gap:.85rem;flex-wrap:wrap}
-.hdr-t{font-family:var(--fh);font-size:1.3rem;font-weight:700;color:#fff}
+.hdr-t{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:#fff}
 .hdr-t span{color:var(--mu2);font-weight:500;font-size:.8rem}
 .hdr-s{font-size:.73rem;color:var(--mu);margin-top:2px}
-.hdr-prog{margin-top:7px}
-.prog-t{font-size:.7rem;color:var(--mu2);margin-bottom:3px}
-.prog-b{height:3px;background:var(--bd);border-radius:2px;max-width:240px;overflow:hidden}
+.prog-t{font-size:.7rem;color:var(--mu2);margin-top:5px;margin-bottom:3px}
+.prog-b{height:3px;background:var(--bd);border-radius:2px;max-width:260px;overflow:hidden}
 .prog-f{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));border-radius:2px;transition:width .6s}
 .hdr-r{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:2px}
-.clk{font-family:var(--fh);font-size:.75rem;color:var(--mu2);text-align:right;line-height:1.5;white-space:nowrap}
+.clk{font-family:'Space Grotesk',sans-serif;font-size:.75rem;color:var(--mu2);text-align:right;line-height:1.5;white-space:nowrap}
 .pill{font-size:.78rem;font-weight:600;background:var(--bg4);border:1px solid var(--bd2);border-radius:20px;padding:3px 11px}
 .abadge{font-size:.68rem;font-weight:700;background:var(--gd);color:#0a0a0a;padding:3px 9px;border-radius:20px;display:none;letter-spacing:.03em}
 .lang-btn{font-size:.71rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s}
 .lang-btn:hover{border-color:var(--ac);color:var(--ac2)}
-/* BUTTONS */
-.btn{padding:6px 14px;border-radius:9px;border:none;cursor:pointer;font-size:.79rem;font-weight:600;font-family:var(--fb);transition:.15s;white-space:nowrap}
+.btn{padding:6px 14px;border-radius:9px;border:none;cursor:pointer;font-size:.79rem;font-weight:600;font-family:'Inter',sans-serif;transition:.15s;white-space:nowrap}
 .btn:active{transform:scale(.97)}
 .btn-bl{background:var(--ac);color:#fff}.btn-bl:hover{background:#2563eb}
 .btn-gn{background:var(--gn);color:#fff}.btn-gn:hover{background:#16a34a}
 .btn-ol{background:transparent;border:1px solid var(--bd2);color:var(--mu2)}.btn-ol:hover{border-color:var(--ac);color:var(--ac2)}
 .btn-sm{padding:4px 10px;font-size:.75rem}
 .btn:disabled{opacity:.45;cursor:default}
-/* NAV */
 .nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:var(--fh)}
-.nb:hover{color:var(--tx)}
-.nb.on{background:var(--ac);color:#fff}
-/* CARD */
+.nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:'Space Grotesk',sans-serif}
+.nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:#fff}
 .card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1rem;margin-bottom:.75rem}
-.clbl{font-family:var(--fh);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
-/* PHASE TABS */
+.clbl{font-family:'Space Grotesk',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
 .ptabs{display:flex;gap:4px;margin-bottom:.75rem;flex-wrap:wrap}
 .ptab{padding:5px 12px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.15s}
 .ptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-/* GROUP HEADER */
-.gh{font-family:var(--fh);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:5px 0 3px;border-bottom:1px solid var(--bd);margin-bottom:3px;margin-top:12px}
+.ptab:hover:not(.on){border-color:var(--ac2);color:var(--ac2)}
+.gh{font-family:'Space Grotesk',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:6px 0 3px;border-bottom:1px solid var(--bd);margin-bottom:4px;margin-top:14px}
 .gh:first-child{margin-top:0}
-/* MATCH ROW */
+/* Date separator for "by date" view */
+.date-sep{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin:12px 0 5px;display:flex;align-items:center;gap:6px}
+.date-sep:first-child{margin-top:0}
 .mr{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,48,80,.5)}
 .mr:last-child{border-bottom:none}
 .mt{font-size:.85rem;font-weight:600}
 .mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.venue{font-size:.67rem;color:var(--bd2);font-weight:500}
 .mr-r{display:flex;align-items:center;gap:4px}
 .mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
-.ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:var(--fh);transition:.15s}
+.ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s}
 .ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
 .ti:disabled{opacity:.28;cursor:default;background:var(--bg)}
 .ti.sv{border-color:var(--gn);background:rgba(34,197,94,.05)}
 .ti.bd{border-color:var(--rd)}
-/* BADGES */
 .rt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:600}
 .rt-d{background:rgba(34,197,94,.12);color:var(--gn2);border:1px solid rgba(34,197,94,.2)}
 .rt-t{background:var(--bg4);color:var(--mu)}
@@ -75,40 +67,33 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 .p2{background:rgba(59,130,246,.15);color:var(--ac2)}
 .p0{background:rgba(239,68,68,.15);color:#f87171}
 .cd{font-size:.67rem;color:var(--ac2);font-weight:500}
-/* LEADERBOARD */
 .lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:.15s}
 .lbr.me{border-color:var(--gn);background:rgba(34,197,94,.04)}
 .lbr.g1{border-color:var(--gd)}
-.lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.8rem;flex-shrink:0}
+.lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8rem;flex-shrink:0}
 .ln{font-size:.9rem;font-weight:600}
 .ls{font-size:.69rem;color:var(--mu);display:flex;gap:7px;margin-top:2px;flex-wrap:wrap}
-.lp{font-family:var(--fh);font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
-/* RESULT ROW */
-.rr{display:grid;grid-template-columns:1fr 70px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.5)}
+.lp{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
+.rr{display:grid;grid-template-columns:1fr 68px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.4)}
 .rr:last-child{border-bottom:none}
 .rh{text-align:right;font-size:.84rem;font-weight:600}
-.rs{text-align:center;font-family:var(--fh);font-size:.95rem;font-weight:700}
+.rs{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700}
 .rs.dn{color:var(--gn2)}.rs.tb{color:var(--mu);font-size:.74rem;font-weight:400}
 .ra{font-size:.84rem;font-weight:600}
-/* TABLES */
 .tbl{width:100%;border-collapse:collapse;font-size:.79rem}
 .tbl th{text-align:left;padding:6px 8px;color:var(--mu);font-size:.67rem;font-weight:600;border-bottom:1px solid var(--bd);letter-spacing:.05em;text-transform:uppercase}
 .tbl td{padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.4)}
 .tbl tr:last-child td{border-bottom:none}
 .cu{color:#60a5fa}.cc{color:#f87171}.cm{color:var(--gn2)}
-/* STATUS */
 .sb{font-size:.76rem;color:var(--mu);min-height:18px;padding:2px 0}
 .sb.ok{color:var(--gn2)}.sb.err{color:#f87171}
-/* SPINNER */
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
-/* INFO BOX */
 .ibox{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:9px;padding:.7rem .95rem;margin-bottom:.75rem;font-size:.79rem;color:#93c5fd;line-height:1.55}
-/* GROUP TABLES */
 .stg{display:grid;gap:7px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:.75rem}
 .stc{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
-.stc-h{font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu2);padding:6px 10px;border-bottom:1px solid var(--bd);background:var(--bg3)}
+.stc-h{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu2);padding:6px 10px;border-bottom:1px solid var(--bd);background:var(--bg3)}
 .stc table{width:100%;border-collapse:collapse;font-size:.78rem}
 .stc th{text-align:center;padding:4px 4px;color:var(--mu);font-size:.63rem;font-weight:600;border-bottom:1px solid var(--bd)}
 .stc th:first-child{text-align:left;padding-left:9px;width:26px}
@@ -123,50 +108,55 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 .stc tr.p2 td:first-child{color:var(--ac2);font-weight:700}
 .stc tr.p3{background:rgba(168,85,247,.08);border-left:3px solid rgba(168,85,247,.4)}
 .stc tr.p3 td:first-child{color:var(--pu);font-weight:600}
-/* TEAMS */
-.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:5px}
-.tc{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px;transition:.15s;cursor:pointer}
+.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:5px}
+.tc{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px;transition:.15s}
 .tc:hover{border-color:var(--bd2)}
 .tf{font-size:1.4rem;flex-shrink:0;line-height:1}
 .tn{font-size:.83rem;font-weight:600}
 .trk{font-size:.67rem;color:var(--gd);margin-top:1px}
 .tsk{font-size:.67rem;color:var(--mu);margin-top:1px}
-/* PAVOUK */
-.bm{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:6px 9px;margin-bottom:6px}
+.tgrp{font-size:.67rem;color:var(--ac2);margin-top:1px;font-weight:600}
+.bm{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:6px 9px;margin-bottom:5px}
 .bm-t{display:flex;justify-content:space-between;padding:3px 0;font-size:.77rem}
 .bm-t:first-child{border-bottom:1px solid var(--bd)}
-.bm-n{font-weight:500}
-.bm-s{font-weight:700;font-family:var(--fh);color:var(--gd)}
+.bm-n{font-weight:500;font-size:.76rem}
+.bm-s{font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--gd)}
 .bm-d{font-size:.63rem;color:var(--mu);text-align:center;margin-top:3px}
-/* STADIONY */
-.stad-img{width:60px;height:40px;object-fit:cover;border-radius:5px;opacity:.85;vertical-align:middle}
-/* LOGIN */
 .lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
 .lo-card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;width:100%;max-width:370px;position:relative;overflow:hidden}
 .lo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu))}
-.lo-title{font-family:var(--fh);font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:2px}
+.lo-title{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:2px}
 .lo-sub{font-size:.74rem;color:var(--mu);margin-bottom:1.3rem}
 .lo-tabs{display:flex;gap:3px;background:var(--bg);border-radius:9px;padding:3px;margin-bottom:1.1rem}
-.lo-tab{flex:1;padding:6px;border-radius:7px;border:none;cursor:pointer;font-size:.82rem;font-weight:600;font-family:var(--fb);transition:.15s}
+.lo-tab{flex:1;padding:6px;border-radius:7px;border:none;cursor:pointer;font-size:.82rem;font-weight:600;font-family:'Inter',sans-serif;transition:.15s}
 .lo-tab.on{background:var(--ac);color:#fff}
 .lo-tab:not(.on){background:none;color:var(--mu)}
 .lo-lbl{font-size:.7rem;color:var(--mu2);font-weight:600;margin-bottom:4px;letter-spacing:.04em}
-.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.89rem;font-family:var(--fb);margin-bottom:.8rem;transition:.15s}
+.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.89rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;transition:.15s}
 .lo-inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.12)}
 .lo-inp::placeholder{color:var(--mu)}
-.lo-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:var(--fb)}
+.lo-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
 .lo-btn.l{background:var(--ac);color:#fff}.lo-btn.l:hover{background:#2563eb}
 .lo-btn.r{background:var(--gn);color:#fff}.lo-btn.r:hover{background:#16a34a}
 .lo-err{font-size:.77rem;color:#f87171;margin-top:6px;min-height:17px}
-/* RESPONSIVE */
+.stad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.stad-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
+.stad-img-wrap{height:145px;background:var(--bg4);position:relative;overflow:hidden}
+.stad-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.stad-img-placeholder{display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem}
+.stad-co-badge{position:absolute;top:7px;right:7px;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:20px;color:#07101c}
+.stad-body{padding:9px 11px}
+.stad-name{font-weight:700;font-size:.84rem;margin-bottom:3px}
+.stad-meta{font-size:.72rem;color:var(--mu);display:flex;gap:8px;flex-wrap:wrap}
+.stad-phase{font-size:.7rem;color:var(--mu2);margin-top:4px}
 @media(max-width:600px){
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
   .hdr-t{font-size:1.1rem}
-  .nav{gap:1px}
-  .nb{padding:5px 9px;font-size:.72rem}
+  .nav{gap:1px}.nb{padding:5px 9px;font-size:.72rem}
   .stg{grid-template-columns:1fr}
   .tm-grid{grid-template-columns:1fr 1fr}
+  .stad-grid{grid-template-columns:1fr}
   .w{padding:.5rem}
   .lbr{gap:8px;padding:8px 10px}
   .lp{font-size:1.1rem}
@@ -174,294 +164,156 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
 <div class="lo-wrap" id="lo">
   <div class="lo-card">
-    <div class="lo-title">⚽ MS 2026</div>
-    <div class="lo-sub">Tipovacka &bull; USA &bull; Kanada &bull; Mexiko &bull; 11.6.&ndash;19.7.2026</div>
+    <div class="lo-title" id="lo-title">⚽ MS 2026</div>
+    <div class="lo-sub" id="lo-sub">USA · Kanada · Mexiko · 11.6.–19.7.2026</div>
     <div class="lo-tabs">
-      <button class="lo-tab on" id="ltl">Prihlasit se</button>
+      <button class="lo-tab on" id="ltl">Přihlásit se</button>
       <button class="lo-tab" id="ltr">Registrovat se</button>
     </div>
     <div id="lf">
-      <div class="lo-lbl">JMENO</div>
-      <input class="lo-inp" id="lj" type="text" placeholder="Tvoje jmeno..." autocomplete="username">
-      <div class="lo-lbl">PIN</div>
-      <input class="lo-inp" id="lp" type="password" placeholder="Tvuj PIN..." autocomplete="current-password">
-      <button class="lo-btn l" id="blo">Prihlasit se</button>
+      <div class="lo-lbl" id="lbl-name1">JMÉNO</div>
+      <input class="lo-inp" id="lj" type="text" placeholder="Tvoje jméno..." autocomplete="username">
+      <div class="lo-lbl" id="lbl-pin1">PIN</div>
+      <input class="lo-inp" id="lp" type="password" placeholder="Tvůj PIN..." autocomplete="current-password">
+      <button class="lo-btn l" id="blo">Přihlásit se</button>
       <div class="lo-err" id="le"></div>
     </div>
     <div id="rf" style="display:none">
-      <div class="lo-lbl">JMENO</div>
-      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jmeno...">
-      <div class="lo-lbl">PIN (min. 4 znaky)</div>
+      <div class="lo-lbl" id="lbl-name2">JMÉNO</div>
+      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jméno...">
+      <div class="lo-lbl" id="lbl-pin2">PIN (min. 4 znaky)</div>
       <input class="lo-inp" id="rp" type="password" placeholder="Zvol si PIN...">
-      <div class="lo-lbl">POTVRD PIN</div>
+      <div class="lo-lbl" id="lbl-pin3">POTVRD PIN</div>
       <input class="lo-inp" id="rp2" type="password" placeholder="Znovu PIN...">
       <button class="lo-btn r" id="brg">Registrovat se</button>
       <div class="lo-err" id="re"></div>
     </div>
   </div>
 </div>
-
-<!-- APP -->
 <div id="app" style="display:none">
 <div class="w">
-
 <div class="hdr">
   <div class="hdr-in">
     <div>
-      <div class="hdr-t">TIPOVACKA MS 2026 <span id="by-adam">by Adam</span></div>
-      <div class="hdr-s" id="hdr-sub">USA &bull; Kanada &bull; Mexiko &mdash; 48 tymu &bull; 104 zapasu &bull; 11.6.&ndash;19.7.2026</div>
-      <div class="hdr-prog">
-        <div class="prog-t" id="ptxt"></div>
-        <div class="prog-b"><div class="prog-f" id="pfil" style="width:0%"></div></div>
-      </div>
+      <div class="hdr-t">TIPOVAČKA MS 2026 <span id="by-lbl">by Adam</span></div>
+      <div class="hdr-s" id="hdr-sub">USA · Kanada · Mexiko — 48 týmů · 104 zápasů · 11.6.–19.7.2026</div>
+      <div class="prog-t" id="ptxt"></div>
+      <div class="prog-b"><div class="prog-f" id="pfil" style="width:0%"></div></div>
     </div>
     <div class="hdr-r">
       <div class="clk" id="clk"></div>
       <button class="lang-btn" id="langbtn">EN</button>
       <div class="pill" id="pp" style="display:none"></div>
       <span class="abadge" id="ab">ADMIN</span>
-      <button class="btn btn-ol btn-sm" id="btn-logout">Odhlasit</button>
-      <button class="btn btn-bl btn-sm" id="btn-refresh">&#8635; Vysledky</button>
+      <button class="btn btn-ol btn-sm" id="btn-logout">Odhlásit</button>
+      <button class="btn btn-bl btn-sm" id="btn-refresh">↺ Výsledky</button>
     </div>
   </div>
 </div>
-
-<nav class="nav">
+<nav class="nav" id="mainnav">
   <button class="nb on" id="tab-tipy">Moje tipy</button>
-  <button class="nb" id="tab-ostatni">Tipy ostatnich</button>
-  <button class="nb" id="tab-zebricek">Zebricek</button>
-  <button class="nb" id="tab-vysledky">Vysledky</button>
+  <button class="nb" id="tab-ostatni">Tipy ostatních</button>
+  <button class="nb" id="tab-zebricek">Žebříček</button>
+  <button class="nb" id="tab-vysledky">Výsledky</button>
   <button class="nb" id="tab-tabulka">Tabulka</button>
   <button class="nb" id="tab-pavouk">Play-off</button>
   <button class="nb" id="tab-stadiony">Stadiony</button>
-  <button class="nb" id="tab-tymy">Tymy</button>
+  <button class="nb" id="tab-tymy">Týmy</button>
   <button class="nb" id="tab-admin" style="display:none">Admin</button>
 </nav>
-
-<!-- TIPY -->
 <div id="page-tipy">
-  <div class="ibox" id="ibox-tipy">Tipy lze zadat jen pred zahajenim zapasu. Po ulozeni jsou trvale zamceny — nelze je menit. Admin muze tipy upravovat.</div>
+  <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny — ani vy je nemůžete měnit. Admin může tipy upravovat.</div>
   <div class="ptabs">
     <button class="ptab on" id="ptab-tipy-sk">Dle skupin</button>
     <button class="ptab" id="ptab-tipy-dt">Dle data</button>
     <button class="ptab" id="ptab-tipy-po">Play-off</button>
   </div>
   <div class="card">
-    <div id="tipy-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
+    <div id="tipy-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;flex-wrap:wrap;gap:6px">
       <div class="sb" id="st-tipy"></div>
       <div style="display:flex;gap:5px">
-        <button class="btn btn-ol btn-sm" id="btn-exp">&#8595; Export CSV</button>
-        <button class="btn btn-gn btn-sm" id="btn-sav">Ulozit tipy</button>
+        <button class="btn btn-ol btn-sm" id="btn-exp">↓ Export CSV</button>
+        <button class="btn btn-gn btn-sm" id="btn-sav">Uložit tipy</button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- TIPY OSTATNICH -->
 <div id="page-ostatni" style="display:none">
-  <div class="ibox" id="ibox-ost">Tipy ostatnich jsou viditelne jen pro zapasy kde mas svuj tip ulozeny. Pro ostatni zapasy se zobrazuje "?".</div>
+  <div class="ibox" id="ibox-ost">Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".</div>
   <div class="ptabs">
-    <button class="ptab on" id="ptab-ost-sk">Skupinova faze</button>
+    <button class="ptab on" id="ptab-ost-sk">Skupinová fáze</button>
     <button class="ptab" id="ptab-ost-dt">Dle data</button>
     <button class="ptab" id="ptab-ost-po">Play-off</button>
   </div>
-  <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div>
+  <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
 </div>
-
-<!-- ZEBRICEK -->
 <div id="page-zebricek" style="display:none">
   <div class="ptabs">
-    <button class="ptab on" id="ptab-zeb-cel">Celkovy</button>
+    <button class="ptab on" id="ptab-zeb-cel">Celkový</button>
     <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
     <button class="ptab" id="ptab-zeb-po">Play-off</button>
   </div>
-  <div id="zeb-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
+  <div id="zeb-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
 </div>
-
-<!-- VYSLEDKY -->
 <div id="page-vysledky" style="display:none">
   <div class="ptabs">
-    <button class="ptab on" id="ptab-vys-sk">Skupinova faze</button>
+    <button class="ptab on" id="ptab-vys-sk">Skupinová fáze</button>
     <button class="ptab" id="ptab-vys-dt">Dle data</button>
     <button class="ptab" id="ptab-vys-po">Play-off</button>
   </div>
   <div class="card">
-    <div id="vys-list"><div class="empty" id="vys-empty">Klikni &#8635; Vysledky nahore</div></div>
+    <div id="vys-list"><div class="empty" id="vys-empty">Klikni ↺ Výsledky nahoře</div></div>
     <div class="sb" id="st-vys"></div>
   </div>
 </div>
-
-<!-- TABULKA -->
 <div id="page-tabulka" style="display:none">
   <div class="ptabs">
-    <button class="ptab on" id="ptab-tab-sk">Skupinova faze</button>
-    <button class="ptab" id="ptab-tab-3m">Tabulka 3. mist</button>
+    <button class="ptab on" id="ptab-tab-sk">Skupinová fáze</button>
+    <button class="ptab" id="ptab-tab-3m">Tabulka 3. míst</button>
   </div>
-  <div id="tab-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
-  <div style="font-size:.7rem;color:var(--mu);margin-top:.5rem;display:flex;gap:14px;flex-wrap:wrap" id="tab-legend">
-    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);margin-right:5px;vertical-align:middle"></span>1. misto — postupuje primo</span>
-    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);margin-right:5px;vertical-align:middle"></span>2. misto — postupuje primo</span>
-    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);margin-right:5px;vertical-align:middle"></span>3. misto — potencialne postupuje</span>
-  </div>
+  <div id="tab-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
+  <div id="tab-legend" style="font-size:.7rem;color:var(--mu);margin-top:.5rem;display:flex;gap:14px;flex-wrap:wrap"></div>
 </div>
-
-<!-- PAVOUK -->
 <div id="page-pavouk" style="display:none">
-  <div class="ibox" id="ibox-pav">Pavouk play-off se automaticky doplni vysledky skupinove faze (po 28.6.2026). Nyni zobrazuje strukturu.</div>
-  <div class="card"><div style="overflow-x:auto"><div id="pav-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div></div>
+  <div class="ibox" id="ibox-pav">Pavouk play-off se automaticky doplní po skupinové fázi (28.6.2026).</div>
+  <div class="card"><div style="overflow-x:auto"><div id="pav-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div></div>
 </div>
-
-<!-- STADIONY -->
 <div id="page-stadiony" style="display:none">
   <div class="card">
     <div class="clbl" id="clbl-stad">Stadiony MS 2026</div>
-    <div style="position:relative;background:#0c1928;border-radius:12px;border:1px solid #1c3050;overflow:hidden;margin-bottom:1rem">
-<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-  <defs>
-    <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>
-
-  <!-- Ocean background -->
-  <rect width="800" height="500" fill="#07101c"/>
-
-  <!-- Mexico shape -->
-  <path d="M 120,295 L 145,290 L 170,285 L 195,280 L 215,275 L 230,278 L 245,285 L 255,298 L 260,312 L 258,328 L 250,342 L 238,355 L 222,368 L 205,378 L 188,385 L 172,390 L 158,392 L 145,388 L 132,380 L 120,370 L 110,355 L 105,338 L 106,320 L 112,305 Z"
-        fill="#0d1e12" stroke="#22c55e" stroke-width="1"/>
-
-  <!-- Canada shape -->
-  <path d="M 55,25 L 120,20 L 200,18 L 290,15 L 380,16 L 460,20 L 540,25 L 610,35 L 670,50 L 720,70 L 755,95 L 770,120 L 760,145 L 740,160 L 710,170 L 670,175 L 620,175 L 570,173 L 520,170 L 475,168 L 430,167 L 385,167 L 340,168 L 295,170 L 255,173 L 215,178 L 180,185 L 150,192 L 120,198 L 95,205 L 72,215 L 55,225 L 45,210 L 38,190 L 35,165 L 36,140 L 40,110 L 46,80 L 52,55 Z"
-        fill="#1a0d0d" stroke="#ef4444" stroke-width="1"/>
-
-  <!-- USA shape -->
-  <path d="M 95,205 L 120,198 L 150,192 L 180,185 L 215,178 L 255,173 L 295,170 L 340,168 L 385,167 L 430,167 L 475,168 L 520,170 L 570,173 L 620,175 L 670,175 L 710,170 L 740,160 L 755,178 L 760,200 L 755,222 L 742,242 L 722,258 L 698,270 L 670,278 L 638,283 L 602,285 L 565,284 L 528,282 L 492,280 L 458,278 L 425,277 L 392,277 L 358,278 L 322,280 L 285,283 L 248,287 L 215,292 L 195,288 L 185,280 L 175,268 L 162,256 L 148,245 L 132,235 L 115,225 L 100,216 Z"
-        fill="#0d1525" stroke="#3b82f6" stroke-width="1"/>
-
-  <!-- US-Canada border line -->
-  <path d="M 95,205 L 150,192 L 215,178 L 295,170 L 385,167 L 475,168 L 570,173 L 670,175 L 740,160"
-        stroke="#254266" stroke-width="0.8" fill="none" stroke-dasharray="4,3"/>
-
-  <!-- US-Mexico border line -->
-  <path d="M 120,295 L 145,290 L 170,285 L 195,288 L 215,292"
-        stroke="#254266" stroke-width="0.8" fill="none" stroke-dasharray="4,3"/>
-
-  <!-- Country labels -->
-  <text x="460" y="100" text-anchor="middle" font-size="13" fill="#ef4444" font-family="Space Grotesk,sans-serif" font-weight="600" opacity="0.7">KANADA</text>
-  <text x="430" y="230" text-anchor="middle" font-size="13" fill="#3b82f6" font-family="Space Grotesk,sans-serif" font-weight="600" opacity="0.7">USA</text>
-  <text x="182" y="340" text-anchor="middle" font-size="11" fill="#22c55e" font-family="Space Grotesk,sans-serif" font-weight="600" opacity="0.7">MEXIKO</text>
-
-  <!-- Atlantic/Pacific labels -->
-  <text x="740" y="350" text-anchor="middle" font-size="10" fill="#1c3050" font-family="Inter,sans-serif">Atlantský</text>
-  <text x="740" y="363" text-anchor="middle" font-size="10" fill="#1c3050" font-family="Inter,sans-serif">oceán</text>
-  <text x="35" y="350" text-anchor="middle" font-size="10" fill="#1c3050" font-family="Inter,sans-serif">Tichý</text>
-  <text x="35" y="363" text-anchor="middle" font-size="10" fill="#1c3050" font-family="Inter,sans-serif">oceán</text>
-  <text x="400" y="465" text-anchor="middle" font-size="10" fill="#1c3050" font-family="Inter,sans-serif">Mexický záliv</text>
-
-  <!-- Stadium dots with labels -->
-  <!-- Vancouver BC Place: lon=-123.1, lat=49.3 → x≈81, y≈168 -->
-  <circle cx="81" cy="168" r="7" fill="#ef4444" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="81" y="157" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Vancouver</text>
-
-  <!-- Seattle lon=-122.3, lat=47.6 → x≈94, y≈185 -->
-  <circle cx="94" cy="185" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="94" y="174" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Seattle</text>
-
-  <!-- San Francisco lon=-122.0, lat=37.4 → x≈98, y≈232 -->
-  <circle cx="98" cy="232" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="75" y="238" text-anchor="start" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">S.Francisco</text>
-
-  <!-- Los Angeles lon=-118.3, lat=33.95 → x≈120, y≈252 -->
-  <circle cx="120" cy="252" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="100" y="265" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Los Angeles</text>
-
-  <!-- Guadalajara lon=-103.5, lat=20.7 → x≈187, y≈320 -->
-  <circle cx="187" cy="320" r="7" fill="#22c55e" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="168" y="333" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Guadalajara</text>
-
-  <!-- Mexico City lon=-99.15, lat=19.3 → x≈210, y≈330 -->
-  <circle cx="210" cy="330" r="7" fill="#22c55e" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="232" y="337" text-anchor="start" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Mex. City</text>
-
-  <!-- Monterrey lon=-100.24, lat=25.67 → x≈202, y≈293 -->
-  <circle cx="202" cy="293" r="7" fill="#22c55e" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="220" y="292" text-anchor="start" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Monterrey</text>
-
-  <!-- Houston lon=-95.41, lat=29.68 → x≈246, y≈273 -->
-  <circle cx="246" cy="273" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="246" y="262" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Houston</text>
-
-  <!-- Dallas lon=-97.09, lat=32.75 → x≈232, y≈256 -->
-  <circle cx="235" cy="257" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="216" y="254" text-anchor="end" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Dallas</text>
-
-  <!-- Kansas City lon=-94.48, lat=39.05 → x≈251, y≈228 -->
-  <circle cx="253" cy="230" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="253" y="219" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Kansas City</text>
-
-  <!-- Atlanta lon=-84.4, lat=33.75 → x≈332" y≈251 -->
-  <circle cx="332" cy="252" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="332" y="241" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Atlanta</text>
-
-  <!-- Philadelphia lon=-75.17, lat=39.9 → x≈415, y≈224 -->
-  <circle cx="415" cy="224" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="415" y="213" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Philadelphia</text>
-
-  <!-- New York lon=-74.07, lat=40.81 → x≈423, y≈216 -->
-  <circle cx="430" cy="217" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="452" y="222" text-anchor="start" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">New York</text>
-
-  <!-- Boston lon=-71.26, lat=42.09 → x≈440, y≈209 -->
-  <circle cx="443" cy="209" r="7" fill="#3b82f6" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="443" y="198" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Boston</text>
-
-  <!-- Toronto lon=-79.42, lat=43.63 → x≈380, y≈200 -->
-  <circle cx="382" cy="200" r="7" fill="#ef4444" stroke="#07101c" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="382" y="189" text-anchor="middle" font-size="8.5" fill="#e8f0f8" font-family="Inter,sans-serif">Toronto</text>
-
-  <!-- Legend -->
-  <rect x="10" y="440" width="260" height="48" rx="6" fill="#0c1928" stroke="#1c3050"/>
-  <circle cx="28" cy="453" r="6" fill="#3b82f6" stroke="#07101c" stroke-width="1"/>
-  <text x="40" y="457" font-size="10" fill="#e8f0f8" font-family="Inter,sans-serif">USA (11 stadionu)</text>
-  <circle cx="28" cy="472" r="6" fill="#ef4444" stroke="#07101c" stroke-width="1"/>
-  <text x="40" y="476" font-size="10" fill="#e8f0f8" font-family="Inter,sans-serif">Kanada (2)</text>
-  <circle cx="140" cy="453" r="6" fill="#22c55e" stroke="#07101c" stroke-width="1"/>
-  <text x="152" y="457" font-size="10" fill="#e8f0f8" font-family="Inter,sans-serif">Mexiko (3)</text>
-</svg>
-</div>
-    <div style="font-size:.73rem;color:var(--mu);margin-bottom:.75rem">📍 Klikni na <strong>město</strong> v tabulce pro otevření Google Maps</div>
-    <div style="overflow-x:auto"><div id="stad-list"></div></div>
+    <div style="margin-bottom:1.1rem">
+      <img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffad238a1-d3bd-4a50-8178-df4e93c0cbea_1378x832.jpeg"
+           alt="Mapa stadionů MS 2026"
+           style="width:100%;border-radius:10px;border:1px solid var(--bd);display:block"
+           onerror="this.style.display='none';document.getElementById('map-fallback').style.display='block'">
+      <div id="map-fallback" style="display:none;background:var(--bg3);border-radius:10px;border:1px solid var(--bd);padding:2rem;text-align:center;color:var(--mu)">🗺️ Mapa není dostupná</div>
+    </div>
+    <div id="stad-grid"></div>
   </div>
 </div>
-
-<!-- TYMY -->
 <div id="page-tymy" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-tym-sk">Dle skupin</button>
     <button class="ptab" id="ptab-tym-rk">FIFA Ranking</button>
   </div>
   <div class="card">
-    <div class="clbl" id="clbl-tymy">Kvalifikovane tymy MS 2026</div>
-    <div class="ibox" id="ibox-tymy">Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).</div>
+    <div class="clbl" id="clbl-tymy">Kvalifikované týmy MS 2026</div>
+    <div class="ibox" id="ibox-tymy">Soupisky budou doplněny po uzavření nominací (konec května 2026).</div>
     <div id="tym-list"></div>
   </div>
 </div>
-
-<!-- ADMIN -->
 <div id="page-admin" style="display:none">
   <div class="card">
-    <div class="clbl">Admin — prehled vsech tipu</div>
-    <div class="ibox">Klikni na <strong>jmeno hrace</strong> v hlavicce pro smazani. Klikni na <strong>tip</strong> pro upravu.</div>
-    <div style="overflow-x:auto"><div id="adm-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div>
+    <div class="clbl">Admin — přehled všech tipů</div>
+    <div class="ibox">Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.</div>
+    <div style="overflow-x:auto"><div id="adm-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
   </div>
 </div>
-
 </div>
 </div>
-
 <script>
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
@@ -469,98 +321,84 @@ var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
 var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','admin'];
 
-// ── I18N ──────────────────────────────────────────────────
+// ── I18N ─────────────────────────────────────────────────
 var LANG='cs';
-var TX={
+var T={
   cs:{
-    'nav_tipy':'Moje tipy','nav_ostatni':'Tipy ostatnich','nav_zebricek':'Zebricek',
-    'nav_vysledky':'Vysledky','nav_tabulka':'Tabulka','nav_pavouk':'Play-off',
-    'nav_stadiony':'Stadiony','nav_tymy':'Tymy','nav_admin':'Admin',
-    'sk':'Skupinova faze','dt':'Dle data','po':'Play-off','cel':'Celkovy','3m':'Tabulka 3. mist',
-    'tym_sk':'Dle skupin','tym_rk':'FIFA Ranking','zeb_sk':'Skupiny','zeb_po':'Play-off',
-    'logout':'Odhlasit','refresh':'Vysledky','exp':'Export CSV','sav':'Ulozit tipy',
-    'ibox_tipy':'Tipy lze zadat jen pred zahajenim zapasu. Po ulozeni jsou trvale zamceny.',
-    'ibox_ost':'Tipy ostatnich jsou viditelne jen pro zapasy kde mas svuj tip ulozen.',
-    'ibox_pav':'Pavouk play-off se automaticky doplni po skupinove fazi (28.6.2026).',
-    'ibox_tymy':'Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).',
-    'clbl_stad':'Stadiony MS 2026','clbl_tymy':'Kvalifikovane tymy MS 2026',
-    'my_tip':'MUJ TIP','vys_empty':'Klikni Vysledky nahore',
-    'leg1':'1. misto — postupuje primo','leg2':'2. misto — postupuje primo','leg3':'3. misto — potencialne postupuje',
-    'hdr_sub':'USA \u2022 Kanada \u2022 Mexiko \u2014 48 tymu \u2022 104 zapasu \u2022 11.6.\u201319.7.2026',
-    'by':'by Adam','prihl':'Prihlasit se','reg':'Registrovat se'
+    login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'↺ Výsledky',
+    exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',
+    pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',
+    tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
+    tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
+    tab_stadiony:'Stadiony',tab_tymy:'Týmy',
+    by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',overall:'Celkový',
+    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Dle skupin',ranking:'FIFA Ranking',
+    ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
+    ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen.',
+    ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
+    ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
+    clbl_stad:'Stadiony MS 2026',clbl_tymy:'Kvalifikované týmy MS 2026',
+    hdr_sub:'USA · Kanada · Mexiko — 48 týmů · 104 zápasů · 11.6.–19.7.2026',
+    vys_empty:'Klikni ↺ Výsledky nahoře',my_tip:'MŮJ TIP',
+    leg1:'1. místo — postupuje přímo',leg2:'2. místo — postupuje přímo',leg3:'3. místo — potenciálně postupuje',
+    group:'Skupina',played:'Odehráno',
+    exact:'přesně',correct:'správně',wrong:'špatně',saved_tips:'uložených',rated:'hodnoceno',
+    teams_tbd:'Týmy nejsou známy',roster:'Soupisky: brzy',you:'(ty)',
+    r16:'16F (28.6–3.7)',r8:'Osmifinále (4–7.7)',qf:'Čtvrtfinále (9–12.7)',sf:'Semifinále (14–15.7)',fin:'Finále (19.7)',o3:'O 3. místo (18.7)',
+    live:'probíhá',ended:'skončilo',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',
+    team:'Tým',points:'Body',goals:'Skóre',won:'V',drawn:'R',lost:'P',
+    capacity:'Kapacita',phase:'Fáze',country:'Země',city:'Město',
+    days:['Ne','Po','Út','St','Čt','Pá','So'],
+    months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],
+    in_days:'za',in_h:'h',in_min:'min',in_d:'d'
   },
   en:{
-    'nav_tipy':'My Tips','nav_ostatni':"Others' Tips",'nav_zebricek':'Leaderboard',
-    'nav_vysledky':'Results','nav_tabulka':'Table','nav_pavouk':'Playoff',
-    'nav_stadiony':'Stadiums','nav_tymy':'Teams','nav_admin':'Admin',
-    'sk':'Group Stage','dt':'By Date','po':'Playoff','cel':'Overall','3m':'3rd Place Table',
-    'tym_sk':'By Group','tym_rk':'FIFA Ranking','zeb_sk':'Groups','zeb_po':'Playoff',
-    'zeb_cel':'Overall',
-    'logout':'Log Out','refresh':'Results','exp':'Export CSV','sav':'Save Tips',
-    'ibox_tipy':'Tips can only be entered before kickoff. Once saved they are permanently locked.',
-    'ibox_ost':"Others' tips are visible only for matches where you have a saved tip.",
-    'ibox_pav':'Playoff bracket auto-fills after group stage (28.6.2026).',
-    'ibox_tymy':'Rosters will be added after nominations close (end of May 2026).',
-    'clbl_stad':'World Cup 2026 Stadiums','clbl_tymy':'Qualified Teams WC 2026',
-    'my_tip':'MY TIP','vys_empty':'Click Refresh above',
-    'leg1':'1st place — qualify directly','leg2':'2nd place — qualify directly',
-    'leg3':'3rd place — potentially qualify',
-    'tab_3m':'3rd Place Table','tab_sk':'Group Stage',
-    'hdr_sub':'USA \u2022 Canada \u2022 Mexico \u2014 48 teams \u2022 104 matches \u2022 11.6.\u201319.7.2026',
-    'by':'by Adam','prihl':'Log In','reg':'Register'
+    login:'Log In',register:'Register',logout:'Log Out',refresh:'↺ Results',
+    exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
+    pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun – 19 Jul 2026',
+    tab_tipy:'My Tips',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',
+    tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
+    tab_stadiony:'Stadiums',tab_tymy:'Teams',
+    by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
+    groups:'Groups',third:'3rd Place Table',by_group:'By Group',ranking:'FIFA Ranking',
+    ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',
+    ibox_ost:"Others' tips are visible only for matches where you have a saved tip.",
+    ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
+    ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
+    clbl_stad:'World Cup 2026 Stadiums',clbl_tymy:'Qualified Teams WC 2026',
+    hdr_sub:'USA · Canada · Mexico — 48 teams · 104 matches · 11 Jun – 19 Jul 2026',
+    vys_empty:'Click ↺ Results above',my_tip:'MY TIP',
+    leg1:'1st place — qualify directly',leg2:'2nd place — qualify directly',leg3:'3rd place — potentially qualify',
+    group:'Group',played:'Played',
+    exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',
+    teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',
+    r16:'R16 (28 Jun–3 Jul)',r8:'R8 (4–7 Jul)',qf:'QF (9–12 Jul)',sf:'SF (14–15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
+    live:'live',ended:'ended',no_matches:'No matches',no_others:'No other players yet',
+    team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',
+    capacity:'Capacity',phase:'Phase',country:'Country',city:'City',
+    days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    in_days:'in',in_h:'h',in_min:'min',in_d:'d'
   }
 };
-function tr(k){return (TX[LANG]&&TX[LANG][k])||k;}
+function tr(k){return T[LANG][k]||T['cs'][k]||k;}
 
-function applyI18n(){
-  // nav
-  TABS.forEach(function(t){
-    var b=document.getElementById('tab-'+t);
-    if(b) b.textContent=tr('nav_'+t);
-  });
-  // phase tabs
-  var ptMap={
-    'ptab-tipy-sk':'sk','ptab-tipy-dt':'dt','ptab-tipy-po':'po',
-    'ptab-ost-sk':'sk','ptab-ost-dt':'dt','ptab-ost-po':'po',
-    'ptab-zeb-cel':'cel','ptab-zeb-sk':'zeb_sk','ptab-zeb-po':'zeb_po',
-    'ptab-vys-sk':'sk','ptab-vys-dt':'dt','ptab-vys-po':'po',
-    'ptab-tab-sk':'sk','ptab-tab-3m':'3m',
-    'ptab-tym-sk':'tym_sk','ptab-tym-rk':'tym_rk'
-  };
-  Object.keys(ptMap).forEach(function(id){
-    var b=document.getElementById(id);
-    if(b) b.textContent=tr(ptMap[id]);
-  });
-  // buttons
-  var btnMap={'btn-logout':'logout','btn-refresh':'refresh','btn-exp':'exp','btn-sav':'sav','blo':'prihl','brg':'reg'};
-  Object.keys(btnMap).forEach(function(id){
-    var b=document.getElementById(id);
-    if(b) b.textContent=b.id==='btn-refresh'?'↺ '+tr('refresh'):tr(btnMap[id]);
-  });
-  // misc
-  setText('ibox-tipy',tr('ibox_tipy'));
-  setText('ibox-ost',tr('ibox_ost'));
-  setText('ibox-pav',tr('ibox_pav'));
-  setText('ibox-tymy',tr('ibox_tymy'));
-  setText('clbl-stad',tr('clbl_stad'));
-  setText('clbl-tymy',tr('clbl_tymy'));
-  setText('vys-empty',tr('vys_empty'));
-  setText('by-adam',tr('by'));
-  setText('hdr-sub',tr('hdr_sub'));
-  // Fix progress text with correct lang
-  updProgress();
-  // legend
-  var l1=document.getElementById('tab-legend');
-  if(l1) l1.innerHTML=
-    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);margin-right:5px;vertical-align:middle"></span>'+tr('leg1')+'</span> '+
-    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);margin-right:5px;vertical-align:middle"></span>'+tr('leg2')+'</span> '+
-    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);margin-right:5px;vertical-align:middle"></span>'+(TX[LANG].leg3||'3. misto - potencialne postupuje')+'</span>';
-  // lang button
-  var lb=document.getElementById('langbtn');
-  if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
-}
-
-function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
+// ── TEAM NAMES EN ─────────────────────────────────────────
+var TMEN={
+  'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
+  'Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.',
+  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia',
+  'Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador',
+  'Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia',
+  'Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand',
+  'Spanelsko':'Spain','Kapverdy':'Cape Verde','Saudska Arabie':'Saudi Arabia','Uruguay':'Uruguay',
+  'Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway',
+  'Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan',
+  'Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana',
+  'Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
+  'Paraguay':'Paraguay','Curacao':'Curacao'
+};
+function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
 
 // ── FLAGS ─────────────────────────────────────────────────
 var FLAGS={
@@ -578,36 +416,19 @@ var FLAGS={
   'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦'
 };
 function fl(n){return FLAGS[n]||'';}
-// English team names
-var NAMES_EN={
-  'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
-  'Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.',
-  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia',
-  'Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador',
-  'Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia',
-  'Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand',
-  'Spanelsko':'Spain','Kapverdy':'Cape Verde','Saudska Arabie':'Saudi Arabia','Uruguay':'Uruguay',
-  'Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway',
-  'Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan',
-  'Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana',
-  'Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
-  'Paraguay':'Paraguay','Curacao':'Curacao'
-};
-function tN(n){return LANG==='en'&&NAMES_EN[n]?NAMES_EN[n]:n;}
 function fT(n){var f=fl(n);return f?f+' '+tN(n):tN(n);}
 
-// ── FIFA RANKING (1 April 2026) ───────────────────────────
+// ── FIFA RANKING (April 2026) ─────────────────────────────
 var FIFA={
-  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,
-  'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,
-  'Chorvatsko':11,'Svycarsko':16,'Japonsko':13,'Senegal':14,'USA':15,
-  'Uruguay':17,'Mexiko':18,'Turecko':19,'Kanada':20,'Iran':21,
-  'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,'Svedsko':28,
-  'Alzirsko':34,'Cesko':37,'Pobrezi slonoviny':40,'Tunisko':43,
-  'Saudska Arabie':56,'Paraguay':60,'Kapverdy':71,'Panama':72,
-  'DR Kongo':59,'Ghana':54,'Jihoafricka rep.':66,'Bosna a Hercegovina':49,
-  'Novy Zeland':96,'Egypt':29,'Irak':64,'Rakousko':32,'Skotsko':33,
-  'Uzbekistan':77,'Jordansko':80,'Curacao':85,'Haiti':83,'Katar':93
+  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,'Brazilie':6,
+  'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,'Chorvatsko':11,'Japonsko':13,
+  'Senegal':14,'USA':15,'Svycarsko':16,'Uruguay':17,'Mexiko':18,'Turecko':19,
+  'Kanada':20,'Iran':21,'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,
+  'Svedsko':28,'Egypt':29,'Rakousko':32,'Skotsko':33,'Alzirsko':34,'Cesko':37,
+  'Pobrezi slonoviny':40,'Tunisko':43,'Bosna a Hercegovina':49,'DR Kongo':59,
+  'Ghana':54,'Saudska Arabie':56,'Paraguay':60,'Jihoafricka rep.':66,
+  'Kapverdy':71,'Panama':72,'Uzbekistan':77,'Jordansko':80,'Haiti':83,
+  'Curacao':85,'Katar':93,'Novy Zeland':96,'Irak':64
 };
 
 // ── TEAMS ─────────────────────────────────────────────────
@@ -626,163 +447,163 @@ var TEAMS={
   L:[['Anglie'],['Chorvatsko'],['Ghana'],['Panama']]
 };
 
-// ── MATCHES (year,month,day,hour,min) ────────────────────
+// ── MATCHES [id, group, home, away, year, month, day, hour, min, venue] ──
 var SZ=[
-  [1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City'],
-  [2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara'],
-  [3,'A','Mexiko','Jizni Korea',2026,6,17,3,0,'Mexico City'],
-  [4,'A','Cesko','Jihoafricka rep.',2026,6,18,18,0,'Atlanta'],
-  [5,'A','Cesko','Mexiko',2026,6,25,3,0,'Mexico City'],
-  [6,'A','Jihoafricka rep.','Jizni Korea',2026,6,25,3,0,'Guadalajara'],
-  [7,'B','Kanada','Bosna a Hercegovina',2026,6,12,21,0,'Toronto'],
-  [8,'B','Katar','Svycarsko',2026,6,13,21,0,'San Francisco'],
-  [9,'B','Kanada','Katar',2026,6,17,21,0,'Toronto'],
-  [10,'B','Bosna a Hercegovina','Svycarsko',2026,6,18,0,0,'Kansas City'],
-  [11,'B','Kanada','Svycarsko',2026,6,26,22,0,'Vancouver'],
-  [12,'B','Bosna a Hercegovina','Katar',2026,6,26,22,0,'Seattle'],
-  [13,'C','Brazilie','Maroko',2026,6,14,0,0,'New York'],
-  [14,'C','Haiti','Skotsko',2026,6,14,3,0,'Boston'],
-  [15,'C','Brazilie','Haiti',2026,6,18,21,0,'Dallas'],
-  [16,'C','Maroko','Skotsko',2026,6,19,0,0,'Los Angeles'],
-  [17,'C','Brazilie','Skotsko',2026,6,27,0,0,'Kansas City'],
-  [18,'C','Haiti','Maroko',2026,6,27,0,0,'Atlanta'],
-  [19,'D','USA','Paraguay',2026,6,13,3,0,'Los Angeles'],
-  [20,'D','Australie','Turecko',2026,6,14,6,0,'Vancouver'],
-  [21,'D','USA','Australie',2026,6,18,3,0,'Seattle'],
-  [22,'D','Paraguay','Turecko',2026,6,18,6,0,'Dallas'],
-  [23,'D','USA','Turecko',2026,6,27,22,0,'Seattle'],
-  [24,'D','Paraguay','Australie',2026,6,27,22,0,'Los Angeles'],
-  [25,'E','Nemecko','Curacao',2026,6,14,19,0,'Houston'],
-  [26,'E','Pobrezi slonoviny','Ekvador',2026,6,15,1,0,'Philadelphia'],
-  [27,'E','Nemecko','Ekvador',2026,6,19,22,0,'San Francisco'],
-  [28,'E','Pobrezi slonoviny','Curacao',2026,6,20,1,0,'Dallas'],
-  [29,'E','Nemecko','Pobrezi slonoviny',2026,6,28,22,0,'Philadelphia'],
-  [30,'E','Ekvador','Curacao',2026,6,28,22,0,'Houston'],
-  [31,'F','Nizozemsko','Japonsko',2026,6,14,22,0,'Dallas'],
-  [32,'F','Svedsko','Tunisko',2026,6,15,4,0,'Monterrey'],
-  [33,'F','Nizozemsko','Tunisko',2026,6,19,21,0,'Miami'],
-  [34,'F','Japonsko','Svedsko',2026,6,20,0,0,'Kansas City'],
-  [35,'F','Japonsko','Tunisko',2026,6,28,18,0,'Houston'],
-  [36,'F','Nizozemsko','Svedsko',2026,6,28,18,0,'Dallas'],
-  [37,'G','Belgie','Egypt',2026,6,15,21,0,'Seattle'],
-  [38,'G','Iran','Novy Zeland',2026,6,16,3,0,'Los Angeles'],
-  [39,'G','Belgie','Novy Zeland',2026,6,20,21,0,'Atlanta'],
-  [40,'G','Iran','Egypt',2026,6,21,0,0,'Miami'],
-  [41,'G','Belgie','Iran',2026,6,28,18,0,'Dallas'],
-  [42,'G','Egypt','Novy Zeland',2026,6,28,21,0,'Seattle'],
-  [43,'H','Spanelsko','Kapverdy',2026,6,15,18,0,'Atlanta'],
-  [44,'H','Saudska Arabie','Uruguay',2026,6,16,0,0,'Miami'],
-  [45,'H','Spanelsko','Saudska Arabie',2026,6,21,22,0,'Los Angeles'],
-  [46,'H','Kapverdy','Uruguay',2026,6,22,1,0,'Boston'],
-  [47,'H','Spanelsko','Uruguay',2026,6,28,19,0,'Kansas City'],
-  [48,'H','Kapverdy','Saudska Arabie',2026,6,28,19,0,'Miami'],
-  [49,'I','Francie','Senegal',2026,6,16,21,0,'New York'],
-  [50,'I','Irak','Norsko',2026,6,17,0,0,'Boston'],
-  [51,'I','Francie','Irak',2026,6,21,19,0,'New York'],
-  [52,'I','Norsko','Senegal',2026,6,21,22,0,'Dallas'],
-  [53,'I','Francie','Norsko',2026,6,28,21,0,'New York'],
-  [54,'I','Irak','Senegal',2026,6,28,21,0,'Boston'],
-  [55,'J','Argentina','Alzirsko',2026,6,17,3,0,'Kansas City'],
-  [56,'J','Rakousko','Jordansko',2026,6,17,6,0,'San Francisco'],
-  [57,'J','Argentina','Jordansko',2026,6,22,22,0,'Miami'],
-  [58,'J','Alzirsko','Rakousko',2026,6,22,19,0,'Atlanta'],
-  [59,'J','Argentina','Rakousko',2026,6,27,22,0,'Dallas'],
-  [60,'J','Alzirsko','Jordansko',2026,6,27,22,0,'San Francisco'],
-  [61,'K','Portugalsko','DR Kongo',2026,6,17,19,0,'Houston'],
-  [62,'K','Uzbekistan','Ghana',2026,6,17,22,0,'Los Angeles'],
-  [63,'K','Portugalsko','Ghana',2026,6,22,22,0,'Dallas'],
-  [64,'K','DR Kongo','Uzbekistan',2026,6,22,19,0,'Boston'],
-  [65,'K','Portugalsko','Uzbekistan',2026,6,27,19,0,'Kansas City'],
-  [66,'K','DR Kongo','Ghana',2026,6,27,19,0,'Houston'],
-  [67,'L','Anglie','Chorvatsko',2026,6,17,22,0,'Dallas'],
-  [68,'L','Ghana','Panama',2026,6,18,1,0,'Atlanta'],
-  [69,'L','Anglie','Ghana',2026,6,22,19,0,'Houston'],
-  [70,'L','Panama','Chorvatsko',2026,6,22,22,0,'Los Angeles'],
-  [71,'L','Anglie','Panama',2026,6,27,22,0,'Miami'],
-  [72,'L','Ghana','Chorvatsko',2026,6,27,19,0,'Dallas']
+  [1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City / Azteca'],
+  [2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara / Akron'],
+  [3,'A','Mexiko','Jizni Korea',2026,6,17,3,0,'Mexico City / Azteca'],
+  [4,'A','Cesko','Jihoafricka rep.',2026,6,18,18,0,'Atlanta / Mercedes-Benz'],
+  [5,'A','Cesko','Mexiko',2026,6,25,3,0,'Mexico City / Azteca'],
+  [6,'A','Jihoafricka rep.','Jizni Korea',2026,6,25,3,0,'Guadalajara / Akron'],
+  [7,'B','Kanada','Bosna a Hercegovina',2026,6,12,21,0,'Toronto / BMO Field'],
+  [8,'B','Katar','Svycarsko',2026,6,13,21,0,'San Francisco / Levi\'s'],
+  [9,'B','Kanada','Katar',2026,6,17,21,0,'Toronto / BMO Field'],
+  [10,'B','Bosna a Hercegovina','Svycarsko',2026,6,18,0,0,'Kansas City / Arrowhead'],
+  [11,'B','Kanada','Svycarsko',2026,6,26,22,0,'Vancouver / BC Place'],
+  [12,'B','Bosna a Hercegovina','Katar',2026,6,26,22,0,'Seattle / Lumen Field'],
+  [13,'C','Brazilie','Maroko',2026,6,14,0,0,'New York / MetLife'],
+  [14,'C','Haiti','Skotsko',2026,6,14,3,0,'Boston / Gillette'],
+  [15,'C','Brazilie','Haiti',2026,6,18,21,0,'Dallas / AT&T'],
+  [16,'C','Maroko','Skotsko',2026,6,19,0,0,'Los Angeles / SoFi'],
+  [17,'C','Brazilie','Skotsko',2026,6,27,0,0,'Kansas City / Arrowhead'],
+  [18,'C','Haiti','Maroko',2026,6,27,0,0,'Atlanta / Mercedes-Benz'],
+  [19,'D','USA','Paraguay',2026,6,13,3,0,'Los Angeles / SoFi'],
+  [20,'D','Australie','Turecko',2026,6,14,6,0,'Vancouver / BC Place'],
+  [21,'D','USA','Australie',2026,6,18,3,0,'Seattle / Lumen Field'],
+  [22,'D','Paraguay','Turecko',2026,6,18,6,0,'Dallas / AT&T'],
+  [23,'D','USA','Turecko',2026,6,27,22,0,'Seattle / Lumen Field'],
+  [24,'D','Paraguay','Australie',2026,6,27,22,0,'Los Angeles / SoFi'],
+  [25,'E','Nemecko','Curacao',2026,6,14,19,0,'Houston / NRG'],
+  [26,'E','Pobrezi slonoviny','Ekvador',2026,6,15,1,0,'Philadelphia / Lincoln Financial'],
+  [27,'E','Nemecko','Ekvador',2026,6,19,22,0,'San Francisco / Levi\'s'],
+  [28,'E','Pobrezi slonoviny','Curacao',2026,6,20,1,0,'Dallas / AT&T'],
+  [29,'E','Nemecko','Pobrezi slonoviny',2026,6,28,22,0,'Philadelphia / Lincoln Financial'],
+  [30,'E','Ekvador','Curacao',2026,6,28,22,0,'Houston / NRG'],
+  [31,'F','Nizozemsko','Japonsko',2026,6,14,22,0,'Dallas / AT&T'],
+  [32,'F','Svedsko','Tunisko',2026,6,15,4,0,'Monterrey / BBVA'],
+  [33,'F','Nizozemsko','Tunisko',2026,6,19,21,0,'Miami / Hard Rock'],
+  [34,'F','Japonsko','Svedsko',2026,6,20,0,0,'Kansas City / Arrowhead'],
+  [35,'F','Japonsko','Tunisko',2026,6,28,18,0,'Houston / NRG'],
+  [36,'F','Nizozemsko','Svedsko',2026,6,28,18,0,'Dallas / AT&T'],
+  [37,'G','Belgie','Egypt',2026,6,15,21,0,'Seattle / Lumen Field'],
+  [38,'G','Iran','Novy Zeland',2026,6,16,3,0,'Los Angeles / SoFi'],
+  [39,'G','Belgie','Novy Zeland',2026,6,20,21,0,'Atlanta / Mercedes-Benz'],
+  [40,'G','Iran','Egypt',2026,6,21,0,0,'Miami / Hard Rock'],
+  [41,'G','Belgie','Iran',2026,6,28,18,0,'Dallas / AT&T'],
+  [42,'G','Egypt','Novy Zeland',2026,6,28,21,0,'Seattle / Lumen Field'],
+  [43,'H','Spanelsko','Kapverdy',2026,6,15,18,0,'Atlanta / Mercedes-Benz'],
+  [44,'H','Saudska Arabie','Uruguay',2026,6,16,0,0,'Miami / Hard Rock'],
+  [45,'H','Spanelsko','Saudska Arabie',2026,6,21,22,0,'Los Angeles / SoFi'],
+  [46,'H','Kapverdy','Uruguay',2026,6,22,1,0,'Boston / Gillette'],
+  [47,'H','Spanelsko','Uruguay',2026,6,28,19,0,'Kansas City / Arrowhead'],
+  [48,'H','Kapverdy','Saudska Arabie',2026,6,28,19,0,'Miami / Hard Rock'],
+  [49,'I','Francie','Senegal',2026,6,16,21,0,'New York / MetLife'],
+  [50,'I','Irak','Norsko',2026,6,17,0,0,'Boston / Gillette'],
+  [51,'I','Francie','Irak',2026,6,21,19,0,'New York / MetLife'],
+  [52,'I','Norsko','Senegal',2026,6,21,22,0,'Dallas / AT&T'],
+  [53,'I','Francie','Norsko',2026,6,28,21,0,'New York / MetLife'],
+  [54,'I','Irak','Senegal',2026,6,28,21,0,'Boston / Gillette'],
+  [55,'J','Argentina','Alzirsko',2026,6,17,3,0,'Kansas City / Arrowhead'],
+  [56,'J','Rakousko','Jordansko',2026,6,17,6,0,'San Francisco / Levi\'s'],
+  [57,'J','Argentina','Jordansko',2026,6,22,22,0,'Miami / Hard Rock'],
+  [58,'J','Alzirsko','Rakousko',2026,6,22,19,0,'Atlanta / Mercedes-Benz'],
+  [59,'J','Argentina','Rakousko',2026,6,27,22,0,'Dallas / AT&T'],
+  [60,'J','Alzirsko','Jordansko',2026,6,27,22,0,'San Francisco / Levi\'s'],
+  [61,'K','Portugalsko','DR Kongo',2026,6,17,19,0,'Houston / NRG'],
+  [62,'K','Uzbekistan','Ghana',2026,6,17,22,0,'Los Angeles / SoFi'],
+  [63,'K','Portugalsko','Ghana',2026,6,22,22,0,'Dallas / AT&T'],
+  [64,'K','DR Kongo','Uzbekistan',2026,6,22,19,0,'Boston / Gillette'],
+  [65,'K','Portugalsko','Uzbekistan',2026,6,27,19,0,'Kansas City / Arrowhead'],
+  [66,'K','DR Kongo','Ghana',2026,6,27,19,0,'Houston / NRG'],
+  [67,'L','Anglie','Chorvatsko',2026,6,17,22,0,'Dallas / AT&T'],
+  [68,'L','Ghana','Panama',2026,6,18,1,0,'Atlanta / Mercedes-Benz'],
+  [69,'L','Anglie','Ghana',2026,6,22,19,0,'Houston / NRG'],
+  [70,'L','Panama','Chorvatsko',2026,6,22,22,0,'Los Angeles / SoFi'],
+  [71,'L','Anglie','Panama',2026,6,27,22,0,'Miami / Hard Rock'],
+  [72,'L','Ghana','Chorvatsko',2026,6,27,19,0,'Dallas / AT&T']
 ];
 var PZ=[
-  [73,'16F','2. sk.A','2. sk.B',2026,6,28,21,0,'Los Angeles'],
-  [74,'16F','1. sk.E','3. nejl.',2026,6,29,20,30,'Boston'],
-  [75,'16F','1. sk.F','2. sk.C',2026,6,29,1,0,'Monterrey'],
-  [76,'16F','1. sk.C','2. sk.F',2026,6,29,19,0,'Houston'],
-  [77,'16F','2. sk.E','2. sk.I',2026,6,30,19,0,'Dallas'],
-  [78,'16F','1. sk.I','3. nejl.',2026,6,30,23,0,'New York'],
-  [79,'16F','1. sk.A','3. nejl.',2026,6,30,3,0,'Mexico City'],
-  [80,'16F','1. sk.L','3. nejl.',2026,7,1,18,0,'Atlanta'],
-  [81,'16F','1. sk.D','3. nejl.',2026,7,1,0,0,'San Francisco'],
-  [82,'16F','1. sk.G','3. nejl.',2026,7,1,22,0,'Seattle'],
-  [83,'16F','1. sk.H','2. sk.J',2026,7,2,21,0,'Los Angeles'],
-  [84,'16F','2. sk.K','2. sk.L',2026,7,2,1,0,'Toronto'],
-  [85,'16F','1. sk.B','3. nejl.',2026,7,2,5,0,'Vancouver'],
-  [86,'16F','2. sk.D','2. sk.G',2026,7,3,20,0,'Dallas'],
-  [87,'16F','1. sk.J','2. sk.H',2026,7,3,0,0,'Miami'],
-  [88,'16F','1. sk.K','3. nejl.',2026,7,3,3,30,'Kansas City'],
-  [89,'OF','Vitez Z73','Vitez Z75',2026,7,4,19,0,'Houston'],
-  [90,'OF','Vitez Z74','Vitez Z77',2026,7,4,23,0,'Philadelphia'],
-  [91,'OF','Vitez Z76','Vitez Z79',2026,7,5,19,0,'Houston'],
-  [92,'OF','Vitez Z78','Vitez Z81',2026,7,5,23,0,'New York'],
-  [93,'OF','Vitez Z80','Vitez Z83',2026,7,6,19,0,'Atlanta'],
-  [94,'OF','Vitez Z82','Vitez Z85',2026,7,6,23,0,'Seattle'],
-  [95,'OF','Vitez Z84','Vitez Z87',2026,7,7,19,0,'Los Angeles'],
-  [96,'OF','Vitez Z86','Vitez Z88',2026,7,7,23,0,'Miami'],
-  [97,'CF','Vitez OF1','Vitez OF2',2026,7,9,23,0,'Dallas'],
-  [98,'CF','Vitez OF3','Vitez OF4',2026,7,10,23,0,'Los Angeles'],
-  [99,'CF','Vitez OF5','Vitez OF6',2026,7,11,23,0,'Houston'],
-  [100,'CF','Vitez OF7','Vitez OF8',2026,7,12,23,0,'New York'],
-  [101,'SF','Vitez CF1','Vitez CF2',2026,7,14,23,0,'Dallas'],
-  [102,'SF','Vitez CF3','Vitez CF4',2026,7,15,23,0,'New York'],
-  [103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami'],
-  [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York']
+  [73,'16F','2. sk.A','2. sk.B',2026,6,28,21,0,'Los Angeles / SoFi'],
+  [74,'16F','1. sk.E','3. nejl.',2026,6,29,20,30,'Boston / Gillette'],
+  [75,'16F','1. sk.F','2. sk.C',2026,6,29,1,0,'Monterrey / BBVA'],
+  [76,'16F','1. sk.C','2. sk.F',2026,6,29,19,0,'Houston / NRG'],
+  [77,'16F','2. sk.E','2. sk.I',2026,6,30,19,0,'Dallas / AT&T'],
+  [78,'16F','1. sk.I','3. nejl.',2026,6,30,23,0,'New York / MetLife'],
+  [79,'16F','1. sk.A','3. nejl.',2026,6,30,3,0,'Mexico City / Azteca'],
+  [80,'16F','1. sk.L','3. nejl.',2026,7,1,18,0,'Atlanta / Mercedes-Benz'],
+  [81,'16F','1. sk.D','3. nejl.',2026,7,1,0,0,'San Francisco / Levi\'s'],
+  [82,'16F','1. sk.G','3. nejl.',2026,7,1,22,0,'Seattle / Lumen Field'],
+  [83,'16F','1. sk.H','2. sk.J',2026,7,2,21,0,'Los Angeles / SoFi'],
+  [84,'16F','2. sk.K','2. sk.L',2026,7,2,1,0,'Toronto / BMO Field'],
+  [85,'16F','1. sk.B','3. nejl.',2026,7,2,5,0,'Vancouver / BC Place'],
+  [86,'16F','2. sk.D','2. sk.G',2026,7,3,20,0,'Dallas / AT&T'],
+  [87,'16F','1. sk.J','2. sk.H',2026,7,3,0,0,'Miami / Hard Rock'],
+  [88,'16F','1. sk.K','3. nejl.',2026,7,3,3,30,'Kansas City / Arrowhead'],
+  [89,'OF','Vitez Z73','Vitez Z75',2026,7,4,19,0,'Houston / NRG'],
+  [90,'OF','Vitez Z74','Vitez Z77',2026,7,4,23,0,'Philadelphia / Lincoln Financial'],
+  [91,'OF','Vitez Z76','Vitez Z79',2026,7,5,19,0,'Houston / NRG'],
+  [92,'OF','Vitez Z78','Vitez Z81',2026,7,5,23,0,'New York / MetLife'],
+  [93,'OF','Vitez Z80','Vitez Z83',2026,7,6,19,0,'Atlanta / Mercedes-Benz'],
+  [94,'OF','Vitez Z82','Vitez Z85',2026,7,6,23,0,'Seattle / Lumen Field'],
+  [95,'OF','Vitez Z84','Vitez Z87',2026,7,7,19,0,'Los Angeles / SoFi'],
+  [96,'OF','Vitez Z86','Vitez Z88',2026,7,7,23,0,'Miami / Hard Rock'],
+  [97,'CF','Vitez OF1','Vitez OF2',2026,7,9,23,0,'Dallas / AT&T'],
+  [98,'CF','Vitez OF3','Vitez OF4',2026,7,10,23,0,'Los Angeles / SoFi'],
+  [99,'CF','Vitez OF5','Vitez OF6',2026,7,11,23,0,'Houston / NRG'],
+  [100,'CF','Vitez OF7','Vitez OF8',2026,7,12,23,0,'New York / MetLife'],
+  [101,'SF','Vitez CF1','Vitez CF2',2026,7,14,23,0,'Dallas / AT&T'],
+  [102,'SF','Vitez CF3','Vitez CF4',2026,7,15,23,0,'New York / MetLife'],
+  [103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami / Hard Rock'],
+  [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York / MetLife']
 ];
 var STAD=[
   ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/280px-MetLife_Stadium_-_aerial_view.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/MetLife_Stadium_-_aerial_view.jpg&width=400',
    'https://en.wikipedia.org/wiki/MetLife_Stadium'],
   ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/AT%26T_Stadium_2016.jpg/280px-AT%26T_Stadium_2016.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/AT%26T_Stadium_2015.jpg&width=400',
    'https://en.wikipedia.org/wiki/AT%26T_Stadium'],
   ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/SoFi_Stadium_aerial_2021.jpg/280px-SoFi_Stadium_aerial_2021.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/SoFi_Stadium_2022.jpg&width=400',
    'https://en.wikipedia.org/wiki/SoFi_Stadium'],
   ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Hard_Rock_Stadium_2016_panorama.jpg/280px-Hard_Rock_Stadium_2016_panorama.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Hard_Rock_Stadium_2016_panorama.jpg&width=400',
    'https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
   ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Lumen_Field_Seattle_2021.jpg/280px-Lumen_Field_Seattle_2021.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Lumen_Field_2021.jpg&width=400',
    'https://en.wikipedia.org/wiki/Lumen_Field'],
   ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Levi%27s_Stadium_aerial.jpg/280px-Levi%27s_Stadium_aerial.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Levi%27s_Stadium_aerial.jpg&width=400',
    'https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
   ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Arrowhead_Stadium_2009.jpg/280px-Arrowhead_Stadium_2009.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Arrowhead_Stadium_2009.jpg&width=400',
    'https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
   ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/NRG_Stadium_Houston_2014.jpg/280px-NRG_Stadium_Houston_2014.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/NRG_Stadium_2015.jpg&width=400',
    'https://en.wikipedia.org/wiki/NRG_Stadium'],
   ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Lincoln_Financial_Field_2008.jpg/280px-Lincoln_Financial_Field_2008.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Lincoln_Financial_Field_2012.jpg&width=400',
    'https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
   ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mercedes-Benz_Stadium_2017.jpg/280px-Mercedes-Benz_Stadium_2017.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Mercedes-Benz_Stadium.jpg&width=400',
    'https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
   ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Gillette_Stadium_2012_aerial.jpg/280px-Gillette_Stadium_2012_aerial.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Gillette_Stadium_2015.jpg&width=400',
    'https://en.wikipedia.org/wiki/Gillette_Stadium'],
   ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/BMO_Field_2012.jpg/280px-BMO_Field_2012.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/BMO_Field_2016.jpg&width=400',
    'https://en.wikipedia.org/wiki/BMO_Field'],
   ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/BC_Place_2014.jpg/280px-BC_Place_2014.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/BC_Place_Stadium_2011.jpg&width=400',
    'https://en.wikipedia.org/wiki/BC_Place'],
   ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Azteca.jpg/280px-Azteca.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Azteca_estadio.jpg&width=400',
    'https://en.wikipedia.org/wiki/Estadio_Azteca'],
   ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Estadio_BBVA_Bancomer.jpg/280px-Estadio_BBVA_Bancomer.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Estadio_BBVA_2015.jpg&width=400',
    'https://en.wikipedia.org/wiki/Estadio_BBVA'],
   ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Omnilife_Stadium_Chivas.jpg/280px-Omnilife_Stadium_Chivas.jpg',
+   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Estadio_Akron_2010.jpg&width=400',
    'https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
@@ -794,28 +615,26 @@ var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
 function dStr(z){
-  if(LANG==='en'){
-    var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return z[6]+' '+m[z[5]-1]+'. '+pad(z[7])+':'+pad(z[8]);
-  }
+  var ms=tr('months');
+  if(LANG==='en') return z[6]+' '+ms[z[5]-1]+'. '+pad(z[7])+':'+pad(z[8]);
   return z[6]+'.'+z[5]+'. '+pad(z[7])+':'+pad(z[8]);
+}
+function dKey(z){return z[4]+'-'+pad(z[5])+'-'+pad(z[6]);}
+function dLabel(z){
+  var ms=tr('months');
+  var ds=tr('days');
+  var d=mDate(z);
+  if(LANG==='en') return ds[d.getDay()]+', '+z[6]+' '+ms[z[5]-1]+' '+z[4];
+  return ds[d.getDay()]+' '+z[6]+'.'+z[5]+'.'+z[4];
 }
 function cdStr(z){
   var diff=mDate(z)-new Date();
   if(diff<=0) return null;
-  var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
-  if(LANG==='en'){
-    if(d>0) return 'in '+d+'d '+h+'h '+m+'min';
-    if(h>0) return 'in '+h+'h '+m+'min';
-    return 'in '+m+' min';
-  }
-  if(d>0) return 'za '+d+'d '+h+'h '+m+'min';
-  if(h>0) return 'za '+h+'h '+m+'min';
-  return 'za '+m+' min';
-}
-function sortArr(arr,sort){
-  if(sort==='dt') return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});
-  return arr;
+  var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+  var pre=tr('in_days');
+  if(days>0) return pre+' '+days+tr('in_d')+' '+h+tr('in_h')+' '+m+tr('in_min');
+  if(h>0) return pre+' '+h+tr('in_h')+' '+m+tr('in_min');
+  return pre+' '+m+' '+tr('in_min');
 }
 
 // ── SUPABASE ──────────────────────────────────────────────
@@ -823,33 +642,25 @@ function sbf(path,method,body,prefer){
   var h={'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'};
   if(prefer) h['Prefer']=prefer;
   return fetch(SBU+'/rest/v1/'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined})
-    .then(function(r){
-      if(!r.ok) return r.text().then(function(t){throw new Error(t);});
-      if(r.status===204) return null;
-      return r.json();
-    });
+    .then(function(r){if(!r.ok) return r.text().then(function(t){throw new Error(t);});if(r.status===204) return null;return r.json();});
 }
 function rpc(fn,p){
-  return fetch(SBU+'/rest/v1/rpc/'+fn,{
-    method:'POST',
+  return fetch(SBU+'/rest/v1/rpc/'+fn,{method:'POST',
     headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
-    body:JSON.stringify(p)
-  }).then(function(r){return r.json();});
+    body:JSON.stringify(p)}).then(function(r){return r.json();});
 }
 
-// ── DATA LOADING ──────────────────────────────────────────
+// ── DATA ──────────────────────────────────────────────────
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
   return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){
-    myTips={};
-    (d||[]).forEach(function(t){myTips[parseInt(t.zapas_id)]=t.tip;});
+    myTips={};(d||[]).forEach(function(t){myTips[parseInt(t.zapas_id)]=t.tip;});
   });
 }
 function loadAllTips(){
   return sbf('tipy?select=hrac_id,zapas_id,tip').then(function(d){
-    allTips={};
-    (d||[]).forEach(function(t){
+    allTips={};(d||[]).forEach(function(t){
       if(!allTips[t.hrac_id]) allTips[t.hrac_id]={};
       allTips[t.hrac_id][parseInt(t.zapas_id)]=t.tip;
     });
@@ -857,23 +668,23 @@ function loadAllTips(){
 }
 function loadResults(){
   return sbf('vysledky?select=zapas_id,skore').then(function(d){
-    results={};
-    (d||[]).forEach(function(v){results[parseInt(v.zapas_id)]=v.skore;});
+    results={};(d||[]).forEach(function(v){results[parseInt(v.zapas_id)]=v.skore;});
     updProgress();
   });
 }
 function updProgress(){
   var n=Object.keys(results).length,pct=Math.round(n/104*100);
-  setText('ptxt',(LANG==='en'?'Played: ':'Odehrano: ')+n+' / 104 '+(LANG==='en'?'matches':'zapasu')+' ('+pct+'%)');
-  var f=document.getElementById('pfil');
-  if(f) f.style.width=pct+'%';
+  var el=document.getElementById('ptxt');
+  if(el) el.textContent=tr('played')+': '+n+' / 104 ('+pct+'%)';
+  var f=document.getElementById('pfil');if(f) f.style.width=pct+'%';
 }
 
 // ── AUTH ──────────────────────────────────────────────────
+function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
 function doLogin(){
   var j=document.getElementById('lj').value.trim(),p=document.getElementById('lp').value.trim();
-  if(!j||!p){setText('le','Vyplnte jmeno i PIN');return;}
-  setText('le','Prihlasuji...');
+  if(!j||!p){setText('le',tr('name')+' i PIN jsou povinné');return;}
+  setText('le','...');
   rpc('prihlasit_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
     if(d.chyba){setText('le',d.chyba);return;}
     myPin=p;finishLogin(d);
@@ -884,7 +695,7 @@ function doReg(){
   if(!j||!p){setText('re','Vyplnte jmeno i PIN');return;}
   if(p!==p2){setText('re','PINy se neshoduji');return;}
   if(p.length<4){setText('re','PIN musi mit aspon 4 znaky');return;}
-  setText('re','Registruji...');
+  setText('re','...');
   rpc('registruj_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
     if(d.chyba){setText('re',d.chyba);return;}
     myPin=p;finishLogin(d);
@@ -901,11 +712,7 @@ function finishLogin(d){
     document.getElementById('ab').style.display='inline-block';
     document.getElementById('tab-admin').style.display='inline-block';
   }
-  loadResults().then(function(){
-    return loadPlayers();
-  }).then(function(){
-    return loadMyTips();
-  }).then(function(){
+  loadResults().then(function(){return loadPlayers();}).then(function(){return loadMyTips();}).then(function(){
     renderTipy();renderStadiony();renderTymy();renderPavouk();
   });
   showTab('tipy');
@@ -922,12 +729,52 @@ function doLogout(){
   document.getElementById('lp').value='';
   setText('le','');
 }
-function swLoginTab(t){
+function swLTab(t){
   var il=t==='l';
   document.getElementById('lf').style.display=il?'block':'none';
   document.getElementById('rf').style.display=il?'none':'block';
   document.getElementById('ltl').classList.toggle('on',il);
   document.getElementById('ltr').classList.toggle('on',!il);
+}
+
+// ── I18N APPLY ────────────────────────────────────────────
+function applyI18n(){
+  // Nav tabs
+  setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
+  setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
+  setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
+  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));
+  // Phase tabs
+  setText('ptab-tipy-sk',tr('by_groups'));setText('ptab-tipy-dt',tr('by_date'));setText('ptab-tipy-po',tr('playoff'));
+  setText('ptab-ost-sk',tr('by_groups'));setText('ptab-ost-dt',tr('by_date'));setText('ptab-ost-po',tr('playoff'));
+  setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
+  setText('ptab-vys-sk',tr('by_groups'));setText('ptab-vys-dt',tr('by_date'));setText('ptab-vys-po',tr('playoff'));
+  setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
+  setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking'));
+  // Buttons
+  setText('btn-logout',tr('logout'));
+  document.getElementById('btn-refresh').textContent=tr('refresh');
+  setText('btn-exp',tr('exp'));setText('btn-sav',tr('save'));
+  setText('blo',tr('login'));setText('brg',tr('register'));
+  setText('ltl',tr('login'));setText('ltr',tr('register'));
+  // Info boxes
+  setText('ibox-tipy',tr('ibox_tipy'));setText('ibox-ost',tr('ibox_ost'));
+  setText('ibox-pav',tr('ibox_pav'));setText('ibox-tymy',tr('ibox_tymy'));
+  // Labels
+  setText('clbl-stad',tr('clbl_stad'));setText('clbl-tymy',tr('clbl_tymy'));
+  setText('hdr-sub',tr('hdr_sub'));setText('vys-empty',tr('vys_empty'));
+  setText('lo-sub',tr('lo_sub'));
+  setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
+  setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
+  // Lang button
+  document.getElementById('langbtn').textContent=LANG==='cs'?'EN':'CS';
+  // Legend
+  var leg=document.getElementById('tab-legend');
+  if(leg) leg.innerHTML=
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.3);border:1px solid var(--ac);margin-right:5px;vertical-align:middle"></span>'+tr('leg1')+'</span> '+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.5);margin-right:5px;vertical-align:middle"></span>'+tr('leg2')+'</span> '+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);margin-right:5px;vertical-align:middle"></span>'+tr('leg3')+'</span>';
+  updProgress();
 }
 
 // ── TABS ──────────────────────────────────────────────────
@@ -943,13 +790,10 @@ function showTab(name){
   if(name==='tabulka') renderTab();
   if(name==='admin') loadAllTips().then(renderAdmin);
 }
-
-// ── PHASE SWITCHING ───────────────────────────────────────
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
   ['sk','dt','po','cel','3m','rk'].forEach(function(p){
-    var b=document.getElementById(prefix+p);
-    if(b) b.classList.toggle('on',p===phase);
+    var b=document.getElementById(prefix+p);if(b) b.classList.toggle('on',p===phase);
   });
   if(ctx==='tipy'){tipSort=phase;renderTipy();}
   else if(ctx==='ost'){ostSort=phase;renderOst();}
@@ -969,10 +813,8 @@ function calcPts(tip,res){
   return s(t[0]-t[1])===s(r[0]-r[1])?2:0;
 }
 function setSt(id,msg,err,ok){
-  var e=document.getElementById(id);
-  if(!e) return;
-  e.textContent=msg;
-  e.className='sb'+(err?' err':ok?' ok':'');
+  var e=document.getElementById(id);if(!e) return;
+  e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');
 }
 function ptsBdg(pts,tip){
   if(pts===5) return '<span class="pt p5">5b</span>';
@@ -980,49 +822,41 @@ function ptsBdg(pts,tip){
   if(pts===0&&tip) return '<span class="pt p0">0b</span>';
   return '';
 }
-function ghL(sk){return SKU.indexOf(sk)>=0?(LANG==='en'?'Group ':'Skupina ')+sk:sk;}
+function ghL(sk){return SKU.indexOf(sk)>=0?tr('group')+' '+sk:sk;}
+function sortByDate(arr){return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});}
+function groupByDate(arr){
+  var groups={},keys=[];
+  sortByDate(arr).forEach(function(z){
+    var k=dKey(z);
+    if(!groups[k]){groups[k]=[];keys.push(k);}
+    groups[k].push(z);
+  });
+  return {groups:groups,keys:keys};
+}
 
 // ── TIPY ──────────────────────────────────────────────────
 function renderTipy(){
   if(!me) return;
   var isAdmin=me.je_admin;
-  var arr=tipSort==='po'?PZ:sortArr(SZ,tipSort);
+  var arr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
   var html='',prev=null;
-  arr.forEach(function(z){
-    var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var now=new Date();
-    var started=mDate(z)<=now;
-    var res=results[id];
-    var tip=myTips[id]||'';
-    // Lock if: match started OR res exists OR (not admin and tip already saved)
-    // Also lock play-off if teams are not yet known (contain 'sk.' or 'nejl.')
-    var teamsUnknown=(d.indexOf('sk.')>=0||d.indexOf('nejl.')>=0||h.indexOf('sk.')>=0||h.indexOf('nejl.')>=0);
-    var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
-    var pts=(res&&tip)?calcPts(tip,res):null;
-    var cd=cdStr(z);
 
-    if(tipSort!=='dt'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
-    else if(tipSort==='po'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
-
-    html+='<div class="mr">';
-    html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
-    html+='<div class="mm">'+dStr(z);
-    if(res) html+='<span class="rt rt-d">'+res+'</span>';
-    else if(started) html+='<span class="rt" style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+(LANG==='en'?'live/ended':'probiha/skoncilo')+'</span>';
-    else if(cd) html+='<span class="cd">'+cd+'</span>';
-    html+='</div></div>';
-    html+='<div class="mr-r">';
-    if(teamsUnknown){
-      html+='<span style="font-size:.67rem;color:var(--mu);font-style:italic">'+(LANG==='en'?'Teams TBD':'Tymy nejsou zname')+'</span>';
-    } else {
-      html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
-      html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
-      if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
-    }
-    html+='</div></div>';
-  });
-  document.getElementById('tipy-list').innerHTML=html||'<div class="empty">'+(LANG==='en'?'No matches':'Zadne zapasy')+'</div>';
-  // Input validation
+  if(tipSort==='dt'){
+    var gbd=groupByDate(arr);
+    gbd.keys.forEach(function(k){
+      var matches=gbd.groups[k];
+      html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
+      matches.forEach(function(z){html+=renderMatchRow(z,isAdmin);});
+    });
+  } else {
+    arr.forEach(function(z){
+      var sk=z[1];
+      if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
+      html+=renderMatchRow(z,isAdmin);
+    });
+  }
+  document.getElementById('tipy-list').innerHTML=html||'<div class="empty">'+tr('no_matches')+'</div>';
+  // Attach input validators
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(inp&&!inp.disabled){
@@ -1036,26 +870,52 @@ function renderTipy(){
   });
 }
 
+function renderMatchRow(z,isAdmin){
+  var id=z[0],sk=z[1],d=z[2],h=z[3],venue=z[9]||'';
+  var now=new Date(),started=mDate(z)<=now;
+  var res=results[id],tip=myTips[id]||'';
+  var teamsUnknown=(d.indexOf('sk.')>=0||d.indexOf('nejl.')>=0||h.indexOf('sk.')>=0||h.indexOf('nejl.')>=0);
+  var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
+  var pts=(res&&tip)?calcPts(tip,res):null;
+  var cd=cdStr(z);
+  var html='<div class="mr">';
+  html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
+  html+='<div class="mm">'+dStr(z);
+  if(res) html+=' <span class="rt rt-d">'+res+'</span>';
+  else if(started) html+=' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>';
+  else if(cd) html+=' <span class="cd">'+cd+'</span>';
+  if(venue) html+=' <span class="venue">📍 '+venue+'</span>';
+  html+='</div></div>';
+  html+='<div class="mr-r">';
+  if(teamsUnknown){
+    html+='<span style="font-size:.66rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
+  } else {
+    html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
+    html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+    if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
+  }
+  html+='</div></div>';
+  return html;
+}
+
 function saveTips(){
   if(!me) return;
   var arr=tipSort==='po'?PZ:SZ;
-  var now=new Date();
-  var rows=[];
+  var now=new Date(),rows=[];
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(!inp||inp.disabled) return;
-    var v=inp.value.trim();
-    // Double-check: don't save if match already started
     if(mDate(z)<=now) return;
+    var v=inp.value.trim();
     if(v&&/^[0-9]+:[0-9]+$/.test(v)) rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
   });
-  if(!rows.length){setSt('st-tipy','Zadne platne tipy (format: 2:1)');return;}
-  setSt('st-tipy','Ukladam '+rows.length+' tipu...');
+  if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
+  setSt('st-tipy','...');
   var ok=0,err=0;
   function done(){
     if(ok+err<rows.length) return;
-    if(err===0){loadMyTips().then(renderTipy);setSt('st-tipy','Ulozeno '+ok+' tipu!',false,true);}
-    else setSt('st-tipy','Chyba pri ukladani',true);
+    if(err===0){loadMyTips().then(renderTipy);setSt('st-tipy','✓ '+ok,false,true);}
+    else setSt('st-tipy','Chyba',true);
   }
   rows.forEach(function(row){
     rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
@@ -1066,10 +926,10 @@ function saveTips(){
 
 function adminEditTip(zapasId,cur){
   if(!me||!me.je_admin) return;
-  var nt=prompt('Novy tip pro zapas #'+zapasId+' (format: 2:1):',cur||'');
+  var nt=prompt('Tip pro zapas #'+zapasId+' (2:1):',cur||'');
   if(nt===null) return;
   nt=nt.trim();
-  if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Neplatny format. Pouzij 2:1');return;}
+  if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Format: 2:1');return;}
   rpc('ulozit_tip_secure',{p_hrac_id:me.id,p_pin:myPin,p_zapas_id:parseInt(zapasId),p_tip:nt||'0:0'})
     .then(function(){loadMyTips().then(renderTipy);})
     .catch(function(e){alert('Chyba: '+e.message);});
@@ -1078,47 +938,56 @@ function adminEditTip(zapasId,cur){
 // ── TIPY OSTATNICH ────────────────────────────────────────
 function renderOst(){
   var el=document.getElementById('ost-list');
-  var arr=ostSort==='po'?PZ:sortArr(SZ,ostSort);
+  var arr=ostSort==='po'?PZ:ostSort==='dt'?sortByDate(SZ):SZ;
   var others=players.filter(function(p){return !me||p.id!==me.id;});
-  if(!others.length){el.innerHTML='<div class="empty">'+(LANG==='en'?'No other players yet':'Zatim zadni dalsi hraci')+'</div>';return;}
-
+  if(!others.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
   var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
-  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:140px">Zapas</th>';
+  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:145px">'+tr('match')+'</th>';
   others.forEach(function(p){
     var ci=players.indexOf(p);
-    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+p.jmeno+'</th>';
+    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px">'+p.jmeno+'</th>';
   });
   html+='</tr></thead><tbody>';
-
-  var prev=null;
-  arr.forEach(function(z){
-    var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var res=results[id],myTip=myTips[id];
-    var canSee=!!myTip;
-
-    if(ostSort!=='dt'&&sk!==prev){
-      html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
-      prev=sk;
-    }
-
-    html+='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fl(d)+' '+d+' &ndash; '+fl(h)+' '+h;
-    if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
-    html+='</td>';
-    others.forEach(function(p){
-      var tips=allTips[p.id]||{},tip=tips[id]||'';
-      if(!canSee){
-        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
-      } else {
-        var pts=(res&&tip)?calcPts(tip,res):null;
-        var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
-        var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?'700':'400')+'">'+(tip||'&mdash;')+'</td>';
-      }
+  if(ostSort==='dt'){
+    var gbd=groupByDate(arr);
+    gbd.keys.forEach(function(k){
+      var matches=gbd.groups[k];
+      html+='<tr><td colspan="'+(others.length+1)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">📅 '+dLabel(matches[0])+'</td></tr>';
+      matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
-    html+='</tr>';
-  });
+  } else {
+    var prev=null;
+    arr.forEach(function(z){
+      var sk=z[1];
+      if(sk!==prev){
+        html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
+        prev=sk;
+      }
+      html+=renderOstRow(z,others);
+    });
+  }
   html+='</tbody></table></div>';
   el.innerHTML=html;
+}
+
+function renderOstRow(z,others){
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
+  var res=results[id],myTip=myTips[id],canSee=!!myTip;
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fT(d)+' &ndash; '+fT(h);
+  if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
+  if(venue) html+=' <span style="font-size:.65rem;color:var(--bd2)">📍'+venue.split('/')[0]+'</span>';
+  html+='</td>';
+  others.forEach(function(p){
+    var tips=allTips[p.id]||{},tip=tips[id]||'';
+    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    else{
+      var pts=(res&&tip)?calcPts(tip,res):null;
+      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip||'&mdash;')+'</td>';
+    }
+  });
+  return html+'</tr>';
 }
 
 // ── ZEBRICEK ──────────────────────────────────────────────
@@ -1130,72 +999,67 @@ function renderZeb(){
     arr.forEach(function(z){
       var res=results[z[0]],tip=tips[z[0]];
       if(tip) uzam++;
-      if(res&&tip){
-        var pts=calcPts(tip,res);
-        if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}
-      }
+      if(res&&tip){var pts=calcPts(tip,res);if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}}
     });
     return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
   }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
-
   var med=['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49'];
   document.getElementById('zeb-list').innerHTML=scored.map(function(s,rank){
     var isMe=me&&me.id===s.p.id;
     return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+ini(s.p.jmeno)+'</div>'+
-      '<div style="flex:1">'+
-        '<div class="ln">'+s.p.jmeno+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+(LANG==='en'?'(you)':'(ty)')+'</span>':'')+'</div>'+
-        '<div class="ls">'+
-          '<span>'+s.pre+'x '+(LANG==='en'?'exact':'presne')+'</span>'+
-          '<span>'+s.spr+'x '+(LANG==='en'?'correct':'spravne')+'</span>'+
-          '<span>'+s.spa+'x '+(LANG==='en'?'wrong':'spatne')+'</span>'+
-          '<span style="color:var(--ac2)">'+s.uzam+' '+(LANG==='en'?'saved':'ulozenych')+'</span>'+
-          '<span style="color:var(--mu)">'+s.hod+' '+(LANG==='en'?'rated':'hod.')+'</span>'+
-        '</div>'+
-      '</div>'+
-      '<div class="lp">'+s.total+'</div>'+
-      '</div>';
-  }).join('')||'<div class="empty">Zatim zadni hraci</div>';
+      '<div style="flex:1"><div class="ln">'+s.p.jmeno+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div>'+
+      '<div class="ls"><span>'+s.pre+'&#215; '+tr('exact')+'</span><span>'+s.spr+'&#215; '+tr('correct')+'</span><span>'+s.spa+'&#215; '+tr('wrong')+'</span>'+
+      '<span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div></div>'+
+      '<div class="lp">'+s.total+'</div></div>';
+  }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
 }
 
 // ── VYSLEDKY ──────────────────────────────────────────────
 function renderVys(){
-  var arr=vysSort==='po'?PZ:sortArr(SZ,vysSort);
+  var arr=vysSort==='po'?PZ:vysSort==='dt'?sortByDate(SZ):SZ;
   var html='',prev=null;
-  arr.forEach(function(z){
-    var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var res=results[id],cd=cdStr(z);
-    if(vysSort!=='dt'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
-    html+='<div class="rr">';
-    html+='<div class="rh">'+fT(d)+'</div>';
-    html+='<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'&mdash;')+'</div>';
-    html+='<div style="font-size:.64rem;color:var(--mu)">'+dStr(z)+'</div>';
-    if(!res&&cd) html+='<div style="font-size:.64rem;color:var(--ac2)">'+cd+'</div>';
-    html+='</div>';
-    html+='<div class="ra">'+fT(h)+'</div></div>';
-  });
+  if(vysSort==='dt'){
+    var gbd=groupByDate(arr);
+    gbd.keys.forEach(function(k){
+      var matches=gbd.groups[k];
+      html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
+      matches.forEach(function(z){html+=renderVysRow(z);});
+    });
+  } else {
+    arr.forEach(function(z){
+      var sk=z[1];
+      if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
+      html+=renderVysRow(z);
+    });
+  }
   document.getElementById('vys-list').innerHTML=html||'<div class="empty">'+tr('vys_empty')+'</div>';
+}
+function renderVysRow(z){
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
+  var res=results[id],cd=cdStr(z);
+  return '<div class="rr">'+
+    '<div class="rh">'+fT(d)+'</div>'+
+    '<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'&mdash;')+'</div>'+
+    '<div style="font-size:.63rem;color:var(--mu)">'+dStr(z)+'</div>'+
+    (venue?'<div style="font-size:.61rem;color:var(--bd2)">📍'+venue.split('/')[0]+'</div>':'')+
+    (!res&&cd?'<div style="font-size:.63rem;color:var(--ac2)">'+cd+'</div>':'')+
+    '</div><div class="ra">'+fT(h)+'</div></div>';
 }
 
 // ── TABULKA ───────────────────────────────────────────────
 function calcTables(){
   var tbls={};
-  SKU.forEach(function(sk){
-    tbls[sk]={};
-    TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});
-  });
+  SKU.forEach(function(sk){tbls[sk]={};TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});});
   SZ.forEach(function(z){
     var id=z[0],sk=z[1],home=z[2],away=z[3],res=results[id];
     if(!res||!tbls[sk]) return;
     var sp=res.split(':').map(Number),hg=sp[0],ag=sp[1];
     if(isNaN(hg)||isNaN(ag)) return;
-    var ht=tbls[sk][home],at=tbls[sk][away];
-    if(!ht||!at) return;
+    var ht=tbls[sk][home],at=tbls[sk][away];if(!ht||!at) return;
     ht.z++;at.z++;ht.gf+=hg;ht.ga+=ag;at.gf+=ag;at.ga+=hg;
-    if(hg>ag){ht.v++;ht.pts+=3;at.p++;}
-    else if(hg<ag){at.v++;at.pts+=3;ht.p++;}
-    else{ht.r++;at.r++;ht.pts++;at.pts++;}
+    if(hg>ag){ht.v++;ht.pts+=3;at.p++;}else if(hg<ag){at.v++;at.pts+=3;ht.p++;}else{ht.r++;at.r++;ht.pts++;at.pts++;}
   });
   return tbls;
 }
@@ -1204,21 +1068,20 @@ function sortGrp(obj){
     .sort(function(a,b){
       if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
       var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
-      if(gb!==ga) return gb-ga;
-      return b.d.gf-a.d.gf;
+      if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;
     });
 }
 function renderTab(){
   var tbls=calcTables();
-  if(tabPhase==='3m'){render3mista(tbls);return;}
+  if(tabPhase==='3m'){render3m(tbls);return;}
   var html='<div class="stg">';
   SKU.forEach(function(sk){
     var teams=sortGrp(tbls[sk]);
-    html+='<div class="stc"><div class="stc-h">'+(LANG==='en'?'GROUP ':'SKUPINA ')+sk+'</div><table>';
-    html+='<thead><tr><th>#</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th title="'+(LANG==='en'?'Played':'Zapasy')+'">Z</th><th title="'+(LANG==='en'?'Won':'Vyhry')+'">V</th><th title="'+(LANG==='en'?'Drawn':'Remizy')+'">R</th><th title="'+(LANG==='en'?'Lost':'Prohry')+'">P</th><th title="'+(LANG==='en'?'Goals':'Skore')+'">G</th><th title="'+(LANG==='en'?'Points':'Body')+'">B</th></tr></thead><tbody>';
+    html+='<div class="stc"><div class="stc-h">'+tr('group').toUpperCase()+' '+sk+'</div><table>';
+    html+='<thead><tr><th>#</th><th>'+tr('team')+'</th><th title="'+tr('played')+'">Z</th><th title="'+tr('won')+'">'+tr('won')+'</th><th title="'+tr('drawn')+'">'+tr('drawn')+'</th><th title="'+tr('lost')+'">'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
     teams.forEach(function(tm,i){
       var pc=i===0?'p1':i===1?'p2':i===2?'p3':'';
-      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tm.name+'</td>';
+      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td>';
       html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
       html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
     });
@@ -1227,20 +1090,13 @@ function renderTab(){
   html+='</div>';
   document.getElementById('tab-list').innerHTML=html;
 }
-function render3mista(tbls){
+function render3m(tbls){
   var thirds=[];
-  SKU.forEach(function(sk){
-    var t=sortGrp(tbls[sk]);
-    if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});
-  });
-  thirds.sort(function(a,b){
-    if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-    var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
-    if(gb!==ga) return gb-ga;
-    return b.d.gf-a.d.gf;
-  });
-  var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+(LANG==='en'?'3RD PLACE TABLE — top 8 advance to R16':'TABULKA 3. MIST — top 8 postupuje do 16F')+'</div><table>';
-  html+='<thead><tr><th>#</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th>'+(LANG==='en'?'Gr.':'Sk.')+'</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>G</th><th>B</th></tr></thead><tbody>';
+  SKU.forEach(function(sk){var t=sortGrp(tbls[sk]);if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
+  thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;});
+  var h3=tr('third').toUpperCase();
+  var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+h3+' — TOP 8 → R16</div><table>';
+  html+='<thead><tr><th>#</th><th>'+tr('team')+'</th><th>'+tr('group').slice(0,2)+'.</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
   thirds.forEach(function(tm,i){
     html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td>';
     html+='<td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td style="color:var(--mu)">'+tm.sk+'</td>';
@@ -1253,30 +1109,26 @@ function render3mista(tbls){
 
 // ── PAVOUK ────────────────────────────────────────────────
 function renderPavouk(){
-  var r16=LANG==='en'?'R16 (28.6–3.7)':'16F (28.6–3.7)';
-  var r8=LANG==='en'?'R8 (4–7.7)':'Osmifinale (4–7.7)';
-  var qf=LANG==='en'?'QF (9–12.7)':'Ctvrfinale (9–12.7)';
-  var sf=LANG==='en'?'SF (14–15.7)':'Semifinale (14–15.7)';
-  var fin=LANG==='en'?'Final (19.7)':'Finale (19.7)';
   var rounds=[
-    {lbl:r16,matches:PZ.slice(0,16)},
-    {lbl:r8,matches:PZ.slice(16,24)},
-    {lbl:qf,matches:PZ.slice(24,28)},
-    {lbl:sf,matches:PZ.slice(28,30)},
-    {lbl:fin,matches:[PZ[31]]}
+    {lbl:tr('r16'),matches:PZ.slice(0,16)},
+    {lbl:tr('r8'),matches:PZ.slice(16,24)},
+    {lbl:tr('qf'),matches:PZ.slice(24,28)},
+    {lbl:tr('sf'),matches:PZ.slice(28,30)},
+    {lbl:tr('o3'),matches:[PZ[30]]},
+    {lbl:tr('fin'),matches:[PZ[31]]}
   ];
   var html='<div style="display:flex;gap:8px">';
   rounds.forEach(function(round){
-    html+='<div style="flex:1;min-width:140px">';
+    html+='<div style="flex:1;min-width:135px">';
     html+='<div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+round.lbl+'</div>';
     round.matches.forEach(function(z){
       if(!z) return;
-      var id=z[0],d=z[2],h=z[3],res=results[id];
+      var id=z[0],d=z[2],h=z[3],venue=(z[9]||'').split('/')[0].trim(),res=results[id];
       var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
       html+='<div class="bm">';
-      html+='<div class="bm-t"><span class="bm-n">'+fl(d)+' '+d+'</span><span class="bm-s">'+hg+'</span></div>';
-      html+='<div class="bm-t"><span class="bm-n">'+fl(h)+' '+h+'</span><span class="bm-s">'+ag+'</span></div>';
-      html+='<div class="bm-d">'+dStr(z)+'</div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fl(d)+' '+tN(d)+'</span><span class="bm-s">'+hg+'</span></div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fl(h)+' '+tN(h)+'</span><span class="bm-s">'+ag+'</span></div>';
+      html+='<div class="bm-d">'+dStr(z)+(venue?' 📍'+venue:'')+'</div>';
       html+='</div>';
     });
     html+='</div>';
@@ -1287,22 +1139,29 @@ function renderPavouk(){
 
 // ── STADIONY ──────────────────────────────────────────────
 function renderStadiony(){
-  var html='<table class="tbl"><thead><tr><th>Foto</th><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze</th></tr></thead><tbody>';
+  var coLabel={'USA':'USA','Kanada':LANG==='en'?'Canada':'Kanada','Mexiko':LANG==='en'?'Mexico':'Mexiko'};
+  var coBg={'USA':'#3b82f6','Kanada':'#ef4444','Mexiko':'#22c55e'};
+  var html='<div class="stad-grid">';
   STAD.forEach(function(row){
     var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
-    var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
     var gmaps='https://maps.google.com/?q='+lat+','+lon;
-    html+='<tr>';
-    html+='<td><img src="'+img+'" class="stad-img" alt="'+n+'" loading="lazy"></td>';
-    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:underline;text-underline-offset:2px">'+n+'</a></td>';
-    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">'+c+' 📍</a></td>';
-    html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
-    html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
-    html+='<td style="font-size:.73rem;color:var(--mu)">'+f+'</td>';
-    html+='</tr>';
+    var coLbl=coLabel[co]||co;
+    html+='<div class="stad-card">';
+    html+='<div class="stad-img-wrap">';
+    html+='<img src="'+img+'" alt="'+n+'" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
+    html+='<div class="stad-co-badge" style="background:'+coBg[co]+'">'+coLbl+'</div>';
+    html+='</div>';
+    html+='<div class="stad-body">';
+    html+='<div class="stad-name"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:none">'+n+'</a></div>';
+    html+='<div class="stad-meta">';
+    html+='<a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">📍 '+c+'</a>';
+    html+='<span>👥 '+cap+'</span>';
+    html+='</div>';
+    html+='<div class="stad-phase">'+f+'</div>';
+    html+='</div></div>';
   });
-  html+='</tbody></table>';
-  document.getElementById('stad-list').innerHTML=html;
+  html+='</div>';
+  document.getElementById('stad-grid').innerHTML=html;
 }
 
 // ── TYMY ──────────────────────────────────────────────────
@@ -1310,15 +1169,15 @@ function renderTymy(){
   if(tymPhase==='rk'){renderFifaRanking();return;}
   var html='';
   Object.keys(TEAMS).sort().forEach(function(sk){
-    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">Skupina '+sk+'</div>';
+    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div>';
     html+='<div class="tm-grid">';
     TEAMS[sk].forEach(function(tm){
       var name=tm[0],rk=FIFA[name];
-      html+='<div class="tc" onclick="showTab(\'tymy\')">';
-      html+='<div class="tf">'+fl(name)+'</div>';
-      html+='<div><div class="tn">'+name+'</div>';
+      html+='<div class="tc"><div class="tf">'+fl(name)+'</div>';
+      html+='<div><div class="tn">'+tN(name)+'</div>';
+      html+='<div class="tgrp">'+tr('group')+' '+sk+'</div>';
       if(rk) html+='<div class="trk">FIFA #'+rk+'</div>';
-      html+='<div class="tsk">'+(LANG==='en'?'Roster: coming soon':'Soupisky: brzy')+'</div></div></div>';
+      html+='<div class="tsk">'+tr('roster')+'</div></div></div>';
     });
     html+='</div></div>';
   });
@@ -1326,20 +1185,14 @@ function renderTymy(){
 }
 function renderFifaRanking(){
   var all=[],seen={};
-  Object.keys(TEAMS).forEach(function(sk){
-    TEAMS[sk].forEach(function(tm){
-      var name=tm[0];
-      if(!seen[name]){seen[name]=true;all.push({name:name,sk:sk,rk:FIFA[name]||999});}
-    });
-  });
+  Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl"><thead><tr><th style="width:42px">Rank</th><th>'+(LANG==='en'?'Team':'Tym')+'</th><th>'+(LANG==='en'?'Group':'Skupina')+'</th></tr></thead><tbody>';
+  var html='<table class="tbl"><thead><tr><th style="width:42px">Rank</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
     html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
     html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
-    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">Sk.'+tm.sk+'</span></td>';
-    html+='</tr>';
+    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
   });
   html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html;
@@ -1348,24 +1201,23 @@ function renderFifaRanking(){
 // ── ADMIN ─────────────────────────────────────────────────
 function renderAdmin(){
   if(!me||!me.je_admin) return;
-  var el=document.getElementById('adm-list');
-  var all=SZ.concat(PZ);
-  if(!players.length){el.innerHTML='<div class="empty">Zatim zadni hraci</div>';return;}
+  var el=document.getElementById('adm-list'),all=SZ.concat(PZ);
+  if(!players.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
   var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem">';
-  html+='<thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">Zapas</th>';
+  html+='<thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
   players.forEach(function(p,i){
     html+='<th class="adh" data-hid="'+p.id+'" data-jmeno="'+p.jmeno+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="Klikni pro smazani">'+p.jmeno+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
   });
   html+='</tr></thead><tbody>';
   all.forEach(function(z){
     var id=z[0],d=z[2],h=z[3],res=results[id];
-    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+d+' \u2013 '+h+(res?' <span style="color:var(--gn2);font-weight:700">('+res+')</span>':'')+'</td>';
+    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(d)+' &ndash; '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+res+')</span>':'')+'</td>';
     players.forEach(function(p){
-      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
-      var tip=tips[id]||'',pts=(res&&tip)?calcPts(tip,res):null;
+      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{}),tip=tips[id]||'';
+      var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer" title="Klikni pro upravu">'+(tip||'&mdash;')+'</td>';
+      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip||'&mdash;')+'</td>';
     });
     html+='</tr>';
   });
@@ -1373,34 +1225,27 @@ function renderAdmin(){
   el.innerHTML=html;
   el.querySelectorAll('.adh').forEach(function(th){
     th.addEventListener('click',function(){
-      if(!confirm('Smazat hrace "'+th.dataset.jmeno+'"? Smaze se i vsechny jeho tipy.')) return;
+      if(!confirm('Smazat "'+th.dataset.jmeno+'"?')) return;
       rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
-        .then(function(d){
-          if(d&&d.chyba){alert('Chyba: '+d.chyba);return;}
-          loadPlayers().then(function(){renderAdmin();});
-        }).catch(function(e){alert('Chyba: '+e.message);});
+        .then(function(d){if(d&&d.chyba){alert('Chyba: '+d.chyba);return;}loadPlayers().then(function(){renderAdmin();});})
+        .catch(function(e){alert('Chyba: '+e.message);});
     });
   });
   el.querySelectorAll('.atc').forEach(function(td){
     td.addEventListener('click',function(){
-      var nt=prompt('Novy tip pro zapas #'+td.dataset.zid+' (format: 2:1):',td.dataset.tip||'');
-      if(nt===null) return;
-      nt=nt.trim();
-      if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Neplatny format. Pouzij 2:1');return;}
+      var nt=prompt('Tip #'+td.dataset.zid+' (2:1):',td.dataset.tip||'');
+      if(nt===null) return;nt=nt.trim();
+      if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Format: 2:1');return;}
       sbf('tipy?hrac_id=eq.'+td.dataset.hid+'&zapas_id=eq.'+td.dataset.zid,'PATCH',{tip:nt},'return=minimal')
         .then(function(){loadAllTips().then(renderAdmin);})
-        .catch(function(){
-          sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid),tip:nt}],'resolution=merge-duplicates,return=minimal')
-            .then(function(){loadAllTips().then(renderAdmin);})
-            .catch(function(e){alert('Chyba: '+e.message);});
-        });
+        .catch(function(){sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid),tip:nt}],'resolution=merge-duplicates,return=minimal').then(function(){loadAllTips().then(renderAdmin);}).catch(function(e){alert(e.message);});});
     });
   });
 }
 
 // ── ESPN ──────────────────────────────────────────────────
 function fetchResults(){
-  setSt('st-vys','Stahuji z ESPN...');
+  setSt('st-vys','...');
   document.getElementById('btn-refresh').disabled=true;
   fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
     .then(function(r){return r.json();})
@@ -1408,13 +1253,9 @@ function fetchResults(){
       var found={};
       (json.events||[]).forEach(function(ev){
         (ev.competitions||[]).forEach(function(comp){
-          var st=comp.status;
-          if(!st||!st.type||!st.type.completed) return;
+          var st=comp.status;if(!st||!st.type||!st.type.completed) return;
           var home=null,away=null;
-          (comp.competitors||[]).forEach(function(c){
-            if(c.homeAway==='home') home=c;
-            if(c.homeAway==='away') away=c;
-          });
+          (comp.competitors||[]).forEach(function(c){if(c.homeAway==='home') home=c;if(c.homeAway==='away') away=c;});
           if(!home||!away) return;
           var score=home.score+':'+away.score;
           var hn=((home.team&&home.team.displayName)||'').toLowerCase();
@@ -1431,35 +1272,34 @@ function fetchResults(){
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
           Object.keys(found).forEach(function(id){results[parseInt(id)]=found[id];});
           updProgress();renderVys();renderTipy();renderStadiony();
-          setSt('st-vys','Aktualizovano '+cnt+' vysledku',false,true);
+          setSt('st-vys','✓ '+cnt,false,true);
           document.getElementById('btn-refresh').disabled=false;
         });
       } else {
-        setSt('st-vys','Zadne nove vysledky (turnaj zacina 11.6.2026)',false,true);
+        setSt('st-vys','0 (turnaj zacina 11.6.)',false,true);
         document.getElementById('btn-refresh').disabled=false;
       }
     })
-    .catch(function(e){setSt('st-vys','Chyba ESPN: '+e.message,true);document.getElementById('btn-refresh').disabled=false;});
+    .catch(function(e){setSt('st-vys','Chyba: '+e.message,true);document.getElementById('btn-refresh').disabled=false;});
 }
 
-// ── EXPORT ────────────────────────────────────────────────
+// ── EXPORT CSV ────────────────────────────────────────────
 function exportCSV(){
   if(!me) return;
-  var header=['#','Skupina','Domaci','Hoste','Datum','Vysledek'];
+  var header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2','Date',tr('goals'),tr('my_tip'),tr('points')];
   var data=[];
   if(me.je_admin){
-    header=header.concat(players.map(function(p){return p.jmeno;}));
+    header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2','Date',tr('goals')].concat(players.map(function(p){return p.jmeno;}));
     SZ.concat(PZ).forEach(function(z){
-      var row=[z[0],z[1],z[2],z[3],dStr(z),results[z[0]]||''];
+      var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
       players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{});row.push(tips[z[0]]||'');});
       data.push(row);
     });
   } else {
-    header=header.concat(['Muj tip','Body']);
     SZ.concat(PZ).forEach(function(z){
       var res=results[z[0]]||'',tip=myTips[z[0]]||'';
       var pts=(res&&tip)?calcPts(tip,res):'';
-      data.push([z[0],z[1],z[2],z[3],dStr(z),res,tip,pts!==''?pts+'b':'']);
+      data.push([z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),res,tip,pts!==''?pts+'b':'']);
     });
   }
   var csv=[header].concat(data).map(function(row){
@@ -1467,50 +1307,38 @@ function exportCSV(){
   }).join('\r\n');
   var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
   var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
+  var a=document.createElement('a');a.href=url;
+  a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
 // ── CLOCK ─────────────────────────────────────────────────
 function updClock(){
-  var now=new Date();
-  var daysCS=['Ne','Po','Ut','St','Ct','Pa','So'];
-  var daysEN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var days=LANG==='en'?daysEN:daysCS;
+  var now=new Date(),ds=tr('days');
   var el=document.getElementById('clk');
-  if(el) el.textContent=days[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  if(el) el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
 }
 
 // ── INIT ──────────────────────────────────────────────────
 function init(){
-  // Login tabs
-  document.getElementById('ltl').addEventListener('click',function(){swLoginTab('l');});
-  document.getElementById('ltr').addEventListener('click',function(){swLoginTab('r');});
+  document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
+  document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
   document.getElementById('blo').addEventListener('click',doLogin);
   document.getElementById('brg').addEventListener('click',doReg);
   document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
-  // App buttons
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
-  // Lang
   document.getElementById('langbtn').addEventListener('click',function(){
     LANG=LANG==='cs'?'en':'cs';
     applyI18n();
-    // Re-render current tab content
     var active=null;
     TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
     if(active) showTab(active);
   });
-  // Nav tabs
-  TABS.forEach(function(t){
-    var b=document.getElementById('tab-'+t);
-    if(b) b.addEventListener('click',function(){showTab(t);});
-  });
-  // Phase tabs
+  TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   var ptCfg=[
     ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
     ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
@@ -1519,18 +1347,12 @@ function init(){
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
     ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ];
-  ptCfg.forEach(function(pt){
-    var b=document.getElementById(pt[0]);
-    if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
-  });
-  // Clock
+  ptCfg.forEach(function(pt){var b=document.getElementById(pt[0]);if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});});
   updClock();setInterval(updClock,1000);
-  // Restore session
   try{
     var saved=localStorage.getItem('ms26s');
     if(saved){
-      var s=JSON.parse(saved);
-      myPin=s.pin;
+      var s=JSON.parse(saved);myPin=s.pin;
       rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
         if(!d.chyba) finishLogin(d);
         else document.getElementById('lo').style.display='flex';
