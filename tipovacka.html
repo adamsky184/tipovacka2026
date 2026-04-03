@@ -6,167 +6,201 @@
 <title>Tipovacka MS 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--fh:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;--r:10px;--r2:14px;--r3:18px}
+:root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--fh:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh}
-.w{max-width:920px;margin:0 auto;padding:.85rem}
-.hdr{background:linear-gradient(135deg,#0c1e35 0%,#0a1728 50%,#0d2040 100%);border:1px solid var(--bd);border-radius:var(--r3);padding:.9rem 1.3rem;margin-bottom:.85rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;overflow:hidden}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.w{max-width:960px;margin:0 auto;padding:.75rem}
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1.2rem;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
-.lang-btn{font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s}
+.hdr-in{display:flex;align-items:flex-start;justify-content:space-between;gap:.85rem;flex-wrap:wrap}
+.hdr-t{font-family:var(--fh);font-size:1.3rem;font-weight:700;color:#fff}
+.hdr-t span{color:var(--mu2);font-weight:500;font-size:.8rem}
+.hdr-s{font-size:.73rem;color:var(--mu);margin-top:2px}
+.hdr-prog{margin-top:7px}
+.prog-t{font-size:.7rem;color:var(--mu2);margin-bottom:3px}
+.prog-b{height:3px;background:var(--bd);border-radius:2px;max-width:240px;overflow:hidden}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));border-radius:2px;transition:width .6s}
+.hdr-r{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:2px}
+.clk{font-family:var(--fh);font-size:.75rem;color:var(--mu2);text-align:right;line-height:1.5;white-space:nowrap}
+.pill{font-size:.78rem;font-weight:600;background:var(--bg4);border:1px solid var(--bd2);border-radius:20px;padding:3px 11px}
+.abadge{font-size:.68rem;font-weight:700;background:var(--gd);color:#0a0a0a;padding:3px 9px;border-radius:20px;display:none;letter-spacing:.03em}
+.lang-btn{font-size:.71rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s}
 .lang-btn:hover{border-color:var(--ac);color:var(--ac2)}
-.hdr-t{font-family:var(--fh);font-size:1.35rem;font-weight:800;color:#fff}
-.hdr-s{font-size:.76rem;color:var(--mu);margin-top:2px}
-.hdr-r{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.ppill{font-size:.8rem;font-weight:600;background:var(--bg3);border:1px solid var(--bd2);border-radius:20px;padding:3px 11px}
-.abadge{font-size:.7rem;font-weight:700;background:var(--gd);color:#0f1923;padding:2px 8px;border-radius:20px;display:none}
-.nav{display:flex;gap:2px;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:3px;margin-bottom:.85rem;overflow-x:auto}
-.nb{padding:6px 12px;border-radius:8px;font-size:.78rem;font-weight:600;font-family:var(--fh);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.12s}
+/* BUTTONS */
+.btn{padding:6px 14px;border-radius:9px;border:none;cursor:pointer;font-size:.79rem;font-weight:600;font-family:var(--fb);transition:.15s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-bl{background:var(--ac);color:#fff}.btn-bl:hover{background:#2563eb}
+.btn-gn{background:var(--gn);color:#fff}.btn-gn:hover{background:#16a34a}
+.btn-ol{background:transparent;border:1px solid var(--bd2);color:var(--mu2)}.btn-ol:hover{border-color:var(--ac);color:var(--ac2)}
+.btn-sm{padding:4px 10px;font-size:.75rem}
+.btn:disabled{opacity:.45;cursor:default}
+/* NAV */
+.nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:var(--fh)}
 .nb:hover{color:var(--tx)}
 .nb.on{background:var(--ac);color:#fff}
-.card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1.1rem;margin-bottom:.75rem}
-.clbl{font-family:var(--fh);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
-.btn{padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-size:.81rem;font-weight:600;font-family:var(--fb);transition:.12s}
-.btn:active{transform:scale(.97)}
-.btn-bl{background:var(--ac);color:#fff}.btn-bl:hover{background:#0284c7}
-.btn-gn{background:var(--gn);color:#fff}.btn-gn:hover{background:#16a34a}
-.btn-ol{background:transparent;border:1px solid var(--bd2);color:var(--mu)}.btn-ol:hover{border-color:var(--ac);color:var(--tx)}
-.btn-sm{padding:4px 10px;font-size:.76rem}
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1rem;margin-bottom:.75rem}
+.clbl{font-family:var(--fh);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
+/* PHASE TABS */
 .ptabs{display:flex;gap:4px;margin-bottom:.75rem;flex-wrap:wrap}
-.ptab{padding:4px 12px;border-radius:6px;font-size:.77rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.12s}
+.ptab{padding:5px 12px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.15s}
 .ptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-.gh{font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:6px 0 3px;border-bottom:1px solid var(--bd);margin-bottom:3px;margin-top:12px}
+/* GROUP HEADER */
+.gh{font-family:var(--fh);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:5px 0 3px;border-bottom:1px solid var(--bd);margin-bottom:3px;margin-top:12px}
 .gh:first-child{margin-top:0}
-.mr{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--bg)}
+/* MATCH ROW */
+.mr{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,48,80,.5)}
 .mr:last-child{border-bottom:none}
-.mt{font-size:.86rem;font-weight:600}
-.mm{font-size:.7rem;color:var(--mu);margin-top:1px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.mt{font-size:.85rem;font-weight:600}
+.mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .mr-r{display:flex;align-items:center;gap:4px}
-.mlbl{font-size:.62rem;color:var(--mu);font-weight:600;letter-spacing:.03em}
-.ti{width:55px;text-align:center;padding:4px;border-radius:6px;border:1px solid var(--bd2);background:var(--bg);color:var(--tx);font-size:.88rem;font-weight:700;font-family:var(--fb)}
-.ti:focus{outline:none;border-color:var(--ac)}
-.ti:disabled{opacity:.3;cursor:default;background:var(--bg3)}
-.ti.sv{border-color:var(--gn)}
+.mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
+.ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:var(--fh);transition:.15s}
+.ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
+.ti:disabled{opacity:.28;cursor:default;background:var(--bg)}
+.ti.sv{border-color:var(--gn);background:rgba(34,197,94,.05)}
 .ti.bd{border-color:var(--rd)}
-.rt{font-size:.69rem;padding:2px 6px;border-radius:20px;background:var(--bg3);color:var(--mu)}
-.rt.done{background:#052010;color:var(--gn)}
-.pt{font-size:.69rem;padding:2px 6px;border-radius:20px;font-weight:700}
-.p5{background:#052010;color:var(--gn)}
-.p2{background:#051525;color:var(--ac)}
-.p0{background:#1f0808;color:var(--rd)}
-.cd{font-size:.69rem;color:var(--ac)}
-.lbr{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;margin-bottom:4px;background:var(--bg3);border:1px solid var(--bd)}
-.lbr.me{border-color:var(--gn);background:#071510}
-.lav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;font-size:.78rem;flex-shrink:0}
+/* BADGES */
+.rt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:600}
+.rt-d{background:rgba(34,197,94,.12);color:var(--gn2);border:1px solid rgba(34,197,94,.2)}
+.rt-t{background:var(--bg4);color:var(--mu)}
+.pt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:700}
+.p5{background:rgba(34,197,94,.15);color:var(--gn2)}
+.p2{background:rgba(59,130,246,.15);color:var(--ac2)}
+.p0{background:rgba(239,68,68,.15);color:#f87171}
+.cd{font-size:.67rem;color:var(--ac2);font-weight:500}
+/* LEADERBOARD */
+.lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:.15s}
+.lbr.me{border-color:var(--gn);background:rgba(34,197,94,.04)}
+.lbr.g1{border-color:var(--gd)}
+.lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.8rem;flex-shrink:0}
 .ln{font-size:.9rem;font-weight:600}
-.ls{font-size:.69rem;color:var(--mu);display:flex;gap:6px;margin-top:1px;flex-wrap:wrap}
-.lp{font-family:var(--fh);font-size:1.3rem;font-weight:800;color:var(--gd);min-width:42px;text-align:right}
-.rr{display:grid;grid-template-columns:1fr 68px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bg)}
+.ls{font-size:.69rem;color:var(--mu);display:flex;gap:7px;margin-top:2px;flex-wrap:wrap}
+.lp{font-family:var(--fh);font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
+/* RESULT ROW */
+.rr{display:grid;grid-template-columns:1fr 70px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.5)}
 .rr:last-child{border-bottom:none}
 .rh{text-align:right;font-size:.84rem;font-weight:600}
-.rs{text-align:center;font-family:var(--fh);font-size:.95rem;font-weight:800}
-.rs.dn{color:var(--gn)}.rs.tb{color:var(--mu);font-size:.76rem;font-weight:400}
+.rs{text-align:center;font-family:var(--fh);font-size:.95rem;font-weight:700}
+.rs.dn{color:var(--gn2)}.rs.tb{color:var(--mu);font-size:.74rem;font-weight:400}
 .ra{font-size:.84rem;font-weight:600}
-.tbl{width:100%;border-collapse:collapse;font-size:.81rem}
-.tbl th{text-align:left;padding:6px 8px;color:var(--mu);font-size:.68rem;font-weight:700;font-family:var(--fh);letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--bd)}
-.tbl td{padding:6px 8px;border-bottom:1px solid var(--bg)}
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;font-size:.79rem}
+.tbl th{text-align:left;padding:6px 8px;color:var(--mu);font-size:.67rem;font-weight:600;border-bottom:1px solid var(--bd);letter-spacing:.05em;text-transform:uppercase}
+.tbl td{padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.4)}
 .tbl tr:last-child td{border-bottom:none}
-.cu{color:#60a5fa}.cc{color:#f87171}.cm{color:var(--gn)}
-.sb{font-size:.77rem;color:var(--mu);min-height:19px;padding:2px 0}
-.sb.ok{color:var(--gn)}.sb.err{color:var(--rd)}
+.cu{color:#60a5fa}.cc{color:#f87171}.cm{color:var(--gn2)}
+/* STATUS */
+.sb{font-size:.76rem;color:var(--mu);min-height:18px;padding:2px 0}
+.sb.ok{color:var(--gn2)}.sb.err{color:#f87171}
+/* SPINNER */
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:2rem;color:var(--mu);font-size:.86rem}
-.ibox{background:#0d1f35;border:1px solid #1e4a6e;border-radius:10px;padding:.75rem 1rem;margin-bottom:.75rem;font-size:.81rem;color:#7ab8e8;line-height:1.55}
-.pbr{height:3px;background:var(--bd);border-radius:2px;margin-top:4px;overflow:hidden}
-.pbf{height:100%;background:var(--ac);border-radius:2px;transition:width .5s}
-.stg{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));margin-bottom:1rem}
-.stc{background:var(--bg2);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
-.stc-h{font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bd);background:var(--bg3)}
-.stc table{width:100%;border-collapse:collapse;font-size:.8rem}
-.stc th{text-align:center;padding:4px 5px;color:var(--mu);font-size:.65rem;font-weight:600;border-bottom:1px solid var(--bd)}
-.stc th:first-child{text-align:left;padding-left:8px}
-.stc td{padding:5px 5px;border-bottom:1px solid var(--bg);text-align:center}
-.stc td:first-child{text-align:left;padding-left:8px;font-weight:600}
-.stc tr.pos1{background:rgba(59,130,246,.08)}
-.stc tr.pos1 td:first-child{color:var(--gn2);font-weight:700}
-.stc tr.pos2{background:rgba(59,130,246,.05)}
-.stc tr.pos2 td:first-child{color:var(--ac2);font-weight:700}
-.stc tr.pos3{background:rgba(168,85,247,.05)}
-.stc tr.pos3 td:first-child{color:var(--pu);font-weight:600}
-
-
-.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:6px}
-.tc{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px}
-.tf{font-size:1.4rem;flex-shrink:0}
-.tn{font-size:.84rem;font-weight:600}
-.tsk{font-size:.69rem;color:var(--mu);margin-top:1px}
-
+.empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
+/* INFO BOX */
+.ibox{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:9px;padding:.7rem .95rem;margin-bottom:.75rem;font-size:.79rem;color:#93c5fd;line-height:1.55}
+/* GROUP TABLES */
+.stg{display:grid;gap:7px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:.75rem}
+.stc{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.stc-h{font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu2);padding:6px 10px;border-bottom:1px solid var(--bd);background:var(--bg3)}
+.stc table{width:100%;border-collapse:collapse;font-size:.78rem}
+.stc th{text-align:center;padding:4px 4px;color:var(--mu);font-size:.63rem;font-weight:600;border-bottom:1px solid var(--bd)}
+.stc th:first-child{text-align:left;padding-left:9px;width:26px}
+.stc th:nth-child(2){text-align:left}
+.stc td{padding:5px 4px;border-bottom:1px solid rgba(28,48,80,.35);text-align:center}
+.stc td:first-child{padding-left:9px;color:var(--mu);font-size:.74rem}
+.stc td:nth-child(2){text-align:left;font-weight:600}
+.stc tr:last-child td{border-bottom:none}
+.stc tr.p1{background:rgba(59,130,246,.1)}
+.stc tr.p1 td:first-child{color:var(--gn2);font-weight:700}
+.stc tr.p2{background:rgba(59,130,246,.06)}
+.stc tr.p2 td:first-child{color:var(--ac2);font-weight:700}
+.stc tr.p3{background:rgba(168,85,247,.05)}
+.stc tr.p3 td:first-child{color:var(--pu);font-weight:600}
+/* TEAMS */
+.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:5px}
+.tc{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px;transition:.15s;cursor:pointer}
+.tc:hover{border-color:var(--bd2)}
+.tf{font-size:1.4rem;flex-shrink:0;line-height:1}
+.tn{font-size:.83rem;font-weight:600}
+.trk{font-size:.67rem;color:var(--gd);margin-top:1px}
+.tsk{font-size:.67rem;color:var(--mu);margin-top:1px}
+/* PAVOUK */
+.bm{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:6px 9px;margin-bottom:6px}
+.bm-t{display:flex;justify-content:space-between;padding:3px 0;font-size:.77rem}
+.bm-t:first-child{border-bottom:1px solid var(--bd)}
+.bm-n{font-weight:500}
+.bm-s{font-weight:700;font-family:var(--fh);color:var(--gd)}
+.bm-d{font-size:.63rem;color:var(--mu);text-align:center;margin-top:3px}
+/* STADIONY */
+.stad-img{width:60px;height:40px;object-fit:cover;border-radius:5px;opacity:.85;vertical-align:middle}
+/* LOGIN */
+.lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
+.lo-card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;width:100%;max-width:370px;position:relative;overflow:hidden}
+.lo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu))}
+.lo-title{font-family:var(--fh);font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:2px}
+.lo-sub{font-size:.74rem;color:var(--mu);margin-bottom:1.3rem}
+.lo-tabs{display:flex;gap:3px;background:var(--bg);border-radius:9px;padding:3px;margin-bottom:1.1rem}
+.lo-tab{flex:1;padding:6px;border-radius:7px;border:none;cursor:pointer;font-size:.82rem;font-weight:600;font-family:var(--fb);transition:.15s}
+.lo-tab.on{background:var(--ac);color:#fff}
+.lo-tab:not(.on){background:none;color:var(--mu)}
+.lo-lbl{font-size:.7rem;color:var(--mu2);font-weight:600;margin-bottom:4px;letter-spacing:.04em}
+.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.89rem;font-family:var(--fb);margin-bottom:.8rem;transition:.15s}
+.lo-inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.12)}
+.lo-inp::placeholder{color:var(--mu)}
+.lo-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:var(--fb)}
+.lo-btn.l{background:var(--ac);color:#fff}.lo-btn.l:hover{background:#2563eb}
+.lo-btn.r{background:var(--gn);color:#fff}.lo-btn.r:hover{background:#16a34a}
+.lo-err{font-size:.77rem;color:#f87171;margin-top:6px;min-height:17px}
 /* RESPONSIVE */
-@media (max-width: 640px) {
-  .hdr { padding: .8rem 1rem; }
-  .hdr-title { font-size: 1.1rem; }
-  .hdr-right { gap: 5px; }
-  .nav { padding: 2px; }
-  .nb { padding: 6px 9px; font-size: .73rem; }
-  .card { padding: .85rem; }
-  .w { padding: .7rem; }
-  .stg { grid-template-columns: 1fr; }
-  .tm-grid { grid-template-columns: 1fr 1fr; }
-  .rr { grid-template-columns: 1fr 60px 1fr; font-size: .8rem; }
-  .lbr { padding: 8px 10px; gap: 8px; }
-  .lp { font-size: 1.1rem; }
-  .tbl th, .tbl td { padding: 5px 6px; font-size: .75rem; }
-  .ptabs { gap: 3px; }
-  .ptab { padding: 4px 9px; font-size: .73rem; }
-  .prog-bar { width: 140px; }
-  .lo-card { padding: 1.4rem; }
-  .btn-sm { padding: 4px 9px; font-size: .73rem; }
-}
-@media (max-width: 400px) {
-  .hdr-title { font-size: .95rem; }
-  .nb { padding: 5px 7px; font-size: .7rem; }
-  .tm-grid { grid-template-columns: 1fr; }
+@media(max-width:600px){
+  .hdr-in{flex-direction:column;gap:.6rem}
+  .hdr-r{width:100%;justify-content:flex-start}
+  .hdr-t{font-size:1.1rem}
+  .nav{gap:1px}
+  .nb{padding:5px 9px;font-size:.72rem}
+  .stg{grid-template-columns:1fr}
+  .tm-grid{grid-template-columns:1fr 1fr}
+  .w{padding:.5rem}
+  .lbr{gap:8px;padding:8px 10px}
+  .lp{font-size:1.1rem}
 }
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="lo" style="position:fixed;inset:0;background:#080e18;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem">
-  <div style="background:#0d1724;border:1px solid #1a2e44;border-radius:16px;padding:1.75rem;width:100%;max-width:370px">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:2px">TIPOVACKA MS 2026</div>
-    <div style="font-size:.76rem;color:#5a7a96;margin-bottom:1.4rem">USA &bull; Kanada &bull; Mexiko &bull; 11.6.&ndash;19.7.2026</div>
-    <div style="display:flex;gap:3px;background:#080e18;border-radius:8px;padding:3px;margin-bottom:1.1rem">
-      <button id="ltl" style="flex:1;padding:6px;border-radius:6px;border:none;cursor:pointer;font-size:.83rem;font-weight:600;background:#1a3a5c;color:#fff;font-family:'Barlow',sans-serif">Prihlasit se</button>
-      <button id="ltr" style="flex:1;padding:6px;border-radius:6px;border:none;cursor:pointer;font-size:.83rem;font-weight:600;background:none;color:#5a7a96;font-family:'Barlow',sans-serif">Registrovat se</button>
+<div class="lo-wrap" id="lo">
+  <div class="lo-card">
+    <div class="lo-title">⚽ MS 2026</div>
+    <div class="lo-sub">Tipovacka &bull; USA &bull; Kanada &bull; Mexiko &bull; 11.6.&ndash;19.7.2026</div>
+    <div class="lo-tabs">
+      <button class="lo-tab on" id="ltl">Prihlasit se</button>
+      <button class="lo-tab" id="ltr">Registrovat se</button>
     </div>
     <div id="lf">
-      <div style="margin-bottom:.8rem">
-        <div style="font-size:.72rem;color:#5a7a96;font-weight:600;margin-bottom:4px">JMENO</div>
-        <input id="lj" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:8px 11px;border-radius:8px;border:1px solid #1a2e44;background:#080e18;color:#e2eaf4;font-size:.92rem;font-family:'Barlow',sans-serif">
-      </div>
-      <div style="margin-bottom:1.1rem">
-        <div style="font-size:.72rem;color:#5a7a96;font-weight:600;margin-bottom:4px">PIN</div>
-        <input id="lp" type="password" placeholder="Tvuj PIN..." style="width:100%;padding:8px 11px;border-radius:8px;border:1px solid #1a2e44;background:#080e18;color:#e2eaf4;font-size:.92rem;font-family:'Barlow',sans-serif">
-      </div>
-      <button id="blo" style="width:100%;padding:9px;border-radius:8px;border:none;background:#0ea5e9;color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif">Prihlasit se</button>
-      <div id="le" style="font-size:.79rem;color:#ef4444;margin-top:7px;min-height:18px"></div>
+      <div class="lo-lbl">JMENO</div>
+      <input class="lo-inp" id="lj" type="text" placeholder="Tvoje jmeno..." autocomplete="username">
+      <div class="lo-lbl">PIN</div>
+      <input class="lo-inp" id="lp" type="password" placeholder="Tvuj PIN..." autocomplete="current-password">
+      <button class="lo-btn l" id="blo">Prihlasit se</button>
+      <div class="lo-err" id="le"></div>
     </div>
     <div id="rf" style="display:none">
-      <div style="margin-bottom:.8rem">
-        <div style="font-size:.72rem;color:#5a7a96;font-weight:600;margin-bottom:4px">JMENO</div>
-        <input id="rj" type="text" placeholder="Tvoje jmeno..." style="width:100%;padding:8px 11px;border-radius:8px;border:1px solid #1a2e44;background:#080e18;color:#e2eaf4;font-size:.92rem;font-family:'Barlow',sans-serif">
-      </div>
-      <div style="margin-bottom:.8rem">
-        <div style="font-size:.72rem;color:#5a7a96;font-weight:600;margin-bottom:4px">PIN (min. 4 znaky)</div>
-        <input id="rp" type="password" placeholder="Zvol si PIN..." style="width:100%;padding:8px 11px;border-radius:8px;border:1px solid #1a2e44;background:#080e18;color:#e2eaf4;font-size:.92rem;font-family:'Barlow',sans-serif">
-      </div>
-      <div style="margin-bottom:1.1rem">
-        <div style="font-size:.72rem;color:#5a7a96;font-weight:600;margin-bottom:4px">POTVRD PIN</div>
-        <input id="rp2" type="password" placeholder="Znovu PIN..." style="width:100%;padding:8px 11px;border-radius:8px;border:1px solid #1a2e44;background:#080e18;color:#e2eaf4;font-size:.92rem;font-family:'Barlow',sans-serif">
-      </div>
-      <button id="brg" style="width:100%;padding:9px;border-radius:8px;border:none;background:#22c55e;color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif">Registrovat se</button>
-      <div id="re" style="font-size:.79rem;color:#ef4444;margin-top:7px;min-height:18px"></div>
+      <div class="lo-lbl">JMENO</div>
+      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jmeno...">
+      <div class="lo-lbl">PIN (min. 4 znaky)</div>
+      <input class="lo-inp" id="rp" type="password" placeholder="Zvol si PIN...">
+      <div class="lo-lbl">POTVRD PIN</div>
+      <input class="lo-inp" id="rp2" type="password" placeholder="Znovu PIN...">
+      <button class="lo-btn r" id="brg">Registrovat se</button>
+      <div class="lo-err" id="re"></div>
     </div>
   </div>
 </div>
@@ -176,18 +210,23 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 <div class="w">
 
 <div class="hdr">
-  <div>
-    <div class="hdr-t">TIPOVACKA MS 2026 <span style="font-weight:400;color:var(--mu);font-size:.78rem">by Adam</span></div>
-    <div class="hdr-s">USA &bull; Kanada &bull; Mexiko &mdash; 11.6.&ndash;19.7.2026 &mdash; 48 tymu &bull; 104 zapasu</div>
-    <div id="ptxt" style="font-size:.71rem;color:var(--mu);margin-top:3px"></div>
-    <div class="pbr"><div id="pfil" class="pbf" style="width:0%"></div></div>
-  </div>
-  <div class="hdr-r">
-    <div id="clk" style="font-size:.76rem;color:var(--mu);font-family:'Barlow Condensed',sans-serif;text-align:right;line-height:1.4"></div>
-    <div id="pp" class="ppill" style="display:none"></div>
-    <span id="ab" class="abadge">ADMIN</span>
-    <button id="blo2" class="btn btn-ol btn-sm">Odhlasit</button>
-    <button id="brf" class="btn btn-bl btn-sm">&#8635; Vysledky</button>
+  <div class="hdr-in">
+    <div>
+      <div class="hdr-t">TIPOVACKA MS 2026 <span id="by-adam">by Adam</span></div>
+      <div class="hdr-s" id="hdr-sub">USA &bull; Kanada &bull; Mexiko &mdash; 48 tymu &bull; 104 zapasu &bull; 11.6.&ndash;19.7.2026</div>
+      <div class="hdr-prog">
+        <div class="prog-t" id="ptxt"></div>
+        <div class="prog-b"><div class="prog-f" id="pfil" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="clk" id="clk"></div>
+      <button class="lang-btn" id="langbtn">EN</button>
+      <div class="pill" id="pp" style="display:none"></div>
+      <span class="abadge" id="ab">ADMIN</span>
+      <button class="btn btn-ol btn-sm" id="btn-logout">Odhlasit</button>
+      <button class="btn btn-bl btn-sm" id="btn-refresh">&#8635; Vysledky</button>
+    </div>
   </div>
 </div>
 
@@ -198,33 +237,34 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <button class="nb" id="tab-vysledky">Vysledky</button>
   <button class="nb" id="tab-tabulka">Tabulka</button>
   <button class="nb" id="tab-pavouk">Play-off</button>
-  <button class="nb" id="tab-kalendar">Kalendar</button>
   <button class="nb" id="tab-stadiony">Stadiony</button>
   <button class="nb" id="tab-tymy">Tymy</button>
   <button class="nb" id="tab-admin" style="display:none">Admin</button>
 </nav>
 
+<!-- TIPY -->
 <div id="page-tipy">
-  <div class="ibox" id="tipy-ibox">Tipy lze zadat pouze pred zacatkem zapasu. Po ulozeni jsou permanentne zamceny — ani vy je nemuzete zmenit. Admin muze tipy upravit.</div>
-  <div style="display:flex;gap:5px;margin-bottom:.75rem;flex-wrap:wrap">
+  <div class="ibox" id="ibox-tipy">Tipy lze zadat jen pred zahajenim zapasu. Po ulozeni jsou trvale zamceny — nelze je menit. Admin muze tipy upravovat.</div>
+  <div class="ptabs">
     <button class="ptab on" id="ptab-tipy-sk">Dle skupin</button>
     <button class="ptab" id="ptab-tipy-dt">Dle data</button>
     <button class="ptab" id="ptab-tipy-po">Play-off</button>
   </div>
   <div class="card">
     <div id="tipy-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;flex-wrap:wrap;gap:7px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;flex-wrap:wrap;gap:6px">
       <div class="sb" id="st-tipy"></div>
       <div style="display:flex;gap:5px">
-        <button id="btn-exp" class="btn btn-ol btn-sm">&#8595; Export CSV</button>
-        <button id="btn-sav" class="btn btn-gn btn-sm">Ulozit tipy</button>
+        <button class="btn btn-ol btn-sm" id="btn-exp">&#8595; Export CSV</button>
+        <button class="btn btn-gn btn-sm" id="btn-sav">Ulozit tipy</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- TIPY OSTATNICH -->
 <div id="page-ostatni" style="display:none">
-  <div class="ibox">Tipy ostatnich jsou viditelne pouze pro zapasy kde mas svuj tip jiz ulozen. Ostatni zapasy zobrazuji "?".</div>
+  <div class="ibox" id="ibox-ost">Tipy ostatnich jsou viditelne jen pro zapasy kde mas svuj tip ulozeny. Pro ostatni zapasy se zobrazuje "?".</div>
   <div class="ptabs">
     <button class="ptab on" id="ptab-ost-sk">Skupinova faze</button>
     <button class="ptab" id="ptab-ost-dt">Dle data</button>
@@ -233,6 +273,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div>
 </div>
 
+<!-- ZEBRICEK -->
 <div id="page-zebricek" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-zeb-cel">Celkovy</button>
@@ -242,6 +283,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <div id="zeb-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
 </div>
 
+<!-- VYSLEDKY -->
 <div id="page-vysledky" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-vys-sk">Skupinova faze</button>
@@ -249,52 +291,59 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
     <button class="ptab" id="ptab-vys-po">Play-off</button>
   </div>
   <div class="card">
-    <div id="vys-list"><div class="empty">Klikni &#8635; Vysledky nahore</div></div>
+    <div id="vys-list"><div class="empty" id="vys-empty">Klikni &#8635; Vysledky nahore</div></div>
     <div class="sb" id="st-vys"></div>
   </div>
 </div>
 
+<!-- TABULKA -->
 <div id="page-tabulka" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-tab-sk">Skupinova faze</button>
     <button class="ptab" id="ptab-tab-3m">Tabulka 3. mist</button>
-    <button class="ptab" id="ptab-tab-po">Play-off</button>
   </div>
   <div id="tab-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div>
-</div>
-
-<div id="page-kalendar" style="display:none">
-  <div class="card">
-    <div class="clbl">Vsechny zapasy (casy v SELC)</div>
-    <div style="overflow-x:auto"><div id="kal-list"></div></div>
+  <div style="font-size:.7rem;color:var(--mu);margin-top:.5rem;display:flex;gap:12px;flex-wrap:wrap" id="tab-legend">
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(59,130,246,.25);margin-right:4px"></span>Postupuje primo do 16F</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(168,85,247,.15);margin-right:4px"></span>Potencialne postupuje (top 8 3. mist)</span>
   </div>
 </div>
 
+<!-- PAVOUK -->
+<div id="page-pavouk" style="display:none">
+  <div class="ibox" id="ibox-pav">Pavouk play-off se automaticky doplni vysledky skupinove faze (po 28.6.2026). Nyni zobrazuje strukturu.</div>
+  <div class="card"><div style="overflow-x:auto"><div id="pav-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div></div>
+</div>
+
+<!-- STADIONY -->
 <div id="page-stadiony" style="display:none">
   <div class="card">
-    <div class="clbl">Stadiony MS 2026</div>
+    <div class="clbl" id="clbl-stad">Stadiony MS 2026</div>
+    <div style="border-radius:10px;overflow:hidden;height:380px;margin-bottom:1rem;background:var(--bg3);border:1px solid var(--bd)">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m2!1m1!1s0x0:0x0!2m2!1d-100!2d40!3m2!1i1024!2i768!4f13.1!5e0!3m2!1scs!2sus!4v1234567890"
+        width="100%" height="100%" style="border:none;filter:brightness(.9)" loading="lazy"
+        allowfullscreen referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
     <div style="overflow-x:auto"><div id="stad-list"></div></div>
   </div>
 </div>
 
+<!-- TYMY -->
 <div id="page-tymy" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-tym-sk">Dle skupin</button>
     <button class="ptab" id="ptab-tym-rk">FIFA Ranking</button>
   </div>
   <div class="card">
-    <div class="clbl">Tymy MS 2026</div>
-    <div class="ibox">Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).</div>
+    <div class="clbl" id="clbl-tymy">Kvalifikovane tymy MS 2026</div>
+    <div class="ibox" id="ibox-tymy">Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).</div>
     <div id="tym-list"></div>
   </div>
 </div>
 
-  <div id="page-pavouk" style="display:none">
-    <div class="ibox">Pavouk play-off se doplni po skupinove fazi (28.6.2026).</div>
-    <div class="card"><div style="overflow-x:auto"><div id="pavouk-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div></div>
-  </div>
-  </div>
-
+<!-- ADMIN -->
 <div id="page-admin" style="display:none">
   <div class="card">
     <div class="clbl">Admin — prehled vsech tipu</div>
@@ -309,10 +358,96 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 <script>
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
-var AVC=['#0e4f8c','#0e6b3e','#5c2d8c','#8c2d0e','#0e5c5c','#6b4e0e','#1a3a6b','#4e0e5c','#0e5c3a','#5c4e0e'];
+var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','#4c1d95','#0f766e','#78350f'];
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','admin'];
 
-// FLAGS
+// ── I18N ──────────────────────────────────────────────────
+var LANG='cs';
+var TX={
+  cs:{
+    'nav_tipy':'Moje tipy','nav_ostatni':'Tipy ostatnich','nav_zebricek':'Zebricek',
+    'nav_vysledky':'Vysledky','nav_tabulka':'Tabulka','nav_pavouk':'Play-off',
+    'nav_stadiony':'Stadiony','nav_tymy':'Tymy','nav_admin':'Admin',
+    'sk':'Skupinova faze','dt':'Dle data','po':'Play-off','cel':'Celkovy','3m':'Tabulka 3. mist',
+    'tym_sk':'Dle skupin','tym_rk':'FIFA Ranking','zeb_sk':'Skupiny','zeb_po':'Play-off',
+    'logout':'Odhlasit','refresh':'Vysledky','exp':'Export CSV','sav':'Ulozit tipy',
+    'ibox_tipy':'Tipy lze zadat jen pred zahajenim zapasu. Po ulozeni jsou trvale zamceny.',
+    'ibox_ost':'Tipy ostatnich jsou viditelne jen pro zapasy kde mas svuj tip ulozen.',
+    'ibox_pav':'Pavouk play-off se automaticky doplni po skupinove fazi (28.6.2026).',
+    'ibox_tymy':'Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).',
+    'clbl_stad':'Stadiony MS 2026','clbl_tymy':'Kvalifikovane tymy MS 2026',
+    'my_tip':'MUJ TIP','vys_empty':'Klikni Vysledky nahore',
+    'leg1':'Postupuje primo do 16F','leg2':'Potencialne postupuje (top 8 3. mist)',
+    'hdr_sub':'USA \u2022 Kanada \u2022 Mexiko \u2014 48 tymu \u2022 104 zapasu \u2022 11.6.\u201319.7.2026',
+    'by':'by Adam','prihl':'Prihlasit se','reg':'Registrovat se'
+  },
+  en:{
+    'nav_tipy':'My Tips','nav_ostatni':"Others' Tips",'nav_zebricek':'Leaderboard',
+    'nav_vysledky':'Results','nav_tabulka':'Table','nav_pavouk':'Playoff',
+    'nav_stadiony':'Stadiums','nav_tymy':'Teams','nav_admin':'Admin',
+    'sk':'Group Stage','dt':'By Date','po':'Playoff','cel':'Overall','3m':'3rd Place Table',
+    'tym_sk':'By Group','tym_rk':'FIFA Ranking','zeb_sk':'Groups','zeb_po':'Playoff',
+    'logout':'Log Out','refresh':'Results','exp':'Export CSV','sav':'Save Tips',
+    'ibox_tipy':'Tips can only be entered before kickoff. Once saved they are permanently locked.',
+    'ibox_ost':"Others' tips are visible only for matches where you have a saved tip.",
+    'ibox_pav':'Playoff bracket auto-fills after group stage (28.6.2026).',
+    'ibox_tymy':'Rosters will be added after nominations close (end of May 2026).',
+    'clbl_stad':'World Cup 2026 Stadiums','clbl_tymy':'Qualified Teams WC 2026',
+    'my_tip':'MY TIP','vys_empty':'Click Results above',
+    'leg1':'Qualify directly to R16','leg2':'Potentially qualify (top 8 3rd places)',
+    'hdr_sub':'USA \u2022 Canada \u2022 Mexico \u2014 48 teams \u2022 104 matches \u2022 11.6.\u201319.7.2026',
+    'by':'by Adam','prihl':'Log In','reg':'Register'
+  }
+};
+function tr(k){return (TX[LANG]&&TX[LANG][k])||k;}
+
+function applyI18n(){
+  // nav
+  TABS.forEach(function(t){
+    var b=document.getElementById('tab-'+t);
+    if(b) b.textContent=tr('nav_'+t);
+  });
+  // phase tabs
+  var ptMap={
+    'ptab-tipy-sk':'sk','ptab-tipy-dt':'dt','ptab-tipy-po':'po',
+    'ptab-ost-sk':'sk','ptab-ost-dt':'dt','ptab-ost-po':'po',
+    'ptab-zeb-cel':'cel','ptab-zeb-sk':'zeb_sk','ptab-zeb-po':'zeb_po',
+    'ptab-vys-sk':'sk','ptab-vys-dt':'dt','ptab-vys-po':'po',
+    'ptab-tab-sk':'sk','ptab-tab-3m':'3m',
+    'ptab-tym-sk':'tym_sk','ptab-tym-rk':'tym_rk'
+  };
+  Object.keys(ptMap).forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.textContent=tr(ptMap[id]);
+  });
+  // buttons
+  var btnMap={'btn-logout':'logout','btn-refresh':'refresh','btn-exp':'exp','btn-sav':'sav','blo':'prihl','brg':'reg'};
+  Object.keys(btnMap).forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.textContent=b.id==='btn-refresh'?'↺ '+tr('refresh'):tr(btnMap[id]);
+  });
+  // misc
+  setText('ibox-tipy',tr('ibox_tipy'));
+  setText('ibox-ost',tr('ibox_ost'));
+  setText('ibox-pav',tr('ibox_pav'));
+  setText('ibox-tymy',tr('ibox_tymy'));
+  setText('clbl-stad',tr('clbl_stad'));
+  setText('clbl-tymy',tr('clbl_tymy'));
+  setText('vys-empty',tr('vys_empty'));
+  setText('by-adam',tr('by'));
+  setText('hdr-sub',tr('hdr_sub'));
+  // legend
+  var l1=document.getElementById('tab-legend');
+  if(l1) l1.innerHTML='<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(59,130,246,.25);margin-right:4px"></span>'+tr('leg1')+'</span> <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(168,85,247,.15);margin-right:4px"></span>'+tr('leg2')+'</span>';
+  // lang button
+  var lb=document.getElementById('langbtn');
+  if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
+}
+
+function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
+
+// ── FLAGS ─────────────────────────────────────────────────
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
@@ -327,10 +462,24 @@ var FLAGS={
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
   'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦'
 };
+function fl(n){return FLAGS[n]||'';}
+function fT(n){var f=fl(n);return f?f+' '+n:n;}
 
-function fl(name){return FLAGS[name]||'';}
+// ── FIFA RANKING (1 April 2026) ───────────────────────────
+var FIFA={
+  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,
+  'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,
+  'Chorvatsko':11,'Svycarsko':16,'Japonsko':13,'Senegal':14,'USA':15,
+  'Uruguay':17,'Mexiko':18,'Turecko':19,'Kanada':20,'Iran':21,
+  'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,'Svedsko':28,
+  'Alzirsko':34,'Cesko':37,'Pobrezi slonoviny':40,'Tunisko':43,
+  'Saudska Arabie':56,'Paraguay':60,'Kapverdy':71,'Panama':72,
+  'DR Kongo':59,'Ghana':54,'Jihoafricka rep.':66,'Bosna a Hercegovina':49,
+  'Novy Zeland':96,'Egypt':29,'Irak':64,'Rakousko':32,'Skotsko':33,
+  'Uzbekistan':77,'Jordansko':80,'Curacao':85,'Haiti':83,'Katar':93
+};
 
-// TEAMS
+// ── TEAMS ─────────────────────────────────────────────────
 var TEAMS={
   A:[['Mexiko'],['Jihoafricka rep.'],['Jizni Korea'],['Cesko']],
   B:[['Kanada'],['Katar'],['Svycarsko'],['Bosna a Hercegovina']],
@@ -346,23 +495,23 @@ var TEAMS={
   L:[['Anglie'],['Chorvatsko'],['Ghana'],['Panama']]
 };
 
-// MATCHES
+// ── MATCHES (year,month,day,hour,min) ────────────────────
 var SZ=[
-  [1,'A','Mexiko','Jihoafricka rep.',2026,5,11,21,0,'Mexico City'],
-  [2,'A','Jizni Korea','Cesko',2026,5,12,4,0,'Guadalajara'],
-  [3,'A','Mexiko','Jizni Korea',2026,5,17,3,0,'Mexico City'],
-  [4,'A','Cesko','Jihoafricka rep.',2026,5,18,18,0,'Atlanta'],
-  [5,'A','Cesko','Mexiko',2026,5,25,3,0,'Mexico City'],
-  [6,'A','Jihoafricka rep.','Jizni Korea',2026,5,25,3,0,'Guadalajara'],
-  [7,'B','Kanada','Bosna a Hercegovina',2026,5,12,21,0,'Toronto'],
-  [8,'B','Katar','Svycarsko',2026,5,13,21,0,'San Francisco'],
-  [9,'B','Kanada','Katar',2026,5,17,21,0,'Toronto'],
+  [1,'A','Mexiko','Jihoafricka rep.',2026,6,11,21,0,'Mexico City'],
+  [2,'A','Jizni Korea','Cesko',2026,6,12,4,0,'Guadalajara'],
+  [3,'A','Mexiko','Jizni Korea',2026,6,17,3,0,'Mexico City'],
+  [4,'A','Cesko','Jihoafricka rep.',2026,6,18,18,0,'Atlanta'],
+  [5,'A','Cesko','Mexiko',2026,6,25,3,0,'Mexico City'],
+  [6,'A','Jihoafricka rep.','Jizni Korea',2026,6,25,3,0,'Guadalajara'],
+  [7,'B','Kanada','Bosna a Hercegovina',2026,6,12,21,0,'Toronto'],
+  [8,'B','Katar','Svycarsko',2026,6,13,21,0,'San Francisco'],
+  [9,'B','Kanada','Katar',2026,6,17,21,0,'Toronto'],
   [10,'B','Bosna a Hercegovina','Svycarsko',2026,6,18,0,0,'Kansas City'],
-  [11,'B','Kanada','Svycarsko',2026,5,26,22,0,'Vancouver'],
-  [12,'B','Bosna a Hercegovina','Katar',2026,5,26,22,0,'Seattle'],
+  [11,'B','Kanada','Svycarsko',2026,6,26,22,0,'Vancouver'],
+  [12,'B','Bosna a Hercegovina','Katar',2026,6,26,22,0,'Seattle'],
   [13,'C','Brazilie','Maroko',2026,6,14,0,0,'New York'],
   [14,'C','Haiti','Skotsko',2026,6,14,3,0,'Boston'],
-  [15,'C','Brazilie','Haiti',2026,5,18,21,0,'Dallas'],
+  [15,'C','Brazilie','Haiti',2026,6,18,21,0,'Dallas'],
   [16,'C','Maroko','Skotsko',2026,6,19,0,0,'Los Angeles'],
   [17,'C','Brazilie','Skotsko',2026,6,27,0,0,'Kansas City'],
   [18,'C','Haiti','Maroko',2026,6,27,0,0,'Atlanta'],
@@ -421,15 +570,14 @@ var SZ=[
   [71,'L','Anglie','Panama',2026,6,27,22,0,'Miami'],
   [72,'L','Ghana','Chorvatsko',2026,6,27,19,0,'Dallas']
 ];
-
 var PZ=[
-  [73,'16F','2. sk.A','2. sk.B',2026,5,28,21,0,'Los Angeles'],
-  [74,'16F','1. sk.E','3. nejl.',2026,5,29,20,30,'Boston'],
+  [73,'16F','2. sk.A','2. sk.B',2026,6,28,21,0,'Los Angeles'],
+  [74,'16F','1. sk.E','3. nejl.',2026,6,29,20,30,'Boston'],
   [75,'16F','1. sk.F','2. sk.C',2026,6,29,1,0,'Monterrey'],
-  [76,'16F','1. sk.C','2. sk.F',2026,5,29,19,0,'Houston'],
-  [77,'16F','2. sk.E','2. sk.I',2026,5,30,19,0,'Dallas'],
-  [78,'16F','1. sk.I','3. nejl.',2026,5,30,23,0,'New York'],
-  [79,'16F','1. sk.A','3. nejl.',2026,5,30,3,0,'Mexico City'],
+  [76,'16F','1. sk.C','2. sk.F',2026,6,29,19,0,'Houston'],
+  [77,'16F','2. sk.E','2. sk.I',2026,6,30,19,0,'Dallas'],
+  [78,'16F','1. sk.I','3. nejl.',2026,6,30,23,0,'New York'],
+  [79,'16F','1. sk.A','3. nejl.',2026,6,30,3,0,'Mexico City'],
   [80,'16F','1. sk.L','3. nejl.',2026,7,1,18,0,'Atlanta'],
   [81,'16F','1. sk.D','3. nejl.',2026,7,1,0,0,'San Francisco'],
   [82,'16F','1. sk.G','3. nejl.',2026,7,1,22,0,'Seattle'],
@@ -456,114 +604,47 @@ var PZ=[
   [103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami'],
   [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York']
 ];
-
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zapasu','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','otevraci, skupiny','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','skupiny','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/320px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ["AT&T Stadium",'Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Cowboys_Stadium_2009.jpg/320px-Cowboys_Stadium_2009.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/SoFi_Stadium_2020.jpg/320px-SoFi_Stadium_2020.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hard_Rock_Stadium_2016.jpg/320px-Hard_Rock_Stadium_2016.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lumen_Field_2020.jpg/320px-Lumen_Field_2020.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Levi%27s_Stadium_2014.jpg/320px-Levi%27s_Stadium_2014.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Arrowhead_Stadium_2013.jpg/320px-Arrowhead_Stadium_2013.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/NRG_Stadium_Houston.jpg/320px-NRG_Stadium_Houston.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Lincoln_Financial_Field_2013.jpg/320px-Lincoln_Financial_Field_2013.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Mercedes-Benz_Stadium%2C_Atlanta_2017.jpg/320px-Mercedes-Benz_Stadium%2C_Atlanta_2017.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Gillette_Stadium_2012.jpg/320px-Gillette_Stadium_2012.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BMO_Field_2016.jpg/320px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/BC_Place_2011.jpg/320px-BC_Place_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_stadium_2009.jpg/320px-Azteca_stadium_2009.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Estadio_BBVA_Bancomer%2C_Monterrey_2015.jpg/320px-Estadio_BBVA_Bancomer%2C_Monterrey_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Estadio_Omnilife_2010.jpg/320px-Estadio_Omnilife_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
-// ── I18N ─────────────────────────────────────────────────
-var LANG='cs';
-var I18N={
-  cs:{
-    nav_tips:'Moje tipy',nav_others:'Tipy ostatních',nav_leaderboard:'Žebříček',
-    nav_results:'Výsledky',nav_table:'Tabulka',nav_bracket:'Play-off',
-    nav_calendar:'Kalendář',nav_map:'Mapa',nav_teams:'Týmy & Ranking',
-    by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',
-    overall:'Celkový',groups_phase:'Skupinová fáze',third_place:'3. místa',
-    teams_by_group:'Dle skupin',fifa_ranking:'FIFA Ranking',
-    save_tips:'Uložit tipy',export:'↓ Export CSV',logout:'Odhlásit',refresh:'↺ Výsledky',
-    login:'Přihlásit se',register:'Registrovat se',my_tip:'MŮJ TIP',result:'Výsledek',match:'Zápas',
-    progress:'Odehráno',tip_locked:'Tipy jsou po uložení zamčeny. Admin může upravovat.',
-    others_info:'Tipy ostatních jsou viditelné jen kde máš vlastní tip.',
-    bracket_info:'Pavouk se doplní po skupinové fázi (28.6.2026).',
-    map_title:'Mapa stadionů MS 2026',calendar_title:'Všechny zápasy (SELČ)'
-  },
-  en:{
-    nav_tips:'My Tips',nav_others:"Others' Tips",nav_leaderboard:'Leaderboard',
-    nav_results:'Results',nav_table:'Table',nav_bracket:'Playoff',
-    nav_calendar:'Calendar',nav_map:'Map',nav_teams:'Teams & Ranking',
-    by_groups:'By Group',by_date:'By Date',playoff:'Playoff',
-    overall:'Overall',groups_phase:'Group Stage',third_place:'3rd Place',
-    teams_by_group:'By Group',fifa_ranking:'FIFA Ranking',
-    save_tips:'Save Tips',export:'↓ Export CSV',logout:'Log Out',refresh:'↺ Results',
-    login:'Log In',register:'Register',my_tip:'MY TIP',result:'Result',match:'Match',
-    progress:'Played',tip_locked:'Tips are locked after saving. Admin can edit.',
-    others_info:"Others' tips visible only where you have a saved tip.",
-    bracket_info:'Bracket fills after group stage (28.6.2026).',
-    map_title:'World Cup 2026 Stadium Map',calendar_title:'All matches (CEST)'
-  }
-};
-function tr(k){return (I18N[LANG]&&I18N[LANG][k])||k;}
-function applyI18n(){
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var v=tr(el.getAttribute('data-i18n'));
-    if(v) el.textContent=v;
-  });
-  var lb=document.getElementById('langbtn');
-  if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
-}
-
-// ── FIFA RANKING (April 2026) ─────────────────────────────
-var FIFA_RANK={
-  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,
-  'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,
-  'Chorvatsko':11,'Svycarsko':16,'Japonsko':13,'Senegal':14,'USA':15,
-  'Uruguay':17,'Mexiko':18,'Turecko':19,'Kanada':20,'Iran':21,
-  'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,'Svedsko':28,
-  'Alzirsko':34,'Cesko':37,'Pobrezi slonoviny':40,'Tunisko':43,
-  'Saudska Arabie':56,'Paraguay':60,'Kapverdy':71,'Panama':72,
-  'Uzbekistan':77,'Jordansko':80,'Curacao':85,'Haiti':83,
-  'Katar':93,'DR Kongo':59,'Ghana':54,'Jihoafricka rep.':66,
-  'Bosna a Hercegovina':49,'Novy Zeland':96,'Egypt':29,'Irak':64,'Rakousko':32,'Skotsko':33
-};
-
-// STATE
+// ── STATE ─────────────────────────────────────────────────
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','kalendar','tymy','admin'];
 
-// ── DATE HELPERS ──────────────────────────────────────────
-function matchDate(z){
-  // z[4]=year, z[5]=month(1-based), z[6]=day, z[7]=hour, z[8]=min
-  return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);
-}
-
-function datStr(z){
-  var m=z[5],d=z[6],h=z[7],mn=z[8];
-  return d+'.'+m+'. '+pad(h)+':'+pad(mn);
-}
-
+// ── DATES ─────────────────────────────────────────────────
+function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
-
-function countdown(z){
-  var md=matchDate(z);
-  var now=new Date();
-  var diff=md-now;
+function dStr(z){return z[6]+'.'+z[5]+'. '+pad(z[7])+':'+pad(z[8]);}
+function cdStr(z){
+  var diff=mDate(z)-new Date();
   if(diff<=0) return null;
-  var days=Math.floor(diff/86400000);
-  var hours=Math.floor((diff%86400000)/3600000);
-  var mins=Math.floor((diff%3600000)/60000);
-  if(days>0) return 'za '+days+'d '+hours+'h '+mins+'min';
-  if(hours>0) return 'za '+hours+'h '+mins+'min';
-  return 'za '+mins+' min';
+  var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+  if(d>0) return 'za '+d+'d '+h+'h '+m+'min';
+  if(h>0) return 'za '+h+'h '+m+'min';
+  return 'za '+m+' min';
+}
+function sortArr(arr,sort){
+  if(sort==='dt') return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});
+  return arr;
 }
 
-// ── SUPABASE ─────────────────────────────────────────────
+// ── SUPABASE ──────────────────────────────────────────────
 function sbf(path,method,body,prefer){
   var h={'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'};
   if(prefer) h['Prefer']=prefer;
@@ -574,20 +655,16 @@ function sbf(path,method,body,prefer){
       return r.json();
     });
 }
-
-function rpc(fn,params){
+function rpc(fn,p){
   return fetch(SBU+'/rest/v1/rpc/'+fn,{
     method:'POST',
     headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
-    body:JSON.stringify(params)
+    body:JSON.stringify(p)
   }).then(function(r){return r.json();});
 }
 
 // ── DATA LOADING ──────────────────────────────────────────
-function loadPlayers(){
-  return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});
-}
-
+function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
   return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){
@@ -595,7 +672,6 @@ function loadMyTips(){
     (d||[]).forEach(function(t){myTips[parseInt(t.zapas_id)]=t.tip;});
   });
 }
-
 function loadAllTips(){
   return sbf('tipy?select=hrac_id,zapas_id,tip').then(function(d){
     allTips={};
@@ -605,7 +681,6 @@ function loadAllTips(){
     });
   });
 }
-
 function loadResults(){
   return sbf('vysledky?select=zapas_id,skore').then(function(d){
     results={};
@@ -613,48 +688,40 @@ function loadResults(){
     updProgress();
   });
 }
-
 function updProgress(){
-  var n=Object.keys(results).length;
-  var pct=Math.round(n/104*100);
-  var el=document.getElementById('ptxt');
-  var fill=document.getElementById('pfil');
-  if(el) el.textContent='Odehrano: '+n+' / 104 zapasu ('+pct+'%)';
-  if(fill) fill.style.width=pct+'%';
+  var n=Object.keys(results).length,pct=Math.round(n/104*100);
+  setText('ptxt','Odehrano: '+n+' / 104 zapasu ('+pct+'%)');
+  var f=document.getElementById('pfil');
+  if(f) f.style.width=pct+'%';
 }
 
 // ── AUTH ──────────────────────────────────────────────────
 function doLogin(){
-  var j=document.getElementById('lj').value.trim();
-  var p=document.getElementById('lp').value.trim();
-  if(!j||!p){document.getElementById('le').textContent='Vyplnte jmeno i PIN';return;}
-  document.getElementById('le').textContent='Prihlasuji...';
+  var j=document.getElementById('lj').value.trim(),p=document.getElementById('lp').value.trim();
+  if(!j||!p){setText('le','Vyplnte jmeno i PIN');return;}
+  setText('le','Prihlasuji...');
   rpc('prihlasit_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
-    if(d.chyba){document.getElementById('le').textContent=d.chyba;return;}
-    myPin=p; finishLogin(d);
-  }).catch(function(e){document.getElementById('le').textContent='Chyba: '+e.message;});
+    if(d.chyba){setText('le',d.chyba);return;}
+    myPin=p;finishLogin(d);
+  }).catch(function(e){setText('le','Chyba: '+e.message);});
 }
-
 function doReg(){
-  var j=document.getElementById('rj').value.trim();
-  var p=document.getElementById('rp').value.trim();
-  var p2=document.getElementById('rp2').value.trim();
-  if(!j||!p){document.getElementById('re').textContent='Vyplnte jmeno i PIN';return;}
-  if(p!==p2){document.getElementById('re').textContent='PINy se neshoduji';return;}
-  if(p.length<4){document.getElementById('re').textContent='PIN musi mit aspon 4 znaky';return;}
-  document.getElementById('re').textContent='Registruji...';
+  var j=document.getElementById('rj').value.trim(),p=document.getElementById('rp').value.trim(),p2=document.getElementById('rp2').value.trim();
+  if(!j||!p){setText('re','Vyplnte jmeno i PIN');return;}
+  if(p!==p2){setText('re','PINy se neshoduji');return;}
+  if(p.length<4){setText('re','PIN musi mit aspon 4 znaky');return;}
+  setText('re','Registruji...');
   rpc('registruj_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
-    if(d.chyba){document.getElementById('re').textContent=d.chyba;return;}
-    myPin=p; finishLogin(d);
-  }).catch(function(e){document.getElementById('re').textContent='Chyba: '+e.message;});
+    if(d.chyba){setText('re',d.chyba);return;}
+    myPin=p;finishLogin(d);
+  }).catch(function(e){setText('re','Chyba: '+e.message);});
 }
-
 function finishLogin(d){
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
   try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('pp').textContent=me.jmeno;
+  setText('pp',me.jmeno);
   document.getElementById('pp').style.display='inline-block';
   if(me.je_admin){
     document.getElementById('ab').style.display='inline-block';
@@ -665,15 +732,10 @@ function finishLogin(d){
   }).then(function(){
     return loadMyTips();
   }).then(function(){
-    renderTipy();
-    renderKalendar();
-    renderStadiony();
-    renderTymy();
-    renderPavouk();
+    renderTipy();renderStadiony();renderTymy();renderPavouk();
   });
   showTab('tipy');
 }
-
 function doLogout(){
   me=null;myPin=null;myTips={};players=[];results={};allTips={};
   try{localStorage.removeItem('ms26s');}catch(e){}
@@ -684,45 +746,47 @@ function doLogout(){
   document.getElementById('pp').style.display='none';
   document.getElementById('lj').value='';
   document.getElementById('lp').value='';
-  document.getElementById('le').textContent='';
+  setText('le','');
 }
-
-function switchLoginTab(t){
+function swLoginTab(t){
   var il=t==='l';
   document.getElementById('lf').style.display=il?'block':'none';
   document.getElementById('rf').style.display=il?'none':'block';
-  document.getElementById('ltl').style.background=il?'#1a3a5c':'none';
-  document.getElementById('ltl').style.color=il?'#fff':'#5a7a96';
-  document.getElementById('ltr').style.background=il?'none':'#1a3a5c';
-  document.getElementById('ltr').style.color=il?'#5a7a96':'#fff';
+  document.getElementById('ltl').classList.toggle('on',il);
+  document.getElementById('ltr').classList.toggle('on',!il);
 }
 
 // ── TABS ──────────────────────────────────────────────────
 function showTab(name){
   TABS.forEach(function(t){
-    var p=document.getElementById('page-'+t);
-    var b=document.getElementById('tab-'+t);
+    var p=document.getElementById('page-'+t),b=document.getElementById('tab-'+t);
     if(p) p.style.display=t===name?'block':'none';
     if(b) b.classList.toggle('on',t===name);
   });
-  if(name==='zebricek') loadAllTips().then(renderZebricek);
-  if(name==='ostatni') loadAllTips().then(renderOstatni);
-  if(name==='vysledky') renderVysledky();
-  if(name==='tabulka') renderTabulka();
-  if(name==='pavouk') renderPavouk();
-  if(name==='mapa') renderMapa();
-  if(name==='tymy') renderTymy();
+  if(name==='zebricek') loadAllTips().then(renderZeb);
+  if(name==='ostatni') loadAllTips().then(renderOst);
+  if(name==='vysledky') renderVys();
+  if(name==='tabulka') renderTab();
   if(name==='admin') loadAllTips().then(renderAdmin);
 }
 
-// ── HELPERS ───────────────────────────────────────────────
-function sortedMatches(arr,sort){
-  if(sort==='dt') return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});
-  return arr;
+// ── PHASE SWITCHING ───────────────────────────────────────
+function swPhase(ctx,phase){
+  var prefix='ptab-'+ctx+'-';
+  ['sk','dt','po','cel','3m','rk'].forEach(function(p){
+    var b=document.getElementById(prefix+p);
+    if(b) b.classList.toggle('on',p===phase);
+  });
+  if(ctx==='tipy'){tipSort=phase;renderTipy();}
+  else if(ctx==='ost'){ostSort=phase;renderOst();}
+  else if(ctx==='zeb'){zebPhase=phase;renderZeb();}
+  else if(ctx==='vys'){vysSort=phase;renderVys();}
+  else if(ctx==='tab'){tabPhase=phase;renderTab();}
+  else if(ctx==='tym'){tymPhase=phase;renderTymy();}
 }
 
+// ── HELPERS ───────────────────────────────────────────────
 function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
-
 function calcPts(tip,res){
   var t=tip.split(':').map(Number),r=res.split(':').map(Number);
   if(isNaN(t[0])||isNaN(r[0])) return null;
@@ -730,87 +794,98 @@ function calcPts(tip,res){
   var s=function(x){return x>0?1:x<0?-1:0;};
   return s(t[0]-t[1])===s(r[0]-r[1])?2:0;
 }
-
 function setSt(id,msg,err,ok){
-  var el=document.getElementById(id);
-  if(!el) return;
-  el.textContent=msg;
-  el.className='sb'+(err?' err':ok?' ok':'');
+  var e=document.getElementById(id);
+  if(!e) return;
+  e.textContent=msg;
+  e.className='sb'+(err?' err':ok?' ok':'');
 }
-
-function ptsBadge(pts,tip){
+function ptsBdg(pts,tip){
   if(pts===5) return '<span class="pt p5">5b</span>';
   if(pts===2) return '<span class="pt p2">2b</span>';
   if(pts===0&&tip) return '<span class="pt p0">0b</span>';
   return '';
 }
-
-function ghLabel(sk){return SKU.indexOf(sk)>=0?'SKUPINA '+sk:sk;}
-
-function fmtTym(name){return fl(name)?fl(name)+' '+name:name;}
+function ghL(sk){return SKU.indexOf(sk)>=0?'Skupina '+sk:sk;}
 
 // ── TIPY ──────────────────────────────────────────────────
 function renderTipy(){
   if(!me) return;
   var isAdmin=me.je_admin;
-  var zapasy;
-  if(tipSort==='po'){
-    zapasy=PZ;
-  } else {
-    zapasy=SZ.slice();
-    if(tipSort==='dt'){
-      zapasy=zapasy.sort(function(a,b){return matchDate(a)-matchDate(b);});
-    }
-  }
+  var arr=tipSort==='po'?PZ:sortArr(SZ,tipSort);
   var html='',prev=null;
-  zapasy.forEach(function(z){
+  arr.forEach(function(z){
     var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var dat=datStr(z);
-    var cd=countdown(z);
+    var now=new Date();
+    var started=mDate(z)<=now;
     var res=results[id];
     var tip=myTips[id]||'';
-    var started=mDate(z)<=new Date();
-    var locked=!!res||started||(!!tip&&!isAdmin);
+    // Lock if: match started OR res exists OR (not admin and tip already saved)
+    var locked=started||!!res||(!isAdmin&&!!tip);
     var pts=(res&&tip)?calcPts(tip,res):null;
+    var cd=cdStr(z);
 
-    if(tipSort!=='dt'&&sk!==prev){
-      html+='<div class="gh">'+ghLabel(sk)+'</div>';
-      prev=sk;
-    }
+    if(tipSort!=='dt'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
+    else if(tipSort==='po'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
 
     html+='<div class="mr">';
-    html+='<div><div class="mt">'+fmtTym(d)+' &ndash; '+fmtTym(h)+'</div>';
-    html+='<div class="mm">'+dat;
-    if(res) html+='<span class="rt done">'+res+'</span>';
+    html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
+    html+='<div class="mm">'+dStr(z);
+    if(res) html+='<span class="rt rt-d">'+res+'</span>';
+    else if(started) html+='<span class="rt" style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2)">probiha/skoncilo</span>';
     else if(cd) html+='<span class="cd">'+cd+'</span>';
-    else html+='<span class="rt">probiha</span>';
     html+='</div></div>';
-    html+='<div class="mr-r"><span class="mlbl">TIP</span>'+ptsBadge(pts,tip);
-    html+='<input class="ti'+(tip?' sv':'')+'" id="t'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
-    // Admin: show edit button even for locked
-    if(isAdmin&&locked) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip(\''+id+'\',\''+myTips[id]+'\')">&#9998;</button>';
+    html+='<div class="mr-r"><span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
+    html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+    if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
     html+='</div></div>';
   });
-  document.getElementById('tipy-list').innerHTML=html;
-
-  // Input validation - no unlock for non-admin
-  zapasy.forEach(function(z){
-    var inp=document.getElementById('t'+z[0]);
+  document.getElementById('tipy-list').innerHTML=html||'<div class="empty">Zadne zapasy</div>';
+  // Input validation
+  arr.forEach(function(z){
+    var inp=document.getElementById('ti'+z[0]);
     if(inp&&!inp.disabled){
       inp.addEventListener('input',function(){
-        var v=this.value.trim();
         this.classList.remove('sv','bd');
+        var v=this.value.trim();
         if(!v) return;
-        if(/^[0-9]+:[0-9]+$/.test(v)) this.classList.add('sv');
-        else this.classList.add('bd');
+        this.classList.add(/^[0-9]+:[0-9]+$/.test(v)?'sv':'bd');
       });
     }
   });
 }
 
-function adminEditTip(zapasId,currentTip){
+function saveTips(){
+  if(!me) return;
+  var arr=tipSort==='po'?PZ:SZ;
+  var now=new Date();
+  var rows=[];
+  arr.forEach(function(z){
+    var inp=document.getElementById('ti'+z[0]);
+    if(!inp||inp.disabled) return;
+    var v=inp.value.trim();
+    // Double-check: don't save if match already started
+    if(mDate(z)<=now) return;
+    if(v&&/^[0-9]+:[0-9]+$/.test(v)) rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
+  });
+  if(!rows.length){setSt('st-tipy','Zadne platne tipy (format: 2:1)');return;}
+  setSt('st-tipy','Ukladam '+rows.length+' tipu...');
+  var ok=0,err=0;
+  function done(){
+    if(ok+err<rows.length) return;
+    if(err===0){loadMyTips().then(renderTipy);setSt('st-tipy','Ulozeno '+ok+' tipu!',false,true);}
+    else setSt('st-tipy','Chyba pri ukladani',true);
+  }
+  rows.forEach(function(row){
+    rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
+      .then(function(d){if(d&&d.chyba) err++;else ok++;done();})
+      .catch(function(){err++;done();});
+  });
+}
+
+function adminEditTip(zapasId,cur){
   if(!me||!me.je_admin) return;
-  var nt=prompt('Novy tip pro zapas #'+zapasId+' (format: 2:1):',currentTip||'');
+  var nt=prompt('Novy tip pro zapas #'+zapasId+' (format: 2:1):',cur||'');
   if(nt===null) return;
   nt=nt.trim();
   if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Neplatny format. Pouzij 2:1');return;}
@@ -819,78 +894,44 @@ function adminEditTip(zapasId,currentTip){
     .catch(function(e){alert('Chyba: '+e.message);});
 }
 
-function saveTips(){
-  if(!me){setSt('st-tipy','Nejdrive se prihlaste',true);return;}
-  var zapasy=tipSort==='po'?PZ:SZ;
-  var rows=[];
-  zapasy.forEach(function(z){
-    var inp=document.getElementById('t'+z[0]);
-    if(!inp||inp.disabled) return;
-    var v=inp.value.trim();
-    if(v&&/^[0-9]+:[0-9]+$/.test(v)){
-      rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
-    }
-  });
-  if(!rows.length){setSt('st-tipy','Zadne platne tipy (format: 2:1)');return;}
-  setSt('st-tipy','Ukladam '+rows.length+' tipu...');
-  var done=0,errs=0;
-  var finish=function(){
-    if(done+errs<rows.length) return;
-    if(errs===0){
-      loadMyTips().then(renderTipy);
-      setSt('st-tipy','Ulozeno '+done+' tipu!',false,true);
-    } else {
-      setSt('st-tipy','Chyba pri ukladani',true);
-    }
-  };
-  rows.forEach(function(row){
-    rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
-      .then(function(d){if(d&&d.chyba) errs++;else done++;finish();})
-      .catch(function(){errs++;finish();});
-  });
-}
-
 // ── TIPY OSTATNICH ────────────────────────────────────────
-function renderOstatni(){
+function renderOst(){
   var el=document.getElementById('ost-list');
-  var arr=ostSort==='po'?PZ:sortedMatches(SZ,ostSort);
+  var arr=ostSort==='po'?PZ:sortArr(SZ,ostSort);
   var others=players.filter(function(p){return !me||p.id!==me.id;});
   if(!others.length){el.innerHTML='<div class="empty">Zatim zadni dalsi hraci</div>';return;}
 
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.8rem">';
-  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:150px">Zapas</th>';
-  others.forEach(function(p,i){
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
+  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:140px">Zapas</th>';
+  others.forEach(function(p){
     var ci=players.indexOf(p);
-    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:75px">'+p.jmeno+'</th>';
+    html+='<th style="padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+p.jmeno+'</th>';
   });
   html+='</tr></thead><tbody>';
 
   var prev=null;
   arr.forEach(function(z){
     var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var res=results[id];
-    var myTip=myTips[id];
+    var res=results[id],myTip=myTips[id];
     var canSee=!!myTip;
 
-    if(sk!==prev){
-      html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.67rem;font-weight:700;color:var(--mu);letter-spacing:.08em;text-transform:uppercase">'+ghLabel(sk)+'</td></tr>';
+    if(ostSort!=='dt'&&sk!==prev){
+      html+='<tr><td colspan="'+(others.length+1)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
       prev=sk;
     }
 
-    html+='<tr><td style="padding:5px 8px;border-bottom:1px solid var(--bg)">';
-    html+=fl(d)+'&nbsp;'+d+' &ndash; '+fl(h)+'&nbsp;'+h;
-    if(res) html+=' <span style="color:var(--gn);font-weight:700;font-size:.72rem">('+res+')</span>';
+    html+='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fl(d)+' '+d+' &ndash; '+fl(h)+' '+h;
+    if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
     html+='</td>';
     others.forEach(function(p){
-      var tips=allTips[p.id]||{};
-      var tip=tips[id]||'';
+      var tips=allTips[p.id]||{},tip=tips[id]||'';
       if(!canSee){
-        html+='<td style="padding:5px 7px;border-bottom:1px solid var(--bg);text-align:center;color:var(--mu)">?</td>';
+        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
       } else {
         var pts=(res&&tip)?calcPts(tip,res):null;
-        var bg=pts===5?'#052010':pts===2?'#051525':(pts===0&&tip)?'#1f0808':'';
-        var col=pts===5?'var(--gn)':pts===2?'var(--ac)':(pts===0&&tip)?'var(--rd)':'var(--mu)';
-        html+='<td style="padding:5px 7px;border-bottom:1px solid var(--bg);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?'700':'400')+'">'+(tip||'\u2014')+'</td>';
+        var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+        var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+        html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?'700':'400')+'">'+(tip||'&mdash;')+'</td>';
       }
     });
     html+='</tr>';
@@ -900,15 +941,12 @@ function renderOstatni(){
 }
 
 // ── ZEBRICEK ──────────────────────────────────────────────
-function renderZebricek(){
-  var zapasy=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
+function renderZeb(){
+  var arr=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
   var scored=players.map(function(p,i){
-    var tips=(p.id===me&&me?me.id:null)===p.id?myTips:(allTips[p.id]||{});
-    // Fix: proper check
-    if(me&&p.id===me.id) tips=myTips;
-    else tips=allTips[p.id]||{};
+    var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
     var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
-    zapasy.forEach(function(z){
+    arr.forEach(function(z){
       var res=results[z[0]],tip=tips[z[0]];
       if(tip) uzam++;
       if(res&&tip){
@@ -922,54 +960,54 @@ function renderZebricek(){
   var med=['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49'];
   document.getElementById('zeb-list').innerHTML=scored.map(function(s,rank){
     var isMe=me&&me.id===s.p.id;
-    return '<div class="lbr'+(isMe?' me':'')+'">'
-      +'<div style="width:28px;text-align:center;font-size:1.1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'
-      +'<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+ini(s.p.jmeno)+'</div>'
-      +'<div style="flex:1"><div class="ln">'+s.p.jmeno+(isMe?'<span style="font-size:.65rem;color:var(--gn);margin-left:5px">(ty)</span>':'')+'</div>'
-      +'<div class="ls"><span>'+s.pre+'&#215; presne</span><span>'+s.spr+'&#215; spravne</span><span>'+s.spa+'&#215; spatne</span><span style="color:var(--bd2)">'+s.hod+' hodnocenych</span></div></div>'
-      +'<div class="lp">'+s.total+'</div>'
-      +'</div>';
+    return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
+      '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
+      '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+ini(s.p.jmeno)+'</div>'+
+      '<div style="flex:1">'+
+        '<div class="ln">'+s.p.jmeno+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">(ty)</span>':'')+'</div>'+
+        '<div class="ls">'+
+          '<span>'+s.pre+'x presne</span>'+
+          '<span>'+s.spr+'x spravne</span>'+
+          '<span>'+s.spa+'x spatne</span>'+
+          '<span style="color:var(--ac2)">'+s.uzam+' ulozenych</span>'+
+          '<span style="color:var(--mu)">'+s.hod+' hod.</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="lp">'+s.total+'</div>'+
+      '</div>';
   }).join('')||'<div class="empty">Zatim zadni hraci</div>';
 }
 
 // ── VYSLEDKY ──────────────────────────────────────────────
-function renderVysledky(){
-  var zapasy=vysSort==='po'?PZ:sortedMatches(SZ,vysSort);
+function renderVys(){
+  var arr=vysSort==='po'?PZ:sortArr(SZ,vysSort);
   var html='',prev=null;
-  zapasy.forEach(function(z){
+  arr.forEach(function(z){
     var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var dat=datStr(z);
-    var cd=countdown(z);
-    var res=results[id];
-    if(sk!==prev){html+='<div class="gh">'+ghLabel(sk)+'</div>';prev=sk;}
+    var res=results[id],cd=cdStr(z);
+    if(vysSort!=='dt'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
     html+='<div class="rr">';
-    html+='<div class="rh">'+fmtTym(d)+'</div>';
-    html+='<div style="text-align:center">';
-    html+='<div class="rs '+(res?'dn':'tb')+'">'+(res||'\u2014')+'</div>';
-    html+='<div style="font-size:.66rem;color:var(--mu)">'+dat+'</div>';
-    if(!res&&cd) html+='<div style="font-size:.66rem;color:var(--ac)">'+cd+'</div>';
+    html+='<div class="rh">'+fT(d)+'</div>';
+    html+='<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'&mdash;')+'</div>';
+    html+='<div style="font-size:.64rem;color:var(--mu)">'+dStr(z)+'</div>';
+    if(!res&&cd) html+='<div style="font-size:.64rem;color:var(--ac2)">'+cd+'</div>';
     html+='</div>';
-    html+='<div class="ra">'+fmtTym(h)+'</div>';
-    html+='</div>';
+    html+='<div class="ra">'+fT(h)+'</div></div>';
   });
-  document.getElementById('vys-list').innerHTML=html||'<div class="empty">Klikni Aktualizovat</div>';
+  document.getElementById('vys-list').innerHTML=html||'<div class="empty">'+tr('vys_empty')+'</div>';
 }
 
-// ── SKUPINOVA TABULKA ─────────────────────────────────────
+// ── TABULKA ───────────────────────────────────────────────
 function calcTables(){
   var tbls={};
   SKU.forEach(function(sk){
     tbls[sk]={};
-    TEAMS[sk].forEach(function(t){
-      tbls[sk][t[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};
-    });
+    TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});
   });
   SZ.forEach(function(z){
-    var id=z[0],sk=z[1],home=z[2],away=z[3];
-    var res=results[id];
+    var id=z[0],sk=z[1],home=z[2],away=z[3],res=results[id];
     if(!res||!tbls[sk]) return;
-    var pts=res.split(':').map(Number);
-    var hg=pts[0],ag=pts[1];
+    var sp=res.split(':').map(Number),hg=sp[0],ag=sp[1];
     if(isNaN(hg)||isNaN(ag)) return;
     var ht=tbls[sk][home],at=tbls[sk][away];
     if(!ht||!at) return;
@@ -980,272 +1018,144 @@ function calcTables(){
   });
   return tbls;
 }
-
-function renderTabulka(){
+function sortGrp(obj){
+  return Object.keys(obj).map(function(t){return {name:t,d:obj[t]};})
+    .sort(function(a,b){
+      if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
+      var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
+      if(gb!==ga) return gb-ga;
+      return b.d.gf-a.d.gf;
+    });
+}
+function renderTab(){
   var tbls=calcTables();
-  if(tabPhase==='po'){
-    document.getElementById('tab-list').innerHTML='<div class="empty">Pavouk play-off bude dostupny po skonceni skupinove faze (29.6.2026)</div>';
-    return;
-  }
-  if(tabPhase==='3m'){
-    renderTretimista(tbls);
-    return;
-  }
+  if(tabPhase==='3m'){render3mista(tbls);return;}
   var html='<div class="stg">';
   SKU.forEach(function(sk){
-    var teams=Object.keys(tbls[sk]).map(function(t){return {name:t,d:tbls[sk][t]};})
-      .sort(function(a,b){
-        if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-        var gda=a.d.gf-a.d.ga,gdb=b.d.gf-b.d.ga;
-        if(gdb!==gda) return gdb-gda;
-        return b.d.gf-a.d.gf;
-      });
+    var teams=sortGrp(tbls[sk]);
     html+='<div class="stc"><div class="stc-h">SKUPINA '+sk+'</div><table>';
-    html+='<thead><tr><th>#</th><th>Tym</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Skore</th><th>B</th></tr></thead><tbody>';
-    teams.forEach(function(t,i){
-      var rowCls=i===0?'pos1':i===1?'pos2':i===2?'pos3':'';
-      html+='<tr class="'+rowCls+'"><td>'+(i+1)+'</td>';
-      html+='<td>'+fl(t.name)+' '+t.name+'</td>';
-      html+='<td>'+t.d.z+'</td><td>'+t.d.v+'</td><td>'+t.d.r+'</td><td>'+t.d.p+'</td>';
-      html+='<td>'+t.d.gf+':'+t.d.ga+'</td>';
-      html+='<td style="font-weight:700;color:var(--gd)">'+t.d.pts+'</td></tr>';
+    html+='<thead><tr><th>#</th><th>Tym</th><th title="Zapasy">Z</th><th title="Vyhry">V</th><th title="Remizy">R</th><th title="Prohry">P</th><th title="Skore">G</th><th title="Body">B</th></tr></thead><tbody>';
+    teams.forEach(function(tm,i){
+      var pc=i===0?'p1':i===1?'p2':i===2?'p3':'';
+      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tm.name+'</td>';
+      html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
+      html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
     });
     html+='</tbody></table></div>';
   });
   html+='</div>';
-  html+='<div style="font-size:.75rem;color:var(--mu);margin-top:.5rem"><span style="display:inline-block;width:10px;height:10px;background:#051525;border-radius:2px;margin-right:5px"></span>Postupuji primo do 16F &nbsp; <span style="font-size:.72rem">(4 nejlepsi treti mista take postupuji — viz zalozka "Tabulka 3. mist")</span></div>';
   document.getElementById('tab-list').innerHTML=html;
 }
-
-function renderTretimista(tbls){
-  // Collect all 3rd place teams
+function render3mista(tbls){
   var thirds=[];
   SKU.forEach(function(sk){
-    var sorted=Object.keys(tbls[sk]).map(function(t){return {name:t,sk:sk,d:tbls[sk][t]};})
-      .sort(function(a,b){
-        if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-        var gda=a.d.gf-a.d.ga,gdb=b.d.gf-b.d.ga;
-        if(gdb!==gda) return gdb-gda;
-        return b.d.gf-a.d.gf;
-      });
-    if(sorted[2]) thirds.push(sorted[2]);
+    var t=sortGrp(tbls[sk]);
+    if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});
   });
   thirds.sort(function(a,b){
     if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-    var gda=a.d.gf-a.d.ga,gdb=b.d.gf-b.d.ga;
-    if(gdb!==gda) return gdb-gda;
+    var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
+    if(gb!==ga) return gb-ga;
     return b.d.gf-a.d.gf;
   });
-
-  var html='<div class="stc" style="max-width:600px"><div class="stc-h">TABULKA 3. MIST — top 8 postupuje do 16F</div><table>';
-  html+='<thead><tr><th>#</th><th>Tym</th><th>Sk.</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Skore</th><th>B</th></tr></thead><tbody>';
-  thirds.forEach(function(t,i){
-    var rowCls=i<8?'pos3':'';
-    html+='<tr class="'+rowCls+'"><td>'+(i+1)+'</td>';
-    html+='<td>'+fl(t.name)+' '+t.name+'</td><td>'+t.sk+'</td>';
-    html+='<td>'+t.d.z+'</td><td>'+t.d.v+'</td><td>'+t.d.r+'</td><td>'+t.d.p+'</td>';
-    html+='<td>'+t.d.gf+':'+t.d.ga+'</td>';
-    html+='<td style="font-weight:700;color:var(--gd)">'+t.d.pts+'</td></tr>';
+  var html='<div class="stc" style="max-width:580px"><div class="stc-h">TABULKA 3. MIST — top 8 postupuje do 16F</div><table>';
+  html+='<thead><tr><th>#</th><th>Tym</th><th>Sk.</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>G</th><th>B</th></tr></thead><tbody>';
+  thirds.forEach(function(tm,i){
+    html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td>';
+    html+='<td>'+fl(tm.name)+' '+tm.name+'</td><td style="color:var(--mu)">'+tm.sk+'</td>';
+    html+='<td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td>';
+    html+='<td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
   });
   html+='</tbody></table></div>';
-  html+='<div style="font-size:.75rem;color:var(--mu);margin-top:.5rem"><span style="display:inline-block;width:10px;height:10px;background:#0a1f0a;border-radius:2px;margin-right:5px"></span>Top 8 postupuje do 16F</div>';
   document.getElementById('tab-list').innerHTML=html;
-}
-
-// ── KALENDAR ──────────────────────────────────────────────
-function renderKalendar(){
-  var html='<table class="tbl"><thead><tr><th>#</th><th>Datum (SELC)</th><th>Sk.</th><th>Domaci</th><th>Hoste</th><th>Stadion</th><th>Muj tip</th><th>Vysledek</th></tr></thead><tbody>';
-  SZ.concat(PZ).forEach(function(z){
-    var id=z[0],sk=z[1],d=z[2],h=z[3];
-    var dat=datStr(z);
-    var stad=z[9];
-    var res=results[id];
-    var tip=myTips[id]||'';
-    var cd=countdown(z);
-    html+='<tr>';
-    html+='<td style="color:var(--mu);font-size:.7rem">'+id+'</td>';
-    html+='<td style="font-size:.77rem">'+dat+(cd&&!res?'<br><span style="color:var(--ac);font-size:.67rem">'+cd+'</span>':'')+'</td>';
-    html+='<td><span style="font-size:.68rem;padding:1px 5px;border-radius:20px;background:var(--bg3);color:var(--mu)">'+(SKU.indexOf(sk)>=0?'Sk.'+sk:sk)+'</span></td>';
-    html+='<td style="font-weight:600">'+fl(d)+' '+d+'</td>';
-    html+='<td style="font-weight:600">'+fl(h)+' '+h+'</td>';
-    html+='<td style="font-size:.75rem;color:var(--mu)">'+(stad?'<a href="https://en.wikipedia.org/wiki/Special:Search?search='+encodeURIComponent(stad)+'" target="_blank" style="color:var(--mu)">'+stad+'</a>':'')+'</td>';
-    html+='<td style="text-align:center;font-weight:700;color:'+(tip?'var(--gn)':'var(--mu)')+'">'+( tip||'\u2014')+'</td>';
-    html+='<td style="text-align:center;font-weight:700;color:'+(res?'var(--gn)':'var(--mu)')+'">'+( res||'\u2014')+'</td>';
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  document.getElementById('kal-list').innerHTML=html;
-}
-
-// ── STADIONY ──────────────────────────────────────────────
-function renderStadiony(){
-  // Map iframe first
-  var mapHtml='<div style="border-radius:12px;overflow:hidden;height:380px;margin-bottom:1.1rem;border:1px solid var(--bd)">'
-    +'<iframe width="100%" height="100%" style="border:none" loading="lazy" '
-    +'src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=MetLife+Stadium,New+Jersey&zoom=4"'
-    +'onerror="this.parentNode.innerHTML=\'<div style=\"display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--mu)\"><div style=\"text-align:center\"><div style=\"font-size:2rem;margin-bottom:.5rem\">🗺️</div><div>Mapa neni dostupna offline</div></div></div>\'">'
-    +'</iframe></div>';
-  // Legend
-  mapHtml+='<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem;font-size:.73rem;color:var(--mu)">'
-    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#60a5fa;margin-right:4px;vertical-align:middle"></span>USA (11)</span>'
-    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#f87171;margin-right:4px;vertical-align:middle"></span>Kanada (2)</span>'
-    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle"></span>Mexiko (3)</span>'
-    +'</div>';
-
-  // Stadium photos from Wikimedia Commons
-  var FOTOS={
-    'MetLife Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/80px-MetLife_Stadium_-_aerial_view.jpg',
-    'AT&T Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/80px-Cowboys_Stadium_Arlington.jpg',
-    'SoFi Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/80px-SoFi_Stadium_-_2022.jpg',
-    'Hard Rock Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/80px-Hard_Rock_Stadium_aerial_2018.jpg',
-    'Lumen Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/80px-Lumen_Field_September_2021.jpg',
-    "Levi's Stadium":'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/80px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg',
-    'Arrowhead Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/80px-Arrowhead_Stadium_2015.jpg',
-    'NRG Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/80px-NRG_Stadium_2015.jpg',
-    'Lincoln Financial Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/80px-Lincoln_Financial_Field_2017.jpg',
-    'Mercedes-Benz Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/80px-Mercedes-Benz_Stadium.jpg',
-    'Gillette Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/80px-Gillette_Stadium_2015.jpg',
-    'BMO Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/80px-BMO_Field_2016.jpg',
-    'BC Place':'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/80px-BC_Place_Stadium_2011.jpg',
-    'Estadio Azteca':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/80px-Azteca_estadio.jpg',
-    'Estadio BBVA':'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/80px-Estadio_BBVA_2015.jpg',
-    'Estadio Akron':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/80px-Estadio_Akron_2010.jpg'
-  };
-
-  var html=mapHtml+'<div style="overflow-x:auto"><table class="tbl"><thead><tr>'
-    +'<th style="width:70px">Foto</th><th>Stadion</th><th>Město</th><th>Země</th><th>Kapacita</th><th>Fáze</th>'
-    +'</tr></thead><tbody>';
-  STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6];
-    var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
-    var wiki='https://en.wikipedia.org/wiki/Special:Search?search='+encodeURIComponent(n);
-    var gmaps='https://maps.google.com/?q='+lat+','+lon;
-    var foto=FOTOS[n]?'<img src="'+FOTOS[n]+'" style="width:68px;height:42px;object-fit:cover;border-radius:5px;display:block" onerror="this.style.display='none'" alt="">':'';
-    html+='<tr>';
-    html+='<td>'+foto+'</td>';
-    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:none">'+n+'</a></td>';
-    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">'+c+' 📍</a></td>';
-    html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
-    html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
-    html+='<td style="font-size:.74rem;color:var(--mu)">'+f+'</td>';
-    html+='</tr>';
-  });
-  html+='</tbody></table></div>';
-  document.getElementById('stad-list').innerHTML=html;
-}
-
-// ── TYMY ──────────────────────────────────────────────────
-function renderTymy(){
-  var html='';
-  SKU.forEach(function(sk){
-    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0;margin-bottom:8px">SKUPINA '+sk+'</div>';
-    html+='<div class="tm-grid">';
-    TEAMS[sk].forEach(function(t){
-      var name=t[0];
-      html+='<div class="tc"><div class="tf">'+fl(name)+'</div><div><div class="tn">'+name+'</div><div class="tsk">Soupisky: brzy</div></div></div>';
-    });
-    html+='</div></div>';
-  });
-  document.getElementById('tym-list').innerHTML=html;
 }
 
 // ── PAVOUK ────────────────────────────────────────────────
 function renderPavouk(){
   var rounds=[
-    {lbl:'16F (28.6-3.7)',matches:PZ.slice(0,16)},
-    {lbl:'Osmifinale (4-7.7)',matches:PZ.slice(16,24)},
-    {lbl:'Ctvrfinale (9-12.7)',matches:PZ.slice(24,28)},
-    {lbl:'Semifinale',matches:PZ.slice(28,30)},
-    {lbl:'Finale 19.7',matches:[PZ[31]]}
+    {lbl:'16F (28.6\u20133.7)',matches:PZ.slice(0,16)},
+    {lbl:'Osmifinale (4\u20137.7)',matches:PZ.slice(16,24)},
+    {lbl:'Ctvrfinale (9\u201312.7)',matches:PZ.slice(24,28)},
+    {lbl:'Semifinale (14\u201315.7)',matches:PZ.slice(28,30)},
+    {lbl:'Finale (19.7)',matches:[PZ[31]]}
   ];
-  var html='<div style="display:flex;gap:8px;min-width:800px">';
+  var html='<div style="display:flex;gap:8px">';
   rounds.forEach(function(round){
-    html+='<div style="flex:1;min-width:145px">';
-    html+='<div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+round.lbl+'</div>';
-    var numMatches=round.matches.length;
-    var spacing=Math.max(0,Math.floor((numMatches===1?60:0)));
-    round.matches.forEach(function(z,mi){
+    html+='<div style="flex:1;min-width:140px">';
+    html+='<div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+round.lbl+'</div>';
+    round.matches.forEach(function(z){
       if(!z) return;
       var id=z[0],d=z[2],h=z[3],res=results[id];
       var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
-      html+='<div style="background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:7px 9px;margin-bottom:6px">';
-      html+='<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bd);font-size:.77rem">';
-      html+='<span>'+fl(d)+' '+d+'</span><span style="font-weight:700;color:var(--gd)">'+hg+'</span></div>';
-      html+='<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.77rem">';
-      html+='<span>'+fl(h)+' '+h+'</span><span style="font-weight:700;color:var(--gd)">'+ag+'</span></div>';
-      html+='<div style="font-size:.64rem;color:var(--mu);text-align:center;margin-top:3px">'+dStr(z)+'</div>';
+      html+='<div class="bm">';
+      html+='<div class="bm-t"><span class="bm-n">'+fl(d)+' '+d+'</span><span class="bm-s">'+hg+'</span></div>';
+      html+='<div class="bm-t"><span class="bm-n">'+fl(h)+' '+h+'</span><span class="bm-s">'+ag+'</span></div>';
+      html+='<div class="bm-d">'+dStr(z)+'</div>';
       html+='</div>';
     });
     html+='</div>';
   });
   html+='</div>';
-  document.getElementById('pavouk-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
+  document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
 }
 
-// ── MAPA ──────────────────────────────────────────────────
-function renderMapa(){
-  var html='<table class="tbl"><thead><tr><th>Stadion</th><th>Město</th><th>Země</th><th>Kapacita</th><th>Fáze</th><th>GPS</th></tr></thead><tbody>';
+// ── STADIONY ──────────────────────────────────────────────
+function renderStadiony(){
+  var html='<table class="tbl"><thead><tr><th>Foto</th><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze</th></tr></thead><tbody>';
   STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6];
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
     var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
     var gmaps='https://maps.google.com/?q='+lat+','+lon;
-    var wiki='https://en.wikipedia.org/wiki/Special:Search?search='+encodeURIComponent(n);
     html+='<tr>';
-    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx)">'+n+'</a></td>';
-    html+='<td>'+c+'</td>';
+    html+='<td><img src="'+img+'" class="stad-img" alt="'+n+'" loading="lazy"></td>';
+    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:underline;text-underline-offset:2px">'+n+'</a></td>';
+    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">'+c+' 📍</a></td>';
     html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
     html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
-    html+='<td style="font-size:.74rem;color:var(--mu)">'+f+'</td>';
-    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2);font-size:.74rem">📍 Mapa</a></td>';
+    html+='<td style="font-size:.73rem;color:var(--mu)">'+f+'</td>';
     html+='</tr>';
   });
   html+='</tbody></table>';
-  document.getElementById('stad-tbl').innerHTML=html;
+  document.getElementById('stad-list').innerHTML=html;
 }
 
-// ── FIFA RANKING ──────────────────────────────────────────
-function renderFifaRanking(){
-  var all=[];
-  var seen={};
-  Object.keys(TEAMS).forEach(function(sk){
-    TEAMS[sk].forEach(function(tm){
-      var name=tm[0];
-      if(!seen[name]){
-        seen[name]=true;
-        all.push({name:name,sk:sk,rk:FIFA_RANK[name]||999});
-      }
-    });
-  });
-  all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl"><thead><tr><th style="width:45px">Rank</th><th>Tým</th><th>Skupina</th></tr></thead><tbody>';
-  all.forEach(function(tm){
-    html+='<tr>';
-    html+='<td style="font-weight:700;font-size:.9rem;color:'+(tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':'var(--mu)')+'">'+( tm.rk<999?'#'+tm.rk:'-')+'</td>';
-    html+='<td><span style="font-size:1.1rem;margin-right:6px">'+fl(tm.name)+'</span>'+tm.name+'</td>';
-    html+='<td><span style="font-size:.73rem;padding:2px 8px;border-radius:20px;background:var(--bg4);color:var(--mu2)">Sk.'+tm.sk+'</span></td>';
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  document.getElementById('tym-list').innerHTML=html;
-}
-
-// ── TYMY (updated) ────────────────────────────────────────
+// ── TYMY ──────────────────────────────────────────────────
 function renderTymy(){
   if(tymPhase==='rk'){renderFifaRanking();return;}
   var html='';
   Object.keys(TEAMS).sort().forEach(function(sk){
-    html+='<div style="margin-bottom:1.1rem">';
-    html+='<div class="gh" style="margin-top:0">Skupina '+sk+'</div>';
+    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">Skupina '+sk+'</div>';
     html+='<div class="tm-grid">';
     TEAMS[sk].forEach(function(tm){
-      var name=tm[0],rk=FIFA_RANK[name];
-      html+='<div class="tc"><div class="tf">'+fl(name)+'</div>';
+      var name=tm[0],rk=FIFA[name];
+      html+='<div class="tc" onclick="showTab(\'tymy\')">';
+      html+='<div class="tf">'+fl(name)+'</div>';
       html+='<div><div class="tn">'+name+'</div>';
-      html+='<div style="font-size:.69rem;color:var(--gd);margin-top:1px">'+(rk&&rk<999?'FIFA #'+rk:'')+'</div>';
-      html+='<div style="font-size:.67rem;color:var(--mu);margin-top:1px">Soupisky: brzy</div></div></div>';
+      if(rk) html+='<div class="trk">FIFA #'+rk+'</div>';
+      html+='<div class="tsk">Soupisky: brzy</div></div></div>';
     });
     html+='</div></div>';
   });
+  document.getElementById('tym-list').innerHTML=html;
+}
+function renderFifaRanking(){
+  var all=[],seen={};
+  Object.keys(TEAMS).forEach(function(sk){
+    TEAMS[sk].forEach(function(tm){
+      var name=tm[0];
+      if(!seen[name]){seen[name]=true;all.push({name:name,sk:sk,rk:FIFA[name]||999});}
+    });
+  });
+  all.sort(function(a,b){return a.rk-b.rk;});
+  var html='<table class="tbl"><thead><tr><th style="width:42px">Rank</th><th>Tym</th><th>Skupina</th></tr></thead><tbody>';
+  all.forEach(function(tm){
+    var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
+    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
+    html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tm.name+'</td>';
+    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">Sk.'+tm.sk+'</span></td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html;
 }
 
@@ -1255,32 +1165,26 @@ function renderAdmin(){
   var el=document.getElementById('adm-list');
   var all=SZ.concat(PZ);
   if(!players.length){el.innerHTML='<div class="empty">Zatim zadni hraci</div>';return;}
-
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.79rem">';
-  html+='<thead><tr><th style="text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:140px">Zapas</th>';
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem">';
+  html+='<thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">Zapas</th>';
   players.forEach(function(p,i){
-    html+='<th class="adh" data-hid="'+p.id+'" data-jmeno="'+p.jmeno+'" style="padding:6px 7px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:75px;cursor:pointer" title="Klikni pro smazani">'+p.jmeno+' <span style="opacity:.5;font-size:.65rem">&#128465;</span></th>';
+    html+='<th class="adh" data-hid="'+p.id+'" data-jmeno="'+p.jmeno+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="Klikni pro smazani">'+p.jmeno+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
   });
   html+='</tr></thead><tbody>';
-
   all.forEach(function(z){
-    var id=z[0],d=z[2],h=z[3];
-    var res=results[id];
-    html+='<tr><td style="padding:5px 8px;border-bottom:1px solid var(--bg);font-size:.77rem">'+d+' \u2013 '+h+(res?' <span style="color:var(--gn);font-weight:700">('+res+')</span>':'')+'</td>';
+    var id=z[0],d=z[2],h=z[3],res=results[id];
+    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+d+' \u2013 '+h+(res?' <span style="color:var(--gn2);font-weight:700">('+res+')</span>':'')+'</td>';
     players.forEach(function(p){
-      var tips=(me&&p.id===me.id)?myTips:(allTips[p.id]||{});
-      var tip=tips[id]||'';
-      var pts=(res&&tip)?calcPts(tip,res):null;
-      var bg=pts===5?'#052010':pts===2?'#051525':(pts===0&&tip)?'#1f0808':'';
-      var col=pts===5?'var(--gn)':pts===2?'var(--ac)':(pts===0&&tip)?'var(--rd)':'var(--mu)';
-      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:5px 7px;border-bottom:1px solid var(--bg);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?'700':'400')+';cursor:pointer" title="Klikni pro upravu">'+(tip||'\u2014')+'</td>';
+      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
+      var tip=tips[id]||'',pts=(res&&tip)?calcPts(tip,res):null;
+      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer" title="Klikni pro upravu">'+(tip||'&mdash;')+'</td>';
     });
     html+='</tr>';
   });
   html+='</tbody></table></div>';
   el.innerHTML=html;
-
-  // Click handlers
   el.querySelectorAll('.adh').forEach(function(th){
     th.addEventListener('click',function(){
       if(!confirm('Smazat hrace "'+th.dataset.jmeno+'"? Smaze se i vsechny jeho tipy.')) return;
@@ -1291,18 +1195,15 @@ function renderAdmin(){
         }).catch(function(e){alert('Chyba: '+e.message);});
     });
   });
-
   el.querySelectorAll('.atc').forEach(function(td){
     td.addEventListener('click',function(){
       var nt=prompt('Novy tip pro zapas #'+td.dataset.zid+' (format: 2:1):',td.dataset.tip||'');
       if(nt===null) return;
       nt=nt.trim();
       if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Neplatny format. Pouzij 2:1');return;}
-      // Admin edits any player's tip - use admin function
       sbf('tipy?hrac_id=eq.'+td.dataset.hid+'&zapas_id=eq.'+td.dataset.zid,'PATCH',{tip:nt},'return=minimal')
         .then(function(){loadAllTips().then(renderAdmin);})
         .catch(function(){
-          // If PATCH fails (no existing row), try INSERT
           sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid),tip:nt}],'resolution=merge-duplicates,return=minimal')
             .then(function(){loadAllTips().then(renderAdmin);})
             .catch(function(e){alert('Chyba: '+e.message);});
@@ -1311,10 +1212,10 @@ function renderAdmin(){
   });
 }
 
-// ── ESPN FETCH ────────────────────────────────────────────
+// ── ESPN ──────────────────────────────────────────────────
 function fetchResults(){
   setSt('st-vys','Stahuji z ESPN...');
-  document.getElementById('brf').disabled=true;
+  document.getElementById('btn-refresh').disabled=true;
   fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
     .then(function(r){return r.json();})
     .then(function(json){
@@ -1333,11 +1234,8 @@ function fetchResults(){
           var hn=((home.team&&home.team.displayName)||'').toLowerCase();
           var an=((away.team&&away.team.displayName)||'').toLowerCase();
           SZ.concat(PZ).forEach(function(z){
-            var dk=z[2].toLowerCase().split(' ')[0];
-            var hk=z[3].toLowerCase().split(' ')[0];
-            if((hn.indexOf(dk)>=0||dk.indexOf(hn)>=0)&&(an.indexOf(hk)>=0||hk.indexOf(an)>=0)){
-              found[z[0]]=score;
-            }
+            var dk=z[2].toLowerCase().split(' ')[0],hk=z[3].toLowerCase().split(' ')[0];
+            if((hn.indexOf(dk)>=0||dk.indexOf(hn)>=0)&&(an.indexOf(hk)>=0||hk.indexOf(an)>=0)) found[z[0]]=score;
           });
         });
       });
@@ -1346,19 +1244,19 @@ function fetchResults(){
         var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id),skore:found[id]};});
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
           Object.keys(found).forEach(function(id){results[parseInt(id)]=found[id];});
-          updProgress();renderVysledky();renderTipy();renderKalendar();
+          updProgress();renderVys();renderTipy();renderStadiony();
           setSt('st-vys','Aktualizovano '+cnt+' vysledku',false,true);
-          document.getElementById('brf').disabled=false;
+          document.getElementById('btn-refresh').disabled=false;
         });
       } else {
         setSt('st-vys','Zadne nove vysledky (turnaj zacina 11.6.2026)',false,true);
-        document.getElementById('brf').disabled=false;
+        document.getElementById('btn-refresh').disabled=false;
       }
     })
-    .catch(function(e){setSt('st-vys','Chyba ESPN: '+e.message,true);document.getElementById('brf').disabled=false;});
+    .catch(function(e){setSt('st-vys','Chyba ESPN: '+e.message,true);document.getElementById('btn-refresh').disabled=false;});
 }
 
-// ── EXPORT CSV ────────────────────────────────────────────
+// ── EXPORT ────────────────────────────────────────────────
 function exportCSV(){
   if(!me) return;
   var header=['#','Skupina','Domaci','Hoste','Datum','Vysledek'];
@@ -1366,27 +1264,20 @@ function exportCSV(){
   if(me.je_admin){
     header=header.concat(players.map(function(p){return p.jmeno;}));
     SZ.concat(PZ).forEach(function(z){
-      var row=[z[0],z[1],z[2],z[3],datStr(z),results[z[0]]||''];
-      players.forEach(function(p){
-        var tips=(p.id===me.id)?myTips:(allTips[p.id]||{});
-        row.push(tips[z[0]]||'');
-      });
+      var row=[z[0],z[1],z[2],z[3],dStr(z),results[z[0]]||''];
+      players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{});row.push(tips[z[0]]||'');});
       data.push(row);
     });
   } else {
     header=header.concat(['Muj tip','Body']);
     SZ.concat(PZ).forEach(function(z){
-      var res=results[z[0]]||'';
-      var tip=myTips[z[0]]||'';
+      var res=results[z[0]]||'',tip=myTips[z[0]]||'';
       var pts=(res&&tip)?calcPts(tip,res):'';
-      data.push([z[0],z[1],z[2],z[3],datStr(z),res,tip,pts!==''?pts+'b':'']);
+      data.push([z[0],z[1],z[2],z[3],dStr(z),res,tip,pts!==''?pts+'b':'']);
     });
   }
   var csv=[header].concat(data).map(function(row){
-    return row.map(function(c){
-      var s=String(c===null||c===undefined?'':c).replace(/"/g,'""');
-      return '"'+s+'"';
-    }).join(',');
+    return row.map(function(c){return '"'+String(c===null||c===undefined?'':c).replace(/"/g,'""')+'"';}).join(',');
   }).join('\r\n');
   var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
   var url=URL.createObjectURL(blob);
@@ -1397,46 +1288,41 @@ function exportCSV(){
 
 // ── CLOCK ─────────────────────────────────────────────────
 function updClock(){
-  var now=new Date();
-  var days=['Ne','Po','Ut','St','Ct','Pa','So'];
+  var now=new Date(),days=['Ne','Po','Ut','St','Ct','Pa','So'];
   var el=document.getElementById('clk');
   if(el) el.textContent=days[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
 }
 
 // ── INIT ──────────────────────────────────────────────────
 function init(){
-  // Login
-  document.getElementById('ltl').addEventListener('click',function(){switchLoginTab('l');});
-  document.getElementById('ltr').addEventListener('click',function(){switchLoginTab('r');});
+  // Login tabs
+  document.getElementById('ltl').addEventListener('click',function(){swLoginTab('l');});
+  document.getElementById('ltr').addEventListener('click',function(){swLoginTab('r');});
   document.getElementById('blo').addEventListener('click',doLogin);
   document.getElementById('brg').addEventListener('click',doReg);
   document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
-
-  // App
-  document.getElementById('blo2').addEventListener('click',doLogout);
-  var lbtn=document.getElementById('langbtn');
-  if(lbtn) lbtn.addEventListener('click',function(){
+  // App buttons
+  document.getElementById('btn-logout').addEventListener('click',doLogout);
+  document.getElementById('btn-refresh').addEventListener('click',fetchResults);
+  document.getElementById('btn-sav').addEventListener('click',saveTips);
+  document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
+  // Lang
+  document.getElementById('langbtn').addEventListener('click',function(){
     LANG=LANG==='cs'?'en':'cs';
     applyI18n();
-    // Re-render active tab
-    TABS.forEach(function(t){
-      var p=document.getElementById('page-'+t);
-      if(p&&p.style.display!=='none') showTab(t);
-    });
+    // Re-render current tab content
+    var active=null;
+    TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
+    if(active) showTab(active);
   });
-  document.getElementById('brf').addEventListener('click',fetchResults);
-  document.getElementById('btn-sav').addEventListener('click',saveTips);
-  document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(function(){exportCSV();});});
-
   // Nav tabs
   TABS.forEach(function(t){
-    var btn=document.getElementById('tab-'+t);
-    if(btn) btn.addEventListener('click',function(){showTab(t);});
+    var b=document.getElementById('tab-'+t);
+    if(b) b.addEventListener('click',function(){showTab(t);});
   });
-
   // Phase tabs
-  var pts2=[
+  var ptCfg=[
     ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
     ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
@@ -1444,29 +1330,12 @@ function init(){
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
     ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ];
-  pts2.forEach(function(pt){
-    var btn=document.getElementById(pt[0]);
-    if(!btn) return;
-    btn.addEventListener('click',function(){
-      var ctx=pt[1],phase=pt[2];
-      // Update active state
-      var prefix='ptab-'+ctx+'-';
-      ['sk','dt','po','cel','3m'].forEach(function(p){
-        var b=document.getElementById(prefix+p);
-        if(b) b.classList.toggle('on',p===phase);
-      });
-      if(ctx==='tipy'){tipSort=phase;renderTipy();}
-      else if(ctx==='ost'){ostSort=phase;renderOstatni();}
-      else if(ctx==='zeb'){zebPhase=phase;renderZebricek();}
-      else if(ctx==='tab'){tabPhase=phase;renderTabulka();}
-      else if(ctx==='vys'){vysSort=phase;renderVysledky();}
-      else if(ctx==='tym'){tymPhase=phase;renderTymy();}
-    });
+  ptCfg.forEach(function(pt){
+    var b=document.getElementById(pt[0]);
+    if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
   });
-
   // Clock
   updClock();setInterval(updClock,1000);
-
   // Restore session
   try{
     var saved=localStorage.getItem('ms26s');
@@ -1474,15 +1343,14 @@ function init(){
       var s=JSON.parse(saved);
       myPin=s.pin;
       rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
-        if(!d.chyba){finishLogin(d);}
-        else{document.getElementById('lo').style.display='flex';}
+        if(!d.chyba) finishLogin(d);
+        else document.getElementById('lo').style.display='flex';
       }).catch(function(){document.getElementById('lo').style.display='flex';});
       return;
     }
   }catch(e){}
   document.getElementById('lo').style.display='flex';
 }
-
 init();
 </script>
 </body>
