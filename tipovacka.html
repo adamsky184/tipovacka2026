@@ -100,6 +100,33 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 .tf{font-size:1.4rem;flex-shrink:0}
 .tn{font-size:.84rem;font-weight:600}
 .tsk{font-size:.69rem;color:var(--mu);margin-top:1px}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .hdr { padding: .8rem 1rem; }
+  .hdr-title { font-size: 1.1rem; }
+  .hdr-right { gap: 5px; }
+  .nav { padding: 2px; }
+  .nb { padding: 6px 9px; font-size: .73rem; }
+  .card { padding: .85rem; }
+  .w { padding: .7rem; }
+  .stg { grid-template-columns: 1fr; }
+  .tm-grid { grid-template-columns: 1fr 1fr; }
+  .rr { grid-template-columns: 1fr 60px 1fr; font-size: .8rem; }
+  .lbr { padding: 8px 10px; gap: 8px; }
+  .lp { font-size: 1.1rem; }
+  .tbl th, .tbl td { padding: 5px 6px; font-size: .75rem; }
+  .ptabs { gap: 3px; }
+  .ptab { padding: 4px 9px; font-size: .73rem; }
+  .prog-bar { width: 140px; }
+  .lo-card { padding: 1.4rem; }
+  .btn-sm { padding: 4px 9px; font-size: .73rem; }
+}
+@media (max-width: 400px) {
+  .hdr-title { font-size: .95rem; }
+  .nb { padding: 5px 7px; font-size: .7rem; }
+  .tm-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -171,7 +198,6 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <button class="nb" id="tab-vysledky">Vysledky</button>
   <button class="nb" id="tab-tabulka">Tabulka</button>
   <button class="nb" id="tab-pavouk">Play-off</button>
-  <button class="nb" id="tab-mapa">Mapa</button>
   <button class="nb" id="tab-kalendar">Kalendar</button>
   <button class="nb" id="tab-stadiony">Stadiony</button>
   <button class="nb" id="tab-tymy">Tymy</button>
@@ -267,18 +293,6 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
     <div class="ibox">Pavouk play-off se doplni po skupinove fazi (28.6.2026).</div>
     <div class="card"><div style="overflow-x:auto"><div id="pavouk-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div></div>
   </div>
-
-  <div id="page-mapa" style="display:none">
-    <div class="card">
-      <div class="clbl">Mapa stadionu MS 2026</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.75rem;font-size:.73rem;color:var(--mu)">
-        <span style="font-weight:600">Stadiony s odkazem na Google Maps:</span>
-        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#60a5fa;margin-right:4px;vertical-align:middle"></span>USA (11)</span>
-        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#f87171;margin-right:4px;vertical-align:middle"></span>Kanada (2)</span>
-        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle"></span>Mexiko (3)</span>
-      </div>
-      <div style="overflow-x:auto"><div id="stad-tbl"></div></div>
-    </div>
   </div>
 
 <div id="page-admin" style="display:none">
@@ -521,7 +535,7 @@ var FIFA_RANK={
 // STATE
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','kalendar','mapa','tymy','admin'];
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','kalendar','tymy','admin'];
 
 // ── DATE HELPERS ──────────────────────────────────────────
 function matchDate(z){
@@ -755,9 +769,8 @@ function renderTipy(){
     var cd=countdown(z);
     var res=results[id];
     var tip=myTips[id]||'';
-    var locked=!!res;
-    // Non-admin: once saved, always locked
-    if(!isAdmin&&tip) locked=true;
+    var started=mDate(z)<=new Date();
+    var locked=!!res||started||(!!tip&&!isAdmin);
     var pts=(res&&tip)?calcPts(tip,res):null;
 
     if(tipSort!=='dt'&&sk!==prev){
@@ -840,7 +853,7 @@ function saveTips(){
 // ── TIPY OSTATNICH ────────────────────────────────────────
 function renderOstatni(){
   var el=document.getElementById('ost-list');
-  var zapasy=ostPhase==='sk'?SZ:PZ;
+  var arr=ostSort==='po'?PZ:sortedMatches(SZ,ostSort);
   var others=players.filter(function(p){return !me||p.id!==me.id;});
   if(!others.length){el.innerHTML='<div class="empty">Zatim zadni dalsi hraci</div>';return;}
 
@@ -853,7 +866,7 @@ function renderOstatni(){
   html+='</tr></thead><tbody>';
 
   var prev=null;
-  zapasy.forEach(function(z){
+  arr.forEach(function(z){
     var id=z[0],sk=z[1],d=z[2],h=z[3];
     var res=results[id];
     var myTip=myTips[id];
@@ -1066,14 +1079,58 @@ function renderKalendar(){
 
 // ── STADIONY ──────────────────────────────────────────────
 function renderStadiony(){
-  var html='<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
+  // Map iframe first
+  var mapHtml='<div style="border-radius:12px;overflow:hidden;height:380px;margin-bottom:1.1rem;border:1px solid var(--bd)">'
+    +'<iframe width="100%" height="100%" style="border:none" loading="lazy" '
+    +'src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=MetLife+Stadium,New+Jersey&zoom=4"'
+    +'onerror="this.parentNode.innerHTML=\'<div style=\"display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--mu)\"><div style=\"text-align:center\"><div style=\"font-size:2rem;margin-bottom:.5rem\">🗺️</div><div>Mapa neni dostupna offline</div></div></div>\'">'
+    +'</iframe></div>';
+  // Legend
+  mapHtml+='<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem;font-size:.73rem;color:var(--mu)">'
+    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#60a5fa;margin-right:4px;vertical-align:middle"></span>USA (11)</span>'
+    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#f87171;margin-right:4px;vertical-align:middle"></span>Kanada (2)</span>'
+    +'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle"></span>Mexiko (3)</span>'
+    +'</div>';
+
+  // Stadium photos from Wikimedia Commons
+  var FOTOS={
+    'MetLife Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/MetLife_Stadium_-_aerial_view.jpg/80px-MetLife_Stadium_-_aerial_view.jpg',
+    'AT&T Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/80px-Cowboys_Stadium_Arlington.jpg',
+    'SoFi Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/80px-SoFi_Stadium_-_2022.jpg',
+    'Hard Rock Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/80px-Hard_Rock_Stadium_aerial_2018.jpg',
+    'Lumen Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/80px-Lumen_Field_September_2021.jpg',
+    "Levi's Stadium":'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/80px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg',
+    'Arrowhead Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/80px-Arrowhead_Stadium_2015.jpg',
+    'NRG Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/80px-NRG_Stadium_2015.jpg',
+    'Lincoln Financial Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/80px-Lincoln_Financial_Field_2017.jpg',
+    'Mercedes-Benz Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/80px-Mercedes-Benz_Stadium.jpg',
+    'Gillette Stadium':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/80px-Gillette_Stadium_2015.jpg',
+    'BMO Field':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/80px-BMO_Field_2016.jpg',
+    'BC Place':'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/80px-BC_Place_Stadium_2011.jpg',
+    'Estadio Azteca':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/80px-Azteca_estadio.jpg',
+    'Estadio BBVA':'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/80px-Estadio_BBVA_2015.jpg',
+    'Estadio Akron':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/80px-Estadio_Akron_2010.jpg'
+  };
+
+  var html=mapHtml+'<div style="overflow-x:auto"><table class="tbl"><thead><tr>'
+    +'<th style="width:70px">Foto</th><th>Stadion</th><th>Město</th><th>Země</th><th>Kapacita</th><th>Fáze</th>'
+    +'</tr></thead><tbody>';
   STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lnk=row[5];
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6];
     var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
-    var nm=lnk?'<a href="'+lnk+'" target="_blank" style="color:var(--tx);text-decoration:underline">'+n+'</a>':n;
-    html+='<tr><td style="font-weight:700">'+nm+'</td><td>'+c+'</td><td class="'+cc+'" style="font-weight:700">'+co+'</td><td style="text-align:center;font-weight:600">'+cap+'</td><td style="font-size:.76rem;color:var(--mu)">'+f+'</td></tr>';
+    var wiki='https://en.wikipedia.org/wiki/Special:Search?search='+encodeURIComponent(n);
+    var gmaps='https://maps.google.com/?q='+lat+','+lon;
+    var foto=FOTOS[n]?'<img src="'+FOTOS[n]+'" style="width:68px;height:42px;object-fit:cover;border-radius:5px;display:block" onerror="this.style.display='none'" alt="">':'';
+    html+='<tr>';
+    html+='<td>'+foto+'</td>';
+    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx);text-decoration:none">'+n+'</a></td>';
+    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">'+c+' 📍</a></td>';
+    html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
+    html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
+    html+='<td style="font-size:.74rem;color:var(--mu)">'+f+'</td>';
+    html+='</tr>';
   });
-  html+='</tbody></table>';
+  html+='</tbody></table></div>';
   document.getElementById('stad-list').innerHTML=html;
 }
 
@@ -1381,10 +1438,11 @@ function init(){
   // Phase tabs
   var pts2=[
     ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
-    ['ptab-ost-sk','ost','sk'],['ptab-ost-po','ost','po'],
+    ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
-    ['ptab-vys-sk','vys','sk'],['ptab-vys-po','vys','po'],
-    ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],['ptab-tab-po','tab','po']
+    ['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],
+    ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
+    ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ];
   pts2.forEach(function(pt){
     var btn=document.getElementById(pt[0]);
@@ -1398,12 +1456,11 @@ function init(){
         if(b) b.classList.toggle('on',p===phase);
       });
       if(ctx==='tipy'){tipSort=phase;renderTipy();}
-      else if(ctx==='ost'){ostPhase=phase;renderOstatni();}
+      else if(ctx==='ost'){ostSort=phase;renderOstatni();}
       else if(ctx==='zeb'){zebPhase=phase;renderZebricek();}
-          else if(ctx==='tab'){tabPhase=phase;renderTabulka();}
-  else if(ctx==='vys'){vysSort=phase;renderVysledky();}
-  else if(ctx==='ost'){ostSort=phase;renderOstatni();}
-  else if(ctx==='tym'){tymPhase=phase;renderTymy();}
+      else if(ctx==='tab'){tabPhase=phase;renderTabulka();}
+      else if(ctx==='vys'){vysSort=phase;renderVysledky();}
+      else if(ctx==='tym'){tymPhase=phase;renderTymy();}
     });
   });
 
