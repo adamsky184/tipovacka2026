@@ -388,7 +388,7 @@ const SZ = [
   [69,'L','Anglie','Ghana','22.6. 19:00','Houston'],
   [70,'L','Panama','Chorvatsko','22.6. 22:00','Los Angeles'],
   [71,'L','Anglie','Panama','27.6. 22:00','Miami'],
-  [72,'L','Ghana','Chorvatsko','27.6. 19:00','Dallas'],
+  [72,'L','Ghana','Chorvatsko','27.6. 19:00','Dallas']
 ];
 const PZ = [
   [73,'16F','2. sk.A','2. sk.B','28.6. 21:00','Los Angeles'],
@@ -422,7 +422,7 @@ const PZ = [
   [101,'SF','Vitez CF1','Vitez CF2','14.7. 23:00','Dallas'],
   [102,'SF','Vitez CF3','Vitez CF4','15.7. 23:00','New York'],
   [103,'O3','Porazeny SF1','Porazeny SF2','18.7. 23:00','Miami'],
-  [104,'FIN','Vitez SF1','Vitez SF2','19.7. 21:00','New York'],
+  [104,'FIN','Vitez SF1','Vitez SF2','19.7. 21:00','New York']
 ];
 const STAD = [
   ['MetLife Stadium','New York / NJ','USA','82 500','Finale, SF, OF'],
@@ -440,7 +440,7 @@ const STAD = [
   ['BC Place','Vancouver','Kanada','54 500','16F, skupiny'],
   ['Estadio Azteca','Mexico City','Mexiko','87 523','otevraci zapas, skupiny'],
   ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','skupiny'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','skupiny']
 ];
 
 // ── STATE ───────────────────────────────────────────────
@@ -453,14 +453,14 @@ async function sb(path, opts = {}) {
     'apikey': SB_KEY,
     'Authorization': 'Bearer ' + SB_KEY,
     'Content-Type': 'application/json',
-    'Prefer': opts.prefer || 'return=representation',
+    'Prefer': opts.prefer || 'return=representation'
   };
   // Override headers if explicitly passed
   if (opts.headers) Object.assign(headers, opts.headers);
   const r = await fetch(SB_URL + '/rest/v1/' + path, {
     method: opts.method || 'GET',
     headers,
-    body: opts.body || undefined,
+    body: opts.body || undefined
   });
   if (!r.ok) { const t = await r.text(); throw new Error(t); }
   return r.status === 204 ? null : r.json();
@@ -511,7 +511,7 @@ async function addPlayer() {
     const res = await sb('hrace', {
       method: 'POST',
       body: JSON.stringify({ jmeno: name }),
-      prefer: 'return=representation',
+      prefer: 'return=representation'
     });
     inp.value = '';
     await loadPlayers();
@@ -547,14 +547,14 @@ async function saveTips() {
         headers: {
           'apikey': SB_KEY,
           'Authorization': 'Bearer ' + SB_KEY,
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           p_hrac_id: row.hrac_id,
           p_pin: myPin,
           p_zapas_id: row.zapas_id,
-          p_tip: row.tip,
-        }),
+          p_tip: row.tip
+        })
       });
       if (!r.ok) { const t = await r.text(); throw new Error(t); }
       const resp = await r.json();
@@ -604,7 +604,7 @@ async function fetchResults() {
       await sb('vysledky', {
         method: 'POST',
         body: JSON.stringify(rows),
-        prefer: 'resolution=merge-duplicates,return=minimal',
+        prefer: 'resolution=merge-duplicates,return=minimal'
       });
       results = { ...results, ...found };
     }
@@ -775,7 +775,7 @@ function renderStad() {
     'BC Place': 'https://en.wikipedia.org/wiki/BC_Place',
     'Estadio Azteca': 'https://en.wikipedia.org/wiki/Estadio_Azteca',
     'Estadio BBVA': 'https://en.wikipedia.org/wiki/Estadio_BBVA',
-    'Estadio Akron': 'https://en.wikipedia.org/wiki/Estadio_Akron',
+    'Estadio Akron': 'https://en.wikipedia.org/wiki/Estadio_Akron'
   };
   var html = '<table class="tbl"><thead><tr><th>Stadion</th><th>Mesto</th><th>Zeme</th><th>Kapacita</th><th>Faze turnaje</th></tr></thead><tbody>';
   STAD.forEach(function(row) {
@@ -844,7 +844,7 @@ async function doLogin() {
     const r = await fetch(SB_URL + '/rest/v1/rpc/prihlasit_hrace', {
       method: 'POST',
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin }),
+      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin })
     });
     const data = await r.json();
     if (data.chyba) { document.getElementById('login-err').textContent = data.chyba; return; }
@@ -864,7 +864,7 @@ async function doRegister() {
     const r = await fetch(SB_URL + '/rest/v1/rpc/registruj_hrace', {
       method: 'POST',
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin }),
+      body: JSON.stringify({ p_jmeno: jmeno, p_pin: pin })
     });
     const data = await r.json();
     if (data.chyba) { document.getElementById('reg-err').textContent = data.chyba; return; }
@@ -966,7 +966,7 @@ async function init() {
       const r = await fetch(SB_URL + '/rest/v1/rpc/prihlasit_hrace', {
         method: 'POST',
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ p_jmeno: s.jmeno, p_pin: s.pin }),
+        body: JSON.stringify({ p_jmeno: s.jmeno, p_pin: s.pin })
       });
       const data = await r.json();
       if (!data.chyba) { finishLogin(data); return; }
