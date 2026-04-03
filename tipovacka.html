@@ -416,7 +416,21 @@ var FLAGS={
   'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦'
 };
 function fl(n){return FLAGS[n]||'';}
-function fT(n){var f=fl(n);return f?f+' '+tN(n):tN(n);}
+function fT(n){
+  // Translate playoff team designations
+  if(LANG==='en'){
+    var s=n;
+    s=s.replace('sk.','Gr.');
+    s=s.replace('nejl.','best 3rd');
+    s=s.replace('Vitez','Winner');
+    s=s.replace('Porazeny','Loser');
+    s=s.replace('1.','1st');
+    s=s.replace('2.','2nd');
+    s=s.replace('3.','3rd');
+    if(s!==n){return s;}
+  }
+  var f=fl(n);return f?f+' '+tN(n):tN(n);
+}
 
 // ── FIFA RANKING (April 2026) ─────────────────────────────
 var FIFA={
@@ -558,52 +572,52 @@ var PZ=[
 ];
 var STAD=[
   ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/MetLife_Stadium_-_aerial_view.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/400px-MetLife_Stadium_New_Jersey.jpg',
    'https://en.wikipedia.org/wiki/MetLife_Stadium'],
   ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/AT%26T_Stadium_2015.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/400px-Cowboys_Stadium_Arlington.jpg',
    'https://en.wikipedia.org/wiki/AT%26T_Stadium'],
   ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/SoFi_Stadium_2022.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/400px-SoFi_Stadium_-_2022.jpg',
    'https://en.wikipedia.org/wiki/SoFi_Stadium'],
   ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Hard_Rock_Stadium_2016_panorama.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/400px-Hard_Rock_Stadium_aerial_2018.jpg',
    'https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
   ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Lumen_Field_2021.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/400px-Lumen_Field_September_2021.jpg',
    'https://en.wikipedia.org/wiki/Lumen_Field'],
   ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Levi%27s_Stadium_aerial.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/400px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg',
    'https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
   ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Arrowhead_Stadium_2009.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/400px-Arrowhead_Stadium_2015.jpg',
    'https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
   ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/NRG_Stadium_2015.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/400px-NRG_Stadium_2015.jpg',
    'https://en.wikipedia.org/wiki/NRG_Stadium'],
   ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Lincoln_Financial_Field_2012.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/400px-Lincoln_Financial_Field_2017.jpg',
    'https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
   ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Mercedes-Benz_Stadium.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/400px-Mercedes-Benz_Stadium.jpg',
    'https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
   ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Gillette_Stadium_2015.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/400px-Gillette_Stadium_2015.jpg',
    'https://en.wikipedia.org/wiki/Gillette_Stadium'],
   ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/BMO_Field_2016.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/400px-BMO_Field_2016.jpg',
    'https://en.wikipedia.org/wiki/BMO_Field'],
   ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/BC_Place_Stadium_2011.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/400px-BC_Place_Stadium_2011.jpg',
    'https://en.wikipedia.org/wiki/BC_Place'],
   ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Azteca_estadio.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/400px-Azteca_estadio.jpg',
    'https://en.wikipedia.org/wiki/Estadio_Azteca'],
   ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Estadio_BBVA_2015.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/400px-Estadio_BBVA_2015.jpg',
    'https://en.wikipedia.org/wiki/Estadio_BBVA'],
   ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,
-   'https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/Estadio_Akron_2010.jpg&width=400',
+   'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/400px-Estadio_Akron_2010.jpg',
    'https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
@@ -874,7 +888,12 @@ function renderMatchRow(z,isAdmin){
   var id=z[0],sk=z[1],d=z[2],h=z[3],venue=z[9]||'';
   var now=new Date(),started=mDate(z)<=now;
   var res=results[id],tip=myTips[id]||'';
-  var teamsUnknown=(d.indexOf('sk.')>=0||d.indexOf('nejl.')>=0||h.indexOf('sk.')>=0||h.indexOf('nejl.')>=0);
+  // Lock playoff if teams not yet determined (contain group refs or winner/loser refs)
+  var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
+  var teamsUnknown=false;
+  for(var _i=0;_i<unknown_keywords.length;_i++){
+    if(d.indexOf(unknown_keywords[_i])>=0||h.indexOf(unknown_keywords[_i])>=0){teamsUnknown=true;break;}
+  }
   var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
@@ -1148,7 +1167,8 @@ function renderStadiony(){
     var coLbl=coLabel[co]||co;
     html+='<div class="stad-card">';
     html+='<div class="stad-img-wrap">';
-    html+='<img src="'+img+'" alt="'+n+'" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
+    html+='<img src="'+img+'" alt="'+n+'" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.parentNode.style.display='none';this.parentNode.parentNode.querySelector('.stad-ph').style.display='flex'">';
+    html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2)">🏟️</div>';
     html+='<div class="stad-co-badge" style="background:'+coBg[co]+'">'+coLbl+'</div>';
     html+='</div>';
     html+='<div class="stad-body">';
