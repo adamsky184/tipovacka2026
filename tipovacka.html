@@ -888,7 +888,7 @@ function renderTipy(){
     else if(tipSort==='po'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
 
     html+='<div class="mr">';
-    html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
+    html+='<div><div class="mt">'+fT(d)+' \u2013 '+fT(h)+'</div>';
     html+='<div class="mm">'+dStr(z);
     if(res) html+='<span class="rt rt-d">'+res+'</span>';
     else if(started) html+='<span class="rt" style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+(LANG==='en'?'live/ended':'probiha/skoncilo')+'</span>';
@@ -900,7 +900,7 @@ function renderTipy(){
     } else {
       html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
       html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+tip+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
-      if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">&#9998;</button>';
+      if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+tip+'\')">\u270E</button>';
     }
     html+='</div></div>';
   });
@@ -976,7 +976,7 @@ function renderOst(){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<tr><td colspan="'+(others.length+1)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">&#128197; '+dLabel(matches[0])+'</td></tr>';
+      html+='<tr><td colspan="'+(others.length+1)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">\uD83D\uDCC5 '+dLabel(matches[0])+'</td></tr>';
       matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
@@ -997,7 +997,7 @@ function renderOst(){
 function renderOstRow(z,others){
   var id=z[0],d=z[2],h=z[3];
   var res=results[id],myTip=myTips[id],canSee=!!myTip;
-  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fT(d)+' &ndash; '+fT(h);
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)">'+fT(d)+' \u2013 '+fT(h);
   if(res) html+=' <span style="color:var(--gn2);font-weight:700;font-size:.7rem">('+res+')</span>';
   html+='</td>';
   others.forEach(function(p){
@@ -1007,7 +1007,7 @@ function renderOstRow(z,others){
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip||'&mdash;')+'</td>';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip||'\u2014')+'</td>';
     }
   });
   return html+'</tr>';
@@ -1061,7 +1061,7 @@ function renderVys(){
     if(vysSort!=='dt'&&sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
     html+='<div class="rr">';
     html+='<div class="rh">'+fT(d)+'</div>';
-    html+='<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'&mdash;')+'</div>';
+    html+='<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'\u2014')+'</div>';
     html+='<div style="font-size:.64rem;color:var(--mu)">'+dStr(z)+'</div>';
     if(!res&&cd) html+='<div style="font-size:.64rem;color:var(--ac2)">'+cd+'</div>';
     html+='</div>';
@@ -1156,8 +1156,8 @@ function renderStadiony(){
     html+='<div style="padding:9px 11px">';
     html+='<div style="font-weight:700;font-size:.84rem;margin-bottom:4px"><a href="'+wiki+'" target="_blank" style="color:var(--tx)">'+n+'</a></div>';
     html+='<div style="font-size:.73rem;color:var(--mu);display:flex;gap:9px;flex-wrap:wrap">';
-    html+='<a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">&#128205; '+c+'</a>';
-    html+='<span>&#128101; '+cap+'</span>';
+    html+='<a href="'+gmaps+'" target="_blank" style="color:var(--ac2)">\uD83D\uDCCD '+c+'</a>';
+    html+='<span>\uD83D\uDC65 '+cap+'</span>';
     html+='</div>';
     html+='<div style="font-size:.7rem;color:var(--mu2);margin-top:4px">'+f+'</div>';
     html+='</div></div>';
@@ -1216,4 +1216,139 @@ function renderPavouk(){
   html+='</div>';
   document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
 }
+
+function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
+function calcPts(tip,res){var t=tip.split(':').map(Number),r=res.split(':').map(Number);if(isNaN(t[0])||isNaN(r[0])) return null;if(t[0]===r[0]&&t[1]===r[1]) return 5;var s=function(x){return x>0?1:x<0?-1:0;};return s(t[0]-t[1])===s(r[0]-r[1])?2:0;}
+function setSt(id,msg,err,ok){var e=document.getElementById(id);if(!e) return;e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');}
+function setText(id,v){var e=document.getElementById(id);if(e) e.textContent=v;}
+function ptsBdg(pts,tip){if(pts===5) return '<span class="pt p5">5b</span>';if(pts===2) return '<span class="pt p2">2b</span>';if(pts===0&&tip) return '<span class="pt p0">0b</span>';return '';}
+function ghL(sk){return SKU.indexOf(sk)>=0?(LANG==='en'?'Group ':'Skupina ')+sk:sk;}
+function sortByDate(arr){return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});}
+function groupByDate(arr){var groups={},keys=[];sortByDate(arr).forEach(function(z){var k=dKey(z);if(!groups[k]){groups[k]=[];keys.push(k);}groups[k].push(z);});return {groups:groups,keys:keys};}
+function renderZeb(){
+  var arr=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
+  var scored=players.map(function(p,i){
+    var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
+    var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
+    arr.forEach(function(z){var res=results[z[0]],tip=tips[z[0]];if(tip) uzam++;if(res&&tip){var pts=calcPts(tip,res);if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}}});
+    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
+  }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
+  var youLbl=LANG==='en'?'(you)':'(ty)';
+  document.getElementById('zeb-list').innerHTML=scored.map(function(s,rank){
+    var isMe=me&&me.id===s.p.id;
+    var medal=rank===0?'🥇':rank===1?'🥈':rank===2?'🥉':(rank+1);
+    return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
+      '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+medal+'</div>'+
+      '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+ini(s.p.jmeno)+'</div>'+
+      '<div style="flex:1"><div class="ln">'+s.p.jmeno+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+youLbl+'</span>':'')+'</div>'+
+      '<div class="ls"><span>'+s.pre+'x '+(LANG==='en'?'exact':'presne')+'</span>'+
+      '<span>'+s.spr+'x '+(LANG==='en'?'correct':'spravne')+'</span>'+
+      '<span>'+s.spa+'x '+(LANG==='en'?'wrong':'spatne')+'</span>'+
+      '<span style="color:var(--ac2)">'+s.uzam+' '+(LANG==='en'?'saved':'uloz.')+'</span>'+
+      '<span style="color:var(--mu)">'+s.hod+' '+(LANG==='en'?'rated':'hod.')+'</span></div></div>'+
+      '<div class="lp">'+s.total+'</div></div>';
+  }).join('')||'<div class="empty">Zadni hraci</div>';
+}
+function renderVys(){
+  var arr=vysSort==='po'?PZ:vysSort==='dt'?sortByDate(SZ):SZ;
+  var html='',prev=null;
+  if(vysSort==='dt'){
+    var gbd=groupByDate(arr);
+    gbd.keys.forEach(function(k){
+      var m=gbd.groups[k];
+      html+='<div class="date-sep">'+dLabel(m[0])+'</div>';
+      m.forEach(function(z){html+=renderVysRow(z);});
+    });
+  } else {
+    arr.forEach(function(z){var sk=z[1];if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}html+=renderVysRow(z);});
+  }
+  document.getElementById('vys-list').innerHTML=html||'<div class="empty">'+(LANG==='en'?'Click Refresh above':'Klikni Vysledky nahore')+'</div>';
+}
+function renderVysRow(z){
+  var id=z[0],d=z[2],h=z[3],res=results[id],cd=cdStr(z);
+  return '<div class="rr"><div class="rh">'+fT(d)+'</div>'+
+    '<div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res||'--')+'</div>'+
+    '<div style="font-size:.63rem;color:var(--mu)">'+dStr(z)+'</div>'+
+    (!res&&cd?'<div style="font-size:.63rem;color:var(--ac2)">'+cd+'</div>':'')+
+    '</div><div class="ra">'+fT(h)+'</div></div>';
+}
+function renderAdmin(){
+  if(!me||!me.je_admin) return;
+  var el=document.getElementById('adm-list'),all=SZ.concat(PZ);
+  if(!players.length){el.innerHTML='<div class="empty">Zadni hraci</div>';return;}
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">Zapas</th>';
+  players.forEach(function(p,i){html+='<th class="adh" data-hid="'+p.id+'" data-jmeno="'+p.jmeno+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer">'+p.jmeno+'</th>';});
+  html+='</tr></thead><tbody>';
+  all.forEach(function(z){
+    var id=z[0],d=z[2],h=z[3],res=results[id];
+    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(d)+' - '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+res+')</span>':'')+'</td>';
+    players.forEach(function(p){
+      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{}),tip=tips[id]||'';
+      var pts=(res&&tip)?calcPts(tip,res):null;
+      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      html+='<td class="atc" data-hid="'+p.id+'" data-zid="'+id+'" data-tip="'+(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer">'+(tip||'-')+'</td>';
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.adh').forEach(function(th){th.addEventListener('click',function(){if(!confirm('Smazat "'+th.dataset.jmeno+'"?')) return;rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid}).then(function(d){if(d&&d.chyba){alert('Chyba: '+d.chyba);return;}loadPlayers().then(renderAdmin);}).catch(function(e){alert(e.message);});});});
+  el.querySelectorAll('.atc').forEach(function(td){td.addEventListener('click',function(){var nt=prompt('Tip #'+td.dataset.zid+' (2:1):',td.dataset.tip||'');if(nt===null) return;nt=nt.trim();if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert('Format: 2:1');return;}sbf('tipy?hrac_id=eq.'+td.dataset.hid+'&zapas_id=eq.'+td.dataset.zid,'PATCH',{tip:nt},'return=minimal').then(function(){loadAllTips().then(renderAdmin);}).catch(function(){sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid),tip:nt}],'resolution=merge-duplicates,return=minimal').then(function(){loadAllTips().then(renderAdmin);}).catch(function(e){alert(e.message);});});});});
+}
+function fetchResults(){
+  setSt('st-vys','...');document.getElementById('btn-refresh').disabled=true;
+  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard').then(function(r){return r.json();}).then(function(json){
+    var found={};
+    (json.events||[]).forEach(function(ev){(ev.competitions||[]).forEach(function(comp){var st=comp.status;if(!st||!st.type||!st.type.completed) return;var home=null,away=null;(comp.competitors||[]).forEach(function(c){if(c.homeAway==='home') home=c;if(c.homeAway==='away') away=c;});if(!home||!away) return;var score=home.score+':'+away.score;var hn=((home.team&&home.team.displayName)||'').toLowerCase();var an=((away.team&&away.team.displayName)||'').toLowerCase();SZ.concat(PZ).forEach(function(z){var dk=z[2].toLowerCase().split(' ')[0],hk=z[3].toLowerCase().split(' ')[0];if((hn.indexOf(dk)>=0||dk.indexOf(hn)>=0)&&(an.indexOf(hk)>=0||hk.indexOf(an)>=0)) found[z[0]]=score;});});});
+    var cnt=Object.keys(found).length;
+    if(cnt>0){sbf('vysledky','POST',Object.keys(found).map(function(id){return {zapas_id:parseInt(id),skore:found[id]};}), 'resolution=merge-duplicates,return=minimal').then(function(){Object.keys(found).forEach(function(id){results[parseInt(id)]=found[id];});updProgress();renderVys();renderTipy();setSt('st-vys','OK '+cnt,false,true);document.getElementById('btn-refresh').disabled=false;});}
+    else{setSt('st-vys','0 (11.6.)',false,true);document.getElementById('btn-refresh').disabled=false;}
+  }).catch(function(e){setSt('st-vys','Chyba: '+e.message,true);document.getElementById('btn-refresh').disabled=false;});
+}
+function exportCSV(){
+  if(!me) return;
+  var data=[['#','Sk','Home','Away','Date','Result','Tip','Pts']];
+  SZ.concat(PZ).forEach(function(z){var res=results[z[0]]||'',tip=myTips[z[0]]||'';var pts=(res&&tip)?calcPts(tip,res):'';data.push([z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),res,tip,pts!==''?pts+'b':'']);});
+  var csv=data.map(function(row){return row.map(function(c){return '"'+String(c||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='tipy_ms2026.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function updClock(){
+  var now=new Date(),ds=tr('days');
+  var el=document.getElementById('clk');
+  if(el) el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+' '+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+}
+function init(){
+  document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
+  document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
+  document.getElementById('blo').addEventListener('click',doLogin);
+  document.getElementById('brg').addEventListener('click',doReg);
+  document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
+  document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
+  document.getElementById('btn-logout').addEventListener('click',doLogout);
+  document.getElementById('btn-refresh').addEventListener('click',fetchResults);
+  document.getElementById('btn-sav').addEventListener('click',saveTips);
+  document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
+  document.getElementById('langbtn').addEventListener('click',function(){
+    LANG=LANG==='cs'?'en':'cs';applyI18n();
+    var at=null;TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') at=t;});
+    if(at==='tipy') renderTipy();
+    else if(at==='ostatni') loadAllTips().then(renderOst);
+    else if(at==='zebricek') loadAllTips().then(renderZeb);
+    else if(at==='vysledky') renderVys();
+    else if(at==='tabulka') renderTab();
+    else if(at==='pavouk') renderPavouk();
+    else if(at==='stadiony') renderStadiony();
+    else if(at==='tymy') renderTymy();
+    else if(at==='admin') loadAllTips().then(renderAdmin);
+  });
+  TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
+  [['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']].forEach(function(pt){var b=document.getElementById(pt[0]);if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});});
+  updClock();setInterval(updClock,1000);
+  try{var saved=localStorage.getItem('ms26s');if(saved){var s=JSON.parse(saved);myPin=s.pin;rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){if(!d.chyba) finishLogin(d);else document.getElementById('lo').style.display='flex';}).catch(function(){document.getElementById('lo').style.display='flex';});return;}}catch(e){}
+  document.getElementById('lo').style.display='flex';
+}
+init();
+
 
