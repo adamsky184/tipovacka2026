@@ -656,7 +656,6 @@ function selectPlayer(p) {
   try { localStorage.setItem('ms26_player', JSON.stringify(p)); } catch(e) {}
   document.getElementById('player-pill').textContent = p.jmeno;
   document.getElementById('player-pill').style.display = 'inline-block';
-  document.getElementById('btn-change').style.display = 'inline-block';
   renderPlayers();
   showTab('tipy');
   loadMyTips();
