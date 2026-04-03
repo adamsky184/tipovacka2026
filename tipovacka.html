@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tipovacka MS 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080e18;--bg2:#0d1724;--bg3:#121f30;--bd:#1a2e44;--bd2:#223650;--tx:#e2eaf4;--mu:#5a7a96;--ac:#0ea5e9;--gn:#22c55e;--rd:#ef4444;--gd:#f59e0b;--fh:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif}
+:root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--fh:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;--r:10px;--r2:14px;--r3:18px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh}
 .w{max-width:920px;margin:0 auto;padding:.85rem}
-.hdr{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:.9rem 1.3rem;margin-bottom:.85rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.hdr{background:linear-gradient(135deg,#0c1e35 0%,#0a1728 50%,#0d2040 100%);border:1px solid var(--bd);border-radius:var(--r3);padding:.9rem 1.3rem;margin-bottom:.85rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
+.lang-btn{font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);cursor:pointer;transition:.15s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac2)}
 .hdr-t{font-family:var(--fh);font-size:1.35rem;font-weight:800;color:#fff}
 .hdr-s{font-size:.76rem;color:var(--mu);margin-top:2px}
 .hdr-r{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
@@ -84,9 +87,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 .stc th:first-child{text-align:left;padding-left:8px}
 .stc td{padding:5px 5px;border-bottom:1px solid var(--bg);text-align:center}
 .stc td:first-child{text-align:left;padding-left:8px;font-weight:600}
-.stc tr.prg{background:#051525}
-.stc tr.prg3{background:#0a1f0a}
-.stc tr.out{}
+.stc tr.pos1{background:rgba(59,130,246,.08)}
+.stc tr.pos1 td:first-child{color:var(--gn2);font-weight:700}
+.stc tr.pos2{background:rgba(59,130,246,.05)}
+.stc tr.pos2 td:first-child{color:var(--ac2);font-weight:700}
+.stc tr.pos3{background:rgba(168,85,247,.05)}
+.stc tr.pos3 td:first-child{color:var(--pu);font-weight:600}
+
+
 .tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:6px}
 .tc{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px}
 .tf{font-size:1.4rem;flex-shrink:0}
@@ -162,6 +170,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <button class="nb" id="tab-zebricek">Zebricek</button>
   <button class="nb" id="tab-vysledky">Vysledky</button>
   <button class="nb" id="tab-tabulka">Tabulka</button>
+  <button class="nb" id="tab-pavouk">Play-off</button>
+  <button class="nb" id="tab-mapa">Mapa</button>
   <button class="nb" id="tab-kalendar">Kalendar</button>
   <button class="nb" id="tab-stadiony">Stadiony</button>
   <button class="nb" id="tab-tymy">Tymy</button>
@@ -191,6 +201,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
   <div class="ibox">Tipy ostatnich jsou viditelne pouze pro zapasy kde mas svuj tip jiz ulozen. Ostatni zapasy zobrazuji "?".</div>
   <div class="ptabs">
     <button class="ptab on" id="ptab-ost-sk">Skupinova faze</button>
+    <button class="ptab" id="ptab-ost-dt">Dle data</button>
     <button class="ptab" id="ptab-ost-po">Play-off</button>
   </div>
   <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div>
@@ -208,6 +219,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 <div id="page-vysledky" style="display:none">
   <div class="ptabs">
     <button class="ptab on" id="ptab-vys-sk">Skupinova faze</button>
+    <button class="ptab" id="ptab-vys-dt">Dle data</button>
     <button class="ptab" id="ptab-vys-po">Play-off</button>
   </div>
   <div class="card">
@@ -240,12 +252,34 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh
 </div>
 
 <div id="page-tymy" style="display:none">
+  <div class="ptabs">
+    <button class="ptab on" id="ptab-tym-sk">Dle skupin</button>
+    <button class="ptab" id="ptab-tym-rk">FIFA Ranking</button>
+  </div>
   <div class="card">
-    <div class="clbl">Kvalifikovane tymy MS 2026</div>
+    <div class="clbl">Tymy MS 2026</div>
     <div class="ibox">Soupisky budou doplneny po uzavreni nominaci (konec kvetna 2026).</div>
     <div id="tym-list"></div>
   </div>
 </div>
+
+  <div id="page-pavouk" style="display:none">
+    <div class="ibox">Pavouk play-off se doplni po skupinove fazi (28.6.2026).</div>
+    <div class="card"><div style="overflow-x:auto"><div id="pavouk-list"><div class="empty"><span class="sp"></span>Nacitam...</div></div></div></div>
+  </div>
+
+  <div id="page-mapa" style="display:none">
+    <div class="card">
+      <div class="clbl">Mapa stadionu MS 2026</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.75rem;font-size:.73rem;color:var(--mu)">
+        <span style="font-weight:600">Stadiony s odkazem na Google Maps:</span>
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#60a5fa;margin-right:4px;vertical-align:middle"></span>USA (11)</span>
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#f87171;margin-right:4px;vertical-align:middle"></span>Kanada (2)</span>
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle"></span>Mexiko (3)</span>
+      </div>
+      <div style="overflow-x:auto"><div id="stad-tbl"></div></div>
+    </div>
+  </div>
 
 <div id="page-admin" style="display:none">
   <div class="card">
@@ -428,10 +462,66 @@ var STAD=[
   ['Estadio Akron','Guadalajara','Mexiko','49 850','skupiny','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
+// ── I18N ─────────────────────────────────────────────────
+var LANG='cs';
+var I18N={
+  cs:{
+    nav_tips:'Moje tipy',nav_others:'Tipy ostatních',nav_leaderboard:'Žebříček',
+    nav_results:'Výsledky',nav_table:'Tabulka',nav_bracket:'Play-off',
+    nav_calendar:'Kalendář',nav_map:'Mapa',nav_teams:'Týmy & Ranking',
+    by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',
+    overall:'Celkový',groups_phase:'Skupinová fáze',third_place:'3. místa',
+    teams_by_group:'Dle skupin',fifa_ranking:'FIFA Ranking',
+    save_tips:'Uložit tipy',export:'↓ Export CSV',logout:'Odhlásit',refresh:'↺ Výsledky',
+    login:'Přihlásit se',register:'Registrovat se',my_tip:'MŮJ TIP',result:'Výsledek',match:'Zápas',
+    progress:'Odehráno',tip_locked:'Tipy jsou po uložení zamčeny. Admin může upravovat.',
+    others_info:'Tipy ostatních jsou viditelné jen kde máš vlastní tip.',
+    bracket_info:'Pavouk se doplní po skupinové fázi (28.6.2026).',
+    map_title:'Mapa stadionů MS 2026',calendar_title:'Všechny zápasy (SELČ)'
+  },
+  en:{
+    nav_tips:'My Tips',nav_others:"Others' Tips",nav_leaderboard:'Leaderboard',
+    nav_results:'Results',nav_table:'Table',nav_bracket:'Playoff',
+    nav_calendar:'Calendar',nav_map:'Map',nav_teams:'Teams & Ranking',
+    by_groups:'By Group',by_date:'By Date',playoff:'Playoff',
+    overall:'Overall',groups_phase:'Group Stage',third_place:'3rd Place',
+    teams_by_group:'By Group',fifa_ranking:'FIFA Ranking',
+    save_tips:'Save Tips',export:'↓ Export CSV',logout:'Log Out',refresh:'↺ Results',
+    login:'Log In',register:'Register',my_tip:'MY TIP',result:'Result',match:'Match',
+    progress:'Played',tip_locked:'Tips are locked after saving. Admin can edit.',
+    others_info:"Others' tips visible only where you have a saved tip.",
+    bracket_info:'Bracket fills after group stage (28.6.2026).',
+    map_title:'World Cup 2026 Stadium Map',calendar_title:'All matches (CEST)'
+  }
+};
+function tr(k){return (I18N[LANG]&&I18N[LANG][k])||k;}
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v=tr(el.getAttribute('data-i18n'));
+    if(v) el.textContent=v;
+  });
+  var lb=document.getElementById('langbtn');
+  if(lb) lb.textContent=LANG==='cs'?'EN':'CS';
+}
+
+// ── FIFA RANKING (April 2026) ─────────────────────────────
+var FIFA_RANK={
+  'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,
+  'Brazilie':6,'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,
+  'Chorvatsko':11,'Svycarsko':16,'Japonsko':13,'Senegal':14,'USA':15,
+  'Uruguay':17,'Mexiko':18,'Turecko':19,'Kanada':20,'Iran':21,
+  'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,'Svedsko':28,
+  'Alzirsko':34,'Cesko':37,'Pobrezi slonoviny':40,'Tunisko':43,
+  'Saudska Arabie':56,'Paraguay':60,'Kapverdy':71,'Panama':72,
+  'Uzbekistan':77,'Jordansko':80,'Curacao':85,'Haiti':83,
+  'Katar':93,'DR Kongo':59,'Ghana':54,'Jihoafricka rep.':66,
+  'Bosna a Hercegovina':49,'Novy Zeland':96,'Egypt':29,'Irak':64,'Rakousko':32,'Skotsko':33
+};
+
 // STATE
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
-var tipSort='sk',ostPhase='sk',zebPhase='cel',vysPhase='sk',tabPhase='sk';
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','kalendar','stadiony','tymy','admin'];
+var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','kalendar','mapa','tymy','admin'];
 
 // ── DATE HELPERS ──────────────────────────────────────────
 function matchDate(z){
@@ -565,6 +655,7 @@ function finishLogin(d){
     renderKalendar();
     renderStadiony();
     renderTymy();
+    renderPavouk();
   });
   showTab('tipy');
 }
@@ -604,10 +695,18 @@ function showTab(name){
   if(name==='ostatni') loadAllTips().then(renderOstatni);
   if(name==='vysledky') renderVysledky();
   if(name==='tabulka') renderTabulka();
+  if(name==='pavouk') renderPavouk();
+  if(name==='mapa') renderMapa();
+  if(name==='tymy') renderTymy();
   if(name==='admin') loadAllTips().then(renderAdmin);
 }
 
 // ── HELPERS ───────────────────────────────────────────────
+function sortedMatches(arr,sort){
+  if(sort==='dt') return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});
+  return arr;
+}
+
 function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
 
 function calcPts(tip,res){
@@ -795,15 +894,16 @@ function renderZebricek(){
     // Fix: proper check
     if(me&&p.id===me.id) tips=myTips;
     else tips=allTips[p.id]||{};
-    var total=0,pre=0,spr=0,spa=0,hod=0;
+    var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
     zapasy.forEach(function(z){
       var res=results[z[0]],tip=tips[z[0]];
+      if(tip) uzam++;
       if(res&&tip){
         var pts=calcPts(tip,res);
         if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}
       }
     });
-    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod};
+    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
   }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
 
   var med=['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49'];
@@ -821,7 +921,7 @@ function renderZebricek(){
 
 // ── VYSLEDKY ──────────────────────────────────────────────
 function renderVysledky(){
-  var zapasy=vysPhase==='sk'?SZ:PZ;
+  var zapasy=vysSort==='po'?PZ:sortedMatches(SZ,vysSort);
   var html='',prev=null;
   zapasy.forEach(function(z){
     var id=z[0],sk=z[1],d=z[2],h=z[3];
@@ -890,7 +990,7 @@ function renderTabulka(){
     html+='<div class="stc"><div class="stc-h">SKUPINA '+sk+'</div><table>';
     html+='<thead><tr><th>#</th><th>Tym</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Skore</th><th>B</th></tr></thead><tbody>';
     teams.forEach(function(t,i){
-      var rowCls=i<2?'prg':'out';
+      var rowCls=i===0?'pos1':i===1?'pos2':i===2?'pos3':'';
       html+='<tr class="'+rowCls+'"><td>'+(i+1)+'</td>';
       html+='<td>'+fl(t.name)+' '+t.name+'</td>';
       html+='<td>'+t.d.z+'</td><td>'+t.d.v+'</td><td>'+t.d.r+'</td><td>'+t.d.p+'</td>';
@@ -927,7 +1027,7 @@ function renderTretimista(tbls){
   var html='<div class="stc" style="max-width:600px"><div class="stc-h">TABULKA 3. MIST — top 8 postupuje do 16F</div><table>';
   html+='<thead><tr><th>#</th><th>Tym</th><th>Sk.</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Skore</th><th>B</th></tr></thead><tbody>';
   thirds.forEach(function(t,i){
-    var rowCls=i<8?'prg3':'out';
+    var rowCls=i<8?'pos3':'';
     html+='<tr class="'+rowCls+'"><td>'+(i+1)+'</td>';
     html+='<td>'+fl(t.name)+' '+t.name+'</td><td>'+t.sk+'</td>';
     html+='<td>'+t.d.z+'</td><td>'+t.d.v+'</td><td>'+t.d.r+'</td><td>'+t.d.p+'</td>';
@@ -986,6 +1086,106 @@ function renderTymy(){
     TEAMS[sk].forEach(function(t){
       var name=t[0];
       html+='<div class="tc"><div class="tf">'+fl(name)+'</div><div><div class="tn">'+name+'</div><div class="tsk">Soupisky: brzy</div></div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('tym-list').innerHTML=html;
+}
+
+// ── PAVOUK ────────────────────────────────────────────────
+function renderPavouk(){
+  var rounds=[
+    {lbl:'16F (28.6-3.7)',matches:PZ.slice(0,16)},
+    {lbl:'Osmifinale (4-7.7)',matches:PZ.slice(16,24)},
+    {lbl:'Ctvrfinale (9-12.7)',matches:PZ.slice(24,28)},
+    {lbl:'Semifinale',matches:PZ.slice(28,30)},
+    {lbl:'Finale 19.7',matches:[PZ[31]]}
+  ];
+  var html='<div style="display:flex;gap:8px;min-width:800px">';
+  rounds.forEach(function(round){
+    html+='<div style="flex:1;min-width:145px">';
+    html+='<div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+round.lbl+'</div>';
+    var numMatches=round.matches.length;
+    var spacing=Math.max(0,Math.floor((numMatches===1?60:0)));
+    round.matches.forEach(function(z,mi){
+      if(!z) return;
+      var id=z[0],d=z[2],h=z[3],res=results[id];
+      var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
+      html+='<div style="background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:7px 9px;margin-bottom:6px">';
+      html+='<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bd);font-size:.77rem">';
+      html+='<span>'+fl(d)+' '+d+'</span><span style="font-weight:700;color:var(--gd)">'+hg+'</span></div>';
+      html+='<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.77rem">';
+      html+='<span>'+fl(h)+' '+h+'</span><span style="font-weight:700;color:var(--gd)">'+ag+'</span></div>';
+      html+='<div style="font-size:.64rem;color:var(--mu);text-align:center;margin-top:3px">'+dStr(z)+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  html+='</div>';
+  document.getElementById('pavouk-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div>';
+}
+
+// ── MAPA ──────────────────────────────────────────────────
+function renderMapa(){
+  var html='<table class="tbl"><thead><tr><th>Stadion</th><th>Město</th><th>Země</th><th>Kapacita</th><th>Fáze</th><th>GPS</th></tr></thead><tbody>';
+  STAD.forEach(function(row){
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6];
+    var cc=co==='USA'?'cu':co==='Kanada'?'cc':'cm';
+    var gmaps='https://maps.google.com/?q='+lat+','+lon;
+    var wiki='https://en.wikipedia.org/wiki/Special:Search?search='+encodeURIComponent(n);
+    html+='<tr>';
+    html+='<td style="font-weight:700"><a href="'+wiki+'" target="_blank" style="color:var(--tx)">'+n+'</a></td>';
+    html+='<td>'+c+'</td>';
+    html+='<td class="'+cc+'" style="font-weight:600">'+co+'</td>';
+    html+='<td style="text-align:center;font-weight:600">'+cap+'</td>';
+    html+='<td style="font-size:.74rem;color:var(--mu)">'+f+'</td>';
+    html+='<td><a href="'+gmaps+'" target="_blank" style="color:var(--ac2);font-size:.74rem">📍 Mapa</a></td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  document.getElementById('stad-tbl').innerHTML=html;
+}
+
+// ── FIFA RANKING ──────────────────────────────────────────
+function renderFifaRanking(){
+  var all=[];
+  var seen={};
+  Object.keys(TEAMS).forEach(function(sk){
+    TEAMS[sk].forEach(function(tm){
+      var name=tm[0];
+      if(!seen[name]){
+        seen[name]=true;
+        all.push({name:name,sk:sk,rk:FIFA_RANK[name]||999});
+      }
+    });
+  });
+  all.sort(function(a,b){return a.rk-b.rk;});
+  var html='<table class="tbl"><thead><tr><th style="width:45px">Rank</th><th>Tým</th><th>Skupina</th></tr></thead><tbody>';
+  all.forEach(function(tm){
+    html+='<tr>';
+    html+='<td style="font-weight:700;font-size:.9rem;color:'+(tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':'var(--mu)')+'">'+( tm.rk<999?'#'+tm.rk:'-')+'</td>';
+    html+='<td><span style="font-size:1.1rem;margin-right:6px">'+fl(tm.name)+'</span>'+tm.name+'</td>';
+    html+='<td><span style="font-size:.73rem;padding:2px 8px;border-radius:20px;background:var(--bg4);color:var(--mu2)">Sk.'+tm.sk+'</span></td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  document.getElementById('tym-list').innerHTML=html;
+}
+
+// ── TYMY (updated) ────────────────────────────────────────
+function renderTymy(){
+  if(tymPhase==='rk'){renderFifaRanking();return;}
+  var html='';
+  Object.keys(TEAMS).sort().forEach(function(sk){
+    html+='<div style="margin-bottom:1.1rem">';
+    html+='<div class="gh" style="margin-top:0">Skupina '+sk+'</div>';
+    html+='<div class="tm-grid">';
+    TEAMS[sk].forEach(function(tm){
+      var name=tm[0],rk=FIFA_RANK[name];
+      html+='<div class="tc"><div class="tf">'+fl(name)+'</div>';
+      html+='<div><div class="tn">'+name+'</div>';
+      html+='<div style="font-size:.69rem;color:var(--gd);margin-top:1px">'+(rk&&rk<999?'FIFA #'+rk:'')+'</div>';
+      html+='<div style="font-size:.67rem;color:var(--mu);margin-top:1px">Soupisky: brzy</div></div></div>';
     });
     html+='</div></div>';
   });
@@ -1158,6 +1358,16 @@ function init(){
 
   // App
   document.getElementById('blo2').addEventListener('click',doLogout);
+  var lbtn=document.getElementById('langbtn');
+  if(lbtn) lbtn.addEventListener('click',function(){
+    LANG=LANG==='cs'?'en':'cs';
+    applyI18n();
+    // Re-render active tab
+    TABS.forEach(function(t){
+      var p=document.getElementById('page-'+t);
+      if(p&&p.style.display!=='none') showTab(t);
+    });
+  });
   document.getElementById('brf').addEventListener('click',fetchResults);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(function(){exportCSV();});});
@@ -1190,8 +1400,10 @@ function init(){
       if(ctx==='tipy'){tipSort=phase;renderTipy();}
       else if(ctx==='ost'){ostPhase=phase;renderOstatni();}
       else if(ctx==='zeb'){zebPhase=phase;renderZebricek();}
-      else if(ctx==='vys'){vysPhase=phase;renderVysledky();}
-      else if(ctx==='tab'){tabPhase=phase;renderTabulka();}
+          else if(ctx==='tab'){tabPhase=phase;renderTabulka();}
+  else if(ctx==='vys'){vysSort=phase;renderVysledky();}
+  else if(ctx==='ost'){ostSort=phase;renderOstatni();}
+  else if(ctx==='tym'){tymPhase=phase;renderTymy();}
     });
   });
 
