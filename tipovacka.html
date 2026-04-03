@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tipovacka MS 2026</title>
+<title>Tipovačka MS 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07101c;--bg2:#0c1928;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#e8f0f8;--mu:#5d82a8;--mu2:#7a9fc0;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7}
@@ -60,7 +60,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .ti.bd{border-color:var(--rd)}
 .rt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:600}
 .rt-d{background:rgba(34,197,94,.12);color:var(--gn2);border:1px solid rgba(34,197,94,.2)}
-.rt-t{background:var(--bg4);color:var(--mu)}
 .pt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:700}
 .p5{background:rgba(34,197,94,.15);color:var(--gn2)}
 .p2{background:rgba(59,130,246,.15);color:var(--ac2)}
@@ -83,7 +82,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .tbl th{text-align:left;padding:6px 8px;color:var(--mu);font-size:.67rem;font-weight:600;border-bottom:1px solid var(--bd);letter-spacing:.05em;text-transform:uppercase}
 .tbl td{padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.4)}
 .tbl tr:last-child td{border-bottom:none}
-.cu{color:#60a5fa}.cc{color:#f87171}.cm{color:var(--gn2)}
 .sb{display:block;font-size:.76rem;color:var(--mu);min-height:18px;padding:2px 0}
 .sb.ok{color:var(--gn2)}.sb.err{color:#f87171}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
@@ -142,7 +140,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
 .stad-img-wrap{height:145px;background:var(--bg4);position:relative;overflow:hidden}
 .stad-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
-.stad-img-placeholder{display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem}
 .stad-co-badge{position:absolute;top:7px;right:7px;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:20px;color:#07101c}
 .stad-body{padding:9px 11px}
 .stad-name{font-weight:700;font-size:.84rem;margin-bottom:3px}
@@ -165,7 +162,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 <body>
 <div class="lo-wrap" id="lo">
   <div class="lo-card">
-    <div class="lo-title" id="lo-title">⚽ MS 2026</div>
+    <div class="lo-title" id="lo-title">⚽ TIPOVAČKA MS 2026</div>
     <div class="lo-sub" id="lo-sub">USA · Kanada · Mexiko · 11.6.–19.7.2026</div>
     <div class="lo-tabs">
       <button class="lo-tab on" id="ltl">Přihlásit se</button>
@@ -197,7 +194,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div class="hdr">
       <div class="hdr-in">
         <div>
-          <div class="hdr-t">TIPOVAČKA MS 2026 <span id="by-lbl">by Adam</span></div>
+          <div class="hdr-t"><span id="hdr-title-main" style="color:#fff;font-size:inherit;font-weight:inherit">TIPOVAČKA MS 2026</span> <span id="by-lbl">by Adam</span></div>
           <div class="hdr-s" id="hdr-sub">USA · Kanada · Mexiko - 48 týmů · 104 zápasů · 11.6.–19.7.2026</div>
           <div class="prog-t" id="ptxt"></div>
           <div class="prog-b"><div class="prog-f" id="pfil" style="width:0%"></div></div>
@@ -208,7 +205,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
           <div class="pill" id="pp" style="display:none"></div>
           <span class="abadge" id="ab">ADMIN</span>
           <button class="btn btn-ol btn-sm" id="btn-logout">Odhlásit</button>
-          <button class="btn btn-bl btn-sm" id="btn-refresh">↺ Výsledky</button>
+          <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺ Výsledky</button>
         </div>
       </div>
     </div>
@@ -336,6 +333,8 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','
 var LANG='cs';
 var T={
   cs:{
+    app_title:'Tipovačka MS 2026',
+    app_title_short:'TIPOVAČKA MS 2026',
     login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'↺ Výsledky',
     exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',
     pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',
@@ -356,9 +355,8 @@ var T={
     exact:'přesně',correct:'správně',wrong:'špatně',saved_tips:'uložených',rated:'hodnoceno',
     teams_tbd:'Týmy nejsou známy',roster:'Soupisky: brzy',you:'(ty)',
     r16:'16F (28.6-3.7)',r8:'Osmifinále (4-7.7)',qf:'Čtvrtfinále (9-12.7)',sf:'Semifinále (14-15.7)',fin:'Finále (19.7)',o3:'O 3. místo (18.7)',
-    live:'probíhá',ended:'skončilo',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',
+    live:'probíhá',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',
     team:'Tým',points:'Body',goals:'Skóre',won:'V',drawn:'R',lost:'P',
-    capacity:'Kapacita',phase:'Fáze',country:'Země',city:'Město',
     match:'Zápas',date:'Datum',rank:'Pořadí',
     name_pin_required:'Jméno i PIN jsou povinné',
     fill_name_pin:'Vyplňte jméno i PIN',
@@ -378,6 +376,8 @@ var T={
     in_days:'za',in_h:'h',in_min:'min',in_d:'d'
   },
   en:{
+    app_title:'WC 2026 Tipping Challenge',
+    app_title_short:'WC 2026 TIPPING CHALLENGE',
     login:'Log In',register:'Register',logout:'Log Out',refresh:'↺ Results',
     exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
     pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',
@@ -398,9 +398,8 @@ var T={
     exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',
     teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',
     r16:'R16 (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
-    live:'live',ended:'ended',no_matches:'No matches',no_others:'No other players yet',
+    live:'live',no_matches:'No matches',no_others:'No other players yet',
     team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',
-    capacity:'Capacity',phase:'Phase',country:'Country',city:'City',
     match:'Match',date:'Date',rank:'Rank',
     name_pin_required:'Name and PIN are required',
     fill_name_pin:'Enter name and PIN',
@@ -487,9 +486,9 @@ var FIFA={
   'Kanada':20,'Iran':21,'Australie':22,'Ekvador':23,'Jizni Korea':25,'Norsko':26,
   'Svedsko':28,'Egypt':29,'Rakousko':32,'Skotsko':33,'Alzirsko':34,'Cesko':37,
   'Pobrezi slonoviny':40,'Tunisko':43,'Bosna a Hercegovina':49,'DR Kongo':59,
-  'Ghana':54,'Saudska Arabie':56,'Paraguay':60,'Jihoafricka rep.':66,
+  'Ghana':54,'Saudska Arabie':56,'Paraguay':60,'Irak':64,'Jihoafricka rep.':66,
   'Kapverdy':71,'Panama':72,'Uzbekistan':77,'Jordansko':80,'Haiti':83,
-  'Curacao':85,'Katar':93,'Novy Zeland':96,'Irak':64
+  'Curacao':85,'Katar':93,'Novy Zeland':96
 };
 
 var TEAMS={
@@ -618,22 +617,22 @@ var PZ=[
 ];
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/400px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zapasu',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/400px-Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/400px-SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O3, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/400px-Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/400px-Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/400px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/400px-Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/400px-NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/400px-Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/400px-Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/400px-Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/400px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/400px-BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovaci, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/400px-Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/400px-Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/400px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/640px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/640px-Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/640px-SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/640px-Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/640px-Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/640px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/640px-Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/640px-NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/640px-Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/640px-Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/640px-Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/640px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/640px-BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/640px-Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/640px-Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/640px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
@@ -672,9 +671,7 @@ function sbf(path,method,body,prefer){
     headers:h,
     body:body?JSON.stringify(body):undefined
   }).then(function(r){
-    if(!r.ok){
-      return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});
-    }
+    if(!r.ok) return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});
     if(r.status===204) return null;
     return r.json();
   });
@@ -754,9 +751,7 @@ function doReg(){
 
 function finishLogin(d){
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
-  try{
-    localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));
-  }catch(e){}
+  try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
   setText('pp',me.jmeno);
@@ -764,16 +759,13 @@ function finishLogin(d){
   if(me.je_admin){
     document.getElementById('ab').style.display='inline-block';
     document.getElementById('tab-admin').style.display='inline-block';
+    document.getElementById('btn-refresh').style.display='inline-block';
+  }else{
+    document.getElementById('btn-refresh').style.display='none';
   }
-  loadResults()
-    .then(loadPlayers)
-    .then(loadMyTips)
-    .then(function(){
-      renderTipy();
-      renderStadiony();
-      renderTymy();
-      renderPavouk();
-    });
+  loadResults().then(loadPlayers).then(loadMyTips).then(function(){
+    renderTipy();renderStadiony();renderTymy();renderPavouk();
+  });
   showTab('tipy');
 }
 
@@ -785,13 +777,13 @@ function doLogout(){
   document.getElementById('ab').style.display='none';
   document.getElementById('tab-admin').style.display='none';
   document.getElementById('pp').style.display='none';
+  document.getElementById('btn-refresh').style.display='none';
   document.getElementById('lj').value='';
   document.getElementById('lp').value='';
   document.getElementById('rj').value='';
   document.getElementById('rp').value='';
   document.getElementById('rp2').value='';
-  setText('le','');
-  setText('re','');
+  setText('le','');setText('re','');
   swLTab('l');
 }
 
@@ -804,6 +796,10 @@ function swLTab(t){
 }
 
 function applyI18n(){
+  document.title=tr('app_title');
+  setText('lo-title','⚽ '+tr('app_title_short'));
+  setText('hdr-title-main',tr('app_title_short'));
+
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
@@ -827,18 +823,19 @@ function applyI18n(){
 
   setText('ibox-tipy',tr('ibox_tipy'));setText('ibox-ost',tr('ibox_ost'));
   setText('ibox-pav',tr('ibox_pav'));setText('ibox-tymy',tr('ibox_tymy'));
-
-  setText('clbl-stad',tr('clbl_stad'));
-  setText('clbl-tymy',tr('clbl_tymy'));
-  setText('hdr-sub',tr('hdr_sub'));
-  setText('vys-empty',tr('vys_empty'));
+  setText('clbl-stad',tr('clbl_stad'));setText('clbl-tymy',tr('clbl_tymy'));
+  setText('hdr-sub',tr('hdr_sub'));setText('vys-empty',tr('vys_empty'));
   setText('lo-sub',tr('lo_sub'));
-
   setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
-
   setText('admin-clbl',tr('admin_overview'));
   setHtml('admin-ibox',tr('admin_info'));
+
+  document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
+  document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
+  document.getElementById('rj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
+  document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
+  document.getElementById('rp2').placeholder=LANG==='en'?'PIN again...':'Znovu PIN...';
 
   document.getElementById('langbtn').textContent=LANG==='cs'?'EN':'CS';
 
@@ -868,8 +865,7 @@ function showTab(name){
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
   ['sk','dt','po','cel','3m','rk'].forEach(function(p){
-    var b=document.getElementById(prefix+p);
-    if(b) b.classList.toggle('on',p===phase);
+    var b=document.getElementById(prefix+p);if(b) b.classList.toggle('on',p===phase);
   });
   if(ctx==='tipy'){tipSort=phase;renderTipy();}
   else if(ctx==='ost'){ostSort=phase;renderOst();}
@@ -888,10 +884,8 @@ function calcPts(tip,res){
   return s(t[0]-t[1])===s(r[0]-r[1])?2:0;
 }
 function setSt(id,msg,err,ok){
-  var e=document.getElementById(id);
-  if(!e) return;
-  e.textContent=msg;
-  e.className='sb'+(err?' err':ok?' ok':'');
+  var e=document.getElementById(id);if(!e) return;
+  e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');
 }
 function ptsBdg(pts,tip){
   if(pts===5) return '<span class="pt p5">5b</span>';
@@ -931,9 +925,7 @@ function renderTipy(){
       html+=renderMatchRow(z,isAdmin);
     });
   }
-
   document.getElementById('tipy-list').innerHTML=html||'<div class="empty">'+tr('no_matches')+'</div>';
-
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(inp&&!inp.disabled){
@@ -973,7 +965,6 @@ function renderMatchRow(z,isAdmin){
   } else {
     html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
     html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
-    if(isAdmin&&(locked||tip)) html+='<button class="btn btn-ol btn-sm" style="padding:3px 7px;font-size:.7rem" onclick="adminEditTip('+id+',\''+String(tip).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">&#9998;</button>';
   }
   html+='</div></div>';
   return html;
@@ -982,7 +973,7 @@ function renderMatchRow(z,isAdmin){
 function saveTips(){
   if(!me) return;
   var arr=tipSort==='po'?PZ:SZ;
-  var now=new Date(),rows=[];
+  var now=new Date(),rows=[],btn=document.getElementById('btn-sav');
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(!inp||inp.disabled) return;
@@ -992,32 +983,19 @@ function saveTips(){
   });
   if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
   setSt('st-tipy','...');
+  btn.disabled=true;
   var ok=0,err=0;
   function done(){
     if(ok+err<rows.length) return;
-    if(err===0){
-      loadMyTips().then(renderTipy);
-      setSt('st-tipy','✓ '+ok,false,true);
-    }else{
-      setSt('st-tipy',tr('error_generic'),true);
-    }
+    btn.disabled=false;
+    if(err===0){loadMyTips().then(renderTipy);setSt('st-tipy','✓ '+ok,false,true);}
+    else setSt('st-tipy',tr('error_generic'),true);
   }
   rows.forEach(function(row){
     rpc('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
       .then(function(d){if(d&&d.chyba) err++;else ok++;done();})
       .catch(function(){err++;done();});
   });
-}
-
-function adminEditTip(zapasId,cur){
-  if(!me||!me.je_admin) return;
-  var nt=prompt(tr('tip_prompt_match')+zapasId+' (2:1):',cur||'');
-  if(nt===null) return;
-  nt=nt.trim();
-  if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert(tr('format_21'));return;}
-  rpc('ulozit_tip_secure',{p_hrac_id:me.id,p_pin:myPin,p_zapas_id:parseInt(zapasId,10),p_tip:nt||'0:0'})
-    .then(function(){loadMyTips().then(renderTipy);})
-    .catch(function(e){alert(tr('error_generic')+': '+e.message);});
 }
 
 function renderOst(){
@@ -1063,9 +1041,8 @@ function renderOstRow(z,others){
   html+='</td>';
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
-    if(!canSee){
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';
-    } else {
+    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    else{
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
@@ -1083,15 +1060,7 @@ function renderZeb(){
     arr.forEach(function(z){
       var res=results[z[0]],tip=tips[z[0]];
       if(tip) uzam++;
-      if(res&&tip){
-        var pts=calcPts(tip,res);
-        if(pts!==null){
-          total+=pts;hod++;
-          if(pts===5) pre++;
-          else if(pts===2) spr++;
-          else spa++;
-        }
-      }
+      if(res&&tip){var pts=calcPts(tip,res);if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}}
     });
     return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
   }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
@@ -1142,37 +1111,26 @@ function renderVysRow(z){
 
 function calcTables(){
   var tbls={};
-  SKU.forEach(function(sk){
-    tbls[sk]={};
-    TEAMS[sk].forEach(function(tm){
-      tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};
-    });
-  });
+  SKU.forEach(function(sk){tbls[sk]={};TEAMS[sk].forEach(function(tm){tbls[sk][tm[0]]={z:0,v:0,r:0,p:0,gf:0,ga:0,pts:0};});});
   SZ.forEach(function(z){
     var id=z[0],sk=z[1],home=z[2],away=z[3],res=results[id];
     if(!res||!tbls[sk]) return;
     var sp=res.split(':').map(Number),hg=sp[0],ag=sp[1];
     if(isNaN(hg)||isNaN(ag)) return;
-    var ht=tbls[sk][home],at=tbls[sk][away];
-    if(!ht||!at) return;
+    var ht=tbls[sk][home],at=tbls[sk][away];if(!ht||!at) return;
     ht.z++;at.z++;ht.gf+=hg;ht.ga+=ag;at.gf+=ag;at.ga+=hg;
-    if(hg>ag){ht.v++;ht.pts+=3;at.p++;}
-    else if(hg<ag){at.v++;at.pts+=3;ht.p++;}
-    else{ht.r++;at.r++;ht.pts++;at.pts++;}
+    if(hg>ag){ht.v++;ht.pts+=3;at.p++;}else if(hg<ag){at.v++;at.pts+=3;ht.p++;}else{ht.r++;at.r++;ht.pts++;at.pts++;}
   });
   return tbls;
 }
-
 function sortGrp(obj){
   return Object.keys(obj).map(function(t){return {name:t,d:obj[t]};})
     .sort(function(a,b){
       if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
       var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
-      if(gb!==ga) return gb-ga;
-      return b.d.gf-a.d.gf;
+      if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;
     });
 }
-
 function renderTab(){
   var tbls=calcTables();
   if(tabPhase==='3m'){render3m(tbls);return;}
@@ -1192,19 +1150,10 @@ function renderTab(){
   html+='</div>';
   document.getElementById('tab-list').innerHTML=html;
 }
-
 function render3m(tbls){
   var thirds=[];
-  SKU.forEach(function(sk){
-    var t=sortGrp(tbls[sk]);
-    if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});
-  });
-  thirds.sort(function(a,b){
-    if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;
-    var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;
-    if(gb!==ga) return gb-ga;
-    return b.d.gf-a.d.gf;
-  });
+  SKU.forEach(function(sk){var t=sortGrp(tbls[sk]);if(t[2]) thirds.push({name:t[2].name,sk:sk,d:t[2].d});});
+  thirds.sort(function(a,b){if(b.d.pts!==a.d.pts) return b.d.pts-a.d.pts;var ga=a.d.gf-a.d.ga,gb=b.d.gf-b.d.ga;if(gb!==ga) return gb-ga;return b.d.gf-a.d.gf;});
   var h3=tr('third').toUpperCase();
   var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+h3+' - TOP 8 → R16</div><table>';
   html+='<thead><tr><th>#</th><th>'+tr('team')+'</th><th>'+tr('group').slice(0,2)+'.</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
@@ -1257,7 +1206,7 @@ function renderStadiony(){
     var coLbl=coLabel[co]||co;
     html+='<div class="stad-card">';
     html+='<div class="stad-img-wrap">';
-    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.querySelector(&quot;.stad-ph&quot;).style.display=&quot;flex&quot;;">';
+    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.querySelector(&quot;.stad-ph&quot;).style.display=&quot;flex&quot;;">';
     html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2)">🏟️</div>';
     html+='<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div>';
     html+='</div>';
@@ -1292,18 +1241,9 @@ function renderTymy(){
   });
   document.getElementById('tym-list').innerHTML=html;
 }
-
 function renderFifaRanking(){
   var all=[],seen={};
-  Object.keys(TEAMS).forEach(function(sk){
-    TEAMS[sk].forEach(function(tm){
-      var n=tm[0];
-      if(!seen[n]){
-        seen[n]=true;
-        all.push({name:n,sk:sk,rk:FIFA[n]||999});
-      }
-    });
-  });
+  Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
   var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th></tr></thead><tbody>';
   all.forEach(function(tm){
@@ -1330,7 +1270,8 @@ function renderAdmin(){
     var id=z[0],d=z[2],h=z[3],res=results[id];
     html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(d)+' &ndash; '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+escHtml(res)+')</span>':'')+'</td>';
     players.forEach(function(p){
-      var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{}),tip=tips[id]||'';
+      var tips=allTips[p.id]||{},tip=tips[id]||'';
+      if(me&&p.id===me.id) tip=myTips[id]||tip||'';
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
@@ -1347,7 +1288,7 @@ function renderAdmin(){
       rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
         .then(function(d){
           if(d&&d.chyba){alert(tr('error_generic')+': '+d.chyba);return;}
-          loadPlayers().then(function(){renderAdmin();});
+          loadPlayers().then(function(){return loadAllTips();}).then(renderAdmin);
         })
         .catch(function(e){alert(tr('error_generic')+': '+e.message);});
     });
@@ -1360,10 +1301,18 @@ function renderAdmin(){
       nt=nt.trim();
       if(nt&&!/^[0-9]+:[0-9]+$/.test(nt)){alert(tr('format_21'));return;}
       sbf('tipy?hrac_id=eq.'+td.dataset.hid+'&zapas_id=eq.'+td.dataset.zid,'PATCH',{tip:nt},'return=minimal')
-        .then(function(){loadAllTips().then(renderAdmin);})
+        .then(function(){
+          if(String(td.dataset.hid)===String(me.id)) myTips[parseInt(td.dataset.zid,10)]=nt;
+          return loadAllTips();
+        })
+        .then(renderAdmin)
         .catch(function(){
           sbf('tipy','POST',[{hrac_id:td.dataset.hid,zapas_id:parseInt(td.dataset.zid,10),tip:nt}],'resolution=merge-duplicates,return=minimal')
-            .then(function(){loadAllTips().then(renderAdmin);})
+            .then(function(){
+              if(String(td.dataset.hid)===String(me.id)) myTips[parseInt(td.dataset.zid,10)]=nt;
+              return loadAllTips();
+            })
+            .then(renderAdmin)
             .catch(function(e){alert(tr('error_generic')+': '+e.message);});
         });
     });
@@ -1371,17 +1320,9 @@ function renderAdmin(){
 }
 
 function normTeamName(s){
-  return String(s||'')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g,'')
-    .replace(/&/g,' a ')
-    .replace(/[^a-z0-9]+/g,' ')
-    .trim()
-    .replace(/\s+/g,' ');
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,' a ').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
 }
-
-var TEAM_ALIASES = {
+var TEAM_ALIASES={
   'mexiko':['mexico'],
   'jihoafricka rep':['south africa'],
   'jizni korea':['south korea','korea republic','republic of korea'],
@@ -1423,7 +1364,7 @@ var TEAM_ALIASES = {
   'rakousko':['austria'],
   'jordansko':['jordan'],
   'portugalsko':['portugal'],
-  'dr kongo':['dr congo','congo dr','democratic republic of the congo','congo dr'],
+  'dr kongo':['dr congo','congo dr','democratic republic of the congo'],
   'uzbekistan':['uzbekistan'],
   'ghana':['ghana'],
   'anglie':['england'],
@@ -1431,74 +1372,58 @@ var TEAM_ALIASES = {
   'panama':['panama'],
   'kolumbie':['colombia']
 };
-
-function teamMatches(appName, providerName){
-  var a=normTeamName(appName);
-  var e=normTeamName(providerName);
+function teamMatches(appName,providerName){
+  var a=normTeamName(appName),e=normTeamName(providerName);
   if(a===e) return true;
   var aliases=TEAM_ALIASES[a]||[];
   return aliases.some(function(x){return normTeamName(x)===e;});
 }
 
 function fetchResults(){
+  if(!me||!me.je_admin) return;
   setSt('st-vys','...');
   document.getElementById('btn-refresh').disabled=true;
-
   fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
     .then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
       return r.json();
     })
     .then(function(json){
-      var found={};
-      var allMatches=SZ.concat(PZ);
-
+      var found={},allMatches=SZ.concat(PZ);
       (json.events||[]).forEach(function(ev){
         (ev.competitions||[]).forEach(function(comp){
           var st=comp.status;
-          if(!st || !st.type || !st.type.completed) return;
-
+          if(!st||!st.type||!st.type.completed) return;
           var home=null,away=null;
           (comp.competitors||[]).forEach(function(c){
             if(c.homeAway==='home') home=c;
             if(c.homeAway==='away') away=c;
           });
-          if(!home || !away) return;
-
+          if(!home||!away) return;
           var hn=(home.team&&home.team.displayName)||'';
           var an=(away.team&&away.team.displayName)||'';
           var hs=Number(home.score),as=Number(away.score);
           if(isNaN(hs)||isNaN(as)) return;
-
           var score=hs+':'+as;
-
           allMatches.forEach(function(z){
-            if(teamMatches(z[2],hn) && teamMatches(z[3],an)){
-              found[z[0]]=score;
-            }
+            if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) found[z[0]]=score;
           });
         });
       });
-
       var cnt=Object.keys(found).length;
       if(cnt>0){
         var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
-        sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal')
-          .then(function(){
-            Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
-            updProgress();
-            renderVys();
-            renderTipy();
-            renderTab();
-            renderPavouk();
-            renderStadiony();
-            setSt('st-vys','✓ '+cnt,false,true);
-            document.getElementById('btn-refresh').disabled=false;
-          })
-          .catch(function(e){
-            setSt('st-vys',tr('error_generic')+': '+e.message,true);
-            document.getElementById('btn-refresh').disabled=false;
-          });
+        sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
+          Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
+          updProgress();renderVys();renderTipy();renderTab();renderPavouk();
+          if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
+          if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
+          setSt('st-vys','✓ '+cnt,false,true);
+          document.getElementById('btn-refresh').disabled=false;
+        }).catch(function(e){
+          setSt('st-vys',tr('error_generic')+': '+e.message,true);
+          document.getElementById('btn-refresh').disabled=false;
+        });
       } else {
         setSt('st-vys',tr('tournament_not_started'),false,true);
         document.getElementById('btn-refresh').disabled=false;
@@ -1518,10 +1443,7 @@ function exportCSV(){
     header=[tr('match'),tr('group'),tr('team')+' 1',tr('team')+' 2',tr('date'),tr('goals')].concat(players.map(function(p){return p.jmeno;}));
     SZ.concat(PZ).forEach(function(z){
       var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
-      players.forEach(function(p){
-        var tips=p.id===me.id?myTips:(allTips[p.id]||{});
-        row.push(tips[z[0]]||'');
-      });
+      players.forEach(function(p){var tips=p.id===me.id?myTips:(allTips[p.id]||{});row.push(tips[z[0]]||'');});
       data.push(row);
     });
   } else {
@@ -1532,30 +1454,20 @@ function exportCSV(){
     });
   }
   var csv=[header].concat(data).map(function(row){
-    return row.map(function(c){
-      return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';
-    }).join(',');
+    return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
   }).join('\r\n');
   var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
-  a.href=url;
-  a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.href=url;a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
 function updClock(){
   var now=new Date(),ds=tr('days');
-  var el=document.getElementById('clk');
-  if(!el) return;
-  if(LANG==='en'){
-    el.textContent=ds[now.getDay()]+' '+now.getDate()+' '+tr('months')[now.getMonth()]+' '+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-  } else {
-    el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-  }
+  var el=document.getElementById('clk');if(!el) return;
+  if(LANG==='en') el.textContent=ds[now.getDay()]+' '+now.getDate()+' '+tr('months')[now.getMonth()]+' '+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  else el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
 }
 
 function init(){
@@ -1573,28 +1485,16 @@ function init(){
     LANG=LANG==='cs'?'en':'cs';
     applyI18n();
     var active=null;
-    TABS.forEach(function(t){
-      var p=document.getElementById('page-'+t);
-      if(p&&p.style.display!=='none') active=t;
-    });
+    TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
     if(active) showTab(active);
-    renderTipy();
-    renderVys();
-    renderTab();
-    renderPavouk();
-    renderStadiony();
-    renderTymy();
+    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();
     if(active==='zebricek') renderZeb();
     if(active==='ostatni') renderOst();
     if(active==='admin') renderAdmin();
     updClock();
   });
 
-  TABS.forEach(function(t){
-    var b=document.getElementById('tab-'+t);
-    if(b) b.addEventListener('click',function(){showTab(t);});
-  });
-
+  TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   var ptCfg=[
     ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
     ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
@@ -1603,30 +1503,21 @@ function init(){
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
     ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ];
-  ptCfg.forEach(function(pt){
-    var b=document.getElementById(pt[0]);
-    if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
-  });
+  ptCfg.forEach(function(pt){var b=document.getElementById(pt[0]);if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});});
 
-  applyI18n();
-  updClock();
-  setInterval(updClock,1000);
+  applyI18n();updClock();setInterval(updClock,1000);
 
   try{
     var saved=localStorage.getItem('ms26s');
     if(saved){
-      var s=JSON.parse(saved);
-      myPin=s.pin;
-      rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin})
-        .then(function(d){
-          if(!d||d.chyba) document.getElementById('lo').style.display='flex';
-          else finishLogin(d);
-        })
-        .catch(function(){document.getElementById('lo').style.display='flex';});
+      var s=JSON.parse(saved);myPin=s.pin;
+      rpc('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
+        if(!d||d.chyba) document.getElementById('lo').style.display='flex';
+        else finishLogin(d);
+      }).catch(function(){document.getElementById('lo').style.display='flex';});
       return;
     }
   }catch(e){}
-
   document.getElementById('lo').style.display='flex';
 }
 init();
