@@ -214,7 +214,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.59</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.60</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -240,6 +240,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       </div>
     </div>
 
+    <div class="pwa-banner" id="pwa-banner">
+      <span class="today-strip-ico">📱</span>
+      <span class="pwa-banner-txt" id="pwa-txt">Přidat tipovačku na plochu</span>
+      <button class="pwa-banner-btn" id="pwa-install">Přidat</button>
+      <button class="pwa-banner-close" id="pwa-close">✕</button>
+    </div>
+
+    <div class="countdown-bar" id="countdown-bar" style="display:none">
+      <div>
+        <div class="countdown-label" id="cd-label">Nejbližší zápas</div>
+        <div class="countdown-match" id="cd-match"></div>
+      </div>
+      <div class="countdown-time" id="cd-time"></div>
+    </div>
+
     <nav class="nav" id="mainnav">
       <button class="nb on" id="tab-tipy">Moje tipy</button>
       <button class="nb" id="tab-ostatni">Tipy ostatních</button>
@@ -256,6 +271,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
       <div class="sb" id="ibox-tipy-extra" style="font-size:.7rem;color:var(--mu2);margin:-.25rem 0 .8rem .15rem"></div>
 
+      <div class="today-strip" id="today-strip" style="display:none">
+        <span class="today-strip-ico">⚽</span>
+        <div>
+          <div class="today-strip-txt" id="today-strip-txt"></div>
+          <div class="today-strip-sub" id="today-strip-sub"></div>
+        </div>
+        <span class="today-badge" id="today-badge"></span>
+      </div>
+
       <div class="qwrap" id="tipy-qf">
         <button class="qbtn on" id="qf-all">Vše</button>
         <button class="qbtn" id="qf-today">Dnes</button>
@@ -271,6 +295,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div class="mini-card">
           <div class="mini-h" id="today-h">Dnešní zápasy</div>
           <div class="mini-kv" id="today-box">-</div>
+        </div>
+      </div>
+      <div class="mini-grid" style="margin-bottom:.5rem">
+        <div class="mini-card">
+          <div class="mini-h" id="ins-h">Moje tendence</div>
+          <div class="mini-kv" id="ins-box">-</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-h" id="form-h">Aktuální forma</div>
+          <div class="mini-kv" id="form-box">-</div>
         </div>
       </div>
 
@@ -321,6 +355,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div id="vys-list"><div class="empty" id="vys-empty">Klikni ↺ Výsledky nahoře</div></div>
         <div class="sb" id="st-vys"></div>
         <div class="sb" id="st-vys-upd" style="font-size:.67rem;color:var(--mu2)"></div>
+        <span class="upd-badge" id="upd-badge" style="display:none"></span>
       </div>
     </div>
 
@@ -368,13 +403,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-admin" style="display:none">
       <div class="card">
         <div class="clbl" id="admin-clbl">Admin - přehled všech tipů</div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem"><button class="btn btn-ol btn-sm" id="btn-exp-all">↓ Export všech tipů</button></div>
         <div class="ibox" id="admin-ibox">Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.</div>
         <div style="overflow-x:auto"><div id="adm-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
       </div>
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.59</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.60</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -428,7 +464,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.59',
+    footer_ver:'v1.60',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -453,6 +489,27 @@ var T={
     lang_flag:'🇬🇧 EN',
     updated:'Aktualizace:',
     groups_none:'Skupiny neuvedeny',
+    countdown_lbl:'Nejbližší zápas',
+    tournament_starts:'Turnaj začíná',
+    today_strip_playing:'zápas/ů dnes',
+    today_strip_tipped:'otipováno',
+    today_strip_missing:'chybí tipy',
+    today_all_done:'Všechny dnešní tipy máš uložené 🎉',
+    badge_sniper:'🎯 Sniper',
+    badge_hot:'🔥 Hot',
+    badge_draw:'🤝 Draw master',
+    badge_leader:'👑 Lídr',
+    badge_rookie:'⚡ Nováček',
+    ins_h:'Moje tendence',
+    form_h:'Aktuální forma',
+    ins_home:'Domácí',
+    ins_draw:'Remíza',
+    ins_away:'Hosté',
+    form_last:'Posl. 5 tipů',
+    pwa_txt:'Přidat tipovačku na plochu',
+    upd_fresh:'Aktuální',
+    upd_ago:'před',
+    global_tips:'Globální tip',
     groups_prefix:'Skupiny '
   },
   en:{
@@ -495,7 +552,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.59',
+    footer_ver:'v1.60',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -520,6 +577,27 @@ var T={
     lang_flag:'🇨🇿 CZ',
     updated:'Updated:',
     groups_none:'Groups not assigned',
+    countdown_lbl:'Next match',
+    tournament_starts:'Tournament starts',
+    today_strip_playing:'match(es) today',
+    today_strip_tipped:'tipped',
+    today_strip_missing:'tips missing',
+    today_all_done:"All today's tips saved 🎉",
+    badge_sniper:'🎯 Sniper',
+    badge_hot:'🔥 Hot streak',
+    badge_draw:'🤝 Draw master',
+    badge_leader:'👑 Leader',
+    badge_rookie:'⚡ Newcomer',
+    ins_h:'My tendencies',
+    form_h:'Recent form',
+    ins_home:'Home',
+    ins_draw:'Draw',
+    ins_away:'Away',
+    form_last:'Last 5 tips',
+    pwa_txt:'Add to Home Screen',
+    upd_fresh:'Up to date',
+    upd_ago:'ago',
+    global_tips:'Global tip',
     groups_prefix:'Groups '
   }
 };
@@ -1018,6 +1096,9 @@ function finishLogin(d){
     renderTipy();
     renderSimilarity();
     renderTodayBox();
+    renderTodayStrip();
+    renderInsights();
+    startCountdown();
     renderStadiony();
     renderTymy();
     renderPavouk();
@@ -1141,7 +1222,18 @@ function applyI18n(){
 
   renderTipyMeta();
   updateTipQuickButtons();
+  renderTodayStrip();
+  renderInsights();
+  renderUpdBadge();
+  updateCountdown();
+  setText('ins-h',tr('ins_h'));
+  setText('form-h',tr('form_h'));
+  setText('pwa-txt',tr('pwa_txt'));
+  var btnExpAll=document.getElementById('btn-exp-all');
+  if(btnExpAll) btnExpAll.textContent=LANG==='en'?'↓ Export all tips':'↓ Export všech tipů';
   renderTodayBox();
+  renderTodayStrip();
+  renderInsights();
   renderSimilarity();
   setText('st-vys-upd',formatLastUpdated());
   updProgress();
@@ -1270,6 +1362,11 @@ function renderMatchRow(z,isAdmin){
   } else {
     html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
     html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+  }
+  // Global tips bar (only if we have allTips data and match hasn't started)
+  if(Object.keys(allTips).length>0 && !started && !teamsUnknown){
+    var gtHtml=renderGlobalTipsBar(id);
+    if(gtHtml) html+='<div style="padding:3px 0 4px;border-bottom:1px solid rgba(28,48,80,.3)">'+gtHtml+'</div>';
   }
   html+='</div></div>';
   return html;
@@ -1814,6 +1911,7 @@ function fetchResults(){
           if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
           setSt('st-vys','✓ '+cnt,false,true);
           setText('st-vys-upd',formatLastUpdated());
+          renderUpdBadge();
           document.getElementById('btn-refresh').disabled=false;
         }).catch(function(e){
           setSt('st-vys',tr('error_generic')+': '+e.message,true);
@@ -1886,7 +1984,221 @@ function toggleLang(){
     if(active==='admin') renderAdmin();
   }
   updClock();
+  updateCountdown();
+  renderTodayStrip();
+  renderInsights();
+  renderUpdBadge();
 }
+
+// ── COUNTDOWN ─────────────────────────────────────────────
+var cdInterval=null;
+function getNextMatch(){
+  var now=new Date();
+  var all=SZ.concat(PZ).filter(function(z){return mDate(z)>now;}).sort(function(a,b){return mDate(a)-mDate(b);});
+  return all.length?all[0]:null;
+}
+function updateCountdown(){
+  var bar=document.getElementById('countdown-bar');
+  var next=getNextMatch();
+  if(!next){if(bar) bar.style.display='none';return;}
+  if(bar) bar.style.display='flex';
+  var diff=mDate(next)-new Date();
+  if(diff<=0){updateCountdown();return;}
+  var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  var timeStr=days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s));
+  var matchStr=fT(next[2])+' - '+fT(next[3]);
+  setText('cd-label',tr('countdown_lbl'));
+  setText('cd-match',matchStr);
+  setText('cd-time',timeStr);
+  var el=document.getElementById('cd-time');
+  if(el) el.classList.toggle('urgent',diff<3600000);
+}
+function startCountdown(){
+  updateCountdown();
+  if(cdInterval) clearInterval(cdInterval);
+  cdInterval=setInterval(updateCountdown,1000);
+}
+
+// ── TODAY STRIP ───────────────────────────────────────────
+function renderTodayStrip(){
+  var strip=document.getElementById('today-strip');
+  if(!strip||!me) return;
+  var now=new Date();
+  var todayMatches=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);});
+  if(!todayMatches.length){strip.style.display='none';return;}
+  strip.style.display='flex';
+  var tipped=todayMatches.filter(function(z){return !!myTips[z[0]];}).length;
+  var missing=todayMatches.filter(function(z){return !myTips[z[0]]&&mDate(z)>now;}).length;
+  var txt=todayMatches.length+' '+tr('today_strip_playing')+' · '+tipped+' '+tr('today_strip_tipped');
+  setText('today-strip-txt',txt);
+  if(missing>0){
+    setText('today-strip-sub',missing+' '+tr('today_strip_missing'));
+    var badge=document.getElementById('today-badge');
+    if(badge){badge.textContent=missing+' ⚠';badge.className='today-badge';}
+  } else {
+    setText('today-strip-sub',tr('today_all_done'));
+    var badge=document.getElementById('today-badge');
+    if(badge){badge.textContent='✓';badge.className='today-badge ok';}
+  }
+}
+
+// ── INSIGHTS ─────────────────────────────────────────────
+function renderInsights(){
+  var box=document.getElementById('ins-box');
+  var formBox=document.getElementById('form-box');
+  if(!box||!me) return;
+  var tips=Object.keys(myTips);
+  if(tips.length<3){
+    box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
+    if(formBox) formBox.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
+    return;
+  }
+  var home=0,draw=0,away=0;
+  tips.forEach(function(k){
+    var t=myTips[k];if(!t) return;
+    var sp=t.split(':').map(Number);
+    if(sp[0]>sp[1]) home++;
+    else if(sp[0]===sp[1]) draw++;
+    else away++;
+  });
+  var total=home+draw+away||1;
+  box.innerHTML=
+    '<div class="insight-row"><span>'+tr('ins_home')+'</span><span class="insight-val">'+Math.round(home/total*100)+'%</span></div>'+
+    '<div class="insight-row"><span>'+tr('ins_draw')+'</span><span class="insight-val">'+Math.round(draw/total*100)+'%</span></div>'+
+    '<div class="insight-row"><span>'+tr('ins_away')+'</span><span class="insight-val">'+Math.round(away/total*100)+'%</span></div>';
+
+  // Form - last 5 scored tips
+  if(formBox){
+    var scored=SZ.concat(PZ).filter(function(z){return results[z[0]]&&myTips[z[0]];})
+      .sort(function(a,b){return mDate(b)-mDate(a);}).slice(0,5);
+    if(!scored.length){formBox.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';return;}
+    var formHtml=tr('form_last')+': ';
+    formHtml+=scored.map(function(z){
+      var pts=calcPts(myTips[z[0]],results[z[0]]);
+      return pts===5?'<span style="color:var(--gn2);font-weight:700">●</span>':pts===2?'<span style="color:var(--ac2)">●</span>':'<span style="color:#f87171">●</span>';
+    }).join(' ');
+    var pts5=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===5;}).length;
+    var pts2=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===2;}).length;
+    formHtml+='<div class="mut" style="margin-top:3px">'+pts5+'× exact · '+pts2+'× correct</div>';
+    formBox.innerHTML=formHtml;
+  }
+}
+
+// ── ACHIEVEMENTS / BADGES ─────────────────────────────────
+function computeBadges(s,rank){
+  var badges=[];
+  if(rank===0) badges.push(tr('badge_leader'));
+  if(s.pre>=5) badges.push(tr('badge_sniper'));
+  if(s.hod>=1&&s.pre/Math.max(s.hod,1)>=0.3) badges.push(tr('badge_hot'));
+  var tips=Object.values(allTips[s.p.id]||{});
+  var draws=tips.filter(function(t){var sp=t.split(':').map(Number);return sp[0]===sp[1];}).length;
+  if(draws>=3) badges.push(tr('badge_draw'));
+  if(s.hod<5&&s.uzam>0) badges.push(tr('badge_rookie'));
+  return badges.slice(0,2);
+}
+
+// ── GLOBAL TIPS ───────────────────────────────────────────
+function getGlobalTips(zapasId){
+  var home=0,draw=0,away=0;
+  Object.keys(allTips).forEach(function(pid){
+    var tip=allTips[pid][zapasId];
+    if(!tip) return;
+    var sp=tip.split(':').map(Number);
+    if(isNaN(sp[0])||isNaN(sp[1])) return;
+    if(sp[0]>sp[1]) home++;
+    else if(sp[0]===sp[1]) draw++;
+    else away++;
+  });
+  return {home:home,draw:draw,away:away,total:home+draw+away};
+}
+function renderGlobalTipsBar(zapasId){
+  var g=getGlobalTips(zapasId);
+  if(!g.total) return '';
+  var hp=Math.round(g.home/g.total*100),dp=Math.round(g.draw/g.total*100),ap=100-hp-dp;
+  return '<div class="gtips">'+
+    '<div class="gtips-h" style="width:'+hp+'%"></div>'+
+    '<div class="gtips-d" style="width:'+dp+'%"></div>'+
+    '<div class="gtips-a" style="width:'+ap+'%"></div>'+
+    '</div>'+
+    '<div class="gtips-label">'+
+    '<span style="color:var(--ac2)">1 '+hp+'%</span>'+
+    '<span style="color:var(--mu)">X '+dp+'%</span>'+
+    '<span style="color:var(--gd)">2 '+ap+'%</span>'+
+    '</div>';
+}
+
+// ── LAST UPDATED BADGE ────────────────────────────────────
+function renderUpdBadge(){
+  var raw=getResultsLastUpdated();
+  var el=document.getElementById('upd-badge');
+  if(!el) return;
+  if(!raw){el.style.display='none';return;}
+  el.style.display='inline-flex';
+  var d=new Date(raw),now=new Date();
+  var diffMin=Math.round((now-d)/60000);
+  if(diffMin<5){
+    el.textContent=tr('upd_fresh');
+    el.className='upd-badge';
+  } else if(diffMin<60){
+    el.textContent=diffMin+'min '+tr('upd_ago');
+    el.className='upd-badge stale';
+  } else {
+    var h=Math.round(diffMin/60);
+    el.textContent=h+'h '+tr('upd_ago');
+    el.className='upd-badge stale';
+  }
+}
+
+// ── PWA ───────────────────────────────────────────────────
+var pwaPrompt=null;
+function initPWA(){
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();pwaPrompt=e;
+    var banner=document.getElementById('pwa-banner');
+    if(banner) banner.classList.add('show');
+    setText('pwa-txt',tr('pwa_txt'));
+  });
+  var btn=document.getElementById('pwa-install');
+  if(btn) btn.addEventListener('click',function(){
+    if(!pwaPrompt) return;
+    pwaPrompt.prompt();
+    pwaPrompt.userChoice.then(function(){
+      var banner=document.getElementById('pwa-banner');
+      if(banner) banner.classList.remove('show');
+      pwaPrompt=null;
+    });
+  });
+  var close=document.getElementById('pwa-close');
+  if(close) close.addEventListener('click',function(){
+    var banner=document.getElementById('pwa-banner');
+    if(banner) banner.classList.remove('show');
+  });
+}
+
+// ── ADMIN EXPORT ALL ─────────────────────────────────────
+function exportAllCSV(){
+  if(!me||!me.je_admin) return;
+  var header=['#','Sk',tr('team')+' 1',tr('team')+' 2',tr('date'),tr('result')].concat(players.map(function(p){return p.jmeno;}));
+  var data=[];
+  SZ.concat(PZ).forEach(function(z){
+    var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
+    players.forEach(function(p){
+      var tips=p.id===me.id?myTips:(allTips[p.id]||{});
+      var tip=tips[z[0]]||'';
+      var pts=(results[z[0]]&&tip)?calcPts(tip,results[z[0]]):'';
+      row.push(tip?(tip+(pts!==''?' ('+pts+'b)':'')):'');
+    });
+    data.push(row);
+  });
+  var csv=[header].concat(data).map(function(row){
+    return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
+  }).join('\r\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='tipy_ms2026_ALL.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
 
 function init(){
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
@@ -1899,6 +2211,8 @@ function init(){
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
+  var btnExpAll=document.getElementById('btn-exp-all');
+  if(btnExpAll) btnExpAll.addEventListener('click',function(){loadAllTips().then(exportAllCSV);});
   document.getElementById('langbtn').addEventListener('click',toggleLang);
   document.getElementById('lo-lang').addEventListener('click',toggleLang);
 
@@ -1921,6 +2235,8 @@ function init(){
   applyI18n();
   updClock();
   setInterval(updClock,1000);
+  startCountdown();
+  initPWA();
 
   try{
     var saved=localStorage.getItem('ms26s');
