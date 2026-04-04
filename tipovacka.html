@@ -163,6 +163,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .qbtn{padding:5px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);color:var(--mu2);font-size:.73rem;font-weight:600;cursor:pointer;transition:.15s}
 .qbtn:hover{border-color:var(--ac2);color:var(--ac2)}
 .qbtn.on{background:var(--ac);border-color:var(--ac);color:#fff}
+
+.player-filter{margin:.2rem 0 .75rem;position:relative}
+.pf-btn{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg3);color:var(--mu2);font-size:.73rem;font-weight:600;cursor:pointer}
+.pf-btn:hover{border-color:var(--ac2);color:var(--ac2)}
+.pf-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:220px;max-width:320px;max-height:260px;overflow:auto;background:var(--bg2);border:1px solid var(--bd2);border-radius:12px;padding:10px;box-shadow:0 12px 30px rgba(0,0,0,.35);display:none;z-index:20}
+.pf-menu.open{display:block}
+.pf-actions{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}
+.pf-link{font-size:.68rem;color:var(--ac2);cursor:pointer}
+.pf-list{display:grid;gap:6px}
+.pf-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--tx)}
+.pf-summary{font-size:.68rem;color:var(--mu);margin-left:6px}
+
 .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;padding:.8rem .9rem}
 .mini-h{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:.45rem}
@@ -425,7 +437,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-stat-col{min-width:38px}
 }
 
-/* ══ HEADER v1.77 ══════════════════════════════ */
+/* ══ HEADER v1.79 ══════════════════════════════ */
 .hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -474,7 +486,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-sc-val{font-size:.82rem}
 }
 
-/* ── HEADER v1.77 compact layout override ── */
+/* ── HEADER v1.79 compact layout override ── */
 .hdr{padding:14px 18px;margin-bottom:.85rem}
 .hdr-row{
   display:grid;
@@ -561,6 +573,164 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-sc-val{font-size:.84rem;margin-bottom:6px}
 }
 
+
+/* ── HEADER v1.79 polish override ── */
+.hdr{
+  background:
+    radial-gradient(circle at 18% 20%, rgba(59,130,246,.10), transparent 32%),
+    radial-gradient(circle at 82% 18%, rgba(168,85,247,.08), transparent 28%),
+    linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);
+}
+.hdr-row{
+  grid-template-columns:minmax(210px,1fr) minmax(320px,430px) auto;
+  align-items:center;
+}
+.hdr-brand{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hdr-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.18rem;
+  font-weight:800;
+  line-height:1;
+  letter-spacing:.01em;
+  color:#fff;
+  display:flex;
+  align-items:baseline;
+  gap:.22rem;
+  flex-wrap:wrap;
+}
+.hdr-word{color:#ffffff;text-shadow:0 0 14px rgba(255,255,255,.05)}
+.hdr-ms{color:#8ec5ff;font-weight:800}
+.hdr-year{
+  background:linear-gradient(90deg,#60a5fa 0%, #a78bfa 48%, #34d399 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 18px rgba(96,165,250,.10);
+}
+.hdr-by{
+  font-size:.66rem;
+  color:var(--mu2);
+  margin-top:5px;
+  letter-spacing:.01em;
+}
+.hdr-clock{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.62rem;
+  color:#4d6d94;
+  margin-top:6px;
+  white-space:normal;
+}
+.hdr-right{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  width:auto;
+  max-width:none;
+  flex-wrap:wrap;
+}
+.hdr-right .lang-btn,
+.hdr-right .hdr-ico-btn,
+.hdr-right .btn-bl{
+  width:auto;
+  min-width:0;
+}
+.hdr-right .lang-btn{
+  height:40px;
+  padding:0 14px;
+  border-radius:12px;
+  background:rgba(10,23,40,.55);
+}
+.hdr-user{
+  height:40px;
+  padding:0 12px 0 6px;
+  border-radius:14px;
+  background:rgba(255,255,255,.055);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+.hdr-av{
+  width:28px;height:28px;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  box-shadow:0 0 18px rgba(99,102,241,.22);
+}
+.hdr-uname{
+  max-width:92px;
+  font-size:.8rem;
+}
+.abadge2{
+  margin-left:2px;
+  box-shadow:0 0 12px rgba(245,158,11,.15);
+}
+#btn-logout{
+  height:40px;
+  padding:0 14px;
+  border-radius:12px;
+  background:rgba(10,23,40,.45);
+}
+#btn-refresh{
+  height:40px;
+  min-width:40px;
+  padding:0 12px;
+  border-radius:12px;
+}
+@media(max-width:860px){
+  .hdr-row{grid-template-columns:minmax(170px,1fr) minmax(250px,1fr) auto;}
+  .hdr-title{font-size:1.06rem}
+  .hdr-uname{max-width:72px}
+}
+@media(max-width:680px){
+  .hdr-row{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .hdr-brand{
+    align-items:flex-start;
+  }
+  .hdr-stats{
+    order:2;
+    width:100%;
+  }
+  .hdr-right{
+    order:3;
+    width:100%;
+    justify-content:flex-start;
+    gap:7px;
+  }
+}
+@media(max-width:520px){
+  .hdr{
+    padding:11px 10px;
+  }
+  .hdr-title{
+    font-size:1rem;
+    gap:.18rem;
+  }
+  .hdr-right{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
+  .hdr-right .lang-btn,
+  .hdr-right .hdr-user,
+  .hdr-right .hdr-ico-btn,
+  .hdr-right .btn-bl{
+    width:100%;
+  }
+  .hdr-user{
+    grid-column:span 2;
+    justify-content:center;
+  }
+  #btn-logout,#btn-refresh,.hdr-right .lang-btn{
+    height:38px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -593,7 +763,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.77</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.79</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -603,7 +773,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div class="hdr">
       <div class="hdr-row">
         <div class="hdr-brand">
-          <div class="hdr-title" id="hdr-title-main">TIPOVAČKA MS 2026</div>
+          <div class="hdr-title" id="hdr-title-main"><span class="hdr-word">TIPOVAČKA</span> <span class="hdr-ms">MS</span> <span class="hdr-year">2026</span></div>
           <div class="hdr-by" id="by-lbl">by Adam184</div>
           <div class="hdr-clock" id="clk"></div>
         </div>
@@ -706,11 +876,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
       </div>
       <div class="ibox" id="ibox-ost">Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".</div>
-      <div class="ptabs">
-        <button class="ptab on" id="ptab-ost-sk">Skupinová fáze</button>
-        <button class="ptab" id="ptab-ost-dt">Řadit dle data</button>
-        <button class="ptab" id="ptab-ost-po">Play-off</button>
-      </div>
+      <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
+      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div></div></div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
     </div>
 
@@ -725,11 +892,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 
     <div id="page-vysledky" style="display:none">
       <div class="ibox" id="ibox-vys-note" style="margin-bottom:.55rem">Výsledky aktualizuje admin ručně.</div>
-      <div class="ptabs">
-        <button class="ptab on" id="ptab-vys-sk">Skupinová fáze</button>
-        <button class="ptab" id="ptab-vys-dt">Řadit dle data</button>
-        <button class="ptab" id="ptab-vys-po">Play-off</button>
-      </div>
+      <div class="tier-filters" id="vys-filters"><div class="tier1"><button class="phase-tab on" id="ptab-vys-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-vys-phase-po">Play-off</button></div><div class="tier2" id="vys-sort-row"><button class="sort-chip on" id="ptab-vys-dt">Řadit dle data</button><button class="sort-chip" id="ptab-vys-sk">Řadit dle skupin</button></div></div>
       <div class="card">
         <div id="vys-list"><div class="empty" id="vys-empty">Klikni ↺ Výsledky nahoře</div></div>
         <div class="sb" id="st-vys"></div>
@@ -793,7 +956,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.77</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.79</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -808,12 +971,15 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','
 var LANG='cs';
 var authBusy=false;
 var cdInterval=null;
+var otherPhase='sk';
+var vysPhase='sk';
+var selectedOtherIds=[];
 
 var T={
   cs:{
     app_title:'Tipovačka MS 2026',
     app_title_short:'TIPOVAČKA MS 2026',
-    login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'↺ Výsledky',
+    login:'Přihlásit se',register:'Registrovat se',logout:'Odhlásit',refresh:'AKTUALIZOVAT',
     exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',
     pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',
     lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',
@@ -851,7 +1017,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.77',
+    footer_ver:'v1.79',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -884,12 +1050,24 @@ var T={
     upd_fresh:'Aktuální',
     upd_ago:'před',
     groups_prefix:'Skupiny ',
-    stadium_open:'Otevřít full foto'
+    stadium_open:'Otevřít full foto',
+    loading_login:'Připojuji se...',
+    loading_register:'Vytvářím účet...',
+    loading_restore:'Obnovuji přihlášení...',
+    auth_failed:'Přihlášení se nepodařilo',
+    conn_failed:'Spojení se serverem selhalo. Zkus to znovu.',
+    sim_outcome:'Shoda 1/X/2',
+    sim_exact:'Přesná shoda',
+    phase_groups:'Skupinová část',
+    phase_playoff:'Play-off',
+    show_players:'Zobrazit hráče',
+    all_players:'Všichni',
+    my_tendencies:'Moje tendence'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
     app_title_short:'WC 2026 TIPPING CHALLENGE',
-    login:'Log In',register:'Register',logout:'Log Out',refresh:'↺ Results',
+    login:'Log In',register:'Register',logout:'Log Out',refresh:'UPDATE',
     exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
     pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',
     lo_meta:'Your PIN is used for login and saving tips.',
@@ -927,7 +1105,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.77',
+    footer_ver:'v1.79',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -960,10 +1138,32 @@ var T={
     upd_fresh:'Up to date',
     upd_ago:'ago',
     groups_prefix:'Groups ',
-    stadium_open:'Open full photo'
+    stadium_open:'Open full photo',
+    loading_login:'Signing in...',
+    loading_register:'Creating account...',
+    loading_restore:'Restoring session...',
+    auth_failed:'Sign in failed',
+    conn_failed:'Connection to server failed. Please try again.',
+    sim_outcome:'1/X/2 match',
+    sim_exact:'Exact score',
+    phase_groups:'Group stage',
+    phase_playoff:'Play-off',
+    show_players:'Show players',
+    all_players:'All',
+    my_tendencies:'My tendencies'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
+
+function renderHeaderTitle(){
+  var el=document.getElementById('hdr-title-main');
+  if(!el) return;
+  if(LANG==='en'){
+    el.innerHTML='<span class="hdr-word">WC</span> <span class="hdr-ms">2026</span> <span class="hdr-year">TIPPING CHALLENGE</span>';
+  }else{
+    el.innerHTML='<span class="hdr-word">TIPOVAČKA</span> <span class="hdr-ms">MS</span> <span class="hdr-year">2026</span>';
+  }
+}
 
 function escHtml(s){
   return String(s==null?'':s)
@@ -1329,6 +1529,11 @@ async function rpcWithRetry(fn,p){
     return rpc(fn,p);
   }
 }
+function authErrMsg(e){
+  var msg=(e&&e.message)?String(e.message):'';
+  if(/Failed to fetch|NetworkError|Load failed|Casovy limit|Timeout|fetch/i.test(msg)) return tr('conn_failed');
+  return tr('auth_failed')+': '+msg;
+}
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
@@ -1402,22 +1607,29 @@ function renderFormBox(){
   var pts2=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===2;}).length;
   box.innerHTML=dots+'<div class="mut" style="margin-top:4px;font-size:.67rem">'+pts5+'× přesně · '+pts2+'× správně (posled. 5)</div>';
 }
+function tipOutcome(t){
+  if(!t) return null;
+  var sp=t.split(':').map(Number);
+  if(isNaN(sp[0])||isNaN(sp[1])) return null;
+  return sp[0]>sp[1]?'1':sp[0]===sp[1]?'X':'2';
+}
 function computeSimilarity(){
   if(!me || !players.length) return null;
   var mine=myTips||{},best=null;
   players.forEach(function(p){
     if(p.id===me.id) return;
-    var other=allTips[p.id]||{},overlap=0,same=0;
+    var other=allTips[p.id]||{},overlap=0,exact=0,outcomeSame=0;
     Object.keys(mine).forEach(function(k){
       if(other[k]){
         overlap++;
-        if(other[k]===mine[k]) same++;
+        if(other[k]===mine[k]) exact++;
+        if(tipOutcome(other[k])===tipOutcome(mine[k])) outcomeSame++;
       }
     });
     if(!overlap) return;
-    var ratio=same/overlap;
-    if(!best || ratio>best.ratio || (ratio===best.ratio && overlap>best.overlap)){
-      best={name:p.jmeno,ratio:ratio,overlap:overlap,same:same};
+    var exactRatio=exact/overlap, outcomeRatio=outcomeSame/overlap;
+    if(!best || outcomeRatio>best.outcomeRatio || (outcomeRatio===best.outcomeRatio && exactRatio>best.exactRatio) || (outcomeRatio===best.outcomeRatio && exactRatio===best.exactRatio && overlap>best.overlap)){
+      best={name:p.jmeno,overlap:overlap,exact:exact,outcomeSame:outcomeSame,exactRatio:exactRatio,outcomeRatio:outcomeRatio};
     }
   });
   return best;
@@ -1430,31 +1642,24 @@ function renderSimilarity(){
     box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
     return;
   }
-  box.innerHTML='<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div><div class="mut">'+tr('sim_match')+': <strong>'+Math.round(sim.ratio*100)+'%</strong> ('+sim.same+'/'+sim.overlap+')</div>';
+  box.innerHTML='<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div>'+
+    '<div class="mut">'+tr('sim_outcome')+': <strong>'+Math.round(sim.outcomeRatio*100)+'%</strong> ('+sim.outcomeSame+'/'+sim.overlap+')</div>'+
+    '<div class="mut">'+tr('sim_exact')+': <strong>'+Math.round(sim.exactRatio*100)+'%</strong> ('+sim.exact+'/'+sim.overlap+')</div>';
 }
 function renderInsights(){
   var box=document.getElementById('ins-box');
   if(!box||!me) return;
-  // Count from OTHER players only (exclude me)
   var home=0,draw=0,away=0;
-  var others=players.filter(function(p){return p.id!==me.id;});
-  if(!others.length){
-    box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
-    return;
-  }
-  others.forEach(function(p){
-    var tips=allTips[p.id]||{};
-    Object.keys(tips).forEach(function(k){
-      var t=tips[k];if(!t) return;
-      var sp=t.split(':').map(Number);
-      if(isNaN(sp[0])||isNaN(sp[1])) return;
-      if(sp[0]>sp[1]) home++;
-      else if(sp[0]===sp[1]) draw++;
-      else away++;
-    });
+  Object.keys(myTips).forEach(function(k){
+    var t=myTips[k]; if(!t) return;
+    var sp=t.split(':').map(Number);
+    if(isNaN(sp[0])||isNaN(sp[1])) return;
+    if(sp[0]>sp[1]) home++;
+    else if(sp[0]===sp[1]) draw++;
+    else away++;
   });
   var total=home+draw+away;
-  if(total<3){box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';return;}
+  if(total<1){ box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>'; return; }
   var hp=Math.round(home/total*100),dp=Math.round(draw/total*100),ap=100-hp-dp;
   function insRow(lbl,pct,color){
     return '<div class="insight-row"><span style="width:52px;flex-shrink:0">'+lbl+'</span>'+
@@ -1462,14 +1667,12 @@ function renderInsights(){
       '<div style="height:100%;width:'+pct+'%;background:'+color+';border-radius:3px;transition:width .4s"></div>'+
       '</div><span class="insight-val" style="width:30px;text-align:right">'+pct+'%</span></div>';
   }
-  box.innerHTML=
-    insRow(tr('ins_home'),hp,'var(--ac)')+
-    insRow(tr('ins_draw'),dp,'var(--mu)')+
-    insRow(tr('ins_away'),ap,'var(--gd)');
+  box.innerHTML=insRow(tr('ins_home'),hp,'var(--ac)')+insRow(tr('ins_draw'),dp,'var(--mu)')+insRow(tr('ins_away'),ap,'var(--gd)');
 }
 function getGlobalTips(zapasId){
   var home=0,draw=0,away=0;
   Object.keys(allTips).forEach(function(pid){
+    if(me && String(pid)===String(me.id)) return;
     var tip=allTips[pid] && allTips[pid][zapasId];
     if(!tip) return;
     var sp=tip.split(':').map(Number);
@@ -1511,12 +1714,12 @@ function doLogin(){
   if(p.length<4){setText('le',tr('pin_too_short'));return;}
   authBusy=true;
   document.getElementById('blo').disabled=true;
-  setText('le','...');
+  setText('le',tr('loading_login'));
   rpcWithRetry('prihlasit_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
     if(d&&d.chyba){setText('le',d.chyba);return;}
     myPin=p;finishLogin(d);
   }).catch(function(e){
-    setText('le',tr('error_generic')+': '+e.message);
+    setText('le',authErrMsg(e));
   }).finally(function(){
     authBusy=false;
     document.getElementById('blo').disabled=false;
@@ -1530,12 +1733,12 @@ function doReg(){
   if(p.length<4){setText('re',tr('pin_too_short'));return;}
   authBusy=true;
   document.getElementById('brg').disabled=true;
-  setText('re','...');
+  setText('re',tr('loading_register'));
   rpcWithRetry('registruj_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
     if(d&&d.chyba){setText('re',d.chyba);return;}
     myPin=p;finishLogin(d);
   }).catch(function(e){
-    setText('re',tr('error_generic')+': '+e.message);
+    setText('re',authErrMsg(e));
   }).finally(function(){
     authBusy=false;
     document.getElementById('brg').disabled=false;
@@ -1565,6 +1768,7 @@ function finishLogin(d){
     renderTodayBox();
     renderInsights();
     
+    renderPlayerFilter();
     renderStadiony();
     renderTymy();
     renderPavouk();
@@ -1602,7 +1806,7 @@ function swLTab(t){
 function applyI18n(){
   document.title=tr('app_title');
   setText('lo-title','⚽ '+tr('app_title_short'));
-  setText('hdr-title-main',tr('app_title_short'));
+  renderHeaderTitle();
   var loCard=document.querySelector('.lo-card');
   if(loCard) loCard.classList.toggle('lo-card-en', LANG==='en');
 
@@ -1615,9 +1819,9 @@ function applyI18n(){
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
   var tipQFLbls=LANG==='en'?['All','Today','Tomorrow','Missing']:['Vše','Dnes','Zítra','Neuložené'];
   ['qf-all','qf-today','qf-tomorrow','qf-missing'].forEach(function(id,i){setText(id,tipQFLbls[i]);});
-  setText('ptab-ost-sk',tr('groups'));setText('ptab-ost-dt',tr('by_date'));setText('ptab-ost-po',tr('playoff'));
+  setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
-  setText('ptab-vys-sk',tr('by_groups'));setText('ptab-vys-dt',tr('by_date'));setText('ptab-vys-po',tr('playoff'));
+  setText('ptab-vys-phase-sk',tr('phase_groups'));setText('ptab-vys-phase-po',tr('phase_playoff'));setText('ptab-vys-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-vys-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
   setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking'));
 
@@ -1643,7 +1847,8 @@ function applyI18n(){
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
-  setText('ins-h',tr('ins_h'));setText('form-h',tr('form_h'));
+  setText('ins-h',tr('my_tendencies'));setText('form-h',tr('form_h'));
+  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -1679,7 +1884,7 @@ function showTab(name){
     if(b) b.classList.toggle('on',t===name);
   });
   if(name==='zebricek') loadAllTips().then(renderZeb);
-  if(name==='ostatni') loadAllTips().then(function(){renderOst();renderSimilarity();renderInsights();renderFormBox();});
+  if(name==='ostatni') loadAllTips().then(function(){renderPlayerFilter();renderOst();renderSimilarity();renderInsights();renderFormBox();});
   if(name==='vysledky') renderVys();
   if(name==='tabulka') renderTab();
   if(name==='admin') loadAllTips().then(renderAdmin);
@@ -1881,11 +2086,31 @@ function renderMatchRow(z,isAdmin,hasGT){
   }
 }
 
+
+function renderPlayerFilter(){
+  var list=document.getElementById('pf-list'),sum=document.getElementById('pf-summary');
+  if(!list||!me) return;
+  var others=players.filter(function(p){return p.id!==me.id;});
+  if(!selectedOtherIds.length) selectedOtherIds=others.map(function(p){return String(p.id);});
+  list.innerHTML=others.map(function(p){
+    var checked=selectedOtherIds.indexOf(String(p.id))>=0?' checked':'';
+    return '<label class="pf-item"><input type="checkbox" class="pf-chk" value="'+escAttr(p.id)+'"'+checked+'> <span>'+escHtml(p.jmeno)+'</span></label>';
+  }).join('');
+  if(sum) sum.textContent='('+selectedOtherIds.filter(function(x){return x!=='__none__';}).length+'/'+others.length+')';
+  list.querySelectorAll('.pf-chk').forEach(function(ch){
+    ch.addEventListener('change',function(){
+      selectedOtherIds=Array.prototype.map.call(list.querySelectorAll('.pf-chk:checked'),function(x){return String(x.value);});
+      if(!selectedOtherIds.length) selectedOtherIds=['__none__'];
+      renderPlayerFilter();
+      renderOst();
+    });
+  });
+}
 function renderOst(){
   var el=document.getElementById('ost-list');
-  var arr=ostSort==='po'?PZ:ostSort==='dt'?sortByDate(SZ):SZ;
-  var others=players.filter(function(p){return !me||p.id!==me.id;});
-  if(!others.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
+  var arr=otherPhase==='po'?PZ:(ostSort==='dt'?sortByDate(SZ):SZ);
+  var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
+  if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
 
   var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><thead><tr>'+
   '<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:220px">'+tr('match')+'</th>'+
@@ -1968,7 +2193,7 @@ function renderZeb(){
 }
 
 function renderVys(){
-  var arr=vysSort==='po'?PZ:vysSort==='dt'?sortByDate(SZ):SZ;
+  var arr=vysPhase==='po'?PZ:(vysSort==='dt'?sortByDate(SZ):SZ);
   var html='',prev=null;
   if(vysSort==='dt'){
     var gbd=groupByDate(arr);
@@ -2337,8 +2562,12 @@ function updateCountdown(){var pill=document.getElementById('cd-pill'),next=getN
 
 function goStadiony(){showTab('stadiony');}
 var currentPhase='sk';
-function setPhaseTab(phase){currentPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(tipSort==='po') tipSort='dt';renderTipy();}
+function setPhaseTab(phase){currentPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(tipSort==='po') tipSort='dt';['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&tipSort==='dt')||(id==='ptab-tipy-sk'&&tipSort==='sk'));});renderTipy();}
 function setSortChip(sort){tipSort=sort;['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&sort==='dt')||(id==='ptab-tipy-sk'&&sort==='sk'));});renderTipy();}
+function setOstPhase(phase){otherPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-ost-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('ost-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') ostSort='po';else if(ostSort==='po') ostSort='dt';['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&ostSort==='dt')||(id==='ptab-ost-sk'&&ostSort==='sk'));});renderOst();}
+function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&sort==='dt')||(id==='ptab-ost-sk'&&sort==='sk'));});renderOst();}
+function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-vys-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('vys-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') vysSort='po';else if(vysSort==='po') vysSort='dt';['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&vysSort==='dt')||(id==='ptab-vys-sk'&&vysSort==='sk'));});renderVys();}
+function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
 function filterByTeam(teamName){
   // Switch to tipy tab, set filter to all, sort by date, scroll to team
   tipSort='dt';
@@ -2397,9 +2626,7 @@ function init(){
   TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   [
     
-    ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
-    ['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
     ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ].forEach(function(pt){
@@ -2412,7 +2639,20 @@ function init(){
   // Sort chip listeners
   var sc1=document.getElementById("ptab-tipy-dt");if(sc1) sc1.addEventListener("click",function(){setSortChip("dt");});
   var sc2=document.getElementById("ptab-tipy-sk");if(sc2) sc2.addEventListener("click",function(){setSortChip("sk");});
+  var oph1=document.getElementById('ptab-ost-phase-sk');if(oph1) oph1.addEventListener('click',function(){setOstPhase('sk');});
+  var oph2=document.getElementById('ptab-ost-phase-po');if(oph2) oph2.addEventListener('click',function(){setOstPhase('po');});
+  var os1=document.getElementById('ptab-ost-dt');if(os1) os1.addEventListener('click',function(){setOstSort('dt');});
+  var os2=document.getElementById('ptab-ost-sk');if(os2) os2.addEventListener('click',function(){setOstSort('sk');});
+  var vph1=document.getElementById('ptab-vys-phase-sk');if(vph1) vph1.addEventListener('click',function(){setVysPhase('sk');});
+  var vph2=document.getElementById('ptab-vys-phase-po');if(vph2) vph2.addEventListener('click',function(){setVysPhase('po');});
+  var vs1=document.getElementById('ptab-vys-dt');if(vs1) vs1.addEventListener('click',function(){setVysSort('dt');});
+  var vs2=document.getElementById('ptab-vys-sk');if(vs2) vs2.addEventListener('click',function(){setVysSort('sk');});
+  var pfb=document.getElementById('pf-btn');if(pfb) pfb.addEventListener('click',function(e){e.stopPropagation();var m=document.getElementById('pf-menu');if(m) m.classList.toggle('open');});
+  var pfa=document.getElementById('pf-all');if(pfa) pfa.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return !me||p.id!==me.id;}).map(function(p){return String(p.id);});renderPlayerFilter();renderOst();});
+  var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
+  document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
+  setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
   
@@ -2421,6 +2661,7 @@ function init(){
     var saved=localStorage.getItem('ms26s');
     if(saved){
       var s=JSON.parse(saved); myPin=s.pin;
+      setText('le',tr('loading_restore'));
       rpcWithRetry('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
         if(!d||d.chyba) document.getElementById('lo').style.display='flex';
         else finishLogin(d);
