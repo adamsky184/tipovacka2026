@@ -437,7 +437,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-stat-col{min-width:38px}
 }
 
-/* ══ HEADER v1.80 ══════════════════════════════ */
+/* ══ HEADER v1.81 ══════════════════════════════ */
 .hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -486,7 +486,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-sc-val{font-size:.82rem}
 }
 
-/* ── HEADER v1.80 compact layout override ── */
+/* ── HEADER v1.81 compact layout override ── */
 .hdr{padding:14px 18px;margin-bottom:.85rem}
 .hdr-row{
   display:grid;
@@ -574,7 +574,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── HEADER v1.80 polish override ── */
+/* ── HEADER v1.81 polish override ── */
 .hdr{
   background:
     radial-gradient(circle at 18% 20%, rgba(59,130,246,.10), transparent 32%),
@@ -732,7 +732,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── HEADER v1.80 premium symmetric layout ── */
+/* ── HEADER v1.81 premium symmetric layout ── */
 .hdr{
   background:
     radial-gradient(circle at 16% 18%, rgba(59,130,246,.10), transparent 32%),
@@ -744,10 +744,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   box-shadow:0 10px 30px rgba(0,0,0,.22);
+  overflow:visible;
 }
 .hdr::before{
-  height:1px;
-  background:linear-gradient(90deg, rgba(96,165,250,.55), rgba(96,165,250,.18), rgba(96,165,250,.55));
+  content:'';
+  position:absolute;
+  top:-2px;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg, var(--ac), var(--pu), var(--gn));
+  border-radius:999px;
 }
 .hdr-row{
   display:grid;
@@ -789,6 +796,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;
   width:100%;
+  background:none;
+  border:none;
+  border-radius:0;
+  padding:0;
+  min-width:0;
+  box-shadow:none;
 }
 .hdr-sc{
   min-width:0;
@@ -838,6 +851,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   align-items:stretch;
   gap:8px;
   margin-left:auto;
+  box-sizing:border-box;
 }
 .hdr-user{
   width:100%;
@@ -871,6 +885,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px;
+  box-sizing:border-box;
 }
 .hdr-right .lang-btn,
 .hdr-right .hdr-ico-btn{
@@ -991,7 +1006,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.80</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.81</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1008,19 +1023,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div class="hdr-stats">
           <div class="hdr-sc">
             <div class="hdr-sc-ico">⚽</div>
-            <div class="hdr-sc-lbl hdr-sc-bl" id="stat-lbl-played">Odehráno zápasů</div>
+            <div class="hdr-sc-lbl hdr-sc-bl" id="stat-lbl-played">Odehráno</div>
             <div class="hdr-sc-val" id="stat-val-played">0/104</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-bl" id="stat-bar-played" style="width:0%"></div></div>
           </div>
           <div class="hdr-sc">
             <div class="hdr-sc-ico">🏟</div>
-            <div class="hdr-sc-lbl hdr-sc-gn" id="stat-lbl-saved-sk">Moje Tipy: skupiny</div>
+            <div class="hdr-sc-lbl hdr-sc-gn" id="stat-lbl-saved-sk">Tipy: skupiny</div>
             <div class="hdr-sc-val" id="stat-val-saved-sk">0/72</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-gn" id="stat-bar-sk" style="width:0%"></div></div>
           </div>
           <div class="hdr-sc">
             <div class="hdr-sc-ico">🏆</div>
-            <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Moje Tipy: play-off</div>
+            <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Tipy: play-off</div>
             <div class="hdr-sc-val" id="stat-val-saved-po">0/32</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-pu" id="stat-bar-po" style="width:0%"></div></div>
           </div>
@@ -1188,7 +1203,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.80</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.81</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1249,7 +1264,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.80',
+    footer_ver:'v1.81',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1337,7 +1352,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.80',
+    footer_ver:'v1.81',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1801,8 +1816,8 @@ function updSavedProgress(){
   var epo=document.getElementById("stat-val-saved-po");if(epo) epo.textContent=po+"/32";
   var bsk=document.getElementById("stat-bar-sk");if(bsk) bsk.style.width=Math.round(sk/72*100)+"%";
   var bpo=document.getElementById("stat-bar-po");if(bpo) bpo.style.width=Math.round(po/32*100)+"%";
-  var lsk=document.getElementById("stat-lbl-saved-sk");if(lsk) lsk.textContent=LANG==="en"?"Tips: groups":"Tipy: skupiny";
-  var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"Tips: play-off":"Tipy: play-off";
+  var lsk=document.getElementById("stat-lbl-saved-sk");if(lsk) lsk.textContent=LANG==="en"?"MY TIPS: GROUPS":"MOJE TIPY: SKUPINY";
+  var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"MY TIPS: PLAY-OFF":"MOJE TIPY: PLAY-OFF";
 }
 
 function renderTodayBox(){
