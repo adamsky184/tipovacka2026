@@ -424,6 +424,55 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr{padding:.55rem .85rem}
   .hdr-stat-col{min-width:38px}
 }
+
+/* ══ HEADER v1.76 ══════════════════════════════ */
+.hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+/* brand */
+.hdr-brand{flex-shrink:0}
+.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:.01em;line-height:1}
+.hdr-by{font-size:.62rem;color:#5d82a8;margin-top:3px}
+.hdr-clock{font-family:'Space Grotesk',sans-serif;font-size:.63rem;color:#3d5a7a;margin-top:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+/* stat cols */
+.hdr-stats{display:flex;gap:8px;flex-shrink:0}
+.hdr-sc{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 14px 11px;min-width:88px}
+.hdr-sc-ico{font-size:14px;margin-bottom:4px;line-height:1}
+.hdr-sc-lbl{font-size:.54rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;white-space:nowrap}
+.hdr-sc-bl{color:#60a5fa}
+.hdr-sc-gn{color:#4ade80}
+.hdr-sc-pu{color:#c084fc}
+.hdr-sc-val{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:#f0f6ff;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.hdr-sc-track{width:100%;height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:visible}
+.hdr-sc-fill{height:3px;border-radius:3px;transition:width .6s}
+.hdr-sc-fill-bl{background:#3b82f6;box-shadow:0 0 8px 1px rgba(59,130,246,.8),0 0 16px rgba(59,130,246,.35)}
+.hdr-sc-fill-gn{background:#22c55e;box-shadow:0 0 8px 1px rgba(34,197,94,.8),0 0 16px rgba(34,197,94,.35)}
+.hdr-sc-fill-pu{background:#a855f7;box-shadow:0 0 8px 1px rgba(168,85,247,.8),0 0 16px rgba(168,85,247,.35)}
+/* right */
+.hdr-right{display:flex;align-items:center;gap:7px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.hdr-user{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:5px 13px 5px 6px;backdrop-filter:blur(6px)}
+.hdr-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;color:#fff;flex-shrink:0}
+.hdr-uname{font-size:.78rem;font-weight:600;color:#e8f0f8}
+.abadge2{font-size:.57rem;font-weight:700;background:#f59e0b;color:#0a0a0a;padding:2px 7px;border-radius:20px;letter-spacing:.03em}
+.hdr-ico-btn{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid rgba(255,255,255,.14);border-radius:9px;color:#7a9fc0;cursor:pointer;font-size:.73rem;font-weight:600;padding:5px 11px;transition:.15s;white-space:nowrap}
+.hdr-ico-btn:hover{border-color:#3b82f6;color:#60a5fa}
+/* mobile */
+@media(max-width:760px){
+  .hdr{padding:12px 14px}
+  .hdr-row{flex-wrap:wrap;gap:10px}
+  .hdr-brand{flex:1 1 auto}
+  .hdr-right{flex:0 0 auto}
+  .hdr-stats{flex:0 0 100%;order:3;gap:6px}
+  .hdr-sc{flex:1;min-width:0;padding:8px 8px 10px}
+  .hdr-sc-val{font-size:.9rem}
+  .hdr-sc-lbl{font-size:.5rem}
+  .hdr-sc-ico{font-size:12px}
+  .hdr-ico-btn{font-size:.68rem;padding:4px 9px}
+}
+@media(max-width:420px){
+  .hdr-title{font-size:.95rem}
+  .hdr-sc-val{font-size:.82rem}
+}
 </style>
 </head>
 <body>
@@ -456,7 +505,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.75</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.76</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -464,42 +513,43 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 <div id="app" style="display:none">
   <div class="w">
     <div class="hdr">
-      <div class="hdr-in">
-        <div class="hdr-left">
-          <div class="hdr-title" id="hdr-title-main">MS 2026</div>
+      <div class="hdr-row">
+        <div class="hdr-brand">
+          <div class="hdr-title" id="hdr-title-main">TIPOVAČKA MS 2026</div>
+          <div class="hdr-by" id="by-lbl">by Adam184</div>
           <div class="hdr-clock" id="clk"></div>
         </div>
         <div class="hdr-stats">
-          <div class="hdr-stat-col">
-            <div class="hdr-stat-lbl" id="stat-lbl-played">Odehráno</div>
-            <div class="hdr-stat-val" id="stat-val-played">0/104</div>
-            <div class="hdr-stat-bar"><div class="hdr-stat-fill hdr-stat-fill-bl" id="stat-bar-played" style="width:0%"></div></div>
+          <div class="hdr-sc">
+            <div class="hdr-sc-ico">⚽</div>
+            <div class="hdr-sc-lbl hdr-sc-bl" id="stat-lbl-played">Odehráno</div>
+            <div class="hdr-sc-val" id="stat-val-played">0/104</div>
+            <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-bl" id="stat-bar-played" style="width:0%"></div></div>
           </div>
-          <div class="hdr-stat-col">
-            <div class="hdr-stat-lbl" id="stat-lbl-saved-sk">Skupiny</div>
-            <div class="hdr-stat-val" id="stat-val-saved-sk">0/72</div>
-            <div class="hdr-stat-bar"><div class="hdr-stat-fill hdr-stat-fill-gn" id="stat-bar-sk" style="width:0%"></div></div>
+          <div class="hdr-sc">
+            <div class="hdr-sc-ico">🏟</div>
+            <div class="hdr-sc-lbl hdr-sc-gn" id="stat-lbl-saved-sk">Tipy: skupiny</div>
+            <div class="hdr-sc-val" id="stat-val-saved-sk">0/72</div>
+            <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-gn" id="stat-bar-sk" style="width:0%"></div></div>
           </div>
-          <div class="hdr-stat-col">
-            <div class="hdr-stat-lbl" id="stat-lbl-saved-po">Play-off</div>
-            <div class="hdr-stat-val" id="stat-val-saved-po">0/32</div>
-            <div class="hdr-stat-bar"><div class="hdr-stat-fill hdr-stat-fill-pu" id="stat-bar-po" style="width:0%"></div></div>
+          <div class="hdr-sc">
+            <div class="hdr-sc-ico">🏆</div>
+            <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Tipy: play-off</div>
+            <div class="hdr-sc-val" id="stat-val-saved-po">0/32</div>
+            <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-pu" id="stat-bar-po" style="width:0%"></div></div>
           </div>
         </div>
         <div class="hdr-right">
           <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
           <div class="hdr-user" id="pp" style="display:none">
+            <div class="hdr-av" id="hdr-av">?</div>
             <span class="hdr-uname" id="hdr-username-lbl"></span>
             <span class="abadge2" id="ab" style="display:none">ADMIN</span>
           </div>
-          <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩</button>
+          <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
           <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺</button>
         </div>
       </div>
-      <div id="pfil-played" style="display:none"></div>
-      <div id="pfil-saved" style="display:none"></div>
-      <div id="ptxt-played" style="display:none"></div>
-      <div id="ptxt-saved" style="display:none"></div>
     </div>
 
     <nav class="nav" id="mainnav">
@@ -655,7 +705,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.75</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.76</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -713,7 +763,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.75',
+    footer_ver:'v1.76',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -789,7 +839,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.75',
+    footer_ver:'v1.76',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1214,12 +1264,9 @@ function loadResults(){
 }
 function updProgress(){
   var n=Object.keys(results).length;
-  var el=document.getElementById("stat-val-played");
-  if(el) el.textContent=n+"/104";
-  var lbl=document.getElementById("stat-lbl-played");
-  if(lbl) lbl.textContent=LANG==="en"?"Played":"Odehráno";
-  var bar=document.getElementById("stat-bar-played");
-  if(bar) bar.style.width=Math.round(n/104*100)+"%";
+  var el=document.getElementById("stat-val-played");if(el) el.textContent=n+"/104";
+  var bar=document.getElementById("stat-bar-played");if(bar) bar.style.width=Math.round(n/104*100)+"%";
+  var lbl=document.getElementById("stat-lbl-played");if(lbl) lbl.textContent=LANG==="en"?"Played":"Odehráno";
 }
 
 function updSavedProgress(){
@@ -1229,8 +1276,8 @@ function updSavedProgress(){
   var epo=document.getElementById("stat-val-saved-po");if(epo) epo.textContent=po+"/32";
   var bsk=document.getElementById("stat-bar-sk");if(bsk) bsk.style.width=Math.round(sk/72*100)+"%";
   var bpo=document.getElementById("stat-bar-po");if(bpo) bpo.style.width=Math.round(po/32*100)+"%";
-  var lsk=document.getElementById("stat-lbl-saved-sk");if(lsk) lsk.textContent=LANG==="en"?"Groups":"Skupiny";
-  var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"Play-off":"Play-off";
+  var lsk=document.getElementById("stat-lbl-saved-sk");if(lsk) lsk.textContent=LANG==="en"?"Tips: groups":"Tipy: skupiny";
+  var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"Tips: play-off":"Tipy: play-off";
 }
 
 function renderTodayBox(){
@@ -1407,6 +1454,8 @@ function doReg(){
   });
 }
 function finishLogin(d){
+  var avEl=document.getElementById("hdr-av");
+  if(avEl) avEl.textContent=d.jmeno?d.jmeno.slice(0,2).toUpperCase():"?";
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
   try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
   document.getElementById('lo').style.display='none';
