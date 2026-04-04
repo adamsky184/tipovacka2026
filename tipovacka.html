@@ -214,7 +214,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.60</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.61</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -240,19 +240,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       </div>
     </div>
 
-    <div class="pwa-banner" id="pwa-banner">
-      <span class="today-strip-ico">📱</span>
-      <span class="pwa-banner-txt" id="pwa-txt">Přidat tipovačku na plochu</span>
-      <button class="pwa-banner-btn" id="pwa-install">Přidat</button>
-      <button class="pwa-banner-close" id="pwa-close">✕</button>
-    </div>
-
     <div class="countdown-bar" id="countdown-bar" style="display:none">
-      <div>
+      <div class="countdown-left">
         <div class="countdown-label" id="cd-label">Nejbližší zápas</div>
         <div class="countdown-match" id="cd-match"></div>
       </div>
-      <div class="countdown-time" id="cd-time"></div>
+      <div class="countdown-right" id="cd-units">
+        <div class="cd-unit" id="cd-d"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">dní</div></div>
+        <div class="cd-unit" id="cd-h"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">hod</div></div>
+        <div class="cd-unit" id="cd-m"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">min</div></div>
+        <div class="cd-unit" id="cd-s"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">sek</div></div>
+      </div>
     </div>
 
     <nav class="nav" id="mainnav">
@@ -410,7 +408,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.60</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.61</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -464,7 +462,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.60',
+    footer_ver:'v1.61',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -506,7 +504,6 @@ var T={
     ins_draw:'Remíza',
     ins_away:'Hosté',
     form_last:'Posl. 5 tipů',
-    pwa_txt:'Přidat tipovačku na plochu',
     upd_fresh:'Aktuální',
     upd_ago:'před',
     global_tips:'Globální tip',
@@ -552,7 +549,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.60',
+    footer_ver:'v1.61',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -594,7 +591,6 @@ var T={
     ins_draw:'Draw',
     ins_away:'Away',
     form_last:'Last 5 tips',
-    pwa_txt:'Add to Home Screen',
     upd_fresh:'Up to date',
     upd_ago:'ago',
     global_tips:'Global tip',
@@ -1363,10 +1359,10 @@ function renderMatchRow(z,isAdmin){
     html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
     html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
   }
-  // Global tips bar (only if we have allTips data and match hasn't started)
-  if(Object.keys(allTips).length>0 && !started && !teamsUnknown){
+  // Global tips bar
+  if(Object.keys(allTips).length>0 && !teamsUnknown){
     var gtHtml=renderGlobalTipsBar(id);
-    if(gtHtml) html+='<div style="padding:3px 0 4px;border-bottom:1px solid rgba(28,48,80,.3)">'+gtHtml+'</div>';
+    if(gtHtml) html+=gtHtml;
   }
   html+='</div></div>';
   return html;
@@ -2005,13 +2001,24 @@ function updateCountdown(){
   var diff=mDate(next)-new Date();
   if(diff<=0){updateCountdown();return;}
   var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
-  var timeStr=days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s));
-  var matchStr=fT(next[2])+' - '+fT(next[3]);
   setText('cd-label',tr('countdown_lbl'));
-  setText('cd-match',matchStr);
-  setText('cd-time',timeStr);
-  var el=document.getElementById('cd-time');
-  if(el) el.classList.toggle('urgent',diff<3600000);
+  setText('cd-match',fT(next[2])+' – '+fT(next[3]));
+  setText('cd-days',pad(days));
+  setText('cd-hours',pad(h));
+  setText('cd-mins',pad(m));
+  setText('cd-secs',pad(s));
+  var urgent=diff<3600000;
+  ['cd-d','cd-h','cd-m','cd-s'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.classList.toggle('urgent',urgent);
+  });
+  // Update labels based on lang
+  var lbls=LANG==='en'?['days','hrs','min','sec']:['dní','hod','min','sek'];
+  var ids=['cd-d','cd-h','cd-m','cd-s'];
+  ids.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el){var lbl=el.querySelector('.cd-lbl');if(lbl) lbl.textContent=lbls[i];}
+  });
 }
 function startCountdown(){
   updateCountdown();
@@ -2024,21 +2031,26 @@ function renderTodayStrip(){
   var strip=document.getElementById('today-strip');
   if(!strip||!me) return;
   var now=new Date();
+  // Count upcoming matches without tips (any future match, not just today)
+  var upcoming=SZ.filter(function(z){return mDate(z)>now&&!myTips[z[0]]&&!matchTeamsUnknown(z);});
   var todayMatches=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);});
-  if(!todayMatches.length){strip.style.display='none';return;}
-  strip.style.display='flex';
-  var tipped=todayMatches.filter(function(z){return !!myTips[z[0]];}).length;
-  var missing=todayMatches.filter(function(z){return !myTips[z[0]]&&mDate(z)>now;}).length;
-  var txt=todayMatches.length+' '+tr('today_strip_playing')+' · '+tipped+' '+tr('today_strip_tipped');
-  setText('today-strip-txt',txt);
-  if(missing>0){
-    setText('today-strip-sub',missing+' '+tr('today_strip_missing'));
+  var tipped=Object.keys(myTips).length;
+  var total=72; // group stage
+  if(upcoming.length>0){
+    strip.style.display='flex';
+    var txt=tipped+'/'+total+' '+tr('today_strip_tipped');
+    setText('today-strip-txt',txt);
+    setText('today-strip-sub',upcoming.length+' '+tr('today_strip_missing'));
     var badge=document.getElementById('today-badge');
-    if(badge){badge.textContent=missing+' ⚠';badge.className='today-badge';}
-  } else {
+    if(badge){badge.textContent=upcoming.length;badge.className='today-badge';}
+  } else if(todayMatches.length>0){
+    strip.style.display='flex';
+    setText('today-strip-txt',todayMatches.length+' '+tr('today_strip_playing'));
     setText('today-strip-sub',tr('today_all_done'));
     var badge=document.getElementById('today-badge');
     if(badge){badge.textContent='✓';badge.className='today-badge ok';}
+  } else {
+    strip.style.display='none';
   }
 }
 
@@ -2062,10 +2074,13 @@ function renderInsights(){
     else away++;
   });
   var total=home+draw+away||1;
+  var hp=Math.round(home/total*100),dp=Math.round(draw/total*100),ap=Math.round(away/total*100);
+  // Bar visualization
+  function bar(pct,color){return '<div style="height:3px;border-radius:2px;background:'+color+';width:'+pct+'%;margin-top:2px;transition:width .3s"></div>';}
   box.innerHTML=
-    '<div class="insight-row"><span>'+tr('ins_home')+'</span><span class="insight-val">'+Math.round(home/total*100)+'%</span></div>'+
-    '<div class="insight-row"><span>'+tr('ins_draw')+'</span><span class="insight-val">'+Math.round(draw/total*100)+'%</span></div>'+
-    '<div class="insight-row"><span>'+tr('ins_away')+'</span><span class="insight-val">'+Math.round(away/total*100)+'%</span></div>';
+    '<div class="insight-row"><span>'+tr('ins_home')+'</span><div style="flex:1;margin:0 8px">'+bar(hp,'var(--ac)')+'</div><span class="insight-val">'+hp+'%</span></div>'+
+    '<div class="insight-row"><span>'+tr('ins_draw')+'</span><div style="flex:1;margin:0 8px">'+bar(dp,'var(--mu)')+'</div><span class="insight-val">'+dp+'%</span></div>'+
+    '<div class="insight-row"><span>'+tr('ins_away')+'</span><div style="flex:1;margin:0 8px">'+bar(ap,'var(--gd)')+'</div><span class="insight-val">'+ap+'%</span></div>';
 
   // Form - last 5 scored tips
   if(formBox){
@@ -2115,16 +2130,18 @@ function renderGlobalTipsBar(zapasId){
   var g=getGlobalTips(zapasId);
   if(!g.total) return '';
   var hp=Math.round(g.home/g.total*100),dp=Math.round(g.draw/g.total*100),ap=100-hp-dp;
-  return '<div class="gtips">'+
-    '<div class="gtips-h" style="width:'+hp+'%"></div>'+
-    '<div class="gtips-d" style="width:'+dp+'%"></div>'+
-    '<div class="gtips-a" style="width:'+ap+'%"></div>'+
+  return '<div class="gtips-wrap">'+
+    '<div class="gtips-bar">'+
+      '<div class="gtips-h" style="width:'+hp+'%"></div>'+
+      '<div class="gtips-d" style="width:'+dp+'%"></div>'+
+      '<div class="gtips-a" style="width:'+ap+'%"></div>'+
     '</div>'+
-    '<div class="gtips-label">'+
-    '<span style="color:var(--ac2)">1 '+hp+'%</span>'+
-    '<span style="color:var(--mu)">X '+dp+'%</span>'+
-    '<span style="color:var(--gd)">2 '+ap+'%</span>'+
-    '</div>';
+    '<div class="gtips-pills">'+
+      '<span class="gtips-pill gtips-pill-h">1&nbsp;'+hp+'%</span>'+
+      '<span class="gtips-pill gtips-pill-d">X&nbsp;'+dp+'%</span>'+
+      '<span class="gtips-pill gtips-pill-a">2&nbsp;'+ap+'%</span>'+
+    '</div>'+
+  '</div>';
 }
 
 // ── LAST UPDATED BADGE ────────────────────────────────────
@@ -2236,7 +2253,6 @@ function init(){
   updClock();
   setInterval(updClock,1000);
   startCountdown();
-  initPWA();
 
   try{
     var saved=localStorage.getItem('ms26s');
