@@ -425,7 +425,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-stat-col{min-width:38px}
 }
 
-/* ══ HEADER v1.76 ══════════════════════════════ */
+/* ══ HEADER v1.77 ══════════════════════════════ */
 .hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -473,6 +473,94 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-title{font-size:.95rem}
   .hdr-sc-val{font-size:.82rem}
 }
+
+/* ── HEADER v1.77 compact layout override ── */
+.hdr{padding:14px 18px;margin-bottom:.85rem}
+.hdr-row{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) minmax(320px,460px) 150px;
+  align-items:center;
+  gap:14px;
+}
+.hdr-brand{min-width:0}
+.hdr-title{font-size:1.12rem;line-height:1.02}
+.hdr-by{font-size:.63rem;margin-top:4px}
+.hdr-clock{font-size:.64rem;margin-top:6px;white-space:normal}
+.hdr-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  width:100%;
+}
+.hdr-sc{
+  min-width:0;
+  padding:8px 10px 10px;
+  border-radius:12px;
+}
+.hdr-sc-ico{font-size:13px;margin-bottom:3px}
+.hdr-sc-lbl{font-size:.52rem;line-height:1.15;text-align:center}
+.hdr-sc-val{font-size:1rem;margin-bottom:7px}
+.hdr-right{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:center;
+  gap:6px;
+  width:100%;
+  max-width:150px;
+}
+.hdr-right .lang-btn,
+.hdr-right .hdr-ico-btn,
+.hdr-right .btn-bl,
+.hdr-right .hdr-user{
+  width:100%;
+  justify-content:center;
+}
+.hdr-right .lang-btn{min-width:0;padding:6px 10px}
+.hdr-user{padding:5px 10px;border-radius:14px;gap:7px}
+.hdr-uname{font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px}
+.hdr-av{width:26px;height:26px;font-size:.61rem}
+.hdr-ico-btn{padding:6px 10px;font-size:.71rem}
+#btn-refresh{margin-top:2px}
+@media(max-width:860px){
+  .hdr-row{grid-template-columns:minmax(190px,1fr) minmax(280px,1fr) 132px;gap:10px}
+  .hdr{padding:12px 14px}
+  .hdr-sc{padding:8px 8px 9px}
+  .hdr-sc-val{font-size:.92rem}
+  .hdr-sc-lbl{font-size:.49rem}
+  .hdr-right{max-width:132px}
+  .hdr-uname{max-width:58px}
+}
+@media(max-width:680px){
+  .hdr-row{
+    grid-template-columns:1fr auto;
+    grid-template-areas:
+      'brand right'
+      'stats stats';
+    align-items:start;
+  }
+  .hdr-brand{grid-area:brand}
+  .hdr-right{grid-area:right;max-width:132px}
+  .hdr-stats{grid-area:stats}
+  .hdr-title{font-size:1.02rem}
+  .hdr-clock{font-size:.61rem}
+}
+@media(max-width:520px){
+  .hdr{padding:11px 10px}
+  .hdr-row{gap:8px}
+  .hdr-right{max-width:114px;gap:5px}
+  .hdr-right .lang-btn,.hdr-right .hdr-ico-btn{padding:5px 8px;font-size:.67rem}
+  .hdr-user{padding:4px 8px}
+  .hdr-av{width:24px;height:24px}
+  .hdr-uname{font-size:.72rem;max-width:46px}
+  .abadge2{font-size:.53rem;padding:2px 6px}
+  .hdr-stats{gap:6px}
+  .hdr-sc{padding:7px 6px 8px;border-radius:11px}
+  .hdr-sc-ico{font-size:12px;margin-bottom:2px}
+  .hdr-sc-lbl{font-size:.46rem}
+  .hdr-sc-val{font-size:.84rem;margin-bottom:6px}
+}
+
 </style>
 </head>
 <body>
@@ -505,7 +593,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.76</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.77</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -705,7 +793,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.76</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.77</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -763,7 +851,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.76',
+    footer_ver:'v1.77',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -839,7 +927,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.76',
+    footer_ver:'v1.77',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
