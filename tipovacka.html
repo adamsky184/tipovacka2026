@@ -223,6 +223,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lbr:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .lbr.g1{box-shadow:0 0 18px rgba(245,158,11,.12)}
 .nb.on{box-shadow:0 2px 8px rgba(59,130,246,.25)}
+
+.match-section{margin-bottom:.6rem}
+.match-section-header{display:grid;grid-template-columns:1fr 72px 148px;gap:8px;padding:6px 10px 4px;align-items:center}
+.match-section-header .gh{margin:0;padding:0;border:none;font-size:.62rem}
+.mh-tip-lbl,.mh-gt-lbl{font-size:.62rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;text-align:center}
+.mr{display:grid;grid-template-columns:1fr 72px 148px;gap:8px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
+.mr:last-child{border-bottom:none}
+.mr-info{min-width:0}
+.mr-tip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.mr-gt{min-width:0}
+.tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
+.tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
+.tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
+.gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:5px;gap:2px}
+.gt-h{background:var(--ac);border-radius:2px}
+.gt-d{background:var(--bd2);border-radius:2px}
+.gt-a{background:var(--gd);border-radius:2px}
+.gt-pills{display:flex;gap:3px}
+.gt-pill{font-size:.62rem;font-weight:700;padding:2px 5px;border-radius:5px;white-space:nowrap}
+.gt-pill-h{background:rgba(59,130,246,.12);color:var(--ac2)}
+.gt-pill-d{background:rgba(100,116,139,.18);color:var(--mu2)}
+.gt-pill-a{background:rgba(245,158,11,.12);color:var(--gd)}
+.gt-pill.dim{opacity:.45}
+@media(max-width:600px){
+  .match-section-header{grid-template-columns:1fr 56px 106px}
+  .mr{grid-template-columns:1fr 56px 106px;padding:8px}
+  .ti{width:44px;font-size:.8rem}
+  .tip-saved{min-width:44px;font-size:.8rem;padding:3px 5px}
+  .gt-pill{font-size:.58rem;padding:1px 4px}
+  .mh-tip-lbl,.mh-gt-lbl{font-size:.58rem;letter-spacing:.04em}
+}
 </style>
 </head>
 <body>
@@ -255,7 +286,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.62</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.63</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -452,7 +483,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.62</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.63</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -506,7 +537,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.62',
+    footer_ver:'v1.63',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -593,7 +624,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.62',
+    footer_ver:'v1.63',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1343,26 +1374,46 @@ function renderTipy(){
   var arr=getFilteredTipArr(baseArr);
   updateTipQuickButtons();
   renderTodayBox();
+  renderTodayStrip();
+  renderInsights();
   renderSimilarity();
-
-  var html='',prev=null;
-
+  var hasGT=Object.keys(allTips).length>0;
+  var tipLbl=tr('my_tip');
+  var gtLbl=LANG==='en'?"Others' tips":"Tendence ostatn\u00edch";
+  var html='';
   if(tipSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<div class="date-sep">📅 '+dLabel(matches[0])+'</div>';
-      matches.forEach(function(z){html+=renderMatchRow(z,isAdmin);});
+      html+='<div class="match-section"><div class="match-section-header">';
+      html+='<div class="gh">'+dLabel(matches[0])+'</div>';
+      html+='<div class="mh-tip-lbl">'+tipLbl+'</div>';
+      html+='<div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div>';
+      html+='</div><div class="card" style="padding:0;overflow:hidden">';
+      matches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
+      html+='</div></div>';
     });
   } else {
+    var prev=null,curMatches=[];
+    function flushSection(){
+      if(!curMatches.length) return;
+      var sk=curMatches[0][1];
+      html+='<div class="match-section"><div class="match-section-header">';
+      html+='<div class="gh">'+ghL(sk)+'</div>';
+      html+='<div class="mh-tip-lbl">'+tipLbl+'</div>';
+      html+='<div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div>';
+      html+='</div><div class="card" style="padding:0;overflow:hidden">';
+      curMatches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
+      html+='</div></div>';
+      curMatches=[];
+    }
     arr.forEach(function(z){
-      var sk=z[1];
-      if(sk!==prev){html+='<div class="gh">'+ghL(sk)+'</div>';prev=sk;}
-      html+=renderMatchRow(z,isAdmin);
+      if(z[1]!==prev){flushSection();prev=z[1];}
+      curMatches.push(z);
     });
+    flushSection();
   }
   document.getElementById('tipy-list').innerHTML=html||'<div class="empty">'+tr('no_matches')+'</div>';
-
   arr.forEach(function(z){
     var inp=document.getElementById('ti'+z[0]);
     if(inp&&!inp.disabled){
@@ -1376,40 +1427,57 @@ function renderTipy(){
   });
 }
 
-function renderMatchRow(z,isAdmin){
+function renderMatchRow(z,isAdmin,hasGT){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
   var now=new Date(),started=mDate(z)<=now;
   var res=results[id],tip=myTips[id]||'';
-  var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
+  var kw=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
   var teamsUnknown=false;
-  for(var i=0;i<unknown_keywords.length;i++){
-    if(d.indexOf(unknown_keywords[i])>=0||h.indexOf(unknown_keywords[i])>=0){teamsUnknown=true;break;}
-  }
+  for(var i=0;i<kw.length;i++){if(d.indexOf(kw[i])>=0||h.indexOf(kw[i])>=0){teamsUnknown=true;break;}}
   var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
-  var html='<div class="mr">';
-  html+='<div><div class="mt">'+fT(d)+' &ndash; '+fT(h)+'</div>';
-  html+='<div class="mm">'+dStr(z);
-  if(res) html+=' <span class="rt rt-d">'+escHtml(res)+'</span>';
-  else if(started) html+=' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>';
-  else if(cd) html+=' <span class="cd">'+escHtml(cd)+'</span>';
-  if(venue) html+=' <span class="venue">📍 '+escHtml(venue)+'</span>';
-  html+='</div></div>';
-  html+='<div class="mr-r">';
+  var tipHtml='';
   if(teamsUnknown){
-    html+='<span style="font-size:.66rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
+    tipHtml='<span style="font-size:.63rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
+  } else if(tip){
+    var cls=pts===5?'p5':pts===2?'p2':pts===0?'p0':'';
+    tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>';
+    if(pts!==null) tipHtml+='<div class="pt '+cls+'">'+(pts===5?'5b':pts===2?'2b':'0b')+'</div>';
   } else {
-    html+='<span class="mlbl">'+tr('my_tip')+'</span>'+ptsBdg(pts,tip);
-    html+='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+escAttr(tip)+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+    tipHtml='<input class="ti" id="ti'+id+'" value="" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
   }
-  // Global tips bar
-  if(Object.keys(allTips).length>0 && !teamsUnknown){
-    var gtHtml=renderGlobalTipsBar(id);
-    if(gtHtml) html+=gtHtml;
+  var gtHtml='';
+  if(hasGT&&!teamsUnknown){
+    var g=getGlobalTips(id);
+    if(g.total>=1){
+      var hp=Math.round(g.home/g.total*100),dp=Math.round(g.draw/g.total*100),ap=100-hp-dp;
+      var max=Math.max(hp,dp,ap);
+      gtHtml='<div class="gt-bar">'+
+        '<div class="gt-h" style="width:'+hp+'%"></div>'+
+        '<div class="gt-d" style="width:'+dp+'%"></div>'+
+        '<div class="gt-a" style="width:'+ap+'%"></div>'+
+      '</div>'+
+      '<div class="gt-pills">'+
+        '<span class="gt-pill gt-pill-h'+(hp===max?'':' dim')+'">1\u00b7'+hp+'%</span>'+
+        '<span class="gt-pill gt-pill-d'+(dp===max?'':' dim')+'">X\u00b7'+dp+'%</span>'+
+        '<span class="gt-pill gt-pill-a'+(ap===max?'':' dim')+'">2\u00b7'+ap+'%</span>'+
+      '</div>';
+    }
   }
-  html+='</div></div>';
-  return html;
+  return '<div class="mr">'+
+    '<div class="mr-info">'+
+      '<div class="mt">'+fT(d)+' \u2013 '+fT(h)+'</div>'+
+      '<div class="mm">'+dStr(z)+
+        (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
+        (started&&!res?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
+        (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
+        (venue?' <span class="venue">'+escHtml(venue)+'</span>':'')+
+      '</div>'+
+    '</div>'+
+    '<div class="mr-tip">'+tipHtml+'</div>'+
+    (hasGT?'<div class="mr-gt">'+gtHtml+'</div>':'')+
+  '</div>';
 }
 
 async function saveTips(){
