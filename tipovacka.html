@@ -339,7 +339,40 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:.55rem .7rem}
 .mini-h{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);margin-bottom:.25rem}
 .mini-kv{font-size:.71rem;line-height:1.4;color:var(--tx)}.mini-kv .mut{color:var(--mu)}.mini-kv .ok{color:var(--gn2);font-weight:700}.mini-kv .miss{color:#f87171;font-weight:700}
-@media(max-width:600px){.hdr{padding:.55rem .8rem 0}.hdr-center{justify-content:flex-start}.cd-pill{display:none}.hdr-clock{font-size:.62rem}.hdr-title{font-size:.95rem}.hdr-sub-row{flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:.3rem}.phase-tab{font-size:.74rem;padding:5px 8px}.sort-chip,.fchip{font-size:.68rem}}</style>
+@media(max-width:600px){.hdr{padding:.55rem .8rem 0}.hdr-center{justify-content:flex-start}.cd-pill{display:none}.hdr-clock{font-size:.62rem}.hdr-title{font-size:.95rem}.hdr-sub-row{flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:.3rem}.phase-tab{font-size:.74rem;padding:5px 8px}.sort-chip,.fchip{font-size:.68rem}}
+.hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.7rem 1.2rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
+.hdr-top{display:flex;align-items:center;gap:.75rem;justify-content:space-between}
+.hdr-brand{flex-shrink:0}
+.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;line-height:1.1}
+.hdr-by{font-size:.62rem;color:var(--mu)}
+.hdr-clock{font-family:'Space Grotesk',sans-serif;font-size:.67rem;color:var(--mu2);margin-top:3px;white-space:nowrap}
+.hdr-stats{display:flex;gap:8px;flex-shrink:0}
+.hdr-stat{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:10px;padding:6px 13px;text-align:center;min-width:72px}
+.hdr-stat-lbl{font-size:.58rem;color:var(--mu);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1px}
+.hdr-stat-val{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx)}
+.hdr-right{display:flex;align-items:center;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.hdr-user{display:flex;align-items:center;gap:5px;background:var(--bg4);border:1px solid var(--bd2);border-radius:20px;padding:3px 10px}
+.hdr-uname{font-size:.77rem;font-weight:600;color:var(--tx)}
+.abadge2{font-size:.63rem;font-weight:700;background:var(--gd);color:#0a0a0a;padding:2px 7px;border-radius:20px;letter-spacing:.03em}
+.hdr-neon-bar{height:3px;background:var(--bd);margin:.5rem -1.2rem 0;overflow:hidden}
+.hdr-neon-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn2));transition:width .6s}
+.nav{flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.float-sav{position:fixed;bottom:1.25rem;right:1.25rem;z-index:998;pointer-events:none}
+.float-sav .btn{pointer-events:auto;font-size:.83rem;padding:10px 18px;border-radius:12px;box-shadow:0 4px 18px rgba(34,197,94,.3);font-weight:700}
+@media(max-width:600px){
+  .hdr{padding:.55rem .85rem 0}
+  .hdr-top{gap:.5rem;flex-wrap:wrap}
+  .hdr-stats{gap:5px}
+  .hdr-stat{min-width:60px;padding:4px 9px}
+  .hdr-stat-val{font-size:.82rem}
+  .hdr-stat-lbl{font-size:.52rem}
+  .hdr-clock{font-size:.61rem}
+  .nb{padding:6px 10px;font-size:.72rem}
+  .float-sav{bottom:.9rem;right:.7rem}
+}
+</style>
 </head>
 <body>
 <div class="lo-wrap" id="lo">
@@ -371,14 +404,45 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.72</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.73</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
 
 <div id="app" style="display:none">
   <div class="w">
-    <div class="hdr"><div class="hdr-top"><div class="hdr-brand"><div class="hdr-title" id="hdr-title-main">MS 2026</div><div class="hdr-by" id="by-lbl">by Adam184</div></div><div class="hdr-center"><div class="hdr-clock" id="clk"></div><div class="cd-pill" id="cd-pill" style="display:none"><span class="cd-pill-ico">⏱</span><div class="cd-pill-inner"><span class="cd-pill-match" id="cd-pill-match"></span><span class="cd-pill-time" id="cd-pill-time"></span></div></div></div><div class="hdr-right"><button class="lang-btn" id="langbtn">🇬🇧 EN</button><div class="hdr-user" id="pp" style="display:none"><span class="hdr-uname" id="hdr-username-lbl"></span><span class="abadge2" id="ab" style="display:none">ADMIN</span></div><button class="btn btn-ol btn-sm" id="btn-logout" style="display:none">↩</button><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺</button></div></div><div class="hdr-sub-row"><span class="hdr-sub-info" id="hdr-sub">USA · Kanada · Mexiko</span><span class="hdr-prog-saved" id="ptxt-saved"></span></div><div class="hdr-neon-bar"><div class="hdr-neon-fill" id="pfil-saved" style="width:0%"></div></div><div id="pfil-played" style="display:none"></div><div id="ptxt-played" style="display:none"></div></div>
+    <div class="hdr">
+      <div class="hdr-top">
+        <div class="hdr-brand">
+          <div class="hdr-title" id="hdr-title-main">MS 2026</div>
+          <div class="hdr-by" id="by-lbl">by Adam184</div>
+          <div class="hdr-clock" id="clk"></div>
+        </div>
+        <div class="hdr-stats">
+          <div class="hdr-stat">
+            <div class="hdr-stat-lbl" id="stat-lbl-played">Odehráno</div>
+            <div class="hdr-stat-val" id="stat-val-played">0 / 104</div>
+          </div>
+          <div class="hdr-stat">
+            <div class="hdr-stat-lbl" id="stat-lbl-saved">Moje tipy</div>
+            <div class="hdr-stat-val" id="stat-val-saved">0 / 104</div>
+          </div>
+        </div>
+        <div class="hdr-right">
+          <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
+          <div class="hdr-user" id="pp" style="display:none">
+            <span class="hdr-uname" id="hdr-username-lbl"></span>
+            <span class="abadge2" id="ab" style="display:none">ADMIN</span>
+          </div>
+          <button class="btn btn-ol btn-sm" id="btn-logout" style="display:none">↩</button>
+          <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺ Výsledky</button>
+        </div>
+      </div>
+      <div class="hdr-neon-bar"><div class="hdr-neon-fill" id="pfil-saved" style="width:0%"></div></div>
+      <div id="pfil-played" style="display:none"></div>
+      <div id="ptxt-played" style="display:none"></div>
+      <div id="ptxt-saved" style="display:none"></div>
+    </div>
 
     <nav class="nav" id="mainnav">
       <button class="nb on" id="tab-tipy">Moje tipy</button>
@@ -411,7 +475,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-tipy">
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
 
-      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Dle data</button><button class="sort-chip" id="ptab-tipy-sk">Dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
       <div class="mini-grid">
         <div class="mini-card">
@@ -452,7 +516,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="ibox" id="ibox-ost">Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".</div>
       <div class="ptabs">
         <button class="ptab on" id="ptab-ost-sk">Skupinová fáze</button>
-        <button class="ptab" id="ptab-ost-dt">Dle data</button>
+        <button class="ptab" id="ptab-ost-dt">Řadit dle data</button>
         <button class="ptab" id="ptab-ost-po">Play-off</button>
       </div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
@@ -471,7 +535,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="ibox" id="ibox-vys-note" style="margin-bottom:.55rem">Výsledky aktualizuje admin ručně.</div>
       <div class="ptabs">
         <button class="ptab on" id="ptab-vys-sk">Skupinová fáze</button>
-        <button class="ptab" id="ptab-vys-dt">Dle data</button>
+        <button class="ptab" id="ptab-vys-dt">Řadit dle data</button>
         <button class="ptab" id="ptab-vys-po">Play-off</button>
       </div>
       <div class="card">
@@ -513,7 +577,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 
     <div id="page-tymy" style="display:none">
       <div class="ptabs">
-        <button class="ptab on" id="ptab-tym-sk">Dle skupin</button>
+        <button class="ptab on" id="ptab-tym-sk">Řadit dle skupin</button>
         <button class="ptab" id="ptab-tym-rk">FIFA Ranking</button>
       </div>
       <div class="card">
@@ -537,7 +601,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.72</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.73</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -564,8 +628,8 @@ var T={
     tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
     tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
     tab_stadiony:'Stadiony',tab_tymy:'Týmy',
-    by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',overall:'Celkový',
-    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Dle skupin',ranking:'FIFA Ranking',
+    by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
+    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',ranking:'FIFA Ranking',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
@@ -595,7 +659,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.72',
+    footer_ver:'v1.73',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -671,7 +735,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.72',
+    footer_ver:'v1.73',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -944,7 +1008,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
-var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
+var tipSort='dt',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -1096,10 +1160,23 @@ function loadResults(){
 }
 function updProgress(){
   var n=Object.keys(results).length,pct=Math.round(n/104*100);
-  setText('ptxt-played',tr('played')+': '+n+' / 104 ('+pct+'%)');
-  var f=document.getElementById('pfil-played'); if(f) f.style.width=pct+'%';
+  var el=document.getElementById("stat-val-played");
+  if(el) el.textContent=n+" / 104";
+  var lbl=document.getElementById("stat-lbl-played");
+  if(lbl) lbl.textContent=LANG==="en"?"Results":"Odehráno";
+  var f=document.getElementById("pfil-played");if(f) f.style.width=pct+"%";
 }
-function updSavedProgress(){var sk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;var po=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;var el=document.getElementById('ptxt-saved');if(el) el.textContent=(LANG==='en'?'Saved: ':'Uloženo: ')+sk+'/72 · '+po+'/32';var f=document.getElementById('pfil-saved');if(f) f.style.width=Math.round((sk+po)/104*100)+'%';}
+
+function updSavedProgress(){
+  var sk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;
+  var po=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;
+  var total=sk+po,pct=Math.round(total/104*100);
+  var el=document.getElementById("stat-val-saved");
+  if(el) el.textContent=total+" / 104";
+  var lbl=document.getElementById("stat-lbl-saved");
+  if(lbl) lbl.textContent=LANG==="en"?"My tips":"Moje tipy";
+  var f=document.getElementById("pfil-saved");if(f) f.style.width=pct+"%";
+}
 
 function renderTodayBox(){
   var box=document.getElementById('today-box');
@@ -1265,7 +1342,7 @@ function finishLogin(d){
     renderSimilarity();
     renderTodayBox();
     renderInsights();
-    startCountdown();
+    
     renderStadiony();
     renderTymy();
     renderPavouk();
@@ -1282,6 +1359,7 @@ function doLogout(){
   document.getElementById('ab').style.display='none';
   document.getElementById('tab-admin').style.display='none';
   document.getElementById('pp').style.display='none';
+  var lb3=document.getElementById('btn-logout');if(lb3) lb3.style.display='none';
   var lb=document.getElementById('btn-logout');if(lb) lb.style.display='none';
   document.getElementById('btn-refresh').style.display='none';
   document.getElementById('lj').value='';
@@ -2034,11 +2112,6 @@ function getNextMatch(){
   return all.length?all[0]:null;
 }
 function updateCountdown(){var pill=document.getElementById('cd-pill'),next=getNextMatch();if(!next){if(pill) pill.style.display='none';return;}if(pill) pill.style.display='flex';var diff=mDate(next)-new Date();if(diff<=0){setTimeout(updateCountdown,1000);return;}var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);setText('cd-pill-match',fT(next[2])+' – '+fT(next[3]));setText('cd-pill-time',days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s)));var el=document.getElementById('cd-pill-time');if(el) el.classList.toggle('urgent',diff<3600000);}
-function startCountdown(){
-  updateCountdown();
-  if(cdInterval) clearInterval(cdInterval);
-  cdInterval=setInterval(updateCountdown,1000);
-}
 
 function goStadiony(){showTab('stadiony');}
 var currentPhase='sk';
@@ -2111,10 +2184,16 @@ function init(){
     var b=document.getElementById(pt[0]); if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
   });
 
+  // Phase tab listeners
+  var ph1=document.getElementById("ptab-phase-sk");if(ph1) ph1.addEventListener("click",function(){setPhaseTab("sk");});
+  var ph2=document.getElementById("ptab-phase-po");if(ph2) ph2.addEventListener("click",function(){setPhaseTab("po");});
+  // Sort chip listeners
+  var sc1=document.getElementById("ptab-tipy-dt");if(sc1) sc1.addEventListener("click",function(){setSortChip("dt");});
+  var sc2=document.getElementById("ptab-tipy-sk");if(sc2) sc2.addEventListener("click",function(){setSortChip("sk");});
   applyI18n();
   updClock();
   setInterval(updClock,1000);
-  startCountdown();
+  
 
   try{
     var saved=localStorage.getItem('ms26s');
