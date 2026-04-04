@@ -138,6 +138,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lo-err{font-size:.77rem;color:#f87171;margin-top:6px;min-height:17px}
 .lo-meta{font-size:.68rem;color:var(--mu);margin-top:.65rem;line-height:1.5}
 .lo-lang{position:absolute;top:12px;right:12px}
+.lo-ftr{margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(28,48,80,.5);text-align:center;color:var(--mu);font-size:.66rem;line-height:1.6}
+.lo-ftr span{color:var(--mu2)}
 .stad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
 .stad-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
 .stad-img-wrap{height:145px;background:var(--bg4);position:relative;overflow:hidden}
@@ -150,6 +152,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
 .ftr span{color:var(--mu2)}
+.qwrap{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 .8rem}
+.qbtn{padding:5px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);color:var(--mu2);font-size:.73rem;font-weight:600;cursor:pointer;transition:.15s}
+.qbtn:hover{border-color:var(--ac2);color:var(--ac2)}
+.qbtn.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
+.mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;padding:.8rem .9rem}
+.mini-h{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:.45rem}
+.mini-kv{font-size:.78rem;line-height:1.55;color:var(--tx)}
+.mini-kv .mut{color:var(--mu)}
+.mini-kv .ok{color:var(--gn2);font-weight:700}
+.mini-kv .miss{color:#f87171;font-weight:700}
+.today-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(28,48,80,.35)}
+.today-row:last-child{border-bottom:none}
+.today-match{font-size:.74rem;font-weight:600}
+.today-sub{font-size:.65rem;color:var(--mu);margin-top:1px}
 @media(max-width:600px){
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
@@ -161,6 +178,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .w{padding:.5rem}
   .lbr{gap:8px;padding:8px 10px}
   .lp{font-size:1.1rem}
+  .mini-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -193,6 +211,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="lo-err" id="re"></div>
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
+    <div class="lo-ftr">
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.5</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+    </div>
   </div>
 </div>
 
@@ -232,6 +253,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-tipy">
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
       <div class="sb" id="ibox-tipy-extra" style="font-size:.7rem;color:var(--mu2);margin:-.25rem 0 .8rem .15rem"></div>
+
+      <div class="qwrap" id="tipy-qf">
+        <button class="qbtn on" id="qf-all">Vše</button>
+        <button class="qbtn" id="qf-today">Dnes</button>
+        <button class="qbtn" id="qf-tomorrow">Zítra</button>
+        <button class="qbtn" id="qf-missing">Neuložené</button>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini-card">
+          <div class="mini-h" id="sim-h">Nejpodobnější hráč</div>
+          <div class="mini-kv" id="sim-box">-</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-h" id="today-h">Dnešní zápasy</div>
+          <div class="mini-kv" id="today-box">-</div>
+        </div>
+      </div>
+
       <div class="ptabs">
         <button class="ptab on" id="ptab-tipy-sk">Dle skupin</button>
         <button class="ptab" id="ptab-tipy-dt">Dle data</button>
@@ -332,7 +372,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.48</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.5</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -386,13 +426,25 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.48',
+    footer_ver:'v1.5',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
     playoff_stage:'Play-off',
     today:'Dnes',
     missing:'bez tipu',
+    qf_all:'Vše',
+    qf_today:'Dnes',
+    qf_tomorrow:'Zítra',
+    qf_missing:'Neuložené',
+    today_matches:'Dnešní zápasy',
+    similar_player:'Nejpodobnější hráč',
+    sim_none:'Zatím nelze vyhodnotit',
+    sim_label:'Nejblíž máš k',
+    sim_match:'Shoda',
+    tip_saved:'uložen',
+    tip_missing:'chybí',
+    no_today_matches:'Dnes se nehraje',
     days:['Ne','Po','Út','St','Čt','Pá','So'],
     months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],
     in_days:'za',in_h:'h',in_min:'min',in_d:'d',
@@ -441,13 +493,25 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.48',
+    footer_ver:'v1.5',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
     playoff_stage:'Playoff',
     today:'Today',
     missing:'missing',
+    qf_all:'All',
+    qf_today:'Today',
+    qf_tomorrow:'Tomorrow',
+    qf_missing:'Missing',
+    today_matches:"Today's matches",
+    similar_player:'Most similar player',
+    sim_none:'Not enough data yet',
+    sim_label:'Closest to',
+    sim_match:'Match',
+    tip_saved:'saved',
+    tip_missing:'missing',
+    no_today_matches:'No matches today',
     days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
     months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     in_days:'in',in_h:'h',in_min:'min',in_d:'d',
@@ -694,7 +758,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
-var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
+var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -742,6 +806,106 @@ function formatLastUpdated(){
   if(isNaN(d.getTime())) return '';
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+
+function sameCalDay(d1,d2){
+  return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
+}
+function matchTeamsUnknown(z){
+  var d=z[2],h=z[3];
+  var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
+  for(var i=0;i<unknown_keywords.length;i++){
+    if(d.indexOf(unknown_keywords[i])>=0 || h.indexOf(unknown_keywords[i])>=0) return true;
+  }
+  return false;
+}
+function getFilteredTipArr(arr){
+  if(tipQuickFilter==='all') return arr;
+  var now=new Date();
+  var tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+
+  return arr.filter(function(z){
+    var dz=mDate(z);
+    if(tipQuickFilter==='today') return sameCalDay(dz,now);
+    if(tipQuickFilter==='tomorrow') return sameCalDay(dz,tomorrow);
+    if(tipQuickFilter==='missing'){
+      return !myTips[z[0]] && dz>now && !matchTeamsUnknown(z);
+    }
+    return true;
+  });
+}
+function updateTipQuickButtons(){
+  ['all','today','tomorrow','missing'].forEach(function(k){
+    var el=document.getElementById('qf-'+k);
+    if(el) el.classList.toggle('on',tipQuickFilter===k);
+  });
+}
+function setTipQuickFilter(mode){
+  tipQuickFilter=mode;
+  updateTipQuickButtons();
+  renderTipy();
+}
+function renderTodayBox(){
+  var box=document.getElementById('today-box');
+  if(!box||!me) return;
+
+  var now=new Date();
+  var arr=SZ.concat(PZ).filter(function(z){ return sameCalDay(mDate(z),now); }).sort(function(a,b){ return mDate(a)-mDate(b); });
+
+  if(!arr.length){
+    box.innerHTML='<span class="mut">'+tr('no_today_matches')+'</span>';
+    return;
+  }
+
+  box.innerHTML=arr.map(function(z){
+    var tip=myTips[z[0]]||'';
+    var status=tip?'<span class="ok">'+escHtml(tip)+' · '+tr('tip_saved')+'</span>':'<span class="miss">'+tr('tip_missing')+'</span>';
+    return '<div class="today-row">'+
+      '<div><div class="today-match">'+fT(z[2])+' - '+fT(z[3])+'</div><div class="today-sub">'+escHtml(dStr(z))+'</div></div>'+
+      '<div style="text-align:right">'+status+'</div>'+
+    '</div>';
+  }).join('');
+}
+function computeSimilarity(){
+  if(!me || !players.length) return null;
+  var mine=myTips||{};
+  var best=null;
+
+  players.forEach(function(p){
+    if(p.id===me.id) return;
+    var other=allTips[p.id]||{};
+    var overlap=0, same=0;
+
+    Object.keys(mine).forEach(function(k){
+      if(other[k]){
+        overlap++;
+        if(other[k]===mine[k]) same++;
+      }
+    });
+
+    if(overlap===0) return;
+    var ratio=same/overlap;
+
+    if(!best || ratio>best.ratio || (ratio===best.ratio && overlap>best.overlap)){
+      best={name:p.jmeno,ratio:ratio,overlap:overlap,same:same};
+    }
+  });
+
+  return best;
+}
+function renderSimilarity(){
+  var box=document.getElementById('sim-box');
+  if(!box||!me) return;
+  var sim=computeSimilarity();
+
+  if(!sim){
+    box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
+    return;
+  }
+
+  box.innerHTML=
+    '<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div>'+
+    '<div class="mut">'+tr('sim_match')+': <strong>'+Math.round(sim.ratio*100)+'%</strong> ('+sim.same+'/'+sim.overlap+')</div>';
 }
 
 function sbf(path,method,body,prefer){
@@ -848,8 +1012,10 @@ function finishLogin(d){
   }else{
     document.getElementById('btn-refresh').style.display='none';
   }
-  loadResults().then(loadPlayers).then(loadMyTips).then(function(){
+  loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips).then(function(){
     renderTipy();
+    renderSimilarity();
+    renderTodayBox();
     renderStadiony();
     renderTymy();
     renderPavouk();
@@ -941,6 +1107,15 @@ function applyI18n(){
   setHtml('admin-ibox',tr('admin_info'));
   setText('ver-lbl',tr('footer_ver'));
   setText('date-lbl',tr('footer_date'));
+  setText('lo-ver-lbl',tr('footer_ver'));
+  setText('lo-date-lbl',tr('footer_date'));
+
+  setText('qf-all',tr('qf_all'));
+  setText('qf-today',tr('qf_today'));
+  setText('qf-tomorrow',tr('qf_tomorrow'));
+  setText('qf-missing',tr('qf_missing'));
+  setText('sim-h',tr('similar_player'));
+  setText('today-h',tr('today_matches'));
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -960,6 +1135,9 @@ function applyI18n(){
   }
 
   renderTipyMeta();
+  updateTipQuickButtons();
+  renderTodayBox();
+  renderSimilarity();
   setText('st-vys-upd',formatLastUpdated());
   updProgress();
 }
@@ -1024,7 +1202,12 @@ function renderTipy(){
   if(!me) return;
   renderTipyMeta();
   var isAdmin=me.je_admin;
-  var arr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
+  var baseArr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
+  var arr=getFilteredTipArr(baseArr);
+  updateTipQuickButtons();
+  renderTodayBox();
+  renderSimilarity();
+
   var html='',prev=null;
 
   if(tipSort==='dt'){
@@ -1126,7 +1309,10 @@ async function saveTips(){
     }
 
     await loadMyTips();
+    await loadAllTips();
     renderTipy();
+    renderSimilarity();
+    renderTodayBox();
 
     if(err===0) setSt('st-tipy','✓ '+ok,false,true);
     else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
@@ -1504,6 +1690,8 @@ function renderAdmin(){
         })
         .then(function(){
           renderAdmin();
+          renderSimilarity();
+          renderTodayBox();
           if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
           if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
         })
@@ -1614,6 +1802,8 @@ function fetchResults(){
           renderTipy();
           renderTab();
           renderPavouk();
+          renderSimilarity();
+          renderTodayBox();
           if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
           if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
           if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
@@ -1684,6 +1874,8 @@ function toggleLang(){
     renderPavouk();
     renderStadiony();
     renderTymy();
+    renderSimilarity();
+    renderTodayBox();
     if(active==='zebricek') renderZeb();
     if(active==='ostatni') renderOst();
     if(active==='admin') renderAdmin();
@@ -1704,6 +1896,11 @@ function init(){
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
   document.getElementById('langbtn').addEventListener('click',toggleLang);
   document.getElementById('lo-lang').addEventListener('click',toggleLang);
+
+  document.getElementById('qf-all').addEventListener('click',function(){setTipQuickFilter('all');});
+  document.getElementById('qf-today').addEventListener('click',function(){setTipQuickFilter('today');});
+  document.getElementById('qf-tomorrow').addEventListener('click',function(){setTipQuickFilter('tomorrow');});
+  document.getElementById('qf-missing').addEventListener('click',function(){setTipQuickFilter('missing');});
 
   TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   var ptCfg=[
