@@ -232,16 +232,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .mr:last-child{border-bottom:none}
 .mr-info{min-width:0}
 .mr-tip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.mr-gt{min-width:0}
+.mr-gt{min-width:0;display:flex;flex-direction:column;gap:0}
 .tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
 .tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
 .tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
-.gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:5px;gap:2px}
+.gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:4px;gap:2px;width:100%}
 .gt-h{background:var(--ac);border-radius:2px}
 .gt-d{background:var(--bd2);border-radius:2px}
 .gt-a{background:var(--gd);border-radius:2px}
-.gt-pills{display:flex;gap:3px}
-.gt-pill{font-size:.62rem;font-weight:700;padding:2px 5px;border-radius:5px;white-space:nowrap}
+.gt-pills{display:flex;gap:3px;flex-wrap:wrap}
+.gt-pill{font-size:.63rem;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px}
 .gt-pill-h{background:rgba(59,130,246,.12);color:var(--ac2)}
 .gt-pill-d{background:rgba(100,116,139,.18);color:var(--mu2)}
 .gt-pill-a{background:rgba(245,158,11,.12);color:var(--gd)}
@@ -286,7 +286,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.63</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.64</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -344,7 +344,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
       <div class="sb" id="ibox-tipy-extra" style="font-size:.7rem;color:var(--mu2);margin:-.25rem 0 .8rem .15rem"></div>
 
-      <div class="today-strip" id="today-strip" style="display:none">
+      <div class="today-strip" id="today-strip" style="display:flex">
         <span class="today-strip-ico">⚽</span>
         <div>
           <div class="today-strip-txt" id="today-strip-txt"></div>
@@ -483,7 +483,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.63</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.64</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -537,7 +537,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.63',
+    footer_ver:'v1.64',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -624,7 +624,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.63',
+    footer_ver:'v1.64',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2144,26 +2144,25 @@ function renderTodayStrip(){
   var strip=document.getElementById('today-strip');
   if(!strip||!me) return;
   var now=new Date();
-  // Count upcoming matches without tips (any future match, not just today)
   var upcoming=SZ.filter(function(z){return mDate(z)>now&&!myTips[z[0]]&&!matchTeamsUnknown(z);});
-  var todayMatches=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);});
-  var tipped=Object.keys(myTips).length;
-  var total=72; // group stage
+  var tippedSk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;
+  var tippedPo=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;
+  var badge=document.getElementById('today-badge');
+  strip.style.display='flex';
   if(upcoming.length>0){
-    strip.style.display='flex';
-    var txt=tipped+'/'+total+' '+tr('today_strip_tipped');
-    setText('today-strip-txt',txt);
+    setText('today-strip-txt',tippedSk+'/72 '+tr('today_strip_tipped'));
     setText('today-strip-sub',upcoming.length+' '+tr('today_strip_missing'));
-    var badge=document.getElementById('today-badge');
     if(badge){badge.textContent=upcoming.length;badge.className='today-badge';}
-  } else if(todayMatches.length>0){
-    strip.style.display='flex';
-    setText('today-strip-txt',todayMatches.length+' '+tr('today_strip_playing'));
-    setText('today-strip-sub',tr('today_all_done'));
-    var badge=document.getElementById('today-badge');
-    if(badge){badge.textContent='✓';badge.className='today-badge ok';}
   } else {
-    strip.style.display='none';
+    var todayMatches=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);});
+    if(todayMatches.length>0){
+      setText('today-strip-txt',todayMatches.length+' '+tr('today_strip_playing'));
+      setText('today-strip-sub',tr('today_all_done'));
+    } else {
+      setText('today-strip-txt',tippedSk+'/72 sk. · '+tippedPo+'/32 play-off '+tr('today_strip_tipped'));
+      setText('today-strip-sub','✓ '+tr('today_all_done'));
+    }
+    if(badge){badge.textContent='✓';badge.className='today-badge ok';}
   }
 }
 
