@@ -437,7 +437,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-stat-col{min-width:38px}
 }
 
-/* ══ HEADER v1.82 ══════════════════════════════ */
+/* ══ HEADER v1.83 ══════════════════════════════ */
 .hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -486,7 +486,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-sc-val{font-size:.82rem}
 }
 
-/* ── HEADER v1.82 compact layout override ── */
+/* ── HEADER v1.83 compact layout override ── */
 .hdr{padding:14px 18px;margin-bottom:.85rem}
 .hdr-row{
   display:grid;
@@ -574,7 +574,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── HEADER v1.82 polish override ── */
+/* ── HEADER v1.83 polish override ── */
 .hdr{
   background:
     radial-gradient(circle at 18% 20%, rgba(59,130,246,.10), transparent 32%),
@@ -732,7 +732,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── HEADER v1.82 premium symmetric layout ── */
+/* ── HEADER v1.83 premium symmetric layout ── */
 .hdr{
   background:
     radial-gradient(circle at 16% 18%, rgba(59,130,246,.10), transparent 32%),
@@ -975,7 +975,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── TEAM DETAIL v1.82 ───────────────────── */
+/* ── TEAM DETAIL v1.83 ───────────────────── */
 .team-detail-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .team-detail-head{display:flex;gap:14px;align-items:flex-start;padding:12px;border:1px solid var(--bd);background:var(--bg3);border-radius:14px;margin-bottom:12px}
 .team-detail-logo{width:72px;height:72px;object-fit:contain;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--bd);padding:8px;flex-shrink:0}
@@ -1011,6 +1011,45 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .team-detail-logo{width:64px;height:64px}
 }
 
+
+/* ── TEAM DETAIL v1.83 polish ───────────────────── */
+.team-detail-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.team-detail-head{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start;padding:16px;background:linear-gradient(180deg,rgba(17,31,48,.95),rgba(12,25,40,.96));border:1px solid var(--bd);border-radius:16px;margin-bottom:12px}
+.team-detail-logo{width:88px;height:88px;object-fit:contain;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:10px;flex-shrink:0}
+.team-detail-title{font-family:'Space Grotesk',sans-serif;font-size:1.28rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.team-detail-sub{font-size:.76rem;color:var(--mu2);margin-top:6px;display:flex;gap:10px;flex-wrap:wrap}
+.team-detail-sub .tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:999px}
+.team-detail-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.team-detail-links .btn{position:relative;z-index:2}
+.team-detail-links .btn:hover{text-decoration:none}
+.team-detail-links .btn.btn-ol{background:rgba(59,130,246,.08)}
+.team-detail-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-top:14px}
+.team-kpi{background:rgba(12,25,40,.9);border:1px solid var(--bd);border-radius:14px;padding:12px 13px}
+.team-kpi-lbl{font-size:.62rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.team-kpi-val{font-family:'Space Grotesk',sans-serif;font-size:1.03rem;font-weight:700;color:#fff;margin-top:6px}
+.team-block{background:linear-gradient(180deg,rgba(17,31,48,.95),rgba(12,25,40,.98));border:1px solid var(--bd);border-radius:14px;padding:14px}
+.team-fixtures-grid{display:grid;gap:10px}
+.team-fixture{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:12px;border:1px solid rgba(37,66,102,.45);border-radius:12px;background:rgba(255,255,255,.02)}
+.team-fixture-main{min-width:0}
+.team-fixture-match{font-size:.84rem;font-weight:700;line-height:1.35}
+.team-fixture-sub{font-size:.68rem;color:var(--mu);margin-top:5px;display:flex;gap:8px;flex-wrap:wrap}
+.team-fixture-score{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--ac2);white-space:nowrap;align-self:center}
+.team-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}
+.team-stat{background:rgba(12,25,40,.88);border:1px solid var(--bd);border-radius:14px;padding:12px}
+.team-stat-name{font-size:.69rem;color:var(--mu2);font-weight:600;line-height:1.35}
+.team-stat-value{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-top:6px}
+.team-squad-section{margin-bottom:16px}
+.team-squad-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu2);margin-bottom:10px}
+.team-squad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.team-player{background:rgba(12,25,40,.88);border:1px solid var(--bd);border-radius:14px;padding:12px}
+.team-player-name{font-size:.84rem;font-weight:700;line-height:1.35}
+.team-player-meta{font-size:.68rem;color:var(--mu2);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap}
+.team-player-stats{font-size:.66rem;color:var(--mu);margin-top:7px;line-height:1.45}
+.team-empty-note{font-size:.73rem;color:var(--mu);padding:8px 2px 2px}
+.tbl tbody tr.team-open:hover td,.tbl tbody tr.team-open:hover{background:rgba(59,130,246,.06)}
+.tbl tbody tr.team-open td:nth-child(2):hover{color:var(--ac2)}
+@media(max-width:700px){.team-detail-head{grid-template-columns:1fr}.team-detail-logo{width:72px;height:72px}.team-fixture{grid-template-columns:1fr}.team-fixture-score{justify-self:start}}
+
 </style>
 </head>
 <body>
@@ -1043,7 +1082,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.82</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.83</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1256,7 +1295,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.82</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.83</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1321,7 +1360,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.82',
+    footer_ver:'v1.83',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1370,7 +1409,7 @@ var T={
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Přehled',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Soupisky',team_back:'← Zpět na týmy',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'ESPN profil',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',
-    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',team_profile_hint:'Detail ESPN',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
+    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',team_profile_hint:'Detail týmu',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška'
   },
   en:{
@@ -1414,7 +1453,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.82',
+    footer_ver:'v1.83',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1463,7 +1502,7 @@ var T={
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
     team_overview:'Overview',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'ESPN profile',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',
-    sync_teams:'TEAMS',sync_results:'RESULTS',team_profile_hint:'ESPN detail',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
+    sync_teams:'TEAMS',sync_results:'RESULTS',team_profile_hint:'Team detail',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height'
   }
 };
@@ -2348,8 +2387,8 @@ function renderMatchRow(z,isAdmin,hasGT){
   }
 
   var venueHtml=venue?('<span class="link-venue" onclick="goStadiony()" title="'+escAttr(venue)+'">'+escHtml(venue)+'</span>'):'';
-  var dLink=teamsUnknown?fT(d):('<span class="link-team" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
-  var hLink=teamsUnknown?fT(h):('<span class="link-team" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
+  var dLink=teamsUnknown?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
+  var hLink=teamsUnknown?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
 
   return '<div class="mr'+(isLive?' mr-live':'')+'">'+
     '<div class="mr-info">'+
@@ -2653,7 +2692,7 @@ function renderFifaRanking(){
   var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
-    html+='<tr class="team-open" data-team="'+escAttr(tm.name)+'" data-group="'+escAttr(tm.sk)+'" style="cursor:pointer"><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td><td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td><td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
+    html+='<tr class="team-open" data-team="'+escAttr(tm.name)+'" data-group="'+escAttr(tm.sk)+'" style="cursor:pointer" title="'+escAttr(tr('team_profile_hint'))+'"><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td><td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td><td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
   });
   html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html;
@@ -2856,59 +2895,100 @@ function readTeamCache(name){
 function writeTeamCache(name,obj){
   try{ localStorage.setItem(getTeamCacheKey(name), JSON.stringify(obj)); }catch(e){}
 }
+function pickLabel(v){
+  if(v==null) return '';
+  if(typeof v==='string') return v;
+  if(typeof v==='number') return String(v);
+  if(typeof v==='object') return v.displayName||v.shortDisplayName||v.name||v.abbreviation||v.label||'';
+  return String(v);
+}
 function normalizeRoster(json){
   if(!json) return [];
   var players=[];
-  var arr=json.athletes||json.items||json.players||[];
-  arr.forEach(function(group){
-    if(group && group.items){
-      group.items.forEach(function(p){ players.push({group:group.displayName||group.name||'', data:p.athlete||p}); });
-    } else if(group && group.athlete){
-      players.push({group:group.position||'', data:group.athlete});
-    } else if(group){
-      players.push({group:group.position||'', data:group});
-    }
-  });
-  if(!players.length && json.team && json.team.athletes){
-    json.team.athletes.forEach(function(p){ players.push({group:'', data:p}); });
+  function pushPlayer(group,p){
+    if(!p) return;
+    var athlete=p.athlete||p.player||p;
+    if(!athlete) return;
+    players.push({group:pickLabel(group)||pickLabel(p.position)||pickLabel(athlete.position)||'Players', data:athlete});
   }
+  var arr=json.athletes||json.items||json.players||json.roster||[];
+  arr.forEach(function(group){
+    if(group && Array.isArray(group.items)) group.items.forEach(function(p){ pushPlayer(group.displayName||group.name||group.position||group, p); });
+    else if(group && Array.isArray(group.athletes)) group.athletes.forEach(function(p){ pushPlayer(group.displayName||group.name||group.position||group, p); });
+    else if(group) pushPlayer(group.group||group.position||group.displayName||group.name||'', group);
+  });
+  if(!players.length && json.team && Array.isArray(json.team.athletes)) json.team.athletes.forEach(function(p){ pushPlayer('', p); });
   return players;
 }
 function normalizeStats(json){
-  var stats=[];
-  if(!json) return stats;
-  function pushStat(name,val){
-    if(val===undefined || val===null || val==='') return;
-    stats.push({name:name, value:val});
+  var out=[],seen={};
+  function add(name,val){
+    name=pickLabel(name);
+    val=pickLabel(val);
+    if(!name||!val) return;
+    var key=(name+'|'+val).toLowerCase();
+    if(seen[key]) return;
+    seen[key]=true;
+    out.push({name:name,value:val});
   }
-  if(Array.isArray(json.stats)){
-    json.stats.forEach(function(s){ pushStat(s.displayName||s.name||s.abbreviation, s.displayValue||s.value); });
-  }
-  if(Array.isArray(json.statistics)){
-    json.statistics.forEach(function(g){
-      if(g && Array.isArray(g.stats)) g.stats.forEach(function(s){ pushStat(s.displayName||s.name||s.abbreviation, s.displayValue||s.value); });
+  function walk(node,depth){
+    if(!node||depth>6) return;
+    if(Array.isArray(node)){ node.forEach(function(x){ walk(x,depth+1); }); return; }
+    if(typeof node!=='object') return;
+    if((node.displayName||node.name||node.abbreviation) && (node.displayValue!=null || node.value!=null || node.summary!=null)){
+      add(node.displayName||node.name||node.abbreviation, node.displayValue!=null?node.displayValue:(node.value!=null?node.value:node.summary));
+    }
+    if(node.recordSummary) add('Record', node.recordSummary);
+    if(node.standingSummary) add(tr('standings_lbl'), node.standingSummary);
+    if(node.statistics && Array.isArray(node.statistics)) node.statistics.forEach(function(x){ walk(x,depth+1); });
+    if(node.stats && Array.isArray(node.stats)) node.stats.forEach(function(x){ walk(x,depth+1); });
+    Object.keys(node).forEach(function(k){
+      if(k==='statistics'||k==='stats') return;
+      var v=node[k];
+      if(v && typeof v==='object') walk(v,depth+1);
     });
   }
-  if(json.recordSummary) pushStat('Record', json.recordSummary);
-  if(json.standingSummary) pushStat(tr('standings_lbl'), json.standingSummary);
-  return stats.slice(0,18);
+  walk(json,0);
+  return out.slice(0,24);
 }
 function normalizeFixtures(json){
-  var events=(json&&json.events)||[];
-  if(!events.length && json && json.team && json.team.nextEvent) events=json.team.nextEvent;
-  return (events||[]).slice(0,12).map(function(ev){
+  var out=[],seen={};
+  function addFromEvent(ev){
+    if(!ev) return;
     var comp=(ev.competitions&&ev.competitions[0])||ev;
-    var comps=comp.competitors||[];
+    var comps=comp.competitors||ev.competitors||[];
+    if(!comps.length) return;
     var home=comps.find(function(c){return c.homeAway==='home';})||comps[0]||{};
     var away=comps.find(function(c){return c.homeAway==='away';})||comps[1]||{};
-    return {
-      name:(home.team&&home.team.displayName||'')+' - '+(away.team&&away.team.displayName||''),
-      date:ev.date||comp.date||'',
-      status:(comp.status&&comp.status.type&&comp.status.type.description)||'',
-      score:(home.score!=null && away.score!=null)?(home.score+':'+away.score):'',
-      venue:(comp.venue&&comp.venue.fullName)||''
-    };
-  });
+    var name=((home.team&&home.team.displayName)||'')+' - '+((away.team&&away.team.displayName)||'');
+    var date=ev.date||comp.date||'';
+    var key=(name+'|'+date);
+    if(!name.trim()||seen[key]) return;
+    seen[key]=true;
+    out.push({
+      name:name,
+      date:date,
+      status:(comp.status&&comp.status.type&&(comp.status.type.shortDetail||comp.status.type.description))||pickLabel(comp.status&&comp.status.displayClock)||'',
+      score:(home.score!=null && away.score!=null && String(home.score)!=='' && String(away.score)!=='')?(home.score+':'+away.score):'',
+      venue:(comp.venue&& (comp.venue.fullName||comp.venue.address&&comp.venue.address.city))||''
+    });
+  }
+  function walk(node,depth){
+    if(!node||depth>6) return;
+    if(Array.isArray(node)){ node.forEach(function(x){ walk(x,depth+1); }); return; }
+    if(typeof node!=='object') return;
+    if((node.competitions||node.competitors) && (node.date||node.id)) addFromEvent(node);
+    if(Array.isArray(node.events)) node.events.forEach(addFromEvent);
+    if(Array.isArray(node.schedule)) node.schedule.forEach(addFromEvent);
+    if(node.nextEvent && Array.isArray(node.nextEvent)) node.nextEvent.forEach(addFromEvent);
+    Object.keys(node).forEach(function(k){
+      var v=node[k];
+      if(v && typeof v==='object') walk(v,depth+1);
+    });
+  }
+  walk(json,0);
+  out.sort(function(a,b){ return new Date(a.date||0)-new Date(b.date||0); });
+  return out.slice(0,20);
 }
 function teamEspnLinks(teamMeta, id){
   var slug=(normTeamName(currentTeamView&&currentTeamView.name||'').split(' ').join('-'))||'team';
@@ -2931,11 +3011,12 @@ function fetchTeamPackage(localName, force){
     if(!t || !t.id) throw new Error('No ESPN team id');
     var id=t.id;
     var base='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams/'+id;
+    var webBase='https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/teams/'+id;
     return Promise.all([
-      fetchJsonTry([base]),
-      fetchJsonTry([base+'/schedule', base+'/fixtures']),
-      fetchJsonTry([base+'/statistics', base+'/stats']),
-      fetchJsonTry([base+'/roster'])
+      fetchJsonTry([base, webBase, base+'?region=us&lang=en&contentorigin=espn']),
+      fetchJsonTry([base+'/schedule', base+'/fixtures', webBase+'/schedule', webBase+'/fixtures', base+'/schedule?season=2026', webBase+'/schedule?season=2026']),
+      fetchJsonTry([base+'/statistics', base+'/stats', webBase+'/statistics', webBase+'/stats', 'https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/statistics?team='+id]),
+      fetchJsonTry([base+'/roster', base+'/squad', webBase+'/roster', webBase+'/squad'])
     ]).then(function(res){
       var teamJson=res[0], fixJson=res[1], statJson=res[2], rosterJson=res[3];
       var team=(teamJson&&teamJson.team)||teamJson||{};
@@ -2966,19 +3047,27 @@ function renderTeamDetailHead(teamName, teamGroup, data){
   if(!head) return;
   var links='';
   if(data.links && data.links.profile) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.profile)+'" target="_blank" rel="noopener noreferrer">'+tr('espn_profile')+'</a>';
+  if(data.links && data.links.squad) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.squad)+'" target="_blank" rel="noopener noreferrer">ESPN squad</a>';
+  var cached=(data._sourceTag||tr('status_cached'));
   head.innerHTML=
     '<img class="team-detail-logo" src="'+escAttr(data.logo||'')+'" alt="'+escAttr(data.name||teamName)+'" onerror="this.style.display=\'none\'">'+
     '<div style="min-width:0;flex:1">'+
-      '<div class="team-detail-title"><span style="font-size:1.25rem">'+fl(teamName)+'</span><span>'+escHtml(tN(teamName))+'</span></div>'+
-      '<div class="team-detail-sub"><span>'+tr('group')+' '+escHtml(teamGroup||'')+'</span>'+(rk?'<span>'+tr('standings_lbl')+': #'+escHtml(rk)+'</span>':'')+(data.location?'<span>'+escHtml(data.location)+'</span>':'')+'</div>'+
+      '<div class="team-detail-title"><span style="font-size:1.2rem">'+fl(teamName)+'</span><span>'+escHtml(tN(teamName))+'</span></div>'+
+      '<div class="team-detail-sub">'+
+        '<span class="tag">'+tr('group')+' '+escHtml(teamGroup||'-')+'</span>'+
+        (rk?'<span class="tag">FIFA #'+escHtml(rk)+'</span>':'')+
+        (data.name && data.name!==teamName?'<span class="tag">'+escHtml(data.name)+'</span>':'')+
+        (data.location?'<span class="tag">'+escHtml(data.location)+'</span>':'')+
+        '<span class="tag">'+escHtml(cached)+'</span>'+
+      '</div>'+
       '<div class="team-detail-links">'+links+'</div>'+
     '</div>';
 }
 function renderTeamOverview(data, teamName){
   var html='<div class="team-kpis">';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('standings_lbl')+'</div><div class="team-kpi-val">'+(FIFA[teamName]?'#'+FIFA[teamName]:'-')+'</div></div>';
+  html+='<div class="team-kpi"><div class="team-kpi-lbl">FIFA ranking</div><div class="team-kpi-val">'+(FIFA[teamName]?'#'+FIFA[teamName]:'-')+'</div></div>';
   html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('group')+'</div><div class="team-kpi-val">'+escHtml(currentTeamView.group||'-')+'</div></div>';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('fixtures_empty').split(' ')[0]+'</div><div class="team-kpi-val">'+escHtml(String((data.fixtures||[]).length))+'</div></div>';
+  html+='<div class="team-kpi"><div class="team-kpi-lbl">Fixtures</div><div class="team-kpi-val">'+escHtml(String((data.fixtures||[]).length))+'</div></div>';
   html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('team_squad')+'</div><div class="team-kpi-val">'+escHtml(String((data.squad||[]).length))+'</div></div>';
   html+='</div>';
   if(data.stats && data.stats.length){
@@ -2987,26 +3076,33 @@ function renderTeamOverview(data, teamName){
       html+='<div class="team-stat"><div class="team-stat-name">'+escHtml(s.name)+'</div><div class="team-stat-value">'+escHtml(String(s.value))+'</div></div>';
     });
     html+='</div></div>';
-  } else {
-    html+='<div class="empty">'+tr('stats_empty')+'</div>';
+  }
+  if(data.fixtures && data.fixtures.length){
+    html+='<div class="team-block" style="margin-top:12px"><div class="clbl" style="margin-bottom:10px">Fixtures</div><div class="team-fixtures-grid">';
+    data.fixtures.slice(0,4).forEach(function(f){
+      var d=f.date?new Date(f.date):null;
+      var ds=(d && !isNaN(d.getTime())) ? (LANG==='en' ? (d.getDate()+' '+tr('months')[d.getMonth()]+' '+pad(d.getHours())+':'+pad(d.getMinutes())) : (d.getDate()+'.'+(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes()))) : '';
+      html+='<div class="team-fixture"><div class="team-fixture-main"><div class="team-fixture-match">'+escHtml(f.name||'-')+'</div><div class="team-fixture-sub">'+(ds?'<span>'+escHtml(ds)+'</span>':'')+(f.status?'<span>'+escHtml(f.status)+'</span>':'')+(f.venue?'<span>'+escHtml(f.venue)+'</span>':'')+'</div></div><div class="team-fixture-score">'+escHtml(f.score||'—')+'</div></div>';
+    });
+    html+='</div></div>';
   }
   return html;
 }
 function renderTeamFixtures(data){
   var arr=data.fixtures||[];
-  if(!arr.length) return '<div class="empty">'+tr('fixtures_empty')+'</div>';
-  var html='<div class="team-block">';
+  if(!arr.length) return '<div class="empty">'+tr('fixtures_empty')+'</div><div class="team-empty-note">ESPN pro tento tým teď zřejmě neposílá fixtures v použitelné podobě.</div>';
+  var html='<div class="team-block"><div class="team-fixtures-grid">';
   arr.forEach(function(f){
     var d=f.date?new Date(f.date):null;
     var ds=(d && !isNaN(d.getTime())) ? (LANG==='en' ? (d.getDate()+' '+tr('months')[d.getMonth()]+' '+pad(d.getHours())+':'+pad(d.getMinutes())) : (d.getDate()+'.'+(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes()))) : '';
     html+='<div class="team-fixture"><div class="team-fixture-main"><div class="team-fixture-match">'+escHtml(f.name||'-')+'</div><div class="team-fixture-sub">'+(ds?'<span>'+escHtml(ds)+'</span>':'')+(f.status?'<span>'+escHtml(f.status)+'</span>':'')+(f.venue?'<span>'+escHtml(f.venue)+'</span>':'')+'</div></div><div class="team-fixture-score">'+escHtml(f.score||'—')+'</div></div>';
   });
-  html+='</div>';
+  html+='</div></div>';
   return html;
 }
 function renderTeamStats(data){
   var arr=data.stats||[];
-  if(!arr.length) return '<div class="empty">'+tr('stats_empty')+'</div>';
+  if(!arr.length) return '<div class="empty">'+tr('stats_empty')+'</div><div class="team-empty-note">Jakmile ESPN vrátí statistiky pro daný tým / soutěž, propíšou se sem automaticky.</div>';
   var html='<div class="team-stat-grid">';
   arr.forEach(function(s){
     html+='<div class="team-stat"><div class="team-stat-name">'+escHtml(s.name)+'</div><div class="team-stat-value">'+escHtml(String(s.value))+'</div></div>';
@@ -3019,7 +3115,7 @@ function renderTeamSquad(data){
   if(!arr.length) return '<div class="empty">'+tr('squad_empty')+'</div>';
   var groups={};
   arr.forEach(function(item){
-    var g=item.group||'Players';
+    var g=pickLabel(item.group)||'Players';
     if(!groups[g]) groups[g]=[];
     groups[g].push(item.data||item);
   });
@@ -3028,15 +3124,17 @@ function renderTeamSquad(data){
     html+='<div class="team-squad-section"><div class="team-squad-title">'+escHtml(g)+'</div><div class="team-squad-grid">';
     groups[g].forEach(function(p){
       var nm=p.displayName||p.shortName||p.fullName||p.name||'-';
-      var pos=p.position&& (p.position.abbreviation||p.position.displayName)||'';
+      var pos=pickLabel(p.position)||'';
       var age=p.age||'';
-      var nat=(p.birthPlace&&p.birthPlace.country)||p.nationality||'';
+      var nat=(p.birthPlace&&pickLabel(p.birthPlace.country))||pickLabel(p.nationality)||'';
       var h=(p.displayHeight||p.height)||'';
+      var club=pickLabel(p.team)||pickLabel(p.club)||'';
+      var jersey=p.jersey||p.shirtNumber||'';
       var st=[];
       if(p.statistics && p.statistics.length){
-        p.statistics.slice(0,3).forEach(function(s){ st.push((s.abbreviation||s.name)+': '+(s.displayValue||s.value)); });
+        p.statistics.slice(0,3).forEach(function(s){ st.push((pickLabel(s.abbreviation||s.name))+': '+pickLabel(s.displayValue||s.value)); });
       }
-      html+='<div class="team-player"><div class="team-player-name">'+escHtml(nm)+'</div><div class="team-player-meta">'+(pos?'<span>'+tr('pos_lbl')+': '+escHtml(pos)+'</span>':'')+(age?'<span>'+tr('age_lbl')+': '+escHtml(String(age))+'</span>':'')+(nat?'<span>'+tr('nat_lbl')+': '+escHtml(String(nat))+'</span>':'')+(h?'<span>'+tr('height_lbl')+': '+escHtml(String(h))+'</span>':'')+'</div>'+(st.length?'<div class="team-player-stats">'+escHtml(st.join(' · '))+'</div>':'')+'</div>';
+      html+='<div class="team-player"><div class="team-player-name">'+escHtml(nm)+'</div><div class="team-player-meta">'+(jersey?'<span>#'+escHtml(String(jersey))+'</span>':'')+(pos?'<span>'+tr('pos_lbl')+': '+escHtml(pos)+'</span>':'')+(age?'<span>'+tr('age_lbl')+': '+escHtml(String(age))+'</span>':'')+(nat?'<span>'+tr('nat_lbl')+': '+escHtml(String(nat))+'</span>':'')+(h?'<span>'+tr('height_lbl')+': '+escHtml(String(h))+'</span>':'')+'</div>'+(club?'<div class="team-player-stats">'+escHtml(club)+'</div>':'')+(st.length?'<div class="team-player-stats">'+escHtml(st.join(' · '))+'</div>':'')+'</div>';
     });
     html+='</div></div>';
   });
@@ -3062,16 +3160,19 @@ function setTeamTab(tab){
   renderTeamDetailContent();
 }
 function openTeamDetail(teamName, teamGroup){
+  currentTeamTab='overview';
   currentTeamView={name:teamName, group:teamGroup, data:null};
   showTeamDetailCard();
   document.getElementById('team-detail-content').innerHTML='<div class="empty"><span class="sp"></span>'+tr('team_loading')+'</div>';
   setTeamDetailStatus('',false);
-  renderTeamDetailHead(teamName, teamGroup, {name:teamName, logo:'', location:''});
+  renderTeamDetailHead(teamName, teamGroup, {name:teamName, logo:'', location:'', _sourceTag:tr('status_current')});
+  var cached=readTeamCache(teamName);
   fetchTeamPackage(teamName,false).then(function(data){
+    data._sourceTag = cached && cached.data ? tr('status_cached') : tr('status_current');
     currentTeamView={name:teamName, group:teamGroup, data:data};
     renderTeamDetailHead(teamName, teamGroup, data);
     setTeamTab(currentTeamTab||'overview');
-    setTeamDetailStatus(tr('status_cached'),false);
+    setTeamDetailStatus(data._sourceTag,false);
     var card=document.getElementById('team-detail-card');
     if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
   }).catch(function(){
@@ -3218,21 +3319,17 @@ function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(fun
 function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-vys-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('vys-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') vysSort='po';else if(vysSort==='po') vysSort='dt';['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&vysSort==='dt')||(id==='ptab-vys-sk'&&vysSort==='sk'));});renderVys();}
 function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
 function filterByTeam(teamName){
-  // Switch to tipy tab, set filter to all, sort by date, scroll to team
-  tipSort='dt';
-  tipQuickFilter='all';
-  swPhase('tipy','dt');
-  showTab('tipy');
-  // After render find the match
-  setTimeout(function(){
-    var els=document.querySelectorAll('.mt');
-    for(var i=0;i<els.length;i++){
-      if(els[i].textContent.indexOf(tN(teamName))>=0||els[i].textContent.indexOf(teamName)>=0){
-        els[i].closest('.mr').scrollIntoView({behavior:'smooth',block:'center'});
-        break;
-      }
-    }
-  },200);
+  showTab('tymy');
+  tymPhase='sk';
+  var b1=document.getElementById('ptab-tym-sk'); if(b1) b1.classList.add('on');
+  var b2=document.getElementById('ptab-tym-rk'); if(b2) b2.classList.remove('on');
+  renderTymy();
+  setTimeout(function(){ openTeamDetail(teamName, findGroupByTeam(teamName)||''); }, 50);
+}
+function findGroupByTeam(teamName){
+  var out='';
+  Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(tm){ if(tm[0]===teamName) out=sk; }); });
+  return out;
 }
 
 function updFloatSav(){
