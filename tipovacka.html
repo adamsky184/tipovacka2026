@@ -121,6 +121,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .bm-d{font-size:.63rem;color:var(--mu);text-align:center;margin-top:3px}
 .lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
 .lo-card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;width:100%;max-width:390px;position:relative;overflow:hidden}
+.lo-card.lo-card-en{max-width:430px;padding:1.9rem 1.9rem 1.8rem}
+.lo-card.lo-card-en .lo-title{font-size:1.26rem}
 .lo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu))}
 .lo-title{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:2px}
 .lo-sub{font-size:.74rem;color:var(--mu);margin-bottom:1.3rem}
@@ -138,6 +140,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lo-err{font-size:.77rem;color:#f87171;margin-top:6px;min-height:17px}
 .lo-meta{font-size:.68rem;color:var(--mu);margin-top:.65rem;line-height:1.5}
 .lo-lang{position:absolute;top:12px;right:12px}
+.lo-ftr{margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(28,48,80,.5);text-align:center;color:var(--mu);font-size:.66rem;line-height:1.6}
+.lo-ftr span{color:var(--mu2)}
 .stad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
 .stad-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
 .stad-img-wrap{height:145px;background:var(--bg4);position:relative;overflow:hidden}
@@ -149,6 +153,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-phase{font-size:.7rem;color:var(--mu2);margin-top:4px}
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
+.ftr span{color:var(--mu2)}
 .qwrap{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 .8rem}
 .qbtn{padding:5px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);color:var(--mu2);font-size:.73rem;font-weight:600;cursor:pointer;transition:.15s}
 .qbtn:hover{border-color:var(--ac2);color:var(--ac2)}
@@ -164,10 +169,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .today-row:last-child{border-bottom:none}
 .today-match{font-size:.74rem;font-weight:600}
 .today-sub{font-size:.65rem;color:var(--mu);margin-top:1px}
-.lo-ftr{margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(28,48,80,.5);text-align:center;color:var(--mu);font-size:.66rem;line-height:1.6}
-.lo-ftr span{color:var(--mu2)}
-@media(max-width:600px){.mini-grid{grid-template-columns:1fr}}
-.ftr span{color:var(--mu2)}
 @media(max-width:600px){
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
@@ -179,6 +180,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .w{padding:.5rem}
   .lbr{gap:8px;padding:8px 10px}
   .lp{font-size:1.1rem}
+  .mini-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -212,7 +214,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.54</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.53</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -372,7 +374,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.54</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.53</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -399,7 +401,7 @@ var T={
     by_groups:'Dle skupin',by_date:'Dle data',playoff:'Play-off',overall:'Celkový',
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Dle skupin',ranking:'FIFA Ranking',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
-    ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen.',
+    ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
     ibox_vys_note:'Výsledky aktualizuje admin ručně.',
@@ -426,7 +428,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.54',
+    footer_ver:'v1.53',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -466,7 +468,7 @@ var T={
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',ranking:'FIFA Ranking',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',
-    ibox_ost:"Others' tips are visible only for matches where you have a saved tip.",
+    ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
     ibox_vys_note:'Results are refreshed manually by admin.',
@@ -477,7 +479,7 @@ var T={
     group:'Group',played:'Played',
     exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',
     teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',
-    r16:'R16 (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
+    r16:'16F (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
     live:'live',no_matches:'No matches',no_others:'No other players yet',
     team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',
     match:'Match',date:'Date',rank:'Rank',result:'Result',
@@ -493,7 +495,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.54',
+    footer_ver:'v1.53',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -553,7 +555,7 @@ function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
-  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴',
   'USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷',
   'Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨',
   'Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳',
@@ -562,7 +564,7 @@ var FLAGS={
   'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
   'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
-  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+  'Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -720,22 +722,22 @@ var PZ=[
 ];
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/MetLife_Stadium_New_Jersey.jpg&width=500','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Cowboys_Stadium_Arlington.jpg&width=500','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/SoFi_Stadium_-_2022.jpg&width=500','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Hard_Rock_Stadium_aerial_2018.jpg&width=500','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Lumen_Field_September_2021.jpg&width=500','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg&width=500','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Arrowhead_Stadium_2015.jpg&width=500','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/NRG_Stadium_2015.jpg&width=500','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Lincoln_Financial_Field_2017.jpg&width=500','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Mercedes-Benz_Stadium.jpg&width=500','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Gillette_Stadium_2015.jpg&width=500','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/BMO_Field_2016.jpg&width=500','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/BC_Place_Stadium_2011.jpg&width=500','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Azteca_estadio.jpg&width=500','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Estadio_BBVA_2015.jpg&width=500','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Estadio_Akron_2010.jpg&width=500','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/640px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/640px-Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/640px-SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/640px-Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/640px-Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/640px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/640px-Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/640px-NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/640px-Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/640px-Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/640px-Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/640px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/640px-BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/640px-Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/640px-Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/640px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 var VENUE_ALIASES={
@@ -758,7 +760,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
-var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk';
+var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -806,6 +808,106 @@ function formatLastUpdated(){
   if(isNaN(d.getTime())) return '';
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+
+function sameCalDay(d1,d2){
+  return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
+}
+function matchTeamsUnknown(z){
+  var d=z[2],h=z[3];
+  var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
+  for(var i=0;i<unknown_keywords.length;i++){
+    if(d.indexOf(unknown_keywords[i])>=0 || h.indexOf(unknown_keywords[i])>=0) return true;
+  }
+  return false;
+}
+function getFilteredTipArr(arr){
+  if(tipQuickFilter==='all') return arr;
+  var now=new Date();
+  var tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+
+  return arr.filter(function(z){
+    var dz=mDate(z);
+    if(tipQuickFilter==='today') return sameCalDay(dz,now);
+    if(tipQuickFilter==='tomorrow') return sameCalDay(dz,tomorrow);
+    if(tipQuickFilter==='missing'){
+      return !myTips[z[0]] && dz>now && !matchTeamsUnknown(z);
+    }
+    return true;
+  });
+}
+function updateTipQuickButtons(){
+  ['all','today','tomorrow','missing'].forEach(function(k){
+    var el=document.getElementById('qf-'+k);
+    if(el) el.classList.toggle('on',tipQuickFilter===k);
+  });
+}
+function setTipQuickFilter(mode){
+  tipQuickFilter=mode;
+  updateTipQuickButtons();
+  renderTipy();
+}
+function renderTodayBox(){
+  var box=document.getElementById('today-box');
+  if(!box||!me) return;
+
+  var now=new Date();
+  var arr=SZ.concat(PZ).filter(function(z){ return sameCalDay(mDate(z),now); }).sort(function(a,b){ return mDate(a)-mDate(b); });
+
+  if(!arr.length){
+    box.innerHTML='<span class="mut">'+tr('no_today_matches')+'</span>';
+    return;
+  }
+
+  box.innerHTML=arr.map(function(z){
+    var tip=myTips[z[0]]||'';
+    var status=tip?'<span class="ok">'+escHtml(tip)+' · '+tr('tip_saved')+'</span>':'<span class="miss">'+tr('tip_missing')+'</span>';
+    return '<div class="today-row">'+
+      '<div><div class="today-match">'+fT(z[2])+' - '+fT(z[3])+'</div><div class="today-sub">'+escHtml(dStr(z))+'</div></div>'+
+      '<div style="text-align:right">'+status+'</div>'+
+    '</div>';
+  }).join('');
+}
+function computeSimilarity(){
+  if(!me || !players.length) return null;
+  var mine=myTips||{};
+  var best=null;
+
+  players.forEach(function(p){
+    if(p.id===me.id) return;
+    var other=allTips[p.id]||{};
+    var overlap=0, same=0;
+
+    Object.keys(mine).forEach(function(k){
+      if(other[k]){
+        overlap++;
+        if(other[k]===mine[k]) same++;
+      }
+    });
+
+    if(overlap===0) return;
+    var ratio=same/overlap;
+
+    if(!best || ratio>best.ratio || (ratio===best.ratio && overlap>best.overlap)){
+      best={name:p.jmeno,ratio:ratio,overlap:overlap,same:same};
+    }
+  });
+
+  return best;
+}
+function renderSimilarity(){
+  var box=document.getElementById('sim-box');
+  if(!box||!me) return;
+  var sim=computeSimilarity();
+
+  if(!sim){
+    box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
+    return;
+  }
+
+  box.innerHTML=
+    '<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div>'+
+    '<div class="mut">'+tr('sim_match')+': <strong>'+Math.round(sim.ratio*100)+'%</strong> ('+sim.same+'/'+sim.overlap+')</div>';
 }
 
 function sbf(path,method,body,prefer){
@@ -974,6 +1076,9 @@ function applyI18n(){
   setText('lo-title','⚽ '+tr('app_title_short'));
   setText('hdr-title-main',tr('app_title_short'));
 
+  var loCard=document.querySelector('.lo-card');
+  if(loCard) loCard.classList.toggle('lo-card-en', LANG==='en');
+
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
@@ -1004,14 +1109,18 @@ function applyI18n(){
   setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
   setText('admin-clbl',tr('admin_overview'));
-  var qmap={'qf-all':'qf_all','qf-today':'qf_today','qf-tomorrow':'qf_tomorrow','qf-missing':'qf_missing'};
-  Object.keys(qmap).forEach(function(id){setText(id,tr(qmap[id]));});
-  setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
-  setText('lo-ver-lbl',tr('footer_ver'));setText('lo-date-lbl',tr('footer_date'));
-  renderTodayBox();renderSimilarity();
   setHtml('admin-ibox',tr('admin_info'));
   setText('ver-lbl',tr('footer_ver'));
   setText('date-lbl',tr('footer_date'));
+  setText('lo-ver-lbl',tr('footer_ver'));
+  setText('lo-date-lbl',tr('footer_date'));
+
+  setText('qf-all',tr('qf_all'));
+  setText('qf-today',tr('qf_today'));
+  setText('qf-tomorrow',tr('qf_tomorrow'));
+  setText('qf-missing',tr('qf_missing'));
+  setText('sim-h',tr('similar_player'));
+  setText('today-h',tr('today_matches'));
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -1031,6 +1140,9 @@ function applyI18n(){
   }
 
   renderTipyMeta();
+  updateTipQuickButtons();
+  renderTodayBox();
+  renderSimilarity();
   setText('st-vys-upd',formatLastUpdated());
   updProgress();
 }
@@ -1100,6 +1212,7 @@ function renderTipy(){
   updateTipQuickButtons();
   renderTodayBox();
   renderSimilarity();
+
   var html='',prev=null;
 
   if(tipSort==='dt'){
@@ -1201,7 +1314,10 @@ async function saveTips(){
     }
 
     await loadMyTips();
+    await loadAllTips();
     renderTipy();
+    renderSimilarity();
+    renderTodayBox();
 
     if(err===0) setSt('st-tipy','✓ '+ok,false,true);
     else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
@@ -1579,6 +1695,8 @@ function renderAdmin(){
         })
         .then(function(){
           renderAdmin();
+          renderSimilarity();
+          renderTodayBox();
           if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
           if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
         })
@@ -1689,6 +1807,8 @@ function fetchResults(){
           renderTipy();
           renderTab();
           renderPavouk();
+          renderSimilarity();
+          renderTodayBox();
           if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
           if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
           if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
@@ -1768,67 +1888,6 @@ function toggleLang(){
   updClock();
 }
 
-var tipQuickFilter='all';
-
-function sameCalDay(d1,d2){
-  return d1.getFullYear()===d2.getFullYear()&&d1.getMonth()===d2.getMonth()&&d1.getDate()===d2.getDate();
-}
-function matchTeamsUnknown(z){
-  var d=z[2],h=z[3];
-  var kw=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2'];
-  for(var i=0;i<kw.length;i++){if(d.indexOf(kw[i])>=0||h.indexOf(kw[i])>=0) return true;}
-  return false;
-}
-function getFilteredTipArr(arr){
-  if(tipQuickFilter==='all') return arr;
-  var now=new Date();
-  var tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
-  return arr.filter(function(z){
-    var dz=mDate(z);
-    if(tipQuickFilter==='today') return sameCalDay(dz,now);
-    if(tipQuickFilter==='tomorrow') return sameCalDay(dz,tomorrow);
-    if(tipQuickFilter==='missing') return !myTips[z[0]]&&dz>now&&!matchTeamsUnknown(z);
-    return true;
-  });
-}
-function updateTipQuickButtons(){
-  ['all','today','tomorrow','missing'].forEach(function(k){
-    var el=document.getElementById('qf-'+k);if(el) el.classList.toggle('on',tipQuickFilter===k);
-  });
-}
-function setTipQuickFilter(mode){tipQuickFilter=mode;updateTipQuickButtons();renderTipy();}
-function renderTodayBox(){
-  var box=document.getElementById('today-box');
-  if(!box||!me) return;
-  var now=new Date();
-  var arr=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);}).sort(function(a,b){return mDate(a)-mDate(b);});
-  if(!arr.length){box.innerHTML='<span class="mut">'+tr('no_today_matches')+'</span>';return;}
-  box.innerHTML=arr.map(function(z){
-    var tip=myTips[z[0]]||'';
-    var status=tip?'<span class="ok">'+escHtml(tip)+' · '+tr('tip_saved')+'</span>':'<span class="miss">'+tr('tip_missing')+'</span>';
-    return '<div class="today-row"><div><div class="today-match">'+fT(z[2])+' - '+fT(z[3])+'</div><div class="today-sub">'+escHtml(dStr(z))+'</div></div><div style="text-align:right">'+status+'</div></div>';
-  }).join('');
-}
-function computeSimilarity(){
-  if(!me||!players.length) return null;
-  var mine=myTips||{},best=null;
-  players.forEach(function(p){
-    if(p.id===me.id) return;
-    var other=allTips[p.id]||{},overlap=0,same=0;
-    Object.keys(mine).forEach(function(k){if(other[k]){overlap++;if(other[k]===mine[k]) same++;}});
-    if(!overlap) return;
-    var ratio=same/overlap;
-    if(!best||ratio>best.ratio||(ratio===best.ratio&&overlap>best.overlap)) best={name:p.jmeno,ratio:ratio,overlap:overlap,same:same};
-  });
-  return best;
-}
-function renderSimilarity(){
-  var box=document.getElementById('sim-box');if(!box||!me) return;
-  var sim=computeSimilarity();
-  if(!sim){box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';return;}
-  box.innerHTML='<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div><div class="mut">'+tr('sim_match')+': <strong>'+Math.round(sim.ratio*100)+'%</strong> ('+sim.same+'/'+sim.overlap+')</div>';
-}
-
 function init(){
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
   document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
@@ -1847,6 +1906,7 @@ function init(){
   document.getElementById('qf-today').addEventListener('click',function(){setTipQuickFilter('today');});
   document.getElementById('qf-tomorrow').addEventListener('click',function(){setTipQuickFilter('tomorrow');});
   document.getElementById('qf-missing').addEventListener('click',function(){setTipQuickFilter('missing');});
+
   TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   var ptCfg=[
     ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
