@@ -437,7 +437,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-stat-col{min-width:38px}
 }
 
-/* ══ HEADER v1.79 ══════════════════════════════ */
+/* ══ HEADER v1.80 ══════════════════════════════ */
 .hdr{background:linear-gradient(135deg,#0d1f38 0%,#080f1d 55%,#0c1c38 100%);border:1px solid #1c3050;border-radius:16px;padding:14px 20px;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3b82f6,#a855f7,#22c55e)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -486,7 +486,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-sc-val{font-size:.82rem}
 }
 
-/* ── HEADER v1.79 compact layout override ── */
+/* ── HEADER v1.80 compact layout override ── */
 .hdr{padding:14px 18px;margin-bottom:.85rem}
 .hdr-row{
   display:grid;
@@ -574,7 +574,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── HEADER v1.79 polish override ── */
+/* ── HEADER v1.80 polish override ── */
 .hdr{
   background:
     radial-gradient(circle at 18% 20%, rgba(59,130,246,.10), transparent 32%),
@@ -731,6 +731,234 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   }
 }
 
+
+/* ── HEADER v1.80 premium symmetric layout ── */
+.hdr{
+  background:
+    radial-gradient(circle at 16% 18%, rgba(59,130,246,.10), transparent 32%),
+    radial-gradient(circle at 84% 16%, rgba(96,165,250,.06), transparent 28%),
+    linear-gradient(180deg, rgba(11,20,34,.96) 0%, rgba(8,14,24,.98) 100%);
+  border:1px solid rgba(122,159,192,.16);
+  border-radius:18px;
+  padding:16px 18px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+}
+.hdr::before{
+  height:1px;
+  background:linear-gradient(90deg, rgba(96,165,250,.55), rgba(96,165,250,.18), rgba(96,165,250,.55));
+}
+.hdr-row{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) minmax(360px,2fr) minmax(180px,1fr);
+  gap:16px;
+  align-items:center;
+}
+.hdr-brand{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-width:0}
+.hdr-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.16rem;
+  font-weight:800;
+  line-height:1;
+  display:flex;
+  align-items:baseline;
+  gap:.28rem;
+  letter-spacing:.01em;
+  flex-wrap:wrap;
+}
+.hdr-word{color:#fff;text-shadow:none}
+.hdr-ms{color:#fff}
+.hdr-year{color:var(--ac2);background:none;-webkit-background-clip:initial;background-clip:initial;text-shadow:none}
+.hdr-by{
+  margin-top:5px;
+  font-size:.65rem;
+  color:var(--mu2);
+  letter-spacing:.01em;
+}
+.hdr-clock{
+  margin-top:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.64rem;
+  color:#4f6d91;
+  line-height:1.25;
+  white-space:nowrap;
+}
+.hdr-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  width:100%;
+}
+.hdr-sc{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:11px 12px 12px;
+}
+.hdr-sc-ico{font-size:14px;line-height:1;margin-bottom:5px}
+.hdr-sc-lbl{
+  font-size:.54rem;
+  font-weight:700;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  margin-bottom:5px;
+  white-space:nowrap;
+  text-align:center;
+}
+.hdr-sc-val{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.05rem;
+  font-weight:700;
+  color:#f4f8ff;
+  margin-bottom:10px;
+  font-variant-numeric:tabular-nums;
+}
+.hdr-sc-track{
+  width:100%;
+  height:4px;
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  overflow:visible;
+}
+.hdr-sc-fill{height:4px;border-radius:999px;transition:width .6s}
+.hdr-sc-fill-bl{background:#3b82f6;box-shadow:0 0 10px rgba(59,130,246,.75),0 0 18px rgba(59,130,246,.28)}
+.hdr-sc-fill-gn{background:#22c55e;box-shadow:0 0 10px rgba(34,197,94,.7),0 0 18px rgba(34,197,94,.24)}
+.hdr-sc-fill-pu{background:#a855f7;box-shadow:0 0 10px rgba(168,85,247,.72),0 0 18px rgba(168,85,247,.24)}
+.hdr-right{display:flex;justify-content:flex-end}
+.hdr-user-block{
+  width:180px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:8px;
+  margin-left:auto;
+}
+.hdr-user{
+  width:100%;
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:0 12px 0 8px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+.hdr-av{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  box-shadow:0 0 18px rgba(59,130,246,.18);
+}
+.hdr-uname{
+  max-width:96px;
+  font-size:.8rem;
+  font-weight:600;
+  color:#eaf3ff;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.hdr-user-actions{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.hdr-right .lang-btn,
+.hdr-right .hdr-ico-btn{
+  width:100%;
+  min-width:0;
+  height:38px;
+  padding:0 10px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.hdr-right .lang-btn{background:rgba(10,23,40,.45)}
+#btn-logout{background:rgba(10,23,40,.35)}
+#btn-refresh{
+  width:100%;
+  height:38px;
+  border-radius:12px;
+  margin-top:0;
+}
+.nav{
+  display:flex;
+  flex-wrap:nowrap !important;
+  overflow-x:auto !important;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  white-space:nowrap;
+  gap:4px;
+  scrollbar-width:thin;
+}
+.nb{
+  flex:0 0 auto;
+  white-space:nowrap;
+  text-align:center;
+}
+.stc table{table-layout:fixed}
+.stc th,.stc td{font-variant-numeric:tabular-nums}
+.stc th:nth-child(1),.stc td:nth-child(1){width:10%}
+.stc th:nth-child(2),.stc td:nth-child(2){width:34%}
+.stc th:nth-child(3),.stc td:nth-child(3),
+.stc th:nth-child(4),.stc td:nth-child(4),
+.stc th:nth-child(5),.stc td:nth-child(5),
+.stc th:nth-child(6),.stc td:nth-child(6){width:8%}
+.stc th:nth-child(7),.stc td:nth-child(7){width:16%}
+.stc th:nth-child(8),.stc td:nth-child(8){width:8%}
+.stc td:nth-child(2), .stc th:nth-child(2){text-align:left;padding-left:8px;padding-right:8px}
+@media(max-width:760px){
+  .hdr{
+    padding:13px 12px;
+  }
+  .hdr-row{
+    grid-template-columns:minmax(0,1fr) minmax(142px,180px);
+    grid-template-areas:
+      'brand right'
+      'stats stats';
+    gap:12px;
+    align-items:start;
+  }
+  .hdr-brand{grid-area:brand}
+  .hdr-right{grid-area:right}
+  .hdr-stats{grid-area:stats}
+  .hdr-user-block{width:100%;max-width:180px}
+  .hdr-title{font-size:1.02rem}
+  .hdr-clock{font-size:.61rem;white-space:normal}
+  .hdr-sc{
+    padding:10px 8px 10px;
+  }
+  .hdr-sc-val{font-size:.92rem}
+  .hdr-sc-lbl{font-size:.48rem}
+  .hdr-sc-ico{font-size:12px}
+}
+@media(max-width:520px){
+  .hdr-row{
+    grid-template-columns:minmax(0,1fr) 132px;
+    gap:10px;
+  }
+  .hdr-user-block{max-width:132px}
+  .hdr-uname{max-width:56px;font-size:.73rem}
+  .hdr-user{min-height:38px;padding:0 8px 0 6px}
+  .hdr-av{width:24px;height:24px}
+  .hdr-right .lang-btn,
+  .hdr-right .hdr-ico-btn,
+  #btn-refresh{height:36px;font-size:.67rem}
+  .hdr-sc{padding:9px 6px}
+  .hdr-sc-val{font-size:.84rem;margin-bottom:8px}
+  .hdr-sc-lbl{font-size:.44rem}
+}
+
 </style>
 </head>
 <body>
@@ -763,7 +991,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.79</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.80</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -773,7 +1001,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div class="hdr">
       <div class="hdr-row">
         <div class="hdr-brand">
-          <div class="hdr-title" id="hdr-title-main"><span class="hdr-word">TIPOVAČKA</span> <span class="hdr-ms">MS</span> <span class="hdr-year">2026</span></div>
+          <div class="hdr-title" id="hdr-title-main"><span class="hdr-word">TIPOVAČKA MS</span> <span class="hdr-year">2026</span></div>
           <div class="hdr-by" id="by-lbl">by Adam184</div>
           <div class="hdr-clock" id="clk"></div>
         </div>
@@ -798,14 +1026,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
           </div>
         </div>
         <div class="hdr-right">
-          <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
-          <div class="hdr-user" id="pp" style="display:none">
-            <div class="hdr-av" id="hdr-av">?</div>
-            <span class="hdr-uname" id="hdr-username-lbl"></span>
-            <span class="abadge2" id="ab" style="display:none">ADMIN</span>
+          <div class="hdr-user-block">
+            <div class="hdr-user" id="pp" style="display:none">
+              <div class="hdr-av" id="hdr-av">?</div>
+              <span class="hdr-uname" id="hdr-username-lbl"></span>
+              <span class="abadge2" id="ab" style="display:none">ADMIN</span>
+            </div>
+            <div class="hdr-user-actions">
+              <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
+              <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
+            </div>
+            <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">AKTUALIZOVAT</button>
           </div>
-          <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
-          <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺</button>
         </div>
       </div>
     </div>
@@ -956,7 +1188,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.79</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.80</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1017,7 +1249,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.79',
+    footer_ver:'v1.80',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1105,7 +1337,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.79',
+    footer_ver:'v1.80',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1159,9 +1391,9 @@ function renderHeaderTitle(){
   var el=document.getElementById('hdr-title-main');
   if(!el) return;
   if(LANG==='en'){
-    el.innerHTML='<span class="hdr-word">WC</span> <span class="hdr-ms">2026</span> <span class="hdr-year">TIPPING CHALLENGE</span>';
+    el.innerHTML='<span class="hdr-word">TIPPING CHALLENGE WC</span> <span class="hdr-year">2026</span>';
   }else{
-    el.innerHTML='<span class="hdr-word">TIPOVAČKA</span> <span class="hdr-ms">MS</span> <span class="hdr-year">2026</span>';
+    el.innerHTML='<span class="hdr-word">TIPOVAČKA MS</span> <span class="hdr-year">2026</span>';
   }
 }
 
