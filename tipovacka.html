@@ -309,7 +309,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .fchip{font-size:.68rem;padding:3px 8px}
   .tih,.tia{width:28px;font-size:.88rem;padding:4px 1px}
 }
-</style>
+
+.hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.65rem 1.1rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
+.hdr-top{display:flex;align-items:center;gap:.6rem;justify-content:space-between;margin-bottom:.35rem}
+.hdr-brand{flex-shrink:0}.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;line-height:1.1}.hdr-by{font-size:.62rem;color:var(--mu)}
+.hdr-center{flex:1;display:flex;align-items:center;gap:.6rem;justify-content:center;flex-wrap:wrap;min-width:0}
+.hdr-clock{font-family:'Space Grotesk',sans-serif;font-size:.69rem;color:var(--mu2);white-space:nowrap}
+.hdr-right{display:flex;align-items:center;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.hdr-user{display:flex;align-items:center;gap:5px;background:var(--bg4);border:1px solid var(--bd2);border-radius:20px;padding:3px 10px}
+.hdr-uname{font-size:.77rem;font-weight:600;color:var(--tx)}.abadge2{font-size:.63rem;font-weight:700;background:var(--gd);color:#0a0a0a;padding:2px 7px;border-radius:20px;letter-spacing:.03em}
+.hdr-sub-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.25rem 0 .4rem;flex-wrap:wrap}
+.hdr-sub-info{font-size:.65rem;color:var(--mu)}.hdr-prog-saved{font-size:.65rem;color:var(--gn2)}
+.hdr-neon-bar{height:3px;background:var(--bd);margin:0 -1.1rem;overflow:hidden}.hdr-neon-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn2));transition:width .6s}
+.cd-pill{display:flex;align-items:center;gap:5px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:3px 8px;flex-shrink:0}
+.cd-pill-ico{font-size:.7rem}.cd-pill-inner{display:flex;flex-direction:column;min-width:0}
+.cd-pill-match{font-size:.57rem;color:var(--mu2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px;font-weight:600}
+.cd-pill-time{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;color:var(--ac2);line-height:1.1}.cd-pill-time.urgent{color:var(--gd)}
+.nav{flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+.tier-filters{margin-bottom:.75rem;display:flex;flex-direction:column;gap:5px}
+.tier1{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:4px}
+.phase-tab{flex:1;padding:6px 10px;border-radius:8px;font-size:.79rem;font-weight:700;cursor:pointer;background:transparent;color:var(--mu);border:none;transition:.15s;font-family:'Space Grotesk',sans-serif;text-align:center}
+.phase-tab:hover{color:var(--tx)}.phase-tab.on{background:var(--ac);color:#fff}
+.tier2{display:flex;gap:4px;flex-wrap:wrap}.sort-chip{padding:4px 11px;border-radius:8px;font-size:.73rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
+.sort-chip:hover{border-color:var(--bd2);color:var(--mu2)}.sort-chip.on{background:rgba(59,130,246,.1);color:var(--ac2);border-color:rgba(59,130,246,.28)}
+.tier3{display:flex;gap:3px;flex-wrap:wrap}.fchip{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:600;cursor:pointer;background:transparent;color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
+.fchip:hover{border-color:var(--bd2);color:var(--mu2)}.fchip.on{background:rgba(59,130,246,.1);color:var(--ac2);border-color:rgba(59,130,246,.28)}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:.6rem}
+.mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:.55rem .7rem}
+.mini-h{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);margin-bottom:.25rem}
+.mini-kv{font-size:.71rem;line-height:1.4;color:var(--tx)}.mini-kv .mut{color:var(--mu)}.mini-kv .ok{color:var(--gn2);font-weight:700}.mini-kv .miss{color:#f87171;font-weight:700}
+@media(max-width:600px){.hdr{padding:.55rem .8rem 0}.hdr-center{justify-content:flex-start}.cd-pill{display:none}.hdr-clock{font-size:.62rem}.hdr-title{font-size:.95rem}.hdr-sub-row{flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:.3rem}.phase-tab{font-size:.74rem;padding:5px 8px}.sort-chip,.fchip{font-size:.68rem}}</style>
 </head>
 <body>
 <div class="lo-wrap" id="lo">
@@ -341,46 +371,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.71</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.72</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
 
 <div id="app" style="display:none">
   <div class="w">
-    <div class="hdr">
-      <div class="hdr-in">
-        <div>
-          <div class="hdr-t"><span id="hdr-title-main" style="color:#fff;font-size:inherit;font-weight:inherit">TIPOVAČKA MS 2026</span> <span id="by-lbl">by Adam184</span></div>
-          <div class="hdr-s" id="hdr-sub">USA · Kanada · Mexiko - 48 týmů · 104 zápasů · 11.6.–19.7.2026</div>
-          <div class="prog-wrap">
-            <div class="prog-row">
-              <div class="prog-t" id="ptxt-played">Odehráno: 0 / 104 (0%)</div>
-              <div class="prog-b"><div class="prog-f" id="pfil-played" style="width:0%"></div></div>
-            </div>
-            <div class="prog-row">
-              <div class="prog-t" id="ptxt-saved">Uloženo: 0 / 104 · Skupiny: 0 / 72 · Play-off: 0 / 32</div>
-              <div class="prog-b"><div class="prog-f" id="pfil-saved" style="width:0%"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="hdr-r">
-          <div class="clk" id="clk"></div>
-          <div class="cd-pill" id="cd-pill" style="display:none">
-            <span class="cd-pill-ico">⏱</span>
-            <div class="cd-pill-inner">
-              <span class="cd-pill-match" id="cd-pill-match"></span>
-              <span class="cd-pill-time" id="cd-pill-time"></span>
-            </div>
-          </div>
-          <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
-          <div class="pill" id="pp" style="display:none"></div>
-          <span class="abadge" id="ab">ADMIN</span>
-          <button class="btn btn-ol btn-sm" id="btn-logout">Odhlásit</button>
-          <button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺ Výsledky</button>
-        </div>
-      </div>
-    </div>
+    <div class="hdr"><div class="hdr-top"><div class="hdr-brand"><div class="hdr-title" id="hdr-title-main">MS 2026</div><div class="hdr-by" id="by-lbl">by Adam184</div></div><div class="hdr-center"><div class="hdr-clock" id="clk"></div><div class="cd-pill" id="cd-pill" style="display:none"><span class="cd-pill-ico">⏱</span><div class="cd-pill-inner"><span class="cd-pill-match" id="cd-pill-match"></span><span class="cd-pill-time" id="cd-pill-time"></span></div></div></div><div class="hdr-right"><button class="lang-btn" id="langbtn">🇬🇧 EN</button><div class="hdr-user" id="pp" style="display:none"><span class="hdr-uname" id="hdr-username-lbl"></span><span class="abadge2" id="ab" style="display:none">ADMIN</span></div><button class="btn btn-ol btn-sm" id="btn-logout" style="display:none">↩</button><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↺</button></div></div><div class="hdr-sub-row"><span class="hdr-sub-info" id="hdr-sub">USA · Kanada · Mexiko</span><span class="hdr-prog-saved" id="ptxt-saved"></span></div><div class="hdr-neon-bar"><div class="hdr-neon-fill" id="pfil-saved" style="width:0%"></div></div><div id="pfil-played" style="display:none"></div><div id="ptxt-played" style="display:none"></div></div>
 
     <nav class="nav" id="mainnav">
       <button class="nb on" id="tab-tipy">Moje tipy</button>
@@ -413,19 +411,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-tipy">
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
 
-      <div class="filter-wrap" id="tipy-filters">
-        <div class="filter-primary" id="tipy-sort-tabs">
-          <button class="ftab on" id="ptab-tipy-sk">Skupiny</button>
-          <button class="ftab" id="ptab-tipy-dt">Datum</button>
-          <button class="ftab" id="ptab-tipy-po">Play-off</button>
-        </div>
-        <div class="filter-secondary" id="tipy-qf">
-          <button class="fchip on" id="qf-all">Vše</button>
-          <button class="fchip" id="qf-today">Dnes</button>
-          <button class="fchip" id="qf-tomorrow">Zítra</button>
-          <button class="fchip" id="qf-missing">Neuložené</button>
-        </div>
-      </div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Dle data</button><button class="sort-chip" id="ptab-tipy-sk">Dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
       <div class="mini-grid">
         <div class="mini-card">
@@ -551,7 +537,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.71</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.72</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -609,7 +595,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.71',
+    footer_ver:'v1.72',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -685,7 +671,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.71',
+    footer_ver:'v1.72',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1113,16 +1099,7 @@ function updProgress(){
   setText('ptxt-played',tr('played')+': '+n+' / 104 ('+pct+'%)');
   var f=document.getElementById('pfil-played'); if(f) f.style.width=pct+'%';
 }
-function updSavedProgress(){
-  var total=Object.keys(myTips).length,groups=0,po=0;
-  Object.keys(myTips).forEach(function(k){
-    var id=parseInt(k,10);
-    if(id<=72) groups++; else po++;
-  });
-  setText('ptxt-saved',tr('saved')+': '+total+' / 104 · '+tr('group_stage')+': '+groups+' / 72 · '+tr('playoff_stage')+': '+po+' / 32');
-  var pct=Math.round(total/104*100);
-  var f=document.getElementById('pfil-saved'); if(f) f.style.width=pct+'%';
-}
+function updSavedProgress(){var sk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;var po=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;var el=document.getElementById('ptxt-saved');if(el) el.textContent=(LANG==='en'?'Saved: ':'Uloženo: ')+sk+'/72 · '+po+'/32';var f=document.getElementById('pfil-saved');if(f) f.style.width=Math.round((sk+po)/104*100)+'%';}
 
 function renderTodayBox(){
   var box=document.getElementById('today-box');
@@ -1272,8 +1249,9 @@ function finishLogin(d){
   try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
-  setText('pp',me.jmeno);
-  document.getElementById('pp').style.display='inline-block';
+  var unEl=document.getElementById('hdr-username-lbl');if(unEl) unEl.textContent=me.jmeno;
+  var ppEl=document.getElementById('pp');if(ppEl) ppEl.style.display='flex';
+  document.getElementById('btn-logout').style.display='inline-block';
   if(me.je_admin){
     document.getElementById('ab').style.display='inline-block';
     document.getElementById('tab-admin').style.display='inline-block';
@@ -1304,6 +1282,7 @@ function doLogout(){
   document.getElementById('ab').style.display='none';
   document.getElementById('tab-admin').style.display='none';
   document.getElementById('pp').style.display='none';
+  var lb=document.getElementById('btn-logout');if(lb) lb.style.display='none';
   document.getElementById('btn-refresh').style.display='none';
   document.getElementById('lj').value='';
   document.getElementById('lp').value='';
@@ -1449,7 +1428,7 @@ function renderTipy(){
   renderSimilarity();
 
   var isAdmin=me.je_admin;
-  var baseArr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
+  var baseArr=currentPhase==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
   var arr=getFilteredTipArr(baseArr);
   updateTipQuickButtons();
   var hasGT=Object.keys(allTips).length>0;
@@ -2032,12 +2011,7 @@ function exportAllCSV(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-function updClock(){
-  var now=new Date(),ds=tr('days');
-  var el=document.getElementById('clk'); if(!el) return;
-  if(LANG==='en') el.textContent=ds[now.getDay()]+' '+now.getDate()+' '+tr('months')[now.getMonth()]+' '+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-  else el.textContent=ds[now.getDay()]+' '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'\n'+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-}
+function updClock(){var now=new Date(),ds=tr('days'),ms=tr('months'),el=document.getElementById('clk');if(!el) return;if(LANG==='en') el.textContent=ds[now.getDay()]+', '+now.getDate()+' '+ms[now.getMonth()]+' '+now.getFullYear()+' | '+pad(now.getHours())+':'+pad(now.getMinutes());else el.textContent=ds[now.getDay()]+', '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+' | '+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());}
 function toggleLang(){
   LANG=LANG==='cs'?'en':'cs';
   applyI18n();
@@ -2059,21 +2033,7 @@ function getNextMatch(){
   var all=SZ.concat(PZ).filter(function(z){return mDate(z)>now;}).sort(function(a,b){return mDate(a)-mDate(b);});
   return all.length?all[0]:null;
 }
-function updateCountdown(){
-  var pill=document.getElementById('cd-pill');
-  var next=getNextMatch();
-  if(!next){if(pill) pill.style.display='none';return;}
-  if(pill) pill.style.display='flex';
-  var diff=mDate(next)-new Date();
-  if(diff<=0){setTimeout(updateCountdown,1000);return;}
-  var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
-  var matchStr=fT(next[2])+' – '+fT(next[3]);
-  var timeStr=days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s));
-  setText('cd-pill-match',matchStr);
-  setText('cd-pill-time',timeStr);
-  var el=document.getElementById('cd-pill-time');
-  if(el) el.classList.toggle('urgent',diff<3600000);
-}
+function updateCountdown(){var pill=document.getElementById('cd-pill'),next=getNextMatch();if(!next){if(pill) pill.style.display='none';return;}if(pill) pill.style.display='flex';var diff=mDate(next)-new Date();if(diff<=0){setTimeout(updateCountdown,1000);return;}var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);setText('cd-pill-match',fT(next[2])+' – '+fT(next[3]));setText('cd-pill-time',days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s)));var el=document.getElementById('cd-pill-time');if(el) el.classList.toggle('urgent',diff<3600000);}
 function startCountdown(){
   updateCountdown();
   if(cdInterval) clearInterval(cdInterval);
@@ -2081,6 +2041,9 @@ function startCountdown(){
 }
 
 function goStadiony(){showTab('stadiony');}
+var currentPhase='sk';
+function setPhaseTab(phase){currentPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(tipSort==='po') tipSort='dt';renderTipy();}
+function setSortChip(sort){tipSort=sort;['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&sort==='dt')||(id==='ptab-tipy-sk'&&sort==='sk'));});renderTipy();}
 function filterByTeam(teamName){
   // Switch to tipy tab, set filter to all, sort by date, scroll to team
   tipSort='dt';
@@ -2138,7 +2101,7 @@ function init(){
 
   TABS.forEach(function(t){var b=document.getElementById('tab-'+t);if(b) b.addEventListener('click',function(){showTab(t);});});
   [
-    ['ptab-tipy-sk','tipy','sk'],['ptab-tipy-dt','tipy','dt'],['ptab-tipy-po','tipy','po'],
+    
     ['ptab-ost-sk','ost','sk'],['ptab-ost-dt','ost','dt'],['ptab-ost-po','ost','po'],
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
     ['ptab-vys-sk','vys','sk'],['ptab-vys-dt','vys','dt'],['ptab-vys-po','vys','po'],
