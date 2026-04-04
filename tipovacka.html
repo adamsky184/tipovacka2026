@@ -214,7 +214,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.53</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.59</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -343,7 +343,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div class="clbl" id="clbl-stad">Stadiony MS 2026</div>
         <div style="margin-bottom:1.1rem">
           <img
-            src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffad238a1-d3bd-4a50-8178-df4e93c0cbea_1378x832.jpeg"
+            src="map.png"
             alt="Mapa stadionů MS 2026"
             style="width:100%;border-radius:10px;border:1px solid var(--bd);display:block"
             onerror="this.style.display='none';document.getElementById('map-fallback').style.display='block'">
@@ -374,7 +374,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.53</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.59</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -428,7 +428,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.53',
+    footer_ver:'v1.59',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -495,7 +495,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.53',
+    footer_ver:'v1.59',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -555,7 +555,7 @@ function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
-  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴',
+  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
   'USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷',
   'Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨',
   'Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳',
@@ -564,7 +564,7 @@ var FLAGS={
   'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
   'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
-  'Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -722,22 +722,22 @@ var PZ=[
 ];
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MetLife_Stadium_New_Jersey.jpg/640px-MetLife_Stadium_New_Jersey.jpg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cowboys_Stadium_Arlington.jpg/640px-Cowboys_Stadium_Arlington.jpg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SoFi_Stadium_-_2022.jpg/640px-SoFi_Stadium_-_2022.jpg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hard_Rock_Stadium_aerial_2018.jpg/640px-Hard_Rock_Stadium_aerial_2018.jpg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Lumen_Field_September_2021.jpg/640px-Lumen_Field_September_2021.jpg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg/640px-Levi%27s_Stadium_-_Santa_Clara%2C_CA_-_Aerial.jpg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Arrowhead_Stadium_2015.jpg/640px-Arrowhead_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/NRG_Stadium_2015.jpg/640px-NRG_Stadium_2015.jpg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lincoln_Financial_Field_2017.jpg/640px-Lincoln_Financial_Field_2017.jpg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_Stadium.jpg/640px-Mercedes-Benz_Stadium.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gillette_Stadium_2015.jpg/640px-Gillette_Stadium_2015.jpg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/BMO_Field_2016.jpg/640px-BMO_Field_2016.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/BC_Place_Stadium_2011.jpg/640px-BC_Place_Stadium_2011.jpg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Azteca_estadio.jpg/640px-Azteca_estadio.jpg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Estadio_BBVA_2015.jpg/640px-Estadio_BBVA_2015.jpg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Estadio_Akron_2010.jpg/640px-Estadio_Akron_2010.jpg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 var VENUE_ALIASES={
