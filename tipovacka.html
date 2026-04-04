@@ -35,7 +35,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .btn:disabled{opacity:.45;cursor:default}
 .nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:'Space Grotesk',sans-serif}
-.nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:#fff}
+.nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.25)}
 .card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1rem;margin-bottom:.75rem}
 .clbl{font-family:'Space Grotesk',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
 .ptabs{display:flex;gap:4px;margin-bottom:.75rem;flex-wrap:wrap}
@@ -46,12 +46,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .gh:first-child{margin-top:0}
 .date-sep{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin:12px 0 5px;display:flex;align-items:center;gap:6px}
 .date-sep:first-child{margin-top:0}
-.mr{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,48,80,.5)}
+.mr{display:grid;grid-template-columns:1fr 72px 154px;gap:8px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
 .mr:last-child{border-bottom:none}
+.mr-info{min-width:0}
 .mt{font-size:.85rem;font-weight:600}
 .mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .venue{font-size:.67rem;color:var(--bd2);font-weight:500}
-.mr-r{display:flex;align-items:center;gap:4px;min-width:120px;justify-content:flex-end}
+.mr-tip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.mr-gt{min-width:0;display:flex;flex-direction:column;gap:0}
 .mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
 .ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s}
 .ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
@@ -65,13 +67,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .p2{background:rgba(59,130,246,.15);color:var(--ac2)}
 .p0{background:rgba(239,68,68,.15);color:#f87171}
 .cd{font-size:.67rem;color:var(--ac2);font-weight:500}
-.lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:.15s}
+.tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
+.tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
+.tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
+.lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:transform .15s,box-shadow .15s}
+.lbr:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .lbr.me{border-color:var(--gn);background:rgba(34,197,94,.04)}
-.lbr.g1{border-color:var(--gd)}
+.lbr.g1{border-color:var(--gd);box-shadow:0 0 18px rgba(245,158,11,.12)}
 .lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8rem;flex-shrink:0}
 .ln{font-size:.9rem;font-weight:600}
 .ls{font-size:.69rem;color:var(--mu);display:flex;gap:7px;margin-top:2px;flex-wrap:wrap}
 .lp{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
+.badge{font-size:.62rem;padding:1px 6px;border-radius:20px;font-weight:700;display:inline-block;margin-left:4px}
+.badge-sniper{background:rgba(34,197,94,.15);color:var(--gn2)}
+.badge-hot{background:rgba(245,158,11,.15);color:var(--gd)}
+.badge-draw{background:rgba(168,85,247,.15);color:var(--pu)}
+.badge-leader{background:rgba(245,158,11,.2);color:var(--gd)}
+.badge-rookie{background:rgba(59,130,246,.16);color:var(--ac2)}
 .rr{display:grid;grid-template-columns:1fr 68px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.4)}
 .rr:last-child{border-bottom:none}
 .rh{text-align:right;font-size:.84rem;font-weight:600}
@@ -144,9 +156,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lo-ftr span{color:var(--mu2)}
 .stad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
 .stad-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
+.stad-thumb-link{display:block;text-decoration:none}
 .stad-img-wrap{height:145px;background:var(--bg4);position:relative;overflow:hidden}
-.stad-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.stad-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.stad-thumb-link:hover .stad-img-wrap img{transform:scale(1.03)}
 .stad-co-badge{position:absolute;top:7px;right:7px;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:20px;color:#07101c}
+.stad-open{position:absolute;left:7px;bottom:7px;font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(7,16,28,.75);color:#fff;border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(4px)}
 .stad-body{padding:9px 11px}
 .stad-name{font-weight:700;font-size:.84rem;margin-bottom:3px}
 .stad-meta{font-size:.72rem;color:var(--mu);display:flex;gap:8px;flex-wrap:wrap}
@@ -169,6 +184,51 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .today-row:last-child{border-bottom:none}
 .today-match{font-size:.74rem;font-weight:600}
 .today-sub{font-size:.65rem;color:var(--mu);margin-top:1px}
+.countdown-bar{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:.7rem 1rem;margin-bottom:.85rem;display:flex;align-items:center;gap:1rem;position:relative;overflow:hidden}
+.countdown-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu))}
+.countdown-left{flex:1;min-width:0;overflow:hidden}
+.countdown-label{font-size:.62rem;color:var(--mu);font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;display:block}
+.countdown-match{font-size:.81rem;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.countdown-right{display:flex;align-items:flex-start;gap:4px;flex-shrink:0}
+.cd-unit{background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:5px 9px;text-align:center;min-width:44px;display:flex;flex-direction:column;align-items:center}
+.cd-num{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ac2);line-height:1.15;display:block}
+.cd-lbl{font-size:.52rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:1px}
+.cd-sep{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--bd2);margin-top:5px;line-height:1}
+.cd-unit.urgent .cd-num{color:var(--gd)}
+.today-strip{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(34,197,94,.06));border:1px solid rgba(59,130,246,.18);border-radius:12px;padding:.75rem .95rem;margin-bottom:.8rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.8rem;align-items:center}
+.today-main{min-width:0}
+.today-top{display:flex;align-items:center;gap:.55rem;margin-bottom:.45rem}
+.today-strip-ico{font-size:1rem;line-height:1}
+.today-strip-txt{font-size:.8rem;font-weight:700;color:var(--tx)}
+.today-strip-sub{font-size:.68rem;color:var(--mu2)}
+.today-progress{height:6px;border-radius:999px;background:rgba(23,40,64,.8);overflow:hidden;border:1px solid rgba(37,66,102,.45)}
+.today-progress-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));border-radius:999px;transition:width .35s}
+.today-stats{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.today-chip{padding:5px 8px;border-radius:9px;border:1px solid var(--bd2);background:var(--bg3);min-width:72px;text-align:center}
+.today-chip-k{display:block;font-size:.58rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}
+.today-chip-v{display:block;font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;color:var(--tx);margin-top:1px}
+.insight-row{font-size:.73rem;color:var(--mu);display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,48,80,.3)}
+.insight-val{font-weight:700;color:var(--tx)}
+.upd-badge{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(34,197,94,.1);color:var(--gn2);border:1px solid rgba(34,197,94,.2);display:inline-flex;align-items:center;gap:4px}
+.upd-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gn2);display:inline-block}
+.upd-badge.stale{background:rgba(245,158,11,.1);color:var(--gd);border-color:rgba(245,158,11,.2)}
+.upd-badge.stale::before{background:var(--gd)}
+.match-section{margin-bottom:.6rem}
+.match-section-header{display:grid;grid-template-columns:1fr 72px 154px;gap:8px;padding:6px 10px 4px;align-items:center}
+.match-section-header .gh{margin:0;padding:0;border:none;font-size:.62rem}
+.mh-tip-lbl,.mh-gt-lbl{font-size:.62rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;text-align:center}
+.gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:6px;width:100%;gap:2px}
+.gt-h{background:var(--ac);border-radius:2px}
+.gt-d{background:var(--bd2);border-radius:2px}
+.gt-a{background:var(--gd);border-radius:2px}
+.gt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.gt-cell{background:rgba(23,40,64,.55);border:1px solid rgba(37,66,102,.42);border-radius:7px;padding:4px 3px;text-align:center}
+.gt-cell.is-max{border-color:rgba(255,255,255,.08);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset}
+.gt-lbl{display:block;font-size:.55rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.gt-val{display:block;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;margin-top:2px}
+.gt-cell-h .gt-lbl,.gt-cell-h .gt-val{color:var(--ac2)}
+.gt-cell-d .gt-lbl,.gt-cell-d .gt-val{color:var(--mu2)}
+.gt-cell-a .gt-lbl,.gt-cell-a .gt-val{color:var(--gd)}
 @media(max-width:600px){
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
@@ -181,78 +241,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .lbr{gap:8px;padding:8px 10px}
   .lp{font-size:1.1rem}
   .mini-grid{grid-template-columns:1fr}
-}
-
-.countdown-bar{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:.7rem 1rem;margin-bottom:.85rem;display:flex;align-items:center;gap:1rem;position:relative;overflow:hidden}
-.countdown-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu))}
-.countdown-left{flex:1;min-width:0;overflow:hidden}
-.countdown-label{font-size:.62rem;color:var(--mu);font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;display:block}
-.countdown-match{font-size:.81rem;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-.countdown-right{display:flex;align-items:flex-start;gap:4px;flex-shrink:0}
-.cd-unit{background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:5px 9px;text-align:center;min-width:44px;display:flex;flex-direction:column;align-items:center}
-.cd-num{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ac2);line-height:1.15;display:block}
-.cd-lbl{font-size:.52rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:1px}
-.cd-sep{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--bd2);margin-top:5px;line-height:1}
-.cd-unit.urgent .cd-num{color:var(--gd)}
-.gtips-wrap{padding:5px 0 2px;border-top:1px solid rgba(28,48,80,.35);margin-top:5px}
-.gtips-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;gap:2px;margin-bottom:5px}
-.gtips-h{background:var(--ac);border-radius:2px}
-.gtips-d{background:var(--bd2);border-radius:2px}
-.gtips-a{background:var(--gd);border-radius:2px}
-.gtips-pills{display:flex;gap:4px}
-.gtips-pill{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:6px;display:inline-flex;align-items:center;gap:3px}
-.gtips-pct{font-size:.6rem;font-weight:600}
-.gtips-pill-h{background:rgba(59,130,246,.15);color:var(--ac2)}
-.gtips-pill-d{background:rgba(100,116,139,.2);color:var(--mu2)}
-.gtips-pill-a{background:rgba(245,158,11,.15);color:var(--gd)}
-.badge{font-size:.65rem;padding:1px 5px;border-radius:20px;font-weight:700;display:inline-block;margin-left:3px}
-.badge-sniper{background:rgba(34,197,94,.15);color:var(--gn2)}
-.badge-hot{background:rgba(245,158,11,.15);color:var(--gd)}
-.badge-draw{background:rgba(168,85,247,.15);color:var(--pu)}
-.badge-leader{background:rgba(245,158,11,.2);color:var(--gd)}
-.today-strip{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(59,130,246,.05));border:1px solid rgba(34,197,94,.18);border-radius:10px;padding:.55rem .9rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.today-badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.25);margin-left:auto}
-.today-badge.ok{background:rgba(34,197,94,.15);color:var(--gn2);border-color:rgba(34,197,94,.25)}
-.insight-row{font-size:.73rem;color:var(--mu);display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,48,80,.3)}
-.insight-val{font-weight:700;color:var(--tx)}
-.upd-badge{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(34,197,94,.1);color:var(--gn2);border:1px solid rgba(34,197,94,.2);display:inline-flex;align-items:center;gap:4px}
-.upd-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gn2);display:inline-block}
-.upd-badge.stale{background:rgba(245,158,11,.1);color:var(--gd);border-color:rgba(245,158,11,.2)}
-.upd-badge.stale::before{background:var(--gd)}
-.lbr{transition:transform .15s,box-shadow .15s}
-.lbr:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
-.lbr.g1{box-shadow:0 0 18px rgba(245,158,11,.12)}
-.nb.on{box-shadow:0 2px 8px rgba(59,130,246,.25)}
-
-.match-section{margin-bottom:.6rem}
-.match-section-header{display:grid;grid-template-columns:1fr 72px 148px;gap:8px;padding:6px 10px 4px;align-items:center}
-.match-section-header .gh{margin:0;padding:0;border:none;font-size:.62rem}
-.mh-tip-lbl,.mh-gt-lbl{font-size:.62rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;text-align:center}
-.mr{display:grid;grid-template-columns:1fr 72px 148px;gap:8px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
-.mr:last-child{border-bottom:none}
-.mr-info{min-width:0}
-.mr-tip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.mr-gt{min-width:0;display:flex;flex-direction:column;gap:0}
-.tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
-.tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
-.tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
-.gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:4px;gap:2px;width:100%}
-.gt-h{background:var(--ac);border-radius:2px}
-.gt-d{background:var(--bd2);border-radius:2px}
-.gt-a{background:var(--gd);border-radius:2px}
-.gt-pills{display:flex;gap:3px;flex-wrap:wrap}
-.gt-pill{font-size:.63rem;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;display:inline-flex;align-items:center;gap:2px}
-.gt-pill-h{background:rgba(59,130,246,.12);color:var(--ac2)}
-.gt-pill-d{background:rgba(100,116,139,.18);color:var(--mu2)}
-.gt-pill-a{background:rgba(245,158,11,.12);color:var(--gd)}
-.gt-pill.dim{opacity:.45}
-@media(max-width:600px){
-  .match-section-header{grid-template-columns:1fr 56px 106px}
-  .mr{grid-template-columns:1fr 56px 106px;padding:8px}
+  .match-section-header{grid-template-columns:1fr 56px 118px}
+  .mr{grid-template-columns:1fr 56px 118px;padding:8px}
   .ti{width:44px;font-size:.8rem}
   .tip-saved{min-width:44px;font-size:.8rem;padding:3px 5px}
-  .gt-pill{font-size:.58rem;padding:1px 4px}
   .mh-tip-lbl,.mh-gt-lbl{font-size:.58rem;letter-spacing:.04em}
+  .countdown-bar{padding:.65rem .8rem}
+  .today-strip{grid-template-columns:1fr}
+  .today-stats{justify-content:flex-start}
+  .today-chip{min-width:66px}
 }
 </style>
 </head>
@@ -286,7 +283,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.64</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.65</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -345,12 +342,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="sb" id="ibox-tipy-extra" style="font-size:.7rem;color:var(--mu2);margin:-.25rem 0 .8rem .15rem"></div>
 
       <div class="today-strip" id="today-strip" style="display:flex">
-        <span class="today-strip-ico">⚽</span>
-        <div>
-          <div class="today-strip-txt" id="today-strip-txt"></div>
-          <div class="today-strip-sub" id="today-strip-sub"></div>
+        <div class="today-main">
+          <div class="today-top">
+            <span class="today-strip-ico">⚽</span>
+            <div>
+              <div class="today-strip-txt" id="today-strip-txt"></div>
+              <div class="today-strip-sub" id="today-strip-sub"></div>
+            </div>
+          </div>
+          <div class="today-progress">
+            <div class="today-progress-fill" id="today-progress-fill" style="width:0%"></div>
+          </div>
         </div>
-        <span class="today-badge" id="today-badge"></span>
+        <div class="today-stats">
+          <div class="today-chip">
+            <span class="today-chip-k" id="today-chip-k1">uloženo</span>
+            <span class="today-chip-v" id="today-chip-v1">0</span>
+          </div>
+          <div class="today-chip">
+            <span class="today-chip-k" id="today-chip-k2">zbývá</span>
+            <span class="today-chip-v" id="today-chip-v2">0</span>
+          </div>
+          <div class="today-chip">
+            <span class="today-chip-k" id="today-chip-k3">dnes</span>
+            <span class="today-chip-v" id="today-chip-v3">0</span>
+          </div>
+        </div>
       </div>
 
       <div class="qwrap" id="tipy-qf">
@@ -483,7 +500,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.64</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.65</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -537,7 +554,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.64',
+    footer_ver:'v1.65',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -564,9 +581,9 @@ var T={
     groups_none:'Skupiny neuvedeny',
     countdown_lbl:'Nejbližší zápas',
     tournament_starts:'Turnaj začíná',
-    today_strip_playing:'zápas/ů dnes',
-    today_strip_tipped:'otipováno',
-    today_strip_missing:'chybí tipy',
+    today_strip_playing:'zápasů dnes',
+    today_strip_tipped:'tipů uloženo',
+    today_strip_missing:'zbývá uložit',
     today_all_done:'Všechny dnešní tipy máš uložené 🎉',
     badge_sniper:'🎯 Sniper',
     badge_hot:'🔥 Hot',
@@ -581,8 +598,9 @@ var T={
     form_last:'Posl. 5 tipů',
     upd_fresh:'Aktuální',
     upd_ago:'před',
-    global_tips:'Globální tip',
-    groups_prefix:'Skupiny '
+    global_tips:'Tendence ostatních',
+    groups_prefix:'Skupiny ',
+    thumb_open:'Full foto'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -624,7 +642,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.64',
+    footer_ver:'v1.65',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -651,9 +669,9 @@ var T={
     groups_none:'Groups not assigned',
     countdown_lbl:'Next match',
     tournament_starts:'Tournament starts',
-    today_strip_playing:'match(es) today',
-    today_strip_tipped:'tipped',
-    today_strip_missing:'tips missing',
+    today_strip_playing:'matches today',
+    today_strip_tipped:'tips saved',
+    today_strip_missing:'left to save',
     today_all_done:"All today's tips saved 🎉",
     badge_sniper:'🎯 Sniper',
     badge_hot:'🔥 Hot streak',
@@ -668,8 +686,9 @@ var T={
     form_last:'Last 5 tips',
     upd_fresh:'Up to date',
     upd_ago:'ago',
-    global_tips:'Global tip',
-    groups_prefix:'Groups '
+    global_tips:"Others' tendency",
+    groups_prefix:'Groups ',
+    thumb_open:'Full photo'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -704,7 +723,7 @@ function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
-  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴',
   'USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷',
   'Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨',
   'Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳',
@@ -713,7 +732,7 @@ var FLAGS={
   'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
   'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
-  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+  'Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -871,22 +890,22 @@ var PZ=[
 ];
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'thumbs/metlife.jpeg','metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'thumbs/att.jpeg','att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'thumbs/sofi.jpeg','sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'thumbs/hardrock.jpeg','hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'thumbs/lumen.jpeg','lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'thumbs/levis.jpeg','levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'thumbs/arrowhead.jpeg','arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'thumbs/nrg.jpeg','nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'thumbs/lincolnfinancial.jpeg','lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'thumbs/mercedesbenz.jpg','mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'thumbs/gillette.jpeg','gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'thumbs/bmofield.jpg','bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'thumbs/bcplace.jpeg','bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'thumbs/azteca.jpeg','azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'thumbs/bbva.jpeg','bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'thumbs/akron.jpeg','akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 var VENUE_ALIASES={
@@ -910,6 +929,7 @@ var VENUE_ALIASES={
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='sk',ostSort='sk',vysSort='sk',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
+var cdInterval=null;
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -935,6 +955,9 @@ function cdStr(z){
   if(h>0) return pre+' '+h+tr('in_h')+' '+m+tr('in_min');
   return pre+' '+m+' '+tr('in_min');
 }
+function sameCalDay(d1,d2){
+  return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
+}
 function getVenueGroups(stadiumName){
   var aliases=VENUE_ALIASES[stadiumName]||[];
   var groups={};
@@ -958,10 +981,6 @@ function formatLastUpdated(){
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
 }
-
-function sameCalDay(d1,d2){
-  return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
-}
 function matchTeamsUnknown(z){
   var d=z[2],h=z[3];
   var unknown_keywords=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
@@ -974,7 +993,6 @@ function getFilteredTipArr(arr){
   if(tipQuickFilter==='all') return arr;
   var now=new Date();
   var tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
-
   return arr.filter(function(z){
     var dz=mDate(z);
     if(tipQuickFilter==='today') return sameCalDay(dz,now);
@@ -999,15 +1017,12 @@ function setTipQuickFilter(mode){
 function renderTodayBox(){
   var box=document.getElementById('today-box');
   if(!box||!me) return;
-
   var now=new Date();
   var arr=SZ.concat(PZ).filter(function(z){ return sameCalDay(mDate(z),now); }).sort(function(a,b){ return mDate(a)-mDate(b); });
-
   if(!arr.length){
     box.innerHTML='<span class="mut">'+tr('no_today_matches')+'</span>';
     return;
   }
-
   box.innerHTML=arr.map(function(z){
     var tip=myTips[z[0]]||'';
     var status=tip?'<span class="ok">'+escHtml(tip)+' · '+tr('tip_saved')+'</span>':'<span class="miss">'+tr('tip_missing')+'</span>';
@@ -1021,39 +1036,32 @@ function computeSimilarity(){
   if(!me || !players.length) return null;
   var mine=myTips||{};
   var best=null;
-
   players.forEach(function(p){
     if(p.id===me.id) return;
     var other=allTips[p.id]||{};
     var overlap=0, same=0;
-
     Object.keys(mine).forEach(function(k){
       if(other[k]){
         overlap++;
         if(other[k]===mine[k]) same++;
       }
     });
-
     if(overlap===0) return;
     var ratio=same/overlap;
-
     if(!best || ratio>best.ratio || (ratio===best.ratio && overlap>best.overlap)){
       best={name:p.jmeno,ratio:ratio,overlap:overlap,same:same};
     }
   });
-
   return best;
 }
 function renderSimilarity(){
   var box=document.getElementById('sim-box');
   if(!box||!me) return;
   var sim=computeSimilarity();
-
   if(!sim){
     box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';
     return;
   }
-
   box.innerHTML=
     '<div>'+tr('sim_label')+' <strong>'+escHtml(sim.name)+'</strong></div>'+
     '<div class="mut">'+tr('sim_match')+': <strong>'+Math.round(sim.ratio*100)+'%</strong> ('+sim.same+'/'+sim.overlap+')</div>';
@@ -1174,6 +1182,7 @@ function finishLogin(d){
     renderTymy();
     renderPavouk();
     setText('st-vys-upd',formatLastUpdated());
+    renderUpdBadge();
   });
   showTab('tipy');
 }
@@ -1273,6 +1282,8 @@ function applyI18n(){
   setText('qf-missing',tr('qf_missing'));
   setText('sim-h',tr('similar_player'));
   setText('today-h',tr('today_matches'));
+  setText('ins-h',tr('ins_h'));
+  setText('form-h',tr('form_h'));
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -1291,20 +1302,16 @@ function applyI18n(){
       '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);margin-right:5px;vertical-align:middle"></span>'+tr('leg3')+'</span>';
   }
 
+  var btnExpAll=document.getElementById('btn-exp-all');
+  if(btnExpAll) btnExpAll.textContent=LANG==='en'?'↓ Export all tips':'↓ Export všech tipů';
+
   renderTipyMeta();
   updateTipQuickButtons();
   renderTodayStrip();
   renderInsights();
   renderUpdBadge();
   updateCountdown();
-  setText('ins-h',tr('ins_h'));
-  setText('form-h',tr('form_h'));
-  setText('pwa-txt',tr('pwa_txt'));
-  var btnExpAll=document.getElementById('btn-exp-all');
-  if(btnExpAll) btnExpAll.textContent=LANG==='en'?'↓ Export all tips':'↓ Export všech tipů';
   renderTodayBox();
-  renderTodayStrip();
-  renderInsights();
   renderSimilarity();
   setText('st-vys-upd',formatLastUpdated());
   updProgress();
@@ -1348,13 +1355,6 @@ function setSt(id,msg,err,ok){
   var e=document.getElementById(id);if(!e) return;
   e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');
 }
-function ptsBdg(pts,tip){
-  if(pts===5) return '<span class="pt p5">5b</span>';
-  if(pts===2) return '<span class="pt p2">2b</span>';
-  if(pts===0&&tip) return '<span class="pt p0">0b</span>';
-  return '';
-}
-function ghL(sk){return SKU.indexOf(sk)>=0?tr('group')+' '+sk:sk;}
 function sortByDate(arr){return arr.slice().sort(function(a,b){return mDate(a)-mDate(b);});}
 function groupByDate(arr){
   var groups={},keys=[];
@@ -1365,22 +1365,53 @@ function groupByDate(arr){
   });
   return {groups:groups,keys:keys};
 }
+function ghL(sk){return SKU.indexOf(sk)>=0?tr('group')+' '+sk:sk;}
+
+function computeBadgesForPlayer(s,rank){
+  var badges=[];
+  if(rank===0) badges.push(['badge-leader',tr('badge_leader')]);
+  if(s.pre>=5) badges.push(['badge-sniper',tr('badge_sniper')]);
+  if(s.hod>=4 && s.total/Math.max(s.hod,1)>=2.6) badges.push(['badge-hot',tr('badge_hot')]);
+  var tips=Object.values((allTips[s.p.id]||{}));
+  if(s.p.id===me.id) tips=Object.values(myTips||{});
+  var draws=tips.filter(function(t){var sp=t.split(':').map(Number);return sp[0]===sp[1];}).length;
+  if(draws>=3) badges.push(['badge-draw',tr('badge_draw')]);
+  if(s.hod<5&&s.uzam>0) badges.push(['badge-rookie',tr('badge_rookie')]);
+  return badges.slice(0,2);
+}
+
+function getGlobalTips(zapasId){
+  var home=0,draw=0,away=0;
+  Object.keys(allTips).forEach(function(pid){
+    if(me && String(pid)===String(me.id)) return;
+    var tip=allTips[pid] && allTips[pid][zapasId];
+    if(!tip) return;
+    var sp=tip.split(':').map(Number);
+    if(isNaN(sp[0])||isNaN(sp[1])) return;
+    if(sp[0]>sp[1]) home++;
+    else if(sp[0]===sp[1]) draw++;
+    else away++;
+  });
+  return {home:home,draw:draw,away:away,total:home+draw+away};
+}
 
 function renderTipy(){
   if(!me) return;
   renderTipyMeta();
-  var isAdmin=me.je_admin;
-  var baseArr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
-  var arr=getFilteredTipArr(baseArr);
-  updateTipQuickButtons();
   renderTodayBox();
   renderTodayStrip();
   renderInsights();
   renderSimilarity();
+
+  var isAdmin=me.je_admin;
+  var baseArr=tipSort==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
+  var arr=getFilteredTipArr(baseArr);
+  updateTipQuickButtons();
   var hasGT=Object.keys(allTips).length>0;
   var tipLbl=tr('my_tip');
-  var gtLbl=LANG==='en'?"Others' tips":"Tendence ostatn\u00edch";
+  var gtLbl=tr('global_tips');
   var html='';
+
   if(tipSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
@@ -1431,12 +1462,11 @@ function renderMatchRow(z,isAdmin,hasGT){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
   var now=new Date(),started=mDate(z)<=now;
   var res=results[id],tip=myTips[id]||'';
-  var kw=['sk.','nejl.','Vitez','Porazeny','Winner','Loser','OF1','OF2','OF3','OF4','OF5','OF6','OF7','OF8','CF1','CF2','CF3','CF4','SF1','SF2','Z73','Z74','Z75','Z76','Z77','Z78','Z79','Z80','Z81','Z82','Z83','Z84','Z85','Z86','Z87','Z88'];
-  var teamsUnknown=false;
-  for(var i=0;i<kw.length;i++){if(d.indexOf(kw[i])>=0||h.indexOf(kw[i])>=0){teamsUnknown=true;break;}}
+  var teamsUnknown=matchTeamsUnknown(z);
   var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
+
   var tipHtml='';
   if(teamsUnknown){
     tipHtml='<span style="font-size:.63rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
@@ -1447,27 +1477,30 @@ function renderMatchRow(z,isAdmin,hasGT){
   } else {
     tipHtml='<input class="ti" id="ti'+id+'" value="" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
   }
+
   var gtHtml='';
   if(hasGT&&!teamsUnknown){
     var g=getGlobalTips(id);
     if(g.total>=1){
       var hp=Math.round(g.home/g.total*100),dp=Math.round(g.draw/g.total*100),ap=100-hp-dp;
       var max=Math.max(hp,dp,ap);
-      gtHtml='<div class="gt-bar">'+
-        '<div class="gt-h" style="width:'+hp+'%"></div>'+
-        '<div class="gt-d" style="width:'+dp+'%"></div>'+
-        '<div class="gt-a" style="width:'+ap+'%"></div>'+
-      '</div>'+
-      '<div class="gt-pills">'+
-        '<span class="gt-pill gt-pill-h'+(hp===max?'':' dim')+'">1\u00b7'+hp+'%</span>'+
-        '<span class="gt-pill gt-pill-d'+(dp===max?'':' dim')+'">X\u00b7'+dp+'%</span>'+
-        '<span class="gt-pill gt-pill-a'+(ap===max?'':' dim')+'">2\u00b7'+ap+'%</span>'+
-      '</div>';
+      gtHtml=
+        '<div class="gt-bar">'+
+          '<div class="gt-h" style="width:'+hp+'%"></div>'+
+          '<div class="gt-d" style="width:'+dp+'%"></div>'+
+          '<div class="gt-a" style="width:'+ap+'%"></div>'+
+        '</div>'+
+        '<div class="gt-grid">'+
+          '<div class="gt-cell gt-cell-h '+(hp===max?'is-max':'')+'"><span class="gt-lbl">1</span><span class="gt-val">'+hp+'%</span></div>'+
+          '<div class="gt-cell gt-cell-d '+(dp===max?'is-max':'')+'"><span class="gt-lbl">X</span><span class="gt-val">'+dp+'%</span></div>'+
+          '<div class="gt-cell gt-cell-a '+(ap===max?'is-max':'')+'"><span class="gt-lbl">2</span><span class="gt-val">'+ap+'%</span></div>'+
+        '</div>';
     }
   }
+
   return '<div class="mr">'+
     '<div class="mr-info">'+
-      '<div class="mt">'+fT(d)+' \u2013 '+fT(h)+'</div>'+
+      '<div class="mt">'+fT(d)+' – '+fT(h)+'</div>'+
       '<div class="mm">'+dStr(z)+
         (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
         (started&&!res?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
@@ -1500,7 +1533,6 @@ async function saveTips(){
   btn.disabled=true;
 
   var ok=0,err=0;
-
   try{
     for(var i=0;i<rows.length;i++){
       var row=rows[i];
@@ -1523,6 +1555,7 @@ async function saveTips(){
     renderTipy();
     renderSimilarity();
     renderTodayBox();
+    renderTodayStrip();
 
     if(err===0) setSt('st-tipy','✓ '+ok,false,true);
     else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
@@ -1618,10 +1651,11 @@ function renderZeb(){
   var med=['🥇','🥈','🥉'];
   document.getElementById('zeb-list').innerHTML=scored.map(function(s,rank){
     var isMe=me&&me.id===s.p.id;
+    var badges=computeBadgesForPlayer(s,rank).map(function(b){return '<span class="badge '+b[0]+'">'+escHtml(b[1])+'</span>';}).join('');
     return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
-      '<div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div>'+
+      '<div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+badges+'</div>'+
       '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span>'+
       '<span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div></div>'+
       '<div class="lp">'+s.total+'</div></div>';
@@ -1752,17 +1786,18 @@ function renderStadiony(){
   var coBg={USA:'#3b82f6',Kanada:'#ef4444',Mexiko:'#22c55e'};
   var html='<div class="stad-grid">';
   STAD.forEach(function(row){
-    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
+    var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],thumb=row[7],full=row[8],wiki=row[9];
     var gmaps='https://maps.google.com/?q='+encodeURIComponent(lat+','+lon);
     var coLbl=coLabel[co]||co;
     var groups=getVenueGroups(n);
     var groupsLabel=groups.length?(tr('groups_prefix')+groups.join(', ')):tr('groups_none');
     html+='<div class="stad-card">';
+    html+='<a class="stad-thumb-link" href="'+escAttr(full)+'" target="_blank" rel="noopener noreferrer">';
     html+='<div class="stad-img-wrap">';
-    html+='<img src="'+escAttr(img)+'" alt="'+escAttr(n)+'" '+stadImgAttrs()+' onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.stad-ph\').style.display=\'flex\';">';
-    html+='<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div>';
+    html+='<img src="'+escAttr(thumb)+'" alt="'+escAttr(n)+'" '+stadImgAttrs()+' onerror="this.onerror=null;this.src=\''+escAttr(full)+'\';">';
+    html+='<div class="stad-open">'+escHtml(tr('thumb_open'))+'</div>';
     html+='<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div>';
-    html+='</div>';
+    html+='</div></a>';
     html+='<div class="stad-body">';
     html+='<div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div>';
     html+='<div class="stad-meta">';
@@ -1902,6 +1937,7 @@ function renderAdmin(){
           renderAdmin();
           renderSimilarity();
           renderTodayBox();
+          renderTodayStrip();
           if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
           if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
         })
@@ -2014,6 +2050,7 @@ function fetchResults(){
           renderPavouk();
           renderSimilarity();
           renderTodayBox();
+          renderTodayStrip();
           if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
           if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
           if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
@@ -2064,6 +2101,28 @@ function exportCSV(){
   a.href=url;a.download='tipy_ms2026_'+(me.je_admin?'admin':me.jmeno)+'.csv';
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
+function exportAllCSV(){
+  if(!me||!me.je_admin) return;
+  var header=['#','Sk',tr('team')+' 1',tr('team')+' 2',tr('date'),tr('result')].concat(players.map(function(p){return p.jmeno;}));
+  var data=[];
+  SZ.concat(PZ).forEach(function(z){
+    var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
+    players.forEach(function(p){
+      var tips=p.id===me.id?myTips:(allTips[p.id]||{});
+      var tip=tips[z[0]]||'';
+      var pts=(results[z[0]]&&tip)?calcPts(tip,results[z[0]]):'';
+      row.push(tip?(tip+(pts!==''?' ('+pts+'b)':'')):'');
+    });
+    data.push(row);
+  });
+  var csv=[header].concat(data).map(function(row){
+    return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
+  }).join('\r\n');
+  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='tipy_ms2026_ALL.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
 
 function updClock(){
   var now=new Date(),ds=tr('days');
@@ -2098,8 +2157,6 @@ function toggleLang(){
   renderUpdBadge();
 }
 
-// ── COUNTDOWN ─────────────────────────────────────────────
-var cdInterval=null;
 function getNextMatch(){
   var now=new Date();
   var all=SZ.concat(PZ).filter(function(z){return mDate(z)>now;}).sort(function(a,b){return mDate(a)-mDate(b);});
@@ -2111,7 +2168,7 @@ function updateCountdown(){
   if(!next){if(bar) bar.style.display='none';return;}
   if(bar) bar.style.display='flex';
   var diff=mDate(next)-new Date();
-  if(diff<=0){updateCountdown();return;}
+  if(diff<=0){return;}
   var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
   setText('cd-label',tr('countdown_lbl'));
   setText('cd-match',fT(next[2])+' – '+fT(next[3]));
@@ -2124,10 +2181,8 @@ function updateCountdown(){
     var el=document.getElementById(id);
     if(el) el.classList.toggle('urgent',urgent);
   });
-  // Update labels based on lang
   var lbls=LANG==='en'?['days','hrs','min','sec']:['dní','hod','min','sek'];
   ['d','h','m','s'].forEach(function(u,i){setText('cd-lbl-'+u,lbls[i]);});
-  // Hide days unit if 0 days
   var dEl=document.getElementById('cd-d');
   var sep1=dEl&&dEl.nextElementSibling;
   if(dEl) dEl.style.display=days>0?'flex':'none';
@@ -2139,34 +2194,38 @@ function startCountdown(){
   cdInterval=setInterval(updateCountdown,1000);
 }
 
-// ── TODAY STRIP ───────────────────────────────────────────
 function renderTodayStrip(){
   var strip=document.getElementById('today-strip');
   if(!strip||!me) return;
+
   var now=new Date();
-  var upcoming=SZ.filter(function(z){return mDate(z)>now&&!myTips[z[0]]&&!matchTeamsUnknown(z);});
-  var tippedSk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;
-  var tippedPo=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;
-  var badge=document.getElementById('today-badge');
-  strip.style.display='flex';
-  if(upcoming.length>0){
-    setText('today-strip-txt',tippedSk+'/72 '+tr('today_strip_tipped'));
-    setText('today-strip-sub',upcoming.length+' '+tr('today_strip_missing'));
-    if(badge){badge.textContent=upcoming.length;badge.className='today-badge';}
+  var allFuture=SZ.concat(PZ).filter(function(z){return mDate(z)>now&&!matchTeamsUnknown(z);});
+  var allMissing=allFuture.filter(function(z){return !myTips[z[0]];});
+  var todayFuture=allFuture.filter(function(z){return sameCalDay(mDate(z),now);});
+  var todayMissing=todayFuture.filter(function(z){return !myTips[z[0]];});
+  var savedCount=104-allMissing.length;
+  var progress=Math.round(savedCount/104*100);
+
+  setText('today-strip-txt',savedCount+'/104 '+tr('today_strip_tipped'));
+  if(todayFuture.length){
+    setText('today-strip-sub',todayFuture.length+' '+tr('today_strip_playing')+' · '+todayMissing.length+' '+tr('today_strip_missing'));
+  } else if(allMissing.length){
+    setText('today-strip-sub',allMissing.length+' '+tr('today_strip_missing'));
   } else {
-    var todayMatches=SZ.concat(PZ).filter(function(z){return sameCalDay(mDate(z),now);});
-    if(todayMatches.length>0){
-      setText('today-strip-txt',todayMatches.length+' '+tr('today_strip_playing'));
-      setText('today-strip-sub',tr('today_all_done'));
-    } else {
-      setText('today-strip-txt',tippedSk+'/72 sk. · '+tippedPo+'/32 play-off '+tr('today_strip_tipped'));
-      setText('today-strip-sub','✓ '+tr('today_all_done'));
-    }
-    if(badge){badge.textContent='✓';badge.className='today-badge ok';}
+    setText('today-strip-sub',tr('today_all_done'));
   }
+
+  var pf=document.getElementById('today-progress-fill');
+  if(pf) pf.style.width=progress+'%';
+
+  setText('today-chip-k1',tr('saved'));
+  setText('today-chip-v1',String(savedCount));
+  setText('today-chip-k2',LANG==='en'?'left':'zbývá');
+  setText('today-chip-v2',String(allMissing.length));
+  setText('today-chip-k3',tr('today'));
+  setText('today-chip-v3',String(todayFuture.length));
 }
 
-// ── INSIGHTS ─────────────────────────────────────────────
 function renderInsights(){
   var box=document.getElementById('ins-box');
   var formBox=document.getElementById('form-box');
@@ -2187,8 +2246,7 @@ function renderInsights(){
   });
   var total=home+draw+away||1;
   var hp=Math.round(home/total*100),dp=Math.round(draw/total*100),ap=Math.round(away/total*100);
-  // Bar visualization
-  function bar(pct,color){return '<div style="height:3px;border-radius:2px;background:'+color+';width:'+pct+'%;margin-top:2px;transition:width .3s"></div>';}
+
   function insRow(lbl,pct,color){
     return '<div class="insight-row">'+
       '<span style="width:52px;flex-shrink:0">'+lbl+'</span>'+
@@ -2203,7 +2261,6 @@ function renderInsights(){
     insRow(tr('ins_draw'),dp,'var(--mu)')+
     insRow(tr('ins_away'),ap,'var(--gd)');
 
-  // Form - last 5 scored tips
   if(formBox){
     var scored=SZ.concat(PZ).filter(function(z){return results[z[0]]&&myTips[z[0]];})
       .sort(function(a,b){return mDate(b)-mDate(a);}).slice(0,5);
@@ -2220,59 +2277,6 @@ function renderInsights(){
   }
 }
 
-// ── ACHIEVEMENTS / BADGES ─────────────────────────────────
-function computeBadges(s,rank){
-  var badges=[];
-  if(rank===0) badges.push(tr('badge_leader'));
-  if(s.pre>=5) badges.push(tr('badge_sniper'));
-  if(s.hod>=1&&s.pre/Math.max(s.hod,1)>=0.3) badges.push(tr('badge_hot'));
-  var tips=Object.values(allTips[s.p.id]||{});
-  var draws=tips.filter(function(t){var sp=t.split(':').map(Number);return sp[0]===sp[1];}).length;
-  if(draws>=3) badges.push(tr('badge_draw'));
-  if(s.hod<5&&s.uzam>0) badges.push(tr('badge_rookie'));
-  return badges.slice(0,2);
-}
-
-// ── GLOBAL TIPS ───────────────────────────────────────────
-function getGlobalTips(zapasId){
-  var home=0,draw=0,away=0;
-  Object.keys(allTips).forEach(function(pid){
-    var tip=allTips[pid][zapasId];
-    if(!tip) return;
-    var sp=tip.split(':').map(Number);
-    if(isNaN(sp[0])||isNaN(sp[1])) return;
-    if(sp[0]>sp[1]) home++;
-    else if(sp[0]===sp[1]) draw++;
-    else away++;
-  });
-  return {home:home,draw:draw,away:away,total:home+draw+away};
-}
-function renderGlobalTipsBar(zapasId){
-  var g=getGlobalTips(zapasId);
-  if(!g.total||g.total<2) return '';
-  var hp=Math.round(g.home/g.total*100),dp=Math.round(g.draw/g.total*100),ap=100-hp-dp;
-  // Find dominant
-  var max=Math.max(hp,dp,ap);
-  function pill(lbl,pct,cls,bold){
-    var w=bold?'font-weight:800;':'';
-    var op=bold?'':'opacity:.7;';
-    return '<span class="gtips-pill '+cls+'" style="'+w+op+'">'+lbl+'<span class="gtips-pct">'+pct+'%</span></span>';
-  }
-  return '<div class="gtips-wrap">'+
-    '<div class="gtips-bar">'+
-      '<div class="gtips-h" style="width:'+hp+'%"></div>'+
-      '<div class="gtips-d" style="width:'+dp+'%"></div>'+
-      '<div class="gtips-a" style="width:'+ap+'%"></div>'+
-    '</div>'+
-    '<div class="gtips-pills">'+
-      pill('1',hp,'gtips-pill-h',hp===max)+
-      pill('X',dp,'gtips-pill-d',dp===max)+
-      pill('2',ap,'gtips-pill-a',ap===max)+
-    '</div>'+
-  '</div>';
-}
-
-// ── LAST UPDATED BADGE ────────────────────────────────────
 function renderUpdBadge(){
   var raw=getResultsLastUpdated();
   var el=document.getElementById('upd-badge');
@@ -2293,57 +2297,6 @@ function renderUpdBadge(){
     el.className='upd-badge stale';
   }
 }
-
-// ── PWA ───────────────────────────────────────────────────
-var pwaPrompt=null;
-function initPWA(){
-  window.addEventListener('beforeinstallprompt',function(e){
-    e.preventDefault();pwaPrompt=e;
-    var banner=document.getElementById('pwa-banner');
-    if(banner) banner.classList.add('show');
-    setText('pwa-txt',tr('pwa_txt'));
-  });
-  var btn=document.getElementById('pwa-install');
-  if(btn) btn.addEventListener('click',function(){
-    if(!pwaPrompt) return;
-    pwaPrompt.prompt();
-    pwaPrompt.userChoice.then(function(){
-      var banner=document.getElementById('pwa-banner');
-      if(banner) banner.classList.remove('show');
-      pwaPrompt=null;
-    });
-  });
-  var close=document.getElementById('pwa-close');
-  if(close) close.addEventListener('click',function(){
-    var banner=document.getElementById('pwa-banner');
-    if(banner) banner.classList.remove('show');
-  });
-}
-
-// ── ADMIN EXPORT ALL ─────────────────────────────────────
-function exportAllCSV(){
-  if(!me||!me.je_admin) return;
-  var header=['#','Sk',tr('team')+' 1',tr('team')+' 2',tr('date'),tr('result')].concat(players.map(function(p){return p.jmeno;}));
-  var data=[];
-  SZ.concat(PZ).forEach(function(z){
-    var row=[z[0],z[1],tN(z[2]),tN(z[3]),dStr(z),results[z[0]]||''];
-    players.forEach(function(p){
-      var tips=p.id===me.id?myTips:(allTips[p.id]||{});
-      var tip=tips[z[0]]||'';
-      var pts=(results[z[0]]&&tip)?calcPts(tip,results[z[0]]):'';
-      row.push(tip?(tip+(pts!==''?' ('+pts+'b)':'')):'');
-    });
-    data.push(row);
-  });
-  var csv=[header].concat(data).map(function(row){
-    return row.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
-  }).join('\r\n');
-  var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download='tipy_ms2026_ALL.csv';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-}
-
 
 function init(){
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
