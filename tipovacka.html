@@ -243,6 +243,39 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 @media(max-width:480px){
   .nb{flex:1 1 calc(50% - 4px)}
 }
+
+.hdr-cd{display:flex;flex-direction:column;align-items:flex-end;border-left:1px solid var(--bd);padding-left:10px;margin-left:2px}
+.hdr-cd-lbl{font-size:.55rem;color:var(--mu);font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.hdr-cd-match{font-size:.68rem;font-weight:700;color:var(--tx);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.hdr-cd-time{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ac2);letter-spacing:.02em}
+.hdr-cd-time.urgent{color:var(--gd)}
+.filter-bar{display:flex;align-items:center;gap:5px;margin-bottom:.75rem;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:5px 8px}
+.filter-group{display:flex;gap:2px;flex-wrap:wrap}
+.filter-sep{width:1px;height:18px;background:var(--bd2);margin:0 3px;flex-shrink:0;align-self:center}
+.fbtn{padding:4px 10px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;background:transparent;color:var(--mu);border:none;transition:.15s;font-family:'Space Grotesk',sans-serif;white-space:nowrap}
+.fbtn:hover{color:var(--tx)}
+.fbtn.on{background:var(--ac);color:#fff}
+.ti{width:64px;text-align:center;padding:6px 4px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.95rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s;letter-spacing:.04em}
+.ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
+.ti:disabled{opacity:.28;cursor:default;background:var(--bg)}
+.ti.sv{border-color:var(--gn);background:rgba(34,197,94,.05)}
+.ti.bd{border-color:var(--rd)}
+.float-sav{position:fixed;bottom:1.5rem;right:1.5rem;z-index:998;pointer-events:none}
+.float-sav .btn{pointer-events:auto;font-size:.84rem;padding:10px 18px;border-radius:12px;box-shadow:0 4px 18px rgba(34,197,94,.3);font-weight:700}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:5px;animation:livepulse 1.2s ease-in-out infinite;vertical-align:middle;flex-shrink:0}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+.link-venue,.link-team{cursor:pointer;color:inherit;text-decoration:none;transition:color .12s}
+.link-venue:hover{color:var(--ac2);text-decoration:underline}
+.link-team:hover{color:var(--ac2)}
+.stc td:nth-child(7){font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif;font-size:.75rem;text-align:center}
+@media(max-width:600px){
+  .hdr-cd{display:none}
+  .filter-sep{display:none}
+  .fbtn{padding:4px 8px;font-size:.71rem}
+  .float-sav{bottom:.9rem;right:.7rem}
+  .float-sav .btn{font-size:.78rem;padding:9px 14px}
+  .ti{width:56px;font-size:.88rem}
+}
 </style>
 </head>
 <body>
@@ -275,7 +308,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.66</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.70</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -300,6 +333,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
         <div class="hdr-r">
           <div class="clk" id="clk"></div>
+          <div class="hdr-cd" id="hdr-cd" style="display:none">
+            <div class="hdr-cd-lbl" id="hdr-cd-lbl">Nejbližší zápas</div>
+            <div class="hdr-cd-match" id="hdr-cd-match"></div>
+            <div class="hdr-cd-time" id="hdr-cd-time"></div>
+          </div>
           <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
           <div class="pill" id="pp" style="display:none"></div>
           <span class="abadge" id="ab">ADMIN</span>
@@ -340,11 +378,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-tipy">
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
 
-      <div class="qwrap" id="tipy-qf">
-        <button class="qbtn on" id="qf-all">Vše</button>
-        <button class="qbtn" id="qf-today">Dnes</button>
-        <button class="qbtn" id="qf-tomorrow">Zítra</button>
-        <button class="qbtn" id="qf-missing">Neuložené</button>
+      <div class="filter-bar" id="tipy-filters">
+        <div class="filter-group" id="tipy-qf">
+          <button class="fbtn on" id="qf-all">Vše</button>
+          <button class="fbtn" id="qf-today">Dnes</button>
+          <button class="fbtn" id="qf-tomorrow">Zítra</button>
+          <button class="fbtn" id="qf-missing">Neuložené</button>
+        </div>
+        <div class="filter-sep"></div>
+        <div class="filter-group">
+          <button class="fbtn on" id="ptab-tipy-sk">Skupiny</button>
+          <button class="fbtn" id="ptab-tipy-dt">Datum</button>
+          <button class="fbtn" id="ptab-tipy-po">Play-off</button>
+        </div>
       </div>
 
       <div class="mini-grid">
@@ -369,11 +415,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
       </div>
 
-      <div class="ptabs">
-        <button class="ptab on" id="ptab-tipy-sk">Dle skupin</button>
-        <button class="ptab" id="ptab-tipy-dt">Dle data</button>
-        <button class="ptab" id="ptab-tipy-po">Play-off</button>
-      </div>
+
       <div class="card">
         <div id="tipy-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;flex-wrap:wrap;gap:6px">
@@ -470,8 +512,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       </div>
     </div>
 
+    <div class="float-sav" id="float-sav" style="display:none">
+      <button class="btn btn-gn" id="float-sav-btn">&#128190; Uložit tipy</button>
+    </div>
+
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.66</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.70</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -529,7 +575,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.66',
+    footer_ver:'v1.70',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -605,7 +651,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.66',
+    footer_ver:'v1.70',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -657,7 +703,7 @@ function stadImgAttrs(){return 'loading="lazy" decoding="async"';}
 var TMEN={
   'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
   'Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.',
-  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia',
+  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Australie':'Australia',
   'Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador',
   'Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia',
   'Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand',
@@ -665,7 +711,7 @@ var TMEN={
   'Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway',
   'Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan',
   'Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana',
-  'Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
+  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
   'Paraguay':'Paraguay','Curacao':'Curacao','Kolumbie':'Colombia'
 };
 function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
@@ -673,7 +719,7 @@ function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
 var FLAGS={
   'Mexiko':'🇲🇽','Jihoafricka rep.':'🇿🇦','Jizni Korea':'🇰🇷','Cesko':'🇨🇿',
   'Kanada':'🇨🇦','Katar':'🇶🇦','Svycarsko':'🇨🇭','Bosna a Hercegovina':'🇧🇦',
-  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴',
+  'Brazilie':'🇧🇷','Maroko':'🇲🇦','Haiti':'🇭🇹','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
   'USA':'🇺🇸','Paraguay':'🇵🇾','Australie':'🇦🇺','Turecko':'🇹🇷',
   'Nemecko':'🇩🇪','Curacao':'🇨🇼','Pobrezi slonoviny':'🇨🇮','Ekvador':'🇪🇨',
   'Nizozemsko':'🇳🇱','Japonsko':'🇯🇵','Svedsko':'🇸🇪','Tunisko':'🇹🇳',
@@ -682,7 +728,7 @@ var FLAGS={
   'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
   'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
-  'Anglie':'🏴','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -1252,7 +1298,10 @@ function applyI18n(){
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
   setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));
 
-  setText('ptab-tipy-sk',tr('by_groups'));setText('ptab-tipy-dt',tr('by_date'));setText('ptab-tipy-po',tr('playoff'));
+  var tipTabLbls=LANG==='en'?['Groups','Date','Play-off']:['Skupiny','Datum','Play-off'];
+  ['ptab-tipy-sk','ptab-tipy-dt','ptab-tipy-po'].forEach(function(id,i){setText(id,tipTabLbls[i]);});
+  var tipQFLbls=LANG==='en'?['All','Today','Tomorrow','Missing']:['Vše','Dnes','Zítra','Neuložené'];
+  ['qf-all','qf-today','qf-tomorrow','qf-missing'].forEach(function(id,i){setText(id,tipQFLbls[i]);});
   setText('ptab-ost-sk',tr('groups'));setText('ptab-ost-dt',tr('by_date'));setText('ptab-ost-po',tr('playoff'));
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-sk',tr('by_groups'));setText('ptab-vys-dt',tr('by_date'));setText('ptab-vys-po',tr('playoff'));
@@ -1280,8 +1329,6 @@ function applyI18n(){
   setHtml('admin-ibox',tr('admin_info'));
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
-
-  setText('qf-all',tr('qf_all'));setText('qf-today',tr('qf_today'));setText('qf-tomorrow',tr('qf_tomorrow'));setText('qf-missing',tr('qf_missing'));
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ins_h'));setText('form-h',tr('form_h'));
 
@@ -1405,8 +1452,9 @@ function renderTipy(){
       inp.addEventListener('input',function(){
         this.classList.remove('sv','bd');
         var v=this.value.trim();
-        if(!v) return;
+        if(!v){updFloatSav();return;}
         this.classList.add(/^[0-9]+:[0-9]+$/.test(v)?'sv':'bd');
+        updFloatSav();
       });
     }
   });
@@ -1414,22 +1462,22 @@ function renderTipy(){
 function renderMatchRow(z,isAdmin,hasGT){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'';
   var now=new Date(),started=mDate(z)<=now;
+  var isLive=started&&!results[id];
   var res=results[id],tip=myTips[id]||'';
   var teamsUnknown=matchTeamsUnknown(z);
-  var locked=started||!!res||(!isAdmin&&!!tip)||teamsUnknown;
+  var locked=(started&&!!res)||(!isAdmin&&!!tip)||teamsUnknown;
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
-
   var tipHtml='';
   if(teamsUnknown){
     tipHtml='<span style="font-size:.63rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
-  } else if(tip){
+  } else if(tip&&!isAdmin){
     var cls=pts===5?'p5':pts===2?'p2':pts===0?'p0':'';
     tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>'+(pts!==null?'<div class="pt '+cls+'">'+(pts===5?'5b':pts===2?'2b':'0b')+'</div>':'');
   } else {
-    tipHtml='<input class="ti" id="ti'+id+'" value="" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off">';
+    var inputVal=tip?escAttr(tip):'';
+    tipHtml='<input class="ti'+(tip?' sv':'')+'" id="ti'+id+'" value="'+inputVal+'" placeholder=":" maxlength="6"'+(locked?' disabled':'')+' autocomplete="off" inputmode="decimal">';
   }
-
   var gtHtml='';
   if(hasGT&&!teamsUnknown){
     var g=getGlobalTips(id);
@@ -1444,19 +1492,21 @@ function renderMatchRow(z,isAdmin,hasGT){
       '</div>';
     }
   }
-
-  return '<div class="mr">'+
+  var venueHtml=venue?('<span class="link-venue" onclick="showTab(\'stadiony\')" title="'+escAttr(venue)+'">'+escHtml(venue)+'</span>'):'';
+  var dLink=teamsUnknown?fT(d):('<span class="link-team" onclick="filterByTeam(\''+escAttr(d)+'\')" >'+fT(d)+'</span>');
+  var hLink=teamsUnknown?fT(h):('<span class="link-team" onclick="filterByTeam(\''+escAttr(h)+'\')" >'+fT(h)+'</span>');
+  return '<div class="mr'+(isLive?' mr-live':'')+'">'+
     '<div class="mr-info">'+
-      '<div class="mt">'+fT(d)+' – '+fT(h)+'</div>'+
+      '<div class="mt">'+(isLive?'<span class="live-dot"></span>':'')+dLink+' \u2013 '+hLink+'</div>'+
       '<div class="mm">'+dStr(z)+
-      (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
-      (started&&!res?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
-      (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
-      (venue?' <span class="venue">'+escHtml(venue)+'</span>':'')+
+        (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
+        (isLive?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
+        (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
+        (venue?' <span class="venue">'+venueHtml+'</span>':'')+
       '</div>'+
     '</div>'+
     '<div class="mr-tip">'+tipHtml+'</div>'+
-    '<div class="mr-gt">'+gtHtml+'</div>'+
+    (hasGT?'<div class="mr-gt">'+gtHtml+'</div>':'')+
   '</div>';
 }
 
@@ -1490,6 +1540,7 @@ async function saveTips(){
     else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
   }finally{
     btn.disabled=false;
+    updFloatSav();
   }
 }
 
@@ -1951,27 +2002,55 @@ function getNextMatch(){
   return all.length?all[0]:null;
 }
 function updateCountdown(){
-  var bar=document.getElementById('countdown-bar'),next=getNextMatch();
-  if(!next){if(bar) bar.style.display='none';return;}
-  if(bar) bar.style.display='flex';
+  var hd=document.getElementById('hdr-cd');
+  var next=getNextMatch();
+  if(!next){if(hd) hd.style.display='none';return;}
+  if(hd) hd.style.display='flex';
   var diff=mDate(next)-new Date();
-  if(diff<=0) return;
+  if(diff<=0){setTimeout(updateCountdown,1000);return;}
   var days=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
-  setText('cd-label',tr('countdown_lbl'));
-  setText('cd-match',fT(next[2])+' – '+fT(next[3]));
-  setText('cd-days',pad(days)); setText('cd-hours',pad(h)); setText('cd-mins',pad(m)); setText('cd-secs',pad(s));
-  var urgent=diff<3600000;
-  ['cd-d','cd-h','cd-m','cd-s'].forEach(function(id){var el=document.getElementById(id); if(el) el.classList.toggle('urgent',urgent);});
-  var lbls=LANG==='en'?['days','hrs','min','sec']:['dní','hod','min','sek'];
-  ['d','h','m','s'].forEach(function(u,i){setText('cd-lbl-'+u,lbls[i]);});
-  var dEl=document.getElementById('cd-d'),sep1=dEl&&dEl.nextElementSibling;
-  if(dEl) dEl.style.display=days>0?'flex':'none';
-  if(sep1&&sep1.classList.contains('cd-sep')) sep1.style.display=days>0?'':'none';
+  setText('hdr-cd-lbl',tr('countdown_lbl'));
+  setText('hdr-cd-match',fT(next[2])+' – '+fT(next[3]));
+  var timeStr=days>0?(days+'d '+pad(h)+':'+pad(m)+':'+pad(s)):(pad(h)+':'+pad(m)+':'+pad(s));
+  setText('hdr-cd-time',timeStr);
+  var el=document.getElementById('hdr-cd-time');
+  if(el) el.classList.toggle('urgent',diff<3600000);
 }
 function startCountdown(){
   updateCountdown();
   if(cdInterval) clearInterval(cdInterval);
   cdInterval=setInterval(updateCountdown,1000);
+}
+
+function filterByTeam(teamName){
+  // Switch to tipy tab, set filter to all, sort by date, scroll to team
+  tipSort='dt';
+  tipQuickFilter='all';
+  swPhase('tipy','dt');
+  showTab('tipy');
+  // After render find the match
+  setTimeout(function(){
+    var els=document.querySelectorAll('.mt');
+    for(var i=0;i<els.length;i++){
+      if(els[i].textContent.indexOf(tN(teamName))>=0||els[i].textContent.indexOf(teamName)>=0){
+        els[i].closest('.mr').scrollIntoView({behavior:'smooth',block:'center'});
+        break;
+      }
+    }
+  },200);
+}
+
+function updFloatSav(){
+  var btn=document.getElementById('float-sav');
+  if(!btn||!me) return;
+  // Show floating button when there are unsaved valid inputs on screen
+  var inputs=document.querySelectorAll('.ti:not(:disabled)');
+  var hasNew=false;
+  inputs.forEach(function(inp){
+    var v=inp.value.trim();
+    if(v&&/^[0-9]+:[0-9]+$/.test(v)) hasNew=true;
+  });
+  btn.style.display=hasNew?'block':'none';
 }
 
 function init(){
@@ -1984,6 +2063,8 @@ function init(){
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
+  var fsb=document.getElementById('float-sav-btn');
+  if(fsb) fsb.addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
   var btnExpAll=document.getElementById('btn-exp-all'); if(btnExpAll) btnExpAll.addEventListener('click',function(){loadAllTips().then(exportAllCSV);});
   document.getElementById('langbtn').addEventListener('click',toggleLang);
