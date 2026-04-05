@@ -2,13 +2,13 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tipovačka MS 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
 .w{max-width:980px;margin:0 auto;padding:.75rem}
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1.2rem;margin-bottom:.85rem;position:relative;overflow:hidden}
@@ -48,6 +48,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .gh:first-child{margin-top:0}
 .date-sep{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin:12px 0 5px;display:flex;align-items:center;gap:6px}
 .date-sep:first-child{margin-top:0}
+.date-sep{font-size:.86rem;background:linear-gradient(180deg,rgba(23,40,64,.92),rgba(18,34,53,.96));border-color:rgba(96,165,250,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.match-day-card{padding:0 !important;overflow:hidden;border-color:rgba(96,165,250,.22) !important;background:rgba(255,255,255,.028) !important;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.rr-card{background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin-bottom:7px}
+.rr-card:last-child{margin-bottom:0}
+.ost-match-date{font-size:.72rem !important;color:var(--mu2) !important;margin-top:4px !important;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ost-match-main{font-size:.84rem;font-weight:700}
 .ost-subhead th{position:sticky;top:34px;background:rgba(12,25,40,.96);backdrop-filter:blur(6px);padding:5px 7px;border-bottom:1px solid var(--bd);font-size:.62rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;z-index:3}
 .ost-subhead th:first-child{text-align:left}
 .ost-mainhead th{z-index:4}
@@ -253,7 +259,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .stad-grid{grid-template-columns:1fr}
   .w{padding:.5rem}
   .lp{font-size:1.1rem}
-  .date-sep{font-size:.7rem;padding:6px 8px}
+  .date-sep{font-size:.76rem;padding:6px 8px}
+  .lo-inp,.tih,.tia,.ti{font-size:16px}
   .d-mobile-sm{font-size:.58rem !important}
 }
 @media(max-width:480px){
@@ -1128,7 +1135,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .zeb-widget-bl .zeb-widget-fill{background:var(--ac);box-shadow:0 0 10px rgba(59,130,246,.72),0 0 18px rgba(59,130,246,.24)}
 .zeb-widget-pu .zeb-widget-fill{background:var(--pu);box-shadow:0 0 10px rgba(168,85,247,.72),0 0 18px rgba(168,85,247,.24)}
 .stad-card.target-stadium{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18)}
-@media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
+@media(max-width:600px){.date-sep{font-size:.76rem;padding:7px 9px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
 
 </style>
 </head>
@@ -1162,7 +1169,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.91</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.93</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1359,7 +1366,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.91</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.93</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1424,7 +1431,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.91',
+    footer_ver:'v1.93',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1517,7 +1524,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.91',
+    footer_ver:'v1.93',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2362,7 +2369,7 @@ function renderTipy(){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<div class="match-section"><div class="match-section-header"><div class="gh">'+dLabel(matches[0])+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card" style="padding:0;overflow:hidden">';
+      html+='<div class="match-section"><div class="match-section-header"><div class="date-sep">'+dLabel(matches[0])+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card match-day-card">';
       matches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
       html+='</div></div>';
     });
@@ -2371,7 +2378,7 @@ function renderTipy(){
     function flushSection(){
       if(!curMatches.length) return;
       var sk=curMatches[0][1];
-      html+='<div class="match-section"><div class="match-section-header"><div class="gh">'+ghL(sk)+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card" style="padding:0;overflow:hidden">';
+      html+='<div class="match-section"><div class="match-section-header"><div class="gh">'+ghL(sk)+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card match-day-card">';
       curMatches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
       html+='</div></div>';
       curMatches=[];
@@ -2467,7 +2474,7 @@ function renderMatchRow(z,isAdmin,hasGT){
   '</div>';
 }async function saveTips(){
   if(!me) return;
-  var arr=tipSort==='po'?PZ:SZ,now=new Date(),rows=[],btn=document.getElementById('btn-sav');
+  var arr=currentPhase==='po'?PZ:SZ,now=new Date(),rows=[],btn=document.getElementById('btn-sav');
   arr.forEach(function(z){
     if(mDate(z)<=now) return;
     var ih=document.getElementById('tih'+z[0]);
@@ -2495,8 +2502,10 @@ function renderMatchRow(z,isAdmin,hasGT){
     await loadAllTips();
     updSavedProgress();
     renderTipy();
-    if(err===0) setSt('st-tipy','✓ '+ok,false,true);
-    else setSt('st-tipy','✓ '+ok+' / '+rows.length+' · '+err+' × '+tr('error_generic'),true);
+    var savedTotal=Object.keys(myTips).length;
+    var okMsg=(LANG==='en'?'Your tip was saved successfully. Saved tips: ':'Váš tip byl úspěšně uložen. Počet uložených tipů: ')+savedTotal;
+    if(err===0) setSt('st-tipy','✓ '+okMsg,false,true);
+    else setSt('st-tipy',okMsg+' · '+err+' × '+tr('error_generic'),true);
   }finally{
     btn.disabled=false;
     updFloatSav();
@@ -2580,17 +2589,17 @@ function renderOstRow(z,others){
   var myBg=myPts===5?'rgba(34,197,94,.1)':myPts===2?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'';
   var myCol=myPts===5?'var(--gn2)':myPts===2?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)';
   var venueHtml=venue?stadiumLinkHtml(venue):'';
-  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+fT(d)+' &ndash; '+fT(h)+'</div><div class="d-mobile-sm" style="font-size:.65rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
-  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
-  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
+  var html='<tr><td style="padding:8px 9px;border-bottom:1px solid rgba(28,48,80,.4);background:rgba(255,255,255,.02)"><div class="ost-match-main">'+fT(d)+' &ndash; '+fT(h)+'</div><div class="ost-match-date d-mobile-sm">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">• '+venueHtml+'</span>':'')+'</div></td>'; 
+  html+='<td style="padding:8px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+';background:rgba(255,255,255,.02)">'+(res?escHtml(res):'&mdash;')+'</td>'; 
+  html+='<td style="padding:8px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>'; 
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
-    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    if(!canSee){html+='<td style="padding:8px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu);background:rgba(255,255,255,.02)">?</td>'; }
     else{
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
       var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>';
+      html+='<td style="padding:8px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>'; 
     }
   });
   return html+'</tr>';
@@ -2665,7 +2674,8 @@ function renderVys(){
 function renderVysRow(z){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],cd=cdStr(z);
   var venueHtml=venue?stadiumLinkHtml(venue):'';
-  return '<div class="rr"><div class="rh">'+fT(d)+'</div><div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'&mdash;')+'</div><div class="d-mobile-sm" style="font-size:.63rem;color:var(--mu)">'+dStr(z)+'</div>'+(venueHtml?'<div class="d-mobile-sm" style="font-size:.61rem;color:var(--bd2)">📍'+venueHtml+'</div>':'')+(!res&&cd?'<div class="d-mobile-sm" style="font-size:.63rem;color:var(--ac2)">'+escHtml(cd)+'</div>':'')+'</div><div class="ra">'+fT(h)+'</div></div>';
+  var meta=dStr(z)+(venueHtml?' <span style="color:var(--bd2)">• '+venueHtml+'</span>':'')+(!res&&cd?' <span style="color:var(--ac2)">• '+escHtml(cd)+'</span>':'');
+  return '<div class="rr rr-card"><div class="rh">'+fT(d)+'</div><div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'&mdash;')+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu2);margin-top:4px">'+meta+'</div></div><div class="ra">'+fT(h)+'</div></div>'; 
 }
 
 function calcTables(){
