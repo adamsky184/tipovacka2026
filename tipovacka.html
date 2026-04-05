@@ -35,7 +35,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .btn-ol{background:transparent;border:1px solid var(--bd2);color:var(--mu2)}.btn-ol:hover{border-color:var(--ac);color:var(--ac2)}
 .btn-sm{padding:4px 10px;font-size:.75rem}
 .btn:disabled{opacity:.45;cursor:default}
-.nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;flex-wrap:wrap;overflow:visible}
 .nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:'Space Grotesk',sans-serif}
 .nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.25)}
 .card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1rem;margin-bottom:.75rem}
@@ -249,6 +249,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .stad-grid{grid-template-columns:1fr}
   .w{padding:.5rem}
   .lp{font-size:1.1rem}
+  .date-sep{font-size:.7rem;padding:6px 8px}
+  .d-mobile-sm{font-size:.58rem !important}
 }
 @media(max-width:480px){
   }
@@ -396,10 +398,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 
 @media(max-width:760px){
   .nav{gap:4px}
-  .nb{padding:5px 9px;font-size:.72rem;flex:0 0 auto;text-align:center;white-space:nowrap}
+  .nb{padding:5px 9px;font-size:.72rem;flex:1 1 calc(33.333% - 4px);text-align:center;white-space:normal}
 }
 @media(max-width:480px){
-  .nb{flex:0 0 auto}
+  .nb{flex:1 1 calc(50% - 4px)}
 }
 
 /* ── HEADER v1.75 ── */
@@ -1156,7 +1158,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.89</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.90</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1353,7 +1355,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.89</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.90</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1418,7 +1420,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.89',
+    footer_ver:'v1.90',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1511,7 +1513,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.89',
+    footer_ver:'v1.90',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2537,7 +2539,7 @@ function renderOst(){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.75rem;color:var(--tx)">📅 '+dLabel(matches[0])+'</td></tr>';
+      html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.68rem;color:var(--tx)">'+dLabel(matches[0])+'</td></tr>';
       matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
@@ -2551,7 +2553,7 @@ function renderOst(){
       html+=renderOstRow(z,others);
     });
   }
-  html+='</tbody></table></div>';
+  html+='</tbody></table></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   el.innerHTML=html;
 }
 function renderOstRow(z,others){
