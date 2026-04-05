@@ -906,21 +906,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   border-radius:12px;
   margin-top:0;
 }
-.nav{
-  display:flex;
-  flex-wrap:nowrap !important;
-  overflow-x:auto !important;
-  overflow-y:hidden;
-  -webkit-overflow-scrolling:touch;
-  white-space:nowrap;
-  gap:4px;
-  scrollbar-width:thin;
-}
-.nb{
-  flex:0 0 auto;
-  white-space:nowrap;
-  text-align:center;
-}
+
 .stc table{table-layout:fixed}
 .stc th,.stc td{font-variant-numeric:tabular-nums}
 .stc th:nth-child(1),.stc td:nth-child(1){width:10%}
@@ -1082,6 +1068,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .team-empty-note{font-size:.74rem;color:var(--mu2);margin-top:10px}
 @media(max-width:700px){.team-detail-head{grid-template-columns:1fr}.team-detail-logo{width:72px;height:72px}.team-fixture{grid-template-columns:1fr}.team-fixture-score{justify-self:start}}
 
+
+/* ── TEAM DETAIL LINKS FIX ── */
+.team-detail-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.team-detail-links .btn,.team-detail-links a.btn{flex-shrink:0;white-space:nowrap}
+.team-detail-sub{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.team-detail-sub .tag{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1114,7 +1106,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.84</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.85</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1327,7 +1319,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.84</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.85</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1392,7 +1384,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.84',
+    footer_ver:'v1.85',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1485,7 +1477,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.84',
+    footer_ver:'v1.85',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2935,15 +2927,9 @@ function pickLabel(v){
   return String(v);
 }
 function fetchTextTry(urls){
-  urls=urls.filter(Boolean);
-  var i=0;
-  function next(){
-    if(i>=urls.length) return Promise.resolve('');
-    var u=urls[i++];
-    var prox='https://api.allorigins.win/get?url='+encodeURIComponent(u);
-    return fetch(prox).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(function(j){ return (j&&j.contents)||''; }).catch(function(){ return next(); });
-  }
-  return next();
+  // HTML scraping via proxy removed - unreliable
+  // Return empty string so JSON fallback is used
+  return Promise.resolve('');
 }
 function parseEspnTablesFromHtml(html){
   if(!html) return [];
@@ -3095,23 +3081,23 @@ function teamEspnLinks(teamMeta, id){
 }
 function fetchTeamPackage(localName, force){
   if(teamDetailCache[localName] && !force) return Promise.resolve(teamDetailCache[localName]);
-  if(!force){ var cached=readTeamCache(localName); if(cached && cached.data){ teamDetailCache[localName]=cached.data; return Promise.resolve(cached.data); } }
+  if(!force){
+    var cached=readTeamCache(localName);
+    if(cached && cached.data){ teamDetailCache[localName]=cached.data; return Promise.resolve(cached.data); }
+  }
   return fetchEspnTeamIndex(false).then(function(){
-    var t=findEspnTeam(localName); if(!t || !t.id) throw new Error('No ESPN team id');
+    var t=findEspnTeam(localName);
+    if(!t || !t.id) throw new Error('Team not found in ESPN index');
     var id=t.id;
     var base='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams/'+id;
-    var webBase='https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/teams/'+id;
     var links=teamEspnLinks(t,id);
     return Promise.all([
-      fetchJsonTry([base, webBase, base+'?region=us&lang=en&contentorigin=espn']),
-      fetchJsonTry([base+'/schedule', base+'/fixtures', webBase+'/schedule', webBase+'/fixtures', base+'/schedule?season=2026', webBase+'/schedule?season=2026']),
-      fetchJsonTry([base+'/statistics', base+'/stats', webBase+'/statistics', webBase+'/stats', 'https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/statistics?team='+id]),
-      fetchJsonTry([base+'/roster', base+'/squad', webBase+'/roster', webBase+'/squad']),
-      fetchTextTry([links.fixtures]),
-      fetchTextTry([links.stats]),
-      fetchTextTry([links.squad])
+      fetchJsonTry([base, base+'?region=us&lang=en']),
+      fetchJsonTry([base+'/schedule?season=2026', base+'/schedule', base+'/fixtures']),
+      fetchJsonTry([base+'/statistics', base+'/stats']),
+      fetchJsonTry([base+'/roster', base+'/squad'])
     ]).then(function(res){
-      var teamJson=res[0], fixJson=res[1], statJson=res[2], rosterJson=res[3], fixHtml=res[4], statHtml=res[5], squadHtml=res[6];
+      var teamJson=res[0], fixJson=res[1], statJson=res[2], rosterJson=res[3];
       var team=(teamJson&&teamJson.team)||teamJson||{};
       var pkg={
         id:id,
@@ -3122,16 +3108,19 @@ function fetchTeamPackage(localName, force){
         standing:team.recordSummary||team.standingSummary||'',
         color:team.color||t.color||'',
         links:links,
-        fixtures:normalizeFixtures(fixJson||teamJson, fixHtml),
-        stats:normalizeStats(statJson||teamJson, statHtml),
-        squad:normalizeRoster(rosterJson, squadHtml),
-        _sourceTag:(fixHtml||statHtml||squadHtml)?tr('status_live'):tr('status_cached'),
+        fixtures:normalizeFixtures(fixJson||teamJson, ''),
+        stats:normalizeStats(statJson||teamJson, ''),
+        squad:normalizeRoster(rosterJson, ''),
+        _sourceTag:tr('status_current'),
         raw:{team:teamJson, fixtures:fixJson, stats:statJson, roster:rosterJson}
       };
-      teamDetailCache[localName]=pkg; writeTeamCache(localName,{data:pkg, ts:Date.now()}); return pkg;
+      teamDetailCache[localName]=pkg;
+      writeTeamCache(localName,{data:pkg, ts:Date.now()});
+      return pkg;
     });
   });
 }
+
 function renderTeamDetailHead(teamName, teamGroup, data){
   var rk=FIFA[teamName]||'';
   var head=document.getElementById('team-detail-head'); if(!head) return;
@@ -3214,10 +3203,20 @@ function openTeamDetail(teamName, teamGroup){
     setTeamTab(currentTeamTab||'overview');
     setTeamDetailStatus(data._sourceTag,false);
     var card=document.getElementById('team-detail-card');
-    if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+    // Scroll to team detail card
+    if(card){
+      setTimeout(function(){
+        card.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 100);
+    }
   }).catch(function(){
     document.getElementById('team-detail-content').innerHTML='<div class="empty">'+tr('no_team_data')+'</div>';
-    setTeamDetailStatus(tr('team_sync_fail'),true);
+    var errMsg=LANG==='en'?'ESPN data unavailable – try again':'ESPN data jsou nedostupná – zkus to znovu';
+    var retryBtn='<button class="btn btn-ol btn-sm" style="margin-top:12px" id="team-retry-btn">Zkusit znovu</button>';
+    document.getElementById('team-detail-content').innerHTML='<div class="empty" style="color:var(--mu)">'+errMsg+'<br>'+retryBtn+'</div>';
+    var rb=document.getElementById('team-retry-btn');
+    if(rb) rb.addEventListener('click',function(){if(currentTeamView) openTeamDetail(currentTeamView.name,currentTeamView.group||'');});
+    setTeamDetailStatus(LANG==='en'?'Load failed':'Nepodařilo se načíst',true);
   });
 }
 function syncTeamsData(force){
