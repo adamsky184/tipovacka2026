@@ -1074,6 +1074,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .team-detail-links .btn,.team-detail-links a.btn{flex-shrink:0;white-space:nowrap}
 .team-detail-sub{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
 .team-detail-sub .tag{white-space:nowrap}
+
+/* ── TEAM BOXES v1.86 ───────────────────── */
+.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.tc.tc-team{display:block;padding:12px 13px;border-radius:14px;min-height:170px}
+.tc-team-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.tc-team-flag{font-size:1.45rem;line-height:1;flex-shrink:0}
+.tc-team-title{min-width:0}
+.tc-team-name{font-size:.92rem;font-weight:700;color:var(--tx);line-height:1.2}
+.tc-team-meta{font-size:.68rem;color:var(--mu2);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
+.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.tc-team-link{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:36px;padding:7px 10px;border-radius:10px;
+  border:1px solid var(--bd2);background:rgba(255,255,255,.03);
+  color:var(--mu2);font-size:.72rem;font-weight:700;text-decoration:none;
+  transition:.15s;line-height:1.15;
+}
+.tc-team-link:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.07)}
+.tc-team-link:active{transform:scale(.98)}
+.tc-team-note{font-size:.63rem;color:var(--mu);margin-top:10px;line-height:1.35}
+.tbl a.team-rank-link{color:inherit;text-decoration:none}
+.tbl a.team-rank-link:hover{color:var(--ac2);text-decoration:underline}
+@media(max-width:600px){
+  .tm-grid{grid-template-columns:1fr}
+  .tc.tc-team{min-height:0}
+}
+
 </style>
 </head>
 <body>
@@ -1106,7 +1133,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.85</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.86</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1285,23 +1312,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       </div>
       <div class="card">
         <div class="clbl" id="clbl-tymy">Kvalifikované týmy MS 2026</div>
-        <div class="ibox" id="ibox-tymy">Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.</div>
         <div id="tym-list"></div>
-      </div>
-
-      <div class="card" id="team-detail-card" style="display:none">
-        <div class="team-detail-top">
-          <button class="btn btn-ol btn-sm" id="team-detail-back">← Zpět na týmy</button>
-          <div class="sb" id="team-detail-status"></div>
-        </div>
-        <div id="team-detail-head"></div>
-        <div class="ptabs" id="team-detail-tabs">
-          <button class="ptab on" id="team-tab-overview">Přehled</button>
-          <button class="ptab" id="team-tab-fixtures">Fixtures</button>
-          <button class="ptab" id="team-tab-stats">Stats</button>
-          <button class="ptab" id="team-tab-squad">Soupisky</button>
-        </div>
-        <div id="team-detail-content"><div class="empty">Vyber tým</div></div>
       </div>
     </div>
 
@@ -1319,7 +1330,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.85</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.86</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1384,7 +1395,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.85',
+    footer_ver:'v1.86',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1433,7 +1444,7 @@ var T={
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Přehled',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Soupisky',team_back:'← Zpět na týmy',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'ESPN profil',espn_squad:'ESPN soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
-    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',team_profile_hint:'Detail týmu',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
+    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška'
   },
   en:{
@@ -1477,7 +1488,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.85',
+    footer_ver:'v1.86',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1526,7 +1537,7 @@ var T={
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
     team_overview:'Overview',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'ESPN profile',espn_squad:'ESPN squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
-    sync_teams:'TEAMS',sync_results:'RESULTS',team_profile_hint:'Team detail',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
+    sync_teams:'TEAMS',sync_results:'RESULTS',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height'
   }
 };
@@ -2693,34 +2704,66 @@ function renderStadiony(){
   document.getElementById('stad-grid').innerHTML=html;
 }
 
+
+function getEspnTeamUrls(localName){
+  var team=findEspnTeam(localName);
+  if(!team || !team.id) return null;
+  var id=encodeURIComponent(String(team.id));
+  return {
+    profile:'https://www.espn.com/soccer/team/_/id/'+id,
+    fixtures:'https://www.espn.com/soccer/team/fixtures/_/id/'+id,
+    stats:'https://www.espn.com/soccer/team/stats/_/id/'+id,
+    squad:'https://www.espn.com/soccer/team/squad/_/id/'+id
+  };
+}
+function renderTeamLinks(localName){
+  var urls=getEspnTeamUrls(localName);
+  if(!urls){
+    return '<div class="tc-team-note">'+(LANG==='en'?'ESPN links are not available for this team yet.':'ESPN odkazy pro tento tým zatím nejsou k dispozici.')+'</div>';
+  }
+  return '<div class="tc-team-links">'+
+    '<a class="tc-team-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>'+
+    '<a class="tc-team-link" href="'+escAttr(urls.fixtures)+'" target="_blank" rel="noopener noreferrer">Fixtures</a>'+
+    '<a class="tc-team-link" href="'+escAttr(urls.stats)+'" target="_blank" rel="noopener noreferrer">Stats</a>'+
+    '<a class="tc-team-link" href="'+escAttr(urls.squad)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_squad'))+'</a>'+
+  '</div>';
+}
 function renderTymy(){
-  if(tymPhase==='rk'){renderFifaRanking();return;}
-  hideTeamDetail();
   var html='';
   Object.keys(TEAMS).sort().forEach(function(sk){
     html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
     TEAMS[sk].forEach(function(tm){
       var name=tm[0],rk=FIFA[name];
-      html+='<div class="tc team-open" data-team="'+escAttr(name)+'" data-group="'+escAttr(sk)+'"><div class="tf">'+fl(name)+'</div><div><div class="tn">'+tN(name)+'</div><div class="tgrp">'+tr('group')+' '+sk+'</div>'+(rk?'<div class="trk">FIFA #'+rk+'</div>':'')+'<div class="tsk">'+tr('team_profile_hint')+'</div></div></div>';
+      html+='<div class="tc tc-team">'+
+        '<div class="tc-team-top">'+
+          '<div class="tc-team-flag">'+fl(name)+'</div>'+
+          '<div class="tc-team-title">'+
+            '<div class="tc-team-name">'+tN(name)+'</div>'+
+            '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+'</div>'+
+          '</div>'+
+        '</div>'+
+        renderTeamLinks(name)+
+      '</div>';
     });
     html+='</div></div>';
   });
   document.getElementById('tym-list').innerHTML=html;
-  bindTeamOpeners();
 }
 function renderFifaRanking(){
-  hideTeamDetail();
   var all=[],seen={};
   Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th></tr></thead><tbody>';
+  var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th><th style="width:120px">ESPN</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
-    html+='<tr class="team-open" data-team="'+escAttr(tm.name)+'" data-group="'+escAttr(tm.sk)+'" style="cursor:pointer" title="'+escAttr(tr('team_profile_hint'))+'"><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td><td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td><td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td></tr>';
+    var urls=getEspnTeamUrls(tm.name);
+    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
+    html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
+    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td>';
+    html+='<td>'+(urls?'<a class="team-rank-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>':'<span style="color:var(--mu)">-</span>')+'</td></tr>';
   });
   html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html;
-  bindTeamOpeners();
 }
 
 function adminInsertTipRaw(hid,zid,nt){
@@ -2827,28 +2870,10 @@ function teamMatches(appName,providerName){
   return aliases.some(function(x){return normTeamName(x)===e;});
 }
 
-function bindTeamOpeners(){
-  document.querySelectorAll('.team-open').forEach(function(el){
-    el.addEventListener('click',function(){
-      openTeamDetail(el.dataset.team,el.dataset.group||'');
-    });
-  });
-}
-function hideTeamDetail(){
-  currentTeamView=null;
-  var c=document.getElementById('team-detail-card');
-  if(c) c.style.display='none';
-}
-function showTeamDetailCard(){
-  var c=document.getElementById('team-detail-card');
-  if(c) c.style.display='block';
-}
-function setTeamDetailStatus(msg,isErr){
-  var el=document.getElementById('team-detail-status');
-  if(!el) return;
-  el.textContent=msg||'';
-  el.className='sb'+(isErr?' err':'');
-}
+function bindTeamOpeners(){ return; }
+function hideTeamDetail(){ return; }
+function showTeamDetailCard(){ return; }
+function setTeamDetailStatus(){ return; }
 function fetchJsonTry(urls){
   urls=urls.filter(Boolean);
   var i=0;
@@ -3121,104 +3146,13 @@ function fetchTeamPackage(localName, force){
   });
 }
 
-function renderTeamDetailHead(teamName, teamGroup, data){
-  var rk=FIFA[teamName]||'';
-  var head=document.getElementById('team-detail-head'); if(!head) return;
-  var tags=[];
-  if(teamGroup) tags.push('<span class="tag">'+tr('group')+' '+escHtml(teamGroup)+'</span>');
-  if(rk) tags.push('<span class="tag">FIFA #'+escHtml(rk)+'</span>');
-  if(data.location) tags.push('<span class="tag">'+escHtml(data.location)+'</span>');
-  if(data._sourceTag) tags.push('<span class="tag">'+escHtml(data._sourceTag)+'</span>');
-  var links='';
-  if(data.links && data.links.profile) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.profile)+'" target="_blank" rel="noopener noreferrer">'+tr('espn_profile')+'</a>';
-  if(data.links && data.links.fixtures) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.fixtures)+'" target="_blank" rel="noopener noreferrer">Fixtures</a>';
-  if(data.links && data.links.stats) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.stats)+'" target="_blank" rel="noopener noreferrer">Stats</a>';
-  if(data.links && data.links.squad) links+='<a class="btn btn-ol btn-sm" href="'+escAttr(data.links.squad)+'" target="_blank" rel="noopener noreferrer">'+tr('espn_squad')+'</a>';
-  head.innerHTML='<img class="team-detail-logo" src="'+escAttr(data.logo||'')+'" alt="'+escAttr(data.name||teamName)+'" onerror="this.style.display=&quot;none&quot;">'+
-    '<div style="min-width:0;flex:1">'+
-      '<div class="team-detail-title"><span style="font-size:1.2rem">'+fl(teamName)+'</span><span>'+escHtml(tN(teamName))+'</span></div>'+
-      '<div class="team-detail-sub">'+tags.join('')+'</div>'+
-      '<div class="team-detail-links">'+links+'</div>'+
-    '</div>';
-}
-function renderTeamOverview(data, teamName){
-  var html='<div class="team-detail-kpis">';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">FIFA ranking</div><div class="team-kpi-val">'+(FIFA[teamName]?'#'+FIFA[teamName]:'-')+'</div></div>';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('group')+'</div><div class="team-kpi-val">'+escHtml(currentTeamView.group||'-')+'</div></div>';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">Fixtures</div><div class="team-kpi-val">'+escHtml(String((data.fixtures||[]).length))+'</div></div>';
-  html+='<div class="team-kpi"><div class="team-kpi-lbl">'+tr('team_squad')+'</div><div class="team-kpi-val">'+escHtml(String((data.squad||[]).length))+'</div></div>';
-  html+='</div>';
-  if(data.stats && data.stats.length){
-    html+='<div class="team-block" style="margin-top:12px"><div class="clbl" style="margin-bottom:10px">Stats</div><div class="team-stat-grid">';
-    data.stats.slice(0,8).forEach(function(s){ html+='<div class="team-stat"><div class="team-stat-name">'+escHtml(s.name)+'</div><div class="team-stat-value">'+escHtml(String(s.value))+'</div></div>'; });
-    html+='</div></div>';
-  }
-  if(data.fixtures && data.fixtures.length){
-    html+='<div class="team-block" style="margin-top:12px"><div class="clbl" style="margin-bottom:10px">Fixtures</div><div class="team-fixtures-grid">';
-    data.fixtures.slice(0,4).forEach(function(f){ var d=f.date?new Date(f.date):null; var ds=(d && !isNaN(d.getTime())) ? (LANG==='en' ? (d.getDate()+' '+tr('months')[d.getMonth()]+' '+pad(d.getHours())+':'+pad(d.getMinutes())) : (d.getDate()+'.'+(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes()))) : ''; html+='<div class="team-fixture"><div class="team-fixture-main"><div class="team-fixture-match">'+escHtml(f.name||'-')+'</div><div class="team-fixture-sub">'+(ds?'<span>'+escHtml(ds)+'</span>':'')+(f.status?'<span>'+escHtml(f.status)+'</span>':'')+(f.venue?'<span>'+escHtml(f.venue)+'</span>':'')+'</div></div><div class="team-fixture-score">'+escHtml(f.score||'—')+'</div></div>'; });
-    html+='</div></div>';
-  }
-  return html;
-}
-function renderTeamFixtures(data){
-  var arr=data.fixtures||[];
-  if(!arr.length) return '<div class="empty">'+tr('fixtures_empty')+'</div><div class="team-empty-note">ESPN pro tento tým teď zřejmě neposílá fixtures v použitelné podobě.</div>';
-  var html='<div class="team-block"><div class="team-fixtures-grid">';
-  arr.forEach(function(f){ var d=f.date?new Date(f.date):null; var ds=(d && !isNaN(d.getTime())) ? (LANG==='en' ? (d.getDate()+' '+tr('months')[d.getMonth()]+' '+pad(d.getHours())+':'+pad(d.getMinutes())) : (d.getDate()+'.'+(d.getMonth()+1)+'. '+pad(d.getHours())+':'+pad(d.getMinutes()))) : ''; html+='<div class="team-fixture"><div class="team-fixture-main"><div class="team-fixture-match">'+escHtml(f.name||'-')+'</div><div class="team-fixture-sub">'+(ds?'<span>'+escHtml(ds)+'</span>':'')+(f.status?'<span>'+escHtml(f.status)+'</span>':'')+(f.venue?'<span>'+escHtml(f.venue)+'</span>':'')+'</div></div><div class="team-fixture-score">'+escHtml(f.score||'—')+'</div></div>'; });
-  html+='</div></div>'; return html;
-}
-function renderTeamStats(data){
-  var arr=data.stats||[];
-  if(!arr.length) return '<div class="empty">'+tr('stats_empty')+'</div><div class="team-empty-note">Jakmile ESPN vrátí statistiky pro daný tým / soutěž, propíšou se sem automaticky.</div>';
-  var html='<div class="team-block"><div class="team-stat-grid">';
-  arr.forEach(function(s){ html+='<div class="team-stat"><div class="team-stat-name">'+escHtml(s.name)+'</div><div class="team-stat-value">'+escHtml(String(s.value))+'</div></div>'; });
-  html+='</div></div>'; return html;
-}
-function renderTeamSquad(data){
-  var arr=data.squad||[]; if(!arr.length) return '<div class="empty">'+tr('squad_empty')+'</div>';
-  var groups={}; arr.forEach(function(item){ var g=pickLabel(item.group)||'Players'; if(!groups[g]) groups[g]=[]; groups[g].push(item.data||item); });
-  var html=''; Object.keys(groups).forEach(function(group){ html+='<div class="clbl" style="margin:.4rem 0 .65rem">'+escHtml(group)+'</div><div class="team-squad-grid">'; groups[group].forEach(function(p){ var pos=(p.position&& (p.position.abbreviation||p.position.displayName||p.position.name)) || p.position || ''; var age=p.age||p.displayAge||''; var ht=p.displayHeight||p.height||''; var wt=p.displayWeight||p.weight||''; var nat=(p.flag&&p.flag.alt)||p.nationality||''; var extras=''; if(p.statsHeaders&&p.statsRow){ extras=''; }
-      html+='<div class="team-player"><div class="team-player-name">'+escHtml(p.displayName||p.fullName||p.name||'-')+'</div><div class="team-player-meta">'+(pos?'<span>Pozice: '+escHtml(String(pos))+'</span>':'')+(age?'<span>Věk: '+escHtml(String(age))+'</span>':'')+(ht?'<span>Výška: '+escHtml(String(ht))+'</span>':'')+(wt?'<span>Váha: '+escHtml(String(wt))+'</span>':'')+(nat?'<span>'+escHtml(String(nat))+'</span>':'')+'</div></div>'; }); html+='</div>'; }); return html;
-}
-function setTeamTab(tab){
-  currentTeamTab=tab;
-  ['overview','fixtures','stats','squad'].forEach(function(t){
-    var el=document.getElementById('team-tab-'+t);
-    if(el) el.classList.toggle('on', t===tab);
-  });
-  renderTeamDetailContent();
-}
-function openTeamDetail(teamName, teamGroup){
-  currentTeamTab='overview';
-  currentTeamView={name:teamName, group:teamGroup, data:null};
-  showTeamDetailCard();
-  document.getElementById('team-detail-content').innerHTML='<div class="empty"><span class="sp"></span>'+tr('team_loading')+'</div>';
-  setTeamDetailStatus('',false);
-  renderTeamDetailHead(teamName, teamGroup, {name:teamName, logo:'', location:'', _sourceTag:tr('status_current')});
-  var cached=readTeamCache(teamName);
-  fetchTeamPackage(teamName,false).then(function(data){
-    data._sourceTag = cached && cached.data ? tr('status_cached') : tr('status_current');
-    currentTeamView={name:teamName, group:teamGroup, data:data};
-    renderTeamDetailHead(teamName, teamGroup, data);
-    setTeamTab(currentTeamTab||'overview');
-    setTeamDetailStatus(data._sourceTag,false);
-    var card=document.getElementById('team-detail-card');
-    // Scroll to team detail card
-    if(card){
-      setTimeout(function(){
-        card.scrollIntoView({behavior:'smooth', block:'start'});
-      }, 100);
-    }
-  }).catch(function(){
-    document.getElementById('team-detail-content').innerHTML='<div class="empty">'+tr('no_team_data')+'</div>';
-    var errMsg=LANG==='en'?'ESPN data unavailable – try again':'ESPN data jsou nedostupná – zkus to znovu';
-    var retryBtn='<button class="btn btn-ol btn-sm" style="margin-top:12px" id="team-retry-btn">Zkusit znovu</button>';
-    document.getElementById('team-detail-content').innerHTML='<div class="empty" style="color:var(--mu)">'+errMsg+'<br>'+retryBtn+'</div>';
-    var rb=document.getElementById('team-retry-btn');
-    if(rb) rb.addEventListener('click',function(){if(currentTeamView) openTeamDetail(currentTeamView.name,currentTeamView.group||'');});
-    setTeamDetailStatus(LANG==='en'?'Load failed':'Nepodařilo se načíst',true);
-  });
-}
+function renderTeamDetailHead(){ return; }
+function renderTeamOverview(){ return; }
+function renderTeamFixtures(){ return; }
+function renderTeamStats(){ return; }
+function renderTeamSquad(){ return; }
+function setTeamTab(){ return; }
+function openTeamDetail(){ return; }
 function syncTeamsData(force){
   var btn=document.getElementById('btn-sync-teams');
   if(btn) btn.disabled=true;
@@ -3395,10 +3329,7 @@ function init(){
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
-  var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
-  var tb=document.getElementById('team-detail-back'); if(tb) tb.addEventListener('click',hideTeamDetail);
-  ['overview','fixtures','stats','squad'].forEach(function(t){ var el=document.getElementById('team-tab-'+t); if(el) el.addEventListener('click', function(){ setTeamTab(t); }); });
-  document.getElementById('btn-sav').addEventListener('click',saveTips);
+  var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});  document.getElementById('btn-sav').addEventListener('click',saveTips);
   var fsb=document.getElementById('float-sav-btn');
   if(fsb) fsb.addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
