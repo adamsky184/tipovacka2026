@@ -48,6 +48,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .gh:first-child{margin-top:0}
 .date-sep{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin:12px 0 5px;display:flex;align-items:center;gap:6px}
 .date-sep:first-child{margin-top:0}
+.ost-subhead th{position:sticky;top:34px;background:rgba(12,25,40,.96);backdrop-filter:blur(6px);padding:5px 7px;border-bottom:1px solid var(--bd);font-size:.62rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;z-index:3}
+.ost-subhead th:first-child{text-align:left}
+.ost-mainhead th{z-index:4}
+@media(max-width:600px){.ost-subhead th{font-size:.56rem;padding:4px 5px}}
 .mr{display:grid;grid-template-columns:1fr 72px 156px;gap:10px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
 .mr:last-child{border-bottom:none}
 .mr-info{min-width:0}
@@ -1158,7 +1162,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.90</span> · <span id="lo-date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.91</span> · <span id="lo-date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1355,7 +1359,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.90</span> · <span id="date-lbl">4. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.91</span> · <span id="date-lbl">4. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1420,7 +1424,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.90',
+    footer_ver:'v1.91',
     footer_date:'4. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1513,7 +1517,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.90',
+    footer_ver:'v1.91',
     footer_date:'4 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2525,7 +2529,7 @@ function renderOst(){
   var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
   if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
 
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><thead><tr>'+
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><thead><tr class="ost-mainhead">'+
   '<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:220px">'+tr('match')+'</th>'+
   '<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--mu);border-bottom:1px solid var(--bd);text-align:center;min-width:68px">'+tr('result')+'</th>'+
   '<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--gn2);border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+tr('my_tip_col')+'</th>';
@@ -2539,7 +2543,8 @@ function renderOst(){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.68rem;color:var(--tx)">'+dLabel(matches[0])+'</td></tr>';
+      html+='<tr><td colspan="'+(others.length+3)+'" style="padding:6px 8px;background:var(--bg4);font-weight:700;font-size:.67rem;color:var(--tx)">'+dLabel(matches[0])+'</td></tr>';
+      html+=renderOstSubhead(others);
       matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
@@ -2548,6 +2553,7 @@ function renderOst(){
       var sk=z[1];
       if(sk!==prev){
         html+='<tr><td colspan="'+(others.length+3)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
+        html+=renderOstSubhead(others);
         prev=sk;
       }
       html+=renderOstRow(z,others);
@@ -2556,6 +2562,18 @@ function renderOst(){
   html+='</tbody></table></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   el.innerHTML=html;
 }
+function renderOstSubhead(others){
+  var html='<tr class="ost-subhead">'+
+    '<th style="text-align:left;min-width:220px;color:var(--mu)">'+tr('match')+'</th>'+
+    '<th style="text-align:center;min-width:68px;color:var(--mu)">'+tr('result')+'</th>'+
+    '<th style="text-align:center;min-width:72px;color:var(--gn2)">'+tr('my_tip_col')+'</th>';
+  others.forEach(function(p){
+    var ci=players.indexOf(p);
+    html+='<th style="text-align:center;min-width:70px;color:'+AVC[ci%AVC.length]+'">'+escHtml(p.jmeno)+'</th>';
+  });
+  return html+'</tr>';
+}
+
 function renderOstRow(z,others){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],myTip=myTips[id]||'',canSee=!!myTip;
   var myPts=(res&&myTip)?calcPts(myTip,res):null;
