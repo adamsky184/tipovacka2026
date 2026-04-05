@@ -1443,7 +1443,7 @@ var T={
     my_tendencies:'Moje tendence',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',team_pick:'Vyber tým',
-    team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'ESPN profil',espn_squad:'ESPN soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
+    team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška'
   },
@@ -1536,7 +1536,7 @@ var T={
     my_tendencies:'My tendencies',
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
     team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',team_pick:'Select a team',
-    team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'ESPN profile',espn_squad:'ESPN squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
+    team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height'
   }
@@ -3392,6 +3392,7 @@ function init(){
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
+  tipSort='dt'; vysSort='dt';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
