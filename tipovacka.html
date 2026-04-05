@@ -1076,17 +1076,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .team-detail-sub .tag{white-space:nowrap}
 
 /* ── TEAM BOXES v1.86 ───────────────────── */
-.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.tc.tc-team{display:block;padding:12px 13px;border-radius:14px;min-height:170px}
+.tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.tc.tc-team{display:block;padding:11px 12px;border-radius:14px;min-height:158px}
 .tc-team-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
 .tc-team-flag{font-size:1.45rem;line-height:1;flex-shrink:0}
 .tc-team-title{min-width:0}
 .tc-team-name{font-size:.92rem;font-weight:700;color:var(--tx);line-height:1.2}
 .tc-team-meta{font-size:.68rem;color:var(--mu2);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
-.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
 .tc-team-link{
   display:flex;align-items:center;justify-content:center;text-align:center;
-  min-height:36px;padding:7px 10px;border-radius:10px;
+  min-height:34px;padding:6px 8px;border-radius:10px;
   border:1px solid var(--bd2);background:rgba(255,255,255,.03);
   color:var(--mu2);font-size:.72rem;font-weight:700;text-decoration:none;
   transition:.15s;line-height:1.15;
@@ -2719,6 +2719,9 @@ function getEspnTeamUrls(localName){
 function renderTeamLinks(localName){
   var urls=getEspnTeamUrls(localName);
   if(!urls){
+    if(!espnTeamIndex || !espnTeamIndex.length){
+      return '<div class="tc-team-note">'+(LANG==='en'?'Loading ESPN links...':'Načítám ESPN odkazy...')+'</div>';
+    }
     return '<div class="tc-team-note">'+(LANG==='en'?'ESPN links are not available for this team yet.':'ESPN odkazy pro tento tým zatím nejsou k dispozici.')+'</div>';
   }
   return '<div class="tc-team-links">'+
@@ -2729,6 +2732,17 @@ function renderTeamLinks(localName){
   '</div>';
 }
 function renderTymy(){
+  if((!espnTeamIndex || !espnTeamIndex.length) && !renderTymy._loadingEspn){
+    renderTymy._loadingEspn=true;
+    fetchEspnTeamIndex(false).then(function(){
+      renderTymy._loadingEspn=false;
+      renderTymy();
+      if(tymPhase==='rk') renderFifaRanking();
+    }).catch(function(){
+      renderTymy._loadingEspn=false;
+      renderTymy();
+    });
+  }
   var html='';
   Object.keys(TEAMS).sort().forEach(function(sk){
     html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
@@ -2750,6 +2764,10 @@ function renderTymy(){
   document.getElementById('tym-list').innerHTML=html;
 }
 function renderFifaRanking(){
+  if((!espnTeamIndex || !espnTeamIndex.length) && !renderFifaRanking._loadingEspn){
+    renderFifaRanking._loadingEspn=true;
+    fetchEspnTeamIndex(false).then(function(){ renderFifaRanking._loadingEspn=false; renderFifaRanking(); }).catch(function(){ renderFifaRanking._loadingEspn=false; });
+  }
   var all=[],seen={};
   Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
