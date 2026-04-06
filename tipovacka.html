@@ -1159,16 +1159,79 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .tc-team-sched-tip{font-size:.6rem;color:var(--ac2);font-weight:700}
 .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:96px}
 .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:118px;text-align:right}
-.team-rank-pill{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border-radius:999px;background:rgba(37,66,102,.55);border:1px solid var(--bd2);color:var(--ac2);text-decoration:none;font-size:.68rem;font-weight:700;transition:.15s}
+.tbl.team-rank-table{table-layout:auto}
+.tbl.team-rank-table th,.tbl.team-rank-table td{vertical-align:middle}
+.tbl.team-rank-table .fifa-col-rank{width:34px;padding-right:6px}
+.tbl.team-rank-table .fifa-col-team{width:auto}
+.tbl.team-rank-table .fifa-col-group{width:72px;text-align:center}
+.tbl.team-rank-table .fifa-col-points{width:92px;text-align:right}
+.tbl.team-rank-table .fifa-col-change{width:58px;text-align:center}
+.tbl.team-rank-table .fifa-col-trend{width:54px;text-align:center}
+.tbl.team-rank-table .fifa-col-confed{width:98px;text-align:center}
+.tbl.team-rank-table .fifa-col-link{width:116px;text-align:right;padding-right:8px}
+.tbl.team-rank-table thead th{font-size:.7rem;letter-spacing:.05em;white-space:nowrap}
+.tbl.team-rank-table tbody td{font-size:.9rem}
+.tbl.team-rank-table th,.tbl.team-rank-table td{padding-left:6px;padding-right:6px}
+.fifa-team-cell{display:flex;align-items:flex-start;gap:6px;min-width:0}
+.fifa-team-flag{font-size:1.05rem;line-height:1;flex:0 0 auto}
+.fifa-team-name{min-width:0;overflow-wrap:anywhere}
+.fifa-group-pill{display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:20px;background:var(--bg4);color:var(--mu2);font-size:.66rem;line-height:1.1}
+.fifa-group-prefix{display:none}
+.fifa-group-code{display:inline}
+.fifa-head-short{display:none !important}
+.fifa-head-full{display:inline !important}
+.team-rank-pill-short{display:none !important}
+.team-rank-pill-full{display:inline !important}
+.team-rank-links{display:flex;align-items:center;justify-content:flex-end;gap:3px;white-space:nowrap}
+.team-rank-pill{display:inline-flex;align-items:center;justify-content:center;min-width:40px;padding:3px 6px;border-radius:999px;background:rgba(37,66,102,.55);border:1px solid var(--bd2);color:var(--ac2);text-decoration:none;font-size:.54rem;font-weight:700;letter-spacing:.02em;transition:.15s}
+.fifa-confed-text{display:inline-block;white-space:nowrap}
+.team-rank-pill.team-rank-pill-muted{color:var(--mu2);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.fifa-insights{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0 0 .8rem}
+.fifa-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 12px 13px;min-width:0}
+.fifa-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;min-width:0}
+.fifa-card-flag{font-size:1.3rem;line-height:1;flex:0 0 auto}
+.fifa-card-team{font-family:'Space Grotesk',sans-serif;font-size:.96rem;font-weight:700;color:#f4f8ff;line-height:1.1;min-width:0;overflow-wrap:anywhere}
+.fifa-card-label{font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu2);margin-bottom:8px}
+.fifa-card-value{font-family:'Space Grotesk',sans-serif;font-size:1.55rem;font-weight:700;line-height:1;color:#f4f8ff}
+.fifa-card-value.pos{color:var(--gn2)}
+.fifa-card-value.neg{color:#f87171}
+.fifa-card-sub{margin-top:6px;font-size:.66rem;color:var(--mu2)}
 .team-rank-pill:hover{border-color:var(--ac);color:#fff;background:rgba(59,130,246,.12)}
 .gh-date{font-size:.82rem}
 .mt{font-size:.82rem}
 .ost-date-wrap{font-size:.82rem}
+@media(max-width:960px){.fifa-insights{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){
+  .tbl.team-rank-table{table-layout:fixed}
   .gh-date{font-size:.82rem}
   .mt{font-size:.8rem}
   .ost-date-wrap{font-size:.82rem}
-  .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px}
+  .tbl.team-rank-table .fifa-col-rank{width:22px;padding-right:2px}
+  .tbl.team-rank-table .fifa-col-team{width:132px}
+  .tbl.team-rank-table .fifa-col-group{width:16px}
+  .tbl.team-rank-table .fifa-col-points{width:54px}
+  .tbl.team-rank-table .fifa-col-change{width:26px}
+  .tbl.team-rank-table .fifa-col-trend{width:18px}
+  .tbl.team-rank-table .fifa-col-confed{width:30px}
+  .tbl.team-rank-table .fifa-col-link{width:72px;padding-right:1px}
+  .tbl.team-rank-table th,.tbl.team-rank-table td{padding-left:2px;padding-right:2px}
+  .tbl.team-rank-table thead th{font-size:.6rem;letter-spacing:.02em}
+  .tbl.team-rank-table tbody td{font-size:.72rem}
+  .fifa-team-cell{gap:3px}
+  .fifa-team-flag{font-size:.9rem}
+  .fifa-team-name{font-size:.7rem;line-height:1.02}
+  .fifa-group-pill{min-width:10px;padding:1px 2px;font-size:.46rem}
+  .fifa-head-full{display:none !important}
+  .fifa-head-short{display:inline !important}
+  .team-rank-pill-full{display:inline !important}
+  .team-rank-pill-short{display:none !important}
+  .team-rank-links{gap:2px}
+  .team-rank-pill{min-width:34px;padding:2px 4px;font-size:.46rem}
+  .fifa-confed-text{font-size:.6rem}
+  .fifa-insights{grid-template-columns:1fr;gap:8px}
+  .fifa-card{padding:11px 11px 12px}
+  .fifa-card-team{font-size:.9rem}
+  .fifa-card-value{font-size:1.36rem}
 }
 
 
@@ -1184,10 +1247,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .hdr-rank-meta-inline{font-size:.75em;opacity:.6;color:var(--mu2);font-weight:600;line-height:1}
 .hdr-rank-meta-inline .rank-exact{color:var(--gn2)}
 .hdr-rank-meta-inline .rank-trend{color:var(--ac2)}
-.tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px;text-align:center}
-.tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:126px;text-align:right}
-.tbl.team-rank-table th:nth-child(4){padding-right:12px}
-.tbl.team-rank-table td:nth-child(4){padding-right:8px}
 .gh-date{font-size:.82rem}
 .mt{font-size:.8rem}
 .rr .d-mobile-sm{font-size:.82rem !important}
@@ -1206,8 +1265,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .gh-date{font-size:.82rem}
   .mt{font-size:.8rem}
   .rr .d-mobile-sm{font-size:.8rem !important}
-  .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:118px}
-  .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:122px}
 }
 
 
@@ -1288,7 +1345,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.0</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.1</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1427,7 +1484,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div id="page-vysledky" style="display:none">
-      <div class="ibox" id="ibox-vys-note" style="margin-bottom:.55rem">Výsledky aktualizuje admin ručně.</div>
+      <div class="ibox" id="ibox-vys-note" style="margin-bottom:.55rem">Poslední aktualizace výsledků: nikdy</div>
       <div class="tier-filters" id="vys-filters"><div class="tier1"><button class="phase-tab on" id="ptab-vys-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-vys-phase-po">Play-off</button></div><div class="tier2" id="vys-sort-row"><button class="sort-chip on" id="ptab-vys-dt">Řadit dle data</button><button class="sort-chip" id="ptab-vys-sk">Řadit dle skupin</button></div></div>
       <div class="card">
         <div id="vys-list"><div class="empty" id="vys-empty">Klikni ↺ Výsledky nahoře</div></div>
@@ -1493,7 +1550,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v3.0</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v3.1</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1533,7 +1590,7 @@ var T={
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
-    ibox_vys_note:'Výsledky aktualizuje admin ručně.',
+    ibox_vys_note:'Poslední aktualizace výsledků',
     clbl_stad:'Stadiony MS 2026',clbl_tymy:'Kvalifikované týmy MS 2026',
     hdr_sub:'USA · Kanada · Mexiko - 48 týmů · 104 zápasů · 11.6.–19.7.2026',
     vys_empty:'Klikni ↺ Výsledky nahoře',my_tip:'MŮJ TIP',my_tip_col:'Můj tip',
@@ -1558,7 +1615,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v3.0',
+    footer_ver:'v3.1',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1613,7 +1670,7 @@ var T={
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
-    fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn'
+    fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn',fifa_profile:'FIFA',fifa_widget_top:'Nejvýše postavený',fifa_widget_climber:'Největší skokan',fifa_widget_gain:'Nejvíc bodů získal',fifa_widget_drop:'Největší propad',fifa_widget_loss:'Nejvíc bodů ztratil'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -1631,7 +1688,7 @@ var T={
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
-    ibox_vys_note:'Results are refreshed manually by admin.',
+    ibox_vys_note:'Results last updated',
     clbl_stad:'World Cup 2026 Stadiums',clbl_tymy:'Qualified Teams WC 2026',
     hdr_sub:'USA · Canada · Mexico - 48 teams · 104 matches · 11 Jun - 19 Jul 2026',
     vys_empty:'Click ↺ Results above',my_tip:'MY TIP',my_tip_col:'My tip',
@@ -1656,7 +1713,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v3.0',
+    footer_ver:'v3.1',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1711,7 +1768,7 @@ var T={
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
-    fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes'
+    fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes',fifa_profile:'FIFA',fifa_widget_top:'Top ranked',fifa_widget_climber:'Biggest climber',fifa_widget_gain:'Most points gained',fifa_widget_drop:'Biggest drop',fifa_widget_loss:'Most points lost'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -2045,6 +2102,11 @@ function formatLastUpdated(){
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
 }
+function renderResultsNote(){
+  var el=document.getElementById('ibox-vys-note');
+  if(!el) return;
+  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsLastUpdated());
+}
 function getFifaCacheKey(){return 'ms26_fifa_ranking_v3';}
 function getDefaultFifaItems(){
   var all=[],seen={};
@@ -2060,7 +2122,9 @@ function getDefaultFifaItems(){
         points:null,
         change:null,
         confed:FIFA_CONFED[name]||'',
-        trend:'flat'
+        trend:'flat',
+        fifaCode:'',
+        sourceMeta:null
       });
     });
   });
@@ -2081,7 +2145,9 @@ function normalizeFifaItem(item){
     points:item.points!=null&&item.points!==''?Number(item.points):null,
     change:isNaN(change)?null:change,
     confed:item.confed||FIFA_CONFED[name]||'',
-    trend:item.trend||trend
+    trend:item.trend||trend,
+    fifaCode:item.fifaCode||((item.sourceMeta&&item.sourceMeta.fifa_country_code)||''),
+    sourceMeta:item.sourceMeta||null
   };
 }
 function loadFifaRankingData(){
@@ -2120,7 +2186,7 @@ function saveFifaRankingData(payload){
 }
 function loadFifaRankingFromDb(force){
   if(!force && fifaRankingData && fifaRankingData.items && fifaRankingData.items.length && fifaRankingData.importedAt) return Promise.resolve(fifaRankingData);
-  return sbf('fifa_rankings_current?select=team_name,group_code,rank,points,change,confederation,trend,official_release_at,imported_at,source_url&order=rank.asc')
+  return sbf('fifa_rankings_current?select=team_name,group_code,rank,points,change,confederation,trend,official_release_at,imported_at,source_url,source_meta&order=rank.asc')
     .then(function(rows){
       if(!rows||!rows.length) return loadFifaRankingData();
       var officialAt='',importedAt='',sourceUrl='';
@@ -2138,7 +2204,9 @@ function loadFifaRankingFromDb(force){
             points:r.points,
             change:r.change,
             confed:r.confederation,
-            trend:r.trend
+            trend:r.trend,
+            fifaCode:r.source_meta&&r.source_meta.fifa_country_code||'',
+            sourceMeta:r.source_meta||null
           };
         }),
         officialAt:officialAt,
@@ -2167,6 +2235,56 @@ function trendGlyph(trend,change){
   if(trend==='up'||change>0) return '<span style="color:var(--gn2)">↑</span>';
   if(trend==='down'||change<0) return '<span style="color:#f87171">↓</span>';
   return '<span style="color:var(--mu2)">→</span>';
+}
+function getFifaProfileUrl(item){
+  var code=(item&&item.fifaCode)||((item&&item.sourceMeta&&item.sourceMeta.fifa_country_code)||'');
+  if(!code) return '';
+  return 'https://inside.fifa.com/en/fifa-world-ranking/'+encodeURIComponent(code)+'?gender=men';
+}
+function formatFifaDelta(v){
+  if(v==null||isNaN(v)) return '—';
+  var n=Number(v);
+  var abs=Math.abs(n);
+  var txt=(abs%1===0?String(abs):abs.toFixed(2));
+  return (n>0?'+':'-')+txt;
+}
+function formatFifaConfed(confed){
+  var raw=String(confed||'').trim().toUpperCase();
+  if(!raw) return '—';
+  if(raw==='CONMEBOL') return window.innerWidth<=600 ? 'CM' : 'CONMEB';
+  if(raw==='CONCACAF') return window.innerWidth<=600 ? 'CC' : 'CONCAC';
+  return raw;
+}
+function renderFifaInsightCards(all){
+  var ranked=all.filter(function(tm){ return tm&&tm.rk&&tm.rk<999; });
+  var withChange=all.filter(function(tm){ return tm&&tm.change!=null&&!isNaN(tm.change); });
+  var withPointDelta=all.map(function(tm){
+    var prev=tm&&tm.sourceMeta&&tm.sourceMeta.previous_points;
+    var cur=tm&&tm.points;
+    var delta=(prev!=null&&cur!=null)?Number((cur-Number(prev)).toFixed(2)):null;
+    return Object.assign({},tm,{pointDelta:isNaN(delta)?null:delta});
+  }).filter(Boolean);
+  var top=ranked.length?ranked[0]:null;
+  var climb=withChange.filter(function(tm){ return tm.change>0; }).sort(function(a,b){ return b.change-a.change; })[0]||null;
+  var drop=withChange.filter(function(tm){ return tm.change<0; }).sort(function(a,b){ return a.change-b.change; })[0]||null;
+  var gain=withPointDelta.filter(function(tm){ return tm.pointDelta>0; }).sort(function(a,b){ return b.pointDelta-a.pointDelta; })[0]||null;
+  var loss=withPointDelta.filter(function(tm){ return tm.pointDelta<0; }).sort(function(a,b){ return a.pointDelta-b.pointDelta; })[0]||null;
+  var cards=[
+    top?{team:top.name,label:tr('fifa_widget_top'),value:'#'+top.rk,sub:top.points!=null?String(Number(top.points).toFixed(2))+' '+tr('fifa_points').toLowerCase():'',tone:''}:null,
+    climb?{team:climb.name,label:tr('fifa_widget_climber'),value:'+'+climb.change,sub:climb.points!=null?String(Number(climb.points).toFixed(2))+' '+tr('fifa_points').toLowerCase():'',tone:'pos'}:null,
+    gain?{team:gain.name,label:tr('fifa_widget_gain'),value:formatFifaDelta(gain.pointDelta),sub:gain.sourceMeta&&gain.sourceMeta.previous_points!=null?String(Number(gain.sourceMeta.previous_points).toFixed(2))+' → '+String(Number(gain.points).toFixed(2)):'',tone:'pos'}:null,
+    drop?{team:drop.name,label:tr('fifa_widget_drop'),value:String(drop.change),sub:drop.points!=null?String(Number(drop.points).toFixed(2))+' '+tr('fifa_points').toLowerCase():'',tone:'neg'}:null,
+    loss?{team:loss.name,label:tr('fifa_widget_loss'),value:formatFifaDelta(loss.pointDelta),sub:loss.sourceMeta&&loss.sourceMeta.previous_points!=null?String(Number(loss.sourceMeta.previous_points).toFixed(2))+' → '+String(Number(loss.points).toFixed(2)):'',tone:'neg'}:null
+  ].filter(Boolean);
+  if(!cards.length) return '';
+  return '<div class="fifa-insights">'+cards.map(function(card){
+    return '<div class="fifa-card">'+
+      '<div class="fifa-card-top"><span class="fifa-card-flag">'+fl(card.team)+'</span><div class="fifa-card-team">'+tN(card.team)+'</div></div>'+
+      '<div class="fifa-card-label">'+escHtml(card.label)+'</div>'+
+      '<div class="fifa-card-value'+(card.tone?' '+card.tone:'')+'">'+escHtml(card.value)+'</div>'+
+      (card.sub?'<div class="fifa-card-sub">'+escHtml(card.sub)+'</div>':'')+
+    '</div>';
+  }).join('')+'</div>';
 }
 function parseFifaOfficialDate(text){
   var m=String(text||'').match(/Last official update:\s*([A-Za-z]+)\s+(\d{1,2})\s+(\d{4})/i);
@@ -2656,7 +2774,7 @@ function applyI18n(){
 
   setText('ibox-tipy',tr('ibox_tipy'));setText('ibox-ost',tr('ibox_ost'));
   setText('ibox-pav',tr('ibox_pav'));setText('ibox-tymy',tr('teams_note'));
-  setText('ibox-vys-note',tr('ibox_vys_note'));
+  renderResultsNote();
   setText('clbl-stad',tr('clbl_stad'));setText('clbl-tymy',tr('clbl_tymy')); var teamback=document.getElementById('team-detail-back'); if(teamback) teamback.textContent=tr('team_back');
   setText('hdr-sub',tr('hdr_sub'));setText('vys-empty',tr('vys_empty'));
   setText('lo-sub',tr('lo_sub'));setText('lo-meta',tr('lo_meta'));
@@ -3089,6 +3207,7 @@ function renderVys(){
     flush();
   }
   document.getElementById('vys-list').innerHTML=(html||'<div class="empty">'+tr('vys_empty')+'</div>')+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  renderResultsNote();
   var vl=document.getElementById('vys-list');
   if(vl){ vl.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
 }
@@ -3328,24 +3447,28 @@ function renderFifaRanking(){
       if(seen[n]) return;
       seen[n]=true;
       var rec=getFifaRecord(n);
-      all.push({name:n,sk:sk,rk:rec.rank||999,points:rec.points,change:rec.change,confed:rec.confed||'',trend:rec.trend||'flat'});
+      all.push({name:n,sk:sk,rk:rec.rank||999,points:rec.points,change:rec.change,confed:rec.confed||'',trend:rec.trend||'flat',fifaCode:rec.fifaCode||'',sourceMeta:rec.sourceMeta||null});
     });
   });
   all.sort(function(a,b){return a.rk-b.rk;});
   var metaHtml='<div class="ibox" style="margin-bottom:.6rem">'+escHtml(tr('sync_fifa_lbl'))+': '+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+(data.officialAt?' · '+escHtml(tr('fifa_official'))+': '+escHtml(formatAnyUpdated(data.officialAt)):'')+'</div>';
-  var html=metaHtml+'<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th style="text-align:center">'+tr('group')+'</th><th style="text-align:right">'+tr('fifa_points')+'</th><th style="text-align:center">'+tr('fifa_change')+'</th><th style="text-align:center">'+tr('fifa_trend')+'</th><th style="text-align:center">'+tr('fifa_confed')+'</th><th style="text-align:right">ESPN</th></tr></thead><tbody>';
+  var html=metaHtml+renderFifaInsightCards(all)+'<table class="tbl team-rank-table"><thead><tr><th class="fifa-col-rank">#</th><th class="fifa-col-team">'+tr('team')+'</th><th class="fifa-col-group"><span class="fifa-head-full">'+tr('group')+'</span><span class="fifa-head-short">Sk</span></th><th class="fifa-col-points"><span class="fifa-head-full">'+tr('fifa_points')+'</span><span class="fifa-head-short">B</span></th><th class="fifa-col-change"><span class="fifa-head-full">'+tr('fifa_change')+'</span><span class="fifa-head-short">+/-</span></th><th class="fifa-col-trend"><span class="fifa-head-full">'+tr('fifa_trend')+'</span><span class="fifa-head-short">↕</span></th><th class="fifa-col-confed"><span class="fifa-head-full">'+tr('fifa_confed')+'</span><span class="fifa-head-short">Conf</span></th><th class="fifa-col-link"><span class="fifa-head-full">Linky</span><span class="fifa-head-short">Go</span></th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
-    var urls=getEspnTeamUrls(tm.name);
-    html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
-    html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
-    html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td>';
+    var fifaUrl=getFifaProfileUrl(tm);
+    var espnUrls=getEspnTeamUrls(tm.name);
+    html+='<tr><td class="fifa-col-rank" style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
+    html+='<td class="fifa-col-team"><div class="fifa-team-cell"><span class="fifa-team-flag">'+fl(tm.name)+'</span><span class="fifa-team-name">'+tN(tm.name)+'</span></div></td>';
+    html+='<td class="fifa-col-group"><span class="fifa-group-pill"><span class="fifa-group-prefix">'+tr('group')+'</span><span class="fifa-group-code">'+tm.sk+'</span></span></td>';
     var pointsText=tm.points!=null ? escHtml(String(tm.points.toFixed?tm.points.toFixed(2):tm.points)) : '<span style="color:var(--mu)">—</span>';
-    html+='<td style="text-align:right;font-variant-numeric:tabular-nums">'+pointsText+'</td>';
-    html+='<td style="text-align:center;color:'+(tm.change>0?'var(--gn2)':tm.change<0?'#f87171':'var(--mu2)')+'">'+escHtml(formatChange(tm.change))+'</td>';
-    html+='<td style="text-align:center">'+trendGlyph(tm.trend,tm.change)+'</td>';
-    html+='<td style="text-align:center">'+(tm.confed?escHtml(tm.confed):'<span style="color:var(--mu)">—</span>')+'</td>';
-    html+='<td style="text-align:right">'+(urls?'<a class="team-rank-pill" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>':'<span style="color:var(--mu)">-</span>')+'</td></tr>';
+    html+='<td class="fifa-col-points" style="font-variant-numeric:tabular-nums">'+pointsText+'</td>';
+    html+='<td class="fifa-col-change" style="color:'+(tm.change>0?'var(--gn2)':tm.change<0?'#f87171':'var(--mu2)')+'">'+escHtml(formatChange(tm.change))+'</td>';
+    html+='<td class="fifa-col-trend">'+trendGlyph(tm.trend,tm.change)+'</td>';
+    html+='<td class="fifa-col-confed">'+(tm.confed?'<span class="fifa-confed-text">'+escHtml(formatFifaConfed(tm.confed))+'</span>':'<span style="color:var(--mu)">—</span>')+'</td>';
+    html+='<td class="fifa-col-link"><div class="team-rank-links">'+
+      (fifaUrl?'<a class="team-rank-pill" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer"><span class="team-rank-pill-full">'+escHtml(tr('fifa_profile'))+'</span><span class="team-rank-pill-short">F</span></a>':'<span class="team-rank-pill team-rank-pill-muted"><span class="team-rank-pill-full">FIFA</span><span class="team-rank-pill-short">F</span></span>')+
+      (espnUrls?'<a class="team-rank-pill" href="'+escAttr(espnUrls.profile)+'" target="_blank" rel="noopener noreferrer"><span class="team-rank-pill-full">ESPN</span><span class="team-rank-pill-short">E</span></a>':'<span class="team-rank-pill team-rank-pill-muted"><span class="team-rank-pill-full">ESPN</span><span class="team-rank-pill-short">E</span></span>')+
+      '</div></td></tr>';
   });
   html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
@@ -3948,6 +4071,10 @@ function findGroupByTeam(teamName){
   Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(tm){ if(tm[0]===teamName) out=sk; }); });
   return out;
 }
+function goHomeTab(){
+  showTab('tipy');
+  scrollTopSmooth();
+}
 
 function updFloatSav(){
   var btn=document.getElementById('float-sav');
@@ -3982,6 +4109,7 @@ function init(){
   var btnExpAll=document.getElementById('btn-exp-all'); if(btnExpAll) btnExpAll.addEventListener('click',function(){loadAllTips().then(exportAllCSV);});
   document.getElementById('langbtn').addEventListener('click',toggleLang);
   document.getElementById('lo-lang').addEventListener('click',toggleLang);
+  var homeBtn=document.getElementById('hdr-title-main'); if(homeBtn) homeBtn.addEventListener('click',goHomeTab);
 
   document.getElementById('qf-all').addEventListener('click',function(){setTipQuickFilter('all');});
   document.getElementById('qf-today').addEventListener('click',function(){setTipQuickFilter('today');});
