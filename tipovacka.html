@@ -916,7 +916,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .hdr-user-actions{
   width:100%;
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr;
   gap:8px;
   box-sizing:border-box;
 }
@@ -933,6 +933,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 .hdr-right .lang-btn{background:rgba(10,23,40,.45)}
 #btn-logout{background:rgba(10,23,40,.35)}
+#btn-install-app{background:rgba(10,23,40,.42);display:none}
+#btn-install-app.is-ready{border-color:var(--ac);color:var(--ac2)}
+.install-overlay{position:fixed;inset:0;background:rgba(5,10,18,.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
+.install-overlay.open{display:flex}
+.install-card{width:min(420px,100%);background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;padding:16px 16px 14px;box-shadow:0 18px 60px rgba(0,0,0,.4)}
+.install-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px}
+.install-copy{font-size:.82rem;line-height:1.6;color:var(--mu2)}
+.install-copy strong{color:var(--tx)}
+.install-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.install-close{background:transparent;border:1px solid var(--bd2);color:var(--mu2);border-radius:10px;padding:7px 12px;font-size:.74rem;font-weight:700;cursor:pointer}
 #btn-refresh{
   width:100%;
   height:38px;
@@ -1373,7 +1383,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.3</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.4</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1422,6 +1432,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
               <span class="abadge2" id="ab" style="display:none">ADMIN</span>
             </div>
             <div class="hdr-user-actions">
+              <button class="hdr-ico-btn" id="btn-install-app" type="button" title="Přidat na plochu">APP</button>
               <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
               <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
             </div>
@@ -1456,6 +1467,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         <div class="cd-unit" id="cd-m"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl" id="cd-lbl-m">min</div></div>
         <span class="cd-sep">:</span>
         <div class="cd-unit" id="cd-s"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl" id="cd-lbl-s">sek</div></div>
+      </div>
+    </div>
+
+    <div class="install-overlay" id="install-overlay" aria-hidden="true">
+      <div class="install-card">
+        <div class="install-title" id="install-title">Přidat aplikaci na plochu</div>
+        <div class="install-copy" id="install-copy"></div>
+        <div class="install-actions">
+          <button class="install-close" id="install-close" type="button">Zavřít</button>
+        </div>
       </div>
     </div>
 
@@ -1579,7 +1600,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v3.3</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v3.4</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1644,7 +1665,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v3.3',
+    footer_ver:'v3.4',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1744,7 +1765,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v3.3',
+    footer_ver:'v3.4',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2881,6 +2902,7 @@ function applyI18n(){
   setHtml('admin-ibox',tr('admin_info'));
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
+  updateInstallButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
   setText('ibox-zeb',tr('leader_info'));
@@ -4209,10 +4231,79 @@ function updFloatSav(){
   updateSaveButtonsState();
 }
 
+var deferredInstallPrompt=null;
+function isStandaloneApp(){
+  return (window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone===true;
+}
+function installHintHtml(){
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/i.test(ua);
+  var isAndroid=/Android/i.test(ua);
+  if(isIOS){
+    return (LANG==='en'
+      ? 'In Safari tap <strong>Share</strong> and choose <strong>Add to Home Screen</strong>.'
+      : 'V Safari klepni na <strong>Sdílet</strong> a vyber <strong>Přidat na plochu</strong>.');
+  }
+  if(isAndroid){
+    return (LANG==='en'
+      ? 'In the browser menu choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.'
+      : 'V menu prohlížeče vyber <strong>Instalovat aplikaci</strong> nebo <strong>Přidat na plochu</strong>.');
+  }
+  return (LANG==='en'
+    ? 'Use your browser menu and choose <strong>Install app</strong> or <strong>Add to Home Screen</strong>.'
+    : 'Použij menu prohlížeče a vyber <strong>Instalovat aplikaci</strong> nebo <strong>Přidat na plochu</strong>.');
+}
+function updateInstallButton(){
+  var btn=document.getElementById('btn-install-app');
+  if(!btn) return;
+  if(isStandaloneApp()){ btn.style.display='none'; return; }
+  btn.style.display='inline-flex';
+  btn.classList.toggle('is-ready',!!deferredInstallPrompt);
+  btn.textContent='APP';
+  btn.title=LANG==='en'?'Install app':'Přidat na plochu';
+}
+function closeInstallOverlay(){
+  var ov=document.getElementById('install-overlay');
+  if(!ov) return;
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden','true');
+}
+function openInstallOverlay(){
+  var ov=document.getElementById('install-overlay');
+  var title=document.getElementById('install-title');
+  var copy=document.getElementById('install-copy');
+  if(!ov||!title||!copy) return;
+  title.textContent=LANG==='en'?'Add app to home screen':'Přidat aplikaci na plochu';
+  copy.innerHTML=installHintHtml();
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden','false');
+}
+function handleInstallApp(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(function(){
+      deferredInstallPrompt=null;
+      updateInstallButton();
+    });
+    return;
+  }
+  openInstallOverlay();
+}
+
 function init(){
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     navigator.serviceWorker.register('./sw.js').catch(function(){});
   }
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();
+    deferredInstallPrompt=e;
+    updateInstallButton();
+  });
+  window.addEventListener('appinstalled',function(){
+    deferredInstallPrompt=null;
+    closeInstallOverlay();
+    updateInstallButton();
+  });
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
   document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
   document.getElementById('blo').addEventListener('click',doLogin);
@@ -4220,6 +4311,7 @@ function init(){
   document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
+  document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
@@ -4230,6 +4322,8 @@ function init(){
   var btnExpAll=document.getElementById('btn-exp-all'); if(btnExpAll) btnExpAll.addEventListener('click',function(){loadAllTips().then(exportAllCSV);});
   document.getElementById('langbtn').addEventListener('click',toggleLang);
   document.getElementById('lo-lang').addEventListener('click',toggleLang);
+  var installClose=document.getElementById('install-close'); if(installClose) installClose.addEventListener('click',closeInstallOverlay);
+  var installOverlay=document.getElementById('install-overlay'); if(installOverlay) installOverlay.addEventListener('click',function(e){ if(e.target===installOverlay) closeInstallOverlay(); });
   var homeBtn=document.getElementById('hdr-title-main'); if(homeBtn) homeBtn.addEventListener('click',goHomeTab);
 
   document.getElementById('qf-all').addEventListener('click',function(){setTipQuickFilter('all');});
@@ -4266,6 +4360,7 @@ function init(){
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
+  updateInstallButton();
   loadFifaRankingData();
   tipSort='dt'; vysSort='dt'; tymPhase='az';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
