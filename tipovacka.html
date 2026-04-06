@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tipovačka MS 2026</title>
+<meta name="theme-color" content="#0a1524">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tipovačka MS 2026">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:78px;--mr-gt-w:220px}
@@ -75,6 +81,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .ti.bd{border-color:var(--rd)}
 .rt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:600}
 .rt-d{background:rgba(34,197,94,.12);color:var(--gn2);border:1px solid rgba(34,197,94,.2)}
+.rt-hype{background:rgba(245,158,11,.12);color:var(--gd);border:1px solid rgba(245,158,11,.22)}
 .pt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:700}
 .p5{background:rgba(34,197,94,.15);color:var(--gn2)}
 .p2{background:rgba(59,130,246,.15);color:var(--ac2)}
@@ -87,6 +94,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8rem;flex-shrink:0}
 .ln{font-size:.9rem;font-weight:600}
 .ls{font-size:.69rem;color:var(--mu);display:flex;gap:7px;margin-top:2px;flex-wrap:wrap}
+.zeb-spark{display:block;margin-top:6px}
+.zeb-spark polyline{fill:none;stroke:var(--ac2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.zeb-spark .spark-base{stroke:rgba(127,163,199,.22);stroke-width:1}
 .lp{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
 .rr{display:grid;grid-template-columns:1fr 68px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.4)}
 .rr:last-child{border-bottom:none}
@@ -1363,7 +1373,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.2</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.3</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1569,7 +1579,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v3.2</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v3.3</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1634,7 +1644,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v3.2',
+    footer_ver:'v3.3',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1734,7 +1744,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v3.2',
+    footer_ver:'v3.3',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2657,6 +2667,42 @@ function getGlobalTips(zapasId){
   });
   return {home:home,draw:draw,away:away,total:home+draw+away};
 }
+function getCommunityHype(zapasId){
+  var g=getGlobalTips(zapasId);
+  if(!g.total||g.total<3) return null;
+  var opts=[
+    {key:'home',label:LANG==='en'?'home':'domácím',pct:Math.round(g.home/g.total*100)},
+    {key:'draw',label:LANG==='en'?'draw':'remíze',pct:Math.round(g.draw/g.total*100)},
+    {key:'away',label:LANG==='en'?'away':'hostům',pct:Math.round(g.away/g.total*100)}
+  ].sort(function(a,b){return b.pct-a.pct;});
+  return opts[0].pct>=70?opts[0]:null;
+}
+function buildHistorySeries(tips,matches){
+  var total=0,out=[];
+  matches.forEach(function(z){
+    var res=results[z[0]],tip=tips[z[0]];
+    if(!res||!tip) return;
+    var pts=calcPts(tip,res);
+    if(pts===null) return;
+    total+=pts;
+    out.push(total);
+  });
+  return out;
+}
+function sparklineSvg(values){
+  if(!values||!values.length) return '';
+  var series=values.slice(-5);
+  if(series.length===1) series=[0,series[0]];
+  var w=60,h=18,pad=1;
+  var min=Math.min.apply(null,series),max=Math.max.apply(null,series);
+  if(min===max){min=min-1;max=max+1;}
+  var pts=series.map(function(v,i){
+    var x=pad+(i*(w-pad*2))/Math.max(series.length-1,1);
+    var y=h-pad-((v-min)/(max-min))*(h-pad*2);
+    return x.toFixed(1)+','+y.toFixed(1);
+  }).join(' ');
+  return '<svg class="zeb-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true"><line class="spark-base" x1="0" y1="'+(h-1)+'" x2="'+w+'" y2="'+(h-1)+'"></line><polyline points="'+pts+'"></polyline></svg>';
+}
 function renderUpdBadge(){
   var raw=getResultsLastUpdated(),el=document.getElementById('upd-badge');
   if(!el) return;
@@ -2999,6 +3045,7 @@ function renderMatchRow(z,isAdmin,hasGT){
   var pts=(res&&tip)?calcPts(tip,res):null;
   var cd=cdStr(z);
   var urgentNoTip=!started&&!tip&&!teamsUnknown&&(kickoff-now)<=7200000;
+  var hype=(!started&&!teamsUnknown)?getCommunityHype(id):null;
 
   var tipHtml='';
   if(teamsUnknown){
@@ -3044,6 +3091,7 @@ function renderMatchRow(z,isAdmin,hasGT){
       '<div class="mm">'+dStr(z)+
         (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
         (isLive?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
+        (hype?' <span class="rt rt-hype">🔥 '+hype.pct+'% '+escHtml(LANG==='en'?'favor '+hype.label:'věří '+hype.label)+'</span>':'')+
         (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
         (venue?' <span class="venue">'+venueHtml+'</span>':'')+
       '</div>'+
@@ -3220,6 +3268,7 @@ function renderOstRow(z,others){
 
 function renderZeb(){
   var arr=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
+  var orderedMatches=arr.slice().sort(function(a,b){ return mDate(a)-mDate(b); });
   var scored=players.map(function(p,i){
     var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
     var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
@@ -3231,7 +3280,7 @@ function renderZeb(){
         if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}
       }
     });
-    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam};
+    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam,history:buildHistorySeries(tips,orderedMatches)};
   }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
 
   var html='';
@@ -3258,7 +3307,7 @@ function renderZeb(){
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div>'+
-      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div></div>'+
+      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div>'+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
   html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
@@ -4161,6 +4210,9 @@ function updFloatSav(){
 }
 
 function init(){
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+    navigator.serviceWorker.register('./sw.js').catch(function(){});
+  }
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
   document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
   document.getElementById('blo').addEventListener('click',doLogin);
