@@ -1,4 +1,4 @@
-const CACHE_NAME = "tipovacka-ms-2026-v3-3";
+const CACHE_NAME = "tipovacka-ms-2026-stable";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -31,7 +31,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
           return res;
         })
-        .catch(() => caches.match(req).then((cached) => cached || caches.match("./tipovacka3_3.html"))),
+        .catch(() => caches.match(req).then((cached) => cached || caches.match("./tipovacka.html"))),
     );
     return;
   }

@@ -1,7 +1,7 @@
 {
   "name": "Tipovacka MS 2026",
   "short_name": "Tipovacka 2026",
-  "start_url": "./tipovacka3_3.html",
+  "start_url": "./tipovacka.html",
   "display": "standalone",
   "background_color": "#0a1524",
   "theme_color": "#0a1524",

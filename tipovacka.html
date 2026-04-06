@@ -935,6 +935,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 #btn-logout{background:rgba(10,23,40,.35)}
 #btn-install-app{background:rgba(10,23,40,.42);display:none}
 #btn-install-app.is-ready{border-color:var(--ac);color:var(--ac2)}
+.hdr-install-wrap{margin-top:6px}
+.hdr-install-btn{min-width:0;height:30px;padding:0 10px;border-radius:999px;font-size:.68rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.hdr-install-ico{font-size:.8rem;line-height:1}
+.hdr-install-text{line-height:1}
 .install-overlay{position:fixed;inset:0;background:rgba(5,10,18,.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
 .install-overlay.open{display:flex}
 .install-card{width:min(420px,100%);background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;padding:16px 16px 14px;box-shadow:0 18px 60px rgba(0,0,0,.4)}
@@ -943,6 +947,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .install-copy strong{color:var(--tx)}
 .install-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 .install-close{background:transparent;border:1px solid var(--bd2);color:var(--mu2);border-radius:10px;padding:7px 12px;font-size:.74rem;font-weight:700;cursor:pointer}
+@media(max-width:600px){.hdr-install-wrap{margin-top:4px}.hdr-install-btn{height:28px;font-size:.64rem;padding:0 9px}}
 #btn-refresh{
   width:100%;
   height:38px;
@@ -1396,6 +1401,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
           <button class="hdr-title hdr-title-link" id="hdr-title-main" type="button" title="Moje tipy"><span class="hdr-word">TIPOVAČKA MS</span> <span class="hdr-year">2026</span></button>
           <div class="hdr-by" id="by-lbl">by Adam184</div>
           <div class="hdr-clock" id="clk"></div>
+          <div class="hdr-install-wrap"><button class="hdr-ico-btn hdr-install-btn" id="btn-install-app" type="button" title="Přidat na plochu"><span class="hdr-install-ico">📱</span><span class="hdr-install-text">APP</span></button></div>
           <div class="hdr-admin-sync" id="hdr-admin-sync"></div>
         </div>
         <div class="hdr-stats">
@@ -1432,7 +1438,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
               <span class="abadge2" id="ab" style="display:none">ADMIN</span>
             </div>
             <div class="hdr-user-actions">
-              <button class="hdr-ico-btn" id="btn-install-app" type="button" title="Přidat na plochu">APP</button>
               <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
               <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
             </div>
