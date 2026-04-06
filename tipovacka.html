@@ -85,8 +85,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .rt-d{background:rgba(34,197,94,.12);color:var(--gn2);border:1px solid rgba(34,197,94,.2)}
 .rt-hype{background:rgba(245,158,11,.12);color:var(--gd);border:1px solid rgba(245,158,11,.22)}
 .pt{font-size:.67rem;padding:2px 6px;border-radius:20px;font-weight:700}
-.p5{background:rgba(34,197,94,.15);color:var(--gn2)}
-.p2{background:rgba(59,130,246,.15);color:var(--ac2)}
+.p10{background:rgba(34,197,94,.15);color:var(--gn2)}
+.p4{background:rgba(245,158,11,.15);color:#fbbf24}
+.p3{background:rgba(59,130,246,.15);color:var(--ac2)}
 .p0{background:rgba(239,68,68,.15);color:#f87171}
 .cd{font-size:.67rem;color:var(--ac2);font-weight:500}
 .lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:transform .15s,box-shadow .15s}
@@ -130,8 +131,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stc tr:last-child td{border-bottom:none}
 .stc tr.p1{background:rgba(59,130,246,.18);border-left:3px solid var(--ac)}
 .stc tr.p1 td:first-child{color:var(--gn2);font-weight:700}
-.stc tr.p2{background:rgba(59,130,246,.09);border-left:3px solid rgba(59,130,246,.5)}
-.stc tr.p2 td:first-child{color:var(--ac2);font-weight:700}
+.stc tr.p3{background:rgba(59,130,246,.09);border-left:3px solid rgba(59,130,246,.5)}
+.stc tr.p3 td:first-child{color:var(--ac2);font-weight:700}
 .stc tr.p3{background:rgba(168,85,247,.08);border-left:3px solid rgba(168,85,247,.4)}
 .stc tr.p3 td:first-child{color:var(--pu);font-weight:600}
 .tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:5px}
@@ -160,7 +161,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lo-tab.on{background:var(--ac);color:#fff}
 .lo-tab:not(.on){background:none;color:var(--mu)}
 .lo-lbl{font-size:.7rem;color:var(--mu2);font-weight:600;margin-bottom:4px;letter-spacing:.04em}
-.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.89rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;transition:.15s}
+.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:16px;font-family:'Inter',sans-serif;margin-bottom:.8rem;transition:.15s}
 .lo-inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.12)}
 .lo-inp::placeholder{color:var(--mu)}
 .lo-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
@@ -198,6 +199,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .pf-list{display:grid;gap:6px}
 .pf-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--tx)}
 .pf-summary{font-size:.68rem;color:var(--mu);margin-left:6px}
+.pf-foot{display:flex;justify-content:flex-end;margin-top:9px;padding-top:8px;border-top:1px solid rgba(37,66,102,.35)}
+.pf-done{padding:5px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);font-size:.69rem;font-weight:700;cursor:pointer}
+.pf-done:hover{border-color:var(--ac2);color:var(--ac2)}
 
 .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;padding:.8rem .9rem}
@@ -238,7 +242,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .match-section-col{width:100%;justify-self:stretch;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:600;color:var(--mu2);letter-spacing:.04em;text-transform:uppercase;text-align:center}
 .match-section-col.is-empty{visibility:hidden}
 .tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
-.tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
+.tip-saved.p10{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
+.tip-saved.p4{border-color:rgba(245,158,11,.42);color:#fbbf24;background:rgba(245,158,11,.06)}
+.tip-saved.p3{border-color:rgba(59,130,246,.42);color:var(--ac2);background:rgba(59,130,246,.06)}
 .tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
 .gt-bar{display:flex;height:4px;border-radius:3px;overflow:hidden;margin-bottom:4px;gap:2px;width:100%}
 .gt-h{background:var(--ac);border-radius:2px}
@@ -378,7 +384,47 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:.55rem .7rem}
 .mini-h{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);margin-bottom:.25rem}
 .mini-kv{font-size:.71rem;line-height:1.4;color:var(--tx)}.mini-kv .mut{color:var(--mu)}.mini-kv .ok{color:var(--gn2);font-weight:700}.mini-kv .miss{color:#f87171;font-weight:700}
+.extra-card{margin-bottom:.75rem;padding:.8rem .9rem}
+.extra-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:.6rem}
+.extra-title{font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;color:#fff}
+.extra-sub{font-size:.68rem;color:var(--mu2);line-height:1.5}
+.inline-info-ico{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(148,163,184,.35);color:var(--mu2);font-size:.56rem;font-weight:700;vertical-align:middle;margin-right:6px}
+.extra-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+.extra-field label{display:block;font-size:.66rem;color:var(--mu2);margin-bottom:5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.extra-field input,.extra-field select,.discussion-input,.discussion-textarea{width:100%;background:var(--bg3);border:1px solid var(--bd2);border-radius:10px;color:var(--tx);padding:10px 12px;font:inherit}
+.extra-save-state{display:none;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:10px;border:1px solid rgba(34,197,94,.22);background:rgba(34,197,94,.08);color:var(--gn2);font-size:.73rem;font-weight:700;white-space:nowrap}
+.extra-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:.65rem;font-size:.68rem;color:var(--mu)}
+.extra-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--bd2);border-radius:999px;background:rgba(255,255,255,.03)}
+.extra-status{margin-top:.55rem;font-size:.72rem;color:var(--mu2)}
+.rules-card{padding:.95rem 1rem}
+.rules-list{display:grid;gap:10px}
+.rules-item{padding:.75rem .85rem;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.025)}
+.rules-item strong{display:block;margin-bottom:4px;color:#fff;font-size:.82rem}
+.rules-item span{font-size:.74rem;line-height:1.55;color:var(--mu2)}
+.discussion-wrap{display:grid;gap:12px}
+.discussion-composer{padding:.85rem .95rem}
+.discussion-row{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.discussion-note{font-size:.68rem;color:var(--mu2);line-height:1.5}
+.discussion-textarea{min-height:90px;resize:vertical}
+.discussion-list{display:grid;gap:10px}
+.discussion-post{padding:.85rem .95rem;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025)}
+.discussion-post.reply{margin-left:26px;background:rgba(255,255,255,.02)}
+.discussion-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
+.discussion-author{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.discussion-rank{font-size:.64rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--ac2);border:1px solid rgba(59,130,246,.24)}
+.discussion-time{font-size:.65rem;color:var(--mu)}
+.discussion-body{font-size:.76rem;line-height:1.6;color:var(--tx);white-space:pre-wrap;word-break:break-word}
+.discussion-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.discussion-link{background:none;border:none;color:var(--ac2);font-size:.68rem;font-weight:700;cursor:pointer;padding:0}
+.discussion-link.danger{color:#f87171}
+.discussion-reactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.discussion-react-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;border:1px solid var(--bd2);background:rgba(255,255,255,.03);color:var(--mu2);font-size:.68rem;font-weight:700;cursor:pointer}
+.discussion-react-btn.on{border-color:rgba(59,130,246,.4);color:var(--ac2);background:rgba(59,130,246,.08)}
+.discussion-empty{padding:1rem;text-align:center;color:var(--mu)}
+.extra-admin-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-top:.7rem}
 @media(max-width:600px){.hdr{padding:.55rem .8rem 0}.hdr-center{justify-content:flex-start}.cd-pill{display:none}.hdr-clock{font-size:.62rem}.hdr-title{font-size:.95rem}.hdr-sub-row{flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:.3rem}.phase-tab{font-size:.74rem;padding:5px 8px}.sort-chip,.fchip{font-size:.68rem}}
+.discussion-post.reply{margin-left:18px}
+@media(max-width:600px){.extra-grid,.extra-admin-grid{grid-template-columns:1fr}.discussion-post.reply{margin-left:12px}.rules-card{padding:.8rem}.discussion-composer{padding:.8rem}}
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.7rem 1.2rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
 .hdr-top{display:flex;align-items:center;gap:.75rem;justify-content:space-between}
@@ -880,7 +926,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .hdr-sc-fill-pu{background:#a855f7;box-shadow:0 0 10px rgba(168,85,247,.72),0 0 18px rgba(168,85,247,.24)}
 .hdr-right{display:flex;justify-content:flex-end}
 .hdr-user-block{
-  width:180px;
+  width:188px;
   display:flex;
   flex-direction:column;
   align-items:stretch;
@@ -893,7 +939,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   min-height:42px;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   gap:8px;
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.10);
@@ -918,9 +964,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .hdr-user-actions{
   width:100%;
   display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+  grid-template-columns:1fr;
   gap:8px;
   box-sizing:border-box;
+}
+.hdr-user-row,.hdr-tool-row{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 .hdr-right .lang-btn,
 .hdr-right .hdr-ico-btn{
@@ -937,6 +989,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 #btn-logout{background:rgba(10,23,40,.35)}
 #btn-install-app{background:rgba(10,23,40,.42);display:none}
 #btn-install-app.is-ready{border-color:var(--ac);color:var(--ac2)}
+#btn-faq{background:rgba(10,23,40,.35)}
 .hdr-install-wrap{margin-top:6px}
 .hdr-install-btn{min-width:0;height:30px;padding:0 10px;border-radius:999px;font-size:.68rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 .install-overlay{position:fixed;inset:0;background:rgba(5,10,18,.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
@@ -994,11 +1047,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 @media(max-width:520px){
   .hdr-row{
-    grid-template-columns:minmax(0,1fr) 132px;
+    grid-template-columns:minmax(0,1fr) 148px;
     gap:10px;
   }
-  .hdr-user-block{max-width:132px}
-  .hdr-uname{max-width:56px;font-size:.73rem}
+  .hdr-user-block{max-width:148px}
+  .hdr-uname{max-width:64px;font-size:.73rem}
   .hdr-user{min-height:38px;padding:0 8px 0 6px}
   .hdr-av{width:24px;height:24px}
   .hdr-right .lang-btn,
@@ -1143,6 +1196,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .tc-team-link:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.07)}
 .tc-team-link:active{transform:scale(.98)}
 .tc-team-note{font-size:.63rem;color:var(--mu);margin-top:10px;line-height:1.35}
+.tc.tc-team.target-team{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18);border-color:rgba(96,165,250,.55)}
 .tbl a.team-rank-link{color:inherit;text-decoration:none}
 .tbl a.team-rank-link:hover{color:var(--ac2);text-decoration:underline}
 @media(max-width:600px){
@@ -1157,7 +1211,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .back-top-btn{background:transparent;border:1px solid var(--bd2);color:var(--mu2);border-radius:999px;padding:6px 12px;font-size:.72rem;font-weight:700;cursor:pointer;transition:.15s}
 .back-top-btn:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.06)}
 .zeb-info{margin-bottom:.75rem}
-.zeb-dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 .8rem}
+.zeb-dash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 .8rem}
 .zeb-widget{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 12px 12px}
 .zeb-widget-lbl{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px}
 .zeb-widget-val{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:700;color:#f4f8ff;margin-bottom:4px}
@@ -1388,7 +1442,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.4</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v4.0</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1432,14 +1486,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
         <div class="hdr-right">
           <div class="hdr-user-block">
-            <div class="hdr-user" id="pp" style="display:none">
-              <div class="hdr-av" id="hdr-av">?</div>
-              <span class="hdr-uname" id="hdr-username-lbl"></span>
-              <span class="abadge2" id="ab" style="display:none">ADMIN</span>
-            </div>
             <div class="hdr-user-actions">
-              <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
-              <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
+              <div class="hdr-user-row">
+                <div class="hdr-user" id="pp" style="display:none">
+                  <div class="hdr-av" id="hdr-av">?</div>
+                  <span class="hdr-uname" id="hdr-username-lbl"></span>
+                  <span class="abadge2" id="ab" style="display:none">ADMIN</span>
+                </div>
+                <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
+              </div>
+              <div class="hdr-tool-row">
+                <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
+                <button class="hdr-ico-btn" id="btn-faq" type="button" title="FAQ">ⓘ FAQ</button>
+              </div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">TÝMY</button><button class="btn btn-ol btn-sm" id="btn-sync-fifa" style="display:none">FIFA RANKING</button></div>
           </div>
@@ -1454,8 +1513,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <button class="nb" id="tab-vysledky">Výsledky</button>
       <button class="nb" id="tab-tabulka">Tabulka</button>
       <button class="nb" id="tab-pavouk">Play-off</button>
-      <button class="nb" id="tab-stadiony">Stadiony</button>
       <button class="nb" id="tab-tymy">Týmy</button>
+      <button class="nb" id="tab-stadiony">Stadiony</button>
+      <button class="nb" id="tab-diskuze">Diskuze</button>
       <button class="nb" id="tab-admin" style="display:none">Admin</button>
     </nav>
 
@@ -1486,7 +1546,34 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div id="page-tipy">
-      <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.</div>
+      <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!</div>
+      <div class="card extra-card" id="extra-card">
+        <div class="extra-head">
+          <div>
+            <div class="extra-title" id="extra-title">Extra tip na celý turnaj</div>
+            <div class="extra-sub" id="extra-sub"><span class="inline-info-ico">i</span>Jednou zvol vítěze turnaje a krále střelců. Po uložení jsou tipy trvale zamčené a lze je zadat jen před úvodním zápasem turnaje.</div>
+          </div>
+        </div>
+        <div class="extra-grid">
+          <div class="extra-field">
+            <label for="extra-winner" id="extra-winner-lbl">Vítěz turnaje</label>
+            <input id="extra-winner" list="extra-team-options" placeholder="Vyber tým nebo napiš název">
+          </div>
+          <div class="extra-field">
+            <label for="extra-scorer" id="extra-scorer-lbl">Král střelců</label>
+            <input id="extra-scorer" placeholder="Např. Kylian Mbappé">
+          </div>
+          <button class="btn btn-gn" id="btn-save-extra" type="button">Uložit extra tipy</button>
+          <div class="extra-save-state" id="extra-save-state">Extra tip uložen</div>
+        </div>
+        <datalist id="extra-team-options"></datalist>
+        <div class="extra-meta">
+          <span class="extra-pill" id="extra-lock-pill">⏳ Deadline: -</span>
+          <span class="extra-pill" id="extra-status-pill">🎯 Moje extra tipy: -</span>
+          <span class="extra-pill" id="extra-score-pill">⭐ Extra body: 0b</span>
+        </div>
+        <div class="extra-status" id="extra-status-note"></div>
+      </div>
 
       <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
@@ -1524,7 +1611,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
       </div>
       <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
-      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div></div></div>
+      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div><div class="pf-foot"><button class="pf-done" id="pf-done" type="button">Hotovo</button></div></div></div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
     </div>
 
@@ -1550,6 +1637,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div id="page-tabulka" style="display:none">
+      <div class="ibox" id="ibox-tab-note" style="margin-bottom:.55rem">Poslední aktualizace výsledků: nikdy</div>
       <div class="ptabs">
         <button class="ptab on" id="ptab-tab-sk">Skupinová fáze</button>
         <button class="ptab" id="ptab-tab-3m">Tabulka 3. míst</button>
@@ -1594,9 +1682,50 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <div id="page-admin" style="display:none">
       <div class="card">
         <div class="clbl" id="admin-clbl">Admin - přehled všech tipů</div>
+        <div class="ibox" id="admin-extra-info">Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.</div>
+        <div class="extra-admin-grid">
+          <div class="extra-field">
+            <label for="admin-winner-actual" id="admin-winner-lbl">Oficiální vítěz</label>
+            <input id="admin-winner-actual" list="extra-team-options" placeholder="Např. Francie">
+          </div>
+          <div class="extra-field">
+            <label for="admin-scorer-actual" id="admin-scorer-lbl">Oficiální král střelců</label>
+            <input id="admin-scorer-actual" placeholder="Např. Kylian Mbappé">
+          </div>
+          <button class="btn btn-ol" id="btn-save-extra-results" type="button">Uložit extra výsledky</button>
+        </div>
         <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem"><button class="btn btn-ol btn-sm" id="btn-exp-all">↓ Export všech tipů</button></div>
         <div class="ibox" id="admin-ibox">Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.</div>
         <div style="overflow-x:auto"><div id="adm-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
+      </div>
+    </div>
+
+    <div id="page-diskuze" style="display:none">
+      <div class="discussion-wrap">
+        <div class="card discussion-composer">
+          <div class="discussion-row">
+            <div></div>
+            <div class="discussion-rank" id="discussion-reply-pill" style="display:none">Odpověď</div>
+          </div>
+          <div class="extra-field" style="margin-top:.7rem">
+            <textarea class="discussion-textarea" id="discussion-body" placeholder="Napiš svůj komentář..."></textarea>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:.7rem">
+            <div class="discussion-note" id="discussion-status">Příspěvek mohou přidávat jen přihlášení hráči.</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ol btn-sm" id="btn-discussion-cancel" type="button" style="display:none">Zrušit odpověď</button>
+              <button class="btn btn-gn btn-sm" id="btn-discussion-send" type="button">Odeslat</button>
+            </div>
+          </div>
+        </div>
+        <div class="card"><div id="discussion-list" class="discussion-list"><div class="discussion-empty">Načítám diskuzi...</div></div></div>
+      </div>
+    </div>
+
+    <div id="page-pravidla" style="display:none">
+      <div class="card rules-card">
+        <div class="clbl" id="rules-clbl">Pravidla tipovačky</div>
+        <div id="rules-list" class="rules-list"></div>
       </div>
     </div>
 
@@ -1605,7 +1734,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v3.4</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v4.0</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1615,7 +1744,7 @@ var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','#4c1d95','#0f766e','#78350f'];
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','admin'];
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','diskuze','pravidla','admin'];
 
 var LANG='cs';
 var authBusy=false;
@@ -1623,6 +1752,11 @@ var cdInterval=null;
 var otherPhase='sk';
 var vysPhase='sk';
 var selectedOtherIds=[];
+var extraTipsByPlayer={};
+var extraTipMeta={lockAt:'2026-06-11T19:00:00.000Z',winnerActual:'',scorerActual:'',updatedAt:''};
+var discussionPosts=[];
+var discussionReactions={};
+var discussionReplyTo=null;
 var espnTeamIndex=null;
 var teamDetailCache={};
 var currentTeamView=null;
@@ -1638,10 +1772,10 @@ var T={
     lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',
     tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
     tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
-    tab_stadiony:'Stadiony',tab_tymy:'Týmy',
+    tab_stadiony:'Stadiony',tab_tymy:'Týmy',tab_diskuze:'Diskuze',tab_pravidla:'Pravidla',
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',
-    ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
+    ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
@@ -1670,7 +1804,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v3.4',
+    footer_ver:'v4.0',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1723,11 +1857,13 @@ var T={
     ost_top3:'Top 3 v žebříčku',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
-    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování: 5 bodů za přesný výsledek, 2 body za správný vítěz/remízu.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
+    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
-    fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn',fifa_profile:'FIFA',fifa_widget_top:'Nejvýše postavený',fifa_widget_climber:'Největší skokan',fifa_widget_gain:'Nejvíc bodů získal',fifa_widget_drop:'Největší propad',fifa_widget_loss:'Nejvíc bodů ztratil'
+    fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn',fifa_profile:'FIFA',fifa_widget_top:'Nejvýše postavený',fifa_widget_climber:'Největší skokan',fifa_widget_gain:'Nejvíc bodů získal',fifa_widget_drop:'Největší propad',fifa_widget_loss:'Nejvíc bodů ztratil',
+    goal_diff_bonus:'Bonus za rozdíl',extra_title:'Extra tip na celý turnaj',extra_sub:'Jednou zvol vítěze turnaje a krále střelců. Po uložení jsou tipy trvale zamčené a lze je zadat jen před úvodním zápasem turnaje.',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',player_rank:'Pořadí',
+    player_rank:'Pořadí'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -1738,10 +1874,10 @@ var T={
     lo_meta:'Your PIN is used for login and saving tips.',
     tab_tipy:'My Tips',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',
     tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
-    tab_stadiony:'Stadiums',tab_tymy:'Teams',
+    tab_stadiony:'Stadiums',tab_tymy:'Teams',tab_diskuze:'Discussion',tab_pravidla:'Rules',
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',
-    ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',
+    ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
@@ -1770,7 +1906,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v3.4',
+    footer_ver:'v4.0',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1823,11 +1959,12 @@ var T={
     ost_top3:'Top 3 leaderboard',
     ost_top3_hint:'Full ranking is in Leaderboard',
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
-    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Scoring: 5 points for exact score, 2 points for correct winner/draw.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
+    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
-    fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes',fifa_profile:'FIFA',fifa_widget_top:'Top ranked',fifa_widget_climber:'Biggest climber',fifa_widget_gain:'Most points gained',fifa_widget_drop:'Biggest drop',fifa_widget_loss:'Most points lost'
+    fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes',fifa_profile:'FIFA',fifa_widget_top:'Top ranked',fifa_widget_climber:'Biggest climber',fifa_widget_gain:'Most points gained',fifa_widget_drop:'Biggest drop',fifa_widget_loss:'Most points lost',
+    goal_diff_bonus:'Goal diff bonus',extra_title:'Extra pick for the full tournament',extra_sub:'Choose the tournament winner and top scorer once. After saving, the picks are locked permanently and can only be entered before the opening match.',extra_winner:'Tournament winner',extra_scorer:'Top scorer',extra_save:'Save extra picks',extra_deadline:'Deadline',extra_my:'My extra pick',extra_points:'Extra points',extra_none:'not saved yet',extra_locked:'Extra picks are locked after tournament kickoff.',extra_saved:'Extra pick saved and locked.',extra_need_login:'Sign in first.',extra_missing:'Fill in both winner and top scorer.',extra_admin_info:'Admin can manually set the official tournament winner and top scorer. Extra points are added to the leaderboard automatically.',extra_actual_winner:'Official winner',extra_actual_scorer:'Official top scorer',extra_results_save:'Save extra results',extra_results_saved:'Extra results saved.',discussion_info:'Registered players can discuss matches and tips here. Each post shows the author’s current leaderboard rank. Admin can delete any post.',discussion_title:'New post',discussion_note:'Keep it specific and useful. Quick replies to individual posts work well on mobile too.',discussion_send:'Send',discussion_cancel:'Cancel reply',discussion_reply:'Reply',discussion_delete:'Delete',discussion_empty:'No discussion yet.',discussion_placeholder:'Write your comment...',discussion_sending:'Sending post...',discussion_saved:'Post saved.',discussion_deleted:'Post deleted.',discussion_login:'Only signed-in players can post.',discussion_replying_to:'Replying to',rules_title:'Competition rules',rules_1_t:'Match tips',rules_1_b:'Match tips can only be entered before kickoff. Once a tip is saved, a regular player can no longer edit it.',rules_2_t:'Match scoring',rules_2_b:'An exact score is worth 10 points. Correct winner or draw is worth 3 points. If you also get the correct goal difference, you earn 1 extra point.',rules_3_t:'Extra picks',rules_3_b:'Before the tournament starts, each player can save one pick for the tournament winner and one for the top scorer. Once saved, they cannot be changed. A correct winner is worth 30 points and a correct top scorer 20 points.',rules_4_t:'Visibility of other tips',rules_4_b:'Other players’ tips are only revealed for matches where you have already saved your own tip. All other matches show a question mark.',rules_5_t:'Leaderboard',rules_5_b:'The leaderboard is recalculated automatically from saved tips and results. Extra points are added once the official extra results are entered by the Administrator.',rules_6_t:'Administration',rules_6_b:'If you run into technical issues, unclear situations or need an adjustment, contact the Administrator.',player_rank:'Rank'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -2165,6 +2302,125 @@ function renderResultsNote(){
   var el=document.getElementById('ibox-vys-note');
   if(!el) return;
   el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsLastUpdated());
+}
+function renderTableNote(){
+  var el=document.getElementById('ibox-tab-note');
+  if(!el) return;
+  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsLastUpdated());
+}
+function getExtraDeadlineIso(){
+  return (extraTipMeta&&extraTipMeta.lockAt)||'2026-06-11T19:00:00.000Z';
+}
+function extraTipsLocked(){
+  return new Date()>=new Date(getExtraDeadlineIso());
+}
+function extraTipsSavedByMe(){
+  if(!me) return false;
+  var rec=extraTipsByPlayer[String(me.id)];
+  return !!(rec&&rec.winnerTip&&rec.scorerTip);
+}
+function getUniqueTeams(){
+  var out=[];
+  SKU.forEach(function(sk){
+    (TEAMS[sk]||[]).forEach(function(tm){ if(tm&&tm[0]) out.push(tm[0]); });
+  });
+  return out.sort(function(a,b){ return tN(a).localeCompare(tN(b), LANG==='en'?'en':'cs'); });
+}
+function plainNorm(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+}
+function getExtraPointsForPlayer(playerId){
+  var rec=extraTipsByPlayer[String(playerId)];
+  if(!rec) return 0;
+  var total=0;
+  if(extraTipMeta.winnerActual && plainNorm(rec.winnerTip)===plainNorm(extraTipMeta.winnerActual)) total+=30;
+  if(extraTipMeta.scorerActual && plainNorm(rec.scorerTip)===plainNorm(extraTipMeta.scorerActual)) total+=20;
+  return total;
+}
+function loadExtraTips(){
+  return sbf('extra_tips?select=hrac_id,winner_tip,scorer_tip,updated_at').then(function(d){
+    extraTipsByPlayer={};
+    (d||[]).forEach(function(row){
+      extraTipsByPlayer[String(row.hrac_id)]={winnerTip:row.winner_tip||'',scorerTip:row.scorer_tip||'',updatedAt:row.updated_at||''};
+    });
+  }).catch(function(){ extraTipsByPlayer={}; });
+}
+function loadExtraMeta(){
+  return sbf('extra_tip_settings?select=id,lock_at,winner_actual,scorer_actual,updated_at&limit=1').then(function(d){
+    var row=(d&&d[0])||null;
+    if(row){
+      extraTipMeta={
+        lockAt:row.lock_at||'2026-06-11T19:00:00.000Z',
+        winnerActual:row.winner_actual||'',
+        scorerActual:row.scorer_actual||'',
+        updatedAt:row.updated_at||''
+      };
+    }
+  }).catch(function(){});
+}
+function loadDiscussion(){
+  return sbf('discussion_posts?select=id,parent_id,hrac_id,body,created_at&order=created_at.asc').then(function(d){
+    discussionPosts=d||[];
+  }).catch(function(){ discussionPosts=[]; });
+}
+function loadDiscussionReactions(){
+  return sbf('discussion_reactions?select=post_id,hrac_id,emoji').then(function(d){
+    discussionReactions={};
+    (d||[]).forEach(function(row){
+      var key=String(row.post_id);
+      if(!discussionReactions[key]) discussionReactions[key]=[];
+      discussionReactions[key].push({hrac_id:String(row.hrac_id),emoji:row.emoji});
+    });
+  }).catch(function(){ discussionReactions={}; });
+}
+function fillExtraTeamOptions(){
+  var dl=document.getElementById('extra-team-options');
+  if(!dl) return;
+  dl.innerHTML=getUniqueTeams().map(function(name){return '<option value="'+escAttr(name)+'">'+escHtml(tN(name))+'</option>';}).join('');
+}
+function scoreMeta(tip,res){
+  if(!tip||!res) return null;
+  var t=tip.split(':').map(Number),r=res.split(':').map(Number);
+  if(isNaN(t[0])||isNaN(t[1])||isNaN(r[0])||isNaN(r[1])) return null;
+  var exact=t[0]===r[0]&&t[1]===r[1];
+  var sign=function(x){return x>0?1:x<0?-1:0;};
+  var correctOutcome=sign(t[0]-t[1])===sign(r[0]-r[1]);
+  var goalDiffBonus=!exact&&correctOutcome&&((t[0]-t[1])===(r[0]-r[1]));
+  return {exact:exact,correctOutcome:correctOutcome,goalDiffBonus:goalDiffBonus,total:exact?10:(correctOutcome?(goalDiffBonus?4:3):0)};
+}
+function getPtsClass(pts){
+  if(pts===10) return 'p10';
+  if(pts===4) return 'p4';
+  if(pts===3) return 'p3';
+  if(pts===0) return 'p0';
+  return '';
+}
+function getLeaderboardSnapshot(phase){
+  var arr=phase==='po'?PZ:phase==='sk'?SZ:SZ.concat(PZ);
+  var includeExtra=(phase!=='po'&&phase!=='sk');
+  var orderedMatches=arr.slice().sort(function(a,b){ return mDate(a)-mDate(b); });
+  return players.map(function(p,i){
+    var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
+    var total=0,pre=0,spr=0,dif=0,spa=0,hod=0,uzam=0;
+    arr.forEach(function(z){
+      var res=results[z[0]],tip=tips[z[0]];
+      if(tip) uzam++;
+      if(res&&tip){
+        var meta=scoreMeta(tip,res);
+        if(meta){
+          total+=meta.total;hod++;
+          if(meta.exact) pre++;
+          else if(meta.correctOutcome){spr++; if(meta.goalDiffBonus) dif++;}
+          else spa++;
+        }
+      }
+    });
+    var extra=includeExtra?getExtraPointsForPlayer(p.id):0;
+    total+=extra;
+    return {p:p,i:i,total:total,pre:pre,spr:spr,dif:dif,spa:spa,hod:hod,uzam:uzam,extra:extra,history:buildHistorySeries(tips,orderedMatches)};
+  }).sort(function(a,b){
+    return b.total-a.total||b.pre-a.pre||b.spr-a.spr||b.dif-a.dif||a.p.jmeno.localeCompare(b.p.jmeno);
+  });
 }
 function getFifaCacheKey(){return 'ms26_fifa_ranking_v3';}
 function getDefaultFifaItems(){
@@ -2562,23 +2818,11 @@ function updateHeaderRanking(){
   if(lbl) lbl.textContent=LANG==="en"?"Leaderboard rank":"POŘADÍ V TIPOVAČCE";
   if(!val||!bar) return;
   if(!me||!players.length){val.innerHTML='-';bar.style.width='0%';return;}
-  var arr=SZ.concat(PZ);
-  var scored=players.map(function(p){
-    var tips=(me&&p.id===me.id)?myTips:(allTips[p.id]||{});
-    var total=0,pre=0,spr=0;
-    arr.forEach(function(z){
-      var res=results[z[0]],tip=tips[z[0]];
-      if(res&&tip){
-        var pts=calcPts(tip,res);
-        if(pts!==null){total+=pts;if(pts===5)pre++;else if(pts===2)spr++;}
-      }
-    });
-    return {id:p.id,total:total,pre:pre,spr:spr};
-  }).sort(function(a,b){return b.total-a.total||b.pre-a.pre||b.spr-a.spr;});
+  var scored=getLeaderboardSnapshot('cel').map(function(s){ return {id:s.p.id,total:s.total,pre:s.pre,spr:s.spr,dif:s.dif}; });
   var idx=-1,mine=null;
   scored.forEach(function(s,i){ if(String(s.id)===String(me.id)){idx=i;mine=s;} });
   if(idx<0||!mine){val.innerHTML='-';bar.style.width='0%';return;}
-  val.innerHTML='#'+(idx+1)+' <span class="hdr-rank-meta-inline">'+mine.total+'b · '+mine.pre+'<span class="rank-exact">P</span> · '+mine.spr+'<span class="rank-trend">T</span></span>';;
+  val.innerHTML='#'+(idx+1)+' <span class="hdr-rank-meta-inline">'+mine.total+'b · '+mine.pre+'<span class="rank-exact">P</span> · '+mine.spr+'<span class="rank-trend">T</span> · '+mine.dif+'<span style="color:var(--gd)">D</span></span>';;
   bar.style.width=(scored.length?Math.max(8,Math.round((1-(idx/Math.max(scored.length-1,1)))*100)):0)+'%';
 }
 
@@ -2608,13 +2852,14 @@ function renderFormBox(){
   if(!scored.length){box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>';return;}
   var dots=scored.map(function(z){
     var pts=calcPts(myTips[z[0]],results[z[0]]);
-    return pts===5?'<span style="color:var(--gn2);font-weight:700;font-size:1rem">●</span>':
-           pts===2?'<span style="color:var(--ac2);font-size:1rem">●</span>':
+    return pts===10?'<span style="color:var(--gn2);font-weight:700;font-size:1rem">●</span>':
+           pts===4?'<span style="color:#fbbf24;font-size:1rem">●</span>':
+           pts===3?'<span style="color:var(--ac2);font-size:1rem">●</span>':
            '<span style="color:#f87171;font-size:1rem">●</span>';
   }).join(' ');
-  var pts5=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===5;}).length;
-  var pts2=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===2;}).length;
-  box.innerHTML=dots+'<div class="mut" style="margin-top:4px;font-size:.67rem">'+pts5+'× přesně · '+pts2+'× správně (posled. 5)</div>';
+  var pts10=scored.filter(function(z){return calcPts(myTips[z[0]],results[z[0]])===10;}).length;
+  var pts34=scored.filter(function(z){var p=calcPts(myTips[z[0]],results[z[0]]);return p===3||p===4;}).length;
+  box.innerHTML=dots+'<div class="mut" style="margin-top:4px;font-size:.67rem">'+pts10+'× '+tr('exact')+' · '+pts34+'× '+tr('correct')+' (posled. 5)</div>';
 }
 function tipOutcome(t){
   if(!t) return null;
@@ -2659,19 +2904,7 @@ function renderInsights(){
   var box=document.getElementById('ins-box');
   if(!box) return;
   if(!players.length){ box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>'; return; }
-  var arr=SZ.concat(PZ);
-  var scored=players.map(function(p){
-    var tips=(me&&p.id===me.id)?myTips:(allTips[p.id]||{});
-    var total=0,pre=0,spr=0;
-    arr.forEach(function(z){
-      var res=results[z[0]],tip=tips[z[0]];
-      if(res&&tip){
-        var pts=calcPts(tip,res);
-        if(pts!==null){total+=pts;if(pts===5)pre++;else if(pts===2)spr++;}
-      }
-    });
-    return {name:p.jmeno,total:total,pre:pre,spr:spr};
-  }).sort(function(a,b){ return b.total-a.total||b.pre-a.pre||b.spr-a.spr||a.name.localeCompare(b.name); }).slice(0,3);
+  var scored=getLeaderboardSnapshot('cel').slice(0,3).map(function(row){ return {name:row.p.jmeno,total:row.total,pre:row.pre,spr:row.spr}; });
   if(!scored.length){ box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>'; return; }
   var medals=['🥇','🥈','🥉'];
   box.innerHTML=scored.map(function(row,i){
@@ -2739,6 +2972,195 @@ function renderUpdBadge(){
   else if(diffMin<60){el.textContent=diffMin+'min '+tr('upd_ago');el.className='upd-badge stale';}
   else {el.textContent=Math.round(diffMin/60)+'h '+tr('upd_ago');el.className='upd-badge stale';}
 }
+function renderExtraTipsBox(){
+  fillExtraTeamOptions();
+  var lockEl=document.getElementById('extra-lock-pill'),statusEl=document.getElementById('extra-status-pill'),scoreEl=document.getElementById('extra-score-pill'),noteEl=document.getElementById('extra-status-note');
+  var saveState=document.getElementById('extra-save-state');
+  if(!lockEl||!statusEl||!scoreEl||!noteEl) return;
+  var rec=me?extraTipsByPlayer[String(me.id)]:null;
+  var winnerInput=document.getElementById('extra-winner'),scorerInput=document.getElementById('extra-scorer'),saveBtn=document.getElementById('btn-save-extra');
+  var alreadySaved=!!(rec&&rec.winnerTip&&rec.scorerTip);
+  lockEl.textContent='⏳ '+tr('extra_deadline')+': '+formatAnyUpdated(getExtraDeadlineIso());
+  statusEl.textContent='🎯 '+tr('extra_my')+': '+(rec?(rec.winnerTip+' / '+rec.scorerTip):tr('extra_none'));
+  scoreEl.textContent='⭐ '+tr('extra_points')+': '+(me?getExtraPointsForPlayer(me.id):0)+'b';
+  if(winnerInput) winnerInput.value=rec?rec.winnerTip:'';
+  if(scorerInput) scorerInput.value=rec?rec.scorerTip:'';
+  var disabled=!me||extraTipsLocked()||alreadySaved;
+  if(winnerInput) winnerInput.disabled=disabled;
+  if(scorerInput) scorerInput.disabled=disabled;
+  if(saveBtn) saveBtn.disabled=disabled;
+  if(saveBtn) saveBtn.style.display=alreadySaved?'none':'inline-flex';
+  if(saveState){
+    saveState.style.display=alreadySaved?'inline-flex':'none';
+    saveState.textContent=tr('extra_saved');
+  }
+  noteEl.textContent=!me?tr('extra_need_login'):(extraTipsLocked()&&!alreadySaved?tr('extra_locked'):'');
+  if(me&&me.je_admin){
+    var aw=document.getElementById('admin-winner-actual'),as=document.getElementById('admin-scorer-actual');
+    if(aw) aw.value=extraTipMeta.winnerActual||'';
+    if(as) as.value=extraTipMeta.scorerActual||'';
+  }
+}
+function renderRules(){
+  var el=document.getElementById('rules-list');
+  if(!el) return;
+  var items=[1,2,3,4,5,6].map(function(i){
+    return '<div class="rules-item"><strong>'+escHtml(tr('rules_'+i+'_t'))+'</strong><span>'+escHtml(tr('rules_'+i+'_b'))+'</span></div>';
+  }).join('');
+  el.innerHTML=items;
+}
+function getDiscussionRankMap(){
+  var map={};
+  getLeaderboardSnapshot('cel').forEach(function(row,idx){ map[String(row.p.id)]={rank:idx+1,total:row.total}; });
+  return map;
+}
+function getDiscussionAuthorName(post){
+  var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
+  return (player&&player.jmeno)||('#'+post.hrac_id);
+}
+function discussionReactionSummary(postId){
+  var list=discussionReactions[String(postId)]||[];
+  var emojis=['👍','😂','🔥','⚽'];
+  return emojis.map(function(emoji){
+    var items=list.filter(function(r){ return r.emoji===emoji; });
+    var names=items.map(function(r){
+      var player=players.find(function(p){ return String(p.id)===String(r.hrac_id); })||null;
+      return (player&&player.jmeno)||('#'+r.hrac_id);
+    });
+    return {
+      emoji:emoji,
+      count:items.length,
+      mine:!!(me&&items.some(function(r){ return String(r.hrac_id)===String(me.id); })),
+      title:names.length?names.join(', '):''
+    };
+  });
+}
+function renderDiscussion(){
+  var el=document.getElementById('discussion-list');
+  if(!el) return;
+  if(!discussionPosts.length){ el.innerHTML='<div class="discussion-empty">'+escHtml(tr('discussion_empty'))+'</div>'; return; }
+  var ranks=getDiscussionRankMap();
+  var byParent={};
+  discussionPosts.forEach(function(post){
+    var key=post.parent_id?String(post.parent_id):'root';
+    if(!byParent[key]) byParent[key]=[];
+    byParent[key].push(post);
+  });
+  function renderPost(post,isReply){
+    var rank=ranks[String(post.hrac_id)];
+    var canDelete=me&&me.je_admin;
+    var reacts=discussionReactionSummary(post.id);
+    var replies=(byParent[String(post.id)]||[]).map(function(r){ return renderPost(r,true); }).join('');
+    return '<div class="discussion-post'+(isReply?' reply':'')+'">'+
+      '<div class="discussion-top"><div class="discussion-author"><strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
+      '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
+      '<div class="discussion-reactions">'+reacts.map(function(item){
+        return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
+      }).join('')+'</div>'+
+      '<div class="discussion-actions"><button class="discussion-link" type="button" data-reply="'+escAttr(post.id)+'">'+escHtml(tr('discussion_reply'))+'</button>'+(canDelete?'<button class="discussion-link danger" type="button" data-del="'+escAttr(post.id)+'">'+escHtml(tr('discussion_delete'))+'</button>':'')+'</div>'+
+      replies+
+    '</div>';
+  }
+  el.innerHTML=(byParent.root||[]).map(function(post){ return renderPost(post,false); }).join('');
+  el.querySelectorAll('[data-react-post]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(!me){ var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_login'); return; }
+      var pid=parseInt(btn.getAttribute('data-react-post'),10);
+      var emoji=btn.getAttribute('data-react-emoji');
+      rpcWithRetry('discussion_toggle_reaction_secure',{p_hrac_id:me.id,p_pin:myPin,p_post_id:pid,p_emoji:emoji}).then(function(){
+        return loadDiscussionReactions();
+      }).then(function(){
+        renderDiscussion();
+      }).catch(function(e){
+        var st=document.getElementById('discussion-status'); if(st) st.textContent=(e&&e.message)||tr('error_generic');
+      });
+    });
+  });
+  el.querySelectorAll('[data-reply]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pid=btn.getAttribute('data-reply');
+      discussionReplyTo=discussionPosts.find(function(p){return String(p.id)===String(pid);})||null;
+      var pill=document.getElementById('discussion-reply-pill'),cancel=document.getElementById('btn-discussion-cancel'),status=document.getElementById('discussion-status');
+      if(pill){pill.style.display='inline-flex';pill.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo?getDiscussionAuthorName(discussionReplyTo):('#'+pid));}
+      if(cancel) cancel.style.display='inline-block';
+      if(status) status.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo?getDiscussionAuthorName(discussionReplyTo):('#'+pid));
+      var ta=document.getElementById('discussion-body'); if(ta) ta.focus();
+    });
+  });
+  el.querySelectorAll('[data-del]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(!me) return;
+      var pid=btn.getAttribute('data-del');
+      rpcWithRetry('discussion_delete_post_secure',{p_hrac_id:me.id,p_pin:myPin,p_post_id:parseInt(pid,10)}).then(function(){
+        return loadDiscussion();
+      }).then(function(){
+        renderDiscussion();
+        var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_deleted');
+      }).catch(function(e){
+        var st=document.getElementById('discussion-status'); if(st) st.textContent=(e&&e.message)||tr('error_generic');
+      });
+    });
+  });
+}
+function resetDiscussionComposer(){
+  discussionReplyTo=null;
+  var pill=document.getElementById('discussion-reply-pill'),cancel=document.getElementById('btn-discussion-cancel'),status=document.getElementById('discussion-status'),ta=document.getElementById('discussion-body');
+  if(pill) pill.style.display='none';
+  if(cancel) cancel.style.display='none';
+  if(status) status.textContent=me?tr('discussion_note'):tr('discussion_login');
+  if(ta) ta.value='';
+}
+function saveDiscussionPost(){
+  if(!me){ var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_login'); return; }
+  var ta=document.getElementById('discussion-body'),body=ta?ta.value.trim():'';
+  var st=document.getElementById('discussion-status');
+  if(!body){ if(st) st.textContent=tr('discussion_placeholder'); return; }
+  if(st) st.textContent=tr('discussion_sending');
+  rpcWithRetry('discussion_save_post_secure',{p_hrac_id:me.id,p_pin:myPin,p_body:body,p_parent_id:discussionReplyTo?discussionReplyTo.id:null}).then(function(){
+    return loadDiscussion();
+  }).then(function(){
+    renderDiscussion();
+    resetDiscussionComposer();
+    var status=document.getElementById('discussion-status'); if(status) status.textContent=tr('discussion_saved');
+  }).catch(function(e){
+    if(st) st.textContent=(e&&e.message)||tr('error_generic');
+  });
+}
+function saveExtraTips(){
+  if(!me){ setSt('st-tipy',tr('extra_need_login'),true); return; }
+  if(extraTipsLocked()){ setSt('st-tipy',tr('extra_locked'),true); return; }
+  if(extraTipsSavedByMe()){ renderExtraTipsBox(); return; }
+  var winner=(document.getElementById('extra-winner').value||'').trim();
+  var scorer=(document.getElementById('extra-scorer').value||'').trim();
+  if(!winner||!scorer){ setSt('st-tipy',tr('extra_missing'),true); return; }
+  rpcWithRetry('ulozit_extra_tipy_secure',{p_hrac_id:me.id,p_pin:myPin,p_winner_tip:winner,p_scorer_tip:scorer}).then(function(){
+    return loadExtraTips();
+  }).then(function(){
+    renderExtraTipsBox();
+    renderInsights();
+    updateHeaderRanking();
+    if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
+    setSt('st-tipy','');
+  }).catch(function(e){
+    setSt('st-tipy',(e&&e.message)||tr('error_generic'),true);
+  });
+}
+function saveExtraResults(){
+  if(!me||!me.je_admin) return;
+  var winner=(document.getElementById('admin-winner-actual').value||'').trim();
+  var scorer=(document.getElementById('admin-scorer-actual').value||'').trim();
+  rpcWithRetry('admin_upsert_extra_results_secure',{p_admin_id:me.id,p_pin:myPin,p_winner_actual:winner,p_scorer_actual:scorer}).then(function(){
+    return Promise.all([loadExtraMeta(),loadExtraTips()]);
+  }).then(function(){
+    renderExtraTipsBox();
+    renderInsights();
+    updateHeaderRanking();
+    renderZeb();
+    alert(tr('extra_results_saved'));
+  }).catch(function(e){
+    alert((e&&e.message)||tr('error_generic'));
+  });
+}
 function rpcWithTimeout(fn,params,ms){
   ms=ms||5000;
   return new Promise(function(resolve,reject){
@@ -2791,6 +3213,7 @@ function doReg(){
   });
 }
 function finishLogin(d){
+  if(document.activeElement&&typeof document.activeElement.blur==='function') document.activeElement.blur();
   var avEl=document.getElementById("hdr-av");
   if(avEl) avEl.textContent=d.jmeno?d.jmeno.slice(0,2).toUpperCase():"?";
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
@@ -2812,13 +3235,19 @@ function finishLogin(d){
     document.getElementById('btn-sync-fifa').style.display='none';
   }
   loadFifaRankingData();
-  loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips).then(function(){
+  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions()]).then(function(){
+    return loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips);
+  }).then(function(){
     updSavedProgress();
     renderTipy();
     updateHeaderRanking();
     renderSimilarity();
     renderTodayBox();
     renderInsights();
+    renderExtraTipsBox();
+    renderDiscussion();
+    renderRules();
+    window.scrollTo(0,0);
     
     renderPlayerFilter();
     renderStadiony();
@@ -2854,6 +3283,7 @@ function doLogout(){
   document.getElementById('rp').value='';
   document.getElementById('rp2').value='';
   setText('le','');setText('re','');
+  resetDiscussionComposer();
   swLTab('l');
 }
 function swLTab(t){
@@ -2873,7 +3303,7 @@ function applyI18n(){
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
-  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));
+  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));
 
   setText('ptab-tipy-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
@@ -2890,6 +3320,8 @@ function applyI18n(){
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.textContent=tr('sync_fifa');
   setText('btn-exp',tr('exp'));
   setText('btn-sav',tr('save'));
+  setText('btn-save-extra',tr('extra_save')); setText('btn-save-extra-results',tr('extra_results_save'));
+  setText('btn-discussion-send',tr('discussion_send')); setText('btn-discussion-cancel',tr('discussion_cancel'));
   setText('blo',tr('login'));
   setText('brg',tr('register'));
   setText('ltl',tr('login'));
@@ -2904,20 +3336,29 @@ function applyI18n(){
   setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
   setText('admin-clbl',tr('admin_overview'));
+  setText('admin-extra-info',tr('extra_admin_info'));
+  setText('admin-winner-lbl',tr('extra_actual_winner')); setText('admin-scorer-lbl',tr('extra_actual_scorer'));
   setHtml('admin-ibox',tr('admin_info'));
+  setText('extra-title',tr('extra_title')); setText('extra-sub',tr('extra_sub')); setText('extra-winner-lbl',tr('extra_winner')); setText('extra-scorer-lbl',tr('extra_scorer'));
+  setText('rules-clbl',tr('rules_title'));
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
   updateInstallButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
   setText('ibox-zeb',tr('leader_info'));
-  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');
+  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
   document.getElementById('rj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
   document.getElementById('rp2').placeholder=LANG==='en'?'PIN again...':'Znovu PIN...';
+  document.getElementById('extra-winner').placeholder=LANG==='en'?'Pick a team or type the name':'Vyber tým nebo napiš název';
+  document.getElementById('extra-scorer').placeholder=LANG==='en'?'e.g. Kylian Mbappe':'Např. Kylian Mbappé';
+  document.getElementById('admin-winner-actual').placeholder=LANG==='en'?'e.g. France':'Např. Francie';
+  document.getElementById('admin-scorer-actual').placeholder=LANG==='en'?'e.g. Kylian Mbappe':'Např. Kylian Mbappé';
+  document.getElementById('discussion-body').placeholder=tr('discussion_placeholder');
 
   document.getElementById('langbtn').textContent=tr('lang_flag');
   document.getElementById('lo-lang').textContent=tr('lang_flag');
@@ -2935,9 +3376,13 @@ function applyI18n(){
     renderTodayBox();
     renderSimilarity();
     renderInsights();
+    renderExtraTipsBox();
+    renderDiscussion();
+    renderRules();
     updateCountdown();
     renderUpdBadge();
     setText('st-vys-upd',formatLastUpdated());
+    renderTableNote();
   }
   renderAdminSyncStatus();
 }
@@ -2950,8 +3395,14 @@ function showTab(name){
   if(name==='zebricek') loadAllTips().then(renderZeb);
   if(name==='ostatni') loadAllTips().then(function(){renderPlayerFilter();renderOst();renderSimilarity();renderInsights();renderFormBox();});
   if(name==='vysledky') renderVys();
-  if(name==='tabulka') renderTab();
+  if(name==='tabulka'){ renderTab(); renderTableNote(); }
   if(name==='admin') loadAllTips().then(renderAdmin);
+  if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
+  if(name==='pravidla') renderRules();
+}
+function openFaq(){
+  showTab('pravidla');
+  scrollTopSmooth();
 }
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
@@ -2967,11 +3418,8 @@ function swPhase(ctx,phase){
 }
 function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
 function calcPts(tip,res){
-  var t=tip.split(':').map(Number),r=res.split(':').map(Number);
-  if(isNaN(t[0])||isNaN(r[0])) return null;
-  if(t[0]===r[0]&&t[1]===r[1]) return 5;
-  var s=function(x){return x>0?1:x<0?-1:0;};
-  return s(t[0]-t[1])===s(r[0]-r[1])?2:0;
+  var meta=scoreMeta(tip,res);
+  return meta?meta.total:null;
 }
 function setSt(id,msg,err,ok){
   var e=document.getElementById(id);if(!e) return;
@@ -3005,6 +3453,7 @@ function renderTipy(){
   renderTodayBox();
   renderInsights();
   renderSimilarity();
+  renderExtraTipsBox();
 
   var isAdmin=me.je_admin;
   var baseArr=currentPhase==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
@@ -3078,8 +3527,8 @@ function renderMatchRow(z,isAdmin,hasGT){
   if(teamsUnknown){
     tipHtml='<span style="font-size:.63rem;color:var(--mu);font-style:italic">'+tr('teams_tbd')+'</span>';
   } else if(tip&&!isAdmin){
-    var cls=pts===5?'p5':pts===2?'p2':pts===0?'p0':'';
-    tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>'+(pts!==null?'<div class="pt '+cls+'">'+(pts===5?'5b':pts===2?'2b':'0b')+'</div>':'');
+    var cls=getPtsClass(pts);
+    tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>'+(pts!==null?'<div class="pt '+cls+'">'+pts+'b</div>':'');
   } else {
     // Split existing tip into home/away
     var sp=tip?tip.split(':'):['',''];
@@ -3272,8 +3721,8 @@ function renderOstStrip(title,others){
 function renderOstRow(z,others){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],myTip=myTips[id]||'',canSee=!!myTip;
   var myPts=(res&&myTip)?calcPts(myTip,res):null;
-  var myBg=myPts===5?'rgba(34,197,94,.1)':myPts===2?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'';
-  var myCol=myPts===5?'var(--gn2)':myPts===2?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)';
+  var myBg=myPts===10?'rgba(34,197,94,.1)':myPts===4?'rgba(245,158,11,.1)':(myPts===3?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'');
+  var myCol=myPts===10?'var(--gn2)':myPts===4?'#fbbf24':(myPts===3?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)');
   var venueHtml=venue?stadiumLinkHtml(venue):'';
   var dLink=matchTeamsUnknown(z)?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
@@ -3285,43 +3734,32 @@ function renderOstRow(z,others){
     if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
     else{
       var pts=(res&&tip)?calcPts(tip,res):null;
-      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
-      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>';
+      var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
+      var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
+      var tipLabel=tip?escHtml(tip)+(pts===10?'<span title="'+escAttr(LANG==="en"?"Exact hit":"Přesný tip")+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+tipLabel+'</td>';
     }
   });
   return html+'</tr>';
 }
 
 function renderZeb(){
-  var arr=zebPhase==='po'?PZ:zebPhase==='sk'?SZ:SZ.concat(PZ);
-  var orderedMatches=arr.slice().sort(function(a,b){ return mDate(a)-mDate(b); });
-  var scored=players.map(function(p,i){
-    var tips=me&&p.id===me.id?myTips:(allTips[p.id]||{});
-    var total=0,pre=0,spr=0,spa=0,hod=0,uzam=0;
-    arr.forEach(function(z){
-      var res=results[z[0]],tip=tips[z[0]];
-      if(tip) uzam++;
-      if(res&&tip){
-        var pts=calcPts(tip,res);
-        if(pts!==null){total+=pts;hod++;if(pts===5)pre++;else if(pts===2)spr++;else spa++;}
-      }
-    });
-    return {p:p,i:i,total:total,pre:pre,spr:spr,spa:spa,hod:hod,uzam:uzam,history:buildHistorySeries(tips,orderedMatches)};
-  }).sort(function(a,b){return b.total-a.total||b.pre-a.pre;});
+  var scored=getLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel');
 
   var html='';
   if(me){
     var mine=null;
     scored.forEach(function(s){if(s.p.id===me.id) mine=s;});
     if(mine){
-      var exactPts=mine.pre*5, trendPts=mine.spr*2;
-      var success=mine.hod?Math.round((mine.total/(mine.hod*5))*100):0;
+      var exactPts=mine.pre*10, trendPts=mine.spr*3, diffPts=mine.dif;
+      var success=mine.hod?Math.round((Math.min(mine.total,mine.hod*10)/(mine.hod*10))*100):0;
       var exactPct=mine.hod?Math.round((mine.pre/mine.hod)*100):0;
       var trendPct=mine.hod?Math.round((mine.spr/mine.hod)*100):0;
+      var diffPct=mine.hod?Math.round((mine.dif/mine.hod)*100):0;
       html+='<div class="zeb-dash">'+
         '<div class="zeb-widget zeb-widget-gn"><div class="zeb-widget-lbl">'+escHtml(tr('exact_tips'))+'</div><div class="zeb-widget-val">'+mine.pre+'</div><div class="zeb-widget-sub">'+exactPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+exactPct+'%"></div></div></div>'+
         '<div class="zeb-widget zeb-widget-bl"><div class="zeb-widget-lbl">'+escHtml(tr('right_trends'))+'</div><div class="zeb-widget-val">'+mine.spr+'</div><div class="zeb-widget-sub">'+trendPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+trendPct+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-pu"><div class="zeb-widget-lbl">'+escHtml(tr('goal_diff_bonus'))+'</div><div class="zeb-widget-val">'+mine.dif+'</div><div class="zeb-widget-sub">'+diffPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+diffPct+'%"></div></div></div>'+
         '<div class="zeb-widget zeb-widget-pu"><div class="zeb-widget-lbl">'+escHtml(tr('success_rate'))+'</div><div class="zeb-widget-val">'+success+'%</div><div class="zeb-widget-sub">'+mine.total+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+success+'%"></div></div></div>'+
       '</div>';
     }
@@ -3334,7 +3772,7 @@ function renderZeb(){
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln">'+escHtml(s.p.jmeno)+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+'</div>'+
-      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span></div>'+sparklineSvg(s.history)+'</div>'+
+      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
   html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
@@ -3370,7 +3808,7 @@ function renderVys(){
 function renderVysRow(z){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],cd=cdStr(z),myTip=myTips[id]||'';
   var myPts=(res&&myTip)?calcPts(myTip,res):null;
-  var tipDot=myPts===5?'<span class="vys-tip-dot exact" title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'"></span>':myPts===2?'<span class="vys-tip-dot trend" title="'+escAttr(LANG==='en'?'Correct trend':'Správný trend')+'"></span>':'';
+  var tipDot=myPts===10?'<span class="vys-tip-dot exact" title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'"></span>':(myPts===3||myPts===4)?'<span class="vys-tip-dot trend" title="'+escAttr(LANG==='en'?'Correct trend':'Správný trend')+'"></span>':'';
   var tipCell=myTip?'<div class="vys-tip-cell">'+tipDot+'<span>'+escHtml(myTip)+'</span></div>':'&mdash;';
   var dLink=matchTeamsUnknown(z)?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
@@ -3553,7 +3991,7 @@ function renderTymy(){
       html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
       TEAMS[sk].forEach(function(tm){
         var name=tm[0],fifaRec=getFifaRecord(name),rk=fifaRec.rank;
-        html+='<div class="tc tc-team">'+
+        html+='<div class="tc tc-team" data-team="'+escAttr(name)+'">'+
           '<div class="tc-team-top">'+
             '<div class="tc-team-flag">'+fl(name)+'</div>'+
             '<div class="tc-team-title">'+
@@ -3573,7 +4011,7 @@ function renderTymy(){
     all.sort(function(a,b){ return tN(a.name).localeCompare(tN(b.name), LANG==='en'?'en':'cs'); });
     html+='<div class="tm-grid">';
     all.forEach(function(item){
-      html+='<div class="tc tc-team">'+
+      html+='<div class="tc tc-team" data-team="'+escAttr(item.name)+'">'+
         '<div class="tc-team-top">'+
           '<div class="tc-team-flag">'+fl(item.name)+'</div>'+
           '<div class="tc-team-title">'+
@@ -3663,8 +4101,8 @@ function renderAdmin(){
       var tips=allTips[p.id]||{},tip=tips[id]||'';
       if(me&&p.id===me.id) tip=myTips[id]||tip||'';
       var pts=(res&&tip)?calcPts(tip,res):null;
-      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
-      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
+      var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
       html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+'</td>';
     });
     html+='</tr>';
@@ -4017,7 +4455,24 @@ function renderTeamFixtures(){ return; }
 function renderTeamStats(){ return; }
 function renderTeamSquad(){ return; }
 function setTeamTab(){ return; }
-function openTeamDetail(){ return; }
+function openTeamDetail(teamName){
+  if(!teamName) return;
+  var tryScroll=function(){
+    var cards=document.querySelectorAll('[data-team]');
+    cards.forEach(function(c){ c.classList.remove('target-team'); });
+    var safe=(window.CSS&&CSS.escape)?CSS.escape(teamName):teamName.replace(/"/g,'\\"');
+    var target=document.querySelector('[data-team="'+safe+'"]');
+    if(target){
+      target.classList.add('target-team');
+      target.scrollIntoView({behavior:'smooth',block:'center'});
+      return true;
+    }
+    return false;
+  };
+  if(!tryScroll()){
+    setTimeout(tryScroll,90);
+  }
+}
 function syncFifaRanking(){
   var btn=document.getElementById('btn-sync-fifa');
   if(btn) btn.disabled=true;
@@ -4163,7 +4618,7 @@ function toggleLang(){
   TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
   if(active) showTab(active);
   if(me){
-    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();updateHeaderRanking();renderSimilarity();renderTodayBox();renderInsights();
+    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();updateHeaderRanking();renderSimilarity();renderTodayBox();renderInsights();renderExtraTipsBox();renderDiscussion();renderRules();
     if(active==='zebricek') renderZeb();
     if(active==='ostatni') renderOst();
     if(active==='admin') renderAdmin();
@@ -4246,8 +4701,8 @@ function installHintHtml(){
   var isAndroid=/Android/i.test(ua);
   if(isIOS){
     return (LANG==='en'
-      ? 'In Safari tap <strong>Share</strong> and choose <strong>Add to Home Screen</strong>.'
-      : 'V Safari klepni na <strong>Sdílet</strong> a vyber <strong>Přidat na plochu</strong>.');
+      ? 'In the options menu choose <strong>Add to Home Screen</strong>.'
+      : 'V možnostech vyber <strong>Přidat na plochu</strong>.');
   }
   if(isAndroid){
     return (LANG==='en'
@@ -4264,7 +4719,7 @@ function updateInstallButton(){
   if(isStandaloneApp()){ btn.style.display='none'; return; }
   btn.style.display='inline-flex';
   btn.classList.toggle('is-ready',!!deferredInstallPrompt);
-  btn.textContent='APP';
+  btn.textContent='📱 APP';
   btn.title=LANG==='en'?'Install app':'Přidat na plochu';
 }
 function closeInstallOverlay(){
@@ -4317,10 +4772,15 @@ function init(){
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
+  var faqBtn=document.getElementById('btn-faq'); if(faqBtn) faqBtn.addEventListener('click',openFaq);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
+  var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);
+  var bser=document.getElementById('btn-save-extra-results'); if(bser) bser.addEventListener('click',saveExtraResults);
+  var bds=document.getElementById('btn-discussion-send'); if(bds) bds.addEventListener('click',saveDiscussionPost);
+  var bdc=document.getElementById('btn-discussion-cancel'); if(bdc) bdc.addEventListener('click',resetDiscussionComposer);
   var fsb=document.getElementById('float-sav-btn');
   if(fsb) fsb.addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
@@ -4363,6 +4823,7 @@ function init(){
   var pfb=document.getElementById('pf-btn');if(pfb) pfb.addEventListener('click',function(e){e.stopPropagation();var m=document.getElementById('pf-menu');if(m) m.classList.toggle('open');});
   var pfa=document.getElementById('pf-all');if(pfa) pfa.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return !me||p.id!==me.id;}).map(function(p){return String(p.id);});renderPlayerFilter();renderOst();});
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
+  var pfd=document.getElementById('pf-done');if(pfd) pfd.addEventListener('click',function(){var m=document.getElementById('pf-menu');if(m) m.classList.remove('open');});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
   updateInstallButton();
