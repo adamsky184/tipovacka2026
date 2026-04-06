@@ -3706,12 +3706,21 @@ function renderPlayerFilter(){
   var list=document.getElementById('pf-list'),sum=document.getElementById('pf-summary');
   if(!list||!me) return;
   var others=players.filter(function(p){return p.id!==me.id;});
-  if(!selectedOtherIds.length) selectedOtherIds=others.map(function(p){return String(p.id);});
+  var otherIds=others.map(function(p){ return String(p.id); });
+  if(!selectedOtherIds.length){
+    selectedOtherIds=otherIds.slice();
+  } else if(selectedOtherIds.indexOf('__none__')>=0){
+    selectedOtherIds=['__none__'];
+  } else {
+    selectedOtherIds=selectedOtherIds.filter(function(id){ return otherIds.indexOf(String(id))>=0; });
+    if(!selectedOtherIds.length) selectedOtherIds=otherIds.slice();
+  }
   list.innerHTML=others.map(function(p){
     var checked=selectedOtherIds.indexOf(String(p.id))>=0?' checked':'';
     return '<label class="pf-item"><input type="checkbox" class="pf-chk" value="'+escAttr(p.id)+'"'+checked+'> <span>'+escHtml(p.jmeno)+'</span></label>';
   }).join('');
-  if(sum) sum.textContent='('+selectedOtherIds.filter(function(x){return x!=='__none__';}).length+'/'+others.length+')';
+  var selectedVisibleCount=selectedOtherIds.indexOf('__none__')>=0?0:selectedOtherIds.filter(function(id){ return otherIds.indexOf(String(id))>=0; }).length;
+  if(sum) sum.textContent='('+selectedVisibleCount+'/'+others.length+')';
   list.querySelectorAll('.pf-chk').forEach(function(ch){
     ch.addEventListener('change',function(){
       selectedOtherIds=Array.prototype.map.call(list.querySelectorAll('.pf-chk:checked'),function(x){return String(x.value);});
