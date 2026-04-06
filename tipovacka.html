@@ -386,13 +386,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .mini-kv{font-size:.71rem;line-height:1.4;color:var(--tx)}.mini-kv .mut{color:var(--mu)}.mini-kv .ok{color:var(--gn2);font-weight:700}.mini-kv .miss{color:#f87171;font-weight:700}
 .extra-card{margin-bottom:.75rem;padding:.8rem .9rem}
 .extra-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:.6rem}
+.extra-title-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .extra-title{font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;color:#fff}
+.extra-deadline-inline{font-size:.62rem;color:var(--mu);font-weight:600;letter-spacing:.03em}
 .extra-sub{font-size:.68rem;color:var(--mu2);line-height:1.5}
 .inline-info-ico{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(148,163,184,.35);color:var(--mu2);font-size:.56rem;font-weight:700;vertical-align:middle;margin-right:6px}
 .extra-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
-.extra-field label{display:block;font-size:.66rem;color:var(--mu2);margin-bottom:5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.extra-field .extra-label-meta{display:block;font-size:.58rem;color:var(--mu);font-weight:600;letter-spacing:.04em;margin-top:3px;text-transform:none}
+.extra-field label{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:.66rem;color:var(--mu2);margin-bottom:5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.extra-field .extra-label-meta{display:inline;font-size:.58rem;color:var(--mu);font-weight:600;letter-spacing:.04em;text-transform:none}
 .extra-field input,.extra-field select,.discussion-input,.discussion-textarea{width:100%;background:var(--bg3);border:1px solid var(--bd2);border-radius:10px;color:var(--tx);padding:10px 12px;font:inherit}
+.extra-field input:disabled,.extra-field select:disabled{color:var(--mu2);background:rgba(255,255,255,.025);border-color:rgba(37,66,102,.5);opacity:1;cursor:not-allowed;box-shadow:none}
 .extra-save-state{display:none;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:10px;border:1px solid rgba(34,197,94,.22);background:rgba(34,197,94,.08);color:var(--gn2);font-size:.73rem;font-weight:700;white-space:nowrap}
 .extra-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:.65rem;font-size:.68rem;color:var(--mu)}
 .extra-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--bd2);border-radius:999px;background:rgba(255,255,255,.03)}
@@ -1551,16 +1554,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       <div class="card extra-card" id="extra-card">
         <div class="extra-head">
           <div>
-            <div class="extra-title" id="extra-title">EXTRA TIP</div>
+            <div class="extra-title-row"><div class="extra-title" id="extra-title">EXTRA TIP</div><div class="extra-deadline-inline" id="extra-deadline-inline">Deadline: -</div></div>
           </div>
         </div>
         <div class="extra-grid">
           <div class="extra-field">
-            <label for="extra-winner" id="extra-winner-lbl">Vítěz turnaje<span class="extra-label-meta" id="extra-winner-meta">Správný tip = 30 bodů</span></label>
+            <label for="extra-winner"><span id="extra-winner-lbl">Vítěz turnaje</span><span class="extra-label-meta" id="extra-winner-meta">Správný tip = 30 bodů</span></label>
             <input id="extra-winner" list="extra-team-options" placeholder="Vyber tým nebo napiš název">
           </div>
           <div class="extra-field">
-            <label for="extra-scorer" id="extra-scorer-lbl">Král střelců<span class="extra-label-meta" id="extra-scorer-meta">Správný tip = 20 bodů</span></label>
+            <label for="extra-scorer"><span id="extra-scorer-lbl">Král střelců</span><span class="extra-label-meta" id="extra-scorer-meta">Správný tip = 20 bodů</span></label>
             <input id="extra-scorer" placeholder="Např. Kylian Mbappé">
           </div>
           <button class="btn btn-gn" id="btn-save-extra" type="button">Uložit extra tipy</button>
@@ -1568,7 +1571,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
         <datalist id="extra-team-options"></datalist>
         <div class="extra-meta">
-          <span class="extra-pill" id="extra-lock-pill">⏳ Deadline: -</span>
           <span class="extra-pill" id="extra-status-pill">🎯 Moje extra tipy: -</span>
           <span class="extra-pill" id="extra-score-pill">⭐ Extra body: 0b</span>
         </div>
@@ -2227,6 +2229,7 @@ var VENUE_ALIASES={
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
 var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',tipQuickFilter='all';
+var pendingTeamFocus='';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -2974,13 +2977,13 @@ function renderUpdBadge(){
 }
 function renderExtraTipsBox(){
   fillExtraTeamOptions();
-  var lockEl=document.getElementById('extra-lock-pill'),statusEl=document.getElementById('extra-status-pill'),scoreEl=document.getElementById('extra-score-pill'),noteEl=document.getElementById('extra-status-note');
+  var deadlineInline=document.getElementById('extra-deadline-inline'),statusEl=document.getElementById('extra-status-pill'),scoreEl=document.getElementById('extra-score-pill'),noteEl=document.getElementById('extra-status-note');
   var saveState=document.getElementById('extra-save-state');
-  if(!lockEl||!statusEl||!scoreEl||!noteEl) return;
+  if(!deadlineInline||!statusEl||!scoreEl||!noteEl) return;
   var rec=me?extraTipsByPlayer[String(me.id)]:null;
   var winnerInput=document.getElementById('extra-winner'),scorerInput=document.getElementById('extra-scorer'),saveBtn=document.getElementById('btn-save-extra');
   var alreadySaved=!!(rec&&rec.winnerTip&&rec.scorerTip);
-  lockEl.textContent='⏳ '+tr('extra_deadline')+': '+formatAnyUpdated(getExtraDeadlineIso());
+  deadlineInline.textContent='⏳ '+tr('extra_deadline')+': '+formatAnyUpdated(getExtraDeadlineIso());
   statusEl.textContent='🎯 '+tr('extra_my')+': '+(rec?(rec.winnerTip+' / '+rec.scorerTip):tr('extra_none'));
   scoreEl.textContent='⭐ '+tr('extra_points')+': '+(me?getExtraPointsForPlayer(me.id):0)+'b';
   if(winnerInput) winnerInput.value=rec?rec.winnerTip:'';
@@ -3321,6 +3324,11 @@ function applyI18n(){
   setText('btn-exp',tr('exp'));
   setText('btn-sav',tr('save'));
   setText('btn-save-extra',tr('extra_save')); setText('btn-save-extra-results',tr('extra_results_save'));
+  setText('extra-title',tr('extra_title'));
+  setText('extra-winner-lbl',tr('extra_winner'));
+  setText('extra-scorer-lbl',tr('extra_scorer'));
+  setText('extra-winner-meta',LANG==='en'?'Correct pick = 30 points':'Správný tip = 30 bodů');
+  setText('extra-scorer-meta',LANG==='en'?'Correct pick = 20 points':'Správný tip = 20 bodů');
   setText('btn-discussion-send',tr('discussion_send')); setText('btn-discussion-cancel',tr('discussion_cancel'));
   setText('blo',tr('login'));
   setText('brg',tr('register'));
@@ -3339,7 +3347,6 @@ function applyI18n(){
   setText('admin-extra-info',tr('extra_admin_info'));
   setText('admin-winner-lbl',tr('extra_actual_winner')); setText('admin-scorer-lbl',tr('extra_actual_scorer'));
   setHtml('admin-ibox',tr('admin_info'));
-  setText('extra-title',tr('extra_title')); setText('extra-sub',tr('extra_sub')); setText('extra-winner-lbl',tr('extra_winner')); setText('extra-scorer-lbl',tr('extra_scorer'));
   setText('rules-clbl',tr('rules_title'));
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
@@ -4026,6 +4033,7 @@ function renderTymy(){
     html+='</div>';
   }
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  if(pendingTeamFocus) openTeamDetail(pendingTeamFocus);
 }
 
 function renderFifaRanking(){
@@ -4501,12 +4509,15 @@ function openTeamDetail(teamName){
     if(target){
       target.classList.add('target-team');
       target.scrollIntoView({behavior:'smooth',block:'center'});
+      pendingTeamFocus='';
       return true;
     }
     return false;
   };
   if(!tryScroll()){
-    setTimeout(tryScroll,90);
+    setTimeout(function(){
+      if(!tryScroll()) setTimeout(tryScroll,220);
+    },90);
   }
 }
 function syncFifaRanking(){
@@ -4705,13 +4716,14 @@ function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(fun
 function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-vys-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('vys-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') vysSort='po';else if(vysSort==='po') vysSort='dt';['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&vysSort==='dt')||(id==='ptab-vys-sk'&&vysSort==='sk'));});renderVys();}
 function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
 function filterByTeam(teamName){
+  pendingTeamFocus=teamName||'';
   showTab('tymy');
   tymPhase='az';
   var b0=document.getElementById('ptab-tym-az'); if(b0) b0.classList.add('on');
   var b1=document.getElementById('ptab-tym-sk'); if(b1) b1.classList.remove('on');
   var b2=document.getElementById('ptab-tym-rk'); if(b2) b2.classList.remove('on');
   renderTymy();
-  setTimeout(function(){ openTeamDetail(teamName, findGroupByTeam(teamName)||''); }, 50);
+  setTimeout(function(){ openTeamDetail(teamName); }, 80);
 }
 function findGroupByTeam(teamName){
   var out='';
