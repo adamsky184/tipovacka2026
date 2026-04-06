@@ -1140,7 +1140,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 @media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date,.ost-date-wrap,.vys-date-wrap{font-size:.82rem;padding:8px 10px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
 
 
-/* ── v1.96b team/tips polish ── */
+/* ── v1.97 team/tips polish ── */
 .tm-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
 .tc.tc-team{padding:10px 10px 11px;min-height:0}
 .tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
@@ -1167,7 +1167,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── v1.96b header/ranking polish ── */
+/* ── v1.97 header/ranking polish ── */
 .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .hdr-sc{padding:9px 9px 10px}
 .hdr-sc-ico{font-size:12px;margin-bottom:4px}
@@ -1197,6 +1197,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .rr .d-mobile-sm{font-size:.8rem !important}
   .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:118px}
   .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:122px}
+}
+
+
+
+/* ── v1.97 moje tipy date unification ── */
+.tipy-date-card{padding:12px 14px 8px;overflow:hidden}
+.tipy-date-card .gh-date{margin:0 0 10px 0;width:100%}
+.tipy-date-head{display:grid;grid-template-columns:1fr 72px 156px;gap:10px;align-items:end;padding:0 2px 6px}
+.tipy-date-list{background:rgba(255,255,255,.02);border:1px solid rgba(37,66,102,.55);border-radius:16px;overflow:hidden}
+.tipy-date-list .mr{padding:12px 14px}
+.tipy-date-list .mr+.mr{border-top:1px solid rgba(28,48,80,.42)}
+@media(max-width:760px){
+  .tipy-date-head{grid-template-columns:1fr 56px 114px}
+  .tipy-date-card{padding:12px 12px 8px}
+  .tipy-date-list .mr{padding:10px 12px}
 }
 
 </style>
@@ -1231,7 +1246,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.96b</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.97</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1436,7 +1451,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.96b</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.97</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1501,7 +1516,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.96b',
+    footer_ver:'v1.97',
     footer_date:'5. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1594,7 +1609,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.96b',
+    footer_ver:'v1.97',
     footer_date:'5 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2467,9 +2482,9 @@ function renderTipy(){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
-      html+='<div class="match-section"><div class="match-section-header"><div class="gh gh-date">'+dLabel(matches[0])+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card" style="padding:0;overflow:hidden">';
+      html+='<div class="match-section"><div class="card tipy-date-card"><div class="gh-date">'+dLabel(matches[0])+'</div><div class="tipy-date-head"><div></div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="tipy-date-list">';
       matches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
-      html+='</div></div>';
+      html+='</div></div></div>';
     });
   } else {
     var prev=null,curMatches=[];
