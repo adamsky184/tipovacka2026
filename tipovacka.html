@@ -806,6 +806,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   line-height:1.25;
   white-space:nowrap;
 }
+.hdr-admin-sync{display:none;margin-top:6px;font-size:.58rem;line-height:1.45;color:var(--mu)}
+.hdr-admin-sync .sync-row{display:flex;align-items:center;gap:6px;white-space:normal}
+.hdr-admin-sync .sync-name{min-width:82px;flex-shrink:0;color:var(--mu2);font-weight:600}
+.hdr-admin-sync .sync-val{color:var(--mu)}
 .hdr-stats{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
@@ -951,6 +955,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .hdr-user-block{width:100%;max-width:180px}
   .hdr-title{font-size:1.02rem}
   .hdr-clock{font-size:.61rem;white-space:normal}
+  .hdr-admin-sync{font-size:.54rem}
   .hdr-sc{
     padding:10px 8px 10px;
   }
@@ -1283,7 +1288,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v2.9</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v3.0</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1296,6 +1301,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
           <button class="hdr-title hdr-title-link" id="hdr-title-main" type="button" title="Moje tipy"><span class="hdr-word">TIPOVAČKA MS</span> <span class="hdr-year">2026</span></button>
           <div class="hdr-by" id="by-lbl">by Adam184</div>
           <div class="hdr-clock" id="clk"></div>
+          <div class="hdr-admin-sync" id="hdr-admin-sync"></div>
         </div>
         <div class="hdr-stats">
           <div class="hdr-sc">
@@ -1334,7 +1340,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
               <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
               <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">TÝMY</button></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">TÝMY</button><button class="btn btn-ol btn-sm" id="btn-sync-fifa" style="display:none">FIFA RANKING</button></div>
           </div>
         </div>
       </div>
@@ -1487,7 +1493,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v2.9</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v3.0</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1552,7 +1558,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v2.9',
+    footer_ver:'v3.0',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1574,6 +1580,10 @@ var T={
     in_days:'za',in_h:'h',in_min:'min',in_d:'d',
     lang_flag:'🇬🇧 EN',
     updated:'Aktualizace:',
+    never:'nikdy',
+    sync_results_lbl:'Výsledky',
+    sync_teams_lbl:'Týmy',
+    sync_fifa_lbl:'FIFA ranking',
     groups_none:'Skupiny neuvedeny',
     countdown_lbl:'Nejbližší zápas',
     ins_h:'Moje tendence',
@@ -1601,8 +1611,9 @@ var T={
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování: 5 bodů za přesný výsledek, 2 body za správný vítěz/remízu.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
-    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
-    standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška'
+    sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
+    standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
+    fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -1645,7 +1656,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v2.9',
+    footer_ver:'v3.0',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1667,6 +1678,10 @@ var T={
     in_days:'in',in_h:'h',in_min:'min',in_d:'d',
     lang_flag:'🇨🇿 CZ',
     updated:'Updated:',
+    never:'never',
+    sync_results_lbl:'Results',
+    sync_teams_lbl:'Teams',
+    sync_fifa_lbl:'FIFA ranking',
     groups_none:'Groups not assigned',
     countdown_lbl:'Next match',
     ins_h:'My tendencies',
@@ -1694,8 +1709,9 @@ var T={
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
     team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Scoring: 5 points for exact score, 2 points for correct winner/draw.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
-    sync_teams:'TEAMS',sync_results:'RESULTS',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
-    standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height'
+    sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
+    standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
+    fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -1769,7 +1785,7 @@ function fT(n){
   return f?f+' '+tN(n):tN(n);
 }
 
-var FIFA={
+var FIFA_BASE_RANKS={
   'Francie':1,'Spanelsko':2,'Argentina':3,'Anglie':4,'Portugalsko':5,'Brazilie':6,
   'Nizozemsko':7,'Maroko':8,'Belgie':9,'Nemecko':10,'Chorvatsko':11,'Japonsko':13,
   'Senegal':14,'USA':15,'Svycarsko':16,'Uruguay':17,'Mexiko':18,'Turecko':19,
@@ -1780,6 +1796,18 @@ var FIFA={
   'Kapverdy':71,'Panama':72,'Uzbekistan':77,'Jordansko':80,'Haiti':83,
   'Curacao':85,'Katar':93,'Novy Zeland':96
 };
+var FIFA_CONFED={
+  'Francie':'UEFA','Spanelsko':'UEFA','Argentina':'CONMEBOL','Anglie':'UEFA','Portugalsko':'UEFA','Brazilie':'CONMEBOL',
+  'Nizozemsko':'UEFA','Maroko':'CAF','Belgie':'UEFA','Nemecko':'UEFA','Chorvatsko':'UEFA','Japonsko':'AFC',
+  'Senegal':'CAF','USA':'CONCACAF','Svycarsko':'UEFA','Uruguay':'CONMEBOL','Mexiko':'CONCACAF','Turecko':'UEFA',
+  'Kanada':'CONCACAF','Iran':'AFC','Australie':'AFC','Ekvador':'CONMEBOL','Jizni Korea':'AFC','Norsko':'UEFA',
+  'Svedsko':'UEFA','Egypt':'CAF','Rakousko':'UEFA','Skotsko':'UEFA','Alzirsko':'CAF','Cesko':'UEFA',
+  'Pobrezi slonoviny':'CAF','Tunisko':'CAF','Bosna a Hercegovina':'UEFA','DR Kongo':'CAF',
+  'Ghana':'CAF','Saudska Arabie':'AFC','Paraguay':'CONMEBOL','Irak':'AFC','Jihoafricka rep.':'CAF',
+  'Kapverdy':'CAF','Panama':'CONCACAF','Uzbekistan':'AFC','Jordansko':'AFC','Haiti':'CONCACAF',
+  'Curacao':'CONCACAF','Katar':'AFC','Novy Zeland':'OFC','Kolumbie':'CONMEBOL'
+};
+var fifaRankingData=null;
 
 var TEAMS={
   A:[['Mexiko'],['Jihoafricka rep.'],['Jizni Korea'],['Cesko']],
@@ -1984,6 +2012,31 @@ function getResultsLastUpdated(){
 function setResultsLastUpdated(){
   try{localStorage.setItem('ms26_results_updated_at', new Date().toISOString());}catch(e){}
 }
+function getTeamsLastUpdated(){
+  try{return localStorage.getItem('ms26_teams_updated_at')||'';}catch(e){return '';}
+}
+function setTeamsLastUpdated(){
+  try{localStorage.setItem('ms26_teams_updated_at', new Date().toISOString());}catch(e){}
+}
+function getFifaUpdatedAt(){
+  try{return localStorage.getItem('ms26_fifa_updated_at')||'';}catch(e){return '';}
+}
+function getFifaOfficialAt(){
+  try{return localStorage.getItem('ms26_fifa_official_at')||'';}catch(e){return '';}
+}
+function setFifaMeta(officialAt){
+  try{
+    localStorage.setItem('ms26_fifa_updated_at', new Date().toISOString());
+    if(officialAt) localStorage.setItem('ms26_fifa_official_at', officialAt);
+  }catch(e){}
+}
+function formatAnyUpdated(raw){
+  if(!raw) return tr('never');
+  var d=new Date(raw);
+  if(isNaN(d.getTime())) return tr('never');
+  if(LANG==='en') return d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+  return d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
 function formatLastUpdated(){
   var raw=getResultsLastUpdated();
   if(!raw) return '';
@@ -1991,6 +2044,152 @@ function formatLastUpdated(){
   if(isNaN(d.getTime())) return '';
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+function getFifaCacheKey(){return 'ms26_fifa_ranking_v3';}
+function getDefaultFifaItems(){
+  var all=[],seen={};
+  Object.keys(TEAMS).forEach(function(sk){
+    TEAMS[sk].forEach(function(tm){
+      var name=tm[0];
+      if(seen[name]) return;
+      seen[name]=true;
+      all.push({
+        name:name,
+        group:sk,
+        rank:FIFA_BASE_RANKS[name]||999,
+        points:null,
+        change:null,
+        confed:FIFA_CONFED[name]||'',
+        trend:'flat'
+      });
+    });
+  });
+  all.sort(function(a,b){return a.rank-b.rank;});
+  return all;
+}
+function normalizeFifaItem(item){
+  if(!item||!item.name) return null;
+  var name=item.name;
+  var change=item.change;
+  if(change==null||change==='') change=null;
+  else change=parseInt(change,10);
+  var trend=change>0?'up':change<0?'down':'flat';
+  return {
+    name:name,
+    group:item.group||findGroupByTeam(name)||'',
+    rank:parseInt(item.rank,10)||999,
+    points:item.points!=null&&item.points!==''?Number(item.points):null,
+    change:isNaN(change)?null:change,
+    confed:item.confed||FIFA_CONFED[name]||'',
+    trend:item.trend||trend
+  };
+}
+function loadFifaRankingData(){
+  try{
+    var raw=localStorage.getItem(getFifaCacheKey());
+    if(raw){
+      var parsed=JSON.parse(raw);
+      if(parsed&&parsed.items&&parsed.items.length){
+        fifaRankingData={
+          items:parsed.items.map(normalizeFifaItem).filter(Boolean),
+          officialAt:parsed.officialAt||'',
+          sourceUrl:parsed.sourceUrl||''
+        };
+        return fifaRankingData;
+      }
+    }
+  }catch(e){}
+  fifaRankingData={items:getDefaultFifaItems(),officialAt:'',sourceUrl:''};
+  return fifaRankingData;
+}
+function saveFifaRankingData(payload){
+  fifaRankingData={
+    items:(payload.items||[]).map(normalizeFifaItem).filter(Boolean),
+    officialAt:payload.officialAt||'',
+    sourceUrl:payload.sourceUrl||''
+  };
+  try{
+    localStorage.setItem(getFifaCacheKey(), JSON.stringify(fifaRankingData));
+  }catch(e){}
+  setFifaMeta(fifaRankingData.officialAt||'');
+}
+function getFifaRecord(name){
+  var data=fifaRankingData||loadFifaRankingData();
+  var found=(data.items||[]).find(function(item){return item&&item.name===name;});
+  if(found) return found;
+  return normalizeFifaItem({name:name,rank:FIFA_BASE_RANKS[name]||999,confed:FIFA_CONFED[name]||''});
+}
+function formatChange(v){
+  if(v==null||isNaN(v)) return '—';
+  if(v>0) return '+'+v;
+  if(v<0) return String(v);
+  return '0';
+}
+function trendGlyph(trend,change){
+  if(trend==='up'||change>0) return '<span style="color:var(--gn2)">↑</span>';
+  if(trend==='down'||change<0) return '<span style="color:#f87171">↓</span>';
+  return '<span style="color:var(--mu2)">→</span>';
+}
+function parseFifaOfficialDate(text){
+  var m=String(text||'').match(/Last official update:\s*([A-Za-z]+)\s+(\d{1,2})\s+(\d{4})/i);
+  if(!m) return '';
+  var months={'jan':0,'feb':1,'mar':2,'apr':3,'may':4,'jun':5,'jul':6,'aug':7,'sep':8,'oct':9,'nov':10,'dec':11};
+  var mi=months[m[1].slice(0,3).toLowerCase()];
+  if(mi==null) return '';
+  return new Date(Number(m[3]),mi,Number(m[2]),12,0,0).toISOString();
+}
+function tryParseFifaHtml(html){
+  if(!html) return null;
+  var doc=new DOMParser().parseFromString(html,'text/html');
+  var text=(doc.body&&doc.body.textContent)||'';
+  var officialAt=parseFifaOfficialDate(text);
+  var items=[];
+  getDefaultFifaItems().forEach(function(base){
+    var aliases=[base.name].concat(TEAM_ALIASES[normTeamName(base.name)]||[]);
+    var matchedLine='';
+    String(text).split(/\n+/).some(function(line){
+      var normLine=normTeamName(line);
+      return aliases.some(function(alias){
+        if(normLine.indexOf(normTeamName(alias))>=0){
+          matchedLine=line;
+          return true;
+        }
+        return false;
+      });
+    });
+    var points=null,change=null;
+    if(matchedLine){
+      var nums=matchedLine.match(/-?\d+(?:[.,]\d+)?/g)||[];
+      if(nums.length>=2){
+        points=Number(String(nums[nums.length-1]).replace(',','.'));
+        if(nums.length>=3) change=parseInt(nums[nums.length-2],10);
+      }
+    }
+    items.push(normalizeFifaItem({
+      name:base.name,
+      group:base.group,
+      rank:base.rank,
+      points:isNaN(points)?null:points,
+      change:isNaN(change)?null:change,
+      confed:base.confed
+    }));
+  });
+  var enriched=items.filter(function(x){return x.points!=null||x.change!=null;}).length;
+  if(!enriched) return null;
+  return {items:items,officialAt:officialAt,sourceUrl:'https://inside.fifa.com/fifa-world-ranking/men?lang=en'};
+}
+function renderAdminSyncStatus(){
+  var el=document.getElementById('hdr-admin-sync');
+  if(!el) return;
+  if(!me||!me.je_admin){el.style.display='none';el.innerHTML='';return;}
+  el.style.display='block';
+  var fifaExtra='';
+  var official=formatAnyUpdated(getFifaOfficialAt());
+  if(getFifaOfficialAt()) fifaExtra=' · '+tr('fifa_official')+': '+official;
+  el.innerHTML=
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_results_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getResultsLastUpdated()))+'</span></div>'+
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_teams_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getTeamsLastUpdated()))+'</span></div>'+
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+escHtml(fifaExtra)+'</span></div>';
 }
 function sameCalDay(d1,d2){
   return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
@@ -2327,10 +2526,13 @@ function finishLogin(d){
     document.getElementById('tab-admin').style.display='inline-block';
     document.getElementById('btn-refresh').style.display='inline-block';
     document.getElementById('btn-sync-teams').style.display='inline-block';
+    document.getElementById('btn-sync-fifa').style.display='inline-block';
   }else{
     document.getElementById('btn-refresh').style.display='none';
     document.getElementById('btn-sync-teams').style.display='none';
+    document.getElementById('btn-sync-fifa').style.display='none';
   }
+  loadFifaRankingData();
   loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips).then(function(){
     updSavedProgress();
     renderTipy();
@@ -2345,6 +2547,7 @@ function finishLogin(d){
     renderPavouk();
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
+    renderAdminSyncStatus();
   });
   showTab('tipy');
 }
@@ -2359,6 +2562,9 @@ function doLogout(){
   var lb3=document.getElementById('btn-logout');if(lb3) lb3.style.display='none';
   var lb=document.getElementById('btn-logout');if(lb) lb.style.display='none';
   document.getElementById('btn-refresh').style.display='none';
+  document.getElementById('btn-sync-teams').style.display='none';
+  document.getElementById('btn-sync-fifa').style.display='none';
+  renderAdminSyncStatus();
   document.getElementById('lj').value='';
   document.getElementById('lp').value='';
   document.getElementById('rj').value='';
@@ -2398,6 +2604,7 @@ function applyI18n(){
 
   setText('btn-logout',tr('logout'));
   setText('btn-refresh',tr('sync_results')); var bst=document.getElementById('btn-sync-teams'); if(bst) bst.textContent=tr('sync_teams');
+  var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.textContent=tr('sync_fifa');
   setText('btn-exp',tr('exp'));
   setText('btn-sav',tr('save'));
   setText('blo',tr('login'));
@@ -2447,6 +2654,7 @@ function applyI18n(){
     renderUpdBadge();
     setText('st-vys-upd',formatLastUpdated());
   }
+  renderAdminSyncStatus();
 }
 function showTab(name){
   TABS.forEach(function(t){
@@ -3027,13 +3235,13 @@ function renderTymy(){
     Object.keys(TEAMS).sort().forEach(function(sk){
       html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
       TEAMS[sk].forEach(function(tm){
-        var name=tm[0],rk=FIFA[name];
+        var name=tm[0],fifaRec=getFifaRecord(name),rk=fifaRec.rank;
         html+='<div class="tc tc-team">'+
           '<div class="tc-team-top">'+
             '<div class="tc-team-flag">'+fl(name)+'</div>'+
             '<div class="tc-team-title">'+
               '<div class="tc-team-name">'+tN(name)+'</div>'+
-              '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+'</div>'+
+              '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+(fifaRec.confed?'<span>'+escHtml(fifaRec.confed)+'</span>':'')+'</div>'+
             '</div>'+
           '</div>'+
           renderTeamLinks(name)+
@@ -3044,7 +3252,7 @@ function renderTymy(){
     });
   } else {
     var all=[];
-    Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(tm){ all.push({name:tm[0], sk:sk, rk:FIFA[tm[0]]||999}); }); });
+    Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(tm){ var fifaRec=getFifaRecord(tm[0]); all.push({name:tm[0], sk:sk, rk:fifaRec.rank||999, confed:fifaRec.confed||''}); }); });
     all.sort(function(a,b){ return tN(a.name).localeCompare(tN(b.name), LANG==='en'?'en':'cs'); });
     html+='<div class="tm-grid">';
     all.forEach(function(item){
@@ -3053,7 +3261,7 @@ function renderTymy(){
           '<div class="tc-team-flag">'+fl(item.name)+'</div>'+
           '<div class="tc-team-title">'+
             '<div class="tc-team-name">'+tN(item.name)+'</div>'+
-            '<div class="tc-team-meta"><span>'+tr('group')+' '+item.sk+'</span>'+(item.rk?'<span>FIFA #'+item.rk+'</span>':'')+'</div>'+
+            '<div class="tc-team-meta"><span>'+tr('group')+' '+item.sk+'</span>'+(item.rk?'<span>FIFA #'+item.rk+'</span>':'')+(item.confed?'<span>'+escHtml(item.confed)+'</span>':'')+'</div>'+
           '</div>'+
         '</div>'+
         renderTeamLinks(item.name)+
@@ -3070,16 +3278,31 @@ function renderFifaRanking(){
     renderFifaRanking._loadingEspn=true;
     fetchEspnTeamIndex(false).then(function(){ renderFifaRanking._loadingEspn=false; renderFifaRanking(); }).catch(function(){ renderFifaRanking._loadingEspn=false; });
   }
+  var data=loadFifaRankingData();
   var all=[],seen={};
-  Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
+  Object.keys(TEAMS).forEach(function(sk){
+    TEAMS[sk].forEach(function(tm){
+      var n=tm[0];
+      if(seen[n]) return;
+      seen[n]=true;
+      var rec=getFifaRecord(n);
+      all.push({name:n,sk:sk,rk:rec.rank||999,points:rec.points,change:rec.change,confed:rec.confed||'',trend:rec.trend||'flat'});
+    });
+  });
   all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th style="text-align:center">'+tr('group')+'</th><th style="text-align:right">ESPN</th></tr></thead><tbody>';
+  var metaHtml='<div class="ibox" style="margin-bottom:.6rem">'+escHtml(tr('sync_fifa_lbl'))+': '+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+(data.officialAt?' · '+escHtml(tr('fifa_official'))+': '+escHtml(formatAnyUpdated(data.officialAt)):'')+'</div>';
+  var html=metaHtml+'<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th style="text-align:center">'+tr('group')+'</th><th style="text-align:right">'+tr('fifa_points')+'</th><th style="text-align:center">'+tr('fifa_change')+'</th><th style="text-align:center">'+tr('fifa_trend')+'</th><th style="text-align:center">'+tr('fifa_confed')+'</th><th style="text-align:right">ESPN</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
     var urls=getEspnTeamUrls(tm.name);
     html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
     html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
     html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td>';
+    var pointsText=tm.points!=null ? escHtml(String(tm.points.toFixed?tm.points.toFixed(2):tm.points)) : '<span style="color:var(--mu)">—</span>';
+    html+='<td style="text-align:right;font-variant-numeric:tabular-nums">'+pointsText+'</td>';
+    html+='<td style="text-align:center;color:'+(tm.change>0?'var(--gn2)':tm.change<0?'#f87171':'var(--mu2)')+'">'+escHtml(formatChange(tm.change))+'</td>';
+    html+='<td style="text-align:center">'+trendGlyph(tm.trend,tm.change)+'</td>';
+    html+='<td style="text-align:center">'+(tm.confed?escHtml(tm.confed):'<span style="color:var(--mu)">—</span>')+'</td>';
     html+='<td style="text-align:right">'+(urls?'<a class="team-rank-pill" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>':'<span style="color:var(--mu)">-</span>')+'</td></tr>';
   });
   html+='</tbody></table>';
@@ -3474,12 +3697,41 @@ function renderTeamStats(){ return; }
 function renderTeamSquad(){ return; }
 function setTeamTab(){ return; }
 function openTeamDetail(){ return; }
+function syncFifaRanking(){
+  var btn=document.getElementById('btn-sync-fifa');
+  if(btn) btn.disabled=true;
+  setSt('st-vys','...');
+  return fetch('https://inside.fifa.com/fifa-world-ranking/men?lang=en')
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    })
+    .then(function(html){
+      var parsed=tryParseFifaHtml(html);
+      if(!parsed) throw new Error('parse_failed');
+      saveFifaRankingData(parsed);
+      renderTymy();
+      renderAdminSyncStatus();
+      setSt('st-vys',tr('fifa_import_done'),false,true);
+    })
+    .catch(function(){
+      saveFifaRankingData({items:getDefaultFifaItems(),officialAt:getFifaOfficialAt(),sourceUrl:''});
+      renderTymy();
+      renderAdminSyncStatus();
+      setSt('st-vys',tr('fifa_import_partial'),false,true);
+    })
+    .finally(function(){
+      if(btn) btn.disabled=false;
+    });
+}
 function syncTeamsData(force){
   var btn=document.getElementById('btn-sync-teams');
   if(btn) btn.disabled=true;
   fetchEspnTeamIndex(!!force).then(function(){
+    setTeamsLastUpdated();
     setSt('st-vys',tr('team_sync_done'),false,true);
     renderTymy();
+    renderAdminSyncStatus();
   }).catch(function(){
     setSt('st-vys',tr('team_sync_fail'),true);
   }).finally(function(){
@@ -3520,6 +3772,7 @@ function fetchResults(){
           setSt('st-vys','✓ '+cnt,false,true);
           setText('st-vys-upd',formatLastUpdated());
           renderUpdBadge();
+          renderAdminSyncStatus();
           document.getElementById('btn-refresh').disabled=false;
         }).catch(function(e){
           setSt('st-vys',tr('error_generic')+': '+e.message,true);
@@ -3677,7 +3930,9 @@ function init(){
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
-  var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});  document.getElementById('btn-sav').addEventListener('click',saveTips);
+  var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
+  var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
+  document.getElementById('btn-sav').addEventListener('click',saveTips);
   var fsb=document.getElementById('float-sav-btn');
   if(fsb) fsb.addEventListener('click',saveTips);
   document.getElementById('btn-exp').addEventListener('click',function(){loadAllTips().then(exportCSV);});
@@ -3719,6 +3974,7 @@ function init(){
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
+  loadFifaRankingData();
   tipSort='dt'; vysSort='dt'; tymPhase='az';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
