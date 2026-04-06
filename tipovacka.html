@@ -6,7 +6,7 @@
 <title>Tipovačka MS 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:92px;--mr-gt-w:240px}
+:root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:78px;--mr-gt-w:220px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
@@ -54,18 +54,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .vys-date-wrap{}
 .date-sep{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin:12px 0 5px;display:flex;align-items:center;gap:6px}
 .date-sep:first-child{margin-top:0}
-.ost-subhead th{position:sticky;top:34px;background:rgba(12,25,40,.96);backdrop-filter:blur(6px);padding:5px 7px;border-bottom:1px solid var(--bd);font-size:.62rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;z-index:3}
-.ost-subhead th:first-child{text-align:left}
-.ost-mainhead th{z-index:4}
-@media(max-width:600px){.ost-subhead th{font-size:.56rem;padding:4px 5px}}
+.ost-strip th{padding:8px 7px;background:var(--bg4);border-top:1px solid var(--bd2);border-bottom:1px solid var(--bd2);font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:600;color:var(--mu2);letter-spacing:.04em;text-transform:uppercase;text-align:center;white-space:nowrap}
+.ost-strip th:first-child{padding-left:10px;border-left:1px solid var(--bd2);border-top-left-radius:8px;border-bottom-left-radius:8px;font-size:.82rem;font-weight:700;color:var(--tx);letter-spacing:0;text-transform:none;text-align:left}
+.ost-strip th:last-child{border-right:1px solid var(--bd2);border-top-right-radius:8px;border-bottom-right-radius:8px}
+.ost-strip th.ost-player-col{max-width:90px;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:600px){.ost-strip th{font-size:.56rem;padding:8px 5px}.ost-strip th:first-child{font-size:.82rem;padding-left:9px}}
 .mr{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
 .mr:last-child{border-bottom:none}
 .mr-info{min-width:0}
 .mt{font-size:.85rem;font-weight:600}
 .mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .venue{font-size:.67rem;color:var(--bd2);font-weight:500}
-.mr-tip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
-.mr-gt{min-width:0;display:flex;flex-direction:column;gap:6px}
+.mr-tip{min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;justify-self:stretch}
+.mr-gt{min-width:0;width:100%;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;justify-self:stretch}
 .mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
 .ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s}
 .ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
@@ -219,12 +220,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .upd-badge.stale{background:rgba(245,158,11,.1);color:var(--gd);border-color:rgba(245,158,11,.2)}
 .upd-badge.stale::before{background:var(--gd)}
 .match-section{margin-bottom:.6rem}
-.match-section-header{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;padding:0 10px 4px;align-items:end}
-.match-section-header .gh{margin:0;padding:0;border:none;font-size:.62rem}
-.match-section-header .gh-date{grid-column:1 / -1;width:100%;margin-bottom:2px}
-.match-section-header .gh-date + .mh-tip-lbl{grid-column:2}
-.match-section-header .gh-date + .mh-tip-lbl + .mh-gt-lbl{grid-column:3}
-.mh-tip-lbl,.mh-gt-lbl{font-size:.62rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;text-align:center}
+.match-section-header{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;padding:8px 10px;align-items:center;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin-bottom:8px}
+.match-section-title{min-width:0;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--tx);letter-spacing:0;text-transform:none}
+.match-section-col{width:100%;justify-self:stretch;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:600;color:var(--mu2);letter-spacing:.04em;text-transform:uppercase;text-align:center}
+.match-section-col.is-empty{visibility:hidden}
 .tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
 .tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
 .tip-saved.p0{border-color:rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.06)}
@@ -243,6 +242,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-thumb{display:block;width:100%;height:100%;cursor:pointer}
 .stad-link{display:block;width:100%;height:100%}
 @media(max-width:760px){
+  :root{--mr-tip-w:56px;--mr-gt-w:114px}
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
   .hdr-t{font-size:1.08rem}
@@ -250,11 +250,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
       .countdown-bar{flex-direction:column;align-items:flex-start}
   .countdown-right{width:100%}
   .mini-grid{grid-template-columns:1fr}
-  .match-section-header{grid-template-columns:1fr 56px 114px}
-  .mr{grid-template-columns:1fr 56px 114px;padding:8px}
+  .match-section-header{grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:8px;padding:8px 9px}
+  .mr{grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:8px;padding:8px 9px}
   .ti{width:44px;font-size:.8rem}
   .tip-saved{min-width:44px;font-size:.8rem;padding:3px 5px}
-  .mh-tip-lbl,.mh-gt-lbl{font-size:.58rem;letter-spacing:.04em}
+  .match-section-col{font-size:.58rem;letter-spacing:.04em}
   .gt-grid{gap:3px}
   .gt-cell{padding:3px 1px}
   .gt-pct{font-size:.63rem}
@@ -1140,7 +1140,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 @media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date,.ost-date-wrap,.vys-date-wrap{font-size:.82rem;padding:8px 10px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
 
 
-/* ── v2.4 team/tips polish ── */
+/* ── v2.7 team/tips polish ── */
 .tm-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
 .tc.tc-team{padding:10px 10px 11px;min-height:0}
 .tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
@@ -1167,7 +1167,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 }
 
 
-/* ── v2.4 header/ranking polish ── */
+/* ── v2.7 header/ranking polish ── */
 .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .hdr-sc{padding:9px 9px 10px}
 .hdr-sc-ico{font-size:12px;margin-bottom:4px}
@@ -1201,7 +1201,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 
 
 
-/* ── v2.4 moje tipy date unification ── */
+/* ── v2.7 moje tipy date unification ── */
 .tipy-date-card{padding:12px 14px 8px;overflow:hidden}
 .tipy-date-card .gh-date{margin:0 0 10px 0;width:100%}
 .tipy-date-head{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;align-items:end;padding:0 2px 6px}
@@ -1218,15 +1218,31 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .unify-card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:0;overflow:hidden}
 .unify-card .mr{padding:9px 10px}
 .gh-date-lite{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;display:flex;align-items:center;gap:6px;margin-bottom:8px}
-.ost-ribbon{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;justify-content:flex-start}
-.ost-chip{min-width:86px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px}
+.ost-ribbon{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;justify-content:flex-start;padding-right:0;scrollbar-width:thin}
+.ost-chip{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 1px;flex:0 0 auto}
 .ost-chip-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.6rem;color:#fff}
-.ost-chip-name{font-size:.58rem;line-height:1.15;color:var(--mu2);text-align:center;white-space:nowrap;max-width:82px;overflow:hidden;text-overflow:ellipsis}
-.ost-chip-tip{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--tx);line-height:1.1}
+.ost-chip-name{font-size:.5rem;line-height:1.1;color:var(--mu2);text-align:center;white-space:nowrap;max-width:54px;overflow:hidden;text-overflow:ellipsis}
+.ost-chip-tip{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;color:var(--tx);line-height:1.05}
 .res-box{display:flex;flex-direction:column;align-items:center;gap:4px}
 .res-main{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--gn2)}
 .res-sub{font-size:.66rem;color:var(--mu2);text-align:center}
-@media(max-width:760px){.ost-ribbon{gap:6px}.ost-chip{min-width:72px}.ost-chip-name{max-width:68px;font-size:.54rem}.ost-chip-tip{font-size:.67rem}.res-main{font-size:.9rem}}
+@media(max-width:760px){.ost-ribbon{gap:5px}.ost-chip{min-width:52px}.ost-chip-name{max-width:48px;font-size:.48rem}.ost-chip-tip{font-size:.64rem}.res-main{font-size:.9rem}}
+
+/* ── v2.8 alignment fix ── */
+.match-section{margin-bottom:.6rem;}
+.match-section-header{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;padding:8px 10px;align-items:center;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;margin-bottom:8px;}
+.match-section-title,.gh-date,.tipy-date-card .gh-date{width:100%;max-width:none;box-sizing:border-box;margin:0;}
+.tipy-date-card{padding:12px 14px 8px;overflow:hidden;}
+.tipy-date-head{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;align-items:end;padding:0 0 6px;}
+.tipy-date-list{margin:0;padding:0;background:rgba(255,255,255,.02);border:1px solid rgba(37,66,102,.55);border-radius:16px;overflow:hidden;}
+.tipy-date-list .mr{padding:12px 14px;}
+@media(max-width:760px){
+  .tipy-date-card{padding:12px 12px 8px;}
+  .match-section-header{padding:8px 9px;gap:8px;}
+  .tipy-date-head{padding:0 0 6px;}
+  .tipy-date-list .mr{padding:10px 12px;}
+}
+
 </style>
 </head>
 <body>
@@ -1259,7 +1275,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v2.4</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v2.7</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1463,7 +1479,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v2.4</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v2.7</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1528,8 +1544,8 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v2.4',
-    footer_date:'5. 4. 2026',
+    footer_ver:'v2.7',
+    footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
     playoff_stage:'Play-off',
@@ -1621,8 +1637,8 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v2.4',
-    footer_date:'5 Apr 2026',
+    footer_ver:'v2.7',
+    footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
     playoff_stage:'Playoff',
@@ -2472,11 +2488,13 @@ function groupByDate(arr){
   return {groups:groups,keys:keys};
 }
 
-function renderSectionShell(titleHtml, bodyHtml, tipLbl, gtLbl){
-  return '<div class="match-section"><div class="match-section-header"><div>'+titleHtml+'</div><div class="mh-tip-lbl">'+(tipLbl||'')+'</div><div class="mh-gt-lbl">'+(gtLbl||'')+'</div></div><div class="card" style="padding:0;overflow:hidden">'+bodyHtml+'</div></div>';
+function renderSectionShell(titleText, bodyHtml, colsHtml){
+  return '<div class="match-section"><div class="match-section-header"><div class="match-section-title">'+escHtml(titleText)+'</div>'+colsHtml+'</div><div class="card" style="padding:0;overflow:hidden">'+bodyHtml+'</div></div>';
 }
-function renderDateSectionShell(dateHtml, bodyHtml, tipLbl, gtLbl){
-  return '<div class="match-section"><div class="match-section-header"><div class="gh-date">'+dateHtml+'</div><div class="mh-tip-lbl">'+(tipLbl||'')+'</div><div class="mh-gt-lbl">'+(gtLbl||'')+'</div></div><div class="card" style="padding:0;overflow:hidden">'+bodyHtml+'</div></div>';
+function renderHeaderCols(labels){
+  return labels.map(function(lbl){
+    return '<div class="match-section-col'+(lbl?'':' is-empty')+'">'+(lbl?escHtml(lbl):'')+'</div>';
+  }).join('');
 }
 
 function renderTipy(){
@@ -2493,7 +2511,7 @@ function renderTipy(){
   updateTipQuickButtons();
   var hasGT=Object.keys(allTips).length>0;
   var tipLbl=tr('my_tip');
-  var gtLbl=LANG==='en'?"Others' trends":"Tendence ostatních";
+  var gtLbl=LANG==='en'?'Trend':'Tendence';
   var html='';
 
   if(tipSort==='dt'){
@@ -2502,14 +2520,14 @@ function renderTipy(){
       var matches=gbd.groups[k];
       var body='';
       matches.forEach(function(z){body+=renderMatchRow(z,isAdmin,hasGT);});
-      html+=renderDateSectionShell(dLabel(matches[0]), body, tipLbl, (hasGT?gtLbl:''));
+      html+=renderSectionShell(dLabel(matches[0]), body, renderHeaderCols([tipLbl,(hasGT?gtLbl:'')]));
     });
   } else {
     var prev=null,curMatches=[];
     function flushSection(){
       if(!curMatches.length) return;
       var sk=curMatches[0][1];
-      html+='<div class="match-section"><div class="match-section-header"><div class="gh">'+ghL(sk)+'</div><div class="mh-tip-lbl">'+tipLbl+'</div><div class="mh-gt-lbl">'+(hasGT?gtLbl:'')+'</div></div><div class="card" style="padding:0;overflow:hidden">';
+      html+='<div class="match-section"><div class="match-section-header"><div class="match-section-title">'+escHtml(ghL(sk))+'</div>'+renderHeaderCols([tipLbl,(hasGT?gtLbl:'')])+'</div><div class="card" style="padding:0;overflow:hidden">';
       curMatches.forEach(function(z){html+=renderMatchRow(z,isAdmin,hasGT);});
       html+='</div></div>';
       curMatches=[];
@@ -2682,65 +2700,66 @@ function renderOst(){
   var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
   if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
 
-  var html='';
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem"><tbody>';
+
   if(ostSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
-      var matches=gbd.groups[k], body='';
-      matches.forEach(function(z){ body+=renderOstRow(z,others); });
-      html+=renderDateSectionShell(dLabel(matches[0]), body, tr('result'), tr('tab_ostatni'));
+      var matches=gbd.groups[k];
+      html+=renderOstStrip(dLabel(matches[0]),others);
+      matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
-    var prev=null, cur=[];
-    function flush(){
-      if(!cur.length) return;
-      var body=''; cur.forEach(function(z){ body+=renderOstRow(z,others); });
-      html+=renderSectionShell('<div class="gh">'+ghL(cur[0][1])+'</div>', body, tr('result'), tr('tab_ostatni'));
-      cur=[];
-    }
-    arr.forEach(function(z){ if(z[1]!==prev){ flush(); prev=z[1]; } cur.push(z); });
-    flush();
+    var prev=null;
+    arr.forEach(function(z){
+      var sk=z[1];
+      if(sk!==prev){
+        html+=renderOstStrip(ghL(sk),others);
+        prev=sk;
+      }
+      html+=renderOstRow(z,others);
+    });
   }
-  html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  html+='</tbody></table></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   el.innerHTML=html;
   var ol=document.getElementById('ost-list');
-  if(ol){ ol.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
+  if(ol){ ol.onclick=function(e){ var team=e.target.closest('.link-team'); if(team&&team.dataset.team) filterByTeam(team.dataset.team); var st=e.target.closest('.link-venue'); if(st&&st.dataset.stadium) goStadiony(st.dataset.stadium); }; }
 }
 
-function renderOstSubhead(others){
-  var html='<tr class="ost-subhead">'+
-    '<th style="text-align:left;min-width:220px;color:var(--mu)">'+tr('match')+'</th>'+
-    '<th style="text-align:center;min-width:68px;color:var(--mu)">'+tr('result')+'</th>'+
-    '<th style="text-align:center;min-width:72px;color:var(--gn2)">'+tr('my_tip_col')+'</th>';
+function renderOstStrip(title,others){
+  var html='<tr class="ost-strip">'+
+    '<th style="min-width:220px">'+escHtml(title)+'</th>'+
+    '<th style="min-width:68px">'+escHtml(tr('result'))+'</th>'+
+    '<th style="min-width:72px">'+escHtml(tr('my_tip_col'))+'</th>';
   others.forEach(function(p){
     var ci=players.indexOf(p);
-    html+='<th style="text-align:center;min-width:70px;color:'+AVC[ci%AVC.length]+'">'+escHtml(p.jmeno)+'</th>';
+    html+='<th class="ost-player-col" style="min-width:70px;color:'+AVC[ci%AVC.length]+'" title="'+escAttr(p.jmeno)+'">'+escHtml(p.jmeno)+'</th>';
   });
   return html+'</tr>';
 }
 
 function renderOstRow(z,others){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],myTip=myTips[id]||'',canSee=!!myTip;
+  var myPts=(res&&myTip)?calcPts(myTip,res):null;
+  var myBg=myPts===5?'rgba(34,197,94,.1)':myPts===2?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'';
+  var myCol=myPts===5?'var(--gn2)':myPts===2?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)';
   var venueHtml=venue?stadiumLinkHtml(venue):'';
   var dLink=matchTeamsUnknown(z)?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
-  var resultHtml=res?('<div class="tip-saved p5" style="min-width:52px">'+escHtml(res)+'</div>'):'<div class="tip-saved" style="min-width:52px">—</div>';
-  var ribbon='<div class="ost-ribbon">';
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+dLink+' &ndash; '+hLink+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
+  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
+  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
   others.forEach(function(p){
-    var tips=allTips[p.id]||{}, tip=tips[id]||'';
-    var shown=canSee?(tip||'—'):'?';
-    var ci=players.indexOf(p);
-    ribbon+='<div class="ost-chip"><div class="ost-chip-av" style="background:'+AVC[ci%AVC.length]+'">'+escHtml(ini(p.jmeno))+'</div><div class="ost-chip-name">'+escHtml(p.jmeno)+'</div><div class="ost-chip-tip">'+escHtml(shown)+'</div></div>';
+    var tips=allTips[p.id]||{},tip=tips[id]||'';
+    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    else{
+      var pts=(res&&tip)?calcPts(tip,res):null;
+      var bg=pts===5?'rgba(34,197,94,.1)':pts===2?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'';
+      var col=pts===5?'var(--gn2)':pts===2?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>';
+    }
   });
-  ribbon+='</div>';
-  return '<div class="mr">'+
-    '<div class="mr-info">'+
-      '<div class="mt">'+dLink+' – '+hLink+'</div>'+
-      '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue">'+venueHtml+'</span>':'')+(myTip?' <span class="vys-my-tip">'+(LANG==='en'?'My tip: ':'Můj tip: ')+escHtml(myTip)+'</span>':'')+'</div>'+
-    '</div>'+
-    '<div class="mr-tip">'+resultHtml+'</div>'+
-    '<div class="mr-gt">'+ribbon+'</div>'+
-  '</div>';
+  return html+'</tr>';
 }
 
 function renderZeb(){
@@ -2798,14 +2817,14 @@ function renderVys(){
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k], body='';
       matches.forEach(function(z){ body+=renderVysRow(z); });
-      html+=renderDateSectionShell(dLabel(matches[0]), body, tr('result'), '');
+      html+=renderSectionShell(dLabel(matches[0]), body, renderHeaderCols([tr('result'),tr('my_tip_col')]));
     });
   } else {
     var cur=[];
     function flush(){
       if(!cur.length) return;
       var body=''; cur.forEach(function(z){ body+=renderVysRow(z); });
-      html+=renderSectionShell('<div class="gh">'+ghL(cur[0][1])+'</div>', body, tr('result'), '');
+      html+=renderSectionShell(ghL(cur[0][1]), body, renderHeaderCols([tr('result'),tr('my_tip_col')]));
       cur=[];
     }
     arr.forEach(function(z){ if(z[1]!==prev){ flush(); prev=z[1]; } cur.push(z); });
@@ -2826,7 +2845,7 @@ function renderVysRow(z){
       '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue">'+venueHtml+'</span>':'')+(!res&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+'</div>'+
     '</div>'+
     '<div class="mr-tip"><div class="res-box"><div class="res-main">'+(res?escHtml(res):'—')+'</div></div></div>'+
-    '<div class="mr-gt">'+(myTip?'<div class="res-sub">'+(LANG==='en'?'My tip: ':'Můj tip: ')+escHtml(myTip)+'</div>':'')+'</div>'+
+    '<div class="mr-gt"><div class="res-sub">'+(myTip?escHtml(myTip):'—')+'</div></div>'+
   '</div>';
 }
 
