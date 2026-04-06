@@ -1,0 +1,16 @@
+{
+  "name": "Tipovacka MS 2026",
+  "short_name": "Tipovacka 2026",
+  "start_url": "./tipovacka3_3.html",
+  "display": "standalone",
+  "background_color": "#0a1524",
+  "theme_color": "#0a1524",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%230a1524'/%3E%3Crect x='12' y='12' width='168' height='168' rx='28' fill='%23122235' stroke='%233b82f6' stroke-width='4'/%3E%3Ctext x='96' y='80' text-anchor='middle' font-size='68'%3E%E2%9A%BD%3C/text%3E%3Ctext x='96' y='126' text-anchor='middle' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='%23eef5ff'%3EMS%3C/text%3E%3Ctext x='96' y='154' text-anchor='middle' font-family='Arial,sans-serif' font-size='22' font-weight='700' fill='%2360a5fa'%3E2026%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
