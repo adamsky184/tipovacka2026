@@ -1177,6 +1177,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .hdr-sc-rank .hdr-sc-lbl{color:#fbbf24}
 .hdr-sc-rank .hdr-sc-val{display:flex;align-items:baseline;justify-content:center;gap:4px;flex-wrap:wrap}
 .hdr-rank-meta-inline{font-size:.75em;opacity:.6;color:var(--mu2);font-weight:600;line-height:1}
+.hdr-rank-meta-inline .rank-exact{color:var(--gn2)}
+.hdr-rank-meta-inline .rank-trend{color:var(--ac2)}
 .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px;text-align:center}
 .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:126px;text-align:right}
 .tbl.team-rank-table th:nth-child(4){padding-right:12px}
@@ -1185,6 +1187,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .mt{font-size:.8rem}
 .rr .d-mobile-sm{font-size:.82rem !important}
 .vys-my-tip{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:999px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.22);color:var(--ac2);font-size:.66rem;font-weight:700}
+.vys-tip-cell{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:20px;color:var(--mu2);font-size:.66rem;font-weight:700}
+.vys-tip-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;background:var(--bd2);box-shadow:0 0 0 1px rgba(255,255,255,.04)}
+.vys-tip-dot.exact{background:var(--gn2);box-shadow:0 0 10px rgba(34,197,94,.45)}
+.vys-tip-dot.trend{background:var(--ac2);box-shadow:0 0 10px rgba(59,130,246,.45)}
 @media(max-width:760px){
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
   .hdr-sc{padding:8px 6px 9px}
@@ -1218,7 +1224,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .unify-card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:0;overflow:hidden}
 .unify-card .mr{padding:9px 10px}
 .gh-date-lite{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--tx);padding:8px 10px;background:var(--bg4);border:1px solid var(--bd2);border-radius:8px;display:flex;align-items:center;gap:6px;margin-bottom:8px}
-.ost-ribbon{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;justify-content:flex-start;padding-right:0;scrollbar-width:thin}
+.ost-ribbon{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;justify-content:flex-start;padding-right:0;scrollbar-width:thin}
 .ost-chip{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 1px;flex:0 0 auto}
 .ost-chip-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.6rem;color:#fff}
 .ost-chip-name{font-size:.5rem;line-height:1.1;color:var(--mu2);text-align:center;white-space:nowrap;max-width:54px;overflow:hidden;text-overflow:ellipsis}
@@ -1242,6 +1248,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .tipy-date-head{padding:0 0 6px;}
   .tipy-date-list .mr{padding:10px 12px;}
 }
+
+/* ── v2.9 results/header/ribbon polish ── */
 
 </style>
 </head>
@@ -1275,7 +1283,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v2.7</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v2.9</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1479,7 +1487,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v2.7</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v2.9</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1544,7 +1552,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v2.7',
+    footer_ver:'v2.9',
     footer_date:'6. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1637,7 +1645,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v2.7',
+    footer_ver:'v2.9',
     footer_date:'6 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2129,7 +2137,7 @@ function updateHeaderRanking(){
   var idx=-1,mine=null;
   scored.forEach(function(s,i){ if(String(s.id)===String(me.id)){idx=i;mine=s;} });
   if(idx<0||!mine){val.innerHTML='-';bar.style.width='0%';return;}
-  val.innerHTML='#'+(idx+1)+' <span class="hdr-rank-meta-inline">'+mine.total+'b · '+mine.pre+'P · '+mine.spr+'T</span>';;
+  val.innerHTML='#'+(idx+1)+' <span class="hdr-rank-meta-inline">'+mine.total+'b · '+mine.pre+'<span class="rank-exact">P</span> · '+mine.spr+'<span class="rank-trend">T</span></span>';;
   bar.style.width=(scored.length?Math.max(8,Math.round((1-(idx/Math.max(scored.length-1,1)))*100)):0)+'%';
 }
 
@@ -2511,7 +2519,7 @@ function renderTipy(){
   updateTipQuickButtons();
   var hasGT=Object.keys(allTips).length>0;
   var tipLbl=tr('my_tip');
-  var gtLbl=LANG==='en'?'Trend':'Tendence';
+  var gtLbl=LANG==='en'?"Others' trends":'Tendence ostatních';
   var html='';
 
   if(tipSort==='dt'){
@@ -2836,6 +2844,9 @@ function renderVys(){
 }
 function renderVysRow(z){
   var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],cd=cdStr(z),myTip=myTips[id]||'';
+  var myPts=(res&&myTip)?calcPts(myTip,res):null;
+  var tipDot=myPts===5?'<span class="vys-tip-dot exact" title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'"></span>':myPts===2?'<span class="vys-tip-dot trend" title="'+escAttr(LANG==='en'?'Correct trend':'Správný trend')+'"></span>':'';
+  var tipCell=myTip?'<div class="vys-tip-cell">'+tipDot+'<span>'+escHtml(myTip)+'</span></div>':'&mdash;';
   var dLink=matchTeamsUnknown(z)?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
   var venueHtml=venue?stadiumLinkHtml(venue):'';
@@ -2845,7 +2856,7 @@ function renderVysRow(z){
       '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue">'+venueHtml+'</span>':'')+(!res&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+'</div>'+
     '</div>'+
     '<div class="mr-tip"><div class="res-box"><div class="res-main">'+(res?escHtml(res):'—')+'</div></div></div>'+
-    '<div class="mr-gt"><div class="res-sub">'+(myTip?escHtml(myTip):'—')+'</div></div>'+
+    '<div class="mr-gt"><div class="res-sub">'+tipCell+'</div></div>'+
   '</div>';
 }
 
