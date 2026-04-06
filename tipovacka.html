@@ -2093,25 +2093,63 @@ function loadFifaRankingData(){
         fifaRankingData={
           items:parsed.items.map(normalizeFifaItem).filter(Boolean),
           officialAt:parsed.officialAt||'',
+          importedAt:parsed.importedAt||'',
           sourceUrl:parsed.sourceUrl||''
         };
         return fifaRankingData;
       }
     }
   }catch(e){}
-  fifaRankingData={items:getDefaultFifaItems(),officialAt:'',sourceUrl:''};
+  fifaRankingData={items:getDefaultFifaItems(),officialAt:'',importedAt:'',sourceUrl:''};
   return fifaRankingData;
 }
 function saveFifaRankingData(payload){
   fifaRankingData={
     items:(payload.items||[]).map(normalizeFifaItem).filter(Boolean),
     officialAt:payload.officialAt||'',
+    importedAt:payload.importedAt||new Date().toISOString(),
     sourceUrl:payload.sourceUrl||''
   };
   try{
     localStorage.setItem(getFifaCacheKey(), JSON.stringify(fifaRankingData));
   }catch(e){}
-  setFifaMeta(fifaRankingData.officialAt||'');
+  try{
+    localStorage.setItem('ms26_fifa_updated_at', fifaRankingData.importedAt||new Date().toISOString());
+    if(fifaRankingData.officialAt) localStorage.setItem('ms26_fifa_official_at', fifaRankingData.officialAt);
+  }catch(e){}
+}
+function loadFifaRankingFromDb(force){
+  if(!force && fifaRankingData && fifaRankingData.items && fifaRankingData.items.length && fifaRankingData.importedAt) return Promise.resolve(fifaRankingData);
+  return sbf('fifa_rankings_current?select=team_name,group_code,rank,points,change,confederation,trend,official_release_at,imported_at,source_url&order=rank.asc')
+    .then(function(rows){
+      if(!rows||!rows.length) return loadFifaRankingData();
+      var officialAt='',importedAt='',sourceUrl='';
+      rows.forEach(function(r){
+        if(!officialAt && r.official_release_at) officialAt=r.official_release_at;
+        if(!importedAt && r.imported_at) importedAt=r.imported_at;
+        if(!sourceUrl && r.source_url) sourceUrl=r.source_url;
+      });
+      saveFifaRankingData({
+        items:rows.map(function(r){
+          return {
+            name:r.team_name,
+            group:r.group_code,
+            rank:r.rank,
+            points:r.points,
+            change:r.change,
+            confed:r.confederation,
+            trend:r.trend
+          };
+        }),
+        officialAt:officialAt,
+        importedAt:importedAt,
+        sourceUrl:sourceUrl
+      });
+      return fifaRankingData;
+    })
+    .catch(function(){
+      return loadFifaRankingData();
+    });
 }
 function getFifaRecord(name){
   var data=fifaRankingData||loadFifaRankingData();
@@ -2548,6 +2586,10 @@ function finishLogin(d){
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
     renderAdminSyncStatus();
+    loadFifaRankingFromDb(true).then(function(){
+      if(tymPhase==='rk' || document.getElementById('page-tymy').style.display!=='none') renderTymy();
+      renderAdminSyncStatus();
+    });
   });
   showTab('tipy');
 }
@@ -3701,24 +3743,25 @@ function syncFifaRanking(){
   var btn=document.getElementById('btn-sync-fifa');
   if(btn) btn.disabled=true;
   setSt('st-vys','...');
-  return fetch('https://inside.fifa.com/fifa-world-ranking/men?lang=en')
+  return fetch(SBU+'/functions/v1/fifa-ranking-refresh', {
+    method:'POST',
+    headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
+    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||''})
+  })
     .then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
-      return r.text();
+      return r.json().catch(function(){ return {}; });
     })
-    .then(function(html){
-      var parsed=tryParseFifaHtml(html);
-      if(!parsed) throw new Error('parse_failed');
-      saveFifaRankingData(parsed);
+    .then(function(){
+      return loadFifaRankingFromDb(true);
+    })
+    .then(function(){
       renderTymy();
       renderAdminSyncStatus();
       setSt('st-vys',tr('fifa_import_done'),false,true);
     })
-    .catch(function(){
-      saveFifaRankingData({items:getDefaultFifaItems(),officialAt:getFifaOfficialAt(),sourceUrl:''});
-      renderTymy();
-      renderAdminSyncStatus();
-      setSt('st-vys',tr('fifa_import_partial'),false,true);
+    .catch(function(e){
+      setSt('st-vys',tr('fifa_import_fail')+(e&&e.message?': '+e.message:''),true);
     })
     .finally(function(){
       if(btn) btn.disabled=false;
