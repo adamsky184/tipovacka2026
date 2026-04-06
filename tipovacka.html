@@ -220,6 +220,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .match-section{margin-bottom:.6rem}
 .match-section-header{display:grid;grid-template-columns:1fr 72px 156px;gap:10px;padding:6px 10px 4px;align-items:end}
 .match-section-header .gh{margin:0;padding:0;border:none;font-size:.62rem}
+.match-section-header .gh-date{grid-column:1 / -1;width:100%;margin-bottom:2px}
+.match-section-header .gh-date + .mh-tip-lbl{grid-column:2}
+.match-section-header .gh-date + .mh-tip-lbl + .mh-gt-lbl{grid-column:3}
 .mh-tip-lbl,.mh-gt-lbl{font-size:.62rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;text-align:center}
 .tip-saved{border:1.5px solid rgba(59,130,246,.45);border-radius:7px;padding:4px 8px;font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--ac2);text-align:center;min-width:52px;background:rgba(59,130,246,.06);display:block}
 .tip-saved.p5{border-color:rgba(34,197,94,.5);color:var(--gn2);background:rgba(34,197,94,.06)}
@@ -1176,7 +1179,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:126px;text-align:right}
 .tbl.team-rank-table th:nth-child(4){padding-right:12px}
 .tbl.team-rank-table td:nth-child(4){padding-right:8px}
-.gh-date{font-size:.88rem}
+.gh-date{font-size:.82rem}
 .mt{font-size:.8rem}
 .rr .d-mobile-sm{font-size:.82rem !important}
 .vys-my-tip{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:999px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.22);color:var(--ac2);font-size:.66rem;font-weight:700}
