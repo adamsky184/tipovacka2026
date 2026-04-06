@@ -1135,6 +1135,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-card.target-stadium{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18)}
 @media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date{font-size:.81rem;padding:8px 9px}.ost-date-wrap,.vys-date-wrap{font-size:.81rem;padding:8px 9px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
 
+
+/* ── v1.95 team/tips polish ── */
+.tm-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.tc.tc-team{padding:10px 10px 11px;min-height:0}
+.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
+.tc-team-link{min-height:32px;font-size:.69rem;padding:5px 6px}
+.tc-team-sched{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);display:grid;gap:6px}
+.tc-team-sched-sec{display:grid;gap:4px}
+.tc-team-sched-h{font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu2)}
+.tc-team-sched-row{padding:6px 7px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.tc-team-sched-match{font-size:.68rem;font-weight:700;line-height:1.25;color:var(--tx)}
+.tc-team-sched-meta{font-size:.61rem;color:var(--mu);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap}
+.tc-team-sched-tip{font-size:.6rem;color:var(--ac2);font-weight:700}
+.tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:96px}
+.tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:118px;text-align:right}
+.team-rank-pill{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border-radius:999px;background:rgba(37,66,102,.55);border:1px solid var(--bd2);color:var(--ac2);text-decoration:none;font-size:.68rem;font-weight:700;transition:.15s}
+.team-rank-pill:hover{border-color:var(--ac);color:#fff;background:rgba(59,130,246,.12)}
+.gh-date{font-size:.93rem}
+.mt{font-size:.82rem}
+.ost-date-wrap{font-size:.82rem}
+@media(max-width:600px){
+  .gh-date{font-size:.84rem}
+  .mt{font-size:.8rem}
+  .ost-date-wrap{font-size:.8rem}
+  .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px}
+}
+
 </style>
 </head>
 <body>
@@ -1167,7 +1194,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.94</span> · <span id="lo-date-lbl">5. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.95</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1341,8 +1368,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     
     <div id="page-tymy" style="display:none">
       <div class="ptabs">
-        <button class="ptab on" id="ptab-tym-sk">Řadit dle skupin</button>
-        <button class="ptab" id="ptab-tym-rk">FIFA Ranking</button>
+        <button class="ptab on" id="ptab-tym-az">Řadit abecedně</button>
+        <button class="ptab" id="ptab-tym-sk">Řadit dle skupin</button>
+        <button class="ptab" id="ptab-tym-rk">Žebříček FIFA</button>
       </div>
       <div class="card">
         <div class="clbl" id="clbl-tymy">Kvalifikované týmy MS 2026</div>
@@ -1364,7 +1392,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.94</span> · <span id="date-lbl">5. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.95</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1399,7 +1427,7 @@ var T={
     tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
     tab_stadiony:'Stadiony',tab_tymy:'Týmy',
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
-    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',ranking:'Žebříček FIFA',
+    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny. Admin může upravovat.',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
@@ -1429,7 +1457,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.94',
+    footer_ver:'v1.95',
     footer_date:'5. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1492,7 +1520,7 @@ var T={
     tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
     tab_stadiony:'Stadiums',tab_tymy:'Teams',
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
-    groups:'Groups',third:'3rd Place Table',by_group:'By Group',ranking:'FIFA Ranking',
+    groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked. Admin can edit.',
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
@@ -1522,7 +1550,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.94',
+    footer_ver:'v1.95',
     footer_date:'5 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1822,7 +1850,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={};
-var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='sk',tipQuickFilter='all';
+var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',tipQuickFilter='all';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
 function pad(n){return n<10?'0'+n:String(n);}
@@ -2245,7 +2273,7 @@ function applyI18n(){
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-phase-sk',tr('phase_groups'));setText('ptab-vys-phase-po',tr('phase_playoff'));setText('ptab-vys-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-vys-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
-  setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking')); setText('team-tab-overview',tr('team_overview')); setText('team-tab-fixtures',tr('team_fixtures')); setText('team-tab-stats',tr('team_stats')); setText('team-tab-squad',tr('team_squad'));
+  setText('ptab-tym-az',tr('by_alpha'));setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking')); setText('team-tab-overview',tr('team_overview')); setText('team-tab-fixtures',tr('team_fixtures')); setText('team-tab-stats',tr('team_stats')); setText('team-tab-squad',tr('team_squad'));
 
   setText('btn-logout',tr('logout'));
   setText('btn-refresh',tr('sync_results')); var bst=document.getElementById('btn-sync-teams'); if(bst) bst.textContent=tr('sync_teams');
@@ -2313,7 +2341,7 @@ function showTab(name){
 }
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
-  ['sk','dt','po','cel','3m','rk'].forEach(function(p){
+  ['sk','dt','po','cel','3m','rk','az'].forEach(function(p){
     var b=document.getElementById(prefix+p);if(b) b.classList.toggle('on',p===phase);
   });
   if(ctx==='tipy'){tipSort=phase;renderTipy();}
@@ -2549,22 +2577,13 @@ function renderOst(){
   var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
   if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
 
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><thead><tr class="ost-mainhead">'+
-  '<th style="position:sticky;top:0;background:var(--bg2);text-align:left;padding:6px 8px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:220px">'+tr('match')+'</th>'+
-  '<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--mu);border-bottom:1px solid var(--bd);text-align:center;min-width:68px">'+tr('result')+'</th>'+
-  '<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:var(--gn2);border-bottom:1px solid var(--bd);text-align:center;min-width:72px">'+tr('my_tip_col')+'</th>';
-  others.forEach(function(p){
-    var ci=players.indexOf(p);
-    html+='<th style="position:sticky;top:0;background:var(--bg2);padding:6px 7px;color:'+AVC[ci%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px">'+escHtml(p.jmeno)+'</th>';
-  });
-  html+='</tr></thead><tbody>';
+  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.78rem"><tbody>';
 
   if(ostSort==='dt'){
     var gbd=groupByDate(arr);
     gbd.keys.forEach(function(k){
       var matches=gbd.groups[k];
       html+='<tr class="ost-date-row"><td colspan="'+(others.length+3)+'"><div class="ost-date-wrap">'+dLabel(matches[0])+'</div></td></tr>';
-      html+=renderOstSubhead(others);
       matches.forEach(function(z){html+=renderOstRow(z,others);});
     });
   } else {
@@ -2573,8 +2592,7 @@ function renderOst(){
       var sk=z[1];
       if(sk!==prev){
         html+='<tr><td colspan="'+(others.length+3)+'" style="background:var(--bg3);padding:4px 8px;font-size:.65rem;font-weight:700;color:var(--mu);letter-spacing:.09em;text-transform:uppercase">'+ghL(sk)+'</td></tr>';
-        html+=renderOstSubhead(others);
-        prev=sk;
+          prev=sk;
       }
       html+=renderOstRow(z,others);
     });
@@ -2600,7 +2618,7 @@ function renderOstRow(z,others){
   var myBg=myPts===5?'rgba(34,197,94,.1)':myPts===2?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'';
   var myCol=myPts===5?'var(--gn2)':myPts===2?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)';
   var venueHtml=venue?stadiumLinkHtml(venue):'';
-  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+fT(d)+' &ndash; '+fT(h)+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+fT(d)+' &ndash; '+fT(h)+'</div><div class="d-mobile-sm" style="font-size:.82rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
   others.forEach(function(p){
@@ -2797,6 +2815,29 @@ function getEspnTeamUrls(localName){
     squad:'https://www.espn.com/soccer/team/squad/_/id/'+id
   };
 }
+
+function getTeamMatches(localName){
+  var all=SZ.concat(PZ).filter(function(z){ return z[2]===localName || z[3]===localName; }).sort(function(a,b){ return mDate(a)-mDate(b); });
+  var now=new Date(), past=[], upcoming=[];
+  all.forEach(function(z){ (mDate(z)<now ? past : upcoming).push(z); });
+  return {past:past.slice(-2).reverse(), upcoming:upcoming.slice(0,2)};
+}
+function renderTeamSchedule(localName){
+  var data=getTeamMatches(localName);
+  function row(z){
+    var venue=z[9]||'', res=results[z[0]]||'—', mine=myTips&&myTips[z[0]]?myTips[z[0]]:'—';
+    return '<div class="tc-team-sched-row">'+
+      '<div class="tc-team-sched-match">'+fT(z[2])+' - '+fT(z[3])+'</div>'+
+      '<div class="tc-team-sched-meta"><span>'+escHtml(dStr(z))+'</span>'+(venue?'<span>'+stadiumLinkHtml(venue)+'</span>':'')+'<span>'+escHtml(res)+'</span><span class="tc-team-sched-tip">'+(LANG==='en'?'My tip: ':'Můj tip: ')+escHtml(mine)+'</span></div>'+
+      '</div>';
+  }
+  var html='<div class="tc-team-sched">';
+  html+='<div class="tc-team-sched-sec"><div class="tc-team-sched-h">'+(LANG==='en'?'Upcoming':'Čeká je')+'</div>'+(data.upcoming.length?data.upcoming.map(row).join(''):'<div class="tc-team-note">'+(LANG==='en'?'No upcoming matches':'Žádné další zápasy')+'</div>')+'</div>';
+  html+='<div class="tc-team-sched-sec"><div class="tc-team-sched-h">'+(LANG==='en'?'Played':'Odehráli')+'</div>'+(data.past.length?data.past.map(row).join(''):'<div class="tc-team-note">'+(LANG==='en'?'No played matches yet':'Zatím nic odehráno')+'</div>')+'</div>';
+  html+='</div>';
+  return html;
+}
+
 function renderTeamLinks(localName){
   var urls=getEspnTeamUrls(localName);
   if(!urls){
@@ -2828,25 +2869,48 @@ function renderTymy(){
     });
   }
   var html='';
-  Object.keys(TEAMS).sort().forEach(function(sk){
-    html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
-    TEAMS[sk].forEach(function(tm){
-      var name=tm[0],rk=FIFA[name];
+  if(tymPhase==='sk'){
+    Object.keys(TEAMS).sort().forEach(function(sk){
+      html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
+      TEAMS[sk].forEach(function(tm){
+        var name=tm[0],rk=FIFA[name];
+        html+='<div class="tc tc-team">'+
+          '<div class="tc-team-top">'+
+            '<div class="tc-team-flag">'+fl(name)+'</div>'+
+            '<div class="tc-team-title">'+
+              '<div class="tc-team-name">'+tN(name)+'</div>'+
+              '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+'</div>'+
+            '</div>'+
+          '</div>'+
+          renderTeamLinks(name)+
+          renderTeamSchedule(name)+
+        '</div>';
+      });
+      html+='</div></div>';
+    });
+  } else {
+    var all=[];
+    Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(tm){ all.push({name:tm[0], sk:sk, rk:FIFA[tm[0]]||999}); }); });
+    all.sort(function(a,b){ return tN(a.name).localeCompare(tN(b.name), LANG==='en'?'en':'cs'); });
+    html+='<div class="tm-grid">';
+    all.forEach(function(item){
       html+='<div class="tc tc-team">'+
         '<div class="tc-team-top">'+
-          '<div class="tc-team-flag">'+fl(name)+'</div>'+
+          '<div class="tc-team-flag">'+fl(item.name)+'</div>'+
           '<div class="tc-team-title">'+
-            '<div class="tc-team-name">'+tN(name)+'</div>'+
-            '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+'</div>'+
+            '<div class="tc-team-name">'+tN(item.name)+'</div>'+
+            '<div class="tc-team-meta"><span>'+tr('group')+' '+item.sk+'</span>'+(item.rk?'<span>FIFA #'+item.rk+'</span>':'')+'</div>'+
           '</div>'+
         '</div>'+
-        renderTeamLinks(name)+
+        renderTeamLinks(item.name)+
+        renderTeamSchedule(item.name)+
       '</div>';
     });
-    html+='</div></div>';
-  });
+    html+='</div>';
+  }
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
 }
+
 function renderFifaRanking(){
   if((!espnTeamIndex || !espnTeamIndex.length) && !renderFifaRanking._loadingEspn){
     renderFifaRanking._loadingEspn=true;
@@ -2855,14 +2919,14 @@ function renderFifaRanking(){
   var all=[],seen={};
   Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th><th style="width:120px">ESPN</th></tr></thead><tbody>';
+  var html='<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th><th style="width:120px;text-align:right">ESPN</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
     var urls=getEspnTeamUrls(tm.name);
     html+='<tr><td style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
     html+='<td><span style="font-size:1.15rem;margin-right:6px">'+fl(tm.name)+'</span>'+tN(tm.name)+'</td>';
     html+='<td><span style="font-size:.71rem;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--mu2)">'+tr('group')+' '+tm.sk+'</span></td>';
-    html+='<td>'+(urls?'<a class="team-rank-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>':'<span style="color:var(--mu)">-</span>')+'</td></tr>';
+    html+='<td style="text-align:right">'+(urls?'<a class="team-rank-pill" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>':'<span style="color:var(--mu)">-</span>')+'</td></tr>';
   });
   html+='</tbody></table>';
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
@@ -3421,8 +3485,9 @@ function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b
 function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
 function filterByTeam(teamName){
   showTab('tymy');
-  tymPhase='sk';
-  var b1=document.getElementById('ptab-tym-sk'); if(b1) b1.classList.add('on');
+  tymPhase='az';
+  var b0=document.getElementById('ptab-tym-az'); if(b0) b0.classList.add('on');
+  var b1=document.getElementById('ptab-tym-sk'); if(b1) b1.classList.remove('on');
   var b2=document.getElementById('ptab-tym-rk'); if(b2) b2.classList.remove('on');
   renderTymy();
   setTimeout(function(){ openTeamDetail(teamName, findGroupByTeam(teamName)||''); }, 50);
@@ -3475,7 +3540,7 @@ function init(){
     
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
-    ['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
+    ['ptab-tym-az','tym','az'],['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
   ].forEach(function(pt){
     var b=document.getElementById(pt[0]); if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
   });
@@ -3499,7 +3564,7 @@ function init(){
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
-  tipSort='dt'; vysSort='dt';
+  tipSort='dt'; vysSort='dt'; tymPhase='az';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
