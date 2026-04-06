@@ -161,7 +161,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .lo-tab.on{background:var(--ac);color:#fff}
 .lo-tab:not(.on){background:none;color:var(--mu)}
 .lo-lbl{font-size:.7rem;color:var(--mu2);font-weight:600;margin-bottom:4px;letter-spacing:.04em}
-.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.89rem;font-family:'Inter',sans-serif;margin-bottom:.8rem;transition:.15s}
+.lo-inp{width:100%;padding:8px 11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:16px;font-family:'Inter',sans-serif;margin-bottom:.8rem;transition:.15s}
 .lo-inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.12)}
 .lo-inp::placeholder{color:var(--mu)}
 .lo-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
@@ -199,6 +199,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .pf-list{display:grid;gap:6px}
 .pf-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--tx)}
 .pf-summary{font-size:.68rem;color:var(--mu);margin-left:6px}
+.pf-foot{display:flex;justify-content:flex-end;margin-top:9px;padding-top:8px;border-top:1px solid rgba(37,66,102,.35)}
+.pf-done{padding:5px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);font-size:.69rem;font-weight:700;cursor:pointer}
+.pf-done:hover{border-color:var(--ac2);color:var(--ac2)}
 
 .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:11px;padding:.8rem .9rem}
@@ -1605,7 +1608,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
         </div>
       </div>
       <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
-      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div></div></div>
+      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div><div class="pf-foot"><button class="pf-done" id="pf-done" type="button">Hotovo</button></div></div></div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
     </div>
 
@@ -2342,7 +2345,7 @@ function loadExtraMeta(){
   }).catch(function(){});
 }
 function loadDiscussion(){
-  return sbf('discussion_posts?select=id,parent_id,hrac_id,body,created_at,hrace(jmeno)&order=created_at.asc').then(function(d){
+  return sbf('discussion_posts?select=id,parent_id,hrac_id,body,created_at&order=created_at.asc').then(function(d){
     discussionPosts=d||[];
   }).catch(function(){ discussionPosts=[]; });
 }
@@ -2990,6 +2993,10 @@ function getDiscussionRankMap(){
   getLeaderboardSnapshot('cel').forEach(function(row,idx){ map[String(row.p.id)]={rank:idx+1,total:row.total}; });
   return map;
 }
+function getDiscussionAuthorName(post){
+  var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
+  return (player&&player.jmeno)||('#'+post.hrac_id);
+}
 function discussionReactionSummary(postId){
   var list=discussionReactions[String(postId)]||[];
   var emojis=['👍','😂','🔥','⚽'];
@@ -3013,14 +3020,13 @@ function renderDiscussion(){
     if(!byParent[key]) byParent[key]=[];
     byParent[key].push(post);
   });
-  function authorName(post){ return post.hrace&&post.hrace.jmeno?post.hrace.jmeno:(players.find(function(p){return String(p.id)===String(post.hrac_id);})||{}).jmeno||('#'+post.hrac_id); }
   function renderPost(post,isReply){
     var rank=ranks[String(post.hrac_id)];
     var canDelete=me&&(me.je_admin||String(me.id)===String(post.hrac_id));
     var reacts=discussionReactionSummary(post.id);
     var replies=(byParent[String(post.id)]||[]).map(function(r){ return renderPost(r,true); }).join('');
     return '<div class="discussion-post'+(isReply?' reply':'')+'">'+
-      '<div class="discussion-top"><div class="discussion-author"><strong>'+escHtml(authorName(post))+'</strong>'+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
+      '<div class="discussion-top"><div class="discussion-author"><strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
       '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
       '<div class="discussion-reactions">'+reacts.map(function(item){
         return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'">'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
@@ -3049,9 +3055,9 @@ function renderDiscussion(){
       var pid=btn.getAttribute('data-reply');
       discussionReplyTo=discussionPosts.find(function(p){return String(p.id)===String(pid);})||null;
       var pill=document.getElementById('discussion-reply-pill'),cancel=document.getElementById('btn-discussion-cancel'),status=document.getElementById('discussion-status');
-      if(pill){pill.style.display='inline-flex';pill.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo&&discussionReplyTo.hrace&&discussionReplyTo.hrace.jmeno?discussionReplyTo.hrace.jmeno:'#'+pid);}
+      if(pill){pill.style.display='inline-flex';pill.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo?getDiscussionAuthorName(discussionReplyTo):('#'+pid));}
       if(cancel) cancel.style.display='inline-block';
-      if(status) status.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo&&discussionReplyTo.hrace&&discussionReplyTo.hrace.jmeno?discussionReplyTo.hrace.jmeno:'#'+pid);
+      if(status) status.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo?getDiscussionAuthorName(discussionReplyTo):('#'+pid));
       var ta=document.getElementById('discussion-body'); if(ta) ta.focus();
     });
   });
@@ -3180,6 +3186,7 @@ function doReg(){
   });
 }
 function finishLogin(d){
+  if(document.activeElement&&typeof document.activeElement.blur==='function') document.activeElement.blur();
   var avEl=document.getElementById("hdr-av");
   if(avEl) avEl.textContent=d.jmeno?d.jmeno.slice(0,2).toUpperCase():"?";
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
@@ -3213,6 +3220,7 @@ function finishLogin(d){
     renderExtraTipsBox();
     renderDiscussion();
     renderRules();
+    window.scrollTo(0,0);
     
     renderPlayerFilter();
     renderStadiony();
@@ -3312,7 +3320,7 @@ function applyI18n(){
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
   setText('ibox-zeb',tr('leader_info'));
-  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');
+  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -3700,7 +3708,8 @@ function renderOstRow(z,others){
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
       var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+(tip?escHtml(tip):'&mdash;')+'</td>';
+      var tipLabel=tip?escHtml(tip)+(pts===10?'<span title="'+escAttr(LANG==="en"?"Exact hit":"Přesný tip")+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
+      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+tipLabel+'</td>';
     }
   });
   return html+'</tr>';
@@ -4769,6 +4778,7 @@ function init(){
   var pfb=document.getElementById('pf-btn');if(pfb) pfb.addEventListener('click',function(e){e.stopPropagation();var m=document.getElementById('pf-menu');if(m) m.classList.toggle('open');});
   var pfa=document.getElementById('pf-all');if(pfa) pfa.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return !me||p.id!==me.id;}).map(function(p){return String(p.id);});renderPlayerFilter();renderOst();});
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
+  var pfd=document.getElementById('pf-done');if(pfd) pfd.addEventListener('click',function(){var m=document.getElementById('pf-menu');if(m) m.classList.remove('open');});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
   applyI18n();
   updateInstallButton();
