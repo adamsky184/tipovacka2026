@@ -1136,7 +1136,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 @media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date{font-size:.81rem;padding:8px 9px}.ost-date-wrap,.vys-date-wrap{font-size:.81rem;padding:8px 9px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
 
 
-/* ── v1.95 team/tips polish ── */
+/* ── v1.96 team/tips polish ── */
 .tm-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
 .tc.tc-team{padding:10px 10px 11px;min-height:0}
 .tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
@@ -1160,6 +1160,39 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   .mt{font-size:.8rem}
   .ost-date-wrap{font-size:.8rem}
   .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px}
+}
+
+
+/* ── v1.96 header/ranking polish ── */
+.hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.hdr-sc{padding:9px 9px 10px}
+.hdr-sc-ico{font-size:12px;margin-bottom:4px}
+.hdr-sc-lbl{font-size:.48rem}
+.hdr-sc-val{font-size:.92rem;margin-bottom:8px}
+.hdr-sc-meta{font-size:.55rem;line-height:1.2;color:var(--mu2);text-align:center;min-height:1.35em;margin:-2px 0 8px}
+.hdr-sc-rank .hdr-sc-fill{background:var(--gd);box-shadow:0 0 10px rgba(245,158,11,.72),0 0 18px rgba(245,158,11,.24)}
+.hdr-sc-rank .hdr-sc-lbl{color:#fbbf24}
+.tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:110px;text-align:center}
+.tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:126px;text-align:right}
+.tbl.team-rank-table th:nth-child(4){padding-right:12px}
+.tbl.team-rank-table td:nth-child(4){padding-right:8px}
+.gh-date{font-size:.88rem}
+.mt{font-size:.8rem}
+.rr .d-mobile-sm{font-size:.82rem !important}
+.vys-my-tip{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:999px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.22);color:var(--ac2);font-size:.66rem;font-weight:700}
+@media(max-width:760px){
+  .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .hdr-sc{padding:8px 6px 9px}
+  .hdr-sc-lbl{font-size:.42rem}
+  .hdr-sc-val{font-size:.8rem}
+  .hdr-sc-meta{font-size:.48rem;margin:-1px 0 7px}
+}
+@media(max-width:600px){
+  .gh-date{font-size:.8rem}
+  .mt{font-size:.8rem}
+  .rr .d-mobile-sm{font-size:.8rem !important}
+  .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:118px}
+  .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:122px}
 }
 
 </style>
@@ -1194,7 +1227,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.95</span> · <span id="lo-date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="lo-ver-lbl">v1.96</span> · <span id="lo-date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1226,6 +1259,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
             <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Tipy: play-off</div>
             <div class="hdr-sc-val" id="stat-val-saved-po">0/32</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-pu" id="stat-bar-po" style="width:0%"></div></div>
+          </div>
+          <div class="hdr-sc hdr-sc-rank">
+            <div class="hdr-sc-ico">🏅</div>
+            <div class="hdr-sc-lbl" id="stat-lbl-rank">Pořadí v tipovačce</div>
+            <div class="hdr-sc-val" id="stat-val-rank">-</div>
+            <div class="hdr-sc-meta" id="stat-meta-rank">-</div>
+            <div class="hdr-sc-track"><div class="hdr-sc-fill" id="stat-bar-rank" style="width:0%"></div></div>
           </div>
         </div>
         <div class="hdr-right">
@@ -1392,7 +1432,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© Adam184</span> · <span id="ver-lbl">v1.95</span> · <span id="date-lbl">6. 4. 2026</span>
+      <span>© Adam184</span> · <span id="ver-lbl">v1.96</span> · <span id="date-lbl">6. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1457,7 +1497,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v1.95',
+    footer_ver:'v1.96',
     footer_date:'5. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1550,7 +1590,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v1.95',
+    footer_ver:'v1.96',
     footer_date:'5 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2021,6 +2061,32 @@ function updSavedProgress(){
   var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"MY TIPS: PLAY-OFF":"MOJE TIPY: PLAY-OFF";
 }
 
+function updateHeaderRanking(){
+  var lbl=document.getElementById("stat-lbl-rank"), val=document.getElementById("stat-val-rank"), meta=document.getElementById("stat-meta-rank"), bar=document.getElementById("stat-bar-rank");
+  if(lbl) lbl.textContent=LANG==="en"?"Leaderboard rank":"POŘADÍ V TIPOVAČCE";
+  if(!val||!meta||!bar) return;
+  if(!me||!players.length){val.textContent='-';meta.textContent='-';bar.style.width='0%';return;}
+  var arr=SZ.concat(PZ);
+  var scored=players.map(function(p){
+    var tips=(me&&p.id===me.id)?myTips:(allTips[p.id]||{});
+    var total=0,pre=0,spr=0;
+    arr.forEach(function(z){
+      var res=results[z[0]],tip=tips[z[0]];
+      if(res&&tip){
+        var pts=calcPts(tip,res);
+        if(pts!==null){total+=pts;if(pts===5)pre++;else if(pts===2)spr++;}
+      }
+    });
+    return {id:p.id,total:total,pre:pre,spr:spr};
+  }).sort(function(a,b){return b.total-a.total||b.pre-a.pre||b.spr-a.spr;});
+  var idx=-1,mine=null;
+  scored.forEach(function(s,i){ if(String(s.id)===String(me.id)){idx=i;mine=s;} });
+  if(idx<0||!mine){val.textContent='-';meta.textContent='-';bar.style.width='0%';return;}
+  val.textContent='#'+(idx+1);
+  meta.textContent=mine.total+'b · '+mine.pre+'P · '+mine.spr+'T';
+  bar.style.width=(scored.length?Math.max(8,Math.round((1-(idx/Math.max(scored.length-1,1)))*100)):0)+'%';
+}
+
 function renderTodayBox(){
   var box=document.getElementById('today-box');
   if(!box||!me) return;
@@ -2214,6 +2280,7 @@ function finishLogin(d){
   loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips).then(function(){
     updSavedProgress();
     renderTipy();
+    updateHeaderRanking();
     renderSimilarity();
     renderTodayBox();
     renderInsights();
@@ -2378,6 +2445,7 @@ function groupByDate(arr){
 function renderTipy(){
   if(!me) return;
   updSavedProgress();
+  updateHeaderRanking();
   renderTodayBox();
   renderInsights();
   renderSimilarity();
@@ -2701,9 +2769,9 @@ function renderVys(){
   document.getElementById('vys-list').innerHTML=(html||'<div class="empty">'+tr('vys_empty')+'</div>')+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
 }
 function renderVysRow(z){
-  var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],cd=cdStr(z);
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],cd=cdStr(z),myTip=myTips[id]||'';
   var venueHtml=venue?stadiumLinkHtml(venue):'';
-  return '<div class="rr"><div class="rh">'+fT(d)+'</div><div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'&mdash;')+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu)">'+dStr(z)+'</div>'+(venueHtml?'<div class="d-mobile-sm" style="font-size:.72rem;color:var(--bd2)">📍'+venueHtml+'</div>':'')+(!res&&cd?'<div class="d-mobile-sm" style="font-size:.72rem;color:var(--ac2)">'+escHtml(cd)+'</div>':'')+'</div><div class="ra">'+fT(h)+'</div></div>';
+  return '<div class="rr"><div class="rh">'+fT(d)+'</div><div style="text-align:center"><div class="rs '+(res?'dn':'tb')+'">'+(res?escHtml(res):'&mdash;')+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu)">'+dStr(z)+'</div>'+(venueHtml?'<div class="d-mobile-sm" style="font-size:.72rem;color:var(--bd2)">📍'+venueHtml+'</div>':'')+(myTip?'<div class="vys-my-tip">'+(LANG==='en'?'My tip: ':'Můj tip: ')+escHtml(myTip)+'</div>':'')+(!res&&cd?'<div class="d-mobile-sm" style="font-size:.72rem;color:var(--ac2)">'+escHtml(cd)+'</div>':'')+'</div><div class="ra">'+fT(h)+'</div></div>';
 }
 
 function calcTables(){
@@ -2820,7 +2888,7 @@ function getTeamMatches(localName){
   var all=SZ.concat(PZ).filter(function(z){ return z[2]===localName || z[3]===localName; }).sort(function(a,b){ return mDate(a)-mDate(b); });
   var now=new Date(), past=[], upcoming=[];
   all.forEach(function(z){ (mDate(z)<now ? past : upcoming).push(z); });
-  return {past:past.slice(-2).reverse(), upcoming:upcoming.slice(0,2)};
+  return {past:past.slice(-3).reverse(), upcoming:upcoming.slice(0,3)};
 }
 function renderTeamSchedule(localName){
   var data=getTeamMatches(localName);
@@ -2919,7 +2987,7 @@ function renderFifaRanking(){
   var all=[],seen={};
   Object.keys(TEAMS).forEach(function(sk){TEAMS[sk].forEach(function(tm){var n=tm[0];if(!seen[n]){seen[n]=true;all.push({name:n,sk:sk,rk:FIFA[n]||999});}});});
   all.sort(function(a,b){return a.rk-b.rk;});
-  var html='<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th>'+tr('group')+'</th><th style="width:120px;text-align:right">ESPN</th></tr></thead><tbody>';
+  var html='<table class="tbl team-rank-table"><thead><tr><th style="width:42px">'+tr('rank')+'</th><th>'+tr('team')+'</th><th style="text-align:center">'+tr('group')+'</th><th style="text-align:right">ESPN</th></tr></thead><tbody>';
   all.forEach(function(tm){
     var col=tm.rk<=10?'var(--gd)':tm.rk<=20?'var(--ac2)':tm.rk<=30?'var(--mu2)':'var(--mu)';
     var urls=getEspnTeamUrls(tm.name);
@@ -3006,6 +3074,7 @@ function renderAdmin(){
         renderInsights();
         if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
         if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
+        updateHeaderRanking();
       }).catch(function(e){alert(tr('error_generic')+': '+e.message);});
     });
   });
@@ -3358,7 +3427,7 @@ function fetchResults(){
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
           Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
           setResultsLastUpdated();
-          updProgress(); renderVys(); renderTipy(); renderTab(); renderPavouk(); renderSimilarity(); renderTodayBox(); renderInsights();
+          updProgress(); renderVys(); renderTipy(); updateHeaderRanking(); renderTab(); renderPavouk(); renderSimilarity(); renderTodayBox(); renderInsights();
           if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
           if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
           if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
@@ -3433,7 +3502,7 @@ function toggleLang(){
   TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
   if(active) showTab(active);
   if(me){
-    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();renderSimilarity();renderTodayBox();renderInsights();
+    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();updateHeaderRanking();renderSimilarity();renderTodayBox();renderInsights();
     if(active==='zebricek') renderZeb();
     if(active==='ostatni') renderOst();
     if(active==='admin') renderAdmin();
