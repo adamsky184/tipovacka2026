@@ -184,6 +184,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
 .ftr span{color:var(--mu2)}
+.mail-link{color:inherit;text-decoration:none;transition:color .15s ease, opacity .15s ease}
+.mail-link:hover{color:var(--ac2);opacity:1}
 .qwrap{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 .8rem}
 .qbtn{padding:5px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);color:var(--mu2);font-size:.73rem;font-weight:600;cursor:pointer;transition:.15s}
 .qbtn:hover{border-color:var(--ac2);color:var(--ac2)}
@@ -1201,6 +1203,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .tc-team-link:active{transform:scale(.98)}
 .tc-team-note{font-size:.63rem;color:var(--mu);margin-top:10px;line-height:1.35}
 .tc.tc-team.target-team{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18);border-color:rgba(96,165,250,.55)}
+.team-focus-wrap{margin-bottom:.9rem}
+.team-focus-head{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin:0 0 .45rem .1rem}
 .tbl a.team-rank-link{color:inherit;text-decoration:none}
 .tbl a.team-rank-link:hover{color:var(--ac2);text-decoration:underline}
 @media(max-width:600px){
@@ -1446,7 +1450,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a href="mailto:adam184@chabrycity.cz" style="color:inherit;text-decoration:none">Adam184</a></span> · <span id="lo-ver-lbl">v4.1</span> · <span id="lo-date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.1</span> · <span id="lo-date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1618,7 +1622,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div id="page-zebricek" style="display:none">
-      <div class="ibox zeb-info" id="ibox-zeb">Bodování: 5 bodů za přesný výsledek, 2 body za správný vítěz/remízu.</div>
+      <div class="ibox zeb-info" id="ibox-zeb">Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.</div>
       <div class="ptabs">
         <button class="ptab on" id="ptab-zeb-cel">Celkový</button>
         <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
@@ -1713,7 +1717,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
             <textarea class="discussion-textarea" id="discussion-body" placeholder="Napiš svůj komentář..."></textarea>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:.7rem">
-            <div class="discussion-note" id="discussion-status">Příspěvek mohou přidávat jen přihlášení hráči.</div>
+            <div class="discussion-note" id="discussion-status"></div>
             <div style="display:flex;gap:8px">
               <button class="btn btn-ol btn-sm" id="btn-discussion-cancel" type="button" style="display:none">Zrušit odpověď</button>
               <button class="btn btn-gn btn-sm" id="btn-discussion-send" type="button">Odeslat</button>
@@ -1736,7 +1740,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© <a href="mailto:adam184@chabrycity.cz" style="color:inherit;text-decoration:none">Adam184</a></span> · <span id="ver-lbl">v4.1</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.1</span> · <span id="date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1859,7 +1863,7 @@ var T={
     ost_top3:'Top 3 v žebříčku',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
-    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
+    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
@@ -1961,7 +1965,7 @@ var T={
     ost_top3:'Top 3 leaderboard',
     ost_top3_hint:'Full ranking is in Leaderboard',
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
-    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
+    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Match scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.<br>Extra picks: tournament winner 30 points, top scorer 20 points.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
@@ -3353,7 +3357,7 @@ function applyI18n(){
   updateInstallButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
-  setText('ibox-zeb',tr('leader_info'));
+  setHtml('ibox-zeb',tr('leader_info'));
   setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
@@ -3977,6 +3981,20 @@ function renderTeamLinks(localName){
     '<a class="tc-team-link" href="'+escAttr(urls.squad)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_squad'))+'</a>'+
   '</div>';
 }
+function renderTeamCard(name, sk){
+  var fifaRec=getFifaRecord(name), rk=fifaRec.rank;
+  return '<div class="tc tc-team" data-team="'+escAttr(name)+'">'+
+    '<div class="tc-team-top">'+
+      '<div class="tc-team-flag">'+fl(name)+'</div>'+
+      '<div class="tc-team-title">'+
+        '<div class="tc-team-name">'+tN(name)+'</div>'+
+        '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+(fifaRec.confed?'<span>'+escHtml(fifaRec.confed)+'</span>':'')+'</div>'+
+      '</div>'+
+    '</div>'+
+    renderTeamLinks(name)+
+    renderTeamSchedule(name)+
+  '</div>';
+}
 function renderTymy(){
   if(tymPhase==='rk'){
     renderFifaRanking();
@@ -3993,22 +4011,17 @@ function renderTymy(){
     });
   }
   var html='';
+  if(pendingTeamFocus){
+    var focusGroup=findGroupByTeam(pendingTeamFocus)||'';
+    html+='<div class="team-focus-wrap"><div class="team-focus-head">'+(LANG==='en'?'Selected team':'Vybraný tým')+'</div>'+renderTeamCard(pendingTeamFocus, focusGroup)+'</div>';
+  }
   if(tymPhase==='sk'){
     Object.keys(TEAMS).sort().forEach(function(sk){
       html+='<div style="margin-bottom:1rem"><div class="gh" style="margin-top:0">'+tr('group')+' '+sk+'</div><div class="tm-grid">';
       TEAMS[sk].forEach(function(tm){
-        var name=tm[0],fifaRec=getFifaRecord(name),rk=fifaRec.rank;
-        html+='<div class="tc tc-team" data-team="'+escAttr(name)+'">'+
-          '<div class="tc-team-top">'+
-            '<div class="tc-team-flag">'+fl(name)+'</div>'+
-            '<div class="tc-team-title">'+
-              '<div class="tc-team-name">'+tN(name)+'</div>'+
-              '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+(fifaRec.confed?'<span>'+escHtml(fifaRec.confed)+'</span>':'')+'</div>'+
-            '</div>'+
-          '</div>'+
-          renderTeamLinks(name)+
-          renderTeamSchedule(name)+
-        '</div>';
+        var name=tm[0];
+        if(name===pendingTeamFocus) return;
+        html+=renderTeamCard(name, sk);
       });
       html+='</div></div>';
     });
@@ -4018,17 +4031,8 @@ function renderTymy(){
     all.sort(function(a,b){ return tN(a.name).localeCompare(tN(b.name), LANG==='en'?'en':'cs'); });
     html+='<div class="tm-grid">';
     all.forEach(function(item){
-      html+='<div class="tc tc-team" data-team="'+escAttr(item.name)+'">'+
-        '<div class="tc-team-top">'+
-          '<div class="tc-team-flag">'+fl(item.name)+'</div>'+
-          '<div class="tc-team-title">'+
-            '<div class="tc-team-name">'+tN(item.name)+'</div>'+
-            '<div class="tc-team-meta"><span>'+tr('group')+' '+item.sk+'</span>'+(item.rk?'<span>FIFA #'+item.rk+'</span>':'')+(item.confed?'<span>'+escHtml(item.confed)+'</span>':'')+'</div>'+
-          '</div>'+
-        '</div>'+
-        renderTeamLinks(item.name)+
-        renderTeamSchedule(item.name)+
-      '</div>';
+      if(item.name===pendingTeamFocus) return;
+      html+=renderTeamCard(item.name, item.sk);
     });
     html+='</div>';
   }
