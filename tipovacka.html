@@ -418,6 +418,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .discussion-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
 .discussion-author{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .discussion-rank{font-size:.64rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--ac2);border:1px solid rgba(59,130,246,.24)}
+.discussion-admin{font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(245,158,11,.16);color:var(--gd);border:1px solid rgba(245,158,11,.26);letter-spacing:.03em}
+.discussion-medal{font-size:.9rem;line-height:1}
 .discussion-time{font-size:.65rem;color:var(--mu)}
 .discussion-body{font-size:.76rem;line-height:1.6;color:var(--tx);white-space:pre-wrap;word-break:break-word}
 .discussion-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -1616,7 +1618,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
           <div class="mini-kv" id="form-box">-</div>
         </div>
       </div>
-      <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
+      <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button><button class="phase-tab" id="ptab-ost-phase-ex">Celkový vítěz</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
       <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div><div class="pf-foot"><button class="pf-done" id="pf-done" type="button">Hotovo</button></div></div></div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
     </div>
@@ -1857,6 +1859,7 @@ var T={
     sim_exact:'Přesná shoda',
     phase_groups:'Skupinová část',
     phase_playoff:'Play-off',
+    phase_extra:'Celkový vítěz',
     show_players:'Zobrazit hráče',
     all_players:'Všichni',
     my_tendencies:'Moje tendence',
@@ -1868,7 +1871,7 @@ var T={
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
     fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn',fifa_profile:'FIFA',fifa_widget_top:'Nejvýše postavený',fifa_widget_climber:'Největší skokan',fifa_widget_gain:'Nejvíc bodů získal',fifa_widget_drop:'Největší propad',fifa_widget_loss:'Nejvíc bodů ztratil',
-    goal_diff_bonus:'Bonus za rozdíl',extra_title:'EXTRA TIP',extra_sub:'',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',player_rank:'Pořadí',
+    goal_diff_bonus:'Bonus za rozdíl',extra_title:'EXTRA TIP',extra_sub:'',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',extra_reveal_note:'Extra tipy ostatních se odkryjí až po uložení tvého vlastního extra tipu.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',player_rank:'Pořadí',
     player_rank:'Pořadí'
   },
   en:{
@@ -1959,6 +1962,7 @@ var T={
     sim_exact:'Exact score',
     phase_groups:'Group stage',
     phase_playoff:'Play-off',
+    phase_extra:'Overall winner',
     show_players:'Show players',
     all_players:'All',
     my_tendencies:'My tendencies',
@@ -1970,7 +1974,7 @@ var T={
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
     fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes',fifa_profile:'FIFA',fifa_widget_top:'Top ranked',fifa_widget_climber:'Biggest climber',fifa_widget_gain:'Most points gained',fifa_widget_drop:'Biggest drop',fifa_widget_loss:'Most points lost',
-    goal_diff_bonus:'Goal diff bonus',extra_title:'EXTRA PICK',extra_sub:'',extra_winner:'Tournament winner',extra_scorer:'Top scorer',extra_save:'Save extra picks',extra_deadline:'Deadline',extra_my:'My extra pick',extra_points:'Extra points',extra_none:'not saved yet',extra_locked:'Extra picks are locked after tournament kickoff.',extra_saved:'Extra pick saved and locked.',extra_need_login:'Sign in first.',extra_missing:'Fill in both winner and top scorer.',extra_admin_info:'Admin can manually set the official tournament winner and top scorer. Extra points are added to the leaderboard automatically.',extra_actual_winner:'Official winner',extra_actual_scorer:'Official top scorer',extra_results_save:'Save extra results',extra_results_saved:'Extra results saved.',discussion_info:'Registered players can discuss matches and tips here. Each post shows the author’s current leaderboard rank. Admin can delete any post.',discussion_title:'New post',discussion_note:'Keep it specific and useful. Quick replies to individual posts work well on mobile too.',discussion_send:'Send',discussion_cancel:'Cancel reply',discussion_reply:'Reply',discussion_delete:'Delete',discussion_empty:'No discussion yet.',discussion_placeholder:'Write your comment...',discussion_sending:'Sending post...',discussion_saved:'Post saved.',discussion_deleted:'Post deleted.',discussion_login:'Only signed-in players can post.',discussion_replying_to:'Replying to',rules_title:'Competition rules',rules_1_t:'Match tips',rules_1_b:'Match tips can only be entered before kickoff. Once a tip is saved, a regular player can no longer edit it.',rules_2_t:'Match scoring',rules_2_b:'An exact score is worth 10 points. Correct winner or draw is worth 3 points. If you also get the correct goal difference, you earn 1 extra point.',rules_3_t:'Extra picks',rules_3_b:'Before the tournament starts, each player can save one pick for the tournament winner and one for the top scorer. Once saved, they cannot be changed. A correct winner is worth 30 points and a correct top scorer 20 points.',rules_4_t:'Visibility of other tips',rules_4_b:'Other players’ tips are only revealed for matches where you have already saved your own tip. All other matches show a question mark.',rules_5_t:'Leaderboard',rules_5_b:'The leaderboard is recalculated automatically from saved tips and results. Extra points are added once the official extra results are entered by the Administrator.',rules_6_t:'Administration',rules_6_b:'If you run into technical issues, unclear situations or need an adjustment, contact the Administrator.',player_rank:'Rank'
+    goal_diff_bonus:'Goal diff bonus',extra_title:'EXTRA PICK',extra_sub:'',extra_winner:'Tournament winner',extra_scorer:'Top scorer',extra_save:'Save extra picks',extra_deadline:'Deadline',extra_my:'My extra pick',extra_points:'Extra points',extra_none:'not saved yet',extra_locked:'Extra picks are locked after tournament kickoff.',extra_saved:'Extra pick saved and locked.',extra_need_login:'Sign in first.',extra_missing:'Fill in both winner and top scorer.',extra_admin_info:'Admin can manually set the official tournament winner and top scorer. Extra points are added to the leaderboard automatically.',extra_actual_winner:'Official winner',extra_actual_scorer:'Official top scorer',extra_results_save:'Save extra results',extra_results_saved:'Extra results saved.',extra_reveal_note:'Other players’ extra picks are revealed only after you save your own extra pick.',discussion_info:'Registered players can discuss matches and tips here. Each post shows the author’s current leaderboard rank. Admin can delete any post.',discussion_title:'New post',discussion_note:'Keep it specific and useful. Quick replies to individual posts work well on mobile too.',discussion_send:'Send',discussion_cancel:'Cancel reply',discussion_reply:'Reply',discussion_delete:'Delete',discussion_empty:'No discussion yet.',discussion_placeholder:'Write your comment...',discussion_sending:'Sending post...',discussion_saved:'Post saved.',discussion_deleted:'Post deleted.',discussion_login:'Only signed-in players can post.',discussion_replying_to:'Replying to',rules_title:'Competition rules',rules_1_t:'Match tips',rules_1_b:'Match tips can only be entered before kickoff. Once a tip is saved, a regular player can no longer edit it.',rules_2_t:'Match scoring',rules_2_b:'An exact score is worth 10 points. Correct winner or draw is worth 3 points. If you also get the correct goal difference, you earn 1 extra point.',rules_3_t:'Extra picks',rules_3_b:'Before the tournament starts, each player can save one pick for the tournament winner and one for the top scorer. Once saved, they cannot be changed. A correct winner is worth 30 points and a correct top scorer 20 points.',rules_4_t:'Visibility of other tips',rules_4_b:'Other players’ tips are only revealed for matches where you have already saved your own tip. All other matches show a question mark.',rules_5_t:'Leaderboard',rules_5_b:'The leaderboard is recalculated automatically from saved tips and results. Extra points are added once the official extra results are entered by the Administrator.',rules_6_t:'Administration',rules_6_b:'If you run into technical issues, unclear situations or need an adjustment, contact the Administrator.',player_rank:'Rank'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -3047,6 +3051,7 @@ function renderDiscussion(){
   if(!el) return;
   if(!discussionPosts.length){ el.innerHTML='<div class="discussion-empty">'+escHtml(tr('discussion_empty'))+'</div>'; return; }
   var ranks=getDiscussionRankMap();
+  var medals={1:'🥇',2:'🥈',3:'🥉'};
   var byParent={};
   discussionPosts.forEach(function(post){
     var key=post.parent_id?String(post.parent_id):'root';
@@ -3055,11 +3060,14 @@ function renderDiscussion(){
   });
   function renderPost(post,isReply){
     var rank=ranks[String(post.hrac_id)];
+    var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
+    var isAdmin=!!(player&&player.je_admin);
+    var medal=rank&&medals[rank.rank]?medals[rank.rank]:'';
     var canDelete=me&&me.je_admin;
     var reacts=discussionReactionSummary(post.id);
     var replies=(byParent[String(post.id)]||[]).map(function(r){ return renderPost(r,true); }).join('');
     return '<div class="discussion-post'+(isReply?' reply':'')+'">'+
-      '<div class="discussion-top"><div class="discussion-author"><strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
+      '<div class="discussion-top"><div class="discussion-author">'+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
       '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
       '<div class="discussion-reactions">'+reacts.map(function(item){
         return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
@@ -3316,7 +3324,7 @@ function applyI18n(){
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
   var tipQFLbls=LANG==='en'?['All','Today','Tomorrow','Missing']:['Vše','Dnes','Zítra','Neuložené'];
   ['qf-all','qf-today','qf-tomorrow','qf-missing'].forEach(function(id,i){setText(id,tipQFLbls[i]);});
-  setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
+  setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-phase-ex',tr('phase_extra'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-phase-sk',tr('phase_groups'));setText('ptab-vys-phase-po',tr('phase_playoff'));setText('ptab-vys-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-vys-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
@@ -3685,11 +3693,34 @@ function renderPlayerFilter(){
     });
   });
 }
+function renderOstExtras(others){
+  var canSee=extraTipsSavedByMe();
+  var html='<div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+escHtml(tr('extra_winner'))+'</th><th>'+escHtml(tr('extra_scorer'))+'</th></tr></thead><tbody>';
+  others.forEach(function(p){
+    var rec=extraTipsByPlayer[String(p.id)]||null;
+    var winner=canSee?(rec&&rec.winnerTip?rec.winnerTip:'—'):'?';
+    var scorer=canSee?(rec&&rec.scorerTip?rec.scorerTip:'—'):'?';
+    html+='<tr>'+
+      '<td style="font-weight:600">'+escHtml(p.jmeno)+'</td>'+
+      '<td>'+escHtml(winner)+'</td>'+
+      '<td>'+escHtml(scorer)+'</td>'+
+    '</tr>';
+  });
+  html+='</tbody></table></div>';
+  if(!canSee){
+    html+='<div class="empty" style="padding:1rem 0 0;color:var(--mu2);font-size:.76rem">'+escHtml(tr('extra_reveal_note'))+'</div>';
+  }
+  return html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+}
 function renderOst(){
   var el=document.getElementById('ost-list');
-  var arr=otherPhase==='po'?PZ:(ostSort==='dt'?sortByDate(SZ):SZ);
   var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
   if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
+  if(otherPhase==='ex'){
+    el.innerHTML=renderOstExtras(others);
+    return;
+  }
+  var arr=otherPhase==='po'?PZ:(ostSort==='dt'?sortByDate(SZ):SZ);
 
   var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem"><tbody>';
 
@@ -4715,7 +4746,7 @@ function scrollTopSmooth(){window.scrollTo({top:0,behavior:'smooth'});}
 var currentPhase='sk';
 function setPhaseTab(phase){currentPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(tipSort==='po') tipSort='dt';['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&tipSort==='dt')||(id==='ptab-tipy-sk'&&tipSort==='sk'));});renderTipy();}
 function setSortChip(sort){tipSort=sort;['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&sort==='dt')||(id==='ptab-tipy-sk'&&sort==='sk'));});renderTipy();}
-function setOstPhase(phase){otherPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-ost-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('ost-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') ostSort='po';else if(ostSort==='po') ostSort='dt';['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&ostSort==='dt')||(id==='ptab-ost-sk'&&ostSort==='sk'));});renderOst();}
+function setOstPhase(phase){otherPhase=phase;['sk','po','ex'].forEach(function(p){var b=document.getElementById('ptab-ost-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('ost-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') ostSort='po';else if(phase!=='po'&&ostSort==='po') ostSort='dt';['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&ostSort==='dt')||(id==='ptab-ost-sk'&&ostSort==='sk'));});renderOst();}
 function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&sort==='dt')||(id==='ptab-ost-sk'&&sort==='sk'));});renderOst();}
 function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-vys-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('vys-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') vysSort='po';else if(vysSort==='po') vysSort='dt';['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&vysSort==='dt')||(id==='ptab-vys-sk'&&vysSort==='sk'));});renderVys();}
 function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
@@ -4866,6 +4897,7 @@ function init(){
   var sc2=document.getElementById("ptab-tipy-sk");if(sc2) sc2.addEventListener("click",function(){setSortChip("sk");});
   var oph1=document.getElementById('ptab-ost-phase-sk');if(oph1) oph1.addEventListener('click',function(){setOstPhase('sk');});
   var oph2=document.getElementById('ptab-ost-phase-po');if(oph2) oph2.addEventListener('click',function(){setOstPhase('po');});
+  var oph3=document.getElementById('ptab-ost-phase-ex');if(oph3) oph3.addEventListener('click',function(){setOstPhase('ex');});
   var os1=document.getElementById('ptab-ost-dt');if(os1) os1.addEventListener('click',function(){setOstSort('dt');});
   var os2=document.getElementById('ptab-ost-sk');if(os2) os2.addEventListener('click',function(){setOstSort('sk');});
   var vph1=document.getElementById('ptab-vys-phase-sk');if(vph1) vph1.addEventListener('click',function(){setVysPhase('sk');});
