@@ -1532,22 +1532,24 @@ body.admin-user #btn-logout{padding:0 10px}
 @media(max-width:900px) and (orientation:landscape){
   .hdr{padding:10px 10px}
   .hdr-row{
-    grid-template-columns:minmax(0,1fr) 196px;
+    grid-template-columns:1fr;
     grid-template-areas:
-      'brand right'
+      'brand'
+      'right'
       'stats';
     gap:8px;
     align-items:start;
   }
   .hdr-brand{grid-area:brand}
-  .hdr-right{grid-area:right;width:100%;max-width:196px;justify-self:end}
+  .hdr-right{grid-area:right;width:100%;max-width:none;justify-self:stretch}
   .hdr-stats{grid-area:stats}
   .hdr-user-block{width:100%;max-width:none;gap:6px}
   .hdr-user-actions{gap:6px}
   .hdr-user-row{display:flex;align-items:stretch;gap:6px}
   .hdr-user-row>*{flex:1 1 0}
   .hdr-tool-row{grid-template-columns:repeat(3,minmax(0,1fr))}
-  body.admin-user .hdr-right{max-width:210px}
+  .hdr-right .lang-btn,.hdr-right .hdr-ico-btn,#btn-refresh{height:34px;font-size:.66rem}
+  body.admin-user .hdr-right{max-width:none}
   body.admin-user .hdr-user-block{width:100%;max-width:none}
   body.admin-user .hdr-user{padding:0 8px 0 5px;gap:5px}
   body.admin-user .hdr-uname{max-width:50px}
@@ -1559,7 +1561,15 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-sc{padding:8px 6px 9px}
   .hdr-sc-lbl{font-size:.43rem;min-height:2.2em}
   .hdr-sc-val,.hdr-sc-rank .hdr-sc-val{font-size:.82rem;min-height:32px}
-  .hdr-admin-sync{display:none !important}
+  body.admin-user .hdr-admin-sync{display:grid !important;gap:2px;margin-top:5px;font-size:.52rem;line-height:1.3}
+  body.admin-user .hdr-admin-sync .sync-row{gap:5px}
+  body.admin-user .hdr-admin-sync .sync-name{min-width:66px}
+}
+
+@media(max-width:520px){
+  body.admin-user .hdr-admin-sync{display:grid !important;gap:2px;margin-top:5px;font-size:.52rem;line-height:1.3}
+  body.admin-user .hdr-admin-sync .sync-row{gap:5px}
+  body.admin-user .hdr-admin-sync .sync-name{min-width:62px}
 }
 
 
@@ -2002,7 +2012,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.3.3',
+    footer_ver:'v4.3.4',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2104,7 +2114,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.3.3',
+    footer_ver:'v4.3.4',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2915,13 +2925,10 @@ function renderAdminSyncStatus(){
   if(!el) return;
   if(!me||!me.je_admin){el.style.display='none';el.innerHTML='';return;}
   el.style.display='block';
-  var fifaExtra='';
-  var official=formatAnyUpdated(getFifaOfficialAt());
-  if(getFifaOfficialAt()) fifaExtra=' · '+tr('fifa_official')+': '+official;
   el.innerHTML=
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_results_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getResultsLastUpdated()))+'</span></div>'+
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_teams_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getTeamsLastUpdated()))+'</span></div>'+
-    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+escHtml(fifaExtra)+'</span></div>';
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+'</span></div>';
 }
 function sameCalDay(d1,d2){
   return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
