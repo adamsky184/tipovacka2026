@@ -16,7 +16,51 @@
 <style>
 :root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:78px;--mr-gt-w:220px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;transition:background-color .22s ease,color .22s ease}
+body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--pu:#7c3aed}
+body.theme-light .hdr{background:linear-gradient(135deg,#f7fbff,#f1f6fd,#eef4fb);box-shadow:0 10px 30px rgba(15,35,60,.06)}
+body.theme-light .hdr-t{color:#102133}
+body.theme-light .hdr-title,
+body.theme-light .hdr-title-link,
+body.theme-light .hdr-title-link .hdr-word,
+body.theme-light .hdr-title-link .hdr-year{color:#102133}
+body.theme-light .hdr-clock{color:#5f7690}
+body.theme-light .hdr-user{background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.85)}
+body.theme-light .hdr-uname{color:#102133}
+body.theme-light .hdr-right .lang-btn,
+body.theme-light .hdr-right .hdr-ico-btn{background:rgba(37,99,235,.05)}
+body.theme-light #btn-logout,
+body.theme-light #btn-faq,
+body.theme-light #btn-install-app,
+body.theme-light #btn-theme{background:rgba(37,99,235,.05)}
+body.theme-light .hdr-sc{background:rgba(255,255,255,.92);border:1px solid rgba(191,209,230,.95);box-shadow:0 8px 22px rgba(15,35,60,.05)}
+body.theme-light .hdr-sc-val{color:#102133}
+body.theme-light .hdr-sc-track{background:rgba(37,99,235,.10)}
+body.theme-light .hdr-sc-rank .hdr-sc-lbl{color:#d97706}
+body.theme-light .hdr-sc-rank .hdr-sc-val{color:#102133}
+body.theme-light .install-overlay{background:rgba(150,170,195,.38)}
+body.theme-light .install-card{box-shadow:0 18px 60px rgba(15,35,60,.14)}
+body.theme-light .lo-card{box-shadow:0 18px 50px rgba(15,35,60,.08)}
+body.theme-light .ftr .mail-link:hover{color:var(--ac)}
+body.theme-light .hdr-sc-fill-bl{box-shadow:0 0 8px rgba(59,130,246,.4),0 0 14px rgba(59,130,246,.12)}
+body.theme-light .hdr-sc-fill-gn{box-shadow:0 0 8px rgba(34,197,94,.35),0 0 14px rgba(34,197,94,.1)}
+body.theme-light .hdr-sc-fill-pu{box-shadow:0 0 8px rgba(168,85,247,.35),0 0 14px rgba(168,85,247,.1)}
+body.theme-light .extra-title{color:#102133}
+body.theme-light .extra-deadline-inline{color:#5f7690}
+body.theme-light .extra-field input,
+body.theme-light .extra-field select,
+body.theme-light .discussion-input,
+body.theme-light .discussion-textarea{background:#ffffff;border-color:#bfd1e6;color:#102133}
+body.theme-light .extra-field input:disabled,
+body.theme-light .extra-field select:disabled{background:#f4f8fc;border-color:#d7e3f0;color:#627a95}
+body.theme-light .extra-pill{background:#ffffff;border-color:#bfd1e6;color:#5f7690}
+body.theme-light .extra-save-state{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.22);color:#15803d}
+body.theme-light .zeb-widget{background:#ffffff;border-color:#d7e3f0;box-shadow:0 8px 22px rgba(15,35,60,.04)}
+body.theme-light .zeb-widget-val{color:#102133}
+body.theme-light .zeb-widget-track{background:rgba(37,99,235,.08)}
+body.theme-light .zeb-widget-gn .zeb-widget-fill{box-shadow:0 0 8px rgba(34,197,94,.28),0 0 14px rgba(34,197,94,.08)}
+body.theme-light .zeb-widget-bl .zeb-widget-fill{box-shadow:0 0 8px rgba(59,130,246,.3),0 0 14px rgba(59,130,246,.08)}
+body.theme-light .zeb-widget-pu .zeb-widget-fill{box-shadow:0 0 8px rgba(168,85,247,.26),0 0 14px rgba(168,85,247,.08)}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
 .w{max-width:980px;margin:0 auto;padding:.75rem}
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1.2rem;margin-bottom:.85rem;position:relative;overflow:hidden}
@@ -982,6 +1026,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
   grid-template-columns:1fr 1fr;
   gap:8px;
 }
+.hdr-tool-row{grid-template-columns:1fr 1fr 1fr}
 .hdr-right .lang-btn,
 .hdr-right .hdr-ico-btn{
   width:100%;
@@ -998,6 +1043,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 #btn-install-app{background:rgba(10,23,40,.42);display:none}
 #btn-install-app.is-ready{border-color:var(--ac);color:var(--ac2)}
 #btn-faq{background:rgba(10,23,40,.35)}
+#btn-theme{background:rgba(10,23,40,.35)}
 .hdr-install-wrap{margin-top:6px}
 .hdr-install-btn{min-width:0;height:30px;padding:0 10px;border-radius:999px;font-size:.68rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 .install-overlay{position:fixed;inset:0;background:rgba(5,10,18,.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}
@@ -1008,7 +1054,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .install-copy strong{color:var(--tx)}
 .install-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 .install-close{background:transparent;border:1px solid var(--bd2);color:var(--mu2);border-radius:10px;padding:7px 12px;font-size:.74rem;font-weight:700;cursor:pointer}
-@media(max-width:600px){.hdr-install-wrap{margin-top:4px}.hdr-install-btn{height:28px;font-size:.64rem;padding:0 9px}}
+@media(max-width:600px){.hdr-install-wrap{margin-top:4px}.hdr-install-btn{height:28px;font-size:.64rem;padding:0 9px}.hdr-tool-row{grid-template-columns:1fr 1fr 1fr}}
 #btn-refresh{
   width:100%;
   height:38px;
@@ -1507,6 +1553,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
               </div>
               <div class="hdr-tool-row">
                 <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
+                <button class="hdr-ico-btn" id="btn-theme" type="button" title="Přepnout motiv">☀️</button>
                 <button class="hdr-ico-btn" id="btn-faq" type="button" title="FAQ">ⓘ FAQ</button>
               </div>
             </div>
@@ -1742,7 +1789,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.1</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.2</span> · <span id="date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1757,6 +1804,7 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','
 var LANG='cs';
 var authBusy=false;
 var cdInterval=null;
+var currentTheme='dark';
 var otherPhase='sk';
 var vysPhase='sk';
 var selectedOtherIds=[];
@@ -1812,7 +1860,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.1',
+    footer_ver:'v4.2',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -1914,7 +1962,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.1',
+    footer_ver:'v4.2',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -1977,6 +2025,40 @@ var T={
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
+function getStoredTheme(){
+  try{
+    var raw=localStorage.getItem('ms26_theme');
+    return raw==='light'?'light':'dark';
+  }catch(e){}
+  return 'dark';
+}
+function updateThemeMeta(){
+  var meta=document.querySelector('meta[name="theme-color"]');
+  if(meta) meta.setAttribute('content', currentTheme==='light' ? '#f3f7fc' : '#0a1524');
+}
+function updateThemeButton(){
+  var btn=document.getElementById('btn-theme');
+  if(!btn) return;
+  if(currentTheme==='light'){
+    btn.textContent='🌙';
+    btn.title=LANG==='en'?'Switch to dark mode':'Přepnout na dark mode';
+  } else {
+    btn.textContent='☀️';
+    btn.title=LANG==='en'?'Switch to light mode':'Přepnout na light mode';
+  }
+}
+function applyTheme(theme,persist){
+  currentTheme=theme==='light'?'light':'dark';
+  document.body.classList.toggle('theme-light', currentTheme==='light');
+  updateThemeMeta();
+  updateThemeButton();
+  if(persist){
+    try{ localStorage.setItem('ms26_theme', currentTheme); }catch(e){}
+  }
+}
+function toggleTheme(){
+  applyTheme(currentTheme==='light'?'dark':'light', true);
+}
 
 function renderHeaderTitle(){
   var el=document.getElementById('hdr-title-main');
@@ -3387,6 +3469,7 @@ function applyI18n(){
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
   updateInstallButton();
+  updateThemeButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
   setHtml('ibox-zeb',tr('leader_info'));
@@ -4876,6 +4959,7 @@ function handleInstallApp(){
 }
 
 function init(){
+  applyTheme(getStoredTheme(), false);
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     navigator.serviceWorker.register('./sw.js').catch(function(){});
   }
@@ -4897,6 +4981,7 @@ function init(){
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
+  var themeBtn=document.getElementById('btn-theme'); if(themeBtn) themeBtn.addEventListener('click',toggleTheme);
   var faqBtn=document.getElementById('btn-faq'); if(faqBtn) faqBtn.addEventListener('click',openFaq);
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
