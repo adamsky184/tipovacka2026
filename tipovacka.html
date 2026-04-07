@@ -1477,7 +1477,7 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-sc-val{font-size:.8rem;margin-bottom:6px}
 }
 @media(max-width:520px){
-  :root{--mr-tip-w:40px;--mr-gt-w:78px}
+  :root{--mr-tip-w:58px;--mr-gt-w:68px}
   .hdr{padding:9px 9px}
   .hdr-row{
     grid-template-columns:minmax(0,1fr) 148px;
@@ -1499,12 +1499,17 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-user{min-height:34px}
   #btn-logout{padding:0 8px;font-size:.66rem}
   .hdr-uname{max-width:60px;font-size:.7rem}
-  body.admin-user .hdr-user-block{width:100%;max-width:none}
+  body.admin-user .hdr-row{grid-template-columns:minmax(0,1fr) 170px}
+  body.admin-user .hdr-right{max-width:170px}
+  body.admin-user .hdr-user-block{width:100%;max-width:none;gap:5px}
   body.admin-user .hdr-user-row{display:flex}
-  body.admin-user .hdr-user{padding:0 8px 0 5px}
-  body.admin-user .hdr-uname{max-width:44px;font-size:.68rem}
-  body.admin-user .abadge2{font-size:.48rem;padding:2px 5px}
-  body.admin-user #btn-logout{padding:0 6px;font-size:.62rem}
+  body.admin-user .hdr-user{padding:0 7px 0 5px;gap:5px}
+  body.admin-user .hdr-av{width:22px;height:22px;font-size:.55rem}
+  body.admin-user .hdr-uname{max-width:40px;font-size:.66rem}
+  body.admin-user .abadge2{font-size:.44rem;padding:1px 4px}
+  body.admin-user #btn-logout{padding:0 5px;font-size:.6rem}
+  body.admin-user .hdr-user-block>div:last-child{display:grid !important;grid-template-columns:1fr;gap:5px}
+  body.admin-user #btn-refresh,body.admin-user #btn-sync-teams,body.admin-user #btn-sync-fifa{width:100%;justify-content:center;font-size:.6rem;padding:0 6px;height:30px}
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
   .hdr-sc{padding:7px 4px 7px}
   .hdr-sc-ico{font-size:10px}
@@ -1515,13 +1520,13 @@ body.admin-user #btn-logout{padding:0 10px}
   .mr{gap:4px;padding:8px 6px}
   .ti{width:32px;font-size:.76rem;padding:4px 1px}
   .tip-saved{min-width:32px;font-size:.72rem;padding:3px 4px}
-  .tih,.tia{width:24px;padding:4px 0}
+  .tih,.tia{width:26px;padding:4px 0}
   .tip-sep{font-size:.82rem}
   .gt-bar{height:3px;margin-bottom:3px}
   .gt-grid{gap:1px}
   .gt-cell{padding:2px 0;border-radius:6px}
   .gt-lab{font-size:.46rem;margin-bottom:2px}
-  .gt-pct{font-size:.52rem}
+  .gt-pct{font-size:.5rem}
 }
 
 @media(max-width:900px) and (orientation:landscape){
@@ -1542,10 +1547,14 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-user-row{display:flex;align-items:stretch;gap:6px}
   .hdr-user-row>*{flex:1 1 0}
   .hdr-tool-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.admin-user .hdr-right{max-width:210px}
   body.admin-user .hdr-user-block{width:100%;max-width:none}
-  body.admin-user .hdr-user{padding:0 8px 0 5px}
-  body.admin-user .hdr-uname{max-width:56px}
-  body.admin-user .abadge2{font-size:.5rem;padding:2px 5px}
+  body.admin-user .hdr-user{padding:0 8px 0 5px;gap:5px}
+  body.admin-user .hdr-uname{max-width:50px}
+  body.admin-user .abadge2{font-size:.48rem;padding:1px 4px}
+  body.admin-user .hdr-user-block>div:last-child{display:grid !important;grid-template-columns:1fr 1fr;gap:5px}
+  body.admin-user #btn-refresh{grid-column:1 / -1}
+  body.admin-user #btn-refresh,body.admin-user #btn-sync-teams,body.admin-user #btn-sync-fifa{font-size:.62rem;padding:0 7px;height:30px}
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
   .hdr-sc{padding:8px 6px 9px}
   .hdr-sc-lbl{font-size:.43rem;min-height:2.2em}
@@ -1993,7 +2002,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.3.2',
+    footer_ver:'v4.3.3',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2095,7 +2104,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.3.2',
+    footer_ver:'v4.3.3',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
