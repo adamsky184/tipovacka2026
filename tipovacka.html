@@ -1286,7 +1286,14 @@ body.theme-light .venue{color:#5f7690}
 }
 .tc-team-link:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.07)}
 .tc-team-link:active{transform:scale(.98)}
-.tc-team-note{font-size:.63rem;color:var(--mu);margin-top:10px;line-height:1.35}
+.tc-team-extra{display:grid;gap:8px;margin-top:9px}
+.tc-team-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.tc-team-stat{padding:8px 9px;border:1px solid var(--bd);border-radius:11px;background:rgba(255,255,255,.02)}
+.tc-team-stat-lbl{font-size:.58rem;color:var(--mu);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
+.tc-team-stat-val{font-size:.72rem;color:var(--tx);line-height:1.35;font-weight:600}
+.tc-team-medals{font-size:.7rem;color:var(--mu2);line-height:1.45}
+.tc-team-medals strong{color:var(--tx);font-weight:700}
+.tc-team-fact{font-size:.69rem;color:var(--mu2);line-height:1.5;padding-left:10px;border-left:2px solid var(--bd2)}
 .tc.tc-team.target-team{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18);border-color:rgba(96,165,250,.55)}
 .team-focus-wrap{margin-bottom:.9rem}
 .team-focus-head{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin:0 0 .45rem .1rem}
@@ -1326,6 +1333,7 @@ body.theme-light .venue{color:#5f7690}
 .tc.tc-team{padding:10px 10px 11px;min-height:0}
 .tc-team-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:8px}
 .tc-team-link{min-height:32px;font-size:.69rem;padding:5px 6px}
+@media(min-width:1100px){.tm-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
 .tc-team-sched{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);display:grid;gap:6px}
 .tc-team-sched-sec{display:grid;gap:4px}
 .tc-team-sched-h{font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu2)}
@@ -1670,7 +1678,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.5</span> · <span id="lo-date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.6.1</span> · <span id="lo-date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1960,7 +1968,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.5</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.6.1</span> · <span id="date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2032,7 +2040,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.5',
+    footer_ver:'v4.6.1',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2134,7 +2142,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.5',
+    footer_ver:'v4.6.1',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2469,22 +2477,91 @@ var STAD=[
   ['Estadio Akron','Guadalajara','Mexiko','44 330','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 var STAD_EXTRA={
-  'MetLife Stadium':{stdCap:'82 500',addr:'1 MetLife Stadium Dr, East Rutherford, NJ 07073, USA',homeCs:'New York Giants, New York Jets',homeEn:'New York Giants, New York Jets',descCs:'Multifunkční stadion v areálu Meadowlands, kousek od New York City.',descEn:'A multipurpose Meadowlands venue just outside New York City.',factCs:'Bude hostit finále MS 2026 a po dokončení patřil k nejdražším stadionům v USA.',factEn:'It will host the 2026 World Cup final and was one of the most expensive stadiums built in the US.'},
-  'AT&T Stadium':{stdCap:'94 000',addr:'1 AT&T Way, Arlington, TX 76011, USA',homeCs:'Dallas Cowboys',homeEn:'Dallas Cowboys',descCs:'Obří krytý stadion v Arlingtonu se zatahovací střechou.',descEn:'A giant indoor venue in Arlington with a retractable roof.',factCs:'Proslul obří závěsnou obrazovkou nad hřištěm a běžně pojme výrazně víc lidí než při MS.',factEn:'It is famous for its giant centre-hung video board and normally fits far more fans than in World Cup mode.'},
-  'SoFi Stadium':{stdCap:'70 240',addr:'1001 Stadium Dr, Inglewood, CA 90301, USA',homeCs:'Los Angeles Rams, Los Angeles Chargers',homeEn:'Los Angeles Rams, Los Angeles Chargers',descCs:'Moderní stadion v Inglewoodu na místě bývalého Hollywood Parku.',descEn:'A modern Inglewood venue built on the former Hollywood Park site.',factCs:'Má ikonickou průsvitnou střechu a patří k nejnovějším stadionům turnaje.',factEn:'It features a distinctive translucent canopy roof and is one of the newest venues in the tournament.'},
-  'Hard Rock Stadium':{stdCap:'64 767',addr:'347 Don Shula Dr, Miami Gardens, FL 33056, USA',homeCs:'Miami Dolphins, Miami Hurricanes',homeEn:'Miami Dolphins, Miami Hurricanes',descCs:'Multifunkční stadion v Miami Gardens pro NFL i univerzitní fotbal.',descEn:'A Miami Gardens multipurpose venue used for NFL and college football.',factCs:'Kolem stadionu se jezdí okruh Formula 1 Miami Grand Prix.',factEn:'The Formula 1 Miami Grand Prix circuit runs around the stadium complex.'},
-  'Lumen Field':{stdCap:'69 000',addr:'800 Occidental Ave S, Seattle, WA 98134, USA',homeCs:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',homeEn:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',descCs:'Hlasitý multifunkční stadion v seattleské čtvrti SoDo.',descEn:'A famously loud multipurpose stadium in Seattle’s SoDo district.',factCs:'Je známý skvělou atmosférou a hlukem tribun při velkých zápasech.',factEn:'It is renowned for its atmosphere and crowd noise during major matches.'},
-  "Levi's Stadium":{stdCap:'68 500',addr:'4900 Marie P DeBartolo Way, Santa Clara, CA 95054, USA',homeCs:'San Francisco 49ers',homeEn:'San Francisco 49ers',descCs:'Stadion v Santa Claře, součást sportovního srdce Bay Area.',descEn:'A Santa Clara stadium at the heart of the Bay Area sports scene.',factCs:'Hostil Super Bowl 50 a leží asi 64 km jižně od San Francisca.',factEn:'It hosted Super Bowl 50 and sits about 64 km south of San Francisco.'},
-  'Arrowhead Stadium':{stdCap:'76 416',addr:'1 Arrowhead Dr, Kansas City, MO 64129, USA',homeCs:'Kansas City Chiefs',homeEn:'Kansas City Chiefs',descCs:'Klasický stadion v Kansas City, známý výjimečnou kulisou.',descEn:'A classic Kansas City venue known for its exceptional atmosphere.',factCs:'Patří mezi nejslavnější stadiony amerického fotbalu díky rekordní hlučnosti publika.',factEn:'It is one of the most famous NFL venues thanks to record-setting crowd noise.'},
-  'NRG Stadium':{stdCap:'72 220',addr:'NRG Pkwy, Houston, TX 77054, USA',homeCs:'Houston Texans',homeEn:'Houston Texans',descCs:'Stadion v Houstonu se zatahovací střechou a velkým eventovým zázemím.',descEn:'A Houston venue with a retractable roof and major event infrastructure.',factCs:'Byl prvním stadionem NFL se zatahovací střechou.',factEn:'It was the first NFL stadium with a retractable roof.'},
-  'Lincoln Financial Field':{stdCap:'69 176',addr:'One Lincoln Financial Field Way, Philadelphia, PA 19148, USA',homeCs:'Philadelphia Eagles, Temple Owls',homeEn:'Philadelphia Eagles, Temple Owls',descCs:'Domov Eagles v South Philadelphia Sports Complex.',descEn:'The Eagles’ home in the South Philadelphia Sports Complex.',factCs:'Leží v srdci velkého sportovního areálu jižní Filadelfie.',factEn:'It sits in the middle of South Philadelphia’s major sports complex.'},
-  'Mercedes-Benz Stadium':{stdCap:'71 000',addr:'1 AMB Dr NW, Atlanta, GA 30313, USA',homeCs:'Atlanta Falcons, Atlanta United FC',homeEn:'Atlanta Falcons, Atlanta United FC',descCs:'Moderní stadion v Atlantě se zatahovací střechou ve tvaru okvětních lístků.',descEn:'A modern Atlanta venue with a petal-like retractable roof.',factCs:'Uvnitř má slavný 360° halo videoprstenec a otevřel se v roce 2017.',factEn:'It features a famous 360-degree halo video board and opened in 2017.'},
-  'Gillette Stadium':{stdCap:'65 878',addr:'1 Patriot Pl, Foxborough, MA 02035, USA',homeCs:'New England Patriots, New England Revolution',homeEn:'New England Patriots, New England Revolution',descCs:'Víceúčelový stadion ve Foxborough mezi Bostonem a Providence.',descEn:'A multipurpose Foxborough stadium between Boston and Providence.',factCs:'Kromě Patriots je dlouhodobým domovem i New England Revolution.',factEn:'Besides the Patriots, it has long also been home to the New England Revolution.'},
-  'BMO Field':{stdCap:'30 000',addr:"170 Princes' Blvd, Toronto, ON M6K 3C3, Canada",homeCs:'Toronto FC, Toronto Argonauts',homeEn:'Toronto FC, Toronto Argonauts',descCs:'Městský stadion v areálu Exhibition Place v Torontu.',descEn:'A city-owned venue at Exhibition Place in Toronto.',factCs:'Stojí na místě bývalého Exhibition Stadium a pro MS dostane rozšířenou kapacitu.',factEn:'It stands on the former Exhibition Stadium site and gets an expanded capacity for the World Cup.'},
-  'BC Place':{stdCap:'54 500',addr:'777 Pacific Blvd, Vancouver, BC V6B 4Y8, Canada',homeCs:'BC Lions, Vancouver Whitecaps FC',homeEn:'BC Lions, Vancouver Whitecaps FC',descCs:'Velký krytý stadion ve Vancouveru na břehu False Creek.',descEn:'A large covered Vancouver venue on the edge of False Creek.',factCs:'Je známý svou zatahovací střechou a hostil i finále MS žen 2015.',factEn:'It is known for its retractable roof and also hosted the 2015 Women’s World Cup final.'},
-  'Estadio Azteca':{stdCap:'87 523',addr:'Calz. de Tlalpan 3465, Sta. Úrsula Coapa, Coyoacán, 04650 Ciudad de México, CDMX, Mexico',homeCs:'Club América, reprezentace Mexika',homeEn:'Club América, Mexico national team',descCs:'Legendární fotbalový stadion v Coyoacánu v Mexico City.',descEn:'A legendary football stadium in Coyoacán, Mexico City.',factCs:'Hostil finále MS 1970 i 1986 a je největším stadionem v Latinské Americe.',factEn:'It hosted the 1970 and 1986 World Cup finals and is the largest stadium in Latin America.'},
-  'Estadio BBVA':{stdCap:'53 500',addr:'Av. Pablo Livas 2011, colonia La Pastora, C.P. 67140, Guadalupe, Nuevo León, Mexico',homeCs:'C.F. Monterrey',homeEn:'C.F. Monterrey',descCs:'Moderní fotbalový stadion v Guadalupe v metropolitní oblasti Monterrey.',descEn:'A modern football-specific venue in Guadalupe in Greater Monterrey.',factCs:'Přezdívá se mu El Gigante de Acero, tedy Ocelový obr.',factEn:'Its nickname is El Gigante de Acero, the Steel Giant.'},
-  'Estadio Akron':{stdCap:'49 850',addr:'Circuito J.V.C. 2800, El Bajío, 45014 Zapopan, Jalisco, Mexico',homeCs:'C.D. Guadalajara',homeEn:'C.D. Guadalajara',descCs:'Stadion v Zapopanu u Guadalajary, využívaný hlavně pro fotbal.',descEn:'A stadium in Zapopan near Guadalajara used mainly for football.',factCs:'Je domovem Chivas a dříve byl známý jako Estadio Omnilife a Estadio Chivas.',factEn:'It is home to Chivas and was previously known as Estadio Omnilife and Estadio Chivas.'}
+  'MetLife Stadium':{stdCap:'82 500',addr:'1 MetLife Stadium Dr, East Rutherford, NJ 07073, USA',planek:'https://digitalhub.fifa.com/m/5454a7f9f4589f64/original/Stadium_Map_New_York_New_Jersey.png',homeCs:'New York Giants, New York Jets',homeEn:'New York Giants, New York Jets',descCs:'Multifunkční stadion v areálu Meadowlands, kousek od New York City.',descEn:'A multipurpose Meadowlands venue just outside New York City.',factCs:'Bude hostit finále MS 2026 a po dokončení patřil k nejdražším stadionům v USA.',factEn:'It will host the 2026 World Cup final and was one of the most expensive stadiums built in the US.'},
+  'AT&T Stadium':{stdCap:'94 000',addr:'1 AT&T Way, Arlington, TX 76011, USA',planek:'https://digitalhub.fifa.com/m/2a8fd5552a3bf728/original/Stadium_Map_Dallas.png',homeCs:'Dallas Cowboys',homeEn:'Dallas Cowboys',descCs:'Obří krytý stadion v Arlingtonu se zatahovací střechou.',descEn:'A giant indoor venue in Arlington with a retractable roof.',factCs:'Proslul obří závěsnou obrazovkou nad hřištěm a běžně pojme výrazně víc lidí než při MS.',factEn:'It is famous for its giant centre-hung video board and normally fits far more fans than in World Cup mode.'},
+  'SoFi Stadium':{stdCap:'70 240',addr:'1001 Stadium Dr, Inglewood, CA 90301, USA',planek:'https://digitalhub.fifa.com/m/2b3d1983e7d1f7bb/original/Stadium_Map_Los_Angeles.png',homeCs:'Los Angeles Rams, Los Angeles Chargers',homeEn:'Los Angeles Rams, Los Angeles Chargers',descCs:'Moderní stadion v Inglewoodu na místě bývalého Hollywood Parku.',descEn:'A modern Inglewood venue built on the former Hollywood Park site.',factCs:'Má ikonickou průsvitnou střechu a patří k nejnovějším stadionům turnaje.',factEn:'It features a distinctive translucent canopy roof and is one of the newest venues in the tournament.'},
+  'Hard Rock Stadium':{stdCap:'64 767',addr:'347 Don Shula Dr, Miami Gardens, FL 33056, USA',planek:'https://digitalhub.fifa.com/m/81896f00a53e020/original/Stadium_Map_Miami.png',homeCs:'Miami Dolphins, Miami Hurricanes',homeEn:'Miami Dolphins, Miami Hurricanes',descCs:'Multifunkční stadion v Miami Gardens pro NFL i univerzitní fotbal.',descEn:'A Miami Gardens multipurpose venue used for NFL and college football.',factCs:'Kolem stadionu se jezdí okruh Formula 1 Miami Grand Prix.',factEn:'The Formula 1 Miami Grand Prix circuit runs around the stadium complex.'},
+  'Lumen Field':{stdCap:'69 000',addr:'800 Occidental Ave S, Seattle, WA 98134, USA',planek:'https://digitalhub.fifa.com/m/aeb01f8007b3494/original/Stadium_Map_Seattle.png',homeCs:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',homeEn:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',descCs:'Hlasitý multifunkční stadion v seattleské čtvrti SoDo.',descEn:'A famously loud multipurpose stadium in Seattle’s SoDo district.',factCs:'Je známý skvělou atmosférou a hlukem tribun při velkých zápasech.',factEn:'It is renowned for its atmosphere and crowd noise during major matches.'},
+  "Levi's Stadium":{stdCap:'68 500',addr:'4900 Marie P DeBartolo Way, Santa Clara, CA 95054, USA',planek:'https://digitalhub.fifa.com/m/74e37ec670ea784f/original/Stadium_Map_San_Francisco_Bay_Area.png',homeCs:'San Francisco 49ers',homeEn:'San Francisco 49ers',descCs:'Stadion v Santa Claře, součást sportovního srdce Bay Area.',descEn:'A Santa Clara stadium at the heart of the Bay Area sports scene.',factCs:'Hostil Super Bowl 50 a leží asi 64 km jižně od San Francisca.',factEn:'It hosted Super Bowl 50 and sits about 64 km south of San Francisco.'},
+  'Arrowhead Stadium':{stdCap:'76 416',addr:'1 Arrowhead Dr, Kansas City, MO 64129, USA',planek:'https://digitalhub.fifa.com/m/598ce151095d8adf/original/Stadium_Map_Kansas_City.png',homeCs:'Kansas City Chiefs',homeEn:'Kansas City Chiefs',descCs:'Klasický stadion v Kansas City, známý výjimečnou kulisou.',descEn:'A classic Kansas City venue known for its exceptional atmosphere.',factCs:'Patří mezi nejslavnější stadiony amerického fotbalu díky rekordní hlučnosti publika.',factEn:'It is one of the most famous NFL venues thanks to record-setting crowd noise.'},
+  'NRG Stadium':{stdCap:'72 220',addr:'NRG Pkwy, Houston, TX 77054, USA',planek:'https://digitalhub.fifa.com/m/428702d2f199975e/original/Stadium_Map_Houston.png',homeCs:'Houston Texans',homeEn:'Houston Texans',descCs:'Stadion v Houstonu se zatahovací střechou a velkým eventovým zázemím.',descEn:'A Houston venue with a retractable roof and major event infrastructure.',factCs:'Byl prvním stadionem NFL se zatahovací střechou.',factEn:'It was the first NFL stadium with a retractable roof.'},
+  'Lincoln Financial Field':{stdCap:'69 176',addr:'One Lincoln Financial Field Way, Philadelphia, PA 19148, USA',planek:'https://digitalhub.fifa.com/m/87ef914bd38349c/original/Stadium_Map_Philadelphia.png',homeCs:'Philadelphia Eagles, Temple Owls',homeEn:'Philadelphia Eagles, Temple Owls',descCs:'Domov Eagles v South Philadelphia Sports Complex.',descEn:'The Eagles’ home in the South Philadelphia Sports Complex.',factCs:'Leží v srdci velkého sportovního areálu jižní Filadelfie.',factEn:'It sits in the middle of South Philadelphia’s major sports complex.'},
+  'Mercedes-Benz Stadium':{stdCap:'71 000',addr:'1 AMB Dr NW, Atlanta, GA 30313, USA',planek:'https://digitalhub.fifa.com/m/7b28137545c45610/original/Stadium_Map_Atlanta.png',homeCs:'Atlanta Falcons, Atlanta United FC',homeEn:'Atlanta Falcons, Atlanta United FC',descCs:'Moderní stadion v Atlantě se zatahovací střechou ve tvaru okvětních lístků.',descEn:'A modern Atlanta venue with a petal-like retractable roof.',factCs:'Uvnitř má slavný 360° halo videoprstenec a otevřel se v roce 2017.',factEn:'It features a famous 360-degree halo video board and opened in 2017.'},
+  'Gillette Stadium':{stdCap:'65 878',addr:'1 Patriot Pl, Foxborough, MA 02035, USA',planek:'https://digitalhub.fifa.com/m/5414e729dc079316/original/Stadium_Map_Boston.png',homeCs:'New England Patriots, New England Revolution',homeEn:'New England Patriots, New England Revolution',descCs:'Víceúčelový stadion ve Foxborough mezi Bostonem a Providence.',descEn:'A multipurpose Foxborough stadium between Boston and Providence.',factCs:'Kromě Patriots je dlouhodobým domovem i New England Revolution.',factEn:'Besides the Patriots, it has long also been home to the New England Revolution.'},
+  'BMO Field':{stdCap:'30 000',addr:"170 Princes' Blvd, Toronto, ON M6K 3C3, Canada",planek:'https://digitalhub.fifa.com/m/2256877ea4883936/original/Stadium_Map_Toronto.png',homeCs:'Toronto FC, Toronto Argonauts',homeEn:'Toronto FC, Toronto Argonauts',descCs:'Městský stadion v areálu Exhibition Place v Torontu.',descEn:'A city-owned venue at Exhibition Place in Toronto.',factCs:'Stojí na místě bývalého Exhibition Stadium a pro MS dostane rozšířenou kapacitu.',factEn:'It stands on the former Exhibition Stadium site and gets an expanded capacity for the World Cup.'},
+  'BC Place':{stdCap:'54 500',addr:'777 Pacific Blvd, Vancouver, BC V6B 4Y8, Canada',planek:'https://digitalhub.fifa.com/m/7f350fe1b3316010/original/Stadium_Map_Vancouver.png',homeCs:'BC Lions, Vancouver Whitecaps FC',homeEn:'BC Lions, Vancouver Whitecaps FC',descCs:'Velký krytý stadion ve Vancouveru na břehu False Creek.',descEn:'A large covered Vancouver venue on the edge of False Creek.',factCs:'Je známý svou zatahovací střechou a hostil i finále MS žen 2015.',factEn:'It is known for its retractable roof and also hosted the 2015 Women’s World Cup final.'},
+  'Estadio Azteca':{stdCap:'87 523',addr:'Calz. de Tlalpan 3465, Sta. Úrsula Coapa, Coyoacán, 04650 Ciudad de México, CDMX, Mexico',planek:'https://digitalhub.fifa.com/m/6724a8924837d6a7/original/Stadium_Map_Mexico_City.png',homeCs:'Club América, reprezentace Mexika',homeEn:'Club América, Mexico national team',descCs:'Legendární fotbalový stadion v Coyoacánu v Mexico City.',descEn:'A legendary football stadium in Coyoacán, Mexico City.',factCs:'Hostil finále MS 1970 i 1986 a je největším stadionem v Latinské Americe.',factEn:'It hosted the 1970 and 1986 World Cup finals and is the largest stadium in Latin America.'},
+  'Estadio BBVA':{stdCap:'53 500',addr:'Av. Pablo Livas 2011, colonia La Pastora, C.P. 67140, Guadalupe, Nuevo León, Mexico',planek:'https://digitalhub.fifa.com/m/470e53caa32491a7/original/Stadium_Map_Monterrey.png',homeCs:'C.F. Monterrey',homeEn:'C.F. Monterrey',descCs:'Moderní fotbalový stadion v Guadalupe v metropolitní oblasti Monterrey.',descEn:'A modern football-specific venue in Guadalupe in Greater Monterrey.',factCs:'Přezdívá se mu El Gigante de Acero, tedy Ocelový obr.',factEn:'Its nickname is El Gigante de Acero, the Steel Giant.'},
+  'Estadio Akron':{stdCap:'49 850',addr:'Circuito J.V.C. 2800, El Bajío, 45014 Zapopan, Jalisco, Mexico',planek:'https://digitalhub.fifa.com/m/34606c01376b9858/original/Stadium_Map_Guadalajara.png',homeCs:'C.D. Guadalajara',homeEn:'C.D. Guadalajara',descCs:'Stadion v Zapopanu u Guadalajary, využívaný hlavně pro fotbal.',descEn:'A stadium in Zapopan near Guadalajara used mainly for football.',factCs:'Je domovem Chivas a dříve byl známý jako Estadio Omnilife a Estadio Chivas.',factEn:'It is home to Chivas and was previously known as Estadio Omnilife and Estadio Chivas.'}
+};
+
+var TEAM_MEDALS={
+  'Brazilie':{g:5,s:2,b:2},
+  'Nemecko':{g:4,s:4,b:4},
+  'Argentina':{g:3,s:3,b:0},
+  'Uruguay':{g:2,s:0,b:0},
+  'Francie':{g:2,s:2,b:2},
+  'Anglie':{g:1,s:0,b:0},
+  'Spanelsko':{g:1,s:0,b:0},
+  'Nizozemsko':{g:0,s:3,b:1},
+  'Svedsko':{g:0,s:1,b:2},
+  'Belgie':{g:0,s:0,b:1},
+  'Chorvatsko':{g:0,s:1,b:2},
+  'Turecko':{g:0,s:0,b:1},
+  'Rakousko':{g:0,s:0,b:1},
+  'USA':{g:0,s:0,b:1},
+  'Portugalsko':{g:0,s:0,b:1}
+};
+
+var TEAM_EXTRA={
+  'Mexiko':{apps:'18',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2022',scorer:'Luis Hernández (4)',factCs:'Spolu s USA a Kanadou je spolupořadatelem MS 2026.',factEn:'It co-hosts the 2026 World Cup with the United States and Canada.'},
+  'Jihoafricka rep.':{apps:'4',bestCs:'skupina',bestEn:'group stage',last:'2010',scorer:'Benni McCarthy (2)',factCs:'Jihoafrická republika hostila MS 2010 jako první africká země.',factEn:'South Africa hosted the 2010 World Cup as the first African nation to do so.'},
+  'Jizni Korea':{apps:'12',bestCs:'semifinále',bestEn:'semi-finals',last:'2022',scorer:'Park Ji-sung (3)',factCs:'Patří k nejstálejším asijským účastníkům posledních dekád.',factEn:'It has been one of Asia’s most consistent World Cup participants in recent decades.'},
+  'Cesko':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'2006',scorerCs:'1 gól (Koller, Baroš, Rosický)',scorerEn:'1 goal (Koller, Baroš, Rosický)',factCs:'Jako samostatná reprezentace navazuje na silnou československou tradici.',factEn:'As an independent team it builds on a strong Czechoslovak World Cup tradition.'},
+  'Kanada':{apps:'3',bestCs:'skupina',bestEn:'group stage',last:'2022',scorer:'Alphonso Davies (1)',factCs:'Kanada je jedním ze tří pořadatelů šampionátu 2026.',factEn:'Canada is one of the three hosts of the 2026 tournament.'},
+  'Katar':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'2022',scorer:'Mohammed Muntari (1)',factCs:'Katar pořádal předchozí mistrovství světa v roce 2022.',factEn:'Qatar hosted the previous World Cup in 2022.'},
+  'Svycarsko':{apps:'13',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2022',scorer:'Josef Hügi (6)',factCs:'Švýcarsko bývá dlouhodobě těžkým a disciplinovaným soupeřem.',factEn:'Switzerland has long been known as a disciplined and difficult opponent.'},
+  'Bosna a Hercegovina':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'2014',scorer:'Vedad Ibišević (1)',factCs:'Její jediná předchozí účast přišla na MS 2014 v Brazílii.',factEn:'Its only previous appearance came at the 2014 World Cup in Brazil.'},
+  'Brazilie':{apps:'23',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Ronaldo (15)',factCs:'Brazilie je jedinou zemí, která hrála na každém dosavadním MS.',factEn:'Brazil is the only nation to have played at every World Cup.'},
+  'Maroko':{apps:'7',bestCs:'semifinále',bestEn:'semi-finals',last:'2022',scorer:'Youssef En-Nesyri (3)',factCs:'Maroko se v Kataru stalo prvním africkým semifinalistou MS.',factEn:'Morocco became the first African World Cup semi-finalist in Qatar.'},
+  'Haiti':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'1974',scorer:'Emmanuel Sanon (2)',factCs:'Haiti patří k tradičním fotbalovým jménům Karibiku.',factEn:'Haiti is one of the Caribbean’s traditional footballing names.'},
+  'Skotsko':{apps:'9',bestCs:'skupina',bestEn:'group stage',last:'1998',scorerCs:'3 góly (více hráčů)',scorerEn:'3 goals (shared record)',factCs:'Skotsko patří k nejstarším reprezentačním značkám světového fotbalu.',factEn:'Scotland is one of the oldest national-team brands in world football.'},
+  'USA':{apps:'12',bestCs:'semifinále',bestEn:'semi-finals',last:'2022',scorer:'Landon Donovan (5)',factCs:'Spojené státy jsou jedním z pořadatelů MS 2026.',factEn:'The United States is one of the hosts of the 2026 World Cup.'},
+  'Paraguay':{apps:'9',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2010',scorer:'Roque Santa Cruz (3)',factCs:'Paraguay bývá spojený s velmi organizovaným a důrazným stylem.',factEn:'Paraguay is often associated with a highly organised and combative style.'},
+  'Australie':{apps:'7',bestCs:'osmifinále',bestEn:'round of 16',last:'2022',scorer:'Tim Cahill (5)',factCs:'Po přechodu do AFC se Austrálie stala pravidelným účastníkem MS.',factEn:'Since moving to the AFC, Australia has become a regular World Cup participant.'},
+  'Turecko':{apps:'3',bestCs:'3. místo',bestEn:'third place',last:'2002',scorer:'Hakan Şükür (3)',factCs:'Jeho tažení na MS 2002 patří k největším překvapením novodobých turnajů.',factEn:'Its run at the 2002 World Cup remains one of the great modern surprises.'},
+  'Nemecko':{apps:'21',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Miroslav Klose (16)',factCs:'Německo patří k nejúspěšnějším a nejstabilnějším týmům historie MS.',factEn:'Germany is one of the most successful and consistent teams in World Cup history.'},
+  'Curacao':{apps:'1',bestCs:'debut',bestEn:'debut',lastCs:'2026 (debut)',lastEn:'2026 (debut)',scorerCs:'zatím nikdo',scorerEn:'none yet',factCs:'Curaçao navazuje na fotbalové dědictví někdejších Nizozemských Antil.',factEn:'Curaçao carries on the footballing legacy of the former Netherlands Antilles.'},
+  'Pobrezi slonoviny':{apps:'4',bestCs:'skupina',bestEn:'group stage',last:'2014',scorer:'Didier Drogba (2)',factCs:'Pobřeží slonoviny proslavila jména jako Drogba, Touré nebo Gervinho.',factEn:'Ivory Coast became globally known through stars like Drogba, Touré and Gervinho.'},
+  'Ekvador':{apps:'5',bestCs:'osmifinále',bestEn:'round of 16',last:'2022',scorer:'Enner Valencia (6)',factCs:'Ekvador bývá nebezpečný tempem, fyzičkou a přechodovou hrou.',factEn:'Ecuador is often dangerous because of its pace, athleticism and transition play.'},
+  'Nizozemsko':{apps:'12',bestCs:'finále',bestEn:'runners-up',last:'2022',scorer:'Johnny Rep (7)',factCs:'Nizozemsko je spojené s pojmem totální fotbal a technickou školou.',factEn:'The Netherlands is closely associated with Total Football and technical quality.'},
+  'Japonsko':{apps:'8',bestCs:'osmifinále',bestEn:'round of 16',last:'2022',scorer:'Keisuke Honda (4)',factCs:'Japonsko dlouhodobě těží z techniky, organizace a práce bez míče.',factEn:'Japan has long benefited from technique, organisation and work off the ball.'},
+  'Svedsko':{apps:'13',bestCs:'finále',bestEn:'runners-up',last:'2018',scorerCs:'4 góly (Gren/Larsson)',scorerEn:'4 goals (Gren/Larsson)',factCs:'Švédsko má i bronz z MS 1994 a silnou turnajovou tradici.',factEn:'Sweden also has a 1994 World Cup bronze and a strong tournament tradition.'},
+  'Tunisko':{apps:'7',bestCs:'skupina',bestEn:'group stage',last:'2022',scorer:'Wahbi Khazri (3)',factCs:'Tunisko bylo v roce 1978 prvním africkým týmem s výhrou na MS.',factEn:'Tunisia became the first African side to win a World Cup match in 1978.'},
+  'Belgie':{apps:'15',bestCs:'3. místo',bestEn:'third place',last:'2022',scorer:'Romelu Lukaku (5)',factCs:'Belgie těžila z jedné z nejsilnějších generací své historie v poslední dekádě.',factEn:'Belgium benefited from one of the strongest generations in its history over the last decade.'},
+  'Egypt':{apps:'4',bestCs:'skupina',bestEn:'group stage',last:'2018',scorer:'Abdelrahman Fawzi (2)',factCs:'Egypt je historicky nejúspěšnější zemí Afrického poháru národů.',factEn:'Egypt is historically the most successful nation in Africa Cup of Nations history.'},
+  'Iran':{apps:'7',bestCs:'skupina',bestEn:'group stage',last:'2022',scorer:'Mehdi Taremi (2)',factCs:'Írán patří dlouhodobě mezi nejsilnější reprezentační týmy Asie.',factEn:'Iran has long been one of Asia’s strongest national teams.'},
+  'Novy Zeland':{apps:'3',bestCs:'skupina',bestEn:'group stage',last:'2010',scorerCs:'1 gól (sdílený rekord)',scorerEn:'1 goal (shared record)',factCs:'Na MS 2010 zůstal neporažen po třech remízách.',factEn:'At the 2010 World Cup, New Zealand stayed unbeaten with three draws.'},
+  'Spanelsko':{apps:'16',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'David Villa (9)',factCs:'Španělsko je synonymem kontroly míče, techniky a poziční hry.',factEn:'Spain is synonymous with ball control, technique and positional play.'},
+  'Kapverdy':{apps:'1',bestCs:'debut',bestEn:'debut',lastCs:'2026 (debut)',lastEn:'2026 (debut)',scorerCs:'zatím nikdo',scorerEn:'none yet',factCs:'Kapverdy jsou malým ostrovním státem s překvapivě silnou fotbalovou stopou.',factEn:'Cape Verde is a small island nation with a surprisingly strong football profile.'},
+  'Saudska Arabie':{apps:'7',bestCs:'osmifinále',bestEn:'round of 16',last:'2022',scorer:'Sami Al-Jaber (3)',factCs:'Na MS 2022 zaujala slavným vítězstvím nad Argentinou.',factEn:'At the 2022 World Cup it grabbed headlines with its win over Argentina.'},
+  'Uruguay':{apps:'15',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Óscar Míguez (8)',factCs:'Uruguay vyhrálo první MS v roce 1930 a dodnes je symbolem turnajové odolnosti.',factEn:'Uruguay won the first World Cup in 1930 and remains a symbol of tournament resilience.'},
+  'Francie':{apps:'16',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Just Fontaine (13)',factCs:'Francie hrála finále v letech 2006, 2018 i 2022.',factEn:'France reached the World Cup final in 2006, 2018 and 2022.'},
+  'Senegal':{apps:'4',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2022',scorer:'Sadio Mané (3)',factCs:'Senegal vstoupil do dějin výhrou nad Francií na úvod MS 2002.',factEn:'Senegal announced itself by beating France in the opening game of the 2002 World Cup.'},
+  'Irak':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'1986',scorer:'Ahmed Radhi (1)',factCs:'Irák zůstává v Asii respektovaný hlavně po triumfu na Asian Cupu 2007.',factEn:'Iraq remains highly respected in Asia, especially after winning the 2007 Asian Cup.'},
+  'Norsko':{apps:'4',bestCs:'osmifinále',bestEn:'round of 16',last:'1998',scorer:'Tore André Flo (2)',factCs:'Norsko je připomínáno i výhrou 2:1 nad Brazílií na MS 1998.',factEn:'Norway is also remembered for its 2–1 win over Brazil at the 1998 World Cup.'},
+  'Argentina':{apps:'19',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Lionel Messi (13)',factCs:'Argentina vstupuje do éry po triumfu na MS 2022 jako úřadující šampion.',factEn:'Argentina enters this era as the reigning world champion after 2022.'},
+  'Alzirsko':{apps:'5',bestCs:'osmifinále',bestEn:'round of 16',last:'2014',scorer:'Islam Slimani (2)',factCs:'Alžírsko hrálo klíčovou roli i v legendární skupinové kauze MS 1982.',factEn:'Algeria also played a key role in the famous 1982 World Cup controversy.'},
+  'Rakousko':{apps:'8',bestCs:'3. místo',bestEn:'third place',last:'1998',scorer:'Anton Schall (4)',factCs:'Rakousko má hlubokou středoevropskou fotbalovou tradici a silnou klubovou základnu.',factEn:'Austria has a deep Central European football tradition and a strong club base.'},
+  'Jordansko':{apps:'1',bestCs:'debut',bestEn:'debut',lastCs:'2026 (debut)',lastEn:'2026 (debut)',scorerCs:'zatím nikdo',scorerEn:'none yet',factCs:'Jordánsko zaujalo postupem do finále Asijského poháru 2023.',factEn:'Jordan drew attention by reaching the 2023 Asian Cup final.'},
+  'Portugalsko':{apps:'9',bestCs:'3. místo',bestEn:'third place',last:'2022',scorer:'Eusébio (9)',factCs:'Portugalsko spojilo éry Eusébia, Figa i Cristiana Ronalda.',factEn:'Portugal has linked the eras of Eusébio, Figo and Cristiano Ronaldo.'},
+  'DR Kongo':{apps:'2',bestCs:'skupina',bestEn:'group stage',lastCs:'1974 (jako Zair)',lastEn:'1974 (as Zaire)',scorerCs:'bez gólu na MS',scorerEn:'no World Cup goals yet',factCs:'Zair byl prvním subsaharským africkým týmem na mistrovství světa.',factEn:'Zaire became the first sub-Saharan African team to appear at a World Cup.'},
+  'Uzbekistan':{apps:'1',bestCs:'debut',bestEn:'debut',lastCs:'2026 (debut)',lastEn:'2026 (debut)',scorerCs:'zatím nikdo',scorerEn:'none yet',factCs:'Uzbekistán dlouhodobě těží ze silné práce s mládeží a technickými hráči.',factEn:'Uzbekistan has long benefited from strong youth development and technical players.'},
+  'Kolumbie':{apps:'7',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2018',scorer:'James Rodríguez (6)',factCs:'Kolumbie bývá spojována s technikou, kreativitou a rychlou hrou do křídel.',factEn:'Colombia is often associated with technique, creativity and dangerous wide play.'},
+  'Anglie':{apps:'17',bestCs:'mistr světa',bestEn:'world champions',last:'2022',scorer:'Gary Lineker (10)',factCs:'Anglie v posledních letech pravidelně chodí hluboko do velkých turnajů.',factEn:'England has been a regular deep-run team at major tournaments in recent years.'},
+  'Chorvatsko':{apps:'7',bestCs:'finále',bestEn:'runners-up',last:'2022',scorer:'Davor Šuker (6)',factCs:'Chorvatsko přidalo i bronz z let 1998 a 2022.',factEn:'Croatia also owns World Cup bronze medals from 1998 and 2022.'},
+  'Ghana':{apps:'5',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2022',scorer:'Asamoah Gyan (6)',factCs:'Ghana bývá jedním z nejvýraznějších afrických týmů na světové scéně.',factEn:'Ghana has often been one of Africa’s standout teams on the world stage.'},
+  'Panama':{apps:'2',bestCs:'skupina',bestEn:'group stage',last:'2018',scorer:'Felipe Baloy (1)',factCs:'Panama bývá nepříjemná zejména v soubojích a standardních situacích.',factEn:'Panama is often difficult to face because of its duels and set pieces.'}
 };
 
 var VENUE_ALIASES={
@@ -2540,6 +2617,12 @@ function getVenueGroups(stadiumName){
     if(aliases.indexOf(venue)>=0 && SKU.indexOf(z[1])>=0) groups[z[1]]=true;
   });
   return Object.keys(groups).sort();
+}
+function getTeamExtra(name){
+  return TEAM_EXTRA[name]||{};
+}
+function getTeamMedals(name){
+  return TEAM_MEDALS[name]||{g:0,s:0,b:0};
 }
 function getResultsLastUpdated(){
   try{return localStorage.getItem('ms26_results_updated_at')||'';}catch(e){return '';}
@@ -4301,8 +4384,8 @@ function renderStadiony(){
     var home=(LANG==='en'?(extra.homeEn||''):(extra.homeCs||''))||'';
     var desc=(LANG==='en'?(extra.descEn||''):(extra.descCs||''))||'';
     var fact=(LANG==='en'?(extra.factEn||''):(extra.factCs||''))||'';
+    var planek=extra.planek||'';
     var gmaps="https://maps.google.com/?q="+encodeURIComponent(String(lat)+','+String(lon));
-    var fifaInfo="https://gpcustomersupportfwc2026.tickets.fifa.com/hc/en-gb/articles/28784010437021-2-What-are-the-official-addresses-stadium-capacities-and-maps-of-the-FIFA-World-Cup-2026-stadiums";
     var coLbl=coLabel[co]||co;
     var groups=getVenueGroups(n);
     var groupsLabel=groups.length?(tr('groups_prefix')+groups.join(', ')):tr('groups_none');
@@ -4314,7 +4397,7 @@ function renderStadiony(){
       '</a>'+
       '<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div>'+
       '<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div></div>'+
-      '<div class="stad-body"><div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div><div class="stad-meta"><a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a></div><div class="stad-detail"><strong>'+escHtml(wcCapLabel)+':</strong> '+escHtml(cap)+'</div><div class="stad-detail"><strong>'+escHtml(stdCapLabel)+':</strong> '+escHtml(stdCap)+'</div>'+(home?'<div class="stad-detail"><strong>'+(LANG==='en'?'Home clubs:':'Domácí kluby:')+'</strong> '+escHtml(home)+'</div>':'')+(addr?'<div class="stad-phase">📬 '+escHtml(addr)+'</div>':'')+(desc?'<div class="stad-desc">'+escHtml(desc)+'</div>':'')+(fact?'<div class="stad-fact">✦ '+escHtml(fact)+'</div>':'')+'<div class="stad-phase">'+escHtml(f)+'</div><div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div><div class="stad-links"><a class="stad-link-btn" href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer">📍 '+(LANG==='en'?'Map':'Mapa')+'</a><a class="stad-link-btn" href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer">📘 Wiki</a><a class="stad-link-btn" href="'+escAttr(fifaInfo)+'" target="_blank" rel="noopener noreferrer">🏟 FIFA</a></div></div></div>';
+      '<div class="stad-body"><div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div><div class="stad-meta"><a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a></div><div class="stad-detail"><strong>'+escHtml(wcCapLabel)+':</strong> '+escHtml(cap)+'</div><div class="stad-detail"><strong>'+escHtml(stdCapLabel)+':</strong> '+escHtml(stdCap)+'</div>'+(home?'<div class="stad-detail"><strong>'+(LANG==='en'?'Home clubs:':'Domácí kluby:')+'</strong> '+escHtml(home)+'</div>':'')+(addr?'<div class="stad-phase">📬 '+escHtml(addr)+'</div>':'')+(desc?'<div class="stad-desc">'+escHtml(desc)+'</div>':'')+(fact?'<div class="stad-fact">✦ '+escHtml(fact)+'</div>':'')+'<div class="stad-phase">'+escHtml(f)+'</div><div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div><div class="stad-links"><a class="stad-link-btn" href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer">📍 '+(LANG==='en'?'Map':'Mapa')+'</a><a class="stad-link-btn" href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer">📘 Wiki</a>'+(planek?'<a class="stad-link-btn" href="'+escAttr(planek)+'" target="_blank" rel="noopener noreferrer">🗺️ '+(LANG==='en'?'Plan':'Plánek')+'</a>':'')+'</div></div></div>';
   });
   html+='</div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   document.getElementById('stad-grid').innerHTML=html;
@@ -4373,6 +4456,17 @@ function renderTeamLinks(localName){
 }
 function renderTeamCard(name, sk){
   var fifaRec=getFifaRecord(name), rk=fifaRec.rank;
+  var extra=getTeamExtra(name);
+  var medals=getTeamMedals(name);
+  var apps=extra.apps||'—';
+  var best=(LANG==='en'?(extra.bestEn||''):(extra.bestCs||''))||'—';
+  var last=(LANG==='en'?(extra.lastEn||extra.last||''):(extra.lastCs||extra.last||''))||'—';
+  var scorer=(LANG==='en'?(extra.scorerEn||extra.scorer||''):(extra.scorerCs||extra.scorer||''))||'—';
+  var fact=(LANG==='en'?(extra.factEn||''):(extra.factCs||''))||'';
+  var lblApps=LANG==='en'?'World Cups':'MS účasti';
+  var lblBest=LANG==='en'?'Best finish':'Nejlépe';
+  var lblLast=LANG==='en'?'Last appearance':'Naposledy';
+  var lblScorer=LANG==='en'?'Top WC scorer':'Nej střelec na MS';
   return '<div class="tc tc-team" data-team="'+escAttr(name)+'">'+
     '<div class="tc-team-top">'+
       '<div class="tc-team-flag">'+fl(name)+'</div>'+
@@ -4381,6 +4475,12 @@ function renderTeamCard(name, sk){
         '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+(fifaRec.confed?'<span>'+escHtml(fifaRec.confed)+'</span>':'')+'</div>'+
       '</div>'+
     '</div>'+
+    '<div class="tc-team-extra"><div class="tc-team-stats">'+
+      '<div class="tc-team-stat"><div class="tc-team-stat-lbl">'+escHtml(lblApps)+'</div><div class="tc-team-stat-val">'+escHtml(apps)+'</div></div>'+
+      '<div class="tc-team-stat"><div class="tc-team-stat-lbl">'+escHtml(lblBest)+'</div><div class="tc-team-stat-val">'+escHtml(best)+'</div></div>'+
+      '<div class="tc-team-stat"><div class="tc-team-stat-lbl">'+escHtml(lblLast)+'</div><div class="tc-team-stat-val">'+escHtml(last)+'</div></div>'+
+      '<div class="tc-team-stat"><div class="tc-team-stat-lbl">'+escHtml(lblScorer)+'</div><div class="tc-team-stat-val">'+escHtml(scorer)+'</div></div>'+
+    '</div><div class="tc-team-medals"><strong>'+(LANG==='en'?'Medals:':'Medaile:')+'</strong> 🥇 '+medals.g+' · 🥈 '+medals.s+' · 🥉 '+medals.b+'</div>'+(fact?'<div class="tc-team-fact">✦ '+escHtml(fact)+'</div>':'')+'</div>'+
     renderTeamLinks(name)+
     renderTeamSchedule(name)+
   '</div>';
