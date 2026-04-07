@@ -120,7 +120,7 @@ body.theme-light .rules-item strong{color:#102133}
 .mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .venue{font-size:.67rem;color:var(--bd2);font-weight:500}
 .mr-tip{min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;justify-self:stretch}
-.mr-gt{min-width:0;width:100%;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;justify-self:stretch}
+.mr-gt{min-width:0;width:100%;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;justify-self:stretch;overflow:hidden}
 .mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
 .ti{width:52px;text-align:center;padding:5px 3px;border-radius:7px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.87rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s}
 .ti:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
@@ -177,8 +177,8 @@ body.theme-light .rules-item strong{color:#102133}
 .stc tr:last-child td{border-bottom:none}
 .stc tr.p1{background:rgba(59,130,246,.18);border-left:3px solid var(--ac)}
 .stc tr.p1 td:first-child{color:var(--gn2);font-weight:700}
-.stc tr.p3{background:rgba(59,130,246,.09);border-left:3px solid rgba(59,130,246,.5)}
-.stc tr.p3 td:first-child{color:var(--ac2);font-weight:700}
+.stc tr.p2{background:rgba(59,130,246,.09);border-left:3px solid rgba(59,130,246,.5)}
+.stc tr.p2 td:first-child{color:var(--ac2);font-weight:700}
 .stc tr.p3{background:rgba(168,85,247,.08);border-left:3px solid rgba(168,85,247,.4)}
 .stc tr.p3 td:first-child{color:var(--pu);font-weight:600}
 .tm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:5px}
@@ -394,6 +394,13 @@ body.theme-light .rules-item strong{color:#102133}
 .tih.sv,.tia.sv{border-color:var(--gn);background:rgba(34,197,94,.05)}
 .tih.bd,.tia.bd{border-color:var(--rd)}
 .tip-sep{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--mu);line-height:1;flex-shrink:0}
+.tipy-actions{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-top:.85rem}
+.tipy-actions-left{justify-self:start}
+.tipy-actions-center{justify-self:center}
+.tipy-actions-right{justify-self:end}
+.tipy-actions .btn,.tipy-actions .back-top-btn{white-space:nowrap}
+.ost-scroll-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 0 .55rem;font-size:.68rem;color:var(--mu2);text-align:center}
+.ost-scroll-hint::before,.ost-scroll-hint::after{content:'↔';font-size:.78rem;color:var(--ac2);opacity:.85}
 /* ── MOBILE ── */
 @media(max-width:600px){
   .cd-pill{padding:4px 8px;gap:5px}
@@ -402,6 +409,10 @@ body.theme-light .rules-item strong{color:#102133}
   .ftab{font-size:.73rem;padding:4px 8px}
   .fchip{font-size:.68rem;padding:3px 8px}
   .tih,.tia{width:32px;font-size:16px;padding:4px 1px;line-height:1.1}
+  .tipy-actions{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .tipy-actions .btn,.tipy-actions .back-top-btn{width:100%;justify-content:center}
+  .tipy-actions .btn{font-size:.72rem;padding:8px 10px}
+  .tipy-actions .back-top-btn{padding:8px 10px}
 }
 
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.65rem 1.1rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
@@ -1466,7 +1477,7 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-sc-val{font-size:.8rem;margin-bottom:6px}
 }
 @media(max-width:520px){
-  :root{--mr-tip-w:48px;--mr-gt-w:94px}
+  :root{--mr-tip-w:44px;--mr-gt-w:86px}
   .hdr{padding:9px 9px}
   .hdr-row{
     grid-template-columns:1fr;
@@ -1480,12 +1491,14 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-right{width:100%;max-width:none}
   .hdr-user-block{width:100%;max-width:none;gap:6px}
   .hdr-user-actions{gap:6px}
-  .hdr-user-row{grid-template-columns:minmax(0,1fr) 94px}
+  .hdr-user-row{display:flex;align-items:stretch;gap:6px}
+  .hdr-user-row>*{flex:1 1 0}
   .hdr-tool-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .hdr-right .lang-btn,.hdr-right .hdr-ico-btn,#btn-refresh{height:36px;font-size:.68rem}
   .hdr-user{min-height:36px}
+  #btn-logout{padding:0 8px}
   .hdr-uname{max-width:72px}
-  body.admin-user .hdr-user-row{grid-template-columns:minmax(0,1fr) 84px}
+  body.admin-user .hdr-user-row{display:flex}
   body.admin-user .hdr-uname{max-width:60px}
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
   .hdr-sc{padding:7px 4px 7px}
@@ -1495,12 +1508,14 @@ body.admin-user #btn-logout{padding:0 10px}
   .match-section-header{gap:5px;padding:7px 7px}
   .match-section-col{font-size:.5rem}
   .mr{gap:5px;padding:8px 7px}
-  .ti{width:36px;font-size:.8rem;padding:4px 1px}
-  .tip-saved{min-width:36px;font-size:.76rem;padding:3px 4px}
+  .ti{width:34px;font-size:.78rem;padding:4px 1px}
+  .tip-saved{min-width:34px;font-size:.74rem;padding:3px 4px}
+  .tih,.tia{width:28px;padding:4px 1px}
+  .tip-sep{font-size:.9rem}
   .gt-grid{gap:2px}
-  .gt-cell{padding:2px 1px}
+  .gt-cell{padding:2px 0}
   .gt-lab{font-size:.5rem}
-  .gt-pct{font-size:.6rem}
+  .gt-pct{font-size:.56rem}
 }
 
 @media(max-width:900px) and (orientation:landscape){
@@ -1517,7 +1532,8 @@ body.admin-user #btn-logout{padding:0 10px}
   .hdr-right{width:100%;max-width:none}
   .hdr-user-block{width:100%;max-width:none;gap:6px}
   .hdr-user-actions{gap:6px}
-  .hdr-user-row{grid-template-columns:minmax(0,1fr) 108px}
+  .hdr-user-row{display:flex;align-items:stretch;gap:6px}
+  .hdr-user-row>*{flex:1 1 0}
   .hdr-tool-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
   .hdr-sc{padding:8px 6px 9px}
@@ -1745,12 +1761,11 @@ body.admin-user #btn-logout{padding:0 10px}
 
       <div class="card">
         <div id="tipy-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;flex-wrap:wrap;gap:6px">
-          <div class="sb" id="st-tipy"></div>
-          <div style="display:flex;gap:5px">
-            <button class="btn btn-ol btn-sm" id="btn-exp">↓ Export CSV</button>
-            <button class="btn btn-gn btn-sm" id="btn-sav">Uložit tipy</button>
-          </div>
+        <div class="sb" id="st-tipy" style="margin-top:.85rem"></div>
+        <div class="tipy-actions">
+          <div class="tipy-actions-left"><button class="btn btn-ol btn-sm" id="btn-exp">↓ Export CSV</button></div>
+          <div class="tipy-actions-center"><button class="btn btn-gn btn-sm" id="btn-sav">Uložit tipy</button></div>
+          <div class="tipy-actions-right"><button class="back-top-btn" type="button" id="btn-top-tipy">↑ Zpět nahoru</button></div>
         </div>
       </div>
     </div>
@@ -3565,6 +3580,7 @@ function applyI18n(){
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.textContent=tr('sync_fifa');
   setText('btn-exp',tr('exp'));
   setText('btn-sav',tr('save'));
+  setText('btn-top-tipy',tr('back_top'));
   setText('btn-save-extra',tr('extra_save')); setText('btn-save-extra-results',tr('extra_results_save'));
   setText('extra-title',tr('extra_title'));
   setText('extra-winner-lbl',tr('extra_winner'));
@@ -3738,7 +3754,7 @@ function renderTipy(){
     flushSection();
   }
 
-  document.getElementById('tipy-list').innerHTML=(html||'<div class="empty">'+tr('no_matches')+'</div>')+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  document.getElementById('tipy-list').innerHTML=(html||'<div class="empty">'+tr('no_matches')+'</div>');
   // Event delegation for team links
   var tl=document.getElementById('tipy-list');
   if(tl){
@@ -3968,7 +3984,8 @@ function renderOst(){
   }
   var arr=otherPhase==='po'?PZ:(ostSort==='dt'?sortByDate(SZ):SZ);
 
-  var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem"><tbody>';
+  var showScrollHint=window.innerWidth<=760&&others.length>=2;
+  var html=(showScrollHint?'<div class="ost-scroll-hint">'+escHtml(LANG==="en"?"Swipe table sideways to see all players":"Posuň tabulku do stran pro další hráče")+'</div>':'')+'<div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem"><tbody>';
 
   if(ostSort==='dt'){
     var gbd=groupByDate(arr);
@@ -5113,6 +5130,7 @@ function init(){
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
+  var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);
   var bser=document.getElementById('btn-save-extra-results'); if(bser) bser.addEventListener('click',saveExtraResults);
   var bds=document.getElementById('btn-discussion-send'); if(bds) bds.addEventListener('click',saveDiscussionPost);
