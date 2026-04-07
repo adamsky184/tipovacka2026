@@ -461,7 +461,8 @@ body.theme-light .rules-item strong{color:#102133}
 .discussion-textarea{min-height:90px;resize:vertical}
 .discussion-list{display:grid;gap:10px}
 .discussion-post{padding:.85rem .95rem;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025)}
-.discussion-post.reply{margin-left:26px;background:rgba(255,255,255,.02)}
+.discussion-post.reply{position:relative;margin-left:26px;background:rgba(255,255,255,.02)}
+.discussion-post.reply::before{content:'';position:absolute;left:-12px;top:12px;bottom:12px;width:1px;background:var(--bd2);opacity:.9}
 .discussion-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
 .discussion-author{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .discussion-rank{font-size:.64rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--ac2);border:1px solid rgba(59,130,246,.24)}
@@ -473,13 +474,15 @@ body.theme-light .rules-item strong{color:#102133}
 .discussion-link{background:none;border:none;color:var(--ac2);font-size:.68rem;font-weight:700;cursor:pointer;padding:0}
 .discussion-link.danger{color:#f87171}
 .discussion-reactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.discussion-react-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;border:1px solid var(--bd2);background:rgba(255,255,255,.03);color:var(--mu2);font-size:.68rem;font-weight:700;cursor:pointer}
+.discussion-react-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;border:1px solid var(--bd2);background:rgba(255,255,255,.03);color:var(--mu2);font-size:.68rem;font-weight:700;cursor:pointer;transform:scale(1);transition:transform .14s ease,background-color .14s ease,border-color .14s ease,color .14s ease}
 .discussion-react-btn.on{border-color:rgba(59,130,246,.4);color:var(--ac2);background:rgba(59,130,246,.08)}
+.discussion-react-btn.pop{transform:scale(1.16)}
 .discussion-empty{padding:1rem;text-align:center;color:var(--mu)}
+.discussion-more{margin-top:10px;display:flex;justify-content:center}
 .extra-admin-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-top:.7rem}
 @media(max-width:600px){.hdr{padding:.55rem .8rem 0}.hdr-center{justify-content:flex-start}.cd-pill{display:none}.hdr-clock{font-size:.62rem}.hdr-title{font-size:.95rem}.hdr-sub-row{flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:.3rem}.phase-tab{font-size:.74rem;padding:5px 8px}.sort-chip,.fchip{font-size:.68rem}}
 .discussion-post.reply{margin-left:18px}
-@media(max-width:600px){.extra-grid,.extra-admin-grid{grid-template-columns:1fr}.discussion-post.reply{margin-left:12px}.rules-card{padding:.8rem}.discussion-composer{padding:.8rem}}
+@media(max-width:600px){.extra-grid,.extra-admin-grid{grid-template-columns:1fr}.discussion-post.reply{margin-left:12px}.discussion-post.reply::before{left:-8px}.rules-card{padding:.8rem}.discussion-composer{padding:.8rem}}
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.7rem 1.2rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
 .hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
 .hdr-top{display:flex;align-items:center;gap:.75rem;justify-content:space-between}
@@ -1316,7 +1319,7 @@ body.theme-light .rules-item strong{color:#102133}
 .tbl.team-rank-table th,.tbl.team-rank-table td{padding-left:6px;padding-right:6px}
 .fifa-team-cell{display:flex;align-items:flex-start;gap:6px;min-width:0}
 .fifa-team-flag{font-size:1.05rem;line-height:1;flex:0 0 auto}
-.fifa-team-name{min-width:0;overflow-wrap:anywhere}
+.fifa-team-name{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fifa-group-pill{display:inline-flex;align-items:center;justify-content:center;min-width:18px;padding:1px 5px;border-radius:20px;background:var(--bg4);color:var(--mu2);font-size:.66rem;line-height:1.1}
 .fifa-group-prefix{display:none}
 .fifa-group-code{display:inline}
@@ -1373,7 +1376,7 @@ body.theme-light .rules-item strong{color:#102133}
   .tbl.team-rank-table tbody td{font-size:.72rem}
   .fifa-team-cell{gap:3px}
   .fifa-team-flag{font-size:.9rem}
-  .fifa-team-name{font-size:.7rem;line-height:1.02}
+  .fifa-team-name{font-size:.7rem;line-height:1.02;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
   .fifa-group-pill{min-width:10px;padding:1px 2px;font-size:.46rem}
   .fifa-head-full{display:none !important}
   .fifa-head-short{display:inline !important}
@@ -1916,6 +1919,7 @@ var extraTipMeta={lockAt:'2026-06-11T19:00:00.000Z',winnerActual:'',scorerActual
 var discussionPosts=[];
 var discussionReactions={};
 var discussionReplyTo=null;
+var discussionVisibleRoots=20;
 var espnTeamIndex=null;
 var teamDetailCache={};
 var currentTeamView=null;
@@ -1963,7 +1967,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.2',
+    footer_ver:'v4.3',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2022,7 +2026,7 @@ var T={
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
     fifa_points:'Body',fifa_change:'Změna',fifa_confed:'Konfederace',fifa_trend:'Trend',fifa_official:'Vydání FIFA',fifa_import_done:'FIFA ranking aktualizován',fifa_import_fail:'FIFA ranking se nepodařilo načíst',fifa_import_partial:'Použit základní snapshot bez bodů a změn',fifa_profile:'FIFA',fifa_widget_top:'Nejvýše postavený',fifa_widget_climber:'Největší skokan',fifa_widget_gain:'Nejvíc bodů získal',fifa_widget_drop:'Největší propad',fifa_widget_loss:'Nejvíc bodů ztratil',
-    goal_diff_bonus:'Bonus za rozdíl',extra_title:'EXTRA TIP',extra_sub:'',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',extra_reveal_note:'Extra tipy ostatních se odkryjí až po uložení tvého vlastního extra tipu.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',rules_7_t:'Badge hráčů',rules_7_b:'U hráčů se mohou zobrazit badge podle výkonu: LEADER pro průběžného lídra, HOT za silnou aktuální formu, SNIPER za hodně přesných tipů a DRAW za úspěšné tipování remíz.',player_rank:'Pořadí'
+    goal_diff_bonus:'Bonus za rozdíl',extra_title:'EXTRA TIP',extra_sub:'',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',extra_reveal_note:'Extra tipy ostatních se odkryjí až po uložení tvého vlastního extra tipu.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',discussion_more:'Načíst starší',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',rules_7_t:'Badge hráčů',rules_7_b:'U hráčů se mohou zobrazit badge podle výkonu: LEADER pro průběžného lídra, HOT za silnou aktuální formu, SNIPER za hodně přesných tipů a DRAW za úspěšné tipování remíz.',player_rank:'Pořadí'
   },
   en:{
     app_title:'WC 2026 Tipping Challenge',
@@ -2065,7 +2069,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.2',
+    footer_ver:'v4.3',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2124,7 +2128,7 @@ var T={
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
     fifa_points:'Points',fifa_change:'Change',fifa_confed:'Confed',fifa_trend:'Trend',fifa_official:'FIFA release',fifa_import_done:'FIFA ranking updated',fifa_import_fail:'Failed to load FIFA ranking',fifa_import_partial:'Fallback snapshot used without points and changes',fifa_profile:'FIFA',fifa_widget_top:'Top ranked',fifa_widget_climber:'Biggest climber',fifa_widget_gain:'Most points gained',fifa_widget_drop:'Biggest drop',fifa_widget_loss:'Most points lost',
-    goal_diff_bonus:'Goal diff bonus',extra_title:'EXTRA PICK',extra_sub:'',extra_winner:'Tournament winner',extra_scorer:'Top scorer',extra_save:'Save extra picks',extra_deadline:'Deadline',extra_my:'My extra pick',extra_points:'Extra points',extra_none:'not saved yet',extra_locked:'Extra picks are locked after tournament kickoff.',extra_saved:'Extra pick saved and locked.',extra_need_login:'Sign in first.',extra_missing:'Fill in both winner and top scorer.',extra_admin_info:'Admin can manually set the official tournament winner and top scorer. Extra points are added to the leaderboard automatically.',extra_actual_winner:'Official winner',extra_actual_scorer:'Official top scorer',extra_results_save:'Save extra results',extra_results_saved:'Extra results saved.',extra_reveal_note:'Other players’ extra picks are revealed only after you save your own extra pick.',discussion_info:'Registered players can discuss matches and tips here. Each post shows the author’s current leaderboard rank. Admin can delete any post.',discussion_title:'New post',discussion_note:'Keep it specific and useful. Quick replies to individual posts work well on mobile too.',discussion_send:'Send',discussion_cancel:'Cancel reply',discussion_reply:'Reply',discussion_delete:'Delete',discussion_empty:'No discussion yet.',discussion_placeholder:'Write your comment...',discussion_sending:'Sending post...',discussion_saved:'Post saved.',discussion_deleted:'Post deleted.',discussion_login:'Only signed-in players can post.',discussion_replying_to:'Replying to',rules_title:'Competition rules',rules_1_t:'Match tips',rules_1_b:'Match tips can only be entered before kickoff. Once a tip is saved, a regular player can no longer edit it.',rules_2_t:'Match scoring',rules_2_b:'An exact score is worth 10 points. Correct winner or draw is worth 3 points. If you also get the correct goal difference, you earn 1 extra point.',rules_3_t:'Extra picks',rules_3_b:'Before the tournament starts, each player can save one pick for the tournament winner and one for the top scorer. Once saved, they cannot be changed. A correct winner is worth 30 points and a correct top scorer 20 points.',rules_4_t:'Visibility of other tips',rules_4_b:'Other players’ tips are only revealed for matches where you have already saved your own tip. All other matches show a question mark.',rules_5_t:'Leaderboard',rules_5_b:'The leaderboard is recalculated automatically from saved tips and results. Extra points are added once the official extra results are entered by the Administrator.',rules_6_t:'Administration',rules_6_b:'If you run into technical issues, unclear situations or need an adjustment, contact the Administrator.',rules_7_t:'Player badges',rules_7_b:'Badges can appear next to player names based on performance: LEADER for the current leader, HOT for strong recent form, SNIPER for many exact hits and DRAW for strong draw predictions.',player_rank:'Rank'
+    goal_diff_bonus:'Goal diff bonus',extra_title:'EXTRA PICK',extra_sub:'',extra_winner:'Tournament winner',extra_scorer:'Top scorer',extra_save:'Save extra picks',extra_deadline:'Deadline',extra_my:'My extra pick',extra_points:'Extra points',extra_none:'not saved yet',extra_locked:'Extra picks are locked after tournament kickoff.',extra_saved:'Extra pick saved and locked.',extra_need_login:'Sign in first.',extra_missing:'Fill in both winner and top scorer.',extra_admin_info:'Admin can manually set the official tournament winner and top scorer. Extra points are added to the leaderboard automatically.',extra_actual_winner:'Official winner',extra_actual_scorer:'Official top scorer',extra_results_save:'Save extra results',extra_results_saved:'Extra results saved.',extra_reveal_note:'Other players’ extra picks are revealed only after you save your own extra pick.',discussion_info:'Registered players can discuss matches and tips here. Each post shows the author’s current leaderboard rank. Admin can delete any post.',discussion_title:'New post',discussion_note:'Keep it specific and useful. Quick replies to individual posts work well on mobile too.',discussion_send:'Send',discussion_cancel:'Cancel reply',discussion_reply:'Reply',discussion_delete:'Delete',discussion_empty:'No discussion yet.',discussion_placeholder:'Write your comment...',discussion_sending:'Sending post...',discussion_saved:'Post saved.',discussion_deleted:'Post deleted.',discussion_login:'Only signed-in players can post.',discussion_replying_to:'Replying to',discussion_more:'Load older',rules_title:'Competition rules',rules_1_t:'Match tips',rules_1_b:'Match tips can only be entered before kickoff. Once a tip is saved, a regular player can no longer edit it.',rules_2_t:'Match scoring',rules_2_b:'An exact score is worth 10 points. Correct winner or draw is worth 3 points. If you also get the correct goal difference, you earn 1 extra point.',rules_3_t:'Extra picks',rules_3_b:'Before the tournament starts, each player can save one pick for the tournament winner and one for the top scorer. Once saved, they cannot be changed. A correct winner is worth 30 points and a correct top scorer 20 points.',rules_4_t:'Visibility of other tips',rules_4_b:'Other players’ tips are only revealed for matches where you have already saved your own tip. All other matches show a question mark.',rules_5_t:'Leaderboard',rules_5_b:'The leaderboard is recalculated automatically from saved tips and results. Extra points are added once the official extra results are entered by the Administrator.',rules_6_t:'Administration',rules_6_b:'If you run into technical issues, unclear situations or need an adjustment, contact the Administrator.',rules_7_t:'Player badges',rules_7_b:'Badges can appear next to player names based on performance: LEADER for the current leader, HOT for strong recent form, SNIPER for many exact hits and DRAW for strong draw predictions.',player_rank:'Rank'
   }
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
@@ -3150,12 +3154,14 @@ function sparklineSvg(values){
   var w=60,h=18,pad=1;
   var min=Math.min.apply(null,series),max=Math.max.apply(null,series);
   if(min===max){min=min-1;max=max+1;}
+  var delta=series[series.length-1]-series[0];
+  var stroke=delta>0?'var(--gn2)':delta<0?'#f87171':'var(--ac2)';
   var pts=series.map(function(v,i){
     var x=pad+(i*(w-pad*2))/Math.max(series.length-1,1);
     var y=h-pad-((v-min)/(max-min))*(h-pad*2);
     return x.toFixed(1)+','+y.toFixed(1);
   }).join(' ');
-  return '<svg class="zeb-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true"><line class="spark-base" x1="0" y1="'+(h-1)+'" x2="'+w+'" y2="'+(h-1)+'"></line><polyline points="'+pts+'"></polyline></svg>';
+  return '<svg class="zeb-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true"><line class="spark-base" x1="0" y1="'+(h-1)+'" x2="'+w+'" y2="'+(h-1)+'"></line><polyline points="'+pts+'" style="stroke:'+stroke+'"></polyline></svg>';
 }
 function renderUpdBadge(){
   var raw=getResultsLastUpdated(),el=document.getElementById('upd-badge');
@@ -3266,6 +3272,9 @@ function renderDiscussion(){
     if(!byParent[key]) byParent[key]=[];
     byParent[key].push(post);
   });
+  var rootPosts=(byParent.root||[]);
+  if(!discussionVisibleRoots||discussionVisibleRoots<1) discussionVisibleRoots=20;
+  var visibleRoots=rootPosts.slice(Math.max(0,rootPosts.length-discussionVisibleRoots));
   function renderPost(post,isReply){
     var rank=ranks[String(post.hrac_id)];
     var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
@@ -3285,12 +3294,15 @@ function renderDiscussion(){
       replies+
     '</div>';
   }
-  el.innerHTML=(byParent.root||[]).map(function(post){ return renderPost(post,false); }).join('');
+  el.innerHTML=(rootPosts.length>visibleRoots.length?'<div class="discussion-more"><button class="btn ghost" id="discussion-more-btn" type="button">'+escHtml(tr('discussion_more'))+' ('+(rootPosts.length-visibleRoots.length)+')</button></div>':'')+visibleRoots.map(function(post){ return renderPost(post,false); }).join('');
   el.querySelectorAll('[data-react-post]').forEach(function(btn){
     btn.addEventListener('click',function(){
       if(!me){ var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_login'); return; }
       var pid=parseInt(btn.getAttribute('data-react-post'),10);
       var emoji=btn.getAttribute('data-react-emoji');
+      btn.classList.remove('pop');
+      void btn.offsetWidth;
+      btn.classList.add('pop');
       rpcWithRetry('discussion_toggle_reaction_secure',{p_hrac_id:me.id,p_pin:myPin,p_post_id:pid,p_emoji:emoji}).then(function(){
         return loadDiscussionReactions();
       }).then(function(){
@@ -3300,6 +3312,13 @@ function renderDiscussion(){
       });
     });
   });
+  var moreBtn=document.getElementById('discussion-more-btn');
+  if(moreBtn){
+    moreBtn.addEventListener('click',function(){
+      discussionVisibleRoots+=20;
+      renderDiscussion();
+    });
+  }
   el.querySelectorAll('[data-reply]').forEach(function(btn){
     btn.addEventListener('click',function(){
       var pid=btn.getAttribute('data-reply');
@@ -3769,9 +3788,9 @@ function renderMatchRow(z,isAdmin,hasGT){
     var dis=locked?' disabled':'';
     var svCls=(hv!==''&&av!=='')?'sv':'';
     tipHtml='<div class="tip-dual'+(!locked?' tip-dual-active':'')+'">'+
-      '<input class="tih'+(!locked&&svCls?' '+svCls:'')+'" id="tih'+id+'" value="'+escAttr(hv)+'" placeholder="0" maxlength="2"'+dis+' inputmode="numeric" autocomplete="off">'+
+      '<input class="tih'+(!locked&&svCls?' '+svCls:'')+'" id="tih'+id+'" value="'+escAttr(hv)+'" placeholder="0" maxlength="2" pattern="[0-9]*"'+dis+' inputmode="numeric" autocomplete="off">'+
       '<span class="tip-sep">:</span>'+
-      '<input class="tia'+(!locked&&svCls?' '+svCls:'')+'" id="tia'+id+'" value="'+escAttr(av)+'" placeholder="0" maxlength="2"'+dis+' inputmode="numeric" autocomplete="off">'+
+      '<input class="tia'+(!locked&&svCls?' '+svCls:'')+'" id="tia'+id+'" value="'+escAttr(av)+'" placeholder="0" maxlength="2" pattern="[0-9]*"'+dis+' inputmode="numeric" autocomplete="off">'+
     '</div>';
   }
 
