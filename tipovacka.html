@@ -238,6 +238,13 @@ body.theme-light .venue{color:#5f7690}
 .stad-name{font-weight:700;font-size:.84rem;margin-bottom:3px}
 .stad-meta{font-size:.72rem;color:var(--mu);display:flex;gap:8px;flex-wrap:wrap}
 .stad-phase{font-size:.7rem;color:var(--mu2);margin-top:4px}
+.stad-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.stad-link-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;border:1px solid var(--bd2);background:var(--bg4);color:var(--mu2);text-decoration:none;font-size:.68rem;font-weight:700}
+.stad-link-btn:hover{border-color:var(--ac);color:var(--ac2)}
+.stad-detail{margin-top:7px;font-size:.72rem;color:var(--mu);line-height:1.45}
+.stad-detail strong{color:var(--tx)}
+.stad-desc{margin-top:8px;font-size:.73rem;color:var(--mu2);line-height:1.5}
+.stad-fact{margin-top:7px;font-size:.72rem;color:var(--ac2);line-height:1.45}
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
 .ftr span{color:var(--mu2)}
@@ -1663,7 +1670,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.4.2</span> · <span id="lo-date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.5</span> · <span id="lo-date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1953,7 +1960,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.4.2</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.5</span> · <span id="date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2025,7 +2032,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.4.2',
+    footer_ver:'v4.5',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2127,7 +2134,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.4.2',
+    footer_ver:'v4.5',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2461,6 +2468,24 @@ var STAD=[
   ['Estadio BBVA','Monterrey','Mexiko','50 113','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
   ['Estadio Akron','Guadalajara','Mexiko','44 330','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
+var STAD_EXTRA={
+  'MetLife Stadium':{stdCap:'82 500',addr:'1 MetLife Stadium Dr, East Rutherford, NJ 07073, USA',homeCs:'New York Giants, New York Jets',homeEn:'New York Giants, New York Jets',descCs:'Multifunkční stadion v areálu Meadowlands, kousek od New York City.',descEn:'A multipurpose Meadowlands venue just outside New York City.',factCs:'Bude hostit finále MS 2026 a po dokončení patřil k nejdražším stadionům v USA.',factEn:'It will host the 2026 World Cup final and was one of the most expensive stadiums built in the US.'},
+  'AT&T Stadium':{stdCap:'94 000',addr:'1 AT&T Way, Arlington, TX 76011, USA',homeCs:'Dallas Cowboys',homeEn:'Dallas Cowboys',descCs:'Obří krytý stadion v Arlingtonu se zatahovací střechou.',descEn:'A giant indoor venue in Arlington with a retractable roof.',factCs:'Proslul obří závěsnou obrazovkou nad hřištěm a běžně pojme výrazně víc lidí než při MS.',factEn:'It is famous for its giant centre-hung video board and normally fits far more fans than in World Cup mode.'},
+  'SoFi Stadium':{stdCap:'70 240',addr:'1001 Stadium Dr, Inglewood, CA 90301, USA',homeCs:'Los Angeles Rams, Los Angeles Chargers',homeEn:'Los Angeles Rams, Los Angeles Chargers',descCs:'Moderní stadion v Inglewoodu na místě bývalého Hollywood Parku.',descEn:'A modern Inglewood venue built on the former Hollywood Park site.',factCs:'Má ikonickou průsvitnou střechu a patří k nejnovějším stadionům turnaje.',factEn:'It features a distinctive translucent canopy roof and is one of the newest venues in the tournament.'},
+  'Hard Rock Stadium':{stdCap:'64 767',addr:'347 Don Shula Dr, Miami Gardens, FL 33056, USA',homeCs:'Miami Dolphins, Miami Hurricanes',homeEn:'Miami Dolphins, Miami Hurricanes',descCs:'Multifunkční stadion v Miami Gardens pro NFL i univerzitní fotbal.',descEn:'A Miami Gardens multipurpose venue used for NFL and college football.',factCs:'Kolem stadionu se jezdí okruh Formula 1 Miami Grand Prix.',factEn:'The Formula 1 Miami Grand Prix circuit runs around the stadium complex.'},
+  'Lumen Field':{stdCap:'69 000',addr:'800 Occidental Ave S, Seattle, WA 98134, USA',homeCs:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',homeEn:'Seattle Seahawks, Seattle Sounders FC, Seattle Reign FC',descCs:'Hlasitý multifunkční stadion v seattleské čtvrti SoDo.',descEn:'A famously loud multipurpose stadium in Seattle’s SoDo district.',factCs:'Je známý skvělou atmosférou a hlukem tribun při velkých zápasech.',factEn:'It is renowned for its atmosphere and crowd noise during major matches.'},
+  "Levi's Stadium":{stdCap:'68 500',addr:'4900 Marie P DeBartolo Way, Santa Clara, CA 95054, USA',homeCs:'San Francisco 49ers',homeEn:'San Francisco 49ers',descCs:'Stadion v Santa Claře, součást sportovního srdce Bay Area.',descEn:'A Santa Clara stadium at the heart of the Bay Area sports scene.',factCs:'Hostil Super Bowl 50 a leží asi 64 km jižně od San Francisca.',factEn:'It hosted Super Bowl 50 and sits about 64 km south of San Francisco.'},
+  'Arrowhead Stadium':{stdCap:'76 416',addr:'1 Arrowhead Dr, Kansas City, MO 64129, USA',homeCs:'Kansas City Chiefs',homeEn:'Kansas City Chiefs',descCs:'Klasický stadion v Kansas City, známý výjimečnou kulisou.',descEn:'A classic Kansas City venue known for its exceptional atmosphere.',factCs:'Patří mezi nejslavnější stadiony amerického fotbalu díky rekordní hlučnosti publika.',factEn:'It is one of the most famous NFL venues thanks to record-setting crowd noise.'},
+  'NRG Stadium':{stdCap:'72 220',addr:'NRG Pkwy, Houston, TX 77054, USA',homeCs:'Houston Texans',homeEn:'Houston Texans',descCs:'Stadion v Houstonu se zatahovací střechou a velkým eventovým zázemím.',descEn:'A Houston venue with a retractable roof and major event infrastructure.',factCs:'Byl prvním stadionem NFL se zatahovací střechou.',factEn:'It was the first NFL stadium with a retractable roof.'},
+  'Lincoln Financial Field':{stdCap:'69 176',addr:'One Lincoln Financial Field Way, Philadelphia, PA 19148, USA',homeCs:'Philadelphia Eagles, Temple Owls',homeEn:'Philadelphia Eagles, Temple Owls',descCs:'Domov Eagles v South Philadelphia Sports Complex.',descEn:'The Eagles’ home in the South Philadelphia Sports Complex.',factCs:'Leží v srdci velkého sportovního areálu jižní Filadelfie.',factEn:'It sits in the middle of South Philadelphia’s major sports complex.'},
+  'Mercedes-Benz Stadium':{stdCap:'71 000',addr:'1 AMB Dr NW, Atlanta, GA 30313, USA',homeCs:'Atlanta Falcons, Atlanta United FC',homeEn:'Atlanta Falcons, Atlanta United FC',descCs:'Moderní stadion v Atlantě se zatahovací střechou ve tvaru okvětních lístků.',descEn:'A modern Atlanta venue with a petal-like retractable roof.',factCs:'Uvnitř má slavný 360° halo videoprstenec a otevřel se v roce 2017.',factEn:'It features a famous 360-degree halo video board and opened in 2017.'},
+  'Gillette Stadium':{stdCap:'65 878',addr:'1 Patriot Pl, Foxborough, MA 02035, USA',homeCs:'New England Patriots, New England Revolution',homeEn:'New England Patriots, New England Revolution',descCs:'Víceúčelový stadion ve Foxborough mezi Bostonem a Providence.',descEn:'A multipurpose Foxborough stadium between Boston and Providence.',factCs:'Kromě Patriots je dlouhodobým domovem i New England Revolution.',factEn:'Besides the Patriots, it has long also been home to the New England Revolution.'},
+  'BMO Field':{stdCap:'30 000',addr:"170 Princes' Blvd, Toronto, ON M6K 3C3, Canada",homeCs:'Toronto FC, Toronto Argonauts',homeEn:'Toronto FC, Toronto Argonauts',descCs:'Městský stadion v areálu Exhibition Place v Torontu.',descEn:'A city-owned venue at Exhibition Place in Toronto.',factCs:'Stojí na místě bývalého Exhibition Stadium a pro MS dostane rozšířenou kapacitu.',factEn:'It stands on the former Exhibition Stadium site and gets an expanded capacity for the World Cup.'},
+  'BC Place':{stdCap:'54 500',addr:'777 Pacific Blvd, Vancouver, BC V6B 4Y8, Canada',homeCs:'BC Lions, Vancouver Whitecaps FC',homeEn:'BC Lions, Vancouver Whitecaps FC',descCs:'Velký krytý stadion ve Vancouveru na břehu False Creek.',descEn:'A large covered Vancouver venue on the edge of False Creek.',factCs:'Je známý svou zatahovací střechou a hostil i finále MS žen 2015.',factEn:'It is known for its retractable roof and also hosted the 2015 Women’s World Cup final.'},
+  'Estadio Azteca':{stdCap:'87 523',addr:'Calz. de Tlalpan 3465, Sta. Úrsula Coapa, Coyoacán, 04650 Ciudad de México, CDMX, Mexico',homeCs:'Club América, reprezentace Mexika',homeEn:'Club América, Mexico national team',descCs:'Legendární fotbalový stadion v Coyoacánu v Mexico City.',descEn:'A legendary football stadium in Coyoacán, Mexico City.',factCs:'Hostil finále MS 1970 i 1986 a je největším stadionem v Latinské Americe.',factEn:'It hosted the 1970 and 1986 World Cup finals and is the largest stadium in Latin America.'},
+  'Estadio BBVA':{stdCap:'53 500',addr:'Av. Pablo Livas 2011, colonia La Pastora, C.P. 67140, Guadalupe, Nuevo León, Mexico',homeCs:'C.F. Monterrey',homeEn:'C.F. Monterrey',descCs:'Moderní fotbalový stadion v Guadalupe v metropolitní oblasti Monterrey.',descEn:'A modern football-specific venue in Guadalupe in Greater Monterrey.',factCs:'Přezdívá se mu El Gigante de Acero, tedy Ocelový obr.',factEn:'Its nickname is El Gigante de Acero, the Steel Giant.'},
+  'Estadio Akron':{stdCap:'49 850',addr:'Circuito J.V.C. 2800, El Bajío, 45014 Zapopan, Jalisco, Mexico',homeCs:'C.D. Guadalajara',homeEn:'C.D. Guadalajara',descCs:'Stadion v Zapopanu u Guadalajary, využívaný hlavně pro fotbal.',descEn:'A stadium in Zapopan near Guadalajara used mainly for football.',factCs:'Je domovem Chivas a dříve byl známý jako Estadio Omnilife a Estadio Chivas.',factEn:'It is home to Chivas and was previously known as Estadio Omnilife and Estadio Chivas.'}
+};
 
 var VENUE_ALIASES={
   'MetLife Stadium':['New York / MetLife','New York/New Jersey / MetLife','East Rutherford / MetLife'],
@@ -4270,17 +4295,26 @@ function renderStadiony(){
   var html='<div class="stad-grid">';
   STAD.forEach(function(row){
     var n=row[0],c=row[1],co=row[2],cap=row[3],f=row[4],lat=row[5],lon=row[6],img=row[7],wiki=row[8];
+    var extra=STAD_EXTRA[n]||{};
+    var stdCap=extra.stdCap||'—';
+    var addr=extra.addr||'';
+    var home=(LANG==='en'?(extra.homeEn||''):(extra.homeCs||''))||'';
+    var desc=(LANG==='en'?(extra.descEn||''):(extra.descCs||''))||'';
+    var fact=(LANG==='en'?(extra.factEn||''):(extra.factCs||''))||'';
     var gmaps="https://maps.google.com/?q="+encodeURIComponent(String(lat)+','+String(lon));
+    var fifaInfo="https://gpcustomersupportfwc2026.tickets.fifa.com/hc/en-gb/articles/28784010437021-2-What-are-the-official-addresses-stadium-capacities-and-maps-of-the-FIFA-World-Cup-2026-stadiums";
     var coLbl=coLabel[co]||co;
     var groups=getVenueGroups(n);
     var groupsLabel=groups.length?(tr('groups_prefix')+groups.join(', ')):tr('groups_none');
+    var wcCapLabel=LANG==='en'?'WC 2026':'MS 2026';
+    var stdCapLabel=LANG==='en'?'Standard':'Standard';
     html+='<div class="stad-card" data-stadium="'+escAttr(n)+'"><div class="stad-img-wrap">'+
       '<a class="stad-link" href="'+escAttr(img)+'" target="_blank" rel="noopener noreferrer" title="'+escAttr(tr('stadium_open'))+'">'+
       '<img class="stad-thumb" src="'+escAttr(img)+'" alt="'+escAttr(n)+'" '+stadImgAttrs()+' onerror="this.style.display=\'none\';this.parentNode.parentNode.querySelector(\'.stad-ph\').style.display=\'flex\';">'+
       '</a>'+
       '<div class="stad-ph" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.5rem;color:var(--bd2);background:var(--bg4)">🏟️</div>'+
       '<div class="stad-co-badge" style="background:'+escAttr(coBg[co]||'#64748b')+'">'+escHtml(coLbl)+'</div></div>'+
-      '<div class="stad-body"><div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div><div class="stad-meta"><a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a><span>👥 '+escHtml(cap)+'</span></div><div class="stad-phase">'+escHtml(f)+'</div><div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div></div></div>';
+      '<div class="stad-body"><div class="stad-name"><a href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer" style="color:var(--tx);text-decoration:none">'+escHtml(n)+'</a></div><div class="stad-meta"><a href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac2)">📍 '+escHtml(c)+'</a></div><div class="stad-detail"><strong>'+escHtml(wcCapLabel)+':</strong> '+escHtml(cap)+'</div><div class="stad-detail"><strong>'+escHtml(stdCapLabel)+':</strong> '+escHtml(stdCap)+'</div>'+(home?'<div class="stad-detail"><strong>'+(LANG==='en'?'Home clubs:':'Domácí kluby:')+'</strong> '+escHtml(home)+'</div>':'')+(addr?'<div class="stad-phase">📬 '+escHtml(addr)+'</div>':'')+(desc?'<div class="stad-desc">'+escHtml(desc)+'</div>':'')+(fact?'<div class="stad-fact">✦ '+escHtml(fact)+'</div>':'')+'<div class="stad-phase">'+escHtml(f)+'</div><div class="stad-phase" style="color:var(--ac2);font-weight:600">'+escHtml(groupsLabel)+'</div><div class="stad-links"><a class="stad-link-btn" href="'+escAttr(gmaps)+'" target="_blank" rel="noopener noreferrer">📍 '+(LANG==='en'?'Map':'Mapa')+'</a><a class="stad-link-btn" href="'+escAttr(wiki)+'" target="_blank" rel="noopener noreferrer">📘 Wiki</a><a class="stad-link-btn" href="'+escAttr(fifaInfo)+'" target="_blank" rel="noopener noreferrer">🏟 FIFA</a></div></div></div>';
   });
   html+='</div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   document.getElementById('stad-grid').innerHTML=html;
