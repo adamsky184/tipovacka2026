@@ -1256,7 +1256,7 @@ body.theme-light .rules-item strong{color:#102133}
 .tc-team-title{min-width:0}
 .tc-team-name{font-size:.92rem;font-weight:700;color:var(--tx);line-height:1.2}
 .tc-team-meta{font-size:.68rem;color:var(--mu2);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
-.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.tc-team-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
 .tc-team-link{
   display:flex;align-items:center;justify-content:center;text-align:center;
   min-height:34px;padding:6px 8px;border-radius:10px;
@@ -1304,7 +1304,7 @@ body.theme-light .rules-item strong{color:#102133}
 /* ── v2.7 team/tips polish ── */
 .tm-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
 .tc.tc-team{padding:10px 10px 11px;min-height:0}
-.tc-team-links{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
+.tc-team-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:8px}
 .tc-team-link{min-height:32px;font-size:.69rem;padding:5px 6px}
 .tc-team-sched{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);display:grid;gap:6px}
 .tc-team-sched-sec{display:grid;gap:4px}
@@ -2012,7 +2012,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.3.4',
+    footer_ver:'v4.4',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2114,7 +2114,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.3.4',
+    footer_ver:'v4.4',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2823,7 +2823,7 @@ function renderFifaRankingMobile(all){
     return '<div class="fifa-mobile-row">'+
       '<div class="fifa-mobile-top">'+
         '<div class="fifa-mobile-rank" style="color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</div>'+
-        '<div class="fifa-mobile-team"><span class="fifa-team-flag">'+fl(tm.name)+'</span><span class="fifa-mobile-team-name">'+tN(tm.name)+'</span></div>'+
+        '<div class="fifa-mobile-team"><span class="fifa-team-flag">'+fl(tm.name)+'</span><span class="fifa-mobile-team-name"><span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(tm.name)+'">'+tN(tm.name)+'</span></span></div>'+
         '<div class="fifa-mobile-points">'+pointsText+'</div>'+
       '</div>'+
       '<div class="fifa-mobile-sub">'+
@@ -4190,12 +4190,14 @@ function renderTab(){
     html+='<div class="stc"><div class="stc-h">'+tr('group').toUpperCase()+' '+sk+'</div><table><thead><tr><th>#</th><th>'+tr('team')+'</th><th title="'+tr('played')+'">Z</th><th title="'+tr('won')+'">'+tr('won')+'</th><th title="'+tr('drawn')+'">'+tr('drawn')+'</th><th title="'+tr('lost')+'">'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
     teams.forEach(function(tm,i){
       var pc=i===0?'p1':i===1?'p2':i===2?'p3':'';
-      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
+      html+='<tr class="'+pc+'"><td>'+(i+1)+'</td><td><span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(tm.name)+'">'+fl(tm.name)+' '+tN(tm.name)+'</span></td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
     });
     html+='</tbody></table></div>';
   });
   html+='</div>';
   document.getElementById('tab-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  var tl=document.getElementById('tab-list');
+  if(tl){ tl.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
 }
 function render3m(tbls){
   var thirds=[];
@@ -4204,10 +4206,12 @@ function render3m(tbls){
   var h3=tr('third').toUpperCase();
   var html='<div class="stc" style="max-width:580px"><div class="stc-h">'+h3+' - TOP 8 → R16</div><table><thead><tr><th>#</th><th>'+tr('team')+'</th><th>'+tr('group').slice(0,2)+'.</th><th>Z</th><th>'+tr('won')+'</th><th>'+tr('drawn')+'</th><th>'+tr('lost')+'</th><th>'+tr('goals')+'</th><th>'+tr('points')+'</th></tr></thead><tbody>';
   thirds.forEach(function(tm,i){
-    html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td><td>'+fl(tm.name)+' '+tN(tm.name)+'</td><td style="color:var(--mu)">'+tm.sk+'</td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
+    html+='<tr class="'+(i<8?'p3':'')+'"><td style="color:'+(i<8?'var(--pu)':'var(--mu)')+';font-weight:'+(i<8?700:400)+'">'+(i+1)+'</td><td><span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(tm.name)+'">'+fl(tm.name)+' '+tN(tm.name)+'</span></td><td style="color:var(--mu)">'+tm.sk+'</td><td>'+tm.d.z+'</td><td>'+tm.d.v+'</td><td>'+tm.d.r+'</td><td>'+tm.d.p+'</td><td>'+tm.d.gf+':'+tm.d.ga+'</td><td style="font-weight:700;color:var(--gd)">'+tm.d.pts+'</td></tr>';
   });
   html+='</tbody></table></div>';
   document.getElementById('tab-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  var tl=document.getElementById('tab-list');
+  if(tl){ tl.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
 }
 
 function renderPavouk(){
@@ -4292,13 +4296,15 @@ function renderTeamSchedule(localName){
 
 function renderTeamLinks(localName){
   var urls=getEspnTeamUrls(localName);
+  var fifaUrl=getFifaProfileUrl(getFifaRecord(localName));
   if(!urls){
     if(!espnTeamIndex || !espnTeamIndex.length){
       return '<div class="tc-team-note">'+(LANG==='en'?'Loading ESPN links...':'Načítám ESPN odkazy...')+'</div>';
     }
-    return '<div class="tc-team-note">'+(LANG==='en'?'ESPN links are not available for this team yet.':'ESPN odkazy pro tento tým zatím nejsou k dispozici.')+'</div>';
+    return (fifaUrl?'<div class="tc-team-links"><a class="tc-team-link" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('fifa_profile'))+'</a></div>':'')+'<div class="tc-team-note">'+(LANG==='en'?'ESPN links are not available for this team yet.':'ESPN odkazy pro tento tým zatím nejsou k dispozici.')+'</div>';
   }
   return '<div class="tc-team-links">'+
+    (fifaUrl?'<a class="tc-team-link" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('fifa_profile'))+'</a>':'')+
     '<a class="tc-team-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>'+
     '<a class="tc-team-link" href="'+escAttr(urls.fixtures)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('team_fixtures'))+'</a>'+
     '<a class="tc-team-link" href="'+escAttr(urls.stats)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('team_stats'))+'</a>'+
@@ -4311,7 +4317,7 @@ function renderTeamCard(name, sk){
     '<div class="tc-team-top">'+
       '<div class="tc-team-flag">'+fl(name)+'</div>'+
       '<div class="tc-team-title">'+
-        '<div class="tc-team-name">'+tN(name)+'</div>'+
+        '<div class="tc-team-name"><span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(name)+'">'+tN(name)+'</span></div>'+
         '<div class="tc-team-meta"><span>'+tr('group')+' '+sk+'</span>'+(rk?'<span>FIFA #'+rk+'</span>':'')+(fifaRec.confed?'<span>'+escHtml(fifaRec.confed)+'</span>':'')+'</div>'+
       '</div>'+
     '</div>'+
@@ -4361,6 +4367,17 @@ function renderTymy(){
     html+='</div>';
   }
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  var tl=document.getElementById('tym-list');
+  if(tl){
+    tl.onclick=function(e){
+      var link=e.target.closest('.link-team');
+      if(link&&link.dataset.team){ filterByTeam(link.dataset.team); return; }
+      var card=e.target.closest('.tc.tc-team[data-team]');
+      if(card && !e.target.closest('a,button')){
+        filterByTeam(card.dataset.team);
+      }
+    };
+  }
   if(pendingTeamFocus) openTeamDetail(pendingTeamFocus);
 }
 
@@ -4388,7 +4405,7 @@ function renderFifaRanking(){
     var fifaUrl=getFifaProfileUrl(tm);
     var espnUrls=getEspnTeamUrls(tm.name);
     html+='<tr><td class="fifa-col-rank" style="font-weight:700;color:'+col+'">'+(tm.rk<999?'#'+tm.rk:'-')+'</td>';
-    html+='<td class="fifa-col-team"><div class="fifa-team-cell"><span class="fifa-team-flag">'+fl(tm.name)+'</span><span class="fifa-team-name">'+tN(tm.name)+'</span></div></td>';
+    html+='<td class="fifa-col-team"><div class="fifa-team-cell"><span class="fifa-team-flag">'+fl(tm.name)+'</span><span class="fifa-team-name"><span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(tm.name)+'">'+tN(tm.name)+'</span></span></div></td>';
     html+='<td class="fifa-col-group"><span class="fifa-group-pill"><span class="fifa-group-prefix">'+tr('group')+'</span><span class="fifa-group-code">'+tm.sk+'</span></span></td>';
     var pointsText=tm.points!=null ? escHtml(String(tm.points.toFixed?tm.points.toFixed(2):tm.points)) : '<span style="color:var(--mu)">—</span>';
     html+='<td class="fifa-col-points" style="font-variant-numeric:tabular-nums">'+pointsText+'</td>';
@@ -4402,6 +4419,13 @@ function renderFifaRanking(){
   });
   html+='</tbody></table></div>'+renderFifaRankingMobile(all);
   document.getElementById('tym-list').innerHTML=html+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  var tl=document.getElementById('tym-list');
+  if(tl){
+    tl.onclick=function(e){
+      var link=e.target.closest('.link-team');
+      if(link&&link.dataset.team) filterByTeam(link.dataset.team);
+    };
+  }
 }
 
 function adminInsertTipRaw(hid,zid,nt){
