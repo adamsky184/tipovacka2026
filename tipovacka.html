@@ -62,6 +62,9 @@ body.theme-light .zeb-widget-gn .zeb-widget-fill{box-shadow:0 0 8px rgba(34,197,
 body.theme-light .zeb-widget-bl .zeb-widget-fill{box-shadow:0 0 8px rgba(59,130,246,.3),0 0 14px rgba(59,130,246,.08)}
 body.theme-light .zeb-widget-pu .zeb-widget-fill{box-shadow:0 0 8px rgba(168,85,247,.26),0 0 14px rgba(168,85,247,.08)}
 body.theme-light .rules-item strong{color:#102133}
+body.theme-light .ost-extra-team-name{color:#b45309}
+body.theme-light .ost-extra-scorer{color:#2563eb}
+body.theme-light .venue{color:#5f7690}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
 .w{max-width:980px;margin:0 auto;padding:.75rem}
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1.2rem;margin-bottom:.85rem;position:relative;overflow:hidden}
@@ -118,7 +121,8 @@ body.theme-light .rules-item strong{color:#102133}
 .mr-info{min-width:0}
 .mt{font-size:.85rem;font-weight:600}
 .mm{font-size:.7rem;color:var(--mu);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
-.venue{font-size:.67rem;color:var(--bd2);font-weight:500}
+.venue{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;color:var(--mu2);font-weight:600}
+.venue .venue-pin{font-size:.72rem;line-height:1}
 .mr-tip{min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;justify-self:stretch}
 .mr-gt{min-width:0;width:100%;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;justify-self:stretch;overflow:hidden}
 .mlbl{font-size:.6rem;color:var(--mu);font-weight:600;background:var(--bg4);padding:2px 5px;border-radius:4px;letter-spacing:.03em}
@@ -157,6 +161,13 @@ body.theme-light .rules-item strong{color:#102133}
 .tbl th{text-align:left;padding:6px 8px;color:var(--mu);font-size:.67rem;font-weight:600;border-bottom:1px solid var(--bd);letter-spacing:.05em;text-transform:uppercase}
 .tbl td{padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.4)}
 .tbl tr:last-child td{border-bottom:none}
+.ost-extra-player{font-weight:600;white-space:nowrap}
+.ost-extra-pick{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--tx)}
+.ost-extra-flag{font-size:1rem;line-height:1}
+.ost-extra-team-name{color:var(--gd)}
+.ost-extra-scorer{font-weight:600;color:var(--ac2)}
+.ost-extra-hidden{color:var(--mu2)}
+.ost-extra-muted{color:var(--mu)}
 .sb{display:block;font-size:.76rem;color:var(--mu);min-height:18px;padding:2px 0}
 .sb.ok{color:var(--gn2)}.sb.err{color:#f87171}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
@@ -323,6 +334,8 @@ body.theme-light .rules-item strong{color:#102133}
   .tip-saved{min-width:44px;font-size:.8rem;padding:3px 5px}
   .match-section-col{font-size:.58rem;letter-spacing:.04em}
   .gt-grid{gap:3px}
+  .ost-extra-pick{gap:6px}
+  .ost-extra-flag{font-size:.92rem}
   .gt-cell{padding:3px 1px}
   .gt-pct{font-size:.63rem}
   .tm-grid{grid-template-columns:1fr 1fr}
@@ -1650,7 +1663,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.1</span> · <span id="lo-date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.4.2</span> · <span id="lo-date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1940,7 +1953,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.2</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.4.2</span> · <span id="date-lbl">7. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2012,7 +2025,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.4',
+    footer_ver:'v4.4.2',
     footer_date:'7. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2114,7 +2127,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.4',
+    footer_ver:'v4.4.2',
     footer_date:'7 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2431,22 +2444,22 @@ var PZ=[
 ];
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','82 500','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','94 000','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','70 240','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 767','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','69 000','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','68 500','16F, skupiny',37.4033,-121.9694,'levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','76 416','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','72 220','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','69 176','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','71 000','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','65 878','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','30 000','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','54 500','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','87 523','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','53 500','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','49 850','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','78 576','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','70 122','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','69 650','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 091','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','65 123','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','69 391','16F, skupiny',37.4033,-121.9694,'levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','67 513','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','68 311','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','65 827','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','67 382','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','63 815','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','44 315','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','48 821','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','72 766','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','50 113','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','44 330','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 
 var VENUE_ALIASES={
@@ -3864,7 +3877,7 @@ function renderMatchRow(z,isAdmin,hasGT){
         (isLive?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
         (hype?' <span class="rt rt-hype">🔥 '+hype.pct+'% '+escHtml(LANG==='en'?'favor '+hype.label:'věří '+hype.label)+'</span>':'')+
         (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
-        (venue?' <span class="venue">'+venueHtml+'</span>':'')+
+        (venue?' <span class="venue"><span class="venue-pin">📍</span>'+venueHtml+'</span>':'')+
       '</div>'+
     '</div>'+
     '<div class="mr-tip">'+tipHtml+'</div>'+
@@ -3989,10 +4002,23 @@ function renderOstExtras(others){
     var rec=extraTipsByPlayer[String(p.id)]||null;
     var winner=canSee?(rec&&rec.winnerTip?rec.winnerTip:'—'):'?';
     var scorer=canSee?(rec&&rec.scorerTip?rec.scorerTip:'—'):'?';
+    var winnerHtml='';
+    if(winner==='?'){
+      winnerHtml='<span class="ost-extra-hidden">?</span>';
+    }else if(winner==='—'){
+      winnerHtml='<span class="ost-extra-muted">—</span>';
+    }else{
+      winnerHtml='<span class="ost-extra-pick"><span class="ost-extra-flag">'+escHtml(fl(winner)||'🏆')+'</span><span class="ost-extra-team-name">'+escHtml(tN(winner))+'</span></span>';
+    }
+    var scorerHtml=(scorer==='?')
+      ? '<span class="ost-extra-hidden">?</span>'
+      : (scorer==='—'
+        ? '<span class="ost-extra-muted">—</span>'
+        : '<span class="ost-extra-scorer">'+escHtml(scorer)+'</span>');
     html+='<tr>'+
-      '<td style="font-weight:600">'+escHtml(p.jmeno)+'</td>'+
-      '<td>'+escHtml(winner)+'</td>'+
-      '<td>'+escHtml(scorer)+'</td>'+
+      '<td class="ost-extra-player">'+escHtml(p.jmeno)+'</td>'+
+      '<td>'+winnerHtml+'</td>'+
+      '<td>'+scorerHtml+'</td>'+
     '</tr>';
   });
   html+='</tbody></table></div>';
@@ -4151,7 +4177,7 @@ function renderVysRow(z){
   return '<div class="mr">'+
     '<div class="mr-info">'+
       '<div class="mt">'+dLink+' – '+hLink+'</div>'+
-      '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue">'+venueHtml+'</span>':'')+(!res&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+'</div>'+
+      '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue"><span class="venue-pin">📍</span>'+venueHtml+'</span>':'')+(!res&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+'</div>'+
     '</div>'+
     '<div class="mr-tip"><div class="res-box"><div class="res-main">'+(res?escHtml(res):'—')+'</div></div></div>'+
     '<div class="mr-gt"><div class="res-sub">'+tipCell+'</div></div>'+
@@ -5103,8 +5129,8 @@ function installHintHtml(){
   var isAndroid=/Android/i.test(ua);
   if(isIOS){
     return (LANG==='en'
-      ? 'In the options menu choose <strong>Add to Home Screen</strong>.'
-      : 'V možnostech vyber <strong>Přidat na plochu</strong>.');
+      ? 'In the browser options choose <strong>Share</strong> and then <strong>Add to Home Screen</strong>.'
+      : 'V možnostech prohlížeče dej <strong>Sdílet</strong> -&gt; <strong>Přidat na plochu</strong>.');
   }
   if(isAndroid){
     return (LANG==='en'
