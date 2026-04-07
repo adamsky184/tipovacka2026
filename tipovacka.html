@@ -1420,6 +1420,30 @@ body.theme-light .zeb-widget-pu .zeb-widget-fill{box-shadow:0 0 8px rgba(168,85,
   .rr .d-mobile-sm{font-size:.8rem !important}
 }
 
+/* ── v4.2.1 header/table polish ── */
+.hdr-stats{align-items:stretch}
+.hdr-sc{height:100%}
+.hdr-sc-lbl{min-height:2.35em;display:flex;align-items:flex-end;justify-content:center}
+.hdr-sc-val{min-height:40px;display:flex;align-items:center;justify-content:center}
+.hdr-sc-rank .hdr-sc-val{flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:40px}
+.hdr-rank-meta-inline{text-align:center}
+.stc th:nth-child(7),.stc td:nth-child(7){width:14%}
+.stc th:nth-child(8),.stc td:nth-child(8){width:10%}
+.stc th:nth-child(8){white-space:nowrap;min-width:38px}
+body.admin-user .hdr-user-block{width:214px}
+body.admin-user .hdr-user-row{grid-template-columns:minmax(0,1fr) 92px}
+body.admin-user .hdr-user{padding:0 10px 0 6px}
+body.admin-user .hdr-uname{max-width:64px}
+body.admin-user .abadge2{font-size:.56rem;padding:2px 6px}
+body.admin-user #btn-logout{padding:0 10px}
+@media(max-width:760px){
+  .hdr-sc-lbl{min-height:2.45em}
+  .hdr-sc-val,.hdr-sc-rank .hdr-sc-val{min-height:34px}
+  body.admin-user .hdr-user-block{max-width:172px}
+  body.admin-user .hdr-user-row{grid-template-columns:minmax(0,1fr) 78px}
+  body.admin-user .hdr-uname{max-width:52px}
+}
+
 
 
 /* ── v2.7 moje tipy date unification ── */
@@ -3228,7 +3252,7 @@ function resetDiscussionComposer(){
   var pill=document.getElementById('discussion-reply-pill'),cancel=document.getElementById('btn-discussion-cancel'),status=document.getElementById('discussion-status'),ta=document.getElementById('discussion-body');
   if(pill) pill.style.display='none';
   if(cancel) cancel.style.display='none';
-  if(status) status.textContent=me?tr('discussion_note'):tr('discussion_login');
+  if(status) status.textContent='';
   if(ta) ta.value='';
 }
 function saveDiscussionPost(){
@@ -3338,6 +3362,7 @@ function finishLogin(d){
   var avEl=document.getElementById("hdr-av");
   if(avEl) avEl.textContent=d.jmeno?d.jmeno.slice(0,2).toUpperCase():"?";
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
+  document.body.classList.toggle('admin-user', !!me.je_admin);
   try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
@@ -3386,6 +3411,7 @@ function finishLogin(d){
 }
 function doLogout(){
   me=null;myPin=null;myTips={};players=[];results={};allTips={};
+  document.body.classList.remove('admin-user');
   try{localStorage.removeItem('ms26s');}catch(e){}
   document.getElementById('lo').style.display='flex';
   document.getElementById('app').style.display='none';
