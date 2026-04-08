@@ -3180,6 +3180,26 @@ async function ensureWritePin(){
   persistRawPin(entered);
   return entered;
 }
+function isPinErrorMessage(msg){
+  return /pin|heslo|neplatn/i.test(String(msg||''));
+}
+async function saveTipsWithPin(rows,writePin){
+  var messages=[];
+  var results=await Promise.all(rows.map(function(row){
+    return rpcWithRetry('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:writePin,p_zapas_id:row.zapas_id,p_tip:row.tip})
+      .then(function(d){
+        var errMsg=d&&d.chyba?String(d.chyba):'';
+        if(errMsg) messages.push(errMsg);
+        return {ok:!errMsg,error:errMsg};
+      })
+      .catch(function(e){
+        var errMsg=(e&&e.message)?String(e.message):(LANG==='en'?'Save failed.':'Uložení selhalo.');
+        messages.push(errMsg);
+        return {ok:false,error:errMsg};
+      });
+  }));
+  return {results:results,messages:messages};
+}
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
@@ -4096,15 +4116,22 @@ async function saveTips(){
   var savedBeforeTotal=Object.keys(savedBeforeMap).length;
   try{
     var writePin=await ensureWritePin();
-    var saveResults=await Promise.all(rows.map(function(row){
-      return rpcWithRetry('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:writePin,p_zapas_id:row.zapas_id,p_tip:row.tip})
-        .then(function(d){
-          if(d&&d.chyba) return {ok:false};
-          return {ok:true};
-        })
-        .catch(function(){ return {ok:false}; });
-    }));
+    if(writePin===null){ setSt('st-tipy',LANG==='en'?'PIN confirmation was cancelled.':'Potvrzení PINu bylo zrušeno.',true); return; }
+    var savePack=await saveTipsWithPin(rows,writePin);
+    var saveResults=savePack.results;
     saveResults.forEach(function(item){ if(item&&item.ok) ok++; else err++; });
+    if(err===rows.length){
+      var firstError=(savePack.messages&&savePack.messages[0])||'';
+      if(isPinErrorMessage(firstError)){
+        persistRawPin(null);
+        writePin=await ensureWritePin();
+        if(writePin===null){ setSt('st-tipy',LANG==='en'?'PIN confirmation was cancelled.':'Potvrzení PINu bylo zrušeno.',true); return; }
+        savePack=await saveTipsWithPin(rows,writePin);
+        saveResults=savePack.results;
+        ok=0; err=0;
+        saveResults.forEach(function(item){ if(item&&item.ok) ok++; else err++; });
+      }
+    }
     await loadMyTips();
     await loadAllTips();
     updSavedProgress();
@@ -4118,9 +4145,10 @@ async function saveTips(){
         : 'Váš tip byl úspěšně uložen. Počet nově uložených tipů: '+newlySaved+'. Počet celkově uložených tipů: '+savedAfterTotal+'.';
       setSt('st-tipy','✓ '+msg,false,true);
     } else {
+      var firstErr=(savePack.messages&&savePack.messages[0])||'';
       var partial=LANG==='en'
-        ? 'Saved: '+ok+' / '+rows.length+' · Errors: '+err+' · Newly saved: '+newlySaved+' · Total saved: '+savedAfterTotal
-        : 'Uloženo: '+ok+' / '+rows.length+' · Chyby: '+err+' · Nově uloženo: '+newlySaved+' · Celkem uloženo: '+savedAfterTotal;
+        ? 'Saved: '+ok+' / '+rows.length+' · Errors: '+err+' · Newly saved: '+newlySaved+' · Total saved: '+savedAfterTotal+(firstErr?' · '+firstErr:'')
+        : 'Uloženo: '+ok+' / '+rows.length+' · Chyby: '+err+' · Nově uloženo: '+newlySaved+' · Celkem uloženo: '+savedAfterTotal+(firstErr?' · '+firstErr:'');
       setSt('st-tipy',partial,true);
     }
   }finally{
