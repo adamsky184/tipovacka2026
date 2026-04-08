@@ -1733,7 +1733,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9.3</span> · <span id="lo-date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9.4</span> · <span id="lo-date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2039,7 +2039,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9.3</span> · <span id="date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9.4</span> · <span id="date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2111,7 +2111,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.9.3',
+    footer_ver:'v4.9.4',
     footer_date:'8. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2213,7 +2213,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.9.3',
+    footer_ver:'v4.9.4',
     footer_date:'8 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2719,7 +2719,7 @@ var VENUE_ALIASES={
   'Estadio Akron':['Guadalajara / Akron']
 };
 
-var me=null,myPin=null,myPinRaw=null,players=[],results={},myTips={},allTips={};
+var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCounts={},leaderboardCache={cel:null,sk:null,po:null};
 var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all';
 var pendingTeamFocus='';
 
@@ -2897,6 +2897,8 @@ function getPtsClass(pts){
   return '';
 }
 function getLeaderboardSnapshot(phase){
+  var cached=buildLeaderboardFromCache(phase);
+  if(cached) return cached;
   var arr=phase==='po'?PZ:phase==='sk'?SZ:SZ.concat(PZ);
   var includeExtra=(phase!=='po'&&phase!=='sk');
   var orderedMatches=arr.slice().sort(function(a,b){ return mDate(a)-mDate(b); });
@@ -3283,38 +3285,9 @@ async function sha256Hex(v){
   }
   throw new Error('SHA-256 not supported in this browser');
 }
-function persistRawPin(pin){
-  myPinRaw=pin||null;
-  try{
-    if(pin) sessionStorage.setItem('ms26p',pin);
-    else sessionStorage.removeItem('ms26p');
-  }catch(e){}
-}
-function loadRawPinFromSession(){
-  if(myPinRaw) return myPinRaw;
-  try{
-    var raw=sessionStorage.getItem('ms26p');
-    if(raw){ myPinRaw=raw; return raw; }
-  }catch(e){}
-  return null;
-}
 function storeSecureSession(){
   if(!me||!myPin) return;
   try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin_hash:myPin}));}catch(e){}
-}
-async function ensureWritePin(){
-  var raw=loadRawPinFromSession();
-  if(raw) return raw;
-  var entered=window.prompt(LANG==='en'
-    ? 'For security, confirm your PIN before saving match tips:'
-    : 'Z bezpečnostních důvodů potvrď PIN před uložením tipů:','');
-  if(entered===null) return null;
-  entered=String(entered||'').trim();
-  if(!entered) throw new Error(LANG==='en'?'PIN is required.':'PIN je povinný.');
-  var enteredHash=await sha256Hex(entered);
-  if(myPin && enteredHash!==myPin) throw new Error(LANG==='en'?'Invalid PIN.':'Neplatný PIN.');
-  persistRawPin(entered);
-  return entered;
 }
 function isPinErrorMessage(msg){
   return /pin|heslo|neplatn/i.test(String(msg||''));
@@ -3345,11 +3318,61 @@ function loadMyTips(){
   });
 }
 function loadAllTips(){
-  return sbf('tipy?select=hrac_id,zapas_id,tip').then(function(d){
+  if(!me||!myPin){ allTips={}; return Promise.resolve(); }
+  return rpcWithRetry('get_visible_tips_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
     allTips={};(d||[]).forEach(function(t){
       if(!allTips[t.hrac_id]) allTips[t.hrac_id]={};
       allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
     });
+  }).catch(function(){ allTips={}; });
+}
+function loadTipTrends(){
+  if(!me||!myPin){ globalTipCounts={}; return Promise.resolve(); }
+  return rpcWithRetry('get_tip_trends_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
+    globalTipCounts={};
+    (d||[]).forEach(function(row){
+      globalTipCounts[parseInt(row.zapas_id,10)]={home:+row.home_count||0,draw:+row.draw_count||0,away:+row.away_count||0,total:+row.total_count||0};
+    });
+  }).catch(function(){ globalTipCounts={}; });
+}
+function leaderboardPhaseKey(phase){
+  return phase==='po'?'po':phase==='sk'?'sk':'cel';
+}
+function loadLeaderboardSnapshot(phase){
+  var key=leaderboardPhaseKey(phase);
+  if(!me||!myPin){ leaderboardCache[key]=[]; return Promise.resolve([]); }
+  return rpcWithRetry('get_leaderboard_snapshot_secure',{p_hrac_id:me.id,p_pin:myPin,p_phase:key}).then(function(d){
+    leaderboardCache[key]=Array.isArray(d)?d:[];
+    return leaderboardCache[key];
+  }).catch(function(){
+    leaderboardCache[key]=[];
+    return [];
+  });
+}
+function buildLeaderboardFromCache(phase){
+  var key=leaderboardPhaseKey(phase);
+  var rows=leaderboardCache[key];
+  if(!Array.isArray(rows)||!rows.length) return null;
+  return rows.map(function(row){
+    var extra=key==='cel'?getExtraPointsForPlayer(row.hrac_id):0;
+    return {
+      p:{id:row.hrac_id,jmeno:row.jmeno,je_admin:!!row.je_admin},
+      i:players.findIndex(function(p){ return String(p.id)===String(row.hrac_id); }),
+      total:(+row.total||0)+extra,
+      pre:+row.pre||0,
+      spr:+row.spr||0,
+      dif:+row.dif||0,
+      spa:+row.spa||0,
+      hod:+row.hod||0,
+      uzam:+row.uzam||0,
+      extra:extra,
+      recentExact:+row.recent_exact||0,
+      recentPoints:+row.recent_points||0,
+      drawHits:+row.draw_hits||0,
+      history:Array.isArray(row.history)?row.history:[]
+    };
+  }).sort(function(a,b){
+    return b.total-a.total||b.pre-a.pre||b.spr-a.spr||b.dif-a.dif||a.p.jmeno.localeCompare(b.p.jmeno);
   });
 }
 function loadResults(){
@@ -3476,6 +3499,8 @@ function renderInsights(){
   '<div class="mut" style="margin-top:6px;font-size:.67rem"><span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(148,163,184,.35);color:var(--mu2);font-size:.56rem;font-weight:700;vertical-align:middle;margin-right:5px">i</span>'+escHtml(LANG==='en'?'Full ranking is in ':'Kompletní pořadí je v ')+'<a href="#" onclick="showTab(\'zebricek\');scrollTopSmooth();return false;" style="color:var(--ac2);text-decoration:none">'+escHtml(tr('tab_zebricek'))+'</a></div>';
 }
 function getGlobalTips(zapasId){
+  var cached=globalTipCounts[parseInt(zapasId,10)];
+  if(cached) return cached;
   var home=0,draw=0,away=0;
   Object.keys(allTips).forEach(function(pid){
     if(me && String(pid)===String(me.id)) return;
@@ -3579,26 +3604,36 @@ function getDiscussionRankMap(){
   getLeaderboardSnapshot('cel').forEach(function(row,idx){ map[String(row.p.id)]={rank:idx+1,total:row.total}; });
   return map;
 }
+function getLeaderboardRowMap(phase){
+  var map={};
+  getLeaderboardSnapshot(phase||'cel').forEach(function(row){
+    map[String(row.p.id)]=row;
+  });
+  return map;
+}
 function getDiscussionAuthorName(post){
   var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
   return (player&&player.jmeno)||('#'+post.hrac_id);
 }
 function getPlayerDiscussionBadges(playerId,rankInfo){
   var pid=String(playerId);
+  var snap=getLeaderboardRowMap('cel')[pid]||null;
   var tips=(allTips&&allTips[pid])||((me&&String(me.id)===pid)?myTips:{})||{};
   var scored=SZ.concat(PZ).filter(function(z){ return results[z[0]]&&tips[z[0]]; })
     .sort(function(a,b){ return mDate(b)-mDate(a); });
-  var exactCount=0,drawHits=0,recentExact=0,recentPoints=0;
-  scored.forEach(function(z,idx){
-    var tip=tips[z[0]],res=results[z[0]];
-    var pts=calcPts(tip,res);
-    if(pts===10){
-      exactCount++;
-      if(idx<5) recentExact++;
-    }
-    if(idx<5) recentPoints+=(pts||0);
-    if(tipOutcome(tip)==='X'&&tipOutcome(res)==='X'&&pts>=3) drawHits++;
-  });
+  var exactCount=snap?snap.pre:0,drawHits=snap?snap.drawHits:0,recentExact=snap?snap.recentExact:0,recentPoints=snap?snap.recentPoints:0;
+  if(!snap){
+    scored.forEach(function(z,idx){
+      var tip=tips[z[0]],res=results[z[0]];
+      var pts=calcPts(tip,res);
+      if(pts===10){
+        exactCount++;
+        if(idx<5) recentExact++;
+      }
+      if(idx<5) recentPoints+=(pts||0);
+      if(tipOutcome(tip)==='X'&&tipOutcome(res)==='X'&&pts>=3) drawHits++;
+    });
+  }
   var badges=[];
   if(rankInfo&&rankInfo.rank===1) badges.push({cls:'badge-leader',label:'LEADER'});
   if(recentExact>=2||recentPoints>=16) badges.push({cls:'badge-hot',label:'HOT'});
@@ -3741,7 +3776,7 @@ function saveExtraTips(){
   var scorer=(document.getElementById('extra-scorer').value||'').trim();
   if(!winner||!scorer){ setSt('st-tipy',tr('extra_missing'),true); return; }
   rpcWithRetry('ulozit_extra_tipy_secure',{p_hrac_id:me.id,p_pin:myPin,p_winner_tip:winner,p_scorer_tip:scorer}).then(function(){
-    return loadExtraTips();
+    return Promise.all([loadExtraTips(),loadLeaderboardSnapshot('cel')]);
   }).then(function(){
     renderExtraTipsBox();
     renderInsights();
@@ -3757,7 +3792,7 @@ function saveExtraResults(){
   var winner=(document.getElementById('admin-winner-actual').value||'').trim();
   var scorer=(document.getElementById('admin-scorer-actual').value||'').trim();
   rpcWithRetry('admin_upsert_extra_results_secure',{p_admin_id:me.id,p_pin:myPin,p_winner_actual:winner,p_scorer_actual:scorer}).then(function(){
-    return Promise.all([loadExtraMeta(),loadExtraTips()]);
+    return Promise.all([loadExtraMeta(),loadExtraTips(),loadLeaderboardSnapshot('cel')]);
   }).then(function(){
     renderExtraTipsBox();
     renderInsights();
@@ -3794,7 +3829,6 @@ function doLogin(){
     return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
       if(d&&d.chyba){setText('le',d.chyba);return;}
       myPin=pinHash;
-      persistRawPin(p);
       finishLogin(d);
     });
   }).catch(function(e){
@@ -3817,7 +3851,6 @@ function doReg(){
     return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
       if(d&&d.chyba){setText('re',d.chyba);return;}
       myPin=pinHash;
-      persistRawPin(p);
       finishLogin(d);
     });
   }).catch(function(e){
@@ -3852,7 +3885,9 @@ function finishLogin(d){
   }
   loadFifaRankingData();
   Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions()]).then(function(){
-    return loadResults().then(loadPlayers).then(loadMyTips).then(loadAllTips);
+    return loadResults().then(loadPlayers).then(loadMyTips).then(function(){
+      return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]);
+    });
   }).then(function(){
     updSavedProgress();
     renderTipy();
@@ -3880,10 +3915,9 @@ function finishLogin(d){
   showTab('tipy');
 }
 function doLogout(){
-  me=null;myPin=null;myPinRaw=null;myTips={};players=[];results={};allTips={};
+  me=null;myPin=null;myTips={};players=[];results={};allTips={};globalTipCounts={};leaderboardCache={cel:null,sk:null,po:null};
   document.body.classList.remove('admin-user');
   try{localStorage.removeItem('ms26s');}catch(e){}
-  try{sessionStorage.removeItem('ms26p');}catch(e){}
   document.getElementById('lo').style.display='flex';
   document.getElementById('app').style.display='none';
   document.getElementById('ab').style.display='none';
@@ -4019,12 +4053,12 @@ function showTab(name){
     if(p) p.style.display=t===name?'block':'none';
     if(b) b.classList.toggle('on',t===name);
   });
-  if(name==='zebricek') loadAllTips().then(renderZeb);
-  if(name==='ostatni') loadAllTips().then(function(){renderPlayerFilter();renderOst();renderSimilarity();renderInsights();renderFormBox();});
+  if(name==='zebricek') loadLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel').then(renderZeb);
+  if(name==='ostatni') Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]).then(function(){renderPlayerFilter();renderOst();renderSimilarity();renderInsights();renderFormBox();});
   if(name==='vysledky') renderVys();
   if(name==='tabulka'){ renderTab(); renderTableNote(); }
   if(name==='historie') renderHistory();
-  if(name==='admin') loadAllTips().then(renderAdmin);
+  if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
   if(name==='pravidla') renderRules();
 }
@@ -4039,7 +4073,7 @@ function swPhase(ctx,phase){
   });
   if(ctx==='tipy'){tipSort=phase;renderTipy();}
   else if(ctx==='ost'){ostSort=phase;renderOst();}
-  else if(ctx==='zeb'){zebPhase=phase;renderZeb();}
+  else if(ctx==='zeb'){zebPhase=phase;loadLeaderboardSnapshot(phase).then(renderZeb);}
   else if(ctx==='vys'){vysSort=phase;renderVys();}
   else if(ctx==='tab'){tabPhase=phase;renderTab();}
   else if(ctx==='tym'){tymPhase=phase;renderTymy();}
@@ -4105,7 +4139,7 @@ function renderTipy(){
   var baseArr=currentPhase==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
   var arr=getFilteredTipArr(baseArr);
   updateTipQuickButtons();
-  var hasGT=Object.keys(allTips).length>0;
+  var hasGT=Object.keys(globalTipCounts).length>0 || Object.keys(allTips).length>0;
   var tipLbl=tr('my_tip');
   var gtLbl=(window.innerWidth<=520)
     ? (LANG==='en'?'Trends':'Trendy')
@@ -4262,6 +4296,7 @@ async function saveTips(){
     if(hv===''||av==='') return;
     if(!/^[0-9]{1,2}$/.test(hv)||!/^[0-9]{1,2}$/.test(av)) return;
     var v=hv+':'+av;
+    if((myTips[z[0]]||'')===v) return;
     rows.push({hrac_id:me.id,zapas_id:z[0],tip:v});
   });
   if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
@@ -4277,7 +4312,7 @@ async function saveTips(){
     var saveResults=savePack.results;
     saveResults.forEach(function(item){ if(item&&item.ok) ok++; else err++; });
     await loadMyTips();
-    await loadAllTips();
+    await Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]);
     updSavedProgress();
     renderTipy();
     var savedAfterTotal=Object.keys(myTips||{}).length;
@@ -4680,42 +4715,6 @@ function renderTeamLinks(localName){
     '<a class="tc-team-link" href="'+escAttr(urls.squad)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_squad'))+'</a>'+
   '</div>';
 }
-function renderTeamHistory(){
-  function scorerGoals(text){
-    var m=String(text||'').match(/\((\d+)\)\s*$/);
-    return parseInt(m&&m[1]?m[1]:'0',10);
-  }
-  function teamLabel(name){
-    return (fl(name)?fl(name)+' ':'')+name;
-  }
-  var lastCup=WORLD_CUP_HISTORY[0];
-  var topMedals=WORLD_CUP_MEDAL_TABLE.slice().sort(function(a,b){
-    if(b.g!==a.g) return b.g-a.g;
-    if(b.s!==a.s) return b.s-a.s;
-    if(b.b!==a.b) return b.b-a.b;
-    return b.total-a.total;
-  });
-  var medalLeader=topMedals[0];
-  var topScorerRec=WORLD_CUP_HISTORY.slice().sort(function(a,b){ return scorerGoals(b.scorer)-scorerGoals(a.scorer); })[0];
-  var html='<div class="team-history-wrap">';
-  html+='<div class="team-history-cards">';
-  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Last World Cup':'Poslední MS')+'</h4><div class="big"><span class="big-flag">'+fl(lastCup.winner)+'</span><span>'+escHtml(lastCup.year+' · '+lastCup.winner)+'</span></div><div class="sub"><strong>'+escHtml(LANG==='en'?'Host':'Pořadatel')+':</strong> '+escHtml(LANG==='en'?lastCup.hostEn:lastCup.hostCs)+'<br><strong>'+(LANG==='en'?'Top scorer':'Nej střelec')+':</strong> '+escHtml(lastCup.scorer)+'</div></div>';
-  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Most titles':'Nejvíc titulů')+'</h4><div class="big"><span class="big-flag">'+fl(medalLeader.team)+'</span><span>'+escHtml(medalLeader.team)+'</span></div><div class="sub"><strong>🥇</strong> '+medalLeader.g+' · <strong>🥈</strong> '+medalLeader.s+' · <strong>🥉</strong> '+medalLeader.b+'<br><strong>'+(LANG==='en'?'Total medals':'Celkem medailí')+':</strong> '+medalLeader.total+'</div></div>';
-  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Best top scorer return':'Nejlepší střelecký výkon')+'</h4><div class="big"><span class="big-flag">'+fl(topScorerRec.winner)+'</span><span>'+escHtml(topScorerRec.scorer)+'</span></div><div class="sub"><strong>'+(LANG==='en'?'Tournament':'Turnaj')+':</strong> '+escHtml(topScorerRec.year)+'<br><strong>'+(LANG==='en'?'Champion':'Vítěz')+':</strong> '+escHtml(topScorerRec.winner)+'</div></div>';
-  html+='</div>';
-  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>📅 '+(LANG==='en'?'Year':'Rok')+'</th><th>🌍 '+(LANG==='en'?'Host':'Pořadatel')+'</th><th>🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</th><th>🥈 '+(LANG==='en'?'Runner-up':'Finalista')+'</th><th>🥉 '+(LANG==='en'?'Third place':'3. místo')+'</th><th>⚽ '+(LANG==='en'?'Top scorer':'Nej střelec')+'</th></tr></thead><tbody>';
-  WORLD_CUP_HISTORY.forEach(function(row){
-    html+='<tr><td class="team-history-year">'+row.year+'</td><td>'+escHtml(LANG==='en'?row.hostEn:row.hostCs)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.winner))+'</td><td>'+escHtml(teamLabel(row.runner))+'</td><td>'+escHtml(teamLabel(row.third))+'</td><td>'+escHtml(row.scorer)+'</td></tr>';
-  });
-  html+='</tbody></table></div>';
-  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>#</th><th>'+(LANG==='en'?'Nation':'Země')+'</th><th>🥇</th><th>🥈</th><th>🥉</th><th>'+(LANG==='en'?'Total':'Celkem')+'</th></tr></thead><tbody>';
-  topMedals.forEach(function(row,idx){
-    html+='<tr><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.team))+'</td><td>'+row.g+'</td><td>'+row.s+'</td><td>'+row.b+'</td><td><div class="team-history-medals"><span class="team-history-medal-pill">🏅 '+row.total+'</span></div></td></tr>';
-  });
-  html+='</tbody></table></div>';
-  html+='</div>';
-  return html;
-}
 var WORLD_CUP_FACTS=[
   {icon:'🌍',titleCs:'Jediný stálý účastník',titleEn:'Ever-present nation',bodyCs:'Brazílie je jedinou zemí, která hrála na každém mistrovství světa od roku 1930.',bodyEn:'Brazil is the only nation to have appeared at every World Cup since 1930.'},
   {icon:'⚽',titleCs:'Král historie MS',titleEn:'All-time top scorer',bodyCs:'Miroslav Klose drží rekord 16 gólů na mistrovstvích světa, které nasbíral mezi lety 2002 a 2014.',bodyEn:'Miroslav Klose holds the all-time World Cup scoring record with 16 goals, collected between 2002 and 2014.'},
@@ -5102,7 +5101,7 @@ function renderAdmin(){
       rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
         .then(function(d){
           if(d&&d.chyba){alert(tr('error_generic')+': '+d.chyba);return;}
-          loadPlayers().then(function(){return loadAllTips();}).then(renderAdmin);
+          loadPlayers().then(function(){return Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]);}).then(renderAdmin);
         }).catch(function(e){alert(tr('error_generic')+': '+e.message);});
     });
   });
@@ -5119,7 +5118,7 @@ function renderAdmin(){
       scorer=scorer.trim();
       if(!winner||!scorer){ alert(LANG==='en'?'Fill in both fields.':'Vyplň obě pole.'); return; }
       rpcWithRetry('admin_upsert_extra_tip_secure',{p_admin_id:me.id,p_pin:myPin,p_target_hrac_id:hid,p_winner_tip:winner,p_scorer_tip:scorer})
-        .then(function(){ return loadExtraTips(); })
+        .then(function(){ return Promise.all([loadExtraTips(),loadLeaderboardSnapshot('cel')]); })
         .then(function(){
           renderAdmin();
           renderExtraTipsBox();
@@ -5145,7 +5144,7 @@ function renderAdmin(){
           else myTips[parseInt(zid,10)]=nt;
           updSavedProgress();
         }
-        return loadAllTips();
+        return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]);
       }).then(function(){
         renderAdmin();
         renderSimilarity();
@@ -5496,7 +5495,7 @@ function syncFifaRanking(){
   return fetch(SBU+'/functions/v1/fifa-ranking-refresh', {
     method:'POST',
     headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
-    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||'', pin_plain:myPinRaw||''})
+    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||''})
   })
     .then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
@@ -5558,15 +5557,17 @@ function fetchResults(){
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
           Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
           setResultsLastUpdated();
-          updProgress(); renderVys(); renderTipy(); updateHeaderRanking(); renderTab(); renderPavouk(); renderSimilarity(); renderTodayBox(); renderInsights();
-          if(document.getElementById('page-zebricek').style.display!=='none') loadAllTips().then(renderZeb);
-          if(document.getElementById('page-admin').style.display!=='none') loadAllTips().then(renderAdmin);
-          if(document.getElementById('page-ostatni').style.display!=='none') loadAllTips().then(renderOst);
-          setSt('st-vys','✓ '+cnt,false,true);
-          setText('st-vys-upd',formatLastUpdated());
-          renderUpdBadge();
-          renderAdminSyncStatus();
-          document.getElementById('btn-refresh').disabled=false;
+          Promise.all([loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]).finally(function(){
+            updProgress(); renderVys(); renderTipy(); updateHeaderRanking(); renderTab(); renderPavouk(); renderSimilarity(); renderTodayBox(); renderInsights();
+            if(document.getElementById('page-zebricek').style.display!=='none') loadLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel').then(renderZeb);
+            if(document.getElementById('page-admin').style.display!=='none') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
+            if(document.getElementById('page-ostatni').style.display!=='none') Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]).then(renderOst);
+            setSt('st-vys','✓ '+cnt,false,true);
+            setText('st-vys-upd',formatLastUpdated());
+            renderUpdBadge();
+            renderAdminSyncStatus();
+            document.getElementById('btn-refresh').disabled=false;
+          });
         }).catch(function(e){
           setSt('st-vys',tr('error_generic')+': '+e.message,true);
           document.getElementById('btn-refresh').disabled=false;
@@ -5864,7 +5865,6 @@ function init(){
       setText('le',tr('loading_restore'));
       if(s&&s.pin_hash&&isSha256Hex(s.pin_hash)){
         myPin=String(s.pin_hash).toLowerCase();
-        loadRawPinFromSession();
         rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:myPin}).then(function(d){
           if(!d||d.chyba) document.getElementById('lo').style.display='flex';
           else finishLogin(d);
@@ -5872,7 +5872,6 @@ function init(){
       }else if(s&&s.pin){
         sha256Hex(s.pin).then(function(pinHash){
           myPin=pinHash;
-          persistRawPin(s.pin);
           return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:pinHash,p_pin_plain:s.pin});
         }).then(function(d){
           if(!d||d.chyba) document.getElementById('lo').style.display='flex';
