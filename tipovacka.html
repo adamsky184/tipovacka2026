@@ -2363,7 +2363,7 @@ var FLAGS={
   'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴',
   'Německo':'🇩🇪','Západní Německo':'🇩🇪','Německo / Západní Německo':'🇩🇪',
   'Brazílie':'🇧🇷','Španělsko':'🇪🇸','Švédsko':'🇸🇪','Itálie':'🇮🇹',
-  'Československo':'🇨🇿','Maďarsko':'🇭🇺','Polsko':'🇵🇱','Chile':'🇨🇱','Peru':'🇵🇪'
+  'Československo':'🇨🇿','Maďarsko':'🇭🇺','Polsko':'🇵🇱','Chile':'🇨🇱','Peru':'🇵🇪','Kamerun':'🇨🇲'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -2606,7 +2606,7 @@ var WORLD_CUP_HISTORY=[
   {year:1962,hostCs:'Chile',hostEn:'Chile',winner:'Brazílie',runner:'Československo',score:'3:1',third:'Chile',scorer:'Albert / Garrincha / Jerković / Sánchez / Vavá / Ivanov (4)'},
   {year:1958,hostCs:'Švédsko',hostEn:'Sweden',winner:'Brazílie',runner:'Švédsko',score:'5:2',third:'Francie',scorer:'Just Fontaine (13)'},
   {year:1954,hostCs:'Švýcarsko',hostEn:'Switzerland',winner:'Západní Německo',runner:'Maďarsko',score:'3:2',third:'Rakousko',scorer:'Sándor Kocsis (11)'},
-  {year:1950,hostCs:'Brazílie',hostEn:'Brazil',winner:'Uruguay',runner:'Brazílie',score:'2:1',third:'Švédsko',scorer:'Ademir (9)'},
+  {year:1950,hostCs:'Brazílie',hostEn:'Brazil',winner:'Uruguay',runner:'Brazílie',score:'2:1 (finálová skupina)',third:'Švédsko',scorer:'Ademir (9)'},
   {year:1938,hostCs:'Francie',hostEn:'France',winner:'Itálie',runner:'Maďarsko',score:'4:2',third:'Brazílie',scorer:'Leônidas (7)'},
   {year:1934,hostCs:'Itálie',hostEn:'Italy',winner:'Itálie',runner:'Československo',score:'2:1 pp',third:'Německo',scorer:'Oldřich Nejedlý (5)'},
   {year:1930,hostCs:'Uruguay',hostEn:'Uruguay',winner:'Uruguay',runner:'Argentina',score:'4:2',third:'USA',scorer:'Guillermo Stábile (8)'}
@@ -4732,14 +4732,14 @@ var WORLD_CUP_FACTS=[
   {icon:'📈',titleCs:'Nejvyšší výhra',titleEn:'Biggest win',bodyCs:'Nejvyšší výhra v historii MS je 9:0 a stala se hned dvakrát: Maďarsko–Jižní Korea 1954 a Jugoslávie–Zair 1974.',bodyEn:'The biggest World Cup win is 9–0 and it has happened twice: Hungary v South Korea in 1954 and Yugoslavia v Zaire in 1974.'},
   {icon:'🇨🇿',titleCs:'Československá stopa',titleEn:'Czechoslovak legacy',bodyCs:'Československo hrálo finále v letech 1934 a 1962 a dalo i krále střelců Oldřicha Nejedlého v roce 1934.',bodyEn:'Czechoslovakia reached the finals in 1934 and 1962 and also produced 1934 top scorer Oldřich Nejedlý.'},
   {icon:'🎯',titleCs:'Nejvíc gólů v jednom utkání',titleEn:'Most goals in one match',bodyCs:'Rakousko a Švýcarsko nabídly ve čtvrtfinále MS 1954 celkem 12 gólů, Rakousko vyhrálo 7:5.',bodyEn:'Austria and Switzerland produced 12 goals in the 1954 quarter-final, with Austria winning 7–5.'},
-  {icon:'🎩',titleCs:'Jediný hattrick ve finále',titleEn:'Only hat-trick in a final',bodyCs:'Geoff Hurst vstřelil ve finále MS 1966 tři góly Západnímu Německu a zůstává jediným autorem hattricku ve finále.',bodyEn:'Geoff Hurst scored a hat-trick against West Germany in the 1966 final and remains the only player to do so in a World Cup final.'},
+  {icon:'🎩',titleCs:'Jen dva hattricky ve finále',titleEn:'Only two hat-tricks in a final',bodyCs:'Hattrick ve finále MS dali zatím jen Geoff Hurst v roce 1966 a Kylian Mbappé v roce 2022.',bodyEn:'Only Geoff Hurst in 1966 and Kylian Mbappe in 2022 have scored a hat-trick in a World Cup final.'},
   {icon:'🎯',titleCs:'První finále na penalty',titleEn:'First final decided on penalties',bodyCs:'Finále MS 1994 mezi Brazílií a Itálií bylo prvním, které rozhodl penaltový rozstřel.',bodyEn:'The 1994 final between Brazil and Italy was the first World Cup final decided by a penalty shootout.'},
-  {icon:'🧱',titleCs:'Nejvíc zápasů na MS',titleEn:'Most World Cup matches',bodyCs:'Lothar Matthäus odehrál na mistrovstvích světa 25 zápasů v letech 1982 až 1998.',bodyEn:'Lothar Matthäus played 25 World Cup matches between 1982 and 1998.'},
+  {icon:'🧱',titleCs:'Nejvíc zápasů na MS',titleEn:'Most World Cup matches',bodyCs:'Lionel Messi drží rekord 26 startů na mistrovstvích světa, který vytvořil ve finále MS 2022.',bodyEn:'Lionel Messi holds the World Cup appearance record with 26 matches, a mark he set in the 2022 final.'},
   {icon:'🦁',titleCs:'První africký semifinalista',titleEn:'First African semi-finalist',bodyCs:'Maroko se na MS 2022 stalo prvním africkým týmem, který postoupil do semifinále.',bodyEn:'Morocco became the first African team to reach a World Cup semi-final in 2022.'}
 ];
 var WORLD_CUP_RECORDS=[
   {group:'team',icon:'🏆',labelCs:'Nejvíc titulů',labelEn:'Most titles',value:'Brazílie',nation:'Brazílie',sub:'5 titulů · 1958–2002'},
-  {group:'team',icon:'🥈',labelCs:'Nejvíc finále',labelEn:'Most finals',value:'Německo',nation:'Německo',sub:'8 finále · 1954–2014'},
+  {group:'team',icon:'🥈',labelCs:'Nejvíc finále',labelEn:'Most finals',value:'Německo / Západní Německo',nation:'Německo / Západní Německo',sub:'8 finále · 1954–2014'},
   {group:'team',icon:'😬',labelCs:'Nejvíc finále bez titulu',labelEn:'Most finals without a title',value:'Nizozemsko',nation:'Nizozemsko',sub:'3 prohraná finále · 1974, 1978, 2010'},
   {group:'team',icon:'📈',labelCs:'Nejvyšší výhra',labelEn:'Biggest win',value:'9:0',nation:'',sub:'Maďarsko–Jižní Korea 1954 / Jugoslávie–Zair 1974'},
   {group:'player',icon:'⚽',labelCs:'Nejlepší střelec historie',labelEn:'All-time top scorer',value:'Miroslav Klose',nation:'Německo',sub:'16 gólů · 2002–2014'},
