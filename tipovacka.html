@@ -3671,9 +3671,25 @@ function renderDiscussion(){
     if(!byParent[key]) byParent[key]=[];
     byParent[key].push(post);
   });
-  var rootPosts=(byParent.root||[]);
+  function postTs(post){
+    return new Date(post.created_at||0).getTime()||0;
+  }
+  function latestThreadTs(post){
+    var latest=postTs(post);
+    (byParent[String(post.id)]||[]).forEach(function(reply){
+      var childTs=latestThreadTs(reply);
+      if(childTs>latest) latest=childTs;
+    });
+    return latest;
+  }
+  Object.keys(byParent).forEach(function(key){
+    byParent[key].sort(function(a,b){ return postTs(a)-postTs(b); });
+  });
+  var rootPosts=(byParent.root||[]).slice().sort(function(a,b){
+    return latestThreadTs(b)-latestThreadTs(a);
+  });
   if(!discussionVisibleRoots||discussionVisibleRoots<1) discussionVisibleRoots=20;
-  var visibleRoots=rootPosts.slice(Math.max(0,rootPosts.length-discussionVisibleRoots));
+  var visibleRoots=rootPosts.slice(0,discussionVisibleRoots);
   function renderPost(post,isReply){
     var rank=ranks[String(post.hrac_id)];
     var player=players.find(function(p){ return String(p.id)===String(post.hrac_id); })||null;
