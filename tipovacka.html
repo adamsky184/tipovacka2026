@@ -1325,7 +1325,8 @@ body.theme-light .venue{color:#5f7690}
 .zeb-widget-bl .zeb-widget-fill{background:var(--ac);box-shadow:0 0 10px rgba(59,130,246,.72),0 0 18px rgba(59,130,246,.24)}
 .zeb-widget-pu .zeb-widget-fill{background:var(--pu);box-shadow:0 0 10px rgba(168,85,247,.72),0 0 18px rgba(168,85,247,.24)}
 .stad-card.target-stadium{box-shadow:0 0 0 1px rgba(96,165,250,.6),0 0 28px rgba(96,165,250,.18)}
-@media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date,.ost-date-wrap,.vys-date-wrap{font-size:.82rem;padding:8px 10px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
+@media(max-width:600px){.date-sep{font-size:.7rem;padding:7px 9px}.gh-date,.ost-date-wrap,.vys-date-wrap{font-size:.82rem;padding:8px 10px}.mm,.bm-d,.team-fixture-sub,.today-sub{font-size:.6rem}.d-mobile-sm{font-size:.6rem}.zeb-dash{grid-template-columns:1fr 1fr;gap:8px}.zeb-widget{padding:10px 11px 11px}}
+@media(max-width:380px){.zeb-dash{grid-template-columns:1fr}}
 
 
 /* ── v2.7 team/tips polish ── */
@@ -1341,6 +1342,49 @@ body.theme-light .venue{color:#5f7690}
 .tc-team-sched-match{font-size:.68rem;font-weight:700;line-height:1.25;color:var(--tx)}
 .tc-team-sched-meta{font-size:.61rem;color:var(--mu);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap}
 .tc-team-sched-tip{font-size:.6rem;color:var(--ac2);font-weight:700}
+.team-history-wrap{display:grid;gap:12px}
+.team-history-intro{padding:14px 16px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015))}
+.team-history-intro h3{margin:0 0 6px;font-size:1rem;font-family:'Space Grotesk',sans-serif;letter-spacing:.01em}
+.team-history-intro p{margin:0;color:var(--mu2);font-size:.75rem;line-height:1.6;max-width:70ch}
+.team-history-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.team-history-card{padding:13px 14px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.team-history-card h4{margin:0 0 8px;font-size:.62rem;color:var(--mu2);letter-spacing:.1em;text-transform:uppercase}
+.team-history-card .big{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:700;line-height:1.25;color:var(--tx)}
+.team-history-card .big-flag{font-size:1.15rem;line-height:1;filter:saturate(1.05)}
+.team-history-card .sub{margin-top:6px;font-size:.69rem;color:var(--mu2);line-height:1.5}
+.team-history-card .sub strong{color:var(--tx);font-weight:700}
+.team-history-table-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015))}
+.team-history-table{width:100%;border-collapse:collapse;font-size:.74rem}
+.team-history-table th,.team-history-table td{padding:9px 11px;border-bottom:1px solid rgba(28,48,80,.35);text-align:left;vertical-align:top}
+.team-history-table th{font-size:.61rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu2);font-weight:700;background:rgba(255,255,255,.03)}
+.team-history-table tr:last-child td{border-bottom:none}
+.team-history-table tbody tr:nth-child(even){background:rgba(255,255,255,.012)}
+.team-history-table tbody tr:hover{background:rgba(59,130,246,.055)}
+.team-history-year{white-space:nowrap;color:var(--mu2);font-weight:700}
+.team-history-team{font-weight:700;color:var(--tx)}
+.team-history-medals{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.team-history-medal-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;border:1px solid var(--bd2);background:rgba(255,255,255,.03);font-size:.68rem;font-weight:700;color:var(--tx)}
+.team-history-medal-total{font-size:.68rem;color:var(--mu2);font-weight:700}
+body.theme-light .team-history-intro,body.theme-light .team-history-card,body.theme-light .team-history-table-wrap{background:#fff;border-color:rgba(37,99,235,.18);box-shadow:none}
+body.theme-light .team-history-table th{background:rgba(37,99,235,.05);color:#60738d}
+body.theme-light .team-history-table td{border-bottom-color:rgba(148,163,184,.24)}
+body.theme-light .team-history-table tbody tr:nth-child(even){background:rgba(37,99,235,.025)}
+body.theme-light .team-history-table tbody tr:hover{background:rgba(37,99,235,.06)}
+body.theme-light .team-history-medal-pill{background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.16)}
+.history-facts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.history-fact{padding:14px 15px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015))}
+.history-fact-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.history-fact-icon{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);font-size:1rem}
+.history-fact-title{font-size:.82rem;font-weight:700;color:var(--tx);line-height:1.3}
+.history-fact-body{font-size:.73rem;color:var(--mu2);line-height:1.6}
+body.theme-light .history-fact{background:#fff;border-color:rgba(37,99,235,.18)}
+body.theme-light .history-fact-icon{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.16)}
+@media(max-width:700px){
+  .team-history-cards{grid-template-columns:1fr}
+  .team-history-table{font-size:.7rem}
+  .team-history-table th,.team-history-table td{padding:7px 8px}
+  .history-facts-grid{grid-template-columns:1fr}
+}
 .tbl.team-rank-table th:nth-child(3),.tbl.team-rank-table td:nth-child(3){width:96px}
 .tbl.team-rank-table th:nth-child(4),.tbl.team-rank-table td:nth-child(4){width:118px;text-align:right}
 .tbl.team-rank-table{table-layout:auto}
@@ -1678,7 +1722,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.7</span> · <span id="lo-date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9</span> · <span id="lo-date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1752,6 +1796,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="nb" id="tab-pavouk">Play-off</button>
       <button class="nb" id="tab-tymy">Týmy</button>
       <button class="nb" id="tab-stadiony">Stadiony</button>
+      <button class="nb" id="tab-historie">Historie</button>
       <button class="nb" id="tab-diskuze">Diskuze</button>
       <button class="nb" id="tab-admin" style="display:none">Admin</button>
     </nav>
@@ -1810,7 +1855,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="extra-status" id="extra-status-note"></div>
       </div>
 
-      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
 
 
@@ -1913,6 +1958,21 @@ body.admin-user #btn-logout{padding:0 10px}
       </div>
     </div>
 
+    <div id="page-historie" style="display:none">
+      <div class="ptabs">
+        <button class="ptab on" id="ptab-his-finals">Finále</button>
+        <button class="ptab" id="ptab-his-medals">Medaile</button>
+        <button class="ptab" id="ptab-his-awards">Ocenění</button>
+        <button class="ptab" id="ptab-his-records">Rekordy</button>
+        <button class="ptab" id="ptab-his-scorers">Střelci</button>
+        <button class="ptab" id="ptab-his-facts">Zajímavosti</button>
+      </div>
+      <div class="card">
+        <div class="clbl" id="clbl-history">Historie mistrovství světa</div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+
     <div id="page-admin" style="display:none">
       <div class="card">
         <div class="clbl" id="admin-clbl">Admin - přehled všech tipů</div>
@@ -1968,7 +2028,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.7</span> · <span id="date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9</span> · <span id="date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1978,7 +2038,7 @@ var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','#4c1d95','#0f766e','#78350f'];
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','tymy','diskuze','pravidla','admin'];
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','historie','tymy','diskuze','pravidla','admin'];
 
 var LANG='cs';
 var authBusy=false;
@@ -2008,9 +2068,9 @@ var T={
     lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',
     tab_tipy:'Moje tipy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
     tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
-    tab_stadiony:'Stadiony',tab_tymy:'Týmy',tab_diskuze:'Diskuze',tab_pravidla:'Pravidla',
+    tab_stadiony:'Stadiony',tab_historie:'Historie',tab_tymy:'Týmy',tab_diskuze:'Diskuze',tab_pravidla:'Pravidla',
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
-    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',
+    groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',history_table:'Historická tabulka',history_title:'Historie mistrovství světa',history_finals:'Finále',history_medals:'Medaile',history_awards:'Ocenění',history_records:'Rekordy',history_scorers:'Střelci',history_facts:'Zajímavosti',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
@@ -2040,7 +2100,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.7',
+    footer_ver:'v4.9',
     footer_date:'8. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2110,9 +2170,9 @@ var T={
     lo_meta:'Your PIN is used for login and saving tips.',
     tab_tipy:'My Tips',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',
     tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
-    tab_stadiony:'Stadiums',tab_tymy:'Teams',tab_diskuze:'Discussion',tab_pravidla:'Rules',
+    tab_stadiony:'Stadiums',tab_historie:'History',tab_tymy:'Teams',tab_diskuze:'Discussion',tab_pravidla:'Rules',
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
-    groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',
+    groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',history_table:'History Table',history_title:'World Cup history',history_finals:'Finals',history_medals:'Medals',history_awards:'Awards',history_records:'Records',history_scorers:'Scorers',history_facts:'Interesting facts',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
@@ -2142,7 +2202,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.7',
+    footer_ver:'v4.9',
     footer_date:'8 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2289,7 +2349,10 @@ var FLAGS={
   'Francie':'🇫🇷','Senegal':'🇸🇳','Irak':'🇮🇶','Norsko':'🇳🇴',
   'Argentina':'🇦🇷','Alzirsko':'🇩🇿','Rakousko':'🇦🇹','Jordansko':'🇯🇴',
   'Portugalsko':'🇵🇹','DR Kongo':'🇨🇩','Uzbekistan':'🇺🇿','Ghana':'🇬🇭',
-  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴'
+  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'🇭🇷','Panama':'🇵🇦','Kolumbie':'🇨🇴',
+  'Německo':'🇩🇪','Západní Německo':'🇩🇪','Německo / Západní Německo':'🇩🇪',
+  'Brazílie':'🇧🇷','Španělsko':'🇪🇸','Švédsko':'🇸🇪','Itálie':'🇮🇹',
+  'Československo':'🇨🇿','Maďarsko':'🇭🇺','Polsko':'🇵🇱','Chile':'🇨🇱','Peru':'🇵🇪'
 };
 function fl(n){return FLAGS[n]||'';}
 
@@ -2513,6 +2576,68 @@ var TEAM_MEDALS={
   'Portugalsko':{g:0,s:0,b:1}
 };
 
+var WORLD_CUP_HISTORY=[
+  {year:2022,hostCs:'Katar',hostEn:'Qatar',winner:'Argentina',runner:'Francie',third:'Chorvatsko',scorer:'Kylian Mbappé (8)'},
+  {year:2018,hostCs:'Rusko',hostEn:'Russia',winner:'Francie',runner:'Chorvatsko',third:'Belgie',scorer:'Harry Kane (6)'},
+  {year:2014,hostCs:'Brazílie',hostEn:'Brazil',winner:'Německo',runner:'Argentina',third:'Nizozemsko',scorer:'James Rodríguez (6)'},
+  {year:2010,hostCs:'Jižní Afrika',hostEn:'South Africa',winner:'Španělsko',runner:'Nizozemsko',third:'Německo',scorer:'Thomas Müller (5)'},
+  {year:2006,hostCs:'Německo',hostEn:'Germany',winner:'Itálie',runner:'Francie',third:'Německo',scorer:'Miroslav Klose (5)'},
+  {year:2002,hostCs:'Japonsko / Jižní Korea',hostEn:'Japan / South Korea',winner:'Brazílie',runner:'Německo',third:'Turecko',scorer:'Ronaldo (8)'},
+  {year:1998,hostCs:'Francie',hostEn:'France',winner:'Francie',runner:'Brazílie',third:'Chorvatsko',scorer:'Davor Šuker (6)'},
+  {year:1994,hostCs:'USA',hostEn:'United States',winner:'Brazílie',runner:'Itálie',third:'Švédsko',scorer:'Oleg Salenko / Hristo Stoičkov (6)'},
+  {year:1990,hostCs:'Itálie',hostEn:'Italy',winner:'Západní Německo',runner:'Argentina',third:'Itálie',scorer:'Salvatore Schillaci (6)'},
+  {year:1986,hostCs:'Mexiko',hostEn:'Mexico',winner:'Argentina',runner:'Západní Německo',third:'Francie',scorer:'Gary Lineker (6)'},
+  {year:1982,hostCs:'Španělsko',hostEn:'Spain',winner:'Itálie',runner:'Západní Německo',third:'Polsko',scorer:'Paolo Rossi (6)'},
+  {year:1978,hostCs:'Argentina',hostEn:'Argentina',winner:'Argentina',runner:'Nizozemsko',third:'Brazílie',scorer:'Mario Kempes (6)'},
+  {year:1974,hostCs:'Západní Německo',hostEn:'West Germany',winner:'Západní Německo',runner:'Nizozemsko',third:'Polsko',scorer:'Grzegorz Lato (7)'},
+  {year:1970,hostCs:'Mexiko',hostEn:'Mexico',winner:'Brazílie',runner:'Itálie',third:'Západní Německo',scorer:'Gerd Müller (10)'},
+  {year:1966,hostCs:'Anglie',hostEn:'England',winner:'Anglie',runner:'Západní Německo',third:'Portugalsko',scorer:'Eusébio (9)'},
+  {year:1962,hostCs:'Chile',hostEn:'Chile',winner:'Brazílie',runner:'Československo',third:'Chile',scorer:'Albert / Garrincha / Jerković / Sánchez / Vavá / Ivanov (4)'},
+  {year:1958,hostCs:'Švédsko',hostEn:'Sweden',winner:'Brazílie',runner:'Švédsko',third:'Francie',scorer:'Just Fontaine (13)'},
+  {year:1954,hostCs:'Švýcarsko',hostEn:'Switzerland',winner:'Západní Německo',runner:'Maďarsko',third:'Rakousko',scorer:'Sándor Kocsis (11)'},
+  {year:1950,hostCs:'Brazílie',hostEn:'Brazil',winner:'Uruguay',runner:'Brazílie',third:'Švédsko',scorer:'Ademir (9)'},
+  {year:1938,hostCs:'Francie',hostEn:'France',winner:'Itálie',runner:'Maďarsko',third:'Brazílie',scorer:'Leônidas (7)'},
+  {year:1934,hostCs:'Itálie',hostEn:'Italy',winner:'Itálie',runner:'Československo',third:'Německo',scorer:'Oldřich Nejedlý (5)'},
+  {year:1930,hostCs:'Uruguay',hostEn:'Uruguay',winner:'Uruguay',runner:'Argentina',third:'USA',scorer:'Guillermo Stábile (8)'}
+];
+
+var WORLD_CUP_MEDAL_TABLE=[
+  {team:'Brazílie',g:5,s:2,b:2,total:9},
+  {team:'Německo / Západní Německo',g:4,s:4,b:4,total:12},
+  {team:'Itálie',g:4,s:2,b:1,total:7},
+  {team:'Argentina',g:3,s:3,b:0,total:6},
+  {team:'Francie',g:2,s:2,b:2,total:6},
+  {team:'Uruguay',g:2,s:0,b:0,total:2},
+  {team:'Anglie',g:1,s:0,b:0,total:1},
+  {team:'Španělsko',g:1,s:0,b:0,total:1},
+  {team:'Nizozemsko',g:0,s:3,b:1,total:4},
+  {team:'Chorvatsko',g:0,s:1,b:2,total:3},
+  {team:'Švédsko',g:0,s:1,b:2,total:3},
+  {team:'Československo',g:0,s:2,b:0,total:2},
+  {team:'Maďarsko',g:0,s:2,b:0,total:2},
+  {team:'Polsko',g:0,s:0,b:2,total:2},
+  {team:'Rakousko',g:0,s:0,b:1,total:1},
+  {team:'Belgie',g:0,s:0,b:1,total:1},
+  {team:'Chile',g:0,s:0,b:1,total:1},
+  {team:'Portugalsko',g:0,s:0,b:1,total:1},
+  {team:'Turecko',g:0,s:0,b:1,total:1},
+  {team:'USA',g:0,s:0,b:1,total:1}
+];
+
+var WORLD_CUP_AWARDS=[
+  {year:2022,ball:'Lionel Messi',ballNation:'Argentina',glove:'Emiliano Martínez',gloveNation:'Argentina',young:'Enzo Fernández',youngNation:'Argentina'},
+  {year:2018,ball:'Luka Modrić',ballNation:'Chorvatsko',glove:'Thibaut Courtois',gloveNation:'Belgie',young:'Kylian Mbappé',youngNation:'Francie'},
+  {year:2014,ball:'Lionel Messi',ballNation:'Argentina',glove:'Manuel Neuer',gloveNation:'Německo',young:'Paul Pogba',youngNation:'Francie'},
+  {year:2010,ball:'Diego Forlán',ballNation:'Uruguay',glove:'Iker Casillas',gloveNation:'Španělsko',young:'Thomas Müller',youngNation:'Německo'},
+  {year:2006,ball:'Zinedine Zidane',ballNation:'Francie',glove:'Gianluigi Buffon',gloveNation:'Itálie',young:'Lukas Podolski',youngNation:'Německo'},
+  {year:2002,ball:'Oliver Kahn',ballNation:'Německo',glove:'Oliver Kahn',gloveNation:'Německo',young:'—',youngNation:''},
+  {year:1998,ball:'Ronaldo',ballNation:'Brazílie',glove:'Fabien Barthez',gloveNation:'Francie',young:'—',youngNation:''},
+  {year:1994,ball:'Romário',ballNation:'Brazílie',glove:'Michel Preud\'homme',gloveNation:'Belgie',young:'—',youngNation:''},
+  {year:1990,ball:'Salvatore Schillaci',ballNation:'Itálie',glove:'—',gloveNation:'',young:'—',youngNation:''},
+  {year:1986,ball:'Diego Maradona',ballNation:'Argentina',glove:'—',gloveNation:'',young:'—',youngNation:''},
+  {year:1982,ball:'Paolo Rossi',ballNation:'Itálie',glove:'—',gloveNation:'',young:'—',youngNation:''}
+];
+
 var TEAM_EXTRA={
   'Mexiko':{apps:'18',bestCs:'čtvrtfinále',bestEn:'quarter-finals',last:'2022',scorer:'Luis Hernández (4)',factCs:'Spolu s USA a Kanadou je spolupořadatelem MS 2026.',factEn:'It co-hosts the 2026 World Cup with the United States and Canada.'},
   'Jihoafricka rep.':{apps:'4',bestCs:'skupina',bestEn:'group stage',last:'2010',scorer:'Benni McCarthy (2)',factCs:'Jihoafrická republika hostila MS 2010 jako první africká země.',factEn:'South Africa hosted the 2010 World Cup as the first African nation to do so.'},
@@ -2584,7 +2709,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,myPinRaw=null,players=[],results={},myTips={},allTips={};
-var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',tipQuickFilter='all';
+var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all';
 var pendingTeamFocus='';
 
 function mDate(z){return new Date(z[4],z[5]-1,z[6],z[7],z[8],0);}
@@ -3785,17 +3910,20 @@ function applyI18n(){
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
-  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));
+  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-historie',tr('tab_historie'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));
 
   setText('ptab-tipy-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
   var tipQFLbls=LANG==='en'?['All','Today','Tomorrow','Missing']:['Vše','Dnes','Zítra','Neuložené'];
   ['qf-all','qf-today','qf-tomorrow','qf-missing'].forEach(function(id,i){setText(id,tipQFLbls[i]);});
+  setText('ptab-phase-sk',tr('phase_groups'));setText('ptab-phase-po',tr('phase_playoff'));setText('ptab-phase-ex',tr('phase_extra'));
   setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-phase-ex',tr('phase_extra'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-phase-sk',tr('phase_groups'));setText('ptab-vys-phase-po',tr('phase_playoff'));setText('ptab-vys-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-vys-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
-  setText('ptab-tym-az',tr('by_alpha'));setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking')); setText('team-tab-overview',tr('team_overview')); setText('team-tab-fixtures',tr('team_fixtures')); setText('team-tab-stats',tr('team_stats')); setText('team-tab-squad',tr('team_squad'));
+  setText('ptab-tym-az',tr('by_alpha'));setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking'));
+  setText('ptab-his-finals',tr('history_finals'));setText('ptab-his-medals',tr('history_medals'));setText('ptab-his-awards',tr('history_awards'));setText('ptab-his-records',tr('history_records'));setText('ptab-his-scorers',tr('history_scorers'));setText('ptab-his-facts',tr('history_facts'));setText('clbl-history',tr('history_title'));
+  setText('team-tab-overview',tr('team_overview')); setText('team-tab-fixtures',tr('team_fixtures')); setText('team-tab-stats',tr('team_stats')); setText('team-tab-squad',tr('team_squad'));
 
   setText('btn-logout',tr('logout'));
   setText('btn-refresh','↻ '+tr('sync_results')); var bst=document.getElementById('btn-sync-teams'); if(bst) bst.textContent='↻ '+tr('sync_teams');
@@ -3884,6 +4012,7 @@ function showTab(name){
   if(name==='ostatni') loadAllTips().then(function(){renderPlayerFilter();renderOst();renderSimilarity();renderInsights();renderFormBox();});
   if(name==='vysledky') renderVys();
   if(name==='tabulka'){ renderTab(); renderTableNote(); }
+  if(name==='historie') renderHistory();
   if(name==='admin') loadAllTips().then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
   if(name==='pravidla') renderRules();
@@ -3894,7 +4023,7 @@ function openFaq(){
 }
 function swPhase(ctx,phase){
   var prefix='ptab-'+ctx+'-';
-  ['sk','dt','po','cel','3m','rk','az'].forEach(function(p){
+  ['sk','dt','po','cel','3m','rk','az','hist'].forEach(function(p){
     var b=document.getElementById(prefix+p);if(b) b.classList.toggle('on',p===phase);
   });
   if(ctx==='tipy'){tipSort=phase;renderTipy();}
@@ -3903,6 +4032,7 @@ function swPhase(ctx,phase){
   else if(ctx==='vys'){vysSort=phase;renderVys();}
   else if(ctx==='tab'){tabPhase=phase;renderTab();}
   else if(ctx==='tym'){tymPhase=phase;renderTymy();}
+  else if(ctx==='his'){historyPhase=phase;renderHistory();}
 }
 function ini(n){return n.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'?';}
 function calcPts(tip,res){
@@ -3942,6 +4072,23 @@ function renderTipy(){
   renderInsights();
   renderSimilarity();
   renderExtraTipsBox();
+  var extraCard=document.getElementById('extra-card');
+  var extraPhaseBtn=document.getElementById('ptab-phase-ex');
+  var tipSortRow=document.getElementById('tipy-sort-row');
+  var tipQf=document.getElementById('tipy-qf');
+  var tipMain=document.getElementById('tipy-main-card');
+  var extraSaved=extraTipsSavedByMe();
+  if(extraPhaseBtn) extraPhaseBtn.style.display=extraSaved?'inline-flex':'none';
+  if(!extraSaved && currentPhase==='ex') currentPhase='sk';
+  if(extraCard) extraCard.style.display=(!extraSaved || currentPhase==='ex')?'block':'none';
+  if(tipSortRow) tipSortRow.style.display=(currentPhase==='sk')?'flex':'none';
+  if(tipQf) tipQf.style.display=(currentPhase==='sk')?'flex':'none';
+  if(tipMain) tipMain.style.display=(currentPhase==='ex')?'none':'block';
+  if(currentPhase==='ex'){
+    document.getElementById('tipy-list').innerHTML='';
+    updateSaveButtonsState();
+    return;
+  }
 
   var isAdmin=me.je_admin;
   var baseArr=currentPhase==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
@@ -4522,6 +4669,221 @@ function renderTeamLinks(localName){
     '<a class="tc-team-link" href="'+escAttr(urls.squad)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_squad'))+'</a>'+
   '</div>';
 }
+function renderTeamHistory(){
+  function scorerGoals(text){
+    var m=String(text||'').match(/\((\d+)\)\s*$/);
+    return parseInt(m&&m[1]?m[1]:'0',10);
+  }
+  function teamLabel(name){
+    return (fl(name)?fl(name)+' ':'')+name;
+  }
+  var lastCup=WORLD_CUP_HISTORY[0];
+  var topMedals=WORLD_CUP_MEDAL_TABLE.slice().sort(function(a,b){
+    if(b.g!==a.g) return b.g-a.g;
+    if(b.s!==a.s) return b.s-a.s;
+    if(b.b!==a.b) return b.b-a.b;
+    return b.total-a.total;
+  });
+  var medalLeader=topMedals[0];
+  var topScorerRec=WORLD_CUP_HISTORY.slice().sort(function(a,b){ return scorerGoals(b.scorer)-scorerGoals(a.scorer); })[0];
+  var html='<div class="team-history-wrap">';
+  html+='<div class="team-history-cards">';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Last World Cup':'Poslední MS')+'</h4><div class="big"><span class="big-flag">'+fl(lastCup.winner)+'</span><span>'+escHtml(lastCup.year+' · '+lastCup.winner)+'</span></div><div class="sub"><strong>'+escHtml(LANG==='en'?'Host':'Pořadatel')+':</strong> '+escHtml(LANG==='en'?lastCup.hostEn:lastCup.hostCs)+'<br><strong>'+(LANG==='en'?'Top scorer':'Nej střelec')+':</strong> '+escHtml(lastCup.scorer)+'</div></div>';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Most titles':'Nejvíc titulů')+'</h4><div class="big"><span class="big-flag">'+fl(medalLeader.team)+'</span><span>'+escHtml(medalLeader.team)+'</span></div><div class="sub"><strong>🥇</strong> '+medalLeader.g+' · <strong>🥈</strong> '+medalLeader.s+' · <strong>🥉</strong> '+medalLeader.b+'<br><strong>'+(LANG==='en'?'Total medals':'Celkem medailí')+':</strong> '+medalLeader.total+'</div></div>';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Best top scorer return':'Nejlepší střelecký výkon')+'</h4><div class="big"><span class="big-flag">'+fl(topScorerRec.winner)+'</span><span>'+escHtml(topScorerRec.scorer)+'</span></div><div class="sub"><strong>'+(LANG==='en'?'Tournament':'Turnaj')+':</strong> '+escHtml(topScorerRec.year)+'<br><strong>'+(LANG==='en'?'Champion':'Vítěz')+':</strong> '+escHtml(topScorerRec.winner)+'</div></div>';
+  html+='</div>';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>📅 '+(LANG==='en'?'Year':'Rok')+'</th><th>🌍 '+(LANG==='en'?'Host':'Pořadatel')+'</th><th>🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</th><th>🥈 '+(LANG==='en'?'Runner-up':'Finalista')+'</th><th>🥉 '+(LANG==='en'?'Third place':'3. místo')+'</th><th>⚽ '+(LANG==='en'?'Top scorer':'Nej střelec')+'</th></tr></thead><tbody>';
+  WORLD_CUP_HISTORY.forEach(function(row){
+    html+='<tr><td class="team-history-year">'+row.year+'</td><td>'+escHtml(LANG==='en'?row.hostEn:row.hostCs)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.winner))+'</td><td>'+escHtml(teamLabel(row.runner))+'</td><td>'+escHtml(teamLabel(row.third))+'</td><td>'+escHtml(row.scorer)+'</td></tr>';
+  });
+  html+='</tbody></table></div>';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>#</th><th>'+(LANG==='en'?'Nation':'Země')+'</th><th>🥇</th><th>🥈</th><th>🥉</th><th>'+(LANG==='en'?'Total':'Celkem')+'</th></tr></thead><tbody>';
+  topMedals.forEach(function(row,idx){
+    html+='<tr><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.team))+'</td><td>'+row.g+'</td><td>'+row.s+'</td><td>'+row.b+'</td><td><div class="team-history-medals"><span class="team-history-medal-pill">🏅 '+row.total+'</span></div></td></tr>';
+  });
+  html+='</tbody></table></div>';
+  html+='</div>';
+  return html;
+}
+var WORLD_CUP_FACTS=[
+  {icon:'🌍',titleCs:'Jediný stálý účastník',titleEn:'Ever-present nation',bodyCs:'Brazílie je jedinou zemí, která hrála na každém mistrovství světa od roku 1930.',bodyEn:'Brazil is the only nation to have appeared at every World Cup since 1930.'},
+  {icon:'⚽',titleCs:'Král historie MS',titleEn:'All-time top scorer',bodyCs:'Miroslav Klose drží rekord 16 gólů na mistrovstvích světa, které nasbíral mezi lety 2002 a 2014.',bodyEn:'Miroslav Klose holds the all-time World Cup scoring record with 16 goals, collected between 2002 and 2014.'},
+  {icon:'🔥',titleCs:'Největší střelecký výbuch',titleEn:'Best single-edition scoring haul',bodyCs:'Just Fontaine vstřelil na MS 1958 třináct gólů, což je dodnes rekord jednoho turnaje.',bodyEn:'Just Fontaine scored 13 goals at the 1958 World Cup, still the record for a single edition.'},
+  {icon:'🏆',titleCs:'Jen osm šampionů',titleEn:'Only eight champions',bodyCs:'Pánské mistrovství světa zatím vyhrálo jen osm reprezentací: Uruguay, Itálie, Německo, Brazílie, Anglie, Argentina, Francie a Španělsko.',bodyEn:'Only eight national teams have won the men’s World Cup so far: Uruguay, Italy, Germany, Brazil, England, Argentina, France and Spain.'},
+  {icon:'🔁',titleCs:'Obhajoba titulu',titleEn:'Back-to-back winners',bodyCs:'Po sobě jdoucí tituly získaly jen Itálie v letech 1934 a 1938 a Brazílie v letech 1958 a 1962.',bodyEn:'Only Italy in 1934 and 1938 and Brazil in 1958 and 1962 have won back-to-back titles.'},
+  {icon:'🧤',titleCs:'Ocenění přibývala postupně',titleEn:'Awards arrived gradually',bodyCs:'Golden Ball pro hráče turnaje je oficiálně od roku 1982, Golden Glove od 1994 a ocenění pro nejlepšího mladého hráče od 2006.',bodyEn:'The Golden Ball has been official since 1982, the Golden Glove since 1994 and Best Young Player since 2006.'},
+  {icon:'🌐',titleCs:'Nová éra 2026',titleEn:'A new era in 2026',bodyCs:'MS 2026 bude první se 48 týmy a zároveň první, které pořádají tři země společně: USA, Kanada a Mexiko.',bodyEn:'The 2026 World Cup will be the first with 48 teams and the first jointly hosted by three nations: the USA, Canada and Mexico.'},
+  {icon:'🏟️',titleCs:'Azteca znovu v centru dění',titleEn:'Azteca returns to centre stage',bodyCs:'Estadio Azteca už hostil finále v letech 1970 a 1986 a v roce 2026 znovu vstoupí do turnajové historie.',bodyEn:'Estadio Azteca hosted the finals in 1970 and 1986 and will write another chapter of World Cup history in 2026.'},
+  {icon:'👑',titleCs:'Messi dvakrát hráčem turnaje',titleEn:'Messi won the Golden Ball twice',bodyCs:'Lionel Messi získal cenu pro hráče turnaje v letech 2014 a 2022, jako první fotbalista v historii dvakrát.',bodyEn:'Lionel Messi won the Golden Ball in 2014 and 2022, becoming the first player to receive it twice.'},
+  {icon:'👶',titleCs:'Nejmladší střelec',titleEn:'Youngest goalscorer',bodyCs:'Pelé dal v 17 letech a 239 dnech gól Walesu na MS 1958 a drží rekord nejmladšího střelce.',bodyEn:'Pelé scored against Wales at the 1958 World Cup aged 17 years and 239 days, still the youngest goalscorer.'},
+  {icon:'🕰️',titleCs:'Nejstarší střelec',titleEn:'Oldest goalscorer',bodyCs:'Roger Milla skóroval na MS 1994 ve věku 42 let a 39 dnů a zůstává nejstarším střelcem turnaje.',bodyEn:'Roger Milla scored at the 1994 World Cup aged 42 years and 39 days and remains the oldest goalscorer.'},
+  {icon:'💥',titleCs:'Nejrychlejší gól',titleEn:'Fastest goal',bodyCs:'Hakan Şükür skóroval proti Koreji o 3. místo na MS 2002 už po 11 sekundách.',bodyEn:'Hakan Şükür scored in the 2002 third-place match against Korea after just 11 seconds.'},
+  {icon:'📈',titleCs:'Nejvyšší výhra',titleEn:'Biggest win',bodyCs:'Nejvyšší výhra v historii MS je 9:0 a stala se hned dvakrát: Maďarsko–Jižní Korea 1954 a Jugoslávie–Zair 1974.',bodyEn:'The biggest World Cup win is 9–0 and it has happened twice: Hungary v South Korea in 1954 and Yugoslavia v Zaire in 1974.'},
+  {icon:'🇨🇿',titleCs:'Československá stopa',titleEn:'Czechoslovak legacy',bodyCs:'Československo hrálo finále v letech 1934 a 1962 a dalo i krále střelců Oldřicha Nejedlého v roce 1934.',bodyEn:'Czechoslovakia reached the finals in 1934 and 1962 and also produced 1934 top scorer Oldřich Nejedlý.'},
+  {icon:'🎯',titleCs:'Nejvíc gólů v jednom utkání',titleEn:'Most goals in one match',bodyCs:'Rakousko a Švýcarsko nabídly ve čtvrtfinále MS 1954 celkem 12 gólů, Rakousko vyhrálo 7:5.',bodyEn:'Austria and Switzerland produced 12 goals in the 1954 quarter-final, with Austria winning 7–5.'},
+  {icon:'🎩',titleCs:'Jediný hattrick ve finále',titleEn:'Only hat-trick in a final',bodyCs:'Geoff Hurst vstřelil ve finále MS 1966 tři góly Západnímu Německu a zůstává jediným autorem hattricku ve finále.',bodyEn:'Geoff Hurst scored a hat-trick against West Germany in the 1966 final and remains the only player to do so in a World Cup final.'},
+  {icon:'🎯',titleCs:'První finále na penalty',titleEn:'First final decided on penalties',bodyCs:'Finále MS 1994 mezi Brazílií a Itálií bylo prvním, které rozhodl penaltový rozstřel.',bodyEn:'The 1994 final between Brazil and Italy was the first World Cup final decided by a penalty shootout.'},
+  {icon:'🧱',titleCs:'Nejvíc zápasů na MS',titleEn:'Most World Cup matches',bodyCs:'Lothar Matthäus odehrál na mistrovstvích světa 25 zápasů v letech 1982 až 1998.',bodyEn:'Lothar Matthäus played 25 World Cup matches between 1982 and 1998.'},
+  {icon:'🦁',titleCs:'První africký semifinalista',titleEn:'First African semi-finalist',bodyCs:'Maroko se na MS 2022 stalo prvním africkým týmem, který postoupil do semifinále.',bodyEn:'Morocco became the first African team to reach a World Cup semi-final in 2022.'}
+];
+var WORLD_CUP_RECORDS=[
+  {icon:'🏆',labelCs:'Nejvíc titulů',labelEn:'Most titles',value:'Brazil',sub:'5 titulů · 1958–2002'},
+  {icon:'🥈',labelCs:'Nejvíc finále',labelEn:'Most finals',value:'Germany',sub:'8 finále · 1954–2014'},
+  {icon:'⚽',labelCs:'Nejlepší střelec historie',labelEn:'All-time top scorer',value:'Miroslav Klose',sub:'16 gólů · 2002–2014'},
+  {icon:'🔥',labelCs:'Nejlepší střelecký turnaj',labelEn:'Best scoring tournament',value:'Just Fontaine',sub:'13 gólů · Švédsko 1958'},
+  {icon:'👶',labelCs:'Nejmladší střelec',labelEn:'Youngest goalscorer',value:'Pelé',sub:'17y 239d · 1958 vs Wales'},
+  {icon:'🕰️',labelCs:'Nejstarší střelec',labelEn:'Oldest goalscorer',value:'Roger Milla',sub:'42y 39d · 1994 vs Russia'},
+  {icon:'💨',labelCs:'Nejrychlejší gól',labelEn:'Fastest goal',value:'Hakan Şükür',sub:'11 s · 2002 vs Korea Republic'},
+  {icon:'📈',labelCs:'Nejvyšší výhra',labelEn:'Biggest win',value:'9:0',sub:'1954 / 1974 · stalo se 2x'}
+];
+var WORLD_CUP_TOP_SCORERS=[
+  {name:'Miroslav Klose',nation:'Německo',goals:16},
+  {name:'Ronaldo',nation:'Brazílie',goals:15},
+  {name:'Gerd Müller',nation:'Západní Německo',goals:14},
+  {name:'Just Fontaine',nation:'Francie',goals:13},
+  {name:'Lionel Messi',nation:'Argentina',goals:13},
+  {name:'Kylian Mbappé',nation:'Francie',goals:12},
+  {name:'Pelé',nation:'Brazílie',goals:12},
+  {name:'Jürgen Klinsmann',nation:'Německo / Západní Německo',goals:11},
+  {name:'Sándor Kocsis',nation:'Maďarsko',goals:11},
+  {name:'Gary Lineker',nation:'Anglie',goals:10},
+  {name:'Thomas Müller',nation:'Německo',goals:10},
+  {name:'Gabriel Batistuta',nation:'Argentina',goals:10},
+  {name:'Grzegorz Lato',nation:'Polsko',goals:10},
+  {name:'Teófilo Cubillas',nation:'Peru',goals:10},
+  {name:'Helmut Rahn',nation:'Západní Německo',goals:10}
+];
+var WORLD_CUP_LEGENDARY_FINALS=[
+  {year:1950,titleCs:'Maracanazo',titleEn:'Maracanazo',bodyCs:'Uruguay šokovalo Brazílii v rozhodujícím utkání finálové skupiny a umlčelo Maracanã.',bodyEn:'Uruguay stunned Brazil in the decisive final-group match and silenced the Maracanã.'},
+  {year:1966,titleCs:'Wembley a sporný gól',titleEn:'Wembley and the disputed goal',bodyCs:'Anglie získala jediný titul po legendárním finále se Západním Německem a slavném gólu Geoffa Hursta.',bodyEn:'England won its only title after a legendary final against West Germany and Geoff Hurst’s famous goal.'},
+  {year:1970,titleCs:'Brazilský vrchol',titleEn:'Brazil at its peak',bodyCs:'Pelého Brazílie porazila Itálii 4:1 a završila jednu z nejikoničtějších éry v dějinách fotbalu.',bodyEn:'Pelé’s Brazil beat Italy 4–1 to complete one of the most iconic eras in football history.'},
+  {year:1986,titleCs:'Maradonův turnaj',titleEn:'Maradona’s tournament',bodyCs:'Argentina vedená Maradonou zvládla dramatické finále proti Západnímu Německu 3:2.',bodyEn:'Argentina led by Maradona edged West Germany 3–2 in a dramatic final.'},
+  {year:2022,titleCs:'Finále pro dějiny',titleEn:'A final for the ages',bodyCs:'Argentina a Francie nabídly jedno z nejlepších finále všech dob, rozhodnuté až po penaltách.',bodyEn:'Argentina and France delivered one of the greatest finals ever, settled only on penalties.'}
+];
+function renderHistoryAwards(){
+  var latest=WORLD_CUP_AWARDS[0];
+  var html='<div class="team-history-wrap">';
+  html+='<div class="team-history-cards">';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Golden Ball':'Poslední hráč turnaje')+'</h4><div class="big"><span>🏆</span><span>'+escHtml(latest.ball)+'</span></div><div class="sub">'+(latest.ballNation?(fl(latest.ballNation)?fl(latest.ballNation)+' ':'')+escHtml(LANG==='en'?tN(latest.ballNation):latest.ballNation):'')+'<br>'+escHtml((LANG==='en'?'Year':'Rok')+': '+latest.year)+'</div></div>';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Golden Glove':'Poslední nejlepší brankář')+'</h4><div class="big"><span>🧤</span><span>'+escHtml(latest.glove)+'</span></div><div class="sub">'+(latest.gloveNation?(fl(latest.gloveNation)?fl(latest.gloveNation)+' ':'')+escHtml(LANG==='en'?tN(latest.gloveNation):latest.gloveNation):'')+'<br>'+escHtml((LANG==='en'?'Official since 1994':'Oficiálně od 1994'))+'</div></div>';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Young Player':'Poslední nejlepší mladý hráč')+'</h4><div class="big"><span>🌟</span><span>'+escHtml(latest.young)+'</span></div><div class="sub">'+(latest.youngNation?(fl(latest.youngNation)?fl(latest.youngNation)+' ':'')+escHtml(LANG==='en'?tN(latest.youngNation):latest.youngNation):'')+'<br>'+escHtml((LANG==='en'?'Official since 2006':'Oficiálně od 2006'))+'</div></div>';
+  html+='</div>';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>'+(LANG==='en'?'Year':'Rok')+'</th><th>🏆 '+(LANG==='en'?'Golden Ball':'Hráč turnaje')+'</th><th>🧤 '+(LANG==='en'?'Golden Glove':'Nejlepší brankář')+'</th><th>🌟 '+(LANG==='en'?'Young Player':'Nejlepší mladý hráč')+'</th></tr></thead><tbody>';
+  WORLD_CUP_AWARDS.forEach(function(row){
+    html+='<tr><td class="team-history-year">'+row.year+'</td><td class="team-history-team">'+((row.ballNation?(fl(row.ballNation)?fl(row.ballNation)+' ':''):'')+escHtml(row.ball)+(row.ballNation?' · '+escHtml(LANG==='en'?tN(row.ballNation):row.ballNation):''))+'</td><td>'+((row.glove==='—')?'—':((row.gloveNation?(fl(row.gloveNation)?fl(row.gloveNation)+' ':''):'')+escHtml(row.glove)+(row.gloveNation?' · '+escHtml(LANG==='en'?tN(row.gloveNation):row.gloveNation):'')))+'</td><td>'+((row.young==='—')?'—':((row.youngNation?(fl(row.youngNation)?fl(row.youngNation)+' ':''):'')+escHtml(row.young)+(row.youngNation?' · '+escHtml(LANG==='en'?tN(row.youngNation):row.youngNation):'')))+'</td></tr>';
+  });
+  html+='</tbody></table></div></div>';
+  return html;
+}
+function renderHistoryFinals(){
+  function teamLabel(name){ return (fl(name)?fl(name)+' ':'')+name; }
+  var html='<div class="team-history-wrap">';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>📅 '+(LANG==='en'?'Year':'Rok')+'</th><th>🌍 '+(LANG==='en'?'Host':'Pořadatel')+'</th><th>🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</th><th>🥈 '+(LANG==='en'?'Runner-up':'Finalista')+'</th><th>🥉 '+(LANG==='en'?'Third place':'3. místo')+'</th><th>⚽ '+(LANG==='en'?'Top scorer':'Nej střelec')+'</th></tr></thead><tbody>';
+  WORLD_CUP_HISTORY.forEach(function(row){
+    html+='<tr><td class="team-history-year">'+row.year+'</td><td>'+escHtml(LANG==='en'?row.hostEn:row.hostCs)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.winner))+'</td><td>'+escHtml(teamLabel(row.runner))+'</td><td>'+escHtml(teamLabel(row.third))+'</td><td>'+escHtml(row.scorer)+'</td></tr>';
+  });
+  html+='</tbody></table></div>';
+  html+='<div class="history-facts-grid">';
+  WORLD_CUP_LEGENDARY_FINALS.forEach(function(item){
+    html+='<div class="history-fact"><div class="history-fact-top"><span class="history-fact-icon">🏟️</span><div class="history-fact-title">'+escHtml(item.year+' · '+(LANG==='en'?item.titleEn:item.titleCs))+'</div></div><div class="history-fact-body">'+escHtml(LANG==='en'?item.bodyEn:item.bodyCs)+'</div></div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+function renderHistoryMedals(){
+  function teamLabel(name){ return (fl(name)?fl(name)+' ':'')+name; }
+  var topMedals=WORLD_CUP_MEDAL_TABLE.slice().sort(function(a,b){
+    if(b.g!==a.g) return b.g-a.g;
+    if(b.s!==a.s) return b.s-a.s;
+    if(b.b!==a.b) return b.b-a.b;
+    return b.total-a.total;
+  });
+  var mostGold=WORLD_CUP_MEDAL_TABLE.slice().sort(function(a,b){
+    if(b.g!==a.g) return b.g-a.g;
+    if(b.total!==a.total) return b.total-a.total;
+    if(b.s!==a.s) return b.s-a.s;
+    return b.b-a.b;
+  })[0];
+  var mostTotal=WORLD_CUP_MEDAL_TABLE.slice().sort(function(a,b){
+    if(b.total!==a.total) return b.total-a.total;
+    if(b.g!==a.g) return b.g-a.g;
+    if(b.s!==a.s) return b.s-a.s;
+    return b.b-a.b;
+  })[0];
+  var thirdRank=topMedals[2];
+  var html='<div class="team-history-wrap">';
+  html+='<div class="team-history-cards">';
+  [
+    {row:mostGold,icon:'🥇',titleCs:'Nejvíc zlatých',titleEn:'Most gold medals',subRank:''},
+    {row:mostTotal,icon:'🏅',titleCs:'Nejvíc medailí celkem',titleEn:'Most total medals',subRank:''},
+    {row:thirdRank,icon:'🥉',titleCs:'Třetí nejúspěšnější země',titleEn:'Third most successful nation',subRank:'#3'}
+  ].forEach(function(card){
+    if(!card.row) return;
+    html+='<div class="team-history-card"><h4>'+escHtml(LANG==='en'?card.titleEn:card.titleCs)+'</h4><div class="big"><span class="big-flag">'+fl(card.row.team)+'</span><span>'+escHtml(card.row.team)+'</span></div><div class="sub">'+(card.subRank?'<strong>'+escHtml(card.subRank)+'</strong><br>':'')+'<strong>🥇</strong> '+card.row.g+' · <strong>🥈</strong> '+card.row.s+' · <strong>🥉</strong> '+card.row.b+'<br><strong>'+(LANG==='en'?'Total medals':'Celkem medailí')+':</strong> '+card.row.total+'</div></div>';
+  });
+  html+='</div>';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>#</th><th>'+(LANG==='en'?'Nation':'Země')+'</th><th>🥇</th><th>🥈</th><th>🥉</th><th>'+(LANG==='en'?'Total':'Celkem')+'</th></tr></thead><tbody>';
+  topMedals.forEach(function(row,idx){
+    html+='<tr><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.team))+'</td><td>'+row.g+'</td><td>'+row.s+'</td><td>'+row.b+'</td><td><div class="team-history-medals"><span class="team-history-medal-pill">🏅 '+row.total+'</span></div></td></tr>';
+  });
+  html+='</tbody></table></div></div>';
+  return html;
+}
+function renderHistoryRecords(){
+  var html='<div class="history-facts-grid">';
+  WORLD_CUP_RECORDS.forEach(function(rec){
+    html+='<div class="history-fact"><div class="history-fact-top"><span class="history-fact-icon">'+rec.icon+'</span><div class="history-fact-title">'+escHtml(LANG==='en'?rec.labelEn:rec.labelCs)+'</div></div><div class="history-fact-body"><strong style="color:var(--tx)">'+escHtml(rec.value)+'</strong> · '+escHtml(rec.sub)+'</div></div>';
+  });
+  html+='</div>';
+  return html;
+}
+function renderHistoryScorers(){
+  var html='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>#</th><th>⚽ '+(LANG==='en'?'Player':'Hráč')+'</th><th>🌍 '+(LANG==='en'?'Nation':'Země')+'</th><th>🎯 '+(LANG==='en'?'Goals':'Góly')+'</th></tr></thead><tbody>';
+  WORLD_CUP_TOP_SCORERS.forEach(function(row,idx){
+    html+='<tr><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(row.name)+'</td><td>'+((fl(row.nation)?fl(row.nation)+' ':'')+escHtml(LANG==='en'?tN(row.nation):row.nation))+'</td><td>'+row.goals+'</td></tr>';
+  });
+  html+='</tbody></table></div>';
+  return html;
+}
+function renderHistoryFacts(){
+  var html='<div class="history-facts-grid">';
+  WORLD_CUP_FACTS.forEach(function(f){
+    html+='<div class="history-fact"><div class="history-fact-top"><span class="history-fact-icon">'+f.icon+'</span><div class="history-fact-title">'+escHtml(LANG==='en'?f.titleEn:f.titleCs)+'</div></div><div class="history-fact-body">'+escHtml(LANG==='en'?f.bodyEn:f.bodyCs)+'</div></div>';
+  });
+  html+='</div>';
+  return html;
+}
+function renderHistory(){
+  ['finals','medals','awards','records','scorers','facts'].forEach(function(p){
+    var b=document.getElementById('ptab-his-'+p);
+    if(b) b.classList.toggle('on',p===historyPhase);
+  });
+  var cl=document.getElementById('clbl-history');
+  if(cl) cl.textContent=tr('history_title');
+  var host=document.getElementById('history-list');
+  if(!host) return;
+  if(historyPhase==='medals'){
+    host.innerHTML=renderHistoryMedals()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+    return;
+  }
+  if(historyPhase==='awards'){
+    host.innerHTML=renderHistoryAwards()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+    return;
+  }
+  if(historyPhase==='records'){
+    host.innerHTML=renderHistoryRecords()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+    return;
+  }
+  if(historyPhase==='scorers'){
+    host.innerHTML=renderHistoryScorers()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+    return;
+  }
+  if(historyPhase==='facts'){
+    host.innerHTML=renderHistoryFacts()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+    return;
+  }
+  host.innerHTML=renderHistoryFinals()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+}
 function renderTeamCard(name, sk){
   var fifaRec=getFifaRecord(name), rk=fifaRec.rank;
   var extra=getTeamExtra(name);
@@ -4554,6 +4916,8 @@ function renderTeamCard(name, sk){
   '</div>';
 }
 function renderTymy(){
+  var cl=document.getElementById('clbl-tymy');
+  if(cl) cl.textContent=tr('clbl_tymy');
   if(tymPhase==='rk'){
     renderFifaRanking();
     return;
@@ -5246,8 +5610,8 @@ function toggleLang(){
   var active=null;
   TABS.forEach(function(t){var p=document.getElementById('page-'+t);if(p&&p.style.display!=='none') active=t;});
   if(active) showTab(active);
-  if(me){
-    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderTymy();updateHeaderRanking();renderSimilarity();renderTodayBox();renderInsights();renderExtraTipsBox();renderDiscussion();renderRules();
+    if(me){
+    renderTipy();renderVys();renderTab();renderPavouk();renderStadiony();renderHistory();renderTymy();updateHeaderRanking();renderSimilarity();renderTodayBox();renderInsights();renderExtraTipsBox();renderDiscussion();renderRules();
     if(active==='zebricek') renderZeb();
     if(active==='ostatni') renderOst();
     if(active==='admin') renderAdmin();
@@ -5291,7 +5655,7 @@ function goStadiony(stadiumName){
 }
 function scrollTopSmooth(){window.scrollTo({top:0,behavior:'smooth'});}
 var currentPhase='sk';
-function setPhaseTab(phase){currentPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(tipSort==='po') tipSort='dt';['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&tipSort==='dt')||(id==='ptab-tipy-sk'&&tipSort==='sk'));});renderTipy();}
+function setPhaseTab(phase){currentPhase=phase;['sk','po','ex'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';var qf=document.getElementById('tipy-qf');if(qf) qf.style.display=phase==='sk'?'flex':'none';if(phase==='po') tipSort='po';else if(phase==='sk'&&tipSort==='po') tipSort='dt';['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&tipSort==='dt')||(id==='ptab-tipy-sk'&&tipSort==='sk'));});renderTipy();}
 function setSortChip(sort){tipSort=sort;['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&sort==='dt')||(id==='ptab-tipy-sk'&&sort==='sk'));});renderTipy();}
 function setOstPhase(phase){otherPhase=phase;['sk','po','ex'].forEach(function(p){var b=document.getElementById('ptab-ost-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('ost-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') ostSort='po';else if(phase!=='po'&&ostSort==='po') ostSort='dt';['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&ostSort==='dt')||(id==='ptab-ost-sk'&&ostSort==='sk'));});renderOst();}
 function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&sort==='dt')||(id==='ptab-ost-sk'&&sort==='sk'));});renderOst();}
@@ -5434,7 +5798,8 @@ function init(){
     
     ['ptab-zeb-cel','zeb','cel'],['ptab-zeb-sk','zeb','sk'],['ptab-zeb-po','zeb','po'],
     ['ptab-tab-sk','tab','sk'],['ptab-tab-3m','tab','3m'],
-    ['ptab-tym-az','tym','az'],['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk']
+    ['ptab-tym-az','tym','az'],['ptab-tym-sk','tym','sk'],['ptab-tym-rk','tym','rk'],
+    ['ptab-his-finals','his','finals'],['ptab-his-medals','his','medals'],['ptab-his-awards','his','awards'],['ptab-his-records','his','records'],['ptab-his-scorers','his','scorers'],['ptab-his-facts','his','facts']
   ].forEach(function(pt){
     var b=document.getElementById(pt[0]); if(b) b.addEventListener('click',function(){swPhase(pt[1],pt[2]);});
   });
@@ -5442,6 +5807,7 @@ function init(){
   // Phase tab listeners
   var ph1=document.getElementById("ptab-phase-sk");if(ph1) ph1.addEventListener("click",function(){setPhaseTab("sk");});
   var ph2=document.getElementById("ptab-phase-po");if(ph2) ph2.addEventListener("click",function(){setPhaseTab("po");});
+  var ph3=document.getElementById("ptab-phase-ex");if(ph3) ph3.addEventListener("click",function(){setPhaseTab("ex");});
   // Sort chip listeners
   var sc1=document.getElementById("ptab-tipy-dt");if(sc1) sc1.addEventListener("click",function(){setSortChip("dt");});
   var sc2=document.getElementById("ptab-tipy-sk");if(sc2) sc2.addEventListener("click",function(){setSortChip("sk");});
@@ -5462,7 +5828,7 @@ function init(){
   applyI18n();
   updateInstallButton();
   loadFifaRankingData();
-  tipSort='dt'; vysSort='dt'; tymPhase='az';
+  tipSort='dt'; vysSort='dt'; tymPhase='az'; historyPhase='finals';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
