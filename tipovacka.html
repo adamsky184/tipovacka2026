@@ -1678,7 +1678,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.6.1</span> · <span id="lo-date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.7</span> · <span id="lo-date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1968,7 +1968,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.6.1</span> · <span id="date-lbl">7. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.7</span> · <span id="date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2040,8 +2040,8 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.6.1',
-    footer_date:'7. 4. 2026',
+    footer_ver:'v4.7',
+    footer_date:'8. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
     playoff_stage:'Play-off',
@@ -2142,8 +2142,8 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.6.1',
-    footer_date:'7 Apr 2026',
+    footer_ver:'v4.7',
+    footer_date:'8 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
     playoff_stage:'Playoff',
@@ -2583,7 +2583,7 @@ var VENUE_ALIASES={
   'Estadio Akron':['Guadalajara / Akron']
 };
 
-var me=null,myPin=null,players=[],results={},myTips={},allTips={};
+var me=null,myPin=null,myPinRaw=null,players=[],results={},myTips={},allTips={};
 var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',tipQuickFilter='all';
 var pendingTeamFocus='';
 
@@ -3136,6 +3136,50 @@ function authErrMsg(e){
   if(/Failed to fetch|NetworkError|Load failed|Casovy limit|Timeout|fetch/i.test(msg)) return tr('conn_failed');
   return tr('auth_failed')+': '+msg;
 }
+function isSha256Hex(v){
+  return typeof v==='string' && /^[0-9a-f]{64}$/i.test(v.trim());
+}
+async function sha256Hex(v){
+  var txt=String(v||'');
+  if(window.crypto&&window.crypto.subtle&&window.TextEncoder){
+    var buf=await window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt));
+    return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+  }
+  throw new Error('SHA-256 not supported in this browser');
+}
+function persistRawPin(pin){
+  myPinRaw=pin||null;
+  try{
+    if(pin) sessionStorage.setItem('ms26p',pin);
+    else sessionStorage.removeItem('ms26p');
+  }catch(e){}
+}
+function loadRawPinFromSession(){
+  if(myPinRaw) return myPinRaw;
+  try{
+    var raw=sessionStorage.getItem('ms26p');
+    if(raw){ myPinRaw=raw; return raw; }
+  }catch(e){}
+  return null;
+}
+function storeSecureSession(){
+  if(!me||!myPin) return;
+  try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin_hash:myPin}));}catch(e){}
+}
+async function ensureWritePin(){
+  var raw=loadRawPinFromSession();
+  if(raw) return raw;
+  var entered=window.prompt(LANG==='en'
+    ? 'For security, confirm your PIN before saving match tips:'
+    : 'Z bezpečnostních důvodů potvrď PIN před uložením tipů:','');
+  if(entered===null) return null;
+  entered=String(entered||'').trim();
+  if(!entered) throw new Error(LANG==='en'?'PIN is required.':'PIN je povinný.');
+  var enteredHash=await sha256Hex(entered);
+  if(myPin && enteredHash!==myPin) throw new Error(LANG==='en'?'Invalid PIN.':'Neplatný PIN.');
+  persistRawPin(entered);
+  return entered;
+}
 function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
@@ -3589,9 +3633,13 @@ function doLogin(){
   authBusy=true;
   document.getElementById('blo').disabled=true;
   setText('le',tr('loading_login'));
-  rpcWithRetry('prihlasit_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
-    if(d&&d.chyba){setText('le',d.chyba);return;}
-    myPin=p;finishLogin(d);
+  sha256Hex(p).then(function(pinHash){
+    return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
+      if(d&&d.chyba){setText('le',d.chyba);return;}
+      myPin=pinHash;
+      persistRawPin(p);
+      finishLogin(d);
+    });
   }).catch(function(e){
     setText('le',authErrMsg(e));
   }).finally(function(){
@@ -3608,9 +3656,13 @@ function doReg(){
   authBusy=true;
   document.getElementById('brg').disabled=true;
   setText('re',tr('loading_register'));
-  rpcWithRetry('registruj_hrace',{p_jmeno:j,p_pin:p}).then(function(d){
-    if(d&&d.chyba){setText('re',d.chyba);return;}
-    myPin=p;finishLogin(d);
+  sha256Hex(p).then(function(pinHash){
+    return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
+      if(d&&d.chyba){setText('re',d.chyba);return;}
+      myPin=pinHash;
+      persistRawPin(p);
+      finishLogin(d);
+    });
   }).catch(function(e){
     setText('re',authErrMsg(e));
   }).finally(function(){
@@ -3624,7 +3676,7 @@ function finishLogin(d){
   if(avEl) avEl.textContent=d.jmeno?d.jmeno.slice(0,2).toUpperCase():"?";
   me={id:d.id,jmeno:d.jmeno,je_admin:!!d.je_admin};
   document.body.classList.toggle('admin-user', !!me.je_admin);
-  try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
+  storeSecureSession();
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
   var unEl=document.getElementById('hdr-username-lbl');if(unEl) unEl.textContent=me.jmeno;
@@ -3671,9 +3723,10 @@ function finishLogin(d){
   showTab('tipy');
 }
 function doLogout(){
-  me=null;myPin=null;myTips={};players=[];results={};allTips={};
+  me=null;myPin=null;myPinRaw=null;myTips={};players=[];results={};allTips={};
   document.body.classList.remove('admin-user');
   try{localStorage.removeItem('ms26s');}catch(e){}
+  try{sessionStorage.removeItem('ms26p');}catch(e){}
   document.getElementById('lo').style.display='flex';
   document.getElementById('app').style.display='none';
   document.getElementById('ab').style.display='none';
@@ -4042,8 +4095,9 @@ async function saveTips(){
   Object.keys(myTips||{}).forEach(function(k){savedBeforeMap[String(k)]=true;});
   var savedBeforeTotal=Object.keys(savedBeforeMap).length;
   try{
+    var writePin=await ensureWritePin();
     var saveResults=await Promise.all(rows.map(function(row){
-      return rpcWithRetry('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
+      return rpcWithRetry('ulozit_tip_secure',{p_hrac_id:row.hrac_id,p_pin:writePin,p_zapas_id:row.zapas_id,p_tip:row.tip})
         .then(function(d){
           if(d&&d.chyba) return {ok:false};
           return {ok:true};
@@ -5041,7 +5095,7 @@ function syncFifaRanking(){
   return fetch(SBU+'/functions/v1/fifa-ranking-refresh', {
     method:'POST',
     headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
-    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||''})
+    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||'', pin_plain:myPinRaw||''})
   })
     .then(function(r){
       if(!r.ok) throw new Error('HTTP '+r.status);
@@ -5403,12 +5457,27 @@ function init(){
   try{
     var saved=localStorage.getItem('ms26s');
     if(saved){
-      var s=JSON.parse(saved); myPin=s.pin;
+      var s=JSON.parse(saved);
       setText('le',tr('loading_restore'));
-      rpcWithRetry('prihlasit_hrace',{p_jmeno:s.jmeno,p_pin:s.pin}).then(function(d){
-        if(!d||d.chyba) document.getElementById('lo').style.display='flex';
-        else finishLogin(d);
-      }).catch(function(){document.getElementById('lo').style.display='flex';});
+      if(s&&s.pin_hash&&isSha256Hex(s.pin_hash)){
+        myPin=String(s.pin_hash).toLowerCase();
+        loadRawPinFromSession();
+        rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:myPin}).then(function(d){
+          if(!d||d.chyba) document.getElementById('lo').style.display='flex';
+          else finishLogin(d);
+        }).catch(function(){document.getElementById('lo').style.display='flex';});
+      }else if(s&&s.pin){
+        sha256Hex(s.pin).then(function(pinHash){
+          myPin=pinHash;
+          persistRawPin(s.pin);
+          return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:pinHash,p_pin_plain:s.pin});
+        }).then(function(d){
+          if(!d||d.chyba) document.getElementById('lo').style.display='flex';
+          else finishLogin(d);
+        }).catch(function(){document.getElementById('lo').style.display='flex';});
+      }else{
+        document.getElementById('lo').style.display='flex';
+      }
       return;
     }
   }catch(e){}
