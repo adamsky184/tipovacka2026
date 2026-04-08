@@ -2064,6 +2064,7 @@ var discussionPosts=[];
 var discussionReactions={};
 var discussionReplyTo=null;
 var discussionVisibleRoots=20;
+var discussionSending=false;
 var espnTeamIndex=null;
 var teamDetailCache={};
 var currentTeamView=null;
@@ -2720,6 +2721,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCounts={},leaderboardCache={cel:null,sk:null,po:null};
+var derivedStatsCache={similarity:null,insightsRows:null};
 var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all';
 var pendingTeamFocus='';
 
@@ -2838,12 +2840,17 @@ function getExtraPointsForPlayer(playerId){
   if(extraTipMeta.scorerActual && plainNorm(rec.scorerTip)===plainNorm(extraTipMeta.scorerActual)) total+=20;
   return total;
 }
+function invalidateDerivedCaches(){
+  derivedStatsCache.similarity=null;
+  derivedStatsCache.insightsRows=null;
+}
 function loadExtraTips(){
   return sbf('extra_tips?select=hrac_id,winner_tip,scorer_tip,updated_at').then(function(d){
     extraTipsByPlayer={};
     (d||[]).forEach(function(row){
       extraTipsByPlayer[String(row.hrac_id)]={winnerTip:row.winner_tip||'',scorerTip:row.scorer_tip||'',updatedAt:row.updated_at||''};
     });
+    invalidateDerivedCaches();
   }).catch(function(){ extraTipsByPlayer={}; });
 }
 function loadExtraMeta(){
@@ -3315,6 +3322,7 @@ function loadMyTips(){
   if(!me) return Promise.resolve();
   return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){
     myTips={};(d||[]).forEach(function(t){myTips[parseInt(t.zapas_id,10)]=t.tip;});
+    invalidateDerivedCaches();
   });
 }
 function loadAllTips(){
@@ -3324,6 +3332,7 @@ function loadAllTips(){
       if(!allTips[t.hrac_id]) allTips[t.hrac_id]={};
       allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
     });
+    invalidateDerivedCaches();
   }).catch(function(){ allTips={}; });
 }
 function loadTipTrends(){
@@ -3343,6 +3352,7 @@ function loadLeaderboardSnapshot(phase){
   if(!me||!myPin){ leaderboardCache[key]=[]; return Promise.resolve([]); }
   return rpcWithRetry('get_leaderboard_snapshot_secure',{p_hrac_id:me.id,p_pin:myPin,p_phase:key}).then(function(d){
     leaderboardCache[key]=Array.isArray(d)?d:[];
+    invalidateDerivedCaches();
     return leaderboardCache[key];
   }).catch(function(){
     leaderboardCache[key]=[];
@@ -3378,6 +3388,7 @@ function buildLeaderboardFromCache(phase){
 function loadResults(){
   return sbf('vysledky?select=zapas_id,skore').then(function(d){
     results={};(d||[]).forEach(function(v){results[parseInt(v.zapas_id,10)]=v.skore;});
+    invalidateDerivedCaches();
     updProgress();
   });
 }
@@ -3454,6 +3465,7 @@ function tipOutcome(t){
   return sp[0]>sp[1]?'1':sp[0]===sp[1]?'X':'2';
 }
 function computeSimilarity(){
+  if(derivedStatsCache.similarity!==null) return derivedStatsCache.similarity;
   if(!me || !players.length) return null;
   var mine=myTips||{},best=null;
   players.forEach(function(p){
@@ -3472,6 +3484,7 @@ function computeSimilarity(){
       best={name:p.jmeno,overlap:overlap,exact:exact,outcomeSame:outcomeSame,exactRatio:exactRatio,outcomeRatio:outcomeRatio};
     }
   });
+  derivedStatsCache.similarity=best;
   return best;
 }
 function renderSimilarity(){
@@ -3490,7 +3503,11 @@ function renderInsights(){
   var box=document.getElementById('ins-box');
   if(!box) return;
   if(!players.length){ box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>'; return; }
-  var scored=getLeaderboardSnapshot('cel').slice(0,3).map(function(row){ return {name:row.p.jmeno,total:row.total,pre:row.pre,spr:row.spr}; });
+  var scored=derivedStatsCache.insightsRows;
+  if(!scored){
+    scored=getLeaderboardSnapshot('cel').slice(0,3).map(function(row){ return {name:row.p.jmeno,total:row.total,pre:row.pre,spr:row.spr}; });
+    derivedStatsCache.insightsRows=scored;
+  }
   if(!scored.length){ box.innerHTML='<span class="mut">'+tr('sim_none')+'</span>'; return; }
   var medals=['🥇','🥈','🥉'];
   box.innerHTML=scored.map(function(row,i){
@@ -3770,9 +3787,13 @@ function resetDiscussionComposer(){
 }
 function saveDiscussionPost(){
   if(!me){ var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_login'); return; }
+  if(discussionSending) return;
   var ta=document.getElementById('discussion-body'),body=ta?ta.value.trim():'';
   var st=document.getElementById('discussion-status');
+  var btn=document.getElementById('btn-discussion-send');
   if(!body){ if(st) st.textContent=tr('discussion_placeholder'); return; }
+  discussionSending=true;
+  if(btn) btn.disabled=true;
   if(st) st.textContent=tr('discussion_sending');
   rpcWithRetry('discussion_save_post_secure',{p_hrac_id:me.id,p_pin:myPin,p_body:body,p_parent_id:discussionReplyTo?discussionReplyTo.id:null}).then(function(){
     return loadDiscussion();
@@ -3782,6 +3803,9 @@ function saveDiscussionPost(){
     var status=document.getElementById('discussion-status'); if(status) status.textContent=tr('discussion_saved');
   }).catch(function(e){
     if(st) st.textContent=(e&&e.message)||tr('error_generic');
+  }).finally(function(){
+    discussionSending=false;
+    if(btn) btn.disabled=false;
   });
 }
 function saveExtraTips(){
