@@ -1365,12 +1365,23 @@ body.theme-light .venue{color:#5f7690}
 .team-history-medals{display:flex;align-items:center;gap:8px;white-space:nowrap}
 .team-history-medal-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;border:1px solid var(--bd2);background:rgba(255,255,255,.03);font-size:.68rem;font-weight:700;color:var(--tx)}
 .team-history-medal-total{font-size:.68rem;color:var(--mu2);font-weight:700}
+.team-history-section-title{margin:2px 0 10px;font-size:.7rem;color:var(--mu2);letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+.history-mini-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:999px;border:1px solid var(--bd2);background:rgba(59,130,246,.08);color:var(--ac2);font-size:.58rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle}
+.history-mini-badge.gold{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.28);color:#d97706}
+.history-mini-badge.green{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.28);color:var(--gn2)}
+.team-history-score{font-weight:800;color:var(--tx);white-space:nowrap}
+.team-history-top1 td{background:rgba(245,158,11,.06)}
+.team-history-top2 td{background:rgba(148,163,184,.06)}
+.team-history-top3 td{background:rgba(244,114,182,.05)}
 body.theme-light .team-history-intro,body.theme-light .team-history-card,body.theme-light .team-history-table-wrap{background:#fff;border-color:rgba(37,99,235,.18);box-shadow:none}
 body.theme-light .team-history-table th{background:rgba(37,99,235,.05);color:#60738d}
 body.theme-light .team-history-table td{border-bottom-color:rgba(148,163,184,.24)}
 body.theme-light .team-history-table tbody tr:nth-child(even){background:rgba(37,99,235,.025)}
 body.theme-light .team-history-table tbody tr:hover{background:rgba(37,99,235,.06)}
 body.theme-light .team-history-medal-pill{background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.16)}
+body.theme-light .history-mini-badge{background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.2)}
+body.theme-light .history-mini-badge.gold{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.24)}
+body.theme-light .history-mini-badge.green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.24)}
 .history-facts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .history-fact{padding:14px 15px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015))}
 .history-fact-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -1722,7 +1733,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9</span> · <span id="lo-date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9.1</span> · <span id="lo-date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2028,7 +2039,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9</span> · <span id="date-lbl">8. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9.1</span> · <span id="date-lbl">8. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2100,7 +2111,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.9',
+    footer_ver:'v4.9.1',
     footer_date:'8. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2202,7 +2213,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.9',
+    footer_ver:'v4.9.1',
     footer_date:'8 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2577,28 +2588,28 @@ var TEAM_MEDALS={
 };
 
 var WORLD_CUP_HISTORY=[
-  {year:2022,hostCs:'Katar',hostEn:'Qatar',winner:'Argentina',runner:'Francie',third:'Chorvatsko',scorer:'Kylian Mbappé (8)'},
-  {year:2018,hostCs:'Rusko',hostEn:'Russia',winner:'Francie',runner:'Chorvatsko',third:'Belgie',scorer:'Harry Kane (6)'},
-  {year:2014,hostCs:'Brazílie',hostEn:'Brazil',winner:'Německo',runner:'Argentina',third:'Nizozemsko',scorer:'James Rodríguez (6)'},
-  {year:2010,hostCs:'Jižní Afrika',hostEn:'South Africa',winner:'Španělsko',runner:'Nizozemsko',third:'Německo',scorer:'Thomas Müller (5)'},
-  {year:2006,hostCs:'Německo',hostEn:'Germany',winner:'Itálie',runner:'Francie',third:'Německo',scorer:'Miroslav Klose (5)'},
-  {year:2002,hostCs:'Japonsko / Jižní Korea',hostEn:'Japan / South Korea',winner:'Brazílie',runner:'Německo',third:'Turecko',scorer:'Ronaldo (8)'},
-  {year:1998,hostCs:'Francie',hostEn:'France',winner:'Francie',runner:'Brazílie',third:'Chorvatsko',scorer:'Davor Šuker (6)'},
-  {year:1994,hostCs:'USA',hostEn:'United States',winner:'Brazílie',runner:'Itálie',third:'Švédsko',scorer:'Oleg Salenko / Hristo Stoičkov (6)'},
-  {year:1990,hostCs:'Itálie',hostEn:'Italy',winner:'Západní Německo',runner:'Argentina',third:'Itálie',scorer:'Salvatore Schillaci (6)'},
-  {year:1986,hostCs:'Mexiko',hostEn:'Mexico',winner:'Argentina',runner:'Západní Německo',third:'Francie',scorer:'Gary Lineker (6)'},
-  {year:1982,hostCs:'Španělsko',hostEn:'Spain',winner:'Itálie',runner:'Západní Německo',third:'Polsko',scorer:'Paolo Rossi (6)'},
-  {year:1978,hostCs:'Argentina',hostEn:'Argentina',winner:'Argentina',runner:'Nizozemsko',third:'Brazílie',scorer:'Mario Kempes (6)'},
-  {year:1974,hostCs:'Západní Německo',hostEn:'West Germany',winner:'Západní Německo',runner:'Nizozemsko',third:'Polsko',scorer:'Grzegorz Lato (7)'},
-  {year:1970,hostCs:'Mexiko',hostEn:'Mexico',winner:'Brazílie',runner:'Itálie',third:'Západní Německo',scorer:'Gerd Müller (10)'},
-  {year:1966,hostCs:'Anglie',hostEn:'England',winner:'Anglie',runner:'Západní Německo',third:'Portugalsko',scorer:'Eusébio (9)'},
-  {year:1962,hostCs:'Chile',hostEn:'Chile',winner:'Brazílie',runner:'Československo',third:'Chile',scorer:'Albert / Garrincha / Jerković / Sánchez / Vavá / Ivanov (4)'},
-  {year:1958,hostCs:'Švédsko',hostEn:'Sweden',winner:'Brazílie',runner:'Švédsko',third:'Francie',scorer:'Just Fontaine (13)'},
-  {year:1954,hostCs:'Švýcarsko',hostEn:'Switzerland',winner:'Západní Německo',runner:'Maďarsko',third:'Rakousko',scorer:'Sándor Kocsis (11)'},
-  {year:1950,hostCs:'Brazílie',hostEn:'Brazil',winner:'Uruguay',runner:'Brazílie',third:'Švédsko',scorer:'Ademir (9)'},
-  {year:1938,hostCs:'Francie',hostEn:'France',winner:'Itálie',runner:'Maďarsko',third:'Brazílie',scorer:'Leônidas (7)'},
-  {year:1934,hostCs:'Itálie',hostEn:'Italy',winner:'Itálie',runner:'Československo',third:'Německo',scorer:'Oldřich Nejedlý (5)'},
-  {year:1930,hostCs:'Uruguay',hostEn:'Uruguay',winner:'Uruguay',runner:'Argentina',third:'USA',scorer:'Guillermo Stábile (8)'}
+  {year:2022,hostCs:'Katar',hostEn:'Qatar',winner:'Argentina',runner:'Francie',score:'3:3 (4:2 p)',third:'Chorvatsko',scorer:'Kylian Mbappé (8)'},
+  {year:2018,hostCs:'Rusko',hostEn:'Russia',winner:'Francie',runner:'Chorvatsko',score:'4:2',third:'Belgie',scorer:'Harry Kane (6)'},
+  {year:2014,hostCs:'Brazílie',hostEn:'Brazil',winner:'Německo',runner:'Argentina',score:'1:0 pp',third:'Nizozemsko',scorer:'James Rodríguez (6)'},
+  {year:2010,hostCs:'Jižní Afrika',hostEn:'South Africa',winner:'Španělsko',runner:'Nizozemsko',score:'1:0 pp',third:'Německo',scorer:'Thomas Müller (5)'},
+  {year:2006,hostCs:'Německo',hostEn:'Germany',winner:'Itálie',runner:'Francie',score:'1:1 (5:3 p)',third:'Německo',scorer:'Miroslav Klose (5)'},
+  {year:2002,hostCs:'Japonsko / Jižní Korea',hostEn:'Japan / South Korea',winner:'Brazílie',runner:'Německo',score:'2:0',third:'Turecko',scorer:'Ronaldo (8)'},
+  {year:1998,hostCs:'Francie',hostEn:'France',winner:'Francie',runner:'Brazílie',score:'3:0',third:'Chorvatsko',scorer:'Davor Šuker (6)'},
+  {year:1994,hostCs:'USA',hostEn:'United States',winner:'Brazílie',runner:'Itálie',score:'0:0 (3:2 p)',third:'Švédsko',scorer:'Oleg Salenko / Hristo Stoičkov (6)'},
+  {year:1990,hostCs:'Itálie',hostEn:'Italy',winner:'Západní Německo',runner:'Argentina',score:'1:0',third:'Itálie',scorer:'Salvatore Schillaci (6)'},
+  {year:1986,hostCs:'Mexiko',hostEn:'Mexico',winner:'Argentina',runner:'Západní Německo',score:'3:2',third:'Francie',scorer:'Gary Lineker (6)'},
+  {year:1982,hostCs:'Španělsko',hostEn:'Spain',winner:'Itálie',runner:'Západní Německo',score:'3:1',third:'Polsko',scorer:'Paolo Rossi (6)'},
+  {year:1978,hostCs:'Argentina',hostEn:'Argentina',winner:'Argentina',runner:'Nizozemsko',score:'3:1 pp',third:'Brazílie',scorer:'Mario Kempes (6)'},
+  {year:1974,hostCs:'Západní Německo',hostEn:'West Germany',winner:'Západní Německo',runner:'Nizozemsko',score:'2:1',third:'Polsko',scorer:'Grzegorz Lato (7)'},
+  {year:1970,hostCs:'Mexiko',hostEn:'Mexico',winner:'Brazílie',runner:'Itálie',score:'4:1',third:'Západní Německo',scorer:'Gerd Müller (10)'},
+  {year:1966,hostCs:'Anglie',hostEn:'England',winner:'Anglie',runner:'Západní Německo',score:'4:2 pp',third:'Portugalsko',scorer:'Eusébio (9)'},
+  {year:1962,hostCs:'Chile',hostEn:'Chile',winner:'Brazílie',runner:'Československo',score:'3:1',third:'Chile',scorer:'Albert / Garrincha / Jerković / Sánchez / Vavá / Ivanov (4)'},
+  {year:1958,hostCs:'Švédsko',hostEn:'Sweden',winner:'Brazílie',runner:'Švédsko',score:'5:2',third:'Francie',scorer:'Just Fontaine (13)'},
+  {year:1954,hostCs:'Švýcarsko',hostEn:'Switzerland',winner:'Západní Německo',runner:'Maďarsko',score:'3:2',third:'Rakousko',scorer:'Sándor Kocsis (11)'},
+  {year:1950,hostCs:'Brazílie',hostEn:'Brazil',winner:'Uruguay',runner:'Brazílie',score:'2:1',third:'Švédsko',scorer:'Ademir (9)'},
+  {year:1938,hostCs:'Francie',hostEn:'France',winner:'Itálie',runner:'Maďarsko',score:'4:2',third:'Brazílie',scorer:'Leônidas (7)'},
+  {year:1934,hostCs:'Itálie',hostEn:'Italy',winner:'Itálie',runner:'Československo',score:'2:1 pp',third:'Německo',scorer:'Oldřich Nejedlý (5)'},
+  {year:1930,hostCs:'Uruguay',hostEn:'Uruguay',winner:'Uruguay',runner:'Argentina',score:'4:2',third:'USA',scorer:'Guillermo Stábile (8)'}
 ];
 
 var WORLD_CUP_MEDAL_TABLE=[
@@ -4727,31 +4738,33 @@ var WORLD_CUP_FACTS=[
   {icon:'🦁',titleCs:'První africký semifinalista',titleEn:'First African semi-finalist',bodyCs:'Maroko se na MS 2022 stalo prvním africkým týmem, který postoupil do semifinále.',bodyEn:'Morocco became the first African team to reach a World Cup semi-final in 2022.'}
 ];
 var WORLD_CUP_RECORDS=[
-  {icon:'🏆',labelCs:'Nejvíc titulů',labelEn:'Most titles',value:'Brazil',sub:'5 titulů · 1958–2002'},
-  {icon:'🥈',labelCs:'Nejvíc finále',labelEn:'Most finals',value:'Germany',sub:'8 finále · 1954–2014'},
-  {icon:'⚽',labelCs:'Nejlepší střelec historie',labelEn:'All-time top scorer',value:'Miroslav Klose',sub:'16 gólů · 2002–2014'},
-  {icon:'🔥',labelCs:'Nejlepší střelecký turnaj',labelEn:'Best scoring tournament',value:'Just Fontaine',sub:'13 gólů · Švédsko 1958'},
-  {icon:'👶',labelCs:'Nejmladší střelec',labelEn:'Youngest goalscorer',value:'Pelé',sub:'17y 239d · 1958 vs Wales'},
-  {icon:'🕰️',labelCs:'Nejstarší střelec',labelEn:'Oldest goalscorer',value:'Roger Milla',sub:'42y 39d · 1994 vs Russia'},
-  {icon:'💨',labelCs:'Nejrychlejší gól',labelEn:'Fastest goal',value:'Hakan Şükür',sub:'11 s · 2002 vs Korea Republic'},
-  {icon:'📈',labelCs:'Nejvyšší výhra',labelEn:'Biggest win',value:'9:0',sub:'1954 / 1974 · stalo se 2x'}
+  {group:'team',icon:'🏆',labelCs:'Nejvíc titulů',labelEn:'Most titles',value:'Brazílie',nation:'Brazílie',sub:'5 titulů · 1958–2002'},
+  {group:'team',icon:'🥈',labelCs:'Nejvíc finále',labelEn:'Most finals',value:'Německo',nation:'Německo',sub:'8 finále · 1954–2014'},
+  {group:'team',icon:'😬',labelCs:'Nejvíc finále bez titulu',labelEn:'Most finals without a title',value:'Nizozemsko',nation:'Nizozemsko',sub:'3 prohraná finále · 1974, 1978, 2010'},
+  {group:'team',icon:'📈',labelCs:'Nejvyšší výhra',labelEn:'Biggest win',value:'9:0',nation:'',sub:'Maďarsko–Jižní Korea 1954 / Jugoslávie–Zair 1974'},
+  {group:'player',icon:'⚽',labelCs:'Nejlepší střelec historie',labelEn:'All-time top scorer',value:'Miroslav Klose',nation:'Německo',sub:'16 gólů · 2002–2014'},
+  {group:'player',icon:'🔥',labelCs:'Nejlepší střelecký turnaj',labelEn:'Best scoring tournament',value:'Just Fontaine',nation:'Francie',sub:'13 gólů · Švédsko 1958'},
+  {group:'player',icon:'👶',labelCs:'Nejmladší střelec',labelEn:'Youngest goalscorer',value:'Pelé',nation:'Brazílie',sub:'17 let 239 dní · 1958 vs Wales'},
+  {group:'player',icon:'🕰️',labelCs:'Nejstarší střelec',labelEn:'Oldest goalscorer',value:'Roger Milla',nation:'Kamerun',sub:'42 let 39 dní · 1994 vs Rusko'},
+  {group:'player',icon:'💨',labelCs:'Nejrychlejší gól',labelEn:'Fastest goal',value:'Hakan Şükür',nation:'Turecko',sub:'11 sekund · 2002 vs Jižní Korea'},
+  {group:'player',icon:'🧱',labelCs:'Nejvíc zápasů na MS',labelEn:'Most World Cup matches',value:'Lothar Matthäus',nation:'Německo',sub:'25 zápasů · 1982–1998'}
 ];
 var WORLD_CUP_TOP_SCORERS=[
-  {name:'Miroslav Klose',nation:'Německo',goals:16},
-  {name:'Ronaldo',nation:'Brazílie',goals:15},
-  {name:'Gerd Müller',nation:'Západní Německo',goals:14},
-  {name:'Just Fontaine',nation:'Francie',goals:13},
-  {name:'Lionel Messi',nation:'Argentina',goals:13},
-  {name:'Kylian Mbappé',nation:'Francie',goals:12},
-  {name:'Pelé',nation:'Brazílie',goals:12},
-  {name:'Jürgen Klinsmann',nation:'Německo / Západní Německo',goals:11},
-  {name:'Sándor Kocsis',nation:'Maďarsko',goals:11},
-  {name:'Gary Lineker',nation:'Anglie',goals:10},
-  {name:'Thomas Müller',nation:'Německo',goals:10},
-  {name:'Gabriel Batistuta',nation:'Argentina',goals:10},
-  {name:'Grzegorz Lato',nation:'Polsko',goals:10},
-  {name:'Teófilo Cubillas',nation:'Peru',goals:10},
-  {name:'Helmut Rahn',nation:'Západní Německo',goals:10}
+  {name:'Miroslav Klose',nation:'Německo',goals:16,active:false},
+  {name:'Ronaldo',nation:'Brazílie',goals:15,active:false},
+  {name:'Gerd Müller',nation:'Západní Německo',goals:14,active:false},
+  {name:'Just Fontaine',nation:'Francie',goals:13,active:false},
+  {name:'Lionel Messi',nation:'Argentina',goals:13,active:true},
+  {name:'Kylian Mbappé',nation:'Francie',goals:12,active:true},
+  {name:'Pelé',nation:'Brazílie',goals:12,active:false},
+  {name:'Jürgen Klinsmann',nation:'Německo / Západní Německo',goals:11,active:false},
+  {name:'Sándor Kocsis',nation:'Maďarsko',goals:11,active:false},
+  {name:'Gary Lineker',nation:'Anglie',goals:10,active:false},
+  {name:'Thomas Müller',nation:'Německo',goals:10,active:false},
+  {name:'Gabriel Batistuta',nation:'Argentina',goals:10,active:false},
+  {name:'Grzegorz Lato',nation:'Polsko',goals:10,active:false},
+  {name:'Teófilo Cubillas',nation:'Peru',goals:10,active:false},
+  {name:'Helmut Rahn',nation:'Západní Německo',goals:10,active:false}
 ];
 var WORLD_CUP_LEGENDARY_FINALS=[
   {year:1950,titleCs:'Maracanazo',titleEn:'Maracanazo',bodyCs:'Uruguay šokovalo Brazílii v rozhodujícím utkání finálové skupiny a umlčelo Maracanã.',bodyEn:'Uruguay stunned Brazil in the decisive final-group match and silenced the Maracanã.'},
@@ -4762,9 +4775,10 @@ var WORLD_CUP_LEGENDARY_FINALS=[
 ];
 function renderHistoryAwards(){
   var latest=WORLD_CUP_AWARDS[0];
+  var latestBallBadge=latest.ball==='Lionel Messi' ? '<span class="history-mini-badge gold">2×</span>' : '';
   var html='<div class="team-history-wrap">';
   html+='<div class="team-history-cards">';
-  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Golden Ball':'Poslední hráč turnaje')+'</h4><div class="big"><span>🏆</span><span>'+escHtml(latest.ball)+'</span></div><div class="sub">'+(latest.ballNation?(fl(latest.ballNation)?fl(latest.ballNation)+' ':'')+escHtml(LANG==='en'?tN(latest.ballNation):latest.ballNation):'')+'<br>'+escHtml((LANG==='en'?'Year':'Rok')+': '+latest.year)+'</div></div>';
+  html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Golden Ball':'Poslední hráč turnaje')+'</h4><div class="big"><span>🏆</span><span>'+escHtml(latest.ball)+'</span>'+latestBallBadge+'</div><div class="sub">'+(latest.ballNation?(fl(latest.ballNation)?fl(latest.ballNation)+' ':'')+escHtml(LANG==='en'?tN(latest.ballNation):latest.ballNation):'')+'<br>'+escHtml((LANG==='en'?'Year':'Rok')+': '+latest.year)+'</div></div>';
   html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Golden Glove':'Poslední nejlepší brankář')+'</h4><div class="big"><span>🧤</span><span>'+escHtml(latest.glove)+'</span></div><div class="sub">'+(latest.gloveNation?(fl(latest.gloveNation)?fl(latest.gloveNation)+' ':'')+escHtml(LANG==='en'?tN(latest.gloveNation):latest.gloveNation):'')+'<br>'+escHtml((LANG==='en'?'Official since 1994':'Oficiálně od 1994'))+'</div></div>';
   html+='<div class="team-history-card"><h4>'+(LANG==='en'?'Latest Young Player':'Poslední nejlepší mladý hráč')+'</h4><div class="big"><span>🌟</span><span>'+escHtml(latest.young)+'</span></div><div class="sub">'+(latest.youngNation?(fl(latest.youngNation)?fl(latest.youngNation)+' ':'')+escHtml(LANG==='en'?tN(latest.youngNation):latest.youngNation):'')+'<br>'+escHtml((LANG==='en'?'Official since 2006':'Oficiálně od 2006'))+'</div></div>';
   html+='</div>';
@@ -4778,9 +4792,9 @@ function renderHistoryAwards(){
 function renderHistoryFinals(){
   function teamLabel(name){ return (fl(name)?fl(name)+' ':'')+name; }
   var html='<div class="team-history-wrap">';
-  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>📅 '+(LANG==='en'?'Year':'Rok')+'</th><th>🌍 '+(LANG==='en'?'Host':'Pořadatel')+'</th><th>🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</th><th>🥈 '+(LANG==='en'?'Runner-up':'Finalista')+'</th><th>🥉 '+(LANG==='en'?'Third place':'3. místo')+'</th><th>⚽ '+(LANG==='en'?'Top scorer':'Nej střelec')+'</th></tr></thead><tbody>';
+  html+='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>📅 '+(LANG==='en'?'Year':'Rok')+'</th><th>🌍 '+(LANG==='en'?'Host':'Pořadatel')+'</th><th>🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</th><th>🥈 '+(LANG==='en'?'Runner-up':'Finalista')+'</th><th>🔢 '+(LANG==='en'?'Score':'Skóre')+'</th><th>🥉 '+(LANG==='en'?'Third place':'3. místo')+'</th><th>⚽ '+(LANG==='en'?'Top scorer':'Nej střelec')+'</th></tr></thead><tbody>';
   WORLD_CUP_HISTORY.forEach(function(row){
-    html+='<tr><td class="team-history-year">'+row.year+'</td><td>'+escHtml(LANG==='en'?row.hostEn:row.hostCs)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.winner))+'</td><td>'+escHtml(teamLabel(row.runner))+'</td><td>'+escHtml(teamLabel(row.third))+'</td><td>'+escHtml(row.scorer)+'</td></tr>';
+    html+='<tr><td class="team-history-year">'+row.year+'</td><td>'+escHtml(LANG==='en'?row.hostEn:row.hostCs)+'</td><td class="team-history-team">'+escHtml(teamLabel(row.winner))+'</td><td>'+escHtml(teamLabel(row.runner))+'</td><td class="team-history-score">'+escHtml(row.score||'—')+'</td><td>'+escHtml(teamLabel(row.third))+'</td><td>'+escHtml(row.scorer)+'</td></tr>';
   });
   html+='</tbody></table></div>';
   html+='<div class="history-facts-grid">';
@@ -4830,9 +4844,15 @@ function renderHistoryMedals(){
   return html;
 }
 function renderHistoryRecords(){
-  var html='<div class="history-facts-grid">';
-  WORLD_CUP_RECORDS.forEach(function(rec){
-    html+='<div class="history-fact"><div class="history-fact-top"><span class="history-fact-icon">'+rec.icon+'</span><div class="history-fact-title">'+escHtml(LANG==='en'?rec.labelEn:rec.labelCs)+'</div></div><div class="history-fact-body"><strong style="color:var(--tx)">'+escHtml(rec.value)+'</strong> · '+escHtml(rec.sub)+'</div></div>';
+  var html='<div class="team-history-wrap">';
+  [['team',LANG==='en'?'Team records':'Týmové rekordy'],['player',LANG==='en'?'Player records':'Hráčské rekordy']].forEach(function(group){
+    html+='<div class="team-history-section-title">'+escHtml(group[1])+'</div>';
+    html+='<div class="history-facts-grid">';
+    WORLD_CUP_RECORDS.filter(function(rec){ return rec.group===group[0]; }).forEach(function(rec){
+      var val=((rec.nation&&fl(rec.nation)?fl(rec.nation)+' ':'')+escHtml(rec.value)+(rec.nation?' · '+escHtml(LANG==='en'?tN(rec.nation):rec.nation):''));
+      html+='<div class="history-fact"><div class="history-fact-top"><span class="history-fact-icon">'+rec.icon+'</span><div class="history-fact-title">'+escHtml(LANG==='en'?rec.labelEn:rec.labelCs)+'</div></div><div class="history-fact-body"><strong style="color:var(--tx)">'+val+'</strong> · '+escHtml(rec.sub)+'</div></div>';
+    });
+    html+='</div>';
   });
   html+='</div>';
   return html;
@@ -4840,7 +4860,10 @@ function renderHistoryRecords(){
 function renderHistoryScorers(){
   var html='<div class="team-history-table-wrap"><table class="team-history-table"><thead><tr><th>#</th><th>⚽ '+(LANG==='en'?'Player':'Hráč')+'</th><th>🌍 '+(LANG==='en'?'Nation':'Země')+'</th><th>🎯 '+(LANG==='en'?'Goals':'Góly')+'</th></tr></thead><tbody>';
   WORLD_CUP_TOP_SCORERS.forEach(function(row,idx){
-    html+='<tr><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(row.name)+'</td><td>'+((fl(row.nation)?fl(row.nation)+' ':'')+escHtml(LANG==='en'?tN(row.nation):row.nation))+'</td><td>'+row.goals+'</td></tr>';
+    var rowCls=idx===0?' class="team-history-top1"':idx===1?' class="team-history-top2"':idx===2?' class="team-history-top3"':'';
+    var medal=idx===0?' 🥇':idx===1?' 🥈':idx===2?' 🥉':'';
+    var active=row.active?'<span class="history-mini-badge green">'+escHtml(LANG==='en'?'Active':'Aktivní')+'</span>':'';
+    html+='<tr'+rowCls+'><td class="team-history-year">'+(idx+1)+'</td><td class="team-history-team">'+escHtml(row.name)+medal+' '+active+'</td><td>'+((fl(row.nation)?fl(row.nation)+' ':'')+escHtml(LANG==='en'?tN(row.nation):row.nation))+'</td><td>'+row.goals+'</td></tr>';
   });
   html+='</tbody></table></div>';
   return html;
