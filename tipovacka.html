@@ -115,6 +115,7 @@ body.theme-light .venue{color:#5f7690}
 .ost-strip th:first-child{padding-left:10px;border-left:1px solid var(--bd2);border-top-left-radius:8px;border-bottom-left-radius:8px;font-size:.82rem;font-weight:700;color:var(--tx);letter-spacing:0;text-transform:none;text-align:left}
 .ost-strip th:last-child{border-right:1px solid var(--bd2);border-top-right-radius:8px;border-bottom-right-radius:8px}
 .ost-strip th.ost-player-col{max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.ost-strip th.ost-player-col.is-rival{background:rgba(245,158,11,.08);box-shadow:inset 0 -1px 0 rgba(245,158,11,.18)}
 .ost-strip .badge{font-size:.48rem;padding:1px 4px;margin-left:2px}
 @media(max-width:600px){.ost-strip th{font-size:.56rem;padding:8px 5px}.ost-strip th:first-child{font-size:.82rem;padding-left:9px}}
 .mr{display:grid;grid-template-columns:1fr var(--mr-tip-w) var(--mr-gt-w);gap:10px;align-items:center;padding:9px 10px;border-bottom:1px solid rgba(28,48,80,.4)}
@@ -265,7 +266,9 @@ body.theme-light .venue{color:#5f7690}
 .pf-link{font-size:.68rem;color:var(--ac2);cursor:pointer}
 .pf-list{display:grid;gap:6px}
 .pf-item{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--tx)}
+.pf-item.rival{color:#ffd089}
 .pf-summary{font-size:.68rem;color:var(--mu);margin-left:6px}
+.ost-rival-cell{background:rgba(245,158,11,.05)!important;box-shadow:inset 0 0 0 1px rgba(245,158,11,.08)}
 .pf-foot{display:flex;justify-content:flex-end;margin-top:9px;padding-top:8px;border-top:1px solid rgba(37,66,102,.35)}
 .pf-done{padding:5px 10px;border-radius:8px;border:1px solid var(--bd2);background:var(--bg3);color:var(--mu2);font-size:.69rem;font-weight:700;cursor:pointer}
 .pf-done:hover{border-color:var(--ac2);color:var(--ac2)}
@@ -1777,7 +1780,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.0</span> · <span id="lo-date-lbl">20. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.0.2</span> · <span id="lo-date-lbl">20. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -1945,7 +1948,7 @@ body.admin-user #btn-logout{padding:0 10px}
         </div>
       </div>
       <div class="tier-filters" id="ost-filters"><div class="tier1"><button class="phase-tab on" id="ptab-ost-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-ost-phase-po">Play-off</button><button class="phase-tab" id="ptab-ost-phase-ex">Celkový vítěz</button></div><div class="tier2" id="ost-sort-row"><button class="sort-chip on" id="ptab-ost-dt">Řadit dle data</button><button class="sort-chip" id="ptab-ost-sk">Řadit dle skupin</button></div></div>
-      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div><div class="pf-foot"><button class="pf-done" id="pf-done" type="button">Hotovo</button></div></div></div>
+      <div class="player-filter" id="player-filter-wrap"><button class="pf-btn" id="pf-btn">👥 <span id="pf-btn-lbl">Zobrazit hráče</span><span class="pf-summary" id="pf-summary"></span></button><div class="pf-menu" id="pf-menu"><div class="pf-actions"><span class="pf-link" id="pf-all">Všichni</span><span class="pf-link" id="pf-rivals">Jen rivalové</span><span class="pf-link" id="pf-none">Nikdo</span></div><div class="pf-list" id="pf-list"></div><div class="pf-foot"><button class="pf-done" id="pf-done" type="button">Hotovo</button></div></div></div>
       <div class="card"><div id="ost-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div>
     </div>
 
@@ -2083,7 +2086,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.0</span> · <span id="date-lbl">20. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.0.2</span> · <span id="date-lbl">20. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2101,6 +2104,7 @@ var cdInterval=null;
 var currentTheme='dark';
 var otherPhase='sk';
 var vysPhase='sk';
+var adminSort='dt';
 var selectedOtherIds=[];
 var extraTipsByPlayer={};
 var extraTipMeta={lockAt:'2026-06-11T19:00:00.000Z',winnerActual:'',scorerActual:'',updatedAt:''};
@@ -2156,7 +2160,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v5.0',
+    footer_ver:'v5.0.2',
     footer_date:'20. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2205,6 +2209,7 @@ var T={
     phase_playoff:'Play-off',
     phase_extra:'Celkový vítěz',
     show_players:'Zobrazit hráče',
+    rival_only:'Jen rivalové',
     all_players:'Všichni',
     my_tendencies:'Moje tendence',
     ost_top3:'Top 3 v žebříčku',
@@ -2258,7 +2263,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v5.0',
+    footer_ver:'v5.0.2',
     footer_date:'20 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -2307,6 +2312,7 @@ var T={
     phase_playoff:'Play-off',
     phase_extra:'Overall winner',
     show_players:'Show players',
+    rival_only:'Rivals only',
     all_players:'All',
     my_tendencies:'My tendencies',
     ost_top3:'Top 3 leaderboard',
@@ -4103,7 +4109,7 @@ function applyI18n(){
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
   setText('ins-h',tr('ost_top3'));setText('form-h',tr('form_h'));
   setHtml('ibox-zeb',tr('leader_info'));
-  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
+  setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-rivals',tr('rival_only'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
 
   document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
@@ -4219,13 +4225,13 @@ function loadRivals(){
     var raw=localStorage.getItem(key);
     if(!raw) return;
     var parsed=JSON.parse(raw);
-    if(Array.isArray(parsed)) rivalIds=parsed.map(function(x){ return String(x); }).slice(0,3);
+    if(Array.isArray(parsed)) rivalIds=parsed.map(function(x){ return String(x); }).slice(0,5);
   }catch(e){}
 }
 function saveRivals(){
   var key=rivalsStorageKey();
   if(!key) return;
-  try{ localStorage.setItem(key, JSON.stringify((rivalIds||[]).slice(0,3))); }catch(e){}
+  try{ localStorage.setItem(key, JSON.stringify((rivalIds||[]).slice(0,5))); }catch(e){}
 }
 function isRivalId(playerId){
   return rivalIds.indexOf(String(playerId))>=0;
@@ -4238,7 +4244,7 @@ function toggleRival(playerId){
     saveRivals();
     return {ok:true,added:false};
   }
-  if(rivalIds.length>=3) return {ok:false,limit:true};
+  if(rivalIds.length>=5) return {ok:false,limit:true};
   rivalIds.push(id);
   saveRivals();
   return {ok:true,added:true};
@@ -4576,7 +4582,7 @@ function renderPlayerFilter(){
   }
   list.innerHTML=others.map(function(p){
     var checked=selectedOtherIds.indexOf(String(p.id))>=0?' checked':'';
-    return '<label class="pf-item"><input type="checkbox" class="pf-chk" value="'+escAttr(p.id)+'"'+checked+'> <span>'+escHtml(p.jmeno)+'</span></label>';
+    return '<label class="pf-item'+(isRivalId(p.id)?' rival':'')+'"><input type="checkbox" class="pf-chk" value="'+escAttr(p.id)+'"'+checked+'> <span>'+(isRivalId(p.id)?'★ ':'')+escHtml(p.jmeno)+'</span></label>';
   }).join('');
   var selectedVisibleCount=selectedOtherIds.indexOf('__none__')>=0?0:selectedOtherIds.filter(function(id){ return otherIds.indexOf(String(id))>=0; }).length;
   if(sum) sum.textContent='('+selectedVisibleCount+'/'+others.length+')';
@@ -4713,7 +4719,7 @@ function renderOstStrip(title,others){
   others.forEach(function(p){
     var ci=players.indexOf(p);
     var badges=getPlayerDiscussionBadges(p.id,rankMap[String(p.id)]);
-    html+='<th class="ost-player-col" style="min-width:70px;color:'+AVC[ci%AVC.length]+'" title="'+escAttr(p.jmeno)+'">'+escHtml(p.jmeno)+(isRivalId(p.id)?'<span class="badge badge-rival">★</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+'</th>';
+    html+='<th class="ost-player-col'+(isRivalId(p.id)?' is-rival':'')+'" style="min-width:70px;color:'+AVC[ci%AVC.length]+'" title="'+escAttr(p.jmeno)+'">'+escHtml(p.jmeno)+(isRivalId(p.id)?'<span class="badge badge-rival">★</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+'</th>';
   });
   return html+'</tr>';
 }
@@ -4731,13 +4737,13 @@ function renderOstRow(z,others){
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
-    if(!canSee){html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
+    if(!canSee){html+='<td class="'+(isRivalId(p.id)?'ost-rival-cell':'')+'" style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
     else{
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
       var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
       var tipLabel=tip?escHtml(tip)+(pts===10?'<span title="'+escAttr(LANG==="en"?"Exact hit":"Přesný tip")+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
-      html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+tipLabel+'</td>';
+      html+='<td class="'+(isRivalId(p.id)?'ost-rival-cell':'')+'" style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+tipLabel+'</td>';
     }
   });
   return html+'</tr>';
@@ -4786,7 +4792,7 @@ function renderZeb(){
     btn.addEventListener('click',function(){
       var res=toggleRival(btn.getAttribute('data-rival'));
       if(res.limit){
-        showToast(LANG==='en'?'You can mark up to 3 rivals.':'Můžeš si označit maximálně 3 rivaly.','info');
+        showToast(LANG==='en'?'You can mark up to 5 rivals.':'Můžeš si označit maximálně 5 rivalů.','info');
         return;
       }
       renderZeb();
@@ -5348,7 +5354,7 @@ function adminUpsertTip(hid,zid,nt){
 }
 function renderAdmin(){
   if(!me||!me.je_admin) return;
-  var el=document.getElementById('adm-list'),all=SZ.concat(PZ);
+  var el=document.getElementById('adm-list'),all=adminSort==='dt'?sortByDate(SZ.concat(PZ)):SZ.concat(PZ);
   if(!players.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
   var extraRows=players.slice().sort(function(a,b){ return a.jmeno.localeCompare(b.jmeno, LANG==='en'?'en':'cs'); }).map(function(p){
     var rec=extraTipsByPlayer[String(p.id)]||null;
@@ -5361,6 +5367,7 @@ function renderAdmin(){
     '</tr>';
   }).join('');
   var html='<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+(LANG==='en'?'Extra picks overview':'Přehled extra tipů')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+(LANG==='en'?'Winner':'Vítěz')+'</th><th>'+(LANG==='en'?'Top scorer':'Král střelců')+'</th><th>'+(LANG==='en'?'Updated':'Upraveno')+'</th><th style="text-align:right">'+(LANG==='en'?'Actions':'Akce')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
+  html+='<div class="tier-filters" style="margin:.35rem 0 .7rem"><div class="tier2" style="display:flex"><button class="sort-chip'+(adminSort==='dt'?' on':'')+'" id="admin-sort-dt">'+tr('by_date')+'</button><button class="sort-chip'+(adminSort==='sk'?' on':'')+'" id="admin-sort-sk">'+tr('by_group')+'</button></div></div>';
   html+='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
   players.forEach(function(p,i){
     html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="'+escAttr(tr('click_delete'))+'">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
@@ -5392,6 +5399,11 @@ function renderAdmin(){
         }).catch(function(e){alert(tr('error_generic')+': '+e.message);});
     });
   });
+
+  var asd=document.getElementById('admin-sort-dt');
+  if(asd) asd.addEventListener('click',function(){ adminSort='dt'; renderAdmin(); });
+  var ass=document.getElementById('admin-sort-sk');
+  if(ass) ass.addEventListener('click',function(){ adminSort='sk'; renderAdmin(); });
 
   el.querySelectorAll('.admin-extra-edit').forEach(function(btn){
     btn.addEventListener('click',function(){
@@ -6164,6 +6176,7 @@ function init(){
   var vs2=document.getElementById('ptab-vys-sk');if(vs2) vs2.addEventListener('click',function(){setVysSort('sk');});
   var pfb=document.getElementById('pf-btn');if(pfb) pfb.addEventListener('click',function(e){e.stopPropagation();var m=document.getElementById('pf-menu');if(m) m.classList.toggle('open');});
   var pfa=document.getElementById('pf-all');if(pfa) pfa.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return !me||p.id!==me.id;}).map(function(p){return String(p.id);});renderPlayerFilter();renderOst();});
+  var pfr=document.getElementById('pf-rivals');if(pfr) pfr.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return (!me||p.id!==me.id)&&isRivalId(p.id);}).map(function(p){return String(p.id);});if(!selectedOtherIds.length) selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   var pfn=document.getElementById('pf-none');if(pfn) pfn.addEventListener('click',function(){selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
   var pfd=document.getElementById('pf-done');if(pfd) pfd.addEventListener('click',function(){var m=document.getElementById('pf-menu');if(m) m.classList.remove('open');});
   document.addEventListener('click',function(e){var m=document.getElementById('pf-menu');var w=document.getElementById('player-filter-wrap');if(m&&w&&!w.contains(e.target)) m.classList.remove('open');});
