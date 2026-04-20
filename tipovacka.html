@@ -422,6 +422,16 @@ body.theme-light .venue{color:#5f7690}
 .tipy-actions .btn,.tipy-actions .back-top-btn{white-space:nowrap}
 .ost-scroll-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 0 .55rem;font-size:.68rem;color:var(--mu2);text-align:center}
 .ost-scroll-hint::before,.ost-scroll-hint::after{content:'↔';font-size:.78rem;color:var(--ac2);opacity:.85}
+.ost-scroll-wrap{position:relative}
+.ost-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
+.ost-table{width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem}
+.ost-strip th{position:sticky;top:0;z-index:4;box-shadow:0 1px 0 rgba(28,48,80,.45)}
+.ost-scroll-floating{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(92vw,720px);display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;border:1px solid var(--bd2);background:color-mix(in srgb,var(--bg4) 88%, transparent);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.28);z-index:80}
+.ost-scroll-floating-lbl{font-size:.72rem;font-weight:700;color:var(--mu2);white-space:nowrap}
+.ost-scroll-range{flex:1;accent-color:var(--ac2)}
+.ost-scroll-jump{border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);border-radius:999px;padding:5px 9px;font-size:.74rem;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer}
+.ost-scroll-jump:hover{border-color:var(--ac2);color:var(--ac2)}
+body.theme-light .ost-scroll-floating{background:color-mix(in srgb,#ffffff 94%, transparent);box-shadow:0 10px 24px rgba(37,99,235,.12)}
 /* ── MOBILE ── */
 @media(max-width:600px){
   .cd-pill{padding:4px 8px;gap:5px}
@@ -434,6 +444,9 @@ body.theme-light .venue{color:#5f7690}
   .tipy-actions .btn,.tipy-actions .back-top-btn{width:100%;justify-content:center}
   .tipy-actions .btn{font-size:.72rem;padding:8px 10px}
   .tipy-actions .back-top-btn{padding:8px 10px}
+  .ost-scroll-floating{width:min(94vw,560px);bottom:8px;padding:8px 10px;gap:8px}
+  .ost-scroll-floating-lbl{font-size:.68rem}
+  .ost-scroll-jump{padding:5px 8px;font-size:.7rem}
 }
 
 .hdr{background:linear-gradient(135deg,#0c1e35,#0a1728,#0d2040);border:1px solid var(--bd);border-radius:14px;padding:.65rem 1.1rem 0;margin-bottom:.85rem;position:relative;overflow:hidden}
@@ -1741,7 +1754,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9.5</span> · <span id="lo-date-lbl">9. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v4.9.6</span> · <span id="lo-date-lbl">20. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2047,7 +2060,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9.5</span> · <span id="date-lbl">9. 4. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v4.9.6</span> · <span id="date-lbl">20. 4. 2026</span>
     </div>
   </div>
 </div>
@@ -2120,7 +2133,7 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v4.9.5',
+    footer_ver:'v4.9.6',
     footer_date:'9. 4. 2026',
     saved:'Uloženo',
     group_stage:'Skupiny',
@@ -2222,7 +2235,7 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v4.9.5',
+    footer_ver:'v4.9.6',
     footer_date:'9 Apr 2026',
     saved:'Saved',
     group_stage:'Groups',
@@ -4114,6 +4127,7 @@ function showTab(name){
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
   if(name==='pravidla') renderRules();
+  requestAnimationFrame(syncOstScrollUX);
 }
 function openFaq(){
   showTab('pravidla');
@@ -4493,15 +4507,18 @@ function renderOstExtras(others){
 function renderOst(){
   var el=document.getElementById('ost-list');
   var others=players.filter(function(p){return (!me||p.id!==me.id) && (!selectedOtherIds.length || selectedOtherIds.indexOf(String(p.id))>=0);});
-  if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';return;}
+  if(!others.length){el.innerHTML='<div class="empty">'+(players.filter(function(p){return !me||p.id!==me.id;}).length?tr('show_players')+': 0':tr('no_others'))+'</div>';syncOstScrollUX();return;}
   if(otherPhase==='ex'){
     el.innerHTML=renderOstExtras(others);
+    syncOstScrollUX();
     return;
   }
   var arr=otherPhase==='po'?PZ:(ostSort==='dt'?sortByDate(SZ):SZ);
 
   var showScrollHint=window.innerWidth<=760&&others.length>=2;
-  var html=(showScrollHint?'<div class="ost-scroll-hint">'+escHtml(LANG==="en"?"Swipe table sideways to see all players":"Posuň tabulku do stran pro další hráče")+'</div>':'')+'<div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem"><tbody>';
+  var html=(showScrollHint?'<div class="ost-scroll-hint">'+escHtml(LANG==="en"?"Swipe table sideways to see all players":"Posuň tabulku do stran pro další hráče")+'</div>':'')+
+    '<div class="ost-scroll-wrap" id="ost-scroll-wrap">'+
+    '<div class="ost-table-wrap" id="ost-table-wrap"><table class="ost-table"><tbody>';
 
   if(ostSort==='dt'){
     var gbd=groupByDate(arr);
@@ -4521,10 +4538,53 @@ function renderOst(){
       html+=renderOstRow(z,others);
     });
   }
-  html+='</tbody></table></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  html+='</tbody></table></div>'+
+    '<div class="ost-scroll-floating" id="ost-scroll-floating" style="display:none">'+
+      '<span class="ost-scroll-floating-lbl">'+escHtml(LANG==="en"?"Scroll players":"Posun hráčů")+'</span>'+
+      '<input class="ost-scroll-range" id="ost-scroll-range" type="range" min="0" max="0" value="0" step="1" aria-label="'+escAttr(LANG==="en"?"Horizontal scroll":"Vodorovný posun")+'">'+
+      '<button class="ost-scroll-jump" id="ost-scroll-jump" type="button">'+escHtml(LANG==="en"?"End":"Konec")+'</button>'+
+    '</div></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   el.innerHTML=html;
   var ol=document.getElementById('ost-list');
   if(ol){ ol.onclick=function(e){ var team=e.target.closest('.link-team'); if(team&&team.dataset.team) filterByTeam(team.dataset.team); var st=e.target.closest('.link-venue'); if(st&&st.dataset.stadium) goStadiony(st.dataset.stadium); }; }
+  syncOstScrollUX();
+}
+
+function syncOstScrollUX(){
+  var scroller=document.getElementById('ost-table-wrap');
+  var floating=document.getElementById('ost-scroll-floating');
+  var range=document.getElementById('ost-scroll-range');
+  var jump=document.getElementById('ost-scroll-jump');
+  if(!scroller||!floating||!range||!jump){
+    document.body.style.paddingBottom='';
+    return;
+  }
+  var page=document.getElementById('page-ostatni');
+  var active=!!page&&page.style.display!=='none';
+  var mobile=window.innerWidth<=760;
+  var max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
+  function applyState(){
+    max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
+    var visible=active&&otherPhase!=='ex'&&mobile&&max>16;
+    floating.style.display=visible?'flex':'none';
+    range.max=String(max);
+    range.value=String(Math.min(max,Math.round(scroller.scrollLeft||0)));
+    jump.textContent=(scroller.scrollLeft||0)>max/2?(LANG==='en'?'Start':'Začátek'):(LANG==='en'?'End':'Konec');
+    document.body.style.paddingBottom=visible?'74px':'';
+  }
+  scroller.onscroll=function(){
+    range.value=String(Math.min(max,Math.round(scroller.scrollLeft||0)));
+    jump.textContent=(scroller.scrollLeft||0)>max/2?(LANG==='en'?'Start':'Začátek'):(LANG==='en'?'End':'Konec');
+  };
+  range.oninput=function(){
+    scroller.scrollLeft=Number(range.value||0);
+  };
+  jump.onclick=function(){
+    var goStart=(scroller.scrollLeft||0)>max/2;
+    scroller.scrollTo({left:goStart?0:max,behavior:'smooth'});
+  };
+  applyState();
+  requestAnimationFrame(applyState);
 }
 
 function renderOstStrip(title,others){
@@ -5955,6 +6015,8 @@ function init(){
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
+  window.addEventListener('resize',syncOstScrollUX);
+  window.addEventListener('orientationchange',function(){setTimeout(syncOstScrollUX,120);});
   
 
   try{
