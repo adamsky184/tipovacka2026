@@ -2386,7 +2386,7 @@ function stadImgAttrs(){return 'loading="lazy" decoding="async"';}
 var TMEN={
   'Mexiko':'Mexico','Jihoafricka rep.':'South Africa','Jizni Korea':'South Korea','Cesko':'Czechia',
   'Kanada':'Canada','Katar':'Qatar','Svycarsko':'Switzerland','Bosna a Hercegovina':'Bosnia & Herz.',
-  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Australie':'Australia',
+  'Brazilie':'Brazil','Maroko':'Morocco','Skotsko':'Scotland','Australie':'Australia',
   'Turecko':'Turkey','Nemecko':'Germany','Pobrezi slonoviny':'Ivory Coast','Ekvador':'Ecuador',
   'Nizozemsko':'Netherlands','Japonsko':'Japan','Svedsko':'Sweden','Tunisko':'Tunisia',
   'Belgie':'Belgium','Egypt':'Egypt','Iran':'Iran','Novy Zeland':'New Zealand',
@@ -2394,7 +2394,7 @@ var TMEN={
   'Francie':'France','Senegal':'Senegal','Irak':'Iraq','Norsko':'Norway',
   'Argentina':'Argentina','Alzirsko':'Algeria','Rakousko':'Austria','Jordansko':'Jordan',
   'Portugalsko':'Portugal','DR Kongo':'DR Congo','Uzbekistan':'Uzbekistan','Ghana':'Ghana',
-  'Anglie':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
+  'Anglie':'England','Chorvatsko':'Croatia','Panama':'Panama','USA':'USA','Haiti':'Haiti',
   'Paraguay':'Paraguay','Curacao':'Curacao','Kolumbie':'Colombia'
 };
 function tN(n){return LANG==='en'&&TMEN[n]?TMEN[n]:n;}
@@ -5854,8 +5854,19 @@ function fetchResults(){
   if(!me||!me.je_admin) return;
   setSt('st-vys','...');
   document.getElementById('btn-refresh').disabled=true;
-  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard')
+  // v5.1: ESPN scoreboard pres edge funkci results-refresh (CORS-safe + sync_status update)
+  fetch(SBU+'/functions/v1/results-refresh',{
+    method:'POST',
+    headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
+    body:JSON.stringify({admin_name:me&&me.jmeno?me.jmeno:'', pin:myPin||''})
+  })
     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(json){
+      if(!json||!json.ok) throw new Error((json&&json.error)||'results-refresh failed');
+      // Build kompatibilni JSON ze zpracovaneho 'events'
+      json={events:Array.isArray(json.events)?json.events:[]};
+      return json;
+    })
     .then(function(json){
       var found={},allMatches=SZ.concat(PZ);
       (json.events||[]).forEach(function(ev){
