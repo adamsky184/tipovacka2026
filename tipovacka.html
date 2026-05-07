@@ -1849,7 +1849,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <div id="lo-paid-content"></div>
     </div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.3.2</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.3.3</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -2170,14 +2170,14 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.3.2</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.3.3</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.3.2';
+var APP_VERSION='v5.3.3';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -2342,8 +2342,8 @@ var T={
     goal_diff_bonus:'Bonus za rozdíl',extra_title:'EXTRA TIP',extra_sub:'',extra_winner:'Vítěz turnaje',extra_scorer:'Král střelců',extra_save:'Uložit extra tipy',extra_deadline:'Deadline',extra_my:'Můj extra tip',extra_points:'Extra body',extra_none:'zatím neuloženo',extra_locked:'Extra tipy jsou po startu turnaje zamčené.',extra_saved:'Extra tip uložen a uzamčen.',extra_need_login:'Nejdřív se přihlas.',extra_missing:'Vyplň vítěze i krále střelců.',extra_admin_info:'Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.',extra_actual_winner:'Oficiální vítěz',extra_actual_scorer:'Oficiální král střelců',extra_results_save:'Uložit extra výsledky',extra_results_saved:'Extra výsledky uloženy.',extra_reveal_note:'Extra tipy ostatních se odkryjí až po uložení tvého vlastního extra tipu.',discussion_info:'Registrovaní hráči tu mohou diskutovat o zápasech i tipech. U každého příspěvku je vidět aktuální pořadí autora v žebříčku. Admin může mazat všechny příspěvky.',discussion_title:'Nový příspěvek',discussion_note:'Buď konkrétní a věcný. Na mobilu fungují i krátké reakce na konkrétní příspěvek.',discussion_send:'Odeslat',discussion_cancel:'Zrušit odpověď',discussion_reply:'Odpovědět',discussion_delete:'Smazat',discussion_empty:'Diskuze je zatím prázdná.',discussion_placeholder:'Napiš svůj komentář...',discussion_sending:'Odesílám příspěvek...',discussion_saved:'Příspěvek uložen.',discussion_deleted:'Příspěvek smazán.',discussion_login:'Příspěvek mohou přidávat jen přihlášení hráči.',discussion_replying_to:'Odpovídáš na příspěvek od',discussion_more:'Načíst starší',unsaved_confirm:'Máš neuložené tipy. Opravdu chceš odejít bez uložení?',hype_against:'Jdeš proti komunitě',rules_title:'Pravidla tipovačky',rules_1_t:'Tipy na zápasy',rules_1_b:'Tipovat zápasy lze jen před jejich zahájením. Jakmile je tip uložen, běžný hráč ho už nemůže měnit.',rules_2_t:'Bodování zápasů',rules_2_b:'Přesný výsledek je za 10 bodů. Správný vítěz nebo remíza jsou za 3 body. Pokud trefíš i správný rozdíl skóre, získáš navíc 1 bod.',rules_3_t:'Extra tipy',rules_3_b:'Před startem turnaje může každý hráč jednou uložit tip na celkového vítěze turnaje a krále střelců. Po uložení už je nelze měnit. Správný vítěz má hodnotu 30 bodů, správný král střelců 20 bodů.',rules_4_t:'Viditelnost tipů ostatních',rules_4_b:'Tipy ostatních hráčů se odkryjí jen u zápasů, kde máš vlastní tip uložený. U ostatních zápasů se zobrazuje pouze otazník.',rules_5_t:'Žebříček',rules_5_b:'Žebříček se přepočítává automaticky podle uložených tipů a výsledků. Extra body se do něj přičtou až po zadání oficiálních výsledků Administrátora.',rules_6_t:'Administrace',rules_6_b:'V případě technických problémů, nejasností nebo prosby o změnu se obrať na Administrátora.',rules_7_t:'Badge hráčů',rules_7_b:'U hráčů se mohou zobrazit badge podle výkonu: LEADER pro průběžného lídra, HOT za silnou aktuální formu, SNIPER za hodně přesných tipů a DRAW za úspěšné tipování remíz.',player_rank:'Pořadí',admin_reset_tips:'Vynulovat tipy',admin_reset_tips_confirm:'Opravdu chceš smazat všechny běžné tipy tohoto hráče?',admin_reset_tips_done:'Všechny běžné tipy hráče byly smazány.'
   },
   en:{
-    app_title:'WC 2026 Tipping Challenge',
-    app_title_short:'WC 2026 TIPPING CHALLENGE',
+    app_title:'WC 2026 Tipping',
+    app_title_short:'WC 2026 TIPPING',
     login:'Log In',register:'Register',logout:'Log Out',refresh:'UPDATE',
     exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
     pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',
@@ -2455,12 +2455,8 @@ var T={
 };
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
 function getStoredTheme(){
+  // Default = dark. User si muze rucne prepnout v hlavicce.
   try{
-    // Q3: pokud user nikdy manualne neprepl, sleduj systemovou preferenci
-    var manual=localStorage.getItem('ms26_theme_manual');
-    if(manual!=='1' && window.matchMedia){
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
     var raw=localStorage.getItem('ms26_theme');
     return raw==='light'?'light':'dark';
   }catch(e){}
@@ -2500,7 +2496,7 @@ function renderHeaderTitle(){
   var el=document.getElementById('hdr-title-main');
   if(!el) return;
   if(LANG==='en'){
-    el.innerHTML='<span class="hdr-word">TIPPING CHALLENGE WC</span> <span class="hdr-year">2026</span>';
+    el.innerHTML='<span class="hdr-word">WC TIPPING</span> <span class="hdr-year">2026</span>';
   }else{
     el.innerHTML='<span class="hdr-word">TIPOVAČKA MS</span> <span class="hdr-year">2026</span>';
   }
@@ -6913,18 +6909,6 @@ function handleInstallApp(){
 
 function init(){
   applyTheme(getStoredTheme(), false);
-  // Q3: listener na zmenu systemove preference (jen pokud user nikdy nepouzil manual switch)
-  try{
-    if(window.matchMedia){
-      var mq=window.matchMedia('(prefers-color-scheme: dark)');
-      var listener=function(e){
-        try{ if(localStorage.getItem('ms26_theme_manual')==='1') return; }catch(_e){}
-        applyTheme(e.matches?'dark':'light', false);
-      };
-      if(mq.addEventListener) mq.addEventListener('change',listener);
-      else if(mq.addListener) mq.addListener(listener);
-    }
-  }catch(_e){}
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     navigator.serviceWorker.register('./sw.js').catch(function(){});
   }

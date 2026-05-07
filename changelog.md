@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.3.3 - 7. 5. 2026
+
+UI fix.
+
+- Dark theme jako default (předtím auto-detect dle systému; light měl některé špatně viditelné prvky)
+- EN název zkrácen: `TIPPING CHALLENGE WC 2026` → `WC TIPPING 2026` (vejde se do hlavičky)
+
 ## v5.3.2 - 7. 5. 2026
 
 Custom doména.
