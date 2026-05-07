@@ -1902,7 +1902,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <div id="lo-paid-content"></div>
     </div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.2</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.3</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -2237,14 +2237,14 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.2</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.3</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.4.2';
+var APP_VERSION='v5.4.3';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4737,13 +4737,14 @@ function pollLiveScores(){
     var events=Array.isArray(row.detail.parsed_events)?row.detail.parsed_events:[];
     var live=events.filter(function(e){
       if(!e || e.completed) return false;
-      // Skip pred-zapasove stavy (Scheduled, Pre-Game) - jen opravdu hrane
       var sd=String(e.statusDesc||'').toLowerCase();
-      if(/scheduled|pre[-\s]?game|status[-\s]?undefined/.test(sd)) return false;
-      // Vyzaduj nenulovy clock NEBO statusDesc obsahujici 'progress'/'half'/'min' atd.
-      var clk=String(e.clock||'').replace(/[^0-9]/g,'');
-      var liveStatus=/progress|half|live|min|finished|full[-\s]?time|stoppage/.test(sd);
-      return liveStatus || (clk && clk!=='0');
+      // Skip jakekoli pred-zapasove stavy (Scheduled, Pre-Game, TBD, Postponed atd.)
+      if(/scheduled|pre[-\s]?game|status[-\s]?undefined|tbd|postponed|cancelled|delayed/.test(sd)) return false;
+      // Vyzaduj jasny in-progress signal: clock>0 NEBO statusDesc explicitne "in progress" / "half" / "live"
+      var clk=parseInt(String(e.clock||'').replace(/[^0-9]/g,''),10)||0;
+      var liveStatus=/in[-\s]?progress|halftime|half[-\s]?time|live|stoppage/.test(sd);
+      // Klucova zmena: i pri liveStatus pozadujeme aspon nejaky clock>0 (ESPN nekdy posila live=true ale clock=0 v prepauze)
+      return liveStatus && clk>0;
     });
     renderLiveBanner(live);
   }).catch(function(){ renderLiveBanner([]); });
