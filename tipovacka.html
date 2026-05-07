@@ -2230,6 +2230,10 @@ var T={
     account_clbl:'Můj účet',
     account_info_txt:'Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.',
     account_delete_btn:'🗑 Smazat účet',
+    admin_extra_overview:'Přehled extra tipů',
+    admin_col_player:'Hráč',
+    admin_col_updated:'Upraveno',
+    admin_col_actions:'Akce',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
@@ -2331,6 +2335,10 @@ var T={
     account_clbl:'My account',
     account_info_txt:'Deleting your account also removes all your match tips, extra tips, discussion posts and reactions. This action cannot be undone.',
     account_delete_btn:'🗑 Delete account',
+    admin_extra_overview:'Extra picks overview',
+    admin_col_player:'Player',
+    admin_col_updated:'Updated',
+    admin_col_actions:'Actions',
     show_players:'Show players',
     rival_only:'Rivals only',
     all_players:'All',
@@ -5407,7 +5415,7 @@ function renderAdmin(){
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);text-align:right"><div style="display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap"><button class="btn btn-ol btn-sm admin-reset-tips" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'">'+escHtml(tr('admin_reset_tips'))+'</button><button class="btn btn-ol btn-sm admin-extra-edit" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" data-winner="'+escAttr(rec&&rec.winnerTip?rec.winnerTip:'')+'" data-scorer="'+escAttr(rec&&rec.scorerTip?rec.scorerTip:'')+'">Upravit</button></div></td>'+
     '</tr>';
   }).join('');
-  var html='<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+(LANG==='en'?'Extra picks overview':'Přehled extra tipů')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+(LANG==='en'?'Winner':'Vítěz')+'</th><th>'+(LANG==='en'?'Top scorer':'Král střelců')+'</th><th>'+(LANG==='en'?'Updated':'Upraveno')+'</th><th style="text-align:right">'+(LANG==='en'?'Actions':'Akce')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
+  var html='<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+tr('admin_extra_overview')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+tr('admin_col_player')+'</th><th>'+tr('extra_winner')+'</th><th>'+tr('extra_scorer')+'</th><th>'+tr('admin_col_updated')+'</th><th style="text-align:right">'+tr('admin_col_actions')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
   html+='<div class="tier-filters" style="margin:.35rem 0 .7rem"><div class="tier2" style="display:flex"><button class="sort-chip'+(adminSort==='dt'?' on':'')+'" id="admin-sort-dt">'+tr('by_date')+'</button><button class="sort-chip'+(adminSort==='sk'?' on':'')+'" id="admin-sort-sk">'+tr('by_group')+'</button></div></div>';
   html+='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
   players.forEach(function(p,i){
