@@ -176,6 +176,11 @@ body.theme-light .venue{color:#5f7690}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
+/* Q9: skeleton loader */
+.skeleton{background:linear-gradient(90deg,var(--bg3) 0%,var(--bg4) 50%,var(--bg3) 100%);background-size:200% 100%;animation:skel 1.4s linear infinite;border-radius:8px}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-row{height:54px;margin-bottom:6px}
+.skeleton-stack{padding:.5rem 0}
 .ibox{position:relative;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:9px;padding:.7rem .95rem .7rem 2.15rem;margin-bottom:.75rem;font-size:.79rem;color:#93c5fd;line-height:1.55}
 .ibox::before{content:'i';position:absolute;left:.78rem;top:.78rem;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(148,163,184,.35);color:var(--mu2);font-size:.56rem;font-weight:700}
 .stg{display:grid;gap:7px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:.75rem}
@@ -1960,7 +1965,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
         <button class="ptab" id="ptab-zeb-po">Play-off</button>
       </div>
-      <div id="zeb-list"><div class="empty"><span class="sp"></span>Načítám...</div></div>
+      <div id="zeb-list"><div class="skeleton-stack"><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div></div></div>
     </div>
 
     <div id="page-vysledky" style="display:none">
@@ -2158,7 +2163,7 @@ var T={
     exact:'přesně',correct:'správně',wrong:'špatně',saved_tips:'uložených',rated:'hodnoceno',
     teams_tbd:'Týmy nejsou známy',roster:'Soupisky: brzy',you:'(ty)',
     r16:'16F (28.6-3.7)',r8:'Osmifinále (4-7.7)',qf:'Čtvrtfinále (9-12.7)',sf:'Semifinále (14-15.7)',fin:'Finále (19.7)',o3:'O 3. místo (18.7)',
-    live:'probíhá',no_matches:'Žádné zápasy',no_others:'Zatím žádní další hráči',
+    live:'probíhá',no_matches:'Žádné zápasy 🤷',no_others:'Zatím tu jsi sám/sama. Pošli kámošům link!',
     team:'Tým',points:'Body',goals:'Skóre',won:'V',drawn:'R',lost:'P',
     match:'Zápas',date:'Datum',rank:'Pořadí',result:'Výsledek',
     name_pin_required:'Jméno i PIN jsou povinné',
@@ -2190,7 +2195,7 @@ var T={
     sim_match:'Shoda',
     tip_saved:'uložen',
     tip_missing:'chybí',
-    no_today_matches:'Dnes se nehraje',
+    no_today_matches:'Dnes se nehraje. Doporučujeme jít ven. 🌳',
     days:['Ne','Po','Út','St','Čt','Pá','So'],
     months:['led','úno','bře','dub','kvě','čer','čec','srp','zář','říj','lis','pro'],
     in_days:'za',in_h:'h',in_min:'min',in_d:'d',
@@ -2269,7 +2274,7 @@ var T={
     exact:'exact',correct:'correct',wrong:'wrong',saved_tips:'saved',rated:'rated',
     teams_tbd:'Teams TBD',roster:'Roster: coming soon',you:'(you)',
     r16:'16F (28 Jun-3 Jul)',r8:'Round of 16 (4-7 Jul)',qf:'Quarter-finals (9-12 Jul)',sf:'Semi-finals (14-15 Jul)',fin:'Final (19 Jul)',o3:'3rd Place (18 Jul)',
-    live:'live',no_matches:'No matches',no_others:'No other players yet',
+    live:'live',no_matches:'No matches 🤷',no_others:'You are flying solo. Invite friends!',
     team:'Team',points:'Pts',goals:'Goals',won:'W',drawn:'D',lost:'L',
     match:'Match',date:'Date',rank:'Rank',result:'Result',
     name_pin_required:'Name and PIN are required',
@@ -2301,7 +2306,7 @@ var T={
     sim_match:'Match',
     tip_saved:'saved',
     tip_missing:'missing',
-    no_today_matches:'No matches today',
+    no_today_matches:'No matches today. Touch some grass. 🌳',
     days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
     months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     in_days:'in',in_h:'h',in_min:'min',in_d:'d',
@@ -2359,6 +2364,11 @@ var T={
 function tr(k){return T[LANG][k]||T.cs[k]||k;}
 function getStoredTheme(){
   try{
+    // Q3: pokud user nikdy manualne neprepl, sleduj systemovou preferenci
+    var manual=localStorage.getItem('ms26_theme_manual');
+    if(manual!=='1' && window.matchMedia){
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
     var raw=localStorage.getItem('ms26_theme');
     return raw==='light'?'light':'dark';
   }catch(e){}
@@ -2389,6 +2399,8 @@ function applyTheme(theme,persist){
   }
 }
 function toggleTheme(){
+  // Q3: oznacit ze user manualne prepl, abychom nepretazili na system theme
+  try{ localStorage.setItem('ms26_theme_manual','1'); }catch(_e){}
   applyTheme(currentTheme==='light'?'dark':'light', true);
 }
 
@@ -4261,6 +4273,83 @@ function ensureToastStack(){
   document.body.appendChild(stack);
   return stack;
 }
+// Q9: skeleton helper - vlozi placeholdery do containeru
+function renderSkeletonRows(elId,count){
+  var el=document.getElementById(elId);
+  if(!el) return;
+  var html='<div class="skeleton-stack">';
+  for(var i=0;i<(count||5);i++) html+='<div class="skeleton skeleton-row"></div>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+// Q1: lazy-load canvas-confetti from CDN (CSP allows https in script-src? no - we need 'self'. Inline canvas confetti misto CDN)
+function tryFireConfetti(){
+  // CSP whitelist: pouze self + unsafe-inline. CDN nepujde. Pojďme vlastní mini-konfeta canvas.
+  try{
+    var canvas=document.createElement('canvas');
+    canvas.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9998';
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+    document.body.appendChild(canvas);
+    var ctx=canvas.getContext('2d');
+    var particles=[],colors=['#3b82f6','#22c55e','#f59e0b','#a855f7','#ef4444'];
+    for(var i=0;i<60;i++){
+      particles.push({
+        x:canvas.width/2,y:canvas.height/2,
+        vx:(Math.random()-0.5)*15,vy:(Math.random()-1.5)*15,
+        size:Math.random()*6+3,color:colors[i%colors.length],life:1
+      });
+    }
+    var start=Date.now();
+    function frame(){
+      var t=Date.now()-start;
+      if(t>2200){canvas.remove();return;}
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(function(p){
+        p.vy+=0.4; p.x+=p.vx; p.y+=p.vy; p.life-=0.012;
+        if(p.life<=0) return;
+        ctx.globalAlpha=Math.max(0,p.life);
+        ctx.fillStyle=p.color;
+        ctx.fillRect(p.x,p.y,p.size,p.size);
+      });
+      ctx.globalAlpha=1;
+      requestAnimationFrame(frame);
+    }
+    frame();
+  }catch(_e){}
+}
+// Q2: vypocet shody tipu s ostatnimi hraci (pres globalTipCounts + allTips)
+function showTipMatchPercent(savedRows){
+  if(!Array.isArray(savedRows) || !savedRows.length) return;
+  var totalOthers=0,matches=0;
+  savedRows.forEach(function(r){
+    var zid=r.zapas_id, myTip=r.tip;
+    Object.keys(allTips||{}).forEach(function(otherHrac){
+      if(String(otherHrac)===String(me.id)) return;
+      var t=allTips[otherHrac]&&allTips[otherHrac][zid];
+      if(t){
+        totalOthers++;
+        if(t===myTip) matches++;
+      }
+    });
+  });
+  if(totalOthers<3) return; // ne moc relevantni
+  var pct=Math.round(matches/totalOthers*100);
+  var msg=LANG==='en'
+    ? 'Your tip matches '+pct+'% of other players'
+    : 'Tvůj tip se shoduje s '+pct+'% ostatních hráčů';
+  showToast(msg,'info');
+}
+// Q3: auto dark/light dle systemu (jen pokud uziv. nepouzil manual switch)
+function applySystemTheme(){
+  try{
+    var manualKey='ms26_theme_manual';
+    if(localStorage.getItem(manualKey)==='1') return; // user uz prepnul
+    var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.body.classList.toggle('theme-light',!dark);
+    currentTheme=dark?'dark':'light';
+    if(typeof updateThemeButton==='function') updateThemeButton();
+  }catch(_e){}
+}
 function showToast(msg,kind){
   if(!msg) return;
   var stack=ensureToastStack();
@@ -4612,6 +4701,12 @@ async function saveTips(){
         : 'Váš tip byl úspěšně uložen. Počet nově uložených tipů: '+newlySaved+'. Počet celkově uložených tipů: '+savedAfterTotal+'.';
       setSt('st-tipy','✓ '+msg,false,true);
       showToast(msg,'ok');
+      // Q7: haptic feedback (no-op pokud nepodporovano)
+      try{ if(navigator.vibrate) navigator.vibrate(50); }catch(_e){}
+      // Q1: konfeta (jen pokud byly nove uložene tipy)
+      if(newlySaved>0) tryFireConfetti();
+      // Q2: vypocet shody s ostatnimi
+      try{ showTipMatchPercent(rows); }catch(_e){}
     } else {
       var firstErr=(savePack.messages&&savePack.messages[0])||'';
       var partial=LANG==='en'
@@ -6223,6 +6318,18 @@ function handleInstallApp(){
 
 function init(){
   applyTheme(getStoredTheme(), false);
+  // Q3: listener na zmenu systemove preference (jen pokud user nikdy nepouzil manual switch)
+  try{
+    if(window.matchMedia){
+      var mq=window.matchMedia('(prefers-color-scheme: dark)');
+      var listener=function(e){
+        try{ if(localStorage.getItem('ms26_theme_manual')==='1') return; }catch(_e){}
+        applyTheme(e.matches?'dark':'light', false);
+      };
+      if(mq.addEventListener) mq.addEventListener('change',listener);
+      else if(mq.addListener) mq.addListener(listener);
+    }
+  }catch(_e){}
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     navigator.serviceWorker.register('./sw.js').catch(function(){});
   }
