@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.3.1 - 7. 5. 2026
+
+Paid league polish.
+
+- Admin tab: samostatný sloupec "💰 Soutěž o peníze" s nadpisem (předtím schované v Akce)
+- Onboarding: nový 4. slide o paid lize (zobrazí se i při re-onboardingu)
+- FAQ/Pravidla: paid league rozdělené do strukturovaných bullet pointů (vstupné, účet, zpráva, deadline, distribuce, jak to funguje, disclaimer)
+- Login overlay paid box + onboarding + FAQ vždy odkazují na "Pravidla" tab
+- Tlačítko "Označit" → "Mark paid" pro jasnost
+
 ## v5.3.0 - 7. 5. 2026
 
 Volitelná soutěž o peníze (paid league).
