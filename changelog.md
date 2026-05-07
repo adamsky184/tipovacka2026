@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.9 - 7. 5. 2026
+
+iOS PWA notch fix.
+
+- `body` padding: `env(safe-area-inset-*)` ze všech 4 stran - hlavička už nelize pod iPhone notch / status bar (důsledek `viewport-fit=cover` z v5.4.8)
+- Login overlay (`.lo-wrap`) také safe-area aware - title se nepřekrývá se status barem
+- Status bar style zachován jako `black-translucent` (modern edge-to-edge look)
+
 ## v5.4.8 - 7. 5. 2026
 
 iOS PWA zoom fix.

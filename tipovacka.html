@@ -18,7 +18,7 @@
 :root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:78px;--mr-gt-w:220px}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;transition:background-color .22s ease,color .22s ease;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;transition:background-color .22s ease,color .22s ease;-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
 @media (max-width:640px){input,select,textarea{font-size:16px!important}}
 body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--pu:#7c3aed}
 body.theme-light .hdr{background:linear-gradient(135deg,#f7fbff,#f1f6fd,#eef4fb);box-shadow:0 10px 30px rgba(15,35,60,.06)}
@@ -284,7 +284,7 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .bm-n{font-weight:500;font-size:.76rem}
 .bm-s{font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--gd)}
 .bm-d{font-size:.63rem;color:var(--mu);text-align:center;margin-top:3px}
-.lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
+.lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:max(1rem,env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(1rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))}
 .lo-card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;width:100%;max-width:390px;position:relative;overflow:hidden}
 .lo-card.lo-card-en{max-width:430px;padding:1.9rem 1.9rem 1.8rem}
 .lo-card.lo-card-en .lo-title{font-size:1.26rem}
@@ -2246,7 +2246,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.4.8';
+var APP_VERSION='v5.4.9';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
