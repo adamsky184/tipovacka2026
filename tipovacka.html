@@ -391,7 +391,7 @@ body.theme-light .venue{color:#5f7690}
 .stad-thumb{display:block;width:100%;height:100%;cursor:pointer}
 .stad-link{display:block;width:100%;height:100%}
 @media(max-width:760px){
-  :root{--mr-tip-w:56px;--mr-gt-w:114px}
+  :root{--mr-tip-w:74px;--mr-gt-w:104px}
   .hdr-in{flex-direction:column;gap:.6rem}
   .hdr-r{width:100%;justify-content:flex-start}
   .hdr-t{font-size:1.08rem}
@@ -473,10 +473,20 @@ body.theme-light .venue{color:#5f7690}
 .tip-dual-active .tih,.tip-dual-active .tia{border-color:var(--bd2)}
 .tip-ai-btn{margin-left:4px;background:transparent;border:1px solid var(--bd);color:var(--mu2);cursor:pointer;border-radius:6px;padding:2px 5px;font-size:.8rem;line-height:1;height:30px}
 .tip-ai-btn:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.06)}
-.odds-pill{display:inline-flex;gap:4px;align-items:center;font-size:.62rem;color:var(--mu2);margin-top:3px;font-family:'Space Grotesk',sans-serif;flex-wrap:wrap}
-.odds-pill-item{background:var(--bg4);border:1px solid var(--bd);border-radius:5px;padding:1px 5px;letter-spacing:.02em}
-.odds-pill-item b{color:var(--ac2);font-weight:700}
-.odds-pill-bm{color:var(--mu);font-size:.55rem;text-transform:uppercase;letter-spacing:.04em}
+@media(max-width:760px){
+  .tip-ai-btn{display:none} /* na mobilu schovat AI tlacitko - tipy se nestihnou */
+}
+.odds-pill{display:inline-flex;gap:5px;align-items:center;margin-top:6px;font-family:'Space Grotesk',sans-serif;flex-wrap:wrap}
+.odds-pill-bm{color:var(--mu);font-size:.55rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.8}
+.odds-pill-item{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.18);border-radius:6px;padding:2px 7px;font-size:.65rem;color:var(--mu2);display:inline-flex;gap:4px;align-items:baseline}
+.odds-pill-item b{color:var(--ac2);font-weight:700;font-size:.78rem}
+.odds-pill-item .odds-lbl{font-size:.58rem;color:var(--mu);letter-spacing:.05em}
+@media(max-width:600px){
+  .odds-pill{gap:4px;margin-top:5px}
+  .odds-pill-item{padding:1px 5px;font-size:.6rem}
+  .odds-pill-item b{font-size:.72rem}
+  .odds-pill-bm{font-size:.5rem}
+}
 .tih,.tia{width:32px;text-align:center;padding:5px 2px;border-radius:6px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.95rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s;-moz-appearance:textfield}
 .tih::-webkit-outer-spin-button,.tih::-webkit-inner-spin-button,.tia::-webkit-outer-spin-button,.tia::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .tih:focus,.tia:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
@@ -4991,11 +5001,11 @@ function renderMatchRow(z,isAdmin,hasGT){
   var oddsHtml='';
   var od=getOddsForMatch(id);
   if(od){
-    oddsHtml='<div class="odds-pill" title="'+escAttr((LANG==='en'?'Odds from ':'Kurzy z ')+od.bookmaker+' · '+(od.fetched_at||''))+'">'+
-      '<span class="odds-pill-bm">'+escHtml(od.bookmaker)+'</span>'+
-      '<span class="odds-pill-item">1 <b>'+formatOdds(od.home_odds)+'</b></span>'+
-      '<span class="odds-pill-item">X <b>'+formatOdds(od.draw_odds)+'</b></span>'+
-      '<span class="odds-pill-item">2 <b>'+formatOdds(od.away_odds)+'</b></span>'+
+    oddsHtml='<div class="odds-pill" title="'+escAttr((LANG==='en'?'Odds from ':'Kurzy: ')+od.bookmaker+' · '+(od.fetched_at||''))+'">'+
+      '<span class="odds-pill-bm">📊 '+escHtml(od.bookmaker)+'</span>'+
+      '<span class="odds-pill-item"><span class="odds-lbl">1</span><b>'+formatOdds(od.home_odds)+'</b></span>'+
+      '<span class="odds-pill-item"><span class="odds-lbl">X</span><b>'+formatOdds(od.draw_odds)+'</b></span>'+
+      '<span class="odds-pill-item"><span class="odds-lbl">2</span><b>'+formatOdds(od.away_odds)+'</b></span>'+
     '</div>';
   }
 
