@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.7 - 7. 5. 2026
+
+Light theme readability fix.
+
+- `.ibox` (info bannery) v light theme: tmavší modrá `#1e40af` místo `#93c5fd` (světlá modrá byla na bílém pozadí špatně čitelná)
+- Lehce silnější border + i ikona má v light tmavší modrou
+
 ## v5.4.6 - 7. 5. 2026
 
 UI fix - korunka pryč.
