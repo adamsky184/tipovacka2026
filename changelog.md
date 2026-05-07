@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.8 - 7. 5. 2026
+
+iOS PWA zoom fix.
+
+- Viewport: `maximum-scale=1, viewport-fit=cover` (předtím iOS po focusu na input zazoomovalo a po blur to nevrátilo - typický iOS PWA bug)
+- `-webkit-text-size-adjust:100%` na html i body (iOS někdy v PWA standalone módu škáluje text při změně orientace)
+- `@media (max-width:640px) input/select/textarea {font-size:16px!important}` - definitivní safety net (iOS Safari auto-zoom triggeruje na inputech s fontem <16px)
+
 ## v5.4.7 - 7. 5. 2026
 
 Light theme readability fix.

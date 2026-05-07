@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Tipovačka MS 2026</title>
 <meta name="theme-color" content="#0a1524">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://xzlebpzepnhkedlxntgv.supabase.co https://site.api.espn.com https://a.espncdn.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self';">
@@ -17,7 +17,9 @@
 <style>
 :root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7;--mr-tip-w:78px;--mr-gt-w:220px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;transition:background-color .22s ease,color .22s ease}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;transition:background-color .22s ease,color .22s ease;-webkit-text-size-adjust:100%}
+@media (max-width:640px){input,select,textarea{font-size:16px!important}}
 body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--pu:#7c3aed}
 body.theme-light .hdr{background:linear-gradient(135deg,#f7fbff,#f1f6fd,#eef4fb);box-shadow:0 10px 30px rgba(15,35,60,.06)}
 body.theme-light .hdr-t{color:#102133}
@@ -2244,7 +2246,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.4.7';
+var APP_VERSION='v5.4.8';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
