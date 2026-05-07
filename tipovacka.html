@@ -176,6 +176,19 @@ body.theme-light .venue{color:#5f7690}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
+/* Q5: Onboarding overlay */
+.onb-overlay{position:fixed;inset:0;background:rgba(10,21,36,.92);z-index:9990;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(6px)}
+.onb-card{background:var(--bg2);border:1px solid var(--bd2);border-radius:18px;padding:1.5rem 1.4rem 1.2rem;width:100%;max-width:380px;text-align:center;position:relative;overflow:hidden}
+.onb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--pu),var(--gn))}
+.onb-emoji{font-size:2.6rem;margin:.3rem 0 .8rem}
+.onb-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--tx);margin-bottom:.5rem}
+.onb-text{font-size:.85rem;color:var(--mu);line-height:1.55;margin-bottom:1.1rem}
+.onb-dots{display:flex;justify-content:center;gap:6px;margin-bottom:1rem}
+.onb-dot{width:8px;height:8px;border-radius:50%;background:var(--bd2);transition:.18s}
+.onb-dot.on{background:var(--ac);width:22px;border-radius:6px}
+.onb-actions{display:flex;justify-content:space-between;gap:.5rem}
+.onb-skip{font-size:.74rem;color:var(--mu);background:transparent;border:none;cursor:pointer;padding:.5rem .8rem}
+.onb-next{padding:.5rem 1.1rem;border-radius:9px;background:var(--ac);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.83rem}
 /* Q9: skeleton loader */
 .skeleton{background:linear-gradient(90deg,var(--bg3) 0%,var(--bg4) 50%,var(--bg3) 100%);background-size:200% 100%;animation:skel 1.4s linear infinite;border-radius:8px}
 @keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -4056,6 +4069,12 @@ function finishLogin(d){
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
     renderAdminSyncStatus();
+    // Q5: Onboarding tutorial pro nove hrace (jen prvni prihlaseni)
+    setTimeout(function(){ try{ maybeShowOnboarding(); }catch(_e){} }, 400);
+    // Q6: Quick stats po loginu (jen pokud onboarding uz videl)
+    try{
+      if(localStorage.getItem(getOnboardingKey())==='1') showLoginQuickStats();
+    }catch(_e){}
     loadFifaRankingFromDb(true).then(function(){
       if(tymPhase==='rk' || document.getElementById('page-tymy').style.display!=='none') renderTymy();
       renderAdminSyncStatus();
@@ -4272,6 +4291,83 @@ function ensureToastStack(){
   stack.className='toast-stack';
   document.body.appendChild(stack);
   return stack;
+}
+// Q5: Onboarding tutorial - 3 obrazovky pri prvnim prihlaseni
+function getOnboardingKey(){ return me&&me.id?'ms26_onb_seen_'+String(me.id):''; }
+function maybeShowOnboarding(){
+  if(!me) return;
+  var key=getOnboardingKey();
+  if(!key) return;
+  try{ if(localStorage.getItem(key)==='1') return; }catch(_e){}
+  var slides=LANG==='en'
+    ? [
+      {emoji:'⚽',title:'Welcome to the WC 2026 Tipping Challenge!',text:'Predict every match score before kickoff. The closer you are, the more points you earn.'},
+      {emoji:'⏰',title:'Tip before kickoff',text:'Once a match starts, your tip is locked. Save early, save often. Use the Refresh icon to update results during games.'},
+      {emoji:'🏆',title:'How points work',text:'<b>10 pts</b> exact score · <b>3 pts</b> right winner/draw · <b>+1 pt</b> right goal difference · <b>30/20 pts</b> tournament winner / top scorer extra picks.'},
+    ]
+    : [
+      {emoji:'⚽',title:'Vítej v Tipovačce MS 2026!',text:'Tipuj každý zápas před výkopem. Čím přesnější tip, tím víc bodů.'},
+      {emoji:'⏰',title:'Tipuj před výkopem',text:'Jakmile zápas začne, tip se zamkne. Ukládej si průběžně. Tlačítko Aktualizovat nahoře táhne výsledky během turnaje.'},
+      {emoji:'🏆',title:'Jak fungují body',text:'<b>10 b</b> přesný výsledek · <b>3 b</b> správný vítěz/remíza · <b>+1 b</b> správný rozdíl skóre · <b>30/20 b</b> extra tip vítěz turnaje / král střelců.'},
+    ];
+  var idx=0;
+  var overlay=document.createElement('div');
+  overlay.className='onb-overlay';
+  function render(){
+    var s=slides[idx];
+    overlay.innerHTML='<div class="onb-card">'+
+      '<div class="onb-emoji">'+s.emoji+'</div>'+
+      '<div class="onb-title">'+s.title+'</div>'+
+      '<div class="onb-text">'+s.text+'</div>'+
+      '<div class="onb-dots">'+slides.map(function(_,i){return '<span class="onb-dot'+(i===idx?' on':'')+'"></span>';}).join('')+'</div>'+
+      '<div class="onb-actions">'+
+      '<button class="onb-skip" id="onb-skip">'+(LANG==='en'?'Skip':'Přeskočit')+'</button>'+
+      '<button class="onb-next" id="onb-next">'+(idx===slides.length-1?(LANG==='en'?'Got it':'Jdeme tipovat'):(LANG==='en'?'Next':'Dál'))+'</button>'+
+      '</div></div>';
+    overlay.querySelector('#onb-skip').onclick=close;
+    overlay.querySelector('#onb-next').onclick=function(){
+      if(idx<slides.length-1){idx++;render();}else{close();}
+    };
+  }
+  function close(){
+    try{ localStorage.setItem(key,'1'); }catch(_e){}
+    if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
+  }
+  document.body.appendChild(overlay);
+  render();
+}
+// Q6: Quick stats po loginu - posledni hodnoceny tip + body
+function showLoginQuickStats(){
+  if(!me) return;
+  var allMatches=SZ.concat(PZ);
+  // Najdi posledni rated tip (mam tip + je vysledek)
+  var rated=[];
+  Object.keys(myTips||{}).forEach(function(zid){
+    var z=allMatches.find(function(zz){return String(zz[0])===String(zid);});
+    var res=results[zid];
+    if(z && res){
+      rated.push({zid:parseInt(zid,10), z:z, tip:myTips[zid], res:res, dt:mDate(z)});
+    }
+  });
+  if(!rated.length){
+    var totalSaved=Object.keys(myTips||{}).length;
+    if(totalSaved>0){
+      var msg=LANG==='en'
+        ? 'Welcome back! '+totalSaved+' tips saved, waiting for matches.'
+        : 'Vítej zpět! Máš '+totalSaved+' uložených tipů, čekáme na zápasy.';
+      showToast(msg,'info');
+    }
+    return;
+  }
+  rated.sort(function(a,b){return b.dt-a.dt;});
+  var last=rated[0];
+  var pts=calcPts(last.tip,last.res);
+  var ok=pts>0;
+  var teamA=tN(last.z[2]),teamB=tN(last.z[3]);
+  var msg=LANG==='en'
+    ? 'Last rated: '+teamA+' '+last.res+' '+teamB+' · your tip '+last.tip+' = '+pts+' pts'
+    : 'Poslední tip: '+teamA+' '+last.res+' '+teamB+' · tvůj '+last.tip+' = '+pts+' b';
+  showToast(msg, ok?'ok':'info');
 }
 // Q9: skeleton helper - vlozi placeholdery do containeru
 function renderSkeletonRows(elId,count){
