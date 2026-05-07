@@ -2,6 +2,24 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.2 - 7. 5. 2026
+
+Live scoreboard (B3) + clickable header cards.
+
+- **Live banner** nahoře (sticky): zobrazí 🔴 LIVE + max 3 zápasy s skore + minutáží, jakmile pg_cron / admin vrazí do `app_sync_statuses.results.parsed_events` live data
+- Polling z DB každých 30s (jen když tab visible) - **0 ESPN volání z klientů**
+- Nová edge funkce `cron-results` (verify_jwt:false, chráněna `CRON_SECRET` headerem) - parsuje ESPN scoreboard a ukládá events do `app_sync_statuses`
+- DB: `vysledky.status` sloupec ('final' / 'live' / 'pending') + index
+- Pro plnou automatiku adminstrátor nastaví `CRON_SECRET` env v Supabase + pg_cron job (manuální setup, návod v handoff)
+
+## v5.4.1 - 7. 5. 2026
+
+Header KPI cards interactive + responsive.
+
+- Karty v hlavičce **proklikávací**: ⚽ Odehráno → Výsledky, 🏟 Tipy: skupiny → Moje tipy, 🏆 Tipy: play-off → Moje tipy s play-off filterem, 🏅 Pořadí → Žebříček
+- Karta `Tipy: play-off` **schovaná** dokud play-off není vylosované (testuje se přes `isPlayoffOpened()` - alespoň 1 zápas v PZ má známý tým)
+- Keyboard navigation (Tab + Enter/Space)
+
 ## v5.4.0 - 7. 5. 2026
 
 UI polish wave (A1+A2+B4+C2 z visual wishlist).

@@ -185,6 +185,21 @@ body.theme-light .venue{color:#5f7690}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
+/* B3: Live scoreboard banner - zobrazuje se nahoře všech tabů kdyz jsou live zapasy */
+.live-banner{position:sticky;top:0;z-index:60;background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(168,85,247,.10));border:1px solid rgba(239,68,68,.35);border-radius:11px;padding:.55rem .85rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;backdrop-filter:blur(10px);box-shadow:0 4px 16px rgba(239,68,68,.10)}
+.live-banner-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:livepulse 1.2s ease-in-out infinite;flex-shrink:0}
+.live-banner-lbl{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.08em;color:#fda4af;text-transform:uppercase;flex-shrink:0}
+.live-banner-list{flex:1;display:flex;gap:.7rem;flex-wrap:wrap;font-size:.78rem;color:var(--tx);overflow:hidden}
+.live-banner-match{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:3px 8px;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.live-banner-match b{color:var(--gd);font-size:.85rem}
+.live-banner-match .clock{color:var(--mu);font-size:.66rem;font-weight:500}
+@media(max-width:600px){
+  .live-banner{padding:.45rem .55rem;gap:.45rem}
+  .live-banner-lbl{font-size:.6rem}
+  .live-banner-list{font-size:.72rem;gap:.4rem}
+  .live-banner-match{padding:2px 6px}
+  .live-banner-match b{font-size:.78rem}
+}
 /* B4: Sticky match countdown banner pro nezatipovany nejbliszsi zápas */
 .mc-banner{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(168,85,247,.12));border:1px solid rgba(245,158,11,.35);border-radius:11px;padding:.6rem .85rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(245,158,11,.12)}
 .mc-banner-ico{font-size:1.1rem;flex-shrink:0}
@@ -1152,6 +1167,9 @@ body.theme-light .toast{background:rgba(255,255,255,.98);box-shadow:0 10px 28px 
 /* A1: dashboard cards barevne diferencovane (gradient pozadi + tinted border) */
 .hdr-sc{transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease}
 .hdr-sc:hover{transform:translateY(-2px)}
+.hdr-sc-clickable{cursor:pointer}
+.hdr-sc-clickable:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.hdr-sc-clickable:active{transform:translateY(0)}
 .hdr-sc--bl{background:linear-gradient(160deg,rgba(59,130,246,.10),rgba(59,130,246,.02));border-color:rgba(59,130,246,.20)}
 .hdr-sc--bl:hover{border-color:rgba(59,130,246,.45);box-shadow:0 6px 18px rgba(59,130,246,.15)}
 .hdr-sc--gn{background:linear-gradient(160deg,rgba(34,197,94,.10),rgba(34,197,94,.02));border-color:rgba(34,197,94,.20)}
@@ -1884,7 +1902,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <div id="lo-paid-content"></div>
     </div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.0</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.2</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -1901,25 +1919,25 @@ body.admin-user #btn-logout{padding:0 10px}
           <div class="hdr-admin-sync" id="hdr-admin-sync"></div>
         </div>
         <div class="hdr-stats">
-          <div class="hdr-sc hdr-sc--bl">
+          <div class="hdr-sc hdr-sc--bl hdr-sc-clickable" data-jump="vysledky" role="button" tabindex="0">
             <div class="hdr-sc-ico">⚽</div>
             <div class="hdr-sc-lbl hdr-sc-bl" id="stat-lbl-played">Odehráno</div>
             <div class="hdr-sc-val" id="stat-val-played">0/104</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-bl" id="stat-bar-played" style="width:0%"></div></div>
           </div>
-          <div class="hdr-sc hdr-sc--gn">
+          <div class="hdr-sc hdr-sc--gn hdr-sc-clickable" data-jump="tipy" role="button" tabindex="0">
             <div class="hdr-sc-ico">🏟</div>
             <div class="hdr-sc-lbl hdr-sc-gn" id="stat-lbl-saved-sk">Tipy: skupiny</div>
             <div class="hdr-sc-val" id="stat-val-saved-sk">0/72</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-gn" id="stat-bar-sk" style="width:0%"></div></div>
           </div>
-          <div class="hdr-sc hdr-sc--pu">
+          <div class="hdr-sc hdr-sc--pu hdr-sc-clickable" id="stat-card-po" data-jump="tipy" role="button" tabindex="0" style="display:none">
             <div class="hdr-sc-ico">🏆</div>
             <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Tipy: play-off</div>
             <div class="hdr-sc-val" id="stat-val-saved-po">0/32</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-pu" id="stat-bar-po" style="width:0%"></div></div>
           </div>
-          <div class="hdr-sc hdr-sc-rank">
+          <div class="hdr-sc hdr-sc-rank hdr-sc-clickable" data-jump="zebricek" role="button" tabindex="0">
             <div class="hdr-sc-ico">🏅</div>
             <div class="hdr-sc-lbl" id="stat-lbl-rank">Pořadí v tipovačce</div>
             <div class="hdr-sc-val" id="stat-val-rank">-</div>
@@ -1989,6 +2007,11 @@ body.admin-user #btn-logout{padding:0 10px}
       </div>
     </div>
 
+    <div class="live-banner" id="live-banner" style="display:none">
+      <span class="live-banner-dot"></span>
+      <span class="live-banner-lbl" id="live-banner-lbl">LIVE</span>
+      <div class="live-banner-list" id="live-banner-list"></div>
+    </div>
     <div id="page-tipy">
       <div class="mc-banner" id="mc-banner" style="display:none">
         <div class="mc-banner-ico">⏰</div>
@@ -2214,14 +2237,14 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.0</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.2</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.4.0';
+var APP_VERSION='v5.4.2';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3633,6 +3656,11 @@ function updProgress(){
   var lbl=document.getElementById("stat-lbl-played");if(lbl) lbl.textContent=LANG==="en"?"Played":"Odehráno";
 }
 
+function isPlayoffOpened(){
+  // Play-off je "otevrene" kdyz aspon 1 zapas v PZ ma znamy tym (ne placeholder)
+  // Placeholdery: "Vitez", "Druhy", "Treti", "sk.", "OF1"... atd.
+  return PZ.some(function(z){ return !matchTeamsUnknown(z); });
+}
 function updSavedProgress(){
   var sk=Object.keys(myTips).filter(function(k){return parseInt(k,10)<=72;}).length;
   var po=Object.keys(myTips).filter(function(k){return parseInt(k,10)>72;}).length;
@@ -3642,6 +3670,9 @@ function updSavedProgress(){
   var bpo=document.getElementById("stat-bar-po");if(bpo) bpo.style.width=Math.round(po/32*100)+"%";
   var lsk=document.getElementById("stat-lbl-saved-sk");if(lsk) lsk.textContent=LANG==="en"?"MY TIPS: GROUPS":"MOJE TIPY: SKUPINY";
   var lpo=document.getElementById("stat-lbl-saved-po");if(lpo) lpo.textContent=LANG==="en"?"MY TIPS: PLAY-OFF":"MOJE TIPY: PLAY-OFF";
+  // Play-off card schovat dokud play-off neni vylosovane (po skupinove fazi)
+  var card=document.getElementById('stat-card-po');
+  if(card) card.style.display=isPlayoffOpened()?'flex':'none';
 }
 
 function updateHeaderRanking(){
@@ -4263,6 +4294,8 @@ function finishLogin(d){
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
     renderAdminSyncStatus();
+    // B3: spustit polling live scoreboard (kazdych 30s)
+    try{ startLiveScoresPolling(); }catch(_e){}
     // Q5: Onboarding tutorial pro nove hrace (jen prvni prihlaseni)
     setTimeout(function(){ try{ maybeShowOnboarding(); }catch(_e){} }, 400);
     // Q6: Quick stats po loginu (jen pokud onboarding uz videl)
@@ -4682,6 +4715,49 @@ function openPlayerDetail(playerId){
     '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('#pdet-close').onclick=close;
+}
+// B3: Live scoreboard - polling app_sync_statuses (klic 'results') každych 30s, kdyz jsou live zapasy
+var liveScoresPollInterval=null;
+var liveScoresLastFetch=0;
+function startLiveScoresPolling(){
+  // Spusti se po loginu. Polling jen kdyz vis viditelne.
+  if(liveScoresPollInterval) return;
+  pollLiveScores();
+  liveScoresPollInterval=setInterval(function(){
+    if(document.visibilityState==='visible' && me) pollLiveScores();
+  }, 30000);
+}
+function pollLiveScores(){
+  var now=Date.now();
+  if(now-liveScoresLastFetch<15000) return; // throttle 15s
+  liveScoresLastFetch=now;
+  sbf('app_sync_statuses?key=eq.results&select=detail,last_updated_at').then(function(d){
+    var row=Array.isArray(d)?d[0]:null;
+    if(!row||!row.detail) return renderLiveBanner([]);
+    var events=Array.isArray(row.detail.parsed_events)?row.detail.parsed_events:[];
+    var live=events.filter(function(e){
+      return e && !e.completed && e.homeScore!=='' && e.homeScore!=null;
+    });
+    renderLiveBanner(live);
+  }).catch(function(){ renderLiveBanner([]); });
+}
+function renderLiveBanner(liveEvents){
+  var b=document.getElementById('live-banner');
+  if(!b) return;
+  if(!liveEvents || liveEvents.length===0){ b.style.display='none'; return; }
+  setText('live-banner-lbl', LANG==='en'?'LIVE':'ŽIVĚ');
+  var list=document.getElementById('live-banner-list');
+  if(!list) return;
+  // max 3 zapasy aby se vzdy veslo
+  var html=liveEvents.slice(0,3).map(function(ev){
+    var home=tN(ev.home||''), away=tN(ev.away||'');
+    var score=String(ev.homeScore||'0')+'-'+String(ev.awayScore||'0');
+    var clock=ev.clock?ev.clock+'′':(ev.statusDesc||'');
+    return '<span class="live-banner-match">'+escHtml(home)+' <b>'+escHtml(score)+'</b> '+escHtml(away)+(clock?' <span class="clock">'+escHtml(clock)+'</span>':'')+'</span>';
+  }).join('');
+  if(liveEvents.length>3) html+='<span class="live-banner-match" style="background:transparent;border:none;color:var(--mu);font-size:.7rem">+'+(liveEvents.length-3)+'</span>';
+  list.innerHTML=html;
+  b.style.display='flex';
 }
 // B4: Match countdown banner - nejbliszsi nezatipovany zapas v ramci 24h
 function renderMatchCountdownBanner(){
@@ -7032,6 +7108,25 @@ function init(){
   // B4: match countdown banner buttons
   var mcb=document.getElementById('mc-banner-cta'); if(mcb) mcb.addEventListener('click',jumpToMatchTipInput);
   var mcc=document.getElementById('mc-banner-close'); if(mcc) mcc.addEventListener('click',dismissMatchCountdownBanner);
+  // Header KPI cards: clickable jump na konkretni tab
+  document.querySelectorAll('.hdr-sc-clickable[data-jump]').forEach(function(card){
+    var go=function(){
+      var target=card.getAttribute('data-jump');
+      if(target && typeof showTab==='function'){
+        showTab(target);
+        // Pokud klik na 'tipy' z play-off karty, scroll na play-off filter
+        if(card.id==='stat-card-po'){
+          setTimeout(function(){
+            var btn=document.getElementById('ptab-phase-po');
+            if(btn) btn.click();
+          },120);
+        }
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+    };
+    card.addEventListener('click',go);
+    card.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+  });
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);
