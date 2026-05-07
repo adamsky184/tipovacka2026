@@ -2200,6 +2200,7 @@ var T={
     sync_results_lbl:'Výsledky',
     sync_teams_lbl:'Týmy',
     sync_fifa_lbl:'FIFA ranking',
+    sync_odds_lbl:'Kurzy',
     groups_none:'Skupiny neuvedeny',
     countdown_lbl:'Nejbližší zápas',
     ins_h:'Moje tendence',
@@ -2310,6 +2311,7 @@ var T={
     sync_results_lbl:'Results',
     sync_teams_lbl:'Teams',
     sync_fifa_lbl:'FIFA ranking',
+    sync_odds_lbl:'Odds',
     groups_none:'Groups not assigned',
     countdown_lbl:'Next match',
     ins_h:'My tendencies',
@@ -2858,6 +2860,12 @@ function setTeamsLastUpdated(){
 function getFifaUpdatedAt(){
   try{return localStorage.getItem('ms26_fifa_updated_at')||'';}catch(e){return '';}
 }
+function getOddsLastUpdated(){
+  try{return localStorage.getItem('ms26_odds_updated_at')||'';}catch(e){return '';}
+}
+function setOddsLastUpdated(){
+  try{localStorage.setItem('ms26_odds_updated_at', new Date().toISOString());}catch(e){}
+}
 function getFifaOfficialAt(){
   try{return localStorage.getItem('ms26_fifa_official_at')||'';}catch(e){return '';}
 }
@@ -3275,7 +3283,8 @@ function renderAdminSyncStatus(){
   el.innerHTML=
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_results_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getResultsLastUpdated()))+'</span></div>'+
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_teams_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getTeamsLastUpdated()))+'</span></div>'+
-    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+'</span></div>';
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+'</span></div>'+
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_odds_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getOddsLastUpdated()))+'</span></div>';
 }
 function sameCalDay(d1,d2){
   return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
@@ -5892,8 +5901,13 @@ function syncOdds(){
           home_odds:h?String(h.price):'',draw_odds:d?String(d.price):'',away_odds:a?String(a.price):''});
       });
     });
+    setOddsLastUpdated();
     if(rows.length===0){
-      setSt('st-vys',(LANG==='en'?'No odds rows mapped':'Žádné kurzy nenamapovány'),false,true);
+      var msg=(json.events_count===0)
+        ? (LANG==='en'?'API returned 0 events ('+(json.sport_key||'no sport key')+'). Tournament not yet active.':'API vrátilo 0 zápasů ('+(json.sport_key||'žádný sport_key')+'). Turnaj zatím není aktivní.')
+        : (LANG==='en'?'No odds rows mapped':'Žádné kurzy nenamapovány');
+      setSt('st-vys',msg,false,true);
+      renderAdminSyncStatus();
       return;
     }
     return rpcWithRetry('admin_upsert_match_odds_secure',{p_admin_id:me.id,p_pin:myPin,p_rows:rows}).then(function(d){
