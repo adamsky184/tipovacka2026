@@ -319,6 +319,8 @@ body.theme-light .venue{color:#5f7690}
 .badge-hot{background:rgba(245,158,11,.15);color:var(--gd)}
 .badge-draw{background:rgba(168,85,247,.15);color:var(--pu)}
 .badge-leader{background:rgba(245,158,11,.2);color:var(--gd)}
+.badge-black{background:rgba(31,41,55,.5);color:#cbd5e1;border:1px solid rgba(148,163,184,.3)}
+.badge-comeback{background:rgba(168,85,247,.18);color:var(--pu);border:1px solid rgba(168,85,247,.3)}
 .badge-rival{background:rgba(239,68,68,.12);color:#fda4af;border:1px solid rgba(239,68,68,.22)}
 .rival-toggle{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;border:1px solid var(--bd2);background:transparent;color:var(--mu2);cursor:pointer;transition:.15s;flex-shrink:0}
 .rival-toggle:hover{border-color:#f59e0b;color:#fbbf24}
@@ -1973,10 +1975,13 @@ body.admin-user #btn-logout{padding:0 10px}
 
     <div id="page-zebricek" style="display:none">
       <div class="ibox zeb-info" id="ibox-zeb">Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.</div>
-      <div class="ptabs">
-        <button class="ptab on" id="ptab-zeb-cel">Celkový</button>
-        <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
-        <button class="ptab" id="ptab-zeb-po">Play-off</button>
+      <div class="ptabs" style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="ptab on" id="ptab-zeb-cel">Celkový</button>
+          <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
+          <button class="ptab" id="ptab-zeb-po">Play-off</button>
+        </div>
+        <button class="btn btn-ol btn-sm" id="btn-share-zeb" type="button" title="Sdílet žebříček jako obrázek" aria-label="Sdílet žebříček">📤</button>
       </div>
       <div id="zeb-list"><div class="skeleton-stack"><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div></div></div>
     </div>
@@ -3766,11 +3771,46 @@ function getPlayerDiscussionBadges(playerId,rankInfo){
       if(tipOutcome(tip)==='X'&&tipOutcome(res)==='X'&&pts>=3) drawHits++;
     });
   }
+  // Q10: BLACK SHEEP - hrac mel jako jediny pravdu (ostatni tipovali jinak a jeho pts>=3)
+  var blackSheep=0, comebackHit=false;
+  if(!snap && allTips){
+    scored.forEach(function(z,idx){
+      var tip=tips[z[0]],res=results[z[0]];
+      if(!tip||!res) return;
+      var pts=calcPts(tip,res);
+      if(pts<3) return;
+      // Pocet ostatnich hracu kteri meli STEJNY tip (nepocitat sebe)
+      var sameOthers=0,allOthers=0;
+      Object.keys(allTips||{}).forEach(function(otherId){
+        if(String(otherId)===pid) return;
+        var otherTip=allTips[otherId]&&allTips[otherId][z[0]];
+        if(otherTip){
+          allOthers++;
+          if(otherTip===tip) sameOthers++;
+        }
+      });
+      if(allOthers>=3 && sameOthers===0) blackSheep++;
+    });
+  }
+  // Q10: COMEBACK - po 3+ tipech bez bodu nasledoval pts>=10 v poslednich 5 tipech
+  if(!snap){
+    var ratedSeq=scored.map(function(z){
+      var tip=tips[z[0]],res=results[z[0]];
+      return (tip&&res)?calcPts(tip,res):null;
+    }).filter(function(x){return x!==null;});
+    for(var i=2;i<ratedSeq.length-1;i++){
+      if(ratedSeq[i-2]===0 && ratedSeq[i-1]===0 && ratedSeq[i]===0 && ratedSeq[i+1]===10){
+        comebackHit=true; break;
+      }
+    }
+  }
   var badges=[];
   if(rankInfo&&rankInfo.rank===1) badges.push({cls:'badge-leader',label:'LEADER'});
   if(recentExact>=2||recentPoints>=16) badges.push({cls:'badge-hot',label:'HOT'});
   if(exactCount>=5) badges.push({cls:'badge-sniper',label:'SNIPER'});
   if(drawHits>=3) badges.push({cls:'badge-draw',label:'DRAW'});
+  if(blackSheep>=2) badges.push({cls:'badge-black',label:'BLACK SHEEP'});
+  if(comebackHit) badges.push({cls:'badge-comeback',label:'COMEBACK'});
   if(badges.length>3) badges=badges.slice(0,3);
   return badges;
 }
@@ -4291,6 +4331,77 @@ function ensureToastStack(){
   stack.className='toast-stack';
   document.body.appendChild(stack);
   return stack;
+}
+// Q4: Render zebricek jako PNG canvas + Web Share API / download
+function shareLeaderboardAsImage(){
+  try{
+    // Pouzij snapshot z leaderboardCache (cel)
+    var snap=(leaderboardCache && leaderboardCache.cel) ? leaderboardCache.cel : [];
+    if(!snap.length){ showToast(LANG==='en'?'Leaderboard not loaded yet':'Žebříček zatím nenačten','err'); return; }
+    var W=720, H=Math.max(280, 120+snap.length*44+60);
+    var c=document.createElement('canvas');
+    c.width=W; c.height=H;
+    var ctx=c.getContext('2d');
+    // pozadi
+    var grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,'#0c1e35'); grad.addColorStop(1,'#0a1728');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+    // top accent
+    var acc=ctx.createLinearGradient(0,0,W,0);
+    acc.addColorStop(0,'#3b82f6'); acc.addColorStop(0.5,'#a855f7'); acc.addColorStop(1,'#22c55e');
+    ctx.fillStyle=acc; ctx.fillRect(0,0,W,4);
+    // header
+    ctx.fillStyle='#eef5ff';
+    ctx.font='700 26px Space Grotesk, sans-serif';
+    ctx.fillText(LANG==='en'?'WC 2026 LEADERBOARD':'TIPOVAČKA MS 2026 · ŽEBŘÍČEK', 28, 50);
+    ctx.fillStyle='#7fa3c7';
+    ctx.font='500 13px Inter, sans-serif';
+    var d=new Date();
+    ctx.fillText((LANG==='en'?'Snapshot ':'Stav ')+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes()), 28, 72);
+    // hraci
+    var y=110;
+    snap.forEach(function(p,i){
+      var rank=i+1;
+      var meRow=me && p.hrac_id===me.id;
+      ctx.fillStyle=meRow?'rgba(34,197,94,.10)':(i%2===0?'rgba(255,255,255,.03)':'transparent');
+      ctx.fillRect(20,y-26,W-40,38);
+      ctx.fillStyle=rank===1?'#f59e0b':(rank===2?'#cbd5e1':(rank===3?'#fbbf24':'#7fa3c7'));
+      ctx.font='700 18px Space Grotesk, sans-serif';
+      ctx.fillText('#'+rank, 36, y);
+      ctx.fillStyle=meRow?'#4ade80':'#eef5ff';
+      ctx.font='600 16px Inter, sans-serif';
+      ctx.fillText((p.jmeno||'').slice(0,28), 92, y);
+      ctx.fillStyle='#f59e0b';
+      ctx.font='700 18px Space Grotesk, sans-serif';
+      var pts=String(p.total||0)+' b';
+      ctx.textAlign='right';
+      ctx.fillText(pts, W-36, y);
+      ctx.textAlign='left';
+      y+=44;
+    });
+    // footer
+    ctx.fillStyle='#7fa3c7';
+    ctx.font='500 11px Inter, sans-serif';
+    ctx.fillText('© Adam184 · '+APP_VERSION+' · tipovacka2026.vercel.app', 28, H-22);
+    // export
+    c.toBlob(function(blob){
+      if(!blob){ showToast('Export failed','err'); return; }
+      var file=new File([blob],'tipovacka-zebricek.png',{type:'image/png'});
+      // Web Share API (mobile)
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file], title:LANG==='en'?'WC 2026 Leaderboard':'Tipovačka žebříček'}).catch(function(){});
+        return;
+      }
+      // Fallback download
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download='tipovacka-zebricek-'+d.getFullYear()+(d.getMonth()+1)+d.getDate()+'.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    },'image/png');
+  }catch(e){
+    showToast('Export error: '+(e&&e.message||''),'err');
+  }
 }
 // Q5: Onboarding tutorial - 3 obrazovky pri prvnim prihlaseni
 function getOnboardingKey(){ return me&&me.id?'ms26_onb_seen_'+String(me.id):''; }
@@ -6454,6 +6565,7 @@ function init(){
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
   var bso3=document.getElementById('btn-sync-odds'); if(bso3) bso3.addEventListener('click',syncOdds);
+  var bsh=document.getElementById('btn-share-zeb'); if(bsh) bsh.addEventListener('click',shareLeaderboardAsImage);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);
