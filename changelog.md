@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.6 - 7. 5. 2026
+
+UI fix - korunka pryč.
+
+- 👑 emoji u 1. místa: úplně odstraněno (přečuhovalo z karty, rušilo layout)
+- Top-1 zachovává zlatý gradient + zlatou medaili + LEADER badge - vizuálně dostatečné
+
 ## v5.4.5 - 7. 5. 2026
 
 UI fix - korunka na top-1 kartě.

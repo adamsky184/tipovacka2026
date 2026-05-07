@@ -150,8 +150,7 @@ body.theme-light .venue{color:#5f7690}
 .lbr:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .lbr.me{border-color:var(--gn);background:rgba(34,197,94,.04)}
 /* A2: Premium Top 3 medaile */
-.lbr.g1{position:relative;border-color:rgba(245,158,11,.55);background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(245,158,11,.02));box-shadow:0 0 0 1px rgba(245,158,11,.15),0 6px 22px rgba(245,158,11,.18);animation:gold-pulse 3.5s ease-in-out infinite}
-.lbr.g1::before{content:'👑';position:absolute;top:-10px;left:4px;font-size:.95rem;transform:rotate(-12deg);filter:drop-shadow(0 2px 6px rgba(245,158,11,.6));z-index:2;pointer-events:none}
+.lbr.g1{border-color:rgba(245,158,11,.55);background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(245,158,11,.02));box-shadow:0 0 0 1px rgba(245,158,11,.15),0 6px 22px rgba(245,158,11,.18);animation:gold-pulse 3.5s ease-in-out infinite}
 @keyframes gold-pulse{0%,100%{box-shadow:0 0 0 1px rgba(245,158,11,.15),0 6px 22px rgba(245,158,11,.18)}50%{box-shadow:0 0 0 1px rgba(245,158,11,.30),0 8px 28px rgba(245,158,11,.32)}}
 .lbr.g2{border-color:rgba(203,213,225,.42);background:linear-gradient(135deg,rgba(203,213,225,.07),rgba(203,213,225,.01));box-shadow:0 0 0 1px rgba(203,213,225,.10),0 4px 16px rgba(203,213,225,.10)}
 .lbr.g3{border-color:rgba(217,119,6,.42);background:linear-gradient(135deg,rgba(217,119,6,.07),rgba(217,119,6,.01));box-shadow:0 0 0 1px rgba(217,119,6,.10),0 4px 16px rgba(217,119,6,.10)}
@@ -2243,7 +2242,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.4.5';
+var APP_VERSION='v5.4.6';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
