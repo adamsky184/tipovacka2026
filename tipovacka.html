@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tipovačka MS 2026</title>
 <meta name="theme-color" content="#0a1524">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://xzlebpzepnhkedlxntgv.supabase.co https://site.api.espn.com https://a.espncdn.com; manifest-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tipovačka MS 2026">
@@ -1770,11 +1771,11 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div id="rf" style="display:none">
       <div class="lo-lbl" id="lbl-name2">JMÉNO</div>
-      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jméno...">
+      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jméno..." autocomplete="username">
       <div class="lo-lbl" id="lbl-pin2">PIN (min. 4 znaky)</div>
-      <input class="lo-inp" id="rp" type="password" placeholder="Zvol si PIN...">
+      <input class="lo-inp" id="rp" type="password" placeholder="Zvol si PIN..." autocomplete="new-password">
       <div class="lo-lbl" id="lbl-pin3">POTVRD PIN</div>
-      <input class="lo-inp" id="rp2" type="password" placeholder="Znovu PIN...">
+      <input class="lo-inp" id="rp2" type="password" placeholder="Znovu PIN..." autocomplete="new-password">
       <button class="lo-btn r" id="brg">Registrovat se</button>
       <div class="lo-err" id="re"></div>
     </div>
@@ -1831,12 +1832,12 @@ body.admin-user #btn-logout{padding:0 10px}
                   <span class="hdr-uname" id="hdr-username-lbl"></span>
                   <span class="abadge2" id="ab" style="display:none">ADMIN</span>
                 </div>
-                <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit">↩ Odhlásit</button>
+                <button class="hdr-ico-btn" id="btn-logout" style="display:none" title="Odhlásit" aria-label="Odhlásit">↩ Odhlásit</button>
               </div>
               <div class="hdr-tool-row">
-                <button class="lang-btn" id="langbtn">🇬🇧 EN</button>
-                <button class="hdr-ico-btn" id="btn-theme" type="button" title="Přepnout motiv">☀️</button>
-                <button class="hdr-ico-btn" id="btn-faq" type="button" title="FAQ">ⓘ FAQ</button>
+                <button class="lang-btn" id="langbtn" aria-label="Switch language">🇬🇧 EN</button>
+                <button class="hdr-ico-btn" id="btn-theme" type="button" title="Přepnout motiv" aria-label="Přepnout motiv">☀️</button>
+                <button class="hdr-ico-btn" id="btn-faq" type="button" title="FAQ" aria-label="FAQ">ⓘ FAQ</button>
               </div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↻ VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">↻ TÝMY</button><button class="btn btn-ol btn-sm" id="btn-sync-fifa" style="display:none">↻ FIFA RANKING</button></div>
@@ -2079,6 +2080,14 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="clbl" id="rules-clbl">Pravidla tipovačky</div>
         <div id="rules-list" class="rules-list"></div>
       </div>
+      <div class="card" style="margin-top:1rem">
+        <div class="clbl" id="account-clbl">Můj účet</div>
+        <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-info-txt">
+          Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.
+        </div>
+        <button class="btn btn-ol btn-sm" id="btn-delete-account" style="border-color:var(--rd);color:var(--rd)">🗑 Smazat účet</button>
+        <div class="lo-err" id="del-acc-err" style="margin-top:.5rem;min-height:0"></div>
+      </div>
     </div>
 
     <div class="float-sav" id="float-sav" style="display:none">
@@ -2092,6 +2101,11 @@ body.admin-user #btn-logout{padding:0 10px}
 </div>
 
 <script>
+// === APP CONFIG (single source of truth) ===
+var APP_VERSION='v5.1.0';
+var APP_VERSION_DATE_CS='7. 5. 2026';
+var APP_VERSION_DATE_EN='7 May 2026';
+// =========================================
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','#4c1d95','#0f766e','#78350f'];
@@ -2160,8 +2174,8 @@ var T={
     tournament_not_started:'0 (turnaj začíná 11.6.)',
     admin_overview:'Admin - přehled všech tipů',
     admin_info:'Klikni na <strong>jméno hráče</strong> v hlavičce pro smazání. Klikni na <strong>tip</strong> pro úpravu.',
-    footer_ver:'v5.1.0',
-    footer_date:'7. 5. 2026',
+    footer_ver:APP_VERSION,
+    footer_date:APP_VERSION_DATE_CS,
     saved:'Uloženo',
     group_stage:'Skupiny',
     playoff_stage:'Play-off',
@@ -2213,6 +2227,9 @@ var T={
     all_players:'Všichni',
     my_tendencies:'Moje tendence',
     ost_top3:'Top 3 v žebříčku',
+    account_clbl:'Můj účet',
+    account_info_txt:'Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.',
+    account_delete_btn:'🗑 Smazat účet',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
     team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
@@ -2263,8 +2280,8 @@ var T={
     tournament_not_started:'0 (tournament starts on 11 Jun)',
     admin_overview:'Admin - overview of all tips',
     admin_info:'Click a <strong>player name</strong> in the header to delete. Click a <strong>tip</strong> to edit.',
-    footer_ver:'v5.1.0',
-    footer_date:'7 May 2026',
+    footer_ver:APP_VERSION,
+    footer_date:APP_VERSION_DATE_EN,
     saved:'Saved',
     group_stage:'Groups',
     playoff_stage:'Playoff',
@@ -2311,6 +2328,9 @@ var T={
     phase_groups:'Group stage',
     phase_playoff:'Play-off',
     phase_extra:'Overall winner',
+    account_clbl:'My account',
+    account_info_txt:'Deleting your account also removes all your match tips, extra tips, discussion posts and reactions. This action cannot be undone.',
+    account_delete_btn:'🗑 Delete account',
     show_players:'Show players',
     rival_only:'Rivals only',
     all_players:'All',
@@ -3895,9 +3915,9 @@ function saveExtraResults(){
     renderInsights();
     updateHeaderRanking();
     renderZeb();
-    alert(tr('extra_results_saved'));
+    showToast(tr('extra_results_saved'),'ok');
   }).catch(function(e){
-    alert((e&&e.message)||tr('error_generic'));
+    showToast((e&&e.message)||tr('error_generic'),'err');
   });
 }
 function rpcWithTimeout(fn,params,ms){
@@ -4012,6 +4032,24 @@ function finishLogin(d){
   });
   showTab('tipy');
 }
+function doDeleteAccount(){
+  if(!me||!myPin) return;
+  var msg=LANG==='en'
+    ? 'This will permanently delete your account, tips, and discussion posts. Continue?'
+    : 'Tímto trvale smažeš svůj účet, tipy a příspěvky v diskuzi. Pokračovat?';
+  if(!confirm(msg)) return;
+  var btn=document.getElementById('btn-delete-account');
+  if(btn) btn.disabled=true;
+  setText('del-acc-err','...');
+  rpcWithRetry('delete_account_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
+    if(d&&d.chyba){setText('del-acc-err',d.chyba);if(btn) btn.disabled=false;return;}
+    setText('del-acc-err','');
+    doLogout();
+  }).catch(function(e){
+    setText('del-acc-err',(e&&e.message)||'Error');
+    if(btn) btn.disabled=false;
+  });
+}
 function doLogout(){
   me=null;myPin=null;myTips={};players=[];results={};allTips={};globalTipCounts={};leaderboardCache={cel:null,sk:null,po:null};
   rivalIds=[];
@@ -4102,6 +4140,9 @@ function applyI18n(){
   setText('admin-winner-lbl',tr('extra_actual_winner')); setText('admin-scorer-lbl',tr('extra_actual_scorer'));
   setHtml('admin-ibox',tr('admin_info'));
   setText('rules-clbl',tr('rules_title'));
+  setText('account-clbl',tr('account_clbl'));
+  setText('account-info-txt',tr('account_info_txt'));
+  var bda2=document.getElementById('btn-delete-account'); if(bda2) bda2.textContent=tr('account_delete_btn');
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
   updateInstallButton();
@@ -5394,9 +5435,9 @@ function renderAdmin(){
       if(!confirm(tr('delete_player')+' "'+th.dataset.jmeno+'"?')) return;
       rpc('admin_smaz_hrace',{p_admin_id:me.id,p_hrac_id:th.dataset.hid})
         .then(function(d){
-          if(d&&d.chyba){alert(tr('error_generic')+': '+d.chyba);return;}
+          if(d&&d.chyba){showToast(tr('error_generic')+': '+d.chyba,'err');return;}
           loadPlayers().then(function(){return Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]);}).then(renderAdmin);
-        }).catch(function(e){alert(tr('error_generic')+': '+e.message);});
+        }).catch(function(e){showToast(tr('error_generic')+': '+e.message,'err');});
     });
   });
 
@@ -5415,7 +5456,7 @@ function renderAdmin(){
       var scorer=prompt((LANG==='en'?'Top scorer for ':'Král střelců pro ')+name+':', btn.getAttribute('data-scorer')||'');
       if(scorer===null) return;
       scorer=scorer.trim();
-      if(!winner||!scorer){ alert(LANG==='en'?'Fill in both fields.':'Vyplň obě pole.'); return; }
+      if(!winner||!scorer){ showToast(LANG==='en'?'Fill in both fields.':'Vyplň obě pole.','err'); return; }
       rpcWithRetry('admin_upsert_extra_tip_secure',{p_admin_id:me.id,p_pin:myPin,p_target_hrac_id:hid,p_winner_tip:winner,p_scorer_tip:scorer})
         .then(function(){ return Promise.all([loadExtraTips(),loadLeaderboardSnapshot('cel')]); })
         .then(function(){
@@ -5425,7 +5466,7 @@ function renderAdmin(){
           updateHeaderRanking();
           if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
         }).catch(function(e){
-          alert(tr('error_generic')+': '+((e&&e.message)||''));
+          showToast(tr('error_generic')+': '+((e&&e.message)||''),'err');
         });
     });
   });
@@ -5456,7 +5497,7 @@ function renderAdmin(){
           updateHeaderRanking();
           showToast(tr('admin_reset_tips_done'),'ok');
         }).catch(function(e){
-          alert(tr('error_generic')+': '+((e&&e.message)||''));
+          showToast(tr('error_generic')+': '+((e&&e.message)||''),'err');
         });
     });
   });
@@ -5466,7 +5507,7 @@ function renderAdmin(){
       var nt=prompt(tr('tip_prompt_admin')+td.dataset.zid+' (2:1):',td.dataset.tip||'');
       if(nt===null) return;
       nt=nt.trim();
-      if(nt && !/^[0-9]+:[0-9]+$/.test(nt)){alert(tr('format_21'));return;}
+      if(nt && !/^[0-9]+:[0-9]+$/.test(nt)){showToast(tr('format_21'),'err');return;}
       var zid=td.dataset.zid,hid=td.dataset.hid;
       adminUpsertTip(hid,zid,nt).then(function(){
         if(String(hid)===String(me.id)){
@@ -5483,7 +5524,7 @@ function renderAdmin(){
         if(document.getElementById('page-ostatni').style.display!=='none') renderOst();
         if(document.getElementById('page-zebricek').style.display!=='none') renderZeb();
         updateHeaderRanking();
-      }).catch(function(e){alert(tr('error_generic')+': '+e.message);});
+      }).catch(function(e){showToast(tr('error_generic')+': '+e.message,'err');});
     });
   });
 }
@@ -5747,15 +5788,17 @@ function fetchTeamPackage(localName, force){
     var t=findEspnTeam(localName);
     if(!t || !t.id) throw new Error('Team not found in ESPN index');
     var id=t.id;
-    var base='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams/'+id;
     var links=teamEspnLinks(t,id);
-    return Promise.all([
-      fetchJsonTry([base, base+'?region=us&lang=en']),
-      fetchJsonTry([base+'/schedule?season=2026', base+'/schedule', base+'/fixtures']),
-      fetchJsonTry([base+'/statistics', base+'/stats']),
-      fetchJsonTry([base+'/roster', base+'/squad'])
-    ]).then(function(res){
-      var teamJson=res[0], fixJson=res[1], statJson=res[2], rosterJson=res[3];
+    // v5.1.1: ESPN team detail pres edge funkci (CORS-safe)
+    return fetch(SBU+'/functions/v1/team-detail-refresh?id='+encodeURIComponent(id),{
+      method:'GET',
+      headers:{'apikey':SBK,'Authorization':'Bearer '+SBK}
+    }).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    }).then(function(json){
+      if(!json||!json.ok) throw new Error((json&&json.error)||'team-detail-refresh failed');
+      var teamJson=json.team, fixJson=json.schedule, statJson=json.statistics, rosterJson=json.roster;
       var team=(teamJson&&teamJson.team)||teamJson||{};
       var pkg={
         id:id,
@@ -6121,6 +6164,7 @@ function init(){
   document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
+  var bda=document.getElementById('btn-delete-account'); if(bda) bda.addEventListener('click',doDeleteAccount);
   document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
   var themeBtn=document.getElementById('btn-theme'); if(themeBtn) themeBtn.addEventListener('click',toggleTheme);
   var faqBtn=document.getElementById('btn-faq'); if(faqBtn) faqBtn.addEventListener('click',openFaq);
