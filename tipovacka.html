@@ -6356,10 +6356,13 @@ function syncOdds(){
     if(!json||!json.ok){
       var diag=(json&&json.stage?'['+json.stage+'] ':'')+((json&&json.error)||'odds-refresh failed');
       if(json&&json.api_response) diag+=' / '+String(json.api_response).slice(0,120);
+      showToast(diag,'err');
       throw new Error(diag);
     }
     if(json.info && json.events_count===0){
-      setSt('st-vys',(LANG==='en'?'Odds: ':'Kurzy: ')+json.info,false,true);
+      var infoMsg=(LANG==='en'?'Odds: ':'Kurzy: ')+json.info;
+      showToast(infoMsg,'info');
+      setSt('st-vys',infoMsg,false,true);
       return;
     }
     var events=Array.isArray(json.events)?json.events:[];
@@ -6391,12 +6394,17 @@ function syncOdds(){
         ? (LANG==='en'?'API returned 0 events ('+(json.sport_key||'no sport key')+'). Tournament not yet active.':'API vrátilo 0 zápasů ('+(json.sport_key||'žádný sport_key')+'). Turnaj zatím není aktivní.')
         : (LANG==='en'?'No odds rows mapped':'Žádné kurzy nenamapovány');
       setSt('st-vys',msg,false,true);
+      showToast(msg,'info');
       renderAdminSyncStatus();
       return;
     }
     return rpcWithRetry('admin_upsert_match_odds_secure',{p_admin_id:me.id,p_pin:myPin,p_rows:rows}).then(function(d){
       if(d&&d.chyba) throw new Error(d.chyba);
-      setSt('st-vys',(LANG==='en'?'Odds saved: ':'Kurzy uloženy: ')+(d&&d.imported||0),false,true);
+      var savedMsg=(LANG==='en'?'Odds saved: ':'Kurzy uloženy: ')+(d&&d.imported||0);
+      setSt('st-vys',savedMsg,false,true);
+      showToast(savedMsg,'ok');
+      // Reload odds cache aby se hned zobrazily v UI
+      loadMatchOdds().then(function(){ renderTipy(); });
       renderAdminSyncStatus();
     });
   }).catch(function(e){
