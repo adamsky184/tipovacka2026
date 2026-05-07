@@ -4736,7 +4736,14 @@ function pollLiveScores(){
     if(!row||!row.detail) return renderLiveBanner([]);
     var events=Array.isArray(row.detail.parsed_events)?row.detail.parsed_events:[];
     var live=events.filter(function(e){
-      return e && !e.completed && e.homeScore!=='' && e.homeScore!=null;
+      if(!e || e.completed) return false;
+      // Skip pred-zapasove stavy (Scheduled, Pre-Game) - jen opravdu hrane
+      var sd=String(e.statusDesc||'').toLowerCase();
+      if(/scheduled|pre[-\s]?game|status[-\s]?undefined/.test(sd)) return false;
+      // Vyzaduj nenulovy clock NEBO statusDesc obsahujici 'progress'/'half'/'min' atd.
+      var clk=String(e.clock||'').replace(/[^0-9]/g,'');
+      var liveStatus=/progress|half|live|min|finished|full[-\s]?time|stoppage/.test(sd);
+      return liveStatus || (clk && clk!=='0');
     });
     renderLiveBanner(live);
   }).catch(function(){ renderLiveBanner([]); });
