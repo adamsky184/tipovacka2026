@@ -2,6 +2,51 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.2.2 - 7. 5. 2026
+
+UI polish patch.
+
+- Odds pill design (lepší vizuál kurzů pod zápasem)
+- Mobile layout fix - tip inputs a tendence se nepřekrývají (74px / 104px)
+- AI suggester button skrytý na mobile (málo místa)
+
+## v5.2.1 - 7. 5. 2026
+
+Toast + diagnostika patch.
+
+- Toast notifikace u KURZY místo skrytého status pruhu
+- Edge funkce odds-refresh v4: vždy uloží sync_status (i při chybě/0 events) s detailem
+- Auto-reload UI po úspěšném KURZY refreshi (kurzy se hned zobrazí u zápasů)
+
+## v5.2.0 - 7. 5. 2026
+
+Velká feature wave (Q1-Q10 + L1-L2).
+
+- Q1 Konfeta animace při uložení tipu
+- Q2 Toast "Tvůj tip se shoduje s X% hráčů" po uložení
+- Q3 Auto dark/light theme dle systému (`prefers-color-scheme`)
+- Q4 Sdílení žebříčku jako PNG (Web Share API + download fallback)
+- Q5 Onboarding tutorial 3 obrazovky (admin/hráč rozlišení)
+- Q6 Quick stats toast po loginu (poslední rated tip)
+- Q7 Haptic feedback při uložení (`navigator.vibrate(50)`)
+- Q8 Empty state humor texty
+- Q9 Loading skeleton u žebříčku
+- Q10 Nové badges: BLACK SHEEP + COMEBACK
+- L1 AI tip suggester 🤖 (heuristika dle FIFA ranking)
+- L2 Detail page hráče (modal: best/worst tipy, head-to-head)
+- B1 fetchTeamPackage přes edge funkci team-detail-refresh
+- B2 alert() v admin → showToast notifikace
+- B3 CSP meta tag (default-src self + supabase + ESPN + fonts)
+- B4 APP_VERSION konstanta (single source of truth)
+- B5 autocomplete + aria-label na buttonech
+- B6 i18n admin tabulkové hlavičky
+- B8 Account delete UI (GDPR)
+- B10 Frontend refactor na secure RPC + RLS lockdown
+- B11 odds-refresh edge fn + KURZY button + UI integrace pod tipy
+- B13 pg_cron auto cleanup auth_attempts (každou hodinu)
+- Vercel deploy (tipovacka2026.vercel.app + tipovacka184.vercel.app)
+- vercel.json: root rewrite na /tipovacka.html, no-cache headers
+
 ## v5.1.0 - 7. 5. 2026
 
 Cleanup release, žádná změna funkcionality.
