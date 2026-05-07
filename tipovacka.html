@@ -94,7 +94,10 @@ body.theme-light .venue{color:#5f7690}
 .btn:disabled{opacity:.45;cursor:default}
 .nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;flex-wrap:wrap;overflow:visible}
 .nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:'Space Grotesk',sans-serif;position:relative}
-.nb:hover{color:var(--tx)}.nb.on{background:var(--ac);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.25)}
+.nb:hover{color:var(--tx)}
+/* C2: modernější active tab indicator - tenká čára dole místo plně vyplněného tlačítka */
+.nb.on{background:rgba(59,130,246,.10);color:var(--ac2);box-shadow:inset 0 -2px 0 var(--ac);font-weight:700}
+.nb.on::before{content:'';position:absolute;left:8px;right:8px;bottom:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--pu));border-radius:2px}
 .nb.has-dirty::after{content:'';position:absolute;top:6px;right:8px;width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 2px var(--bg2)}
 .card{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:1rem;margin-bottom:.75rem}
 .clbl{font-family:'Space Grotesk',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.75rem}
@@ -146,7 +149,13 @@ body.theme-light .venue{color:#5f7690}
 .lbr{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--bd);transition:transform .15s,box-shadow .15s}
 .lbr:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .lbr.me{border-color:var(--gn);background:rgba(34,197,94,.04)}
-.lbr.g1{border-color:var(--gd);box-shadow:0 0 18px rgba(245,158,11,.12)}
+/* A2: Premium Top 3 medaile */
+.lbr.g1{border-color:rgba(245,158,11,.55);background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(245,158,11,.02));box-shadow:0 0 0 1px rgba(245,158,11,.15),0 6px 22px rgba(245,158,11,.18)}
+.lbr.g1::before{content:'👑';position:absolute;top:-8px;right:8px;font-size:1.1rem;filter:drop-shadow(0 2px 6px rgba(245,158,11,.6))}
+.lbr.g1{position:relative;animation:gold-pulse 3.5s ease-in-out infinite}
+@keyframes gold-pulse{0%,100%{box-shadow:0 0 0 1px rgba(245,158,11,.15),0 6px 22px rgba(245,158,11,.18)}50%{box-shadow:0 0 0 1px rgba(245,158,11,.30),0 8px 28px rgba(245,158,11,.32)}}
+.lbr.g2{border-color:rgba(203,213,225,.42);background:linear-gradient(135deg,rgba(203,213,225,.07),rgba(203,213,225,.01));box-shadow:0 0 0 1px rgba(203,213,225,.10),0 4px 16px rgba(203,213,225,.10)}
+.lbr.g3{border-color:rgba(217,119,6,.42);background:linear-gradient(135deg,rgba(217,119,6,.07),rgba(217,119,6,.01));box-shadow:0 0 0 1px rgba(217,119,6,.10),0 4px 16px rgba(217,119,6,.10)}
 .lav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8rem;flex-shrink:0}
 .ln{font-size:.9rem;font-weight:600}
 .ls{font-size:.69rem;color:var(--mu);display:flex;gap:7px;margin-top:2px;flex-wrap:wrap}
@@ -176,6 +185,21 @@ body.theme-light .venue{color:#5f7690}
 .sp{display:inline-block;width:13px;height:13px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--mu);font-size:.84rem}
+/* B4: Sticky match countdown banner pro nezatipovany nejbliszsi zápas */
+.mc-banner{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(168,85,247,.12));border:1px solid rgba(245,158,11,.35);border-radius:11px;padding:.6rem .85rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(245,158,11,.12)}
+.mc-banner-ico{font-size:1.1rem;flex-shrink:0}
+.mc-banner-content{flex:1;min-width:0}
+.mc-banner-title{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--tx);line-height:1.2}
+.mc-banner-sub{font-size:.68rem;color:var(--mu2);margin-top:1px}
+.mc-banner-cta{padding:.4rem .85rem;border-radius:8px;background:var(--gd);color:#0a0a0a;border:none;font-weight:700;font-size:.74rem;cursor:pointer;white-space:nowrap}
+.mc-banner-cta:hover{background:#fbbf24;transform:translateY(-1px)}
+.mc-banner-close{background:transparent;border:none;color:var(--mu);cursor:pointer;font-size:1.1rem;padding:0 .25rem;line-height:1}
+@media(max-width:600px){
+  .mc-banner{padding:.5rem .65rem;gap:.5rem}
+  .mc-banner-title{font-size:.72rem}
+  .mc-banner-sub{font-size:.62rem}
+  .mc-banner-cta{padding:.35rem .65rem;font-size:.7rem}
+}
 /* L2: Player detail modal */
 .pdet-overlay{position:fixed;inset:0;background:rgba(10,21,36,.88);z-index:9985;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px)}
 .pdet-card{background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;padding:1.2rem;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;position:relative}
@@ -1125,6 +1149,17 @@ body.theme-light .toast{background:rgba(255,255,255,.98);box-shadow:0 10px 28px 
 .hdr-sc-fill-bl{background:#3b82f6;box-shadow:0 0 10px rgba(59,130,246,.75),0 0 18px rgba(59,130,246,.28)}
 .hdr-sc-fill-gn{background:#22c55e;box-shadow:0 0 10px rgba(34,197,94,.7),0 0 18px rgba(34,197,94,.24)}
 .hdr-sc-fill-pu{background:#a855f7;box-shadow:0 0 10px rgba(168,85,247,.72),0 0 18px rgba(168,85,247,.24)}
+/* A1: dashboard cards barevne diferencovane (gradient pozadi + tinted border) */
+.hdr-sc{transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease}
+.hdr-sc:hover{transform:translateY(-2px)}
+.hdr-sc--bl{background:linear-gradient(160deg,rgba(59,130,246,.10),rgba(59,130,246,.02));border-color:rgba(59,130,246,.20)}
+.hdr-sc--bl:hover{border-color:rgba(59,130,246,.45);box-shadow:0 6px 18px rgba(59,130,246,.15)}
+.hdr-sc--gn{background:linear-gradient(160deg,rgba(34,197,94,.10),rgba(34,197,94,.02));border-color:rgba(34,197,94,.20)}
+.hdr-sc--gn:hover{border-color:rgba(34,197,94,.45);box-shadow:0 6px 18px rgba(34,197,94,.15)}
+.hdr-sc--pu{background:linear-gradient(160deg,rgba(168,85,247,.10),rgba(168,85,247,.02));border-color:rgba(168,85,247,.22)}
+.hdr-sc--pu:hover{border-color:rgba(168,85,247,.45);box-shadow:0 6px 18px rgba(168,85,247,.15)}
+.hdr-sc-rank{background:linear-gradient(160deg,rgba(245,158,11,.12),rgba(245,158,11,.02));border-color:rgba(245,158,11,.25)}
+.hdr-sc-rank:hover{border-color:rgba(245,158,11,.5);box-shadow:0 6px 20px rgba(245,158,11,.2)}
 .hdr-right{display:flex;justify-content:flex-end}
 .hdr-user-block{
   width:188px;
@@ -1849,7 +1884,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <div id="lo-paid-content"></div>
     </div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.3.3</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.0</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -1866,19 +1901,19 @@ body.admin-user #btn-logout{padding:0 10px}
           <div class="hdr-admin-sync" id="hdr-admin-sync"></div>
         </div>
         <div class="hdr-stats">
-          <div class="hdr-sc">
+          <div class="hdr-sc hdr-sc--bl">
             <div class="hdr-sc-ico">⚽</div>
             <div class="hdr-sc-lbl hdr-sc-bl" id="stat-lbl-played">Odehráno</div>
             <div class="hdr-sc-val" id="stat-val-played">0/104</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-bl" id="stat-bar-played" style="width:0%"></div></div>
           </div>
-          <div class="hdr-sc">
+          <div class="hdr-sc hdr-sc--gn">
             <div class="hdr-sc-ico">🏟</div>
             <div class="hdr-sc-lbl hdr-sc-gn" id="stat-lbl-saved-sk">Tipy: skupiny</div>
             <div class="hdr-sc-val" id="stat-val-saved-sk">0/72</div>
             <div class="hdr-sc-track"><div class="hdr-sc-fill hdr-sc-fill-gn" id="stat-bar-sk" style="width:0%"></div></div>
           </div>
-          <div class="hdr-sc">
+          <div class="hdr-sc hdr-sc--pu">
             <div class="hdr-sc-ico">🏆</div>
             <div class="hdr-sc-lbl hdr-sc-pu" id="stat-lbl-saved-po">Tipy: play-off</div>
             <div class="hdr-sc-val" id="stat-val-saved-po">0/32</div>
@@ -1955,6 +1990,15 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div id="page-tipy">
+      <div class="mc-banner" id="mc-banner" style="display:none">
+        <div class="mc-banner-ico">⏰</div>
+        <div class="mc-banner-content">
+          <div class="mc-banner-title" id="mc-banner-title">-</div>
+          <div class="mc-banner-sub" id="mc-banner-sub">-</div>
+        </div>
+        <button class="mc-banner-cta" id="mc-banner-cta" type="button">Tipni teď</button>
+        <button class="mc-banner-close" id="mc-banner-close" type="button" aria-label="Zavřít">×</button>
+      </div>
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!</div>
       <div class="card extra-card" id="extra-card">
         <div class="extra-head">
@@ -2170,14 +2214,14 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.3.3</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.0</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.3.3';
+var APP_VERSION='v5.4.0';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4639,6 +4683,49 @@ function openPlayerDetail(playerId){
   document.body.appendChild(overlay);
   overlay.querySelector('#pdet-close').onclick=close;
 }
+// B4: Match countdown banner - nejbliszsi nezatipovany zapas v ramci 24h
+function renderMatchCountdownBanner(){
+  var b=document.getElementById('mc-banner');
+  if(!b||!me) return;
+  // Skip pokud user banner zavrel
+  try{ if(sessionStorage.getItem('ms26_mc_dismissed')==='1'){ b.style.display='none'; return; } }catch(_e){}
+  var now=new Date(),limit=new Date(now.getTime()+24*3600*1000);
+  var allMatches=SZ.concat(PZ);
+  var candidates=allMatches.filter(function(z){
+    var dz=mDate(z);
+    return dz>now && dz<=limit && !myTips[z[0]] && !matchTeamsUnknown(z);
+  });
+  if(!candidates.length){ b.style.display='none'; return; }
+  candidates.sort(function(a,b){return mDate(a)-mDate(b);});
+  var z=candidates[0];
+  var dz=mDate(z),delta=dz-now;
+  var hours=Math.floor(delta/3600000);
+  var mins=Math.floor((delta%3600000)/60000);
+  var teamA=tN(z[2]),teamB=tN(z[3]);
+  var title=teamA+' - '+teamB;
+  var subText=hours>0
+    ? (LANG==='en'?'Kickoff in '+hours+'h '+mins+'m · tip not saved':'Výkop za '+hours+'h '+mins+'m · zatím netipnuto')
+    : (LANG==='en'?'Kickoff in '+mins+'m · tip not saved':'Výkop za '+mins+'m · zatím netipnuto');
+  setText('mc-banner-title',title);
+  setText('mc-banner-sub',subText);
+  setText('mc-banner-cta',LANG==='en'?'Tip now':'Tipni teď');
+  b.style.display='flex';
+  b.dataset.zid=String(z[0]);
+}
+function dismissMatchCountdownBanner(){
+  try{ sessionStorage.setItem('ms26_mc_dismissed','1'); }catch(_e){}
+  var b=document.getElementById('mc-banner'); if(b) b.style.display='none';
+}
+function jumpToMatchTipInput(){
+  var b=document.getElementById('mc-banner');
+  var zid=b&&b.dataset.zid;
+  if(!zid) return;
+  var ih=document.getElementById('tih'+zid);
+  if(ih){
+    ih.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(function(){ ih.focus(); },350);
+  }
+}
 // Q4: Render zebricek jako PNG canvas + Web Share API / download
 function shareLeaderboardAsImage(){
   try{
@@ -5014,6 +5101,7 @@ function renderTipy(){
   updateHeaderRanking();
   renderTodayBox();
   renderInsights();
+  renderMatchCountdownBanner();
   renderSimilarity();
   renderExtraTipsBox();
   var extraCard=document.getElementById('extra-card');
@@ -5489,7 +5577,8 @@ function renderZeb(){
     var badges=getPlayerDiscussionBadges(s.p.id,{rank:rank+1,total:s.total});
     var isRival=isRivalId(s.p.id);
     var pulseHtml=pulseBadgeHtml(pulseMap[String(s.p.id)]||0);
-    return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
+    var rankClass=rank===0?' g1':(rank===1?' g2':(rank===2?' g3':''));
+    return '<div class="lbr'+(isMe?' me':'')+rankClass+'">'+
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
@@ -6940,6 +7029,9 @@ function init(){
   var bsh=document.getElementById('btn-share-zeb'); if(bsh) bsh.addEventListener('click',shareLeaderboardAsImage);
   var zpa=document.getElementById('zeb-paid-all'); if(zpa) zpa.addEventListener('click',function(){zebPaidFilter='all';renderZeb();});
   var zpo=document.getElementById('zeb-paid-only'); if(zpo) zpo.addEventListener('click',function(){zebPaidFilter='paid';renderZeb();});
+  // B4: match countdown banner buttons
+  var mcb=document.getElementById('mc-banner-cta'); if(mcb) mcb.addEventListener('click',jumpToMatchTipInput);
+  var mcc=document.getElementById('mc-banner-close'); if(mcc) mcc.addEventListener('click',dismissMatchCountdownBanner);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);

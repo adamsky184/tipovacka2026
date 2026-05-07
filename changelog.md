@@ -2,6 +2,17 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.0 - 7. 5. 2026
+
+UI polish wave (A1+A2+B4+C2 z visual wishlist).
+
+- **A1 Dashboard cards**: barevně diferencované gradient pozadí (modrá / zelená / fialová / zlatá), hover lift + glow
+- **A2 Top 3 medaile**: 1. místo zlatý gradient + 👑 ikona + pulse animace, 2. stříbrný, 3. bronzový
+- **B4 Match countdown banner**: sticky banner v Tipy tabu pro nezatipované zápasy do 24h ("Mexiko - JAR · Výkop za 2h 15m") + Tip teď CTA tlačítko
+- **C2 Active tab**: čára dole + transparent pozadí místo plně vyplněného modrého tlačítka
+
+Skip A3 (tip inputs) - layout tight, B3 (live scoreboard) - čeká na schválení safe varianty.
+
 ## v5.3.3 - 7. 5. 2026
 
 UI fix.
