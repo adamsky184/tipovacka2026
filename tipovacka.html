@@ -1840,7 +1840,7 @@ body.admin-user #btn-logout{padding:0 10px}
                 <button class="hdr-ico-btn" id="btn-faq" type="button" title="FAQ" aria-label="FAQ">ⓘ FAQ</button>
               </div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↻ VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">↻ TÝMY</button><button class="btn btn-ol btn-sm" id="btn-sync-fifa" style="display:none">↻ FIFA RANKING</button></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-bl btn-sm" id="btn-refresh" style="display:none">↻ VÝSLEDKY</button><button class="btn btn-ol btn-sm" id="btn-sync-teams" style="display:none">↻ TÝMY</button><button class="btn btn-ol btn-sm" id="btn-sync-fifa" style="display:none">↻ FIFA RANKING</button><button class="btn btn-ol btn-sm" id="btn-sync-odds" style="display:none">↻ KURZY</button></div>
           </div>
         </div>
       </div>
@@ -4004,10 +4004,12 @@ function finishLogin(d){
     document.getElementById('btn-refresh').style.display='inline-block';
     document.getElementById('btn-sync-teams').style.display='inline-block';
     document.getElementById('btn-sync-fifa').style.display='inline-block';
+    var bso=document.getElementById('btn-sync-odds'); if(bso) bso.style.display='inline-block';
   }else{
     document.getElementById('btn-refresh').style.display='none';
     document.getElementById('btn-sync-teams').style.display='none';
     document.getElementById('btn-sync-fifa').style.display='none';
+    var bso2=document.getElementById('btn-sync-odds'); if(bso2) bso2.style.display='none';
   }
   loadFifaRankingData();
   Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions()]).then(function(){
@@ -5852,6 +5854,59 @@ function openTeamDetail(teamName){
     },90);
   }
 }
+function syncOdds(){
+  // v5.1.1: refresh kurzu z The Odds API pres edge funkci. Uklada do match_odds.
+  if(!me||!me.je_admin||!myPin) return Promise.reject(new Error('Not admin'));
+  var btn=document.getElementById('btn-sync-odds');
+  if(btn) btn.disabled=true;
+  setSt('st-vys','...');
+  return fetch(SBU+'/functions/v1/odds-refresh',{
+    method:'POST',
+    headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},
+    body:JSON.stringify({admin_name:me.jmeno||''})
+  }).then(function(r){
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(json){
+    if(!json||!json.ok) throw new Error((json&&json.error)||'odds-refresh failed');
+    var events=Array.isArray(json.events)?json.events:[];
+    // Mapovani Odds API events na zapas_id pres team names
+    var allMatches=SZ.concat(PZ);
+    var rows=[];
+    events.forEach(function(ev){
+      var hn=ev.home_team||'',an=ev.away_team||'';
+      var match=null;
+      allMatches.forEach(function(z){
+        if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) match=z;
+      });
+      if(!match) return;
+      var bookmakers=Array.isArray(ev.bookmakers)?ev.bookmakers:[];
+      bookmakers.forEach(function(b){
+        var market=(b.markets||[]).find(function(m){return m.key==='h2h';});
+        if(!market) return;
+        var outcomes=Array.isArray(market.outcomes)?market.outcomes:[];
+        var h=outcomes.find(function(o){return o.name===hn;});
+        var d=outcomes.find(function(o){return /draw/i.test(o.name);});
+        var a=outcomes.find(function(o){return o.name===an;});
+        rows.push({zapas_id:match[0],bookmaker:b.key||b.title||'unknown',
+          home_odds:h?String(h.price):'',draw_odds:d?String(d.price):'',away_odds:a?String(a.price):''});
+      });
+    });
+    if(rows.length===0){
+      setSt('st-vys',(LANG==='en'?'No odds rows mapped':'Žádné kurzy nenamapovány'),false,true);
+      return;
+    }
+    return rpcWithRetry('admin_upsert_match_odds_secure',{p_admin_id:me.id,p_pin:myPin,p_rows:rows}).then(function(d){
+      if(d&&d.chyba) throw new Error(d.chyba);
+      setSt('st-vys',(LANG==='en'?'Odds saved: ':'Kurzy uloženy: ')+(d&&d.imported||0),false,true);
+      renderAdminSyncStatus();
+    });
+  }).catch(function(e){
+    setSt('st-vys',(LANG==='en'?'Odds failed':'Kurzy selhaly')+': '+(e&&e.message||''),true);
+  }).finally(function(){
+    if(btn) btn.disabled=false;
+  });
+}
 function syncFifaRanking(){
   var btn=document.getElementById('btn-sync-fifa');
   if(btn) btn.disabled=true;
@@ -6172,6 +6227,7 @@ function init(){
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
+  var bso3=document.getElementById('btn-sync-odds'); if(bso3) bso3.addEventListener('click',syncOdds);
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);
