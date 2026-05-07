@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.4.5 - 7. 5. 2026
+
+UI fix - korunka na top-1 kartě.
+
+- 👑 emoji u 1. místa: posunuto z pravého kraje (kde se překrývalo se skóre) do levého horního rohu s rotací -12°
+- Menší font (.95rem) - méně rušivé
+- Také rename Adam → Adam184 (display) s aliasy [Adam, adam] pro login backward-compat
+- 💰 paid league badge u všech platících i v hlavním žebříčku (předtím jen v paid filteru)
+- Fix paid league filteru - cache->object mapping přidal `in_paid_league` lookup z `players[]`
+
 ## v5.4.2 - 7. 5. 2026
 
 Live scoreboard (B3) + clickable header cards.
