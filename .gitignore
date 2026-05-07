@@ -1,0 +1,28 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Stara prazdna struktura (lokalni leftover, nelze smazat ze sandboxu)
+v3.0
+backend/supabase/
+
+# Lokalni archive (drzime jen na disku, ne v gitu - per Adamovo rozhodnuti)
+archive/
+
+# Lokalni DB backupy
+_backup_*
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Editor / dev
+*.log
+*.tmp
+*.swp
+node_modules/
+dist/
+build/
