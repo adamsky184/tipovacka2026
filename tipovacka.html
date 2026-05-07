@@ -337,6 +337,18 @@ body.theme-light .venue{color:#5f7690}
 .badge-leader{background:rgba(245,158,11,.2);color:var(--gd)}
 .badge-black{background:rgba(31,41,55,.5);color:#cbd5e1;border:1px solid rgba(148,163,184,.3)}
 .badge-comeback{background:rgba(168,85,247,.18);color:var(--pu);border:1px solid rgba(168,85,247,.3)}
+.badge-paid{background:rgba(245,158,11,.15);color:var(--gd);border:1px solid rgba(245,158,11,.32);font-weight:700}
+/* Paid league info box (login overlay + FAQ) */
+.paid-info-box{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.03));border:1px solid rgba(245,158,11,.32);border-radius:11px;padding:.85rem .95rem;margin:.75rem 0;font-size:.78rem;line-height:1.55}
+.paid-info-box h4{font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:700;color:var(--gd);margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem}
+.paid-info-box .pi-row{display:flex;justify-content:space-between;gap:.5rem;padding:3px 0;border-bottom:1px dashed rgba(245,158,11,.18)}
+.paid-info-box .pi-row:last-child{border-bottom:none}
+.paid-info-box .pi-key{color:var(--mu);font-size:.72rem}
+.paid-info-box .pi-val{color:var(--tx);font-weight:600;font-family:'Space Grotesk',sans-serif;text-align:right}
+.paid-info-box .pi-disclaimer{font-size:.66rem;color:var(--mu);margin-top:.5rem;line-height:1.5;font-style:italic}
+.paid-prize-list{margin-top:.5rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.paid-prize-item{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);border-radius:7px;padding:3px 8px;font-size:.7rem;font-family:'Space Grotesk',sans-serif}
+.paid-prize-item b{color:var(--gd);font-weight:700}
 .badge-rival{background:rgba(239,68,68,.12);color:#fda4af;border:1px solid rgba(239,68,68,.22)}
 .rival-toggle{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;border:1px solid var(--bd2);background:transparent;color:var(--mu2);cursor:pointer;transition:.15s;flex-shrink:0}
 .rival-toggle:hover{border-color:#f59e0b;color:#fbbf24}
@@ -1832,8 +1844,12 @@ body.admin-user #btn-logout{padding:0 10px}
       <div class="lo-err" id="re"></div>
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
+    <div class="paid-info-box" id="lo-paid-box" style="margin-top:.7rem">
+      <h4>💰 <span id="lo-paid-title">Soutěž o peníze (volitelně)</span></h4>
+      <div id="lo-paid-content"></div>
+    </div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.2.2</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.3.0</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -2007,14 +2023,18 @@ body.admin-user #btn-logout{padding:0 10px}
 
     <div id="page-zebricek" style="display:none">
       <div class="ibox zeb-info" id="ibox-zeb">Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.</div>
-      <div class="ptabs" style="display:flex;justify-content:space-between;align-items:center">
+      <div class="ptabs" style="display:flex;justify-content:space-between;align-items:center;gap:6px">
         <div style="display:flex;gap:4px;flex-wrap:wrap">
           <button class="ptab on" id="ptab-zeb-cel">Celkový</button>
           <button class="ptab" id="ptab-zeb-sk">Skupiny</button>
           <button class="ptab" id="ptab-zeb-po">Play-off</button>
         </div>
-        <button class="btn btn-ol btn-sm" id="btn-share-zeb" type="button" title="Sdílet žebříček jako obrázek" aria-label="Sdílet žebříček">📤</button>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div class="tier2" id="zeb-paid-filter" style="display:flex;gap:3px"><button class="sort-chip on" id="zeb-paid-all" type="button">Vše</button><button class="sort-chip" id="zeb-paid-only" type="button">💰 Paid</button></div>
+          <button class="btn btn-ol btn-sm" id="btn-share-zeb" type="button" title="Sdílet žebříček jako obrázek" aria-label="Sdílet žebříček">📤</button>
+        </div>
       </div>
+      <div id="zeb-paid-summary"></div>
       <div id="zeb-list"><div class="skeleton-stack"><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div></div></div>
     </div>
 
@@ -2150,16 +2170,38 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.2.2</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.3.0</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.2.2';
+var APP_VERSION='v5.3.0';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
+// === PAID LEAGUE CONFIG ===
+var PAID_LEAGUE = {
+  enabled: true,
+  entry_fee_czk: 300,
+  account_iban: '1972281083/0800',
+  payment_message: 'TIPOVACKA - <tvé jméno>',
+  payment_message_en: 'TIPOVACKA - <your name>',
+  deadline_iso: '2026-06-11T19:00:00Z', // prvni vykop MS 2026
+  // payout: pole prahu hracu -> rozlozeni (% pro 1., 2., 3.)
+  payout_tiers: [
+    {min:2, max:4, distribution:[100]},
+    {min:5, max:7, distribution:[75,25]},
+    {min:8, max:999, distribution:[65,25,10]},
+  ]
+};
+function getPaidPayoutPlan(playerCount){
+  for(var i=0;i<PAID_LEAGUE.payout_tiers.length;i++){
+    var t=PAID_LEAGUE.payout_tiers[i];
+    if(playerCount>=t.min && playerCount<=t.max) return t.distribution;
+  }
+  return [100];
+}
 // =========================================
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
@@ -2864,7 +2906,7 @@ var VENUE_ALIASES={
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCounts={},leaderboardCache={cel:null,sk:null,po:null};
 var derivedStatsCache={similarity:null,insightsRows:null};
-var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all';
+var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all',zebPaidFilter='all';
 var pendingTeamFocus='';
 var rivalIds=[];
 var rankPulseState={cel:{lastHash:'',pulseMap:{}},sk:{lastHash:'',pulseMap:{}},po:{lastHash:'',pulseMap:{}}};
@@ -3469,7 +3511,7 @@ async function saveTipsWithPin(rows){
   }));
   return {results:results,messages:messages};
 }
-function loadPlayers(){return sbf('hrace?order=vytvoreno.asc').then(function(d){players=d||[];});}
+function loadPlayers(){return sbf('hrace?select=id,jmeno,je_admin,in_paid_league,vytvoreno&order=vytvoreno.asc').then(function(d){players=d||[];});}
 function loadMyTips(){
   if(!me) return Promise.resolve();
   return sbf('tipy?hrac_id=eq.'+me.id+'&select=zapas_id,tip').then(function(d){
@@ -3766,6 +3808,10 @@ function renderRules(){
   var items=[1,2,3,4,5,7,6].map(function(i){
     return '<div class="rules-item"><strong>'+escHtml(tr('rules_'+i+'_t'))+'</strong><span>'+escHtml(tr('rules_'+i+'_b'))+'</span></div>';
   }).join('');
+  // Paid league section
+  if(PAID_LEAGUE.enabled){
+    items+='<div class="rules-item"><strong>'+(LANG==='en'?'💰 Optional money pool':'💰 Soutěž o peníze (volitelně)')+'</strong><span>'+(LANG==='en'?'Optional side pool. Pay '+PAID_LEAGUE.entry_fee_czk+' Kč to '+PAID_LEAGUE.account_iban+' (message: '+PAID_LEAGUE.payment_message_en+') before kickoff. Admin marks you as paid. Distribution: 2-4 winner takes all, 5-7 split 75/25, 8+ split 65/25/10. Private competition between friends, organized by Adam184 (FO). Winnings up to 50,000 CZK are tax-free in CZ.':'Volitelná souběžná soutěž o peníze. Vstupné '+PAID_LEAGUE.entry_fee_czk+' Kč pošli na '+PAID_LEAGUE.account_iban+' (zpráva: '+PAID_LEAGUE.payment_message+') před prvním výkopem. Admin tě označí jako placeného. Rozdělení výher: 2-4 vítěz bere vše, 5-7 split 75/25, 8+ split 65/25/10. Soukromá soutěž mezi přáteli, pořadatel Adam184 (fyzická osoba), nejde o organizovaný hazard. Výhry do 50 000 Kč jsou v ČR od daně osvobozené.')+'</span></div>';
+  }
   el.innerHTML=items;
 }
 function getDiscussionRankMap(){
@@ -4255,6 +4301,7 @@ function applyI18n(){
   setText('clbl-stad',tr('clbl_stad'));setText('clbl-tymy',tr('clbl_tymy')); var teamback=document.getElementById('team-detail-back'); if(teamback) teamback.textContent=tr('team_back');
   setText('hdr-sub',tr('hdr_sub'));setText('vys-empty',tr('vys_empty'));
   setText('lo-sub',tr('lo_sub'));setText('lo-meta',tr('lo_meta'));
+  refreshPaidLoginBox();
   setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
   setText('admin-clbl',tr('admin_overview'));
@@ -4363,6 +4410,73 @@ function ensureToastStack(){
   stack.className='toast-stack';
   document.body.appendChild(stack);
   return stack;
+}
+// Render paid league info (login overlay + FAQ + admin)
+function renderPaidLeagueInfoHtml(opts){
+  opts=opts||{};
+  if(!PAID_LEAGUE.enabled) return '';
+  var paidPlayers=getPaidPlayers(), n=paidPlayers.length;
+  var pool=getPaidPrizePool();
+  var breakdown=getPaidPayoutBreakdown();
+  var deadline=new Date(PAID_LEAGUE.deadline_iso);
+  var dlStr=LANG==='en'
+    ? deadline.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+' '+pad(deadline.getHours())+':'+pad(deadline.getMinutes())
+    : deadline.getDate()+'. '+(deadline.getMonth()+1)+'. '+deadline.getFullYear()+' '+pad(deadline.getHours())+':'+pad(deadline.getMinutes());
+  var msg=LANG==='en'?PAID_LEAGUE.payment_message_en:PAID_LEAGUE.payment_message;
+  var html='';
+  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Entry fee':'Vstupné')+'</span><span class="pi-val">'+PAID_LEAGUE.entry_fee_czk+' Kč</span></div>';
+  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Account':'Účet')+'</span><span class="pi-val">'+PAID_LEAGUE.account_iban+'</span></div>';
+  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Payment message':'Zpráva pro příjemce')+'</span><span class="pi-val">'+escHtml(msg)+'</span></div>';
+  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Deadline':'Deadline')+'</span><span class="pi-val">'+escHtml(dlStr)+'</span></div>';
+  if(n>0){
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Current pool':'Aktuální pool')+'</span><span class="pi-val">'+pool+' Kč ('+n+' '+(LANG==='en'?'players':'hráčů')+')</span></div>';
+  }
+  // Distribuce vyher
+  html+='<div class="pi-row" style="border-bottom:none;flex-direction:column;align-items:flex-start"><span class="pi-key">'+(LANG==='en'?'Prize distribution (current count)':'Rozdělení výher (dle počtu)')+'</span>';
+  if(breakdown.length){
+    html+='<div class="paid-prize-list">'+breakdown.map(function(b){
+      var medal=b.place===1?'🥇':(b.place===2?'🥈':'🥉');
+      return '<span class="paid-prize-item">'+medal+' '+b.pct+'% = <b>'+b.amount+' Kč</b></span>';
+    }).join('')+'</div>';
+  } else {
+    html+='<div style="font-size:.72rem;color:var(--mu);margin-top:4px">'+(LANG==='en'?'2-4 players: winner takes all · 5-7: 75/25 · 8+: 65/25/10':'2-4 hráči: vítěz bere vše · 5-7: 75/25 · 8+: 65/25/10')+'</div>';
+  }
+  html+='</div>';
+  if(opts.includeDisclaimer!==false){
+    html+='<div class="pi-disclaimer">'+(LANG==='en'
+      ? 'Optional. Pay before kickoff (11 Jun 21:00 CET). Soukromá soutěž mezi přáteli, ne organizovaný hazard. Pořadatel: Adam184 (FO).'
+      : 'Volitelné. Zaplať do prvního výkopu (11. 6. 21:00). Soukromá soutěž mezi přáteli, ne organizovaný hazard. Pořadatel: Adam184 (fyzická osoba). Výhry do 50 000 Kč jsou v ČR od daně osvobozené.')+'</div>';
+  }
+  return html;
+}
+function refreshPaidLoginBox(){
+  var box=document.getElementById('lo-paid-content');
+  if(box) box.innerHTML=renderPaidLeagueInfoHtml({includeDisclaimer:true});
+  setText('lo-paid-title',LANG==='en'?'Optional money pool':'Soutěž o peníze (volitelně)');
+}
+// Paid league helpers
+function getPaidPlayers(){
+  return players.filter(function(p){return !!p.in_paid_league;});
+}
+function getPaidPrizePool(){
+  return getPaidPlayers().length * PAID_LEAGUE.entry_fee_czk;
+}
+function getPaidPayoutBreakdown(){
+  var pool=getPaidPrizePool(), n=getPaidPlayers().length;
+  if(n===0) return [];
+  var dist=getPaidPayoutPlan(n);
+  return dist.map(function(pct,i){
+    return {place:i+1, pct:pct, amount:Math.round(pool*pct/100)};
+  });
+}
+function adminTogglePaidLeague(targetHracId, newVal){
+  if(!me||!me.je_admin||!myPin) return Promise.reject(new Error('Not admin'));
+  return rpcWithRetry('admin_toggle_paid_league_secure',{
+    p_admin_id:me.id, p_pin:myPin, p_target_hrac_id:targetHracId, p_in_paid:!!newVal
+  }).then(function(d){
+    if(d&&d.chyba) throw new Error(d.chyba);
+    return d;
+  });
 }
 // Match odds cache + loader
 var matchOddsByZapas={}; // {zapas_id: {bookmaker, home_odds, draw_odds, away_odds, fetched_at}}
@@ -5293,6 +5407,23 @@ function renderOstRow(z,others){
 function renderZeb(){
   var scored=getLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel');
   var phaseKey=zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel';
+  // Paid filter
+  if(zebPaidFilter==='paid'){
+    scored=scored.filter(function(s){ return !!s.p.in_paid_league; });
+  }
+  // Update filter chip UI
+  var f1=document.getElementById('zeb-paid-all'),f2=document.getElementById('zeb-paid-only');
+  if(f1) f1.classList.toggle('on',zebPaidFilter==='all');
+  if(f2) f2.classList.toggle('on',zebPaidFilter==='paid');
+  // Paid summary box (visible only on paid filter or when there are paid players)
+  var paidSummaryEl=document.getElementById('zeb-paid-summary');
+  if(paidSummaryEl){
+    if(zebPaidFilter==='paid' && getPaidPlayers().length>0){
+      paidSummaryEl.innerHTML='<div class="paid-info-box" style="margin:.4rem 0 .6rem">'+renderPaidLeagueInfoHtml({includeDisclaimer:false})+'</div>';
+    } else {
+      paidSummaryEl.innerHTML='';
+    }
+  }
   var pulseMap=getLeaderboardPulseMap(phaseKey, scored);
 
   var html='';
@@ -5323,7 +5454,7 @@ function renderZeb(){
     return '<div class="lbr'+(isMe?' me':'')+(rank===0?' g1':'')+'">'+
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
-      '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
+      '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
       '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
@@ -5896,15 +6027,23 @@ function renderAdmin(){
   if(!players.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
   var extraRows=players.slice().sort(function(a,b){ return a.jmeno.localeCompare(b.jmeno, LANG==='en'?'en':'cs'); }).map(function(p){
     var rec=extraTipsByPlayer[String(p.id)]||null;
+    var paidBtn='<button class="btn btn-sm admin-paid-toggle" type="button" data-hid="'+escAttr(p.id)+'" data-cur="'+(p.in_paid_league?'1':'0')+'" style="background:'+(p.in_paid_league?'rgba(245,158,11,.18)':'transparent')+';border:1px solid '+(p.in_paid_league?'rgba(245,158,11,.45)':'var(--bd)')+';color:'+(p.in_paid_league?'var(--gd)':'var(--mu2)')+'" title="'+escAttr(p.in_paid_league?(LANG==='en'?'Remove from paid league':'Vyřadit z paid ligy'):(LANG==='en'?'Add to paid league':'Přidat do paid ligy'))+'">'+(p.in_paid_league?'💰 '+(LANG==='en'?'Paid':'Zaplatil'):'➕ '+(LANG==='en'?'Add paid':'Označit'))+'</button>';
     return '<tr>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);font-weight:600">'+escHtml(p.jmeno)+'</td>'+
+      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);font-weight:600">'+escHtml(p.jmeno)+(p.in_paid_league?' <span class="badge badge-paid">💰</span>':'')+'</td>'+
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35)">'+escHtml(rec&&rec.winnerTip?rec.winnerTip:'—')+'</td>'+
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35)">'+escHtml(rec&&rec.scorerTip?rec.scorerTip:'—')+'</td>'+
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);color:var(--mu2);font-size:.68rem">'+escHtml(rec&&rec.updatedAt?formatAnyUpdated(rec.updatedAt):'—')+'</td>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);text-align:right"><div style="display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap"><button class="btn btn-ol btn-sm admin-reset-tips" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'">'+escHtml(tr('admin_reset_tips'))+'</button><button class="btn btn-ol btn-sm admin-extra-edit" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" data-winner="'+escAttr(rec&&rec.winnerTip?rec.winnerTip:'')+'" data-scorer="'+escAttr(rec&&rec.scorerTip?rec.scorerTip:'')+'">Upravit</button></div></td>'+
+      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);text-align:right"><div style="display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap">'+paidBtn+'<button class="btn btn-ol btn-sm admin-reset-tips" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'">'+escHtml(tr('admin_reset_tips'))+'</button><button class="btn btn-ol btn-sm admin-extra-edit" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" data-winner="'+escAttr(rec&&rec.winnerTip?rec.winnerTip:'')+'" data-scorer="'+escAttr(rec&&rec.scorerTip?rec.scorerTip:'')+'">Upravit</button></div></td>'+
     '</tr>';
   }).join('');
-  var html='<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+tr('admin_extra_overview')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+tr('admin_col_player')+'</th><th>'+tr('extra_winner')+'</th><th>'+tr('extra_scorer')+'</th><th>'+tr('admin_col_updated')+'</th><th style="text-align:right">'+tr('admin_col_actions')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
+  // Paid league summary card
+  var paidPlayers=getPaidPlayers(), paidPool=getPaidPrizePool(), paidBd=getPaidPayoutBreakdown();
+  var paidSummary='<div class="paid-info-box" style="margin-bottom:.8rem"><h4>💰 '+(LANG==='en'?'Paid league':'Soutěž o peníze')+'</h4>'+
+    '<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Players':'Hráčů')+'</span><span class="pi-val">'+paidPlayers.length+'</span></div>'+
+    '<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Prize pool':'Pool')+'</span><span class="pi-val">'+paidPool+' Kč</span></div>'+
+    (paidBd.length?'<div class="pi-row" style="border-bottom:none;flex-direction:column;align-items:flex-start"><span class="pi-key">'+(LANG==='en'?'Payout':'Výplata')+'</span><div class="paid-prize-list">'+paidBd.map(function(b){var medal=b.place===1?'🥇':(b.place===2?'🥈':'🥉');return '<span class="paid-prize-item">'+medal+' '+b.pct+'% = <b>'+b.amount+' Kč</b></span>';}).join('')+'</div></div>':'')+
+    '</div>';
+  var html=paidSummary+'<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+tr('admin_extra_overview')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+tr('admin_col_player')+'</th><th>'+tr('extra_winner')+'</th><th>'+tr('extra_scorer')+'</th><th>'+tr('admin_col_updated')+'</th><th style="text-align:right">'+tr('admin_col_actions')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
   html+='<div class="tier-filters" style="margin:.35rem 0 .7rem"><div class="tier2" style="display:flex"><button class="sort-chip'+(adminSort==='dt'?' on':'')+'" id="admin-sort-dt">'+tr('by_date')+'</button><button class="sort-chip'+(adminSort==='sk'?' on':'')+'" id="admin-sort-sk">'+tr('by_group')+'</button></div></div>';
   html+='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
   players.forEach(function(p,i){
@@ -5943,6 +6082,21 @@ function renderAdmin(){
   var ass=document.getElementById('admin-sort-sk');
   if(ass) ass.addEventListener('click',function(){ adminSort='sk'; renderAdmin(); });
 
+  el.querySelectorAll('.admin-paid-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var hid=btn.getAttribute('data-hid');
+      var cur=btn.getAttribute('data-cur')==='1';
+      btn.disabled=true;
+      adminTogglePaidLeague(hid, !cur).then(function(){
+        return loadPlayers().then(function(){ renderAdmin(); renderZeb(); });
+      }).then(function(){
+        showToast(!cur?(LANG==='en'?'Player added to paid league':'Hráč přidán do paid ligy'):(LANG==='en'?'Player removed from paid league':'Hráč vyřazen z paid ligy'),'ok');
+      }).catch(function(e){
+        showToast((e&&e.message)||'Error','err');
+        btn.disabled=false;
+      });
+    });
+  });
   el.querySelectorAll('.admin-extra-edit').forEach(function(btn){
     btn.addEventListener('click',function(){
       var hid=btn.getAttribute('data-hid');
@@ -6757,6 +6911,8 @@ function init(){
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);
   var bso3=document.getElementById('btn-sync-odds'); if(bso3) bso3.addEventListener('click',syncOdds);
   var bsh=document.getElementById('btn-share-zeb'); if(bsh) bsh.addEventListener('click',shareLeaderboardAsImage);
+  var zpa=document.getElementById('zeb-paid-all'); if(zpa) zpa.addEventListener('click',function(){zebPaidFilter='all';renderZeb();});
+  var zpo=document.getElementById('zeb-paid-only'); if(zpo) zpo.addEventListener('click',function(){zebPaidFilter='paid';renderZeb();});
   document.getElementById('btn-sav').addEventListener('click',saveTips);
   var btt=document.getElementById('btn-top-tipy'); if(btt) btt.addEventListener('click',scrollTopSmooth);
   var bse=document.getElementById('btn-save-extra'); if(bse) bse.addEventListener('click',saveExtraTips);

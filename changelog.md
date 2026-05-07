@@ -2,6 +2,18 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.3.0 - 7. 5. 2026
+
+Volitelná soutěž o peníze (paid league).
+
+- Sloupec `hrace.in_paid_league` + secure RPC `admin_toggle_paid_league_secure`
+- Login overlay info box: vstupné 300 Kč, účet 1972281083/0800, deadline před prvním výkopem
+- FAQ/Pravidla: paid league sekce s disclaimerem
+- Admin tab: 💰 toggle u každého hráče + souhrn paid pool s payout breakdown
+- Žebříček: filter chip `Vše / 💰 Paid` + 💰 badge u placených hráčů
+- Distribuce výher dle počtu: 2-4 vítěz vše, 5-7 split 75/25, 8+ split 65/25/10
+- PAID_LEAGUE config v top-of-script konstantách (rebrand ready)
+
 ## v5.2.2 - 7. 5. 2026
 
 UI polish patch.
