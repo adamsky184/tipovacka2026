@@ -5384,22 +5384,15 @@ function renderFifaRanking(){
   }
 }
 
-function adminInsertTipRaw(hid,zid,nt){
-  return fetch(SBU+'/rest/v1/tipy',{
-    method:'POST',
-    headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({hrac_id:hid,zapas_id:parseInt(zid,10),tip:nt})
-  }).then(function(r){
-    if(!r.ok) return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});
-    return null;
-  });
-}
 function adminUpsertTip(hid,zid,nt){
-  var zidNum=parseInt(zid,10);
-  var exists=!!(allTips[hid] && Object.prototype.hasOwnProperty.call(allTips[hid], zidNum));
-  if(nt==='') return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zidNum),'DELETE',null,'return=minimal');
-  if(exists) return sbf('tipy?hrac_id=eq.'+encodeURIComponent(hid)+'&zapas_id=eq.'+encodeURIComponent(zidNum),'PATCH',{tip:nt},'return=minimal');
-  return adminInsertTipRaw(hid,zidNum,nt);
+  // v5.1.1: Secure RPC misto direct REST. Server overi admin auth + PIN, zvalidaduje format.
+  if(!me||!me.je_admin||!myPin) return Promise.reject(new Error('Not admin'));
+  return rpcWithRetry('admin_upsert_tip_secure',{
+    p_admin_id:me.id,p_pin:myPin,p_target_hrac_id:hid,p_zapas_id:parseInt(zid,10),p_tip:nt||''
+  }).then(function(d){
+    if(d&&d.chyba) throw new Error(d.chyba);
+    return d;
+  });
 }
 function renderAdmin(){
   if(!me||!me.je_admin) return;
