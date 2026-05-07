@@ -473,6 +473,10 @@ body.theme-light .venue{color:#5f7690}
 .tip-dual-active .tih,.tip-dual-active .tia{border-color:var(--bd2)}
 .tip-ai-btn{margin-left:4px;background:transparent;border:1px solid var(--bd);color:var(--mu2);cursor:pointer;border-radius:6px;padding:2px 5px;font-size:.8rem;line-height:1;height:30px}
 .tip-ai-btn:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.06)}
+.odds-pill{display:inline-flex;gap:4px;align-items:center;font-size:.62rem;color:var(--mu2);margin-top:3px;font-family:'Space Grotesk',sans-serif;flex-wrap:wrap}
+.odds-pill-item{background:var(--bg4);border:1px solid var(--bd);border-radius:5px;padding:1px 5px;letter-spacing:.02em}
+.odds-pill-item b{color:var(--ac2);font-weight:700}
+.odds-pill-bm{color:var(--mu);font-size:.55rem;text-transform:uppercase;letter-spacing:.04em}
 .tih,.tia{width:32px;text-align:center;padding:5px 2px;border-radius:6px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);font-size:.95rem;font-weight:700;font-family:'Space Grotesk',sans-serif;transition:.15s;-moz-appearance:textfield}
 .tih::-webkit-outer-spin-button,.tih::-webkit-inner-spin-button,.tia::-webkit-outer-spin-button,.tia::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .tih:focus,.tia:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
@@ -1819,7 +1823,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.1.0</span> · <span id="lo-date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.2.0</span> · <span id="lo-date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
@@ -2136,14 +2140,14 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.1.0</span> · <span id="date-lbl">7. 5. 2026</span>
+      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.2.0</span> · <span id="date-lbl">7. 5. 2026</span>
     </div>
   </div>
 </div>
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.1.0';
+var APP_VERSION='v5.2.0';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // =========================================
@@ -4104,7 +4108,7 @@ function finishLogin(d){
     var bso2=document.getElementById('btn-sync-odds'); if(bso2) bso2.style.display='none';
   }
   loadFifaRankingData();
-  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions()]).then(function(){
+  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds()]).then(function(){
     return loadResults().then(loadPlayers).then(loadMyTips).then(function(){
       return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]);
     });
@@ -4350,6 +4354,19 @@ function ensureToastStack(){
   document.body.appendChild(stack);
   return stack;
 }
+// Match odds cache + loader
+var matchOddsByZapas={}; // {zapas_id: {bookmaker, home_odds, draw_odds, away_odds, fetched_at}}
+function loadMatchOdds(){
+  return sbf('match_odds?select=zapas_id,bookmaker,home_odds,draw_odds,away_odds,fetched_at&order=fetched_at.desc').then(function(d){
+    matchOddsByZapas={};
+    (d||[]).forEach(function(r){
+      var zid=parseInt(r.zapas_id,10);
+      if(!matchOddsByZapas[zid]) matchOddsByZapas[zid]=r; // first = nejnovejsi
+    });
+  }).catch(function(){});
+}
+function getOddsForMatch(zid){ return matchOddsByZapas[parseInt(zid,10)]||null; }
+function formatOdds(v){ if(v==null||v==='') return '-'; var n=Number(v); return isFinite(n)?n.toFixed(2):'-'; }
 // L1: Heuristic tip suggester - kombinace FIFA ranking + odds (pokud k dispozici)
 function getFifaRankFor(localTeamName){
   // fifaRankingData je array of {team_name, rank, points}
@@ -4544,16 +4561,17 @@ function maybeShowOnboarding(){
   var key=getOnboardingKey();
   if(!key) return;
   try{ if(localStorage.getItem(key)==='1') return; }catch(_e){}
+  var isAdmin=me&&me.je_admin;
   var slides=LANG==='en'
     ? [
-      {emoji:'⚽',title:'Welcome to the WC 2026 Tipping Challenge!',text:'Predict every match score before kickoff. The closer you are, the more points you earn.'},
-      {emoji:'⏰',title:'Tip before kickoff',text:'Once a match starts, your tip is locked. Save early, save often. Use the Refresh icon to update results during games.'},
-      {emoji:'🏆',title:'How points work',text:'<b>10 pts</b> exact score · <b>3 pts</b> right winner/draw · <b>+1 pt</b> right goal difference · <b>30/20 pts</b> tournament winner / top scorer extra picks.'},
+      {emoji:'⚽',title:'Welcome to the WC 2026 Tipping Challenge',text:'Predict the score of every match. The closer to the real result, the more points you score against your friends.'},
+      {emoji:'⏰',title:'Tips lock at kickoff',text:'Save before the match starts - once it kicks off, your tip is locked forever. Don\'t forget the <b>Extra picks</b>: tournament winner and top scorer (locks 11 Jun).'},
+      {emoji:'🏆',title:'Scoring',text:'<b>10 pts</b> exact score · <b>3 pts</b> correct winner or draw · <b>+1 pt</b> correct goal difference · Extra picks: <b>30 pts</b> winner, <b>20 pts</b> top scorer.'+(isAdmin?'<br><br><span style="color:var(--gd)">Admin perk: refresh buttons in the header pull live results, teams and FIFA ranking.</span>':'')},
     ]
     : [
-      {emoji:'⚽',title:'Vítej v Tipovačce MS 2026!',text:'Tipuj každý zápas před výkopem. Čím přesnější tip, tím víc bodů.'},
-      {emoji:'⏰',title:'Tipuj před výkopem',text:'Jakmile zápas začne, tip se zamkne. Ukládej si průběžně. Tlačítko Aktualizovat nahoře táhne výsledky během turnaje.'},
-      {emoji:'🏆',title:'Jak fungují body',text:'<b>10 b</b> přesný výsledek · <b>3 b</b> správný vítěz/remíza · <b>+1 b</b> správný rozdíl skóre · <b>30/20 b</b> extra tip vítěz turnaje / král střelců.'},
+      {emoji:'⚽',title:'Vítej v Tipovačce MS 2026',text:'Tipuj výsledek každého zápasu. Čím blíž realitě, tím víc bodů máš oproti kámošům.'},
+      {emoji:'⏰',title:'Tipy se uzamykají při výkopu',text:'Ulož si tip před zápasem - jakmile začne, je zamčený nadobro. Nezapomeň na <b>Extra tipy</b>: vítěz turnaje a král střelců (uzávěrka 11. 6.).'},
+      {emoji:'🏆',title:'Bodování',text:'<b>10 b</b> přesný výsledek · <b>3 b</b> správný vítěz nebo remíza · <b>+1 b</b> správný rozdíl skóre · Extra tipy: <b>30 b</b> vítěz, <b>20 b</b> král střelců.'+(isAdmin?'<br><br><span style="color:var(--gd)">Admin bonus: tlačítka v hlavičce stahují živé výsledky, týmy a FIFA žebříček.</span>':'')},
     ];
   var idx=0;
   var overlay=document.createElement('div');
@@ -4969,6 +4987,17 @@ function renderMatchRow(z,isAdmin,hasGT){
       '</div>';
     }
   }
+  // Match odds (pokud k dispozici)
+  var oddsHtml='';
+  var od=getOddsForMatch(id);
+  if(od){
+    oddsHtml='<div class="odds-pill" title="'+escAttr((LANG==='en'?'Odds from ':'Kurzy z ')+od.bookmaker+' · '+(od.fetched_at||''))+'">'+
+      '<span class="odds-pill-bm">'+escHtml(od.bookmaker)+'</span>'+
+      '<span class="odds-pill-item">1 <b>'+formatOdds(od.home_odds)+'</b></span>'+
+      '<span class="odds-pill-item">X <b>'+formatOdds(od.draw_odds)+'</b></span>'+
+      '<span class="odds-pill-item">2 <b>'+formatOdds(od.away_odds)+'</b></span>'+
+    '</div>';
+  }
 
   var venueHtml=venue?('<span class="link-venue" onclick="goStadiony()" title="'+escAttr(venue)+'">'+escHtml(venue)+'</span>'):'';
   var dLink=teamsUnknown?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
@@ -4986,6 +5015,7 @@ function renderMatchRow(z,isAdmin,hasGT){
         (!started&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+
         (venue?' <span class="venue"><span class="venue-pin">📍</span>'+venueHtml+'</span>':'')+
       '</div>'+
+      oddsHtml+
     '</div>'+
     '<div class="mr-tip">'+tipHtml+'</div>'+
     (hasGT?'<div class="mr-gt">'+gtHtml+'</div>':'')+
