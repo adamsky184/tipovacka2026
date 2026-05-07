@@ -73,10 +73,12 @@ Projekt `xzlebpzepnhkedlxntgv` obsahuje i 10 tabulek `gigs_*` patřících **GIG
 
 ## Hosting setup
 
-- Repo: github.com/adamsky184/tipovacka2026 (placeholder, ověřit/založit)
-- Pages: deployed z `main` branch, root
-- URL: https://adamsky184.github.io/tipovacka2026/tipovacka.html (musí zůstat - PWA installs)
-- Service worker scope: `./` (relative)
+- Repo: github.com/adamsky184/tipovacka2026
+- **Primární URL**: https://tipovacka.chabrycity.cz/tipovacka.html (Vercel + custom doména přes CNAME)
+- Vercel projekt: `tipovacka2026` (alias `tipovacka184.vercel.app`, custom `tipovacka.chabrycity.cz`)
+- Doména `chabrycity.cz`: registrovaná u Wedos, autoritativní DNS Shoptet (CNAME `tipovacka` → `cname.vercel-dns.com`)
+- Legacy URL (zachovaná pro existující PWA installs): https://adamsky184.github.io/tipovacka2026/tipovacka.html
+- Service worker scope: `./` (relative, funguje na všech URL)
 
 ## Známá rizika / TODO
 

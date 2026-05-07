@@ -2,7 +2,9 @@
 
 PWA pro tipování fotbalového MS 2026 (USA / Kanada / Mexiko, 11. 6. - 19. 7. 2026).
 
-**Live:** https://adamsky184.github.io/tipovacka2026/tipovacka.html
+**Live (primární):** https://tipovacka.chabrycity.cz/tipovacka.html
+**Vercel alias:** https://tipovacka2026.vercel.app/tipovacka.html
+**Legacy (PWA installs):** https://adamsky184.github.io/tipovacka2026/tipovacka.html
 
 ## Stack
 

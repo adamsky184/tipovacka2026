@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.3.2 - 7. 5. 2026
+
+Custom doména.
+
+- Primární URL: **https://tipovacka.chabrycity.cz/tipovacka.html**
+- Vercel custom domain napojen přes CNAME `tipovacka` → `cname.vercel-dns.com` (Shoptet DNS panel)
+- HTTPS cert přes Let's Encrypt (Vercel automaticky)
+- Legacy URLs (`*.vercel.app`, `adamsky184.github.io`) zachované pro PWA installs
+
 ## v5.3.1 - 7. 5. 2026
 
 Paid league polish.
