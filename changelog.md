@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.5.1 - 8. 5. 2026
+
+Mobile header KPI cards stretching fix.
+
+- Bug v `@media(max-width:520px)` - `grid-template-areas: 'brand right' 'stats'` měl jen jedno jméno na druhém řádku (grid má 2 sloupce) → stats se renderoval jen v prvním 1fr sloupci a nechával prázdné místo vpravo
+- Fix: `'stats stats'` - karty teď roztahují přes celou šířku headeru a jsou rovnoměrně rozložené (`repeat(4,1fr)` z v2.7)
+
 ## v5.5.0 - 7. 5. 2026
 
 Login cleanup.
