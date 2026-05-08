@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.5.0 - 7. 5. 2026
+
+Login cleanup.
+
+- Z přihlašovací stránky odstraněn boxík **"💰 Soutěž o peníze (volitelně)"** - byl moc rušivý
+- Paid league info zůstává viditelná po přihlášení (onboarding 4. slide) a v záložce **Pravidla / FAQ**
+- JS funkce `refreshPaidLoginBox` ponechána (no-op když chybí element) - safe pro budoucí použití
+
 ## v5.4.9 - 7. 5. 2026
 
 iOS PWA notch fix.
