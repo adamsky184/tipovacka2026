@@ -2,6 +2,18 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.0 - 8. 5. 2026
+
+PIN reset flow (F8) - admin reset + user self-change.
+
+- **Backend (Supabase migrace `v5_5_2_pin_reset_change`):**
+  - `admin_reset_pin_secure(admin_id, admin_pin, target_id)` - admin generuje hráči náhodný 6místný PIN (bcrypt), funkce vrací plain PIN k zobrazení adminovi
+  - `change_pin_secure(hrac_id, old_pin, new_pin)` - hráč si změní vlastní PIN (verify old → set new bcrypt)
+- **Admin tab:** tlačítko `🔑 Reset PIN` vedle každého hráče - confirm → vygeneruje nový PIN → clipboard copy + alert s instrukcí poslat hráči
+- **Pravidla tab → Můj účet:** tlačítko `🔑 Změnit PIN` + custom modal (3 inputy: old/new/confirm) - po uložení update session
+- CZ + EN lokalizace všech labels
+- Bcrypt hashing (nikdy plain do DB), kompatibilní s legacy SHA-256 hráči (přes aliases také)
+
 ## v5.5.1 - 8. 5. 2026
 
 Mobile header KPI cards stretching fix.

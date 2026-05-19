@@ -2222,11 +2222,35 @@ body.admin-user #btn-logout{padding:0 10px}
       </div>
       <div class="card" style="margin-top:1rem">
         <div class="clbl" id="account-clbl">Můj účet</div>
+        <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-pin-info">
+          PIN slouží k přihlášení i potvrzení uložení tipů. Doporučujeme změnit z výchozí hodnoty.
+        </div>
+        <button class="btn btn-ol btn-sm" id="btn-change-pin" style="margin-bottom:.85rem">🔑 Změnit PIN</button>
         <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-info-txt">
           Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.
         </div>
         <button class="btn btn-ol btn-sm" id="btn-delete-account" style="border-color:var(--rd);color:var(--rd)">🗑 Smazat účet</button>
         <div class="lo-err" id="del-acc-err" style="margin-top:.5rem;min-height:0"></div>
+      </div>
+
+      <!-- Change PIN modal -->
+      <div class="install-overlay" id="cp-overlay">
+        <div class="install-card" style="max-width:380px">
+          <div class="install-title" id="cp-title">🔑 Změnit PIN</div>
+          <div class="install-copy" style="margin-bottom:.85rem">
+            <div style="margin-bottom:.5rem"><div class="lo-lbl" id="cp-lbl-old" style="margin-bottom:.25rem">Stávající PIN</div>
+              <input class="lo-inp" id="cp-old" type="password" autocomplete="current-password" inputmode="numeric"></div>
+            <div style="margin-bottom:.5rem"><div class="lo-lbl" id="cp-lbl-new" style="margin-bottom:.25rem">Nový PIN (min. 4 znaky)</div>
+              <input class="lo-inp" id="cp-new" type="password" autocomplete="new-password" inputmode="numeric"></div>
+            <div><div class="lo-lbl" id="cp-lbl-new2" style="margin-bottom:.25rem">Potvrď nový PIN</div>
+              <input class="lo-inp" id="cp-new2" type="password" autocomplete="new-password" inputmode="numeric"></div>
+            <div class="lo-err" id="cp-err" style="margin-top:.5rem;min-height:0"></div>
+          </div>
+          <div class="install-actions">
+            <button class="install-close" id="cp-cancel" type="button">Zrušit</button>
+            <button class="btn btn-bl btn-sm" id="cp-save" type="button">Uložit PIN</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2242,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.5.1';
+var APP_VERSION='v5.6.0';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -2391,8 +2415,16 @@ var T={
     my_tendencies:'Moje tendence',
     ost_top3:'Top 3 v žebříčku',
     account_clbl:'Můj účet',
+    account_pin_info:'PIN slouží k přihlášení i potvrzení uložení tipů. Doporučujeme změnit z výchozí hodnoty.',
+    account_pin_btn:'🔑 Změnit PIN',
     account_info_txt:'Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.',
     account_delete_btn:'🗑 Smazat účet',
+    cp_title:'🔑 Změnit PIN',
+    cp_lbl_old:'Stávající PIN',
+    cp_lbl_new:'Nový PIN (min. 4 znaky)',
+    cp_lbl_new2:'Potvrď nový PIN',
+    cp_cancel:'Zrušit',
+    cp_save:'Uložit PIN',
     admin_extra_overview:'Přehled extra tipů',
     admin_col_player:'Hráč',
     admin_col_updated:'Upraveno',
@@ -2497,8 +2529,16 @@ var T={
     phase_playoff:'Play-off',
     phase_extra:'Overall winner',
     account_clbl:'My account',
+    account_pin_info:'PIN is used for login and saving tips. We recommend changing the default value.',
+    account_pin_btn:'🔑 Change PIN',
     account_info_txt:'Deleting your account also removes all your match tips, extra tips, discussion posts and reactions. This action cannot be undone.',
     account_delete_btn:'🗑 Delete account',
+    cp_title:'🔑 Change PIN',
+    cp_lbl_old:'Current PIN',
+    cp_lbl_new:'New PIN (min. 4 chars)',
+    cp_lbl_new2:'Confirm new PIN',
+    cp_cancel:'Cancel',
+    cp_save:'Save PIN',
     admin_extra_overview:'Extra picks overview',
     admin_col_player:'Player',
     admin_col_updated:'Updated',
@@ -4309,6 +4349,57 @@ function finishLogin(d){
   });
   showTab('tipy');
 }
+function openChangePinModal(){
+  if(!me) return;
+  var o=document.getElementById('cp-overlay'); if(!o) return;
+  document.getElementById('cp-old').value='';
+  document.getElementById('cp-new').value='';
+  document.getElementById('cp-new2').value='';
+  setText('cp-err','');
+  o.classList.add('open');
+  setTimeout(function(){var i=document.getElementById('cp-old'); if(i) i.focus();},50);
+}
+function closeChangePinModal(){
+  var o=document.getElementById('cp-overlay'); if(o) o.classList.remove('open');
+}
+function doChangePin(){
+  if(!me) return;
+  var oldPin=(document.getElementById('cp-old').value||'').trim();
+  var newPin=(document.getElementById('cp-new').value||'').trim();
+  var newPin2=(document.getElementById('cp-new2').value||'').trim();
+  var errEl=document.getElementById('cp-err');
+  setText('cp-err','');
+  if(!oldPin||!newPin||!newPin2){
+    setText('cp-err',LANG==='en'?'Fill in all fields.':'Vyplň všechna pole.'); return;
+  }
+  if(newPin.length<4){
+    setText('cp-err',LANG==='en'?'New PIN must be at least 4 chars.':'Nový PIN musí mít aspoň 4 znaky.'); return;
+  }
+  if(newPin!==newPin2){
+    setText('cp-err',LANG==='en'?'New PINs do not match.':'Nové PINy se neshodují.'); return;
+  }
+  if(newPin===oldPin){
+    setText('cp-err',LANG==='en'?'New PIN must differ from current.':'Nový PIN se musí lišit od stávajícího.'); return;
+  }
+  var btn=document.getElementById('cp-save'); if(btn) btn.disabled=true;
+  rpcWithRetry('change_pin_secure',{p_hrac_id:me.id,p_old_pin:oldPin,p_new_pin:newPin}).then(function(d){
+    if(d&&d.chyba){setText('cp-err',d.chyba);if(btn) btn.disabled=false;return;}
+    // Uloz novy PIN do session
+    myPin=newPin;
+    try{
+      var s=JSON.parse(localStorage.getItem('ms26s')||'{}');
+      s.pin=newPin; delete s.pin_hash;
+      localStorage.setItem('ms26s',JSON.stringify(s));
+    }catch(e){}
+    closeChangePinModal();
+    showToast(LANG==='en'?'PIN changed.':'PIN změněn.','ok');
+  }).catch(function(e){
+    var msg=(e&&e.message)||'Error';
+    if(/invalid_old_pin/i.test(msg)) msg=LANG==='en'?'Wrong current PIN.':'Špatný stávající PIN.';
+    else if(/new_pin_invalid_length/i.test(msg)) msg=LANG==='en'?'New PIN length 4-32 required.':'Nový PIN musí mít 4-32 znaků.';
+    setText('cp-err',msg);
+  }).then(function(){ if(btn) btn.disabled=false; });
+}
 function doDeleteAccount(){
   if(!me||!myPin) return;
   var msg=LANG==='en'
@@ -4421,6 +4512,14 @@ function applyI18n(){
   setText('account-clbl',tr('account_clbl'));
   setText('account-info-txt',tr('account_info_txt'));
   var bda2=document.getElementById('btn-delete-account'); if(bda2) bda2.textContent=tr('account_delete_btn');
+  setText('account-pin-info',tr('account_pin_info'));
+  var bcp2=document.getElementById('btn-change-pin'); if(bcp2) bcp2.textContent=tr('account_pin_btn');
+  setText('cp-title',tr('cp_title'));
+  setText('cp-lbl-old',tr('cp_lbl_old'));
+  setText('cp-lbl-new',tr('cp_lbl_new'));
+  setText('cp-lbl-new2',tr('cp_lbl_new2'));
+  var bcc=document.getElementById('cp-cancel'); if(bcc) bcc.textContent=tr('cp_cancel');
+  var bcs=document.getElementById('cp-save'); if(bcs) bcs.textContent=tr('cp_save');
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
   updateInstallButton();
@@ -6245,7 +6344,7 @@ function renderAdmin(){
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35)">'+escHtml(rec&&rec.winnerTip?rec.winnerTip:'—')+'</td>'+
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35)">'+escHtml(rec&&rec.scorerTip?rec.scorerTip:'—')+'</td>'+
       '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);color:var(--mu2);font-size:.68rem">'+escHtml(rec&&rec.updatedAt?formatAnyUpdated(rec.updatedAt):'—')+'</td>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);text-align:right"><div style="display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap"><button class="btn btn-ol btn-sm admin-reset-tips" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'">'+escHtml(tr('admin_reset_tips'))+'</button><button class="btn btn-ol btn-sm admin-extra-edit" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" data-winner="'+escAttr(rec&&rec.winnerTip?rec.winnerTip:'')+'" data-scorer="'+escAttr(rec&&rec.scorerTip?rec.scorerTip:'')+'">Upravit</button></div></td>'+
+      '<td style="padding:6px 8px;border-bottom:1px solid rgba(28,48,80,.35);text-align:right"><div style="display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap"><button class="btn btn-ol btn-sm admin-reset-tips" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'">'+escHtml(tr('admin_reset_tips'))+'</button><button class="btn btn-ol btn-sm admin-reset-pin" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" title="'+escAttr(LANG==='en'?'Reset PIN':'Reset PIN')+'">🔑 '+escHtml(LANG==='en'?'Reset PIN':'Reset PIN')+'</button><button class="btn btn-ol btn-sm admin-extra-edit" type="button" data-hid="'+escAttr(p.id)+'" data-name="'+escAttr(p.jmeno)+'" data-winner="'+escAttr(rec&&rec.winnerTip?rec.winnerTip:'')+'" data-scorer="'+escAttr(rec&&rec.scorerTip?rec.scorerTip:'')+'">Upravit</button></div></td>'+
     '</tr>';
   }).join('');
   // Paid league summary card
@@ -6362,6 +6461,37 @@ function renderAdmin(){
         }).catch(function(e){
           showToast(tr('error_generic')+': '+((e&&e.message)||''),'err');
         });
+    });
+  });
+
+  el.querySelectorAll('.admin-reset-pin').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var hid=btn.getAttribute('data-hid');
+      var name=btn.getAttribute('data-name')||'';
+      var confirmMsg=(LANG==='en'?'Reset PIN for ':'Resetovat PIN pro ')+'"'+name+'"? '+(LANG==='en'?'A new random 6-digit PIN will be generated.':'Vygeneruje se nový náhodný 6místný PIN.');
+      if(!confirm(confirmMsg)) return;
+      btn.disabled=true;
+      rpcWithRetry('admin_reset_pin_secure',{p_admin_id:me.id,p_admin_pin:myPin,p_target_id:hid})
+        .then(function(d){
+          var row=Array.isArray(d)?d[0]:d;
+          if(!row||!row.new_pin) throw new Error('empty response');
+          var newPin=row.new_pin;
+          var tj=row.target_jmeno||name;
+          // Pokus o copy do schranky
+          var copyOk=false;
+          try{
+            if(navigator.clipboard&&navigator.clipboard.writeText){
+              navigator.clipboard.writeText(newPin).then(function(){},function(){});
+              copyOk=true;
+            }
+          }catch(e){}
+          var msg=(LANG==='en'?'New PIN for ':'Nový PIN pro ')+tj+': '+newPin+(copyOk?' '+(LANG==='en'?'(copied)':'(zkopírováno)'):'');
+          // Show in alert too so admin can read & copy manually if clipboard fails
+          alert(msg+'\n\n'+(LANG==='en'?'Send this PIN to the player. After login they should change it.':'Pošli PIN hráči. Po přihlášení by si ho měl změnit.'));
+          showToast(msg,'ok');
+        }).catch(function(e){
+          showToast(tr('error_generic')+': '+((e&&e.message)||''),'err');
+        }).then(function(){ btn.disabled=false; });
     });
   });
 
@@ -7103,6 +7233,10 @@ function init(){
   document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   var bda=document.getElementById('btn-delete-account'); if(bda) bda.addEventListener('click',doDeleteAccount);
+  var bcp=document.getElementById('btn-change-pin'); if(bcp) bcp.addEventListener('click',openChangePinModal);
+  var bcpx=document.getElementById('cp-cancel'); if(bcpx) bcpx.addEventListener('click',closeChangePinModal);
+  var bcps=document.getElementById('cp-save'); if(bcps) bcps.addEventListener('click',doChangePin);
+  var cpo=document.getElementById('cp-overlay'); if(cpo) cpo.addEventListener('click',function(e){ if(e.target===cpo) closeChangePinModal(); });
   document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
   var themeBtn=document.getElementById('btn-theme'); if(themeBtn) themeBtn.addEventListener('click',toggleTheme);
   var faqBtn=document.getElementById('btn-faq'); if(faqBtn) faqBtn.addEventListener('click',openFaq);
