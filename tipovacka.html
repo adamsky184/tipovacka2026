@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.0';
+var APP_VERSION='v5.6.1';
 var APP_VERSION_DATE_CS='7. 5. 2026';
 var APP_VERSION_DATE_EN='7 May 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3589,7 +3589,7 @@ async function sha256Hex(v){
 }
 function storeSecureSession(){
   if(!me||!myPin) return;
-  try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin_hash:myPin}));}catch(e){}
+  try{localStorage.setItem('ms26s',JSON.stringify({id:me.id,jmeno:me.jmeno,je_admin:me.je_admin,pin:myPin}));}catch(e){}
 }
 function isPinErrorMessage(msg){
   return /pin|heslo|neplatn/i.test(String(msg||''));
@@ -4252,7 +4252,7 @@ function doLogin(){
   sha256Hex(p).then(function(pinHash){
     return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
       if(d&&d.chyba){setText('le',d.chyba);return;}
-      myPin=pinHash;
+      myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
       finishLogin(d);
     });
   }).catch(function(e){
@@ -4274,7 +4274,7 @@ function doReg(){
   sha256Hex(p).then(function(pinHash){
     return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
       if(d&&d.chyba){setText('re',d.chyba);return;}
-      myPin=pinHash;
+      myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
       finishLogin(d);
     });
   }).catch(function(e){
@@ -7344,20 +7344,19 @@ function init(){
     if(saved){
       var s=JSON.parse(saved);
       setText('le',tr('loading_restore'));
-      if(s&&s.pin_hash&&isSha256Hex(s.pin_hash)){
-        myPin=String(s.pin_hash).toLowerCase();
-        rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:myPin}).then(function(d){
-          if(!d||d.chyba) document.getElementById('lo').style.display='flex';
-          else finishLogin(d);
-        }).catch(function(){document.getElementById('lo').style.display='flex';});
-      }else if(s&&s.pin){
+      if(s&&s.pin){
+        // v5.6.1+: storage ma plain PIN, posli oba pin_hash + plain do RPC, myPin = plain
+        myPin=s.pin;
         sha256Hex(s.pin).then(function(pinHash){
-          myPin=pinHash;
           return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:pinHash,p_pin_plain:s.pin});
         }).then(function(d){
           if(!d||d.chyba) document.getElementById('lo').style.display='flex';
           else finishLogin(d);
         }).catch(function(){document.getElementById('lo').style.display='flex';});
+      }else if(s&&s.pin_hash){
+        // Legacy storage (pre v5.6.1) - nemame plain, force re-login pro spravne myPin
+        try{localStorage.removeItem('ms26s');}catch(e){}
+        document.getElementById('lo').style.display='flex';
       }else{
         document.getElementById('lo').style.display='flex';
       }

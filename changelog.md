@@ -2,6 +2,19 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.1 - 10. 6. 2026
+
+**CRITICAL BUGFIX** - tipy ostatních / všechny non-login RPC pro SHA-256 uživatele.
+
+- **Root cause:** frontend ukládal `myPin = sha256(plain)` **bez saltu/jména**, ale DB pro SHA-256 hráče má `sha256(plain + 'ms2026salt' + jmeno)` **se saltem**. Login (`prihlasit_hrace_secure`) fungoval díky `p_pin_plain` fallback cestě, ALE všechny následné RPC volání (`get_visible_tips_secure`, `get_tip_trends_secure`, `get_leaderboard_snapshot_secure`, atd.) vyhodily auth fail → catch handlery tiše vynulovaly data.
+- **Důsledek:** SHA-256 hráči (Adam184, Dave80, Milano, Vojtech, Šuker, Wojtyla, Paul Scholes, Kala, Michal Roubal - 8/10 hráčů) neviděli tipy ostatních, žebříček mohl být prázdný, tendence taky.
+- **Fix:**
+  - `doLogin` / `doReg`: `myPin = p` (plain) místo `myPin = pinHash`
+  - Storage: ukládat `{pin: myPin}` místo `{pin_hash: myPin}` (plain místo hashe)
+  - Session restore: pokud máš `s.pin` (plain) → použij; pokud máš jen legacy `s.pin_hash` → smaž session + force re-login
+- **Bezpečnost:** plain PIN v localStorage není o nic horší než SHA-256 hash (4-6 cifer = 10000-1M možností, SHA-256 brute-force triviální). A plain PIN je nutný pro bcrypt verify po lazy migraci.
+- **UX dopad:** všichni hráči musí po updatu znovu zadat jméno + PIN (legacy storage se smaže).
+
 ## v5.6.0 - 8. 5. 2026
 
 PIN reset flow (F8) - admin reset + user self-change.
