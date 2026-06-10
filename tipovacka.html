@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.5';
+var APP_VERSION='v5.6.6';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -7368,8 +7368,8 @@ function init(){
     if(saved){
       var s=JSON.parse(saved);
       setText('le',tr('loading_restore'));
-      if(s&&s.pin){
-        // v5.6.1+: storage ma plain PIN, posli oba pin_hash + plain do RPC, myPin = plain
+      if(s&&s.pin && !isSha256Hex(s.pin)){
+        // v5.6.1+: storage ma plain PIN (ne hash), myPin = plain
         myPin=s.pin;
         sha256Hex(s.pin).then(function(pinHash){
           return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:s.jmeno,p_pin_hash:pinHash,p_pin_plain:s.pin});
@@ -7377,6 +7377,15 @@ function init(){
           if(!d||d.chyba) document.getElementById('lo').style.display='flex';
           else finishLogin(d);
         }).catch(function(){document.getElementById('lo').style.display='flex';});
+      }else if(s && ((s.pin && isSha256Hex(s.pin)) || s.pin_hash)){
+        // Legacy storage: s.pin obsahuje hash (omyl z prechozi verze) NEBO s.pin_hash - oboje neplatne, force re-login
+        try{localStorage.removeItem('ms26s');}catch(e){}
+        document.getElementById('lo').style.display='flex';
+        try{
+          var lj=document.getElementById('lj'); if(lj && s.jmeno){ lj.value=s.jmeno; }
+          setText('le', LANG==='en' ? 'Security update - please enter your PIN again.' : 'Bezpečnostní aktualizace - zadej prosím PIN znovu.');
+          setTimeout(function(){ var lp=document.getElementById('lp'); if(lp) lp.focus(); }, 100);
+        }catch(_){}
       }else if(s&&s.pin_hash){
         // Legacy storage (pre v5.6.1) - nemame plain. Friendly UX: pre-fill jmeno + info hlaska
         try{localStorage.removeItem('ms26s');}catch(e){}

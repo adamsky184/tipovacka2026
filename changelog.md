@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.6 - 10. 6. 2026
+
+Session restore detekuje hash v poli `pin`.
+
+- Bug: localStorage mohla obsahovat `s.pin = unsalted_sha256_hash` (z mezivýrobní verze kde session ukládalo hash jako "pin" omylem). Restore pak nastavila `myPin = hash` místo plain → všechny RPC volání selhala s "Neplatný PIN" → tipy ostatních prázdné, save tipů nešlo
+- Fix: pokud `s.pin` má formát SHA-256 hex (64 char hex), session se považuje za legacy → smazat + force re-login (s pre-fillem jména)
+- Po re-loginu se uloží `s.pin = plain` (správně) → vše funguje
+
 ## v5.6.5 - 10. 6. 2026
 
 Revert auto-logout v loadAllTips - způsoboval infinite loop login → logout.
