@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.5 - 10. 6. 2026
+
+Revert auto-logout v loadAllTips - způsoboval infinite loop login → logout.
+
+- `loadAllTips()` při chybě **už neauto-logoutuje** - jen tiše vyresetuje `allTips={}` (stejné chování jako v <v5.6.3)
+- Auto-logout zůstává v `saveTipsWithPin()` (user-initiated akce, tam je smysluplný)
+- Přidána diagnostika: `window.__loadAllTipsLastOk` a `window.__loadAllTipsLastErr` v window scope pro inspect přes browser console
+
 ## v5.6.4 - 10. 6. 2026
 
 Auto-recovery při auth fail v RPC.

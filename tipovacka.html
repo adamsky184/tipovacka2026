@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.4';
+var APP_VERSION='v5.6.5';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3635,14 +3635,11 @@ function loadAllTips(){
       allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
     });
     invalidateDerivedCaches();
+    window.__loadAllTipsLastOk = true;
   }).catch(function(e){
     allTips={};
-    // Auth fail = zastarala session, force re-login pro reset myPin
-    var msg=String((e&&e.message)||'');
-    if(/Neplatn|invalid.*pin|401|403/i.test(msg)){
-      try{ showToast(LANG==='en'?'Session expired. Please log in again.':'Relace vypršela. Přihlas se prosím znovu.','err'); }catch(_){}
-      setTimeout(function(){ try{ doLogout(); }catch(_){} }, 1500);
-    }
+    window.__loadAllTipsLastOk = false;
+    window.__loadAllTipsLastErr = String((e&&e.message)||'');
   });
 }
 function loadTipTrends(){
