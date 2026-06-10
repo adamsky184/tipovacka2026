@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.2 - 10. 6. 2026
+
+Auto-update + friendly re-login UX.
+
+- **Auto-reload při SW update:** Service Worker pošle klientovi `postMessage({type:'sw-updated'})` po dokončení aktivace nové verze. Frontend zachytí, ukáže toast "Nová verze X.Y.Z - načítám..." a po 800ms automaticky reloadne stránku. **Žádný manuální reinstall PWA ani F5 už nebude potřeba** po budoucích deploys.
+- **Initial install protection:** první SW install (uživatel nikdy neměl SW controller) neudělá reload - zbytečné na čerstvém openu.
+- **Friendly re-login pro legacy session:** místo "smaž a začni od nuly" se pre-fillne jméno + zobrazí hláška "Bezpečnostní aktualizace - zadej prosím PIN znovu." + focus na PIN field. Týká se jen jednorázové migrace z v5.6.0 → v5.6.1+ (storage hash → plain).
+
 ## v5.6.1 - 10. 6. 2026
 
 **CRITICAL BUGFIX** - tipy ostatních / všechny non-login RPC pro SHA-256 uživatele.

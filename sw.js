@@ -2,7 +2,7 @@
 // CACHE_NAME musi obsahovat verzi, aby noveho deployu hraci dostali novy obsah.
 // Pri zmene APP_VERSION v tipovacka.html prepis i CACHE_VERSION zde.
 
-const CACHE_VERSION = "v5.6.1";
+const CACHE_VERSION = "v5.6.2";
 const CACHE_NAME = "tipovacka-ms-2026-" + CACHE_VERSION;
 
 self.addEventListener("install", (event) => {
@@ -18,7 +18,12 @@ self.addEventListener("activate", (event) => {
           .filter((key) => key !== CACHE_NAME)
           .map((key) => caches.delete(key)),
       ),
-    ).then(() => self.clients.claim()),
+    ).then(() => self.clients.claim()).then(() => {
+      // Notify all clients about new version - frontend auto-reloads
+      return self.clients.matchAll({ type: "window" }).then((clients) => {
+        clients.forEach((client) => client.postMessage({ type: "sw-updated", version: CACHE_VERSION }));
+      });
+    }),
   );
 });
 
