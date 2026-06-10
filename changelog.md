@@ -2,6 +2,20 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.9 - 10. 6. 2026
+
+**SKUTEČNÝ KONEČNÝ ROOT CAUSE - registrace ukládala UNSALTED hash.**
+
+- **Bug:** `registruj_hrace_secure` (z F3 security migrace, existoval od začátku) ukládala frontend's `sha256(plain)` **bez saltu** přímo do `pin_hash`. Naproti tomu `auth_hrac_secure_by_id` očekávala buď:
+  - Path 2: hash == hash (frontend posílá hash, DB má hash - fungovalo náhodou když frontend posílal hash a ne plain)
+  - Path 3: plain + DB sha256(plain+salt+jmeno) - **NEMATCHALO**, protože DB hash byl unsalted, ne salted
+- **Důsledek:** existující SHA-256 hráči (Adam184 + většina) - když frontend posílal plain do RPC, auth selhával ("Neplatný PIN"). Login fungoval skrz Path 2 (frontend hash = DB hash), ALE všechny následné RPC s plain (`get_visible_tips_secure`, `ulozit_tipy_secure`, `get_tip_trends_secure`, `get_leaderboard_snapshot_secure`) selhaly.
+- **Fix (migrace `v5_6_9_auth_support_unsalted_hash` + `v5_6_9_fix_registration_to_bcrypt`):**
+  - Přidána **Path 4** do `auth_hrac_secure_by_id` i `auth_hrac_secure_by_name`: porovnání `sha256(plain)` UNSALTED s DB hashem. Při match → lazy migrate na bcrypt
+  - `registruj_hrace_secure` nově ukládá rovnou **bcrypt** (ne unsalted sha256) - žádný další účet se už nerozbije
+- **Otestováno:** test účet (PIN "184184") prošel auth, hash automaticky migroval na bcrypt
+- **Migrace existujících sha256 hráčů na bcrypt proběhne automaticky při jejich příštím loginu**
+
 ## v5.6.8 - 10. 6. 2026
 
 **KRITICKÝ FIX - SKUTEČNÝ root cause tipy ostatních + uložení tipů pro Adama (admin).**
