@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.7';
+var APP_VERSION='v5.6.8';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4346,16 +4346,6 @@ function finishLogin(d){
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
     renderAdminSyncStatus();
-    // DIAG v5.6.7: viditelne ukazat stav allTips po loginu (debug only)
-    setTimeout(function(){
-      try{
-        var rec=0, hracu=0;
-        for(var k in allTips){ if(allTips.hasOwnProperty(k)){ hracu++; rec += Object.keys(allTips[k]||{}).length; } }
-        var lastErr = window.__loadAllTipsLastErr || '';
-        var status = window.__loadAllTipsLastOk ? 'OK' : 'FAIL';
-        showToast('DIAG: tipy='+rec+' hracu='+hracu+' '+status+(lastErr?' err='+lastErr.slice(0,120):''), hracu>1 ? 'ok' : 'err');
-      }catch(_){}
-    }, 2500);
     // B3: spustit polling live scoreboard (kazdych 30s)
     try{ startLiveScoresPolling(); }catch(_e){}
     // Q5: Onboarding tutorial pro nove hrace (jen prvni prihlaseni)

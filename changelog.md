@@ -2,6 +2,19 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.8 - 10. 6. 2026
+
+**KRITICKÝ FIX - SKUTEČNÝ root cause tipy ostatních + uložení tipů pro Adama (admin).**
+
+- **Bug:** `auth_hrac_secure_by_id` (volaná všemi RPC po loginu - `get_visible_tips_secure`, `ulozit_tipy_secure`, `get_tip_trends_secure`, atd.) **neuměla aliasy**. Pro hráče který byl přejmenován (Adam = "Adam" → "Adam184" s aliasy [Adam, adam]) DB obsahuje hash s původním jménem (`sha256(plain + salt + "Adam")`). Funkce porovnávala jen s **primary jménem** (`sha256(plain + salt + "Adam184")`) → vždy fail → "Neplatný PIN" → catch handler → prázdné `allTips`.
+- **Důsledek:** Adam184 (jediný admin) nikdy neviděl tipy ostatních ani nemohl uložit tipy přes RPC. Login fungoval, protože `auth_hrac_secure_by_name` (login funkce) aliasy už uměla.
+- **Fix:** rozšířit `auth_hrac_secure_by_id` aby zkusila SHA-256 hash s primary jménem **i se všemi aliasy**. Pokud match na alias → lazy migrate na bcrypt.
+- **DIAG toast z v5.6.7 odstraněn** - root cause potvrzen, debug už není třeba.
+
+## v5.6.7 - 10. 6. 2026
+
+Diagnostický toast po loginu (DIAG: tipy=X hracu=Y OK/FAIL err=...) - jednorázový debug.
+
 ## v5.6.6 - 10. 6. 2026
 
 Session restore detekuje hash v poli `pin`.
