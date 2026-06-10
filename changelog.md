@@ -2,6 +2,19 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.3 - 10. 6. 2026
+
+**SKUTEČNÝ root cause tipy ostatních fixed.**
+
+- **Bug:** SQL funkce `get_visible_tips_secure` (non-admin větev) měla **ambiguous column reference**:
+  ```sql
+  where ... or t.zapas_id in (select zapas_id from own_matches)
+  ```
+  PostgreSQL si nebyl jistý, jestli `zapas_id` v subquery odkazuje na CTE column NEBO na PL/pgSQL OUT parameter (RETURNS TABLE column). Vyhazovalo `ERROR: 42702: column reference "zapas_id" is ambiguous` při KAŽDÉM volání pro non-admin.
+- **Důsledek:** všichni non-admin hráči (8/10) vždy dostali výjimku z `loadAllTips()` → catch handler → `allTips={}` → tipy ostatních prázdné. Bug existoval od v4.9 (8. 4. 2026) - dva měsíce!
+- **Fix:** alias CTE column `zapas_id as om_zid`, použít `select om_zid from own_matches` ve WHERE - žádná ambiguity.
+- **Datum:** APP_VERSION_DATE_CS/EN bumped na 10.6.2026 (předtím chybělo aktualizovat při každém release - pojď to dělat příště).
+
 ## v5.6.2 - 10. 6. 2026
 
 Auto-update + friendly re-login UX.
