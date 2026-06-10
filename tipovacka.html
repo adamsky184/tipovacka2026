@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.3';
+var APP_VERSION='v5.6.4';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3597,19 +3597,26 @@ function isPinErrorMessage(msg){
 async function saveTipsWithPin(rows){
   if(!me||!myPin) throw new Error(LANG==='en'?'Your session expired. Please log in again.':'Relace vypršela. Přihlas se prosím znovu.');
   var messages=[];
+  var authFailed=false;
   var results=await Promise.all(rows.map(function(row){
     return rpcWithRetry('ulozit_tipy_secure',{p_hrac_id:row.hrac_id,p_pin:myPin,p_zapas_id:row.zapas_id,p_tip:row.tip})
       .then(function(d){
         var errMsg=d&&d.chyba?String(d.chyba):'';
         if(errMsg) messages.push(errMsg);
+        if(/Neplatn|invalid.*pin/i.test(errMsg)) authFailed=true;
         return {ok:!errMsg,error:errMsg};
       })
       .catch(function(e){
         var errMsg=(e&&e.message)?String(e.message):(LANG==='en'?'Save failed.':'Uložení selhalo.');
+        if(/Neplatn|invalid.*pin|401|403/i.test(errMsg)) authFailed=true;
         messages.push(errMsg);
         return {ok:false,error:errMsg};
       });
   }));
+  if(authFailed){
+    try{ showToast(LANG==='en'?'Session expired. Please log in again.':'Relace vypršela. Přihlas se prosím znovu.','err'); }catch(_){}
+    setTimeout(function(){ try{ doLogout(); }catch(_){} }, 1500);
+  }
   return {results:results,messages:messages};
 }
 function loadPlayers(){return sbf('hrace?select=id,jmeno,je_admin,in_paid_league,vytvoreno&order=vytvoreno.asc').then(function(d){players=d||[];});}
@@ -3628,7 +3635,15 @@ function loadAllTips(){
       allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
     });
     invalidateDerivedCaches();
-  }).catch(function(){ allTips={}; });
+  }).catch(function(e){
+    allTips={};
+    // Auth fail = zastarala session, force re-login pro reset myPin
+    var msg=String((e&&e.message)||'');
+    if(/Neplatn|invalid.*pin|401|403/i.test(msg)){
+      try{ showToast(LANG==='en'?'Session expired. Please log in again.':'Relace vypršela. Přihlas se prosím znovu.','err'); }catch(_){}
+      setTimeout(function(){ try{ doLogout(); }catch(_){} }, 1500);
+    }
+  });
 }
 function loadTipTrends(){
   if(!me||!myPin){ globalTipCounts={}; return Promise.resolve(); }

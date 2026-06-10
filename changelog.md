@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.6.4 - 10. 6. 2026
+
+Auto-recovery při auth fail v RPC.
+
+- `loadAllTips()` a `saveTipsWithPin()` při zjištění auth chyby ("Neplatný PIN") automaticky vyhodí toast "Relace vypršela" + po 1.5s force logout → uživatel se ocitne na login overlay
+- Tím se prevence "polovičního loginu" - zastaralá session se sama opraví, uživatel se přihlasí znovu a vše funguje
+- Týká se zejména starých klientů s legacy `myPin` (unsalted SHA-256) - místo "nic nefunguje a nevím proč" se sám zachytí + vyzve k novému přihlášení
+
 ## v5.6.3 - 10. 6. 2026
 
 **SKUTEČNÝ root cause tipy ostatních fixed.**
