@@ -557,7 +557,23 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .ost-scroll-wrap{position:relative}
 .ost-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
 .ost-table{width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem}
-.ost-strip th{position:sticky;top:0;z-index:4;box-shadow:0 1px 0 rgba(28,48,80,.45)}
+.ost-strip th{position:sticky;top:0;z-index:4;background:var(--bg2);box-shadow:0 1px 0 rgba(28,48,80,.45)}
+/* v5.7.2: live indikator u zapasu */
+.live-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:999px;background:linear-gradient(90deg,rgba(220,38,38,.18),rgba(220,38,38,.08));border:1px solid rgba(220,38,38,.45);color:#fca5a5;font-size:.62rem;font-weight:700;letter-spacing:.04em;margin-left:6px;animation:live-pulse 1.6s ease-in-out infinite;font-family:'Space Grotesk',sans-serif;white-space:nowrap}
+/* QW5: group chip pred nazvy tymu */
+.grp-chip{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:18px;padding:0 5px;border-radius:6px;background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.3);color:var(--ac2);font-size:.62rem;font-weight:800;font-family:'Space Grotesk',sans-serif;margin-right:6px;letter-spacing:.02em}
+body.theme-light .grp-chip{background:rgba(37,99,235,.10);border-color:rgba(37,99,235,.28);color:#1e40af}
+/* QW4: success rate bar v žebříčku */
+.zeb-success-bar{height:3px;background:rgba(255,255,255,.06);border-radius:999px;margin-top:6px;overflow:hidden}
+.zeb-success-fill{height:100%;background:linear-gradient(90deg,var(--ac2),var(--gn2));border-radius:999px;transition:width .8s ease}
+body.theme-light .zeb-success-bar{background:rgba(37,99,235,.10)}
+body.theme-light .live-badge{color:#b91c1c;background:linear-gradient(90deg,rgba(220,38,38,.10),rgba(220,38,38,.04))}
+@keyframes live-pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 4px rgba(220,38,38,0)}}
+body.theme-light .ost-strip th{background:#fff}
+/* v5.7.2: sticky header pro Admin tabulku */
+#admin-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
+#admin-table-wrap thead th{position:sticky;top:0;z-index:4;background:var(--bg2);box-shadow:0 1px 0 rgba(28,48,80,.45)}
+body.theme-light #admin-table-wrap thead th{background:#fff}
 .ost-scroll-floating{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(92vw,720px);display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;border:1px solid var(--bd2);background:color-mix(in srgb,var(--bg4) 88%, transparent);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.28);z-index:80}
 .ost-scroll-floating-lbl{font-size:.72rem;font-weight:700;color:var(--mu2);white-space:nowrap}
 .ost-scroll-range{flex:1;accent-color:var(--ac2)}
@@ -2047,7 +2063,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="extra-status" id="extra-status-note"></div>
       </div>
 
-      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-live" style="display:none">🔴 LIVE</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
 
 
@@ -2266,7 +2282,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.7.1';
+var APP_VERSION='v5.7.2';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3511,14 +3527,22 @@ function getFilteredTipArr(arr){
     if(tipQuickFilter==='today') return sameCalDay(dz,now);
     if(tipQuickFilter==='tomorrow') return sameCalDay(dz,tomorrow);
     if(tipQuickFilter==='missing') return !myTips[z[0]] && dz>now && !matchTeamsUnknown(z);
+    if(tipQuickFilter==='live') return !!liveScoresMap[z[0]];
     return true;
   });
 }
 function updateTipQuickButtons(){
-  ['all','today','tomorrow','missing'].forEach(function(k){
+  ['all','live','today','tomorrow','missing'].forEach(function(k){
     var el=document.getElementById('qf-'+k);
     if(el) el.classList.toggle('on',tipQuickFilter===k);
   });
+  // LIVE chip viditelny jen kdyz nejaky zapas opravdu hraje
+  var lc=document.getElementById('qf-live');
+  if(lc){
+    var hasLive=Object.keys(liveScoresMap||{}).length>0;
+    lc.style.display=hasLive?'inline-flex':'none';
+    if(!hasLive && tipQuickFilter==='live'){ tipQuickFilter='all'; }
+  }
 }
 function setTipQuickFilter(mode){
   tipQuickFilter=mode;
@@ -4833,6 +4857,20 @@ function openPlayerDetail(playerId){
 // B3: Live scoreboard - polling app_sync_statuses (klic 'results') každych 30s, kdyz jsou live zapasy
 var liveScoresPollInterval=null;
 var liveScoresLastFetch=0;
+var liveScoresMap={}; // v5.7.2: {zapas_id: {clock,score,statusDesc}} pro indikator u zapasu
+function getGroupChipHtml(z){
+  // QW5: kratky chip "A", "B"... vedle datumu pro snadnejsi orientaci v 104 zapasech
+  var grp=z[1]||'';
+  if(!grp||grp.length>2) return ''; // skip play-off ("R32","R16","QF"...) - jsou dlouhy
+  return '<span class="grp-chip">'+escHtml(grp)+'</span>';
+}
+function getLiveBadgeHtml(z){
+  var ev=liveScoresMap[z[0]];
+  if(!ev) return '';
+  var clk=ev.clock?escHtml(ev.clock)+(/['′]/.test(ev.clock)?'':'′'):'';
+  var sc=(ev.homeScore!=null&&ev.awayScore!=null)?(' '+ev.homeScore+':'+ev.awayScore):'';
+  return '<span class="live-badge" title="'+escAttr(LANG==='en'?'Live':'Živě')+'">🔴 LIVE'+(clk?' '+clk:'')+sc+'</span>';
+}
 function startLiveScoresPolling(){
   // Spusti se po loginu. Polling jen kdyz vis viditelne.
   if(liveScoresPollInterval) return;
@@ -4860,7 +4898,22 @@ function pollLiveScores(){
       // Klucova zmena: i pri liveStatus pozadujeme aspon nejaky clock>0 (ESPN nekdy posila live=true ale clock=0 v prepauze)
       return liveStatus && clk>0;
     });
+    // v5.7.2: ulozit do mapy pro indikator u radku zapasu
+    liveScoresMap={};
+    var allMatches=SZ.concat(PZ);
+    live.forEach(function(ev){
+      var hn=String(ev.home||''),an=String(ev.away||'');
+      allMatches.forEach(function(z){
+        if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) liveScoresMap[z[0]]=ev;
+      });
+    });
     renderLiveBanner(live);
+    // Refresh tipy/ostatni/vysledky pokud jsou viditelne (aktualizace badge)
+    try{
+      if(document.getElementById('page-tipy')&&document.getElementById('page-tipy').style.display!=='none') renderTipy();
+      if(document.getElementById('page-ostatni')&&document.getElementById('page-ostatni').style.display!=='none') renderOst();
+      if(document.getElementById('page-vysledky')&&document.getElementById('page-vysledky').style.display!=='none') renderVys();
+    }catch(_){}
   }).catch(function(){ renderLiveBanner([]); });
 }
 function renderLiveBanner(liveEvents){
@@ -5453,10 +5506,9 @@ function renderMatchRow(z,isAdmin,hasGT){
 
   return '<div class="mr'+(isLive?' mr-live':'')+(urgentNoTip?' mr-urgent-tip':'')+(lastSavedTipIds.indexOf(String(id))>=0?' mr-saved-flash':'')+'">'+
     '<div class="mr-info">'+
-      '<div class="mt">'+(isLive?'<span class="live-dot"></span>':'')+dLink+' – '+hLink+'</div>'+
+      '<div class="mt">'+(isLive?'<span class="live-dot"></span>':'')+getGroupChipHtml(z)+dLink+' – '+hLink+getLiveBadgeHtml(z)+'</div>'+
       '<div class="mm">'+dStr(z)+
         (res?' <span class="rt rt-d">'+escHtml(res)+'</span>':'')+
-        (isLive?' <span class="rt" style="background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)">'+tr('live')+'</span>':'')+
         (hype?' <span class="rt rt-hype">🔥 '+hype.pct+'% '+escHtml(LANG==='en'?'favor '+hype.label:'věří '+hype.label)+'</span>':'')+
         (antiHype?' <span class="rt" style="background:rgba(239,68,68,.1);color:#fda4af;border:1px solid rgba(239,68,68,.22)">⚡ '+escHtml(tr('hype_against'))+'</span>':'')+
         (rivalDiffCount?'<span class="mr-rival">★ '+escHtml(LANG==='en'?'Rivals differ':'Rivalové jinak')+' '+escHtml(String(rivalDiffCount))+'</span>':'')+
@@ -5741,7 +5793,7 @@ function renderOstRow(z,others){
   var venueHtml=venue?stadiumLinkHtml(venue):'';
   var dLink=matchTeamsUnknown(z)?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
-  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+dLink+' &ndash; '+hLink+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
+  var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+getGroupChipHtml(z)+dLink+' &ndash; '+hLink+getLiveBadgeHtml(z)+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
   others.forEach(function(p){
@@ -5810,7 +5862,8 @@ function renderZeb(){
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
-      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+sparklineSvg(s.history)+'</div>'+
+      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+
+      (s.hod>0?'<div class="zeb-success-bar" title="'+escAttr((LANG==='en'?'Success rate: ':'Úspěšnost: ')+Math.round((Math.min(s.total,s.hod*10)/(s.hod*10))*100)+'%')+'"><div class="zeb-success-fill" style="width:'+Math.min(100,Math.round((Math.min(s.total,s.hod*10)/(s.hod*10))*100))+'%"></div></div>':'')+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
   html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
@@ -5869,7 +5922,7 @@ function renderVysRow(z){
   var venueHtml=venue?stadiumLinkHtml(venue):'';
   return '<div class="mr">'+
     '<div class="mr-info">'+
-      '<div class="mt">'+dLink+' – '+hLink+'</div>'+
+      '<div class="mt">'+getGroupChipHtml(z)+dLink+' – '+hLink+getLiveBadgeHtml(z)+'</div>'+
       '<div class="mm">'+escHtml(dStr(z))+(venueHtml?' <span class="venue"><span class="venue-pin">📍</span>'+venueHtml+'</span>':'')+(!res&&cd?' <span class="cd">'+escHtml(cd)+'</span>':'')+'</div>'+
     '</div>'+
     '<div class="mr-tip"><div class="res-box"><div class="res-main">'+(res?escHtml(res):'—')+'</div></div></div>'+
@@ -7368,6 +7421,7 @@ function init(){
   var homeBtn=document.getElementById('hdr-title-main'); if(homeBtn) homeBtn.addEventListener('click',goHomeTab);
 
   document.getElementById('qf-all').addEventListener('click',function(){setTipQuickFilter('all');});
+  var qfl=document.getElementById('qf-live'); if(qfl) qfl.addEventListener('click',function(){setTipQuickFilter('live');});
   document.getElementById('qf-today').addEventListener('click',function(){setTipQuickFilter('today');});
   document.getElementById('qf-tomorrow').addEventListener('click',function(){setTipQuickFilter('tomorrow');});
   document.getElementById('qf-missing').addEventListener('click',function(){setTipQuickFilter('missing');});

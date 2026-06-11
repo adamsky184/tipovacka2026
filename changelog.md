@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.7.2 - 11. 6. 2026
+
+Quick wins UX paket (QW1-5):
+
+- **QW1 Sticky header row:** v Tipy ostatních + Admin tabulky. Při scroll dolů hlavička s jmény hráčů zůstává viditelná.
+- **QW2 Live indikátor u zápasu:** v Tipy + Výsledky + Tipy ostatních se u běžícího zápasu zobrazí pulzující 🔴 LIVE chip s minutáží a aktuálním skóre. Data z `pollLiveScores` (každých 30s).
+- **QW3 LIVE filter chip:** v Tipy taby. Skryje se když žádný zápas neběží, automaticky se objeví během live zápasu. Klik → ukáže jen probíhající zápasy.
+- **QW4 Progress bar úspěšnosti** v žebříčku: tenký gradient bar (modrá → zelená) pod statistikou každého hráče. Šířka = jeho úspěšnost v % (capped na 100%).
+- **QW5 Skupinový chip:** modrá značka "A", "B", "C"... před názvy týmů v Tipy, Výsledky a Tipy ostatních. Pro skupinovou fázi - usnadní orientaci mezi 72 zápasy.
+
 ## v5.7.1 - 11. 6. 2026
 
 UX polish - scroll a paid info.
