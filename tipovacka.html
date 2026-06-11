@@ -560,6 +560,38 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .ost-strip th{position:sticky;top:0;z-index:4;background:var(--bg2);box-shadow:0 1px 0 rgba(28,48,80,.45)}
 /* v5.7.2: live indikator u zapasu */
 .live-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:999px;background:linear-gradient(90deg,rgba(220,38,38,.18),rgba(220,38,38,.08));border:1px solid rgba(220,38,38,.45);color:#fca5a5;font-size:.62rem;font-weight:700;letter-spacing:.04em;margin-left:6px;animation:live-pulse 1.6s ease-in-out infinite;font-family:'Space Grotesk',sans-serif;white-space:nowrap}
+/* F13: Live admin overview */
+.admin-overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:.7rem}
+.aov-card{background:linear-gradient(160deg,rgba(168,85,247,.10),rgba(168,85,247,.02));border:1px solid rgba(168,85,247,.22);border-radius:11px;padding:9px 8px;text-align:center;transition:.18s}
+.aov-card:hover{border-color:rgba(168,85,247,.45);transform:translateY(-1px)}
+.aov-card.aov-warn{background:linear-gradient(160deg,rgba(245,158,11,.10),rgba(245,158,11,.02));border-color:rgba(245,158,11,.28)}
+.aov-card.aov-warn:hover{border-color:rgba(245,158,11,.55)}
+.aov-val{font-family:'Space Grotesk',sans-serif;font-size:1.18rem;font-weight:800;color:#c084fc;line-height:1}
+.aov-card.aov-warn .aov-val{color:#fbbf24}
+.aov-lbl{font-size:.6rem;color:var(--mu2);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.aov-missing-list{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.22);border-radius:11px;padding:8px 12px;margin-bottom:.7rem;font-size:.74rem;color:var(--mu2);line-height:1.5}
+.aov-missing-list strong{color:#fbbf24;font-weight:700}
+#aov-card-missing{cursor:pointer}
+@media(max-width:520px){.aov-val{font-size:1rem}.aov-lbl{font-size:.54rem}}
+/* F11: Můj progress mini-dashboard */
+.my-progress-dash{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:.7rem}
+.mpd-item{background:linear-gradient(160deg,rgba(59,130,246,.06),rgba(59,130,246,.01));border:1px solid rgba(59,130,246,.15);border-radius:11px;padding:8px 6px;text-align:center;transition:.18s}
+.mpd-item:hover{border-color:rgba(59,130,246,.32);transform:translateY(-1px)}
+.mpd-val{font-family:'Space Grotesk',sans-serif;font-size:1.12rem;font-weight:800;color:var(--ac2);line-height:1}
+.mpd-val-gn{color:var(--gn2)}
+.mpd-val-rd{color:#f87171}
+.mpd-lbl{font-size:.6rem;color:var(--mu2);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+body.theme-light .mpd-val-rd{color:#dc2626}
+@media(max-width:520px){.mpd-val{font-size:.95rem}.mpd-lbl{font-size:.54rem}}
+/* F10: Admin shortcut bar */
+.admin-shortcut-bar{position:sticky;top:0;z-index:50;display:flex;gap:8px;padding:.55rem .7rem;margin:0 0 .7rem;background:linear-gradient(135deg,rgba(12,30,53,.92),rgba(10,23,40,.95));border:1px solid var(--bd);border-radius:12px;backdrop-filter:blur(8px);box-shadow:0 4px 18px rgba(0,0,0,.2);overflow-x:auto;scrollbar-width:thin}
+.admin-shortcut-btn{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.04);color:var(--mu2);font-size:.74rem;font-weight:700;font-family:'Space Grotesk',sans-serif;letter-spacing:.04em;cursor:pointer;transition:.18s;white-space:nowrap}
+.admin-shortcut-btn:hover{border-color:var(--ac2);color:var(--ac2);background:rgba(59,130,246,.08);transform:translateY(-1px)}
+.admin-shortcut-btn:active{transform:translateY(0)}
+.admin-shortcut-btn:disabled{opacity:.5;cursor:wait}
+body.theme-light .admin-shortcut-bar{background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(247,251,255,.94));box-shadow:0 4px 12px rgba(15,35,60,.08)}
+body.theme-light .admin-shortcut-btn{background:rgba(37,99,235,.04);color:var(--mu);border-color:rgba(37,99,235,.16)}
+@media(max-width:520px){.admin-shortcut-btn{font-size:.66rem;padding:7px 5px;gap:3px}.ashc-lbl{display:none}.admin-shortcut-btn{font-size:1rem}}
 /* QW5: group chip pred nazvy tymu */
 .grp-chip{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:18px;padding:0 5px;border-radius:6px;background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.3);color:var(--ac2);font-size:.62rem;font-weight:800;font-family:'Space Grotesk',sans-serif;margin-right:6px;letter-spacing:.02em}
 body.theme-light .grp-chip{background:rgba(37,99,235,.10);border-color:rgba(37,99,235,.28);color:#1e40af}
@@ -2037,6 +2069,17 @@ body.admin-user #btn-logout{padding:0 10px}
         <button class="mc-banner-close" id="mc-banner-close" type="button" aria-label="Zavřít">×</button>
       </div>
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!</div>
+      <div id="my-progress-dash" class="my-progress-dash" style="display:none">
+        <div class="mpd-item"><div class="mpd-val" id="mpd-tips">0</div><div class="mpd-lbl">Tipy</div></div>
+        <div class="mpd-item"><div class="mpd-val mpd-val-gn" id="mpd-pts">0</div><div class="mpd-lbl">Body</div></div>
+        <div class="mpd-item"><div class="mpd-val" id="mpd-avg">0</div><div class="mpd-lbl">Vůči Ø</div></div>
+        <div class="mpd-item"><div class="mpd-val mpd-val-rd" id="mpd-miss">0</div><div class="mpd-lbl">Chybí</div></div>
+      </div>
+      <div id="missing-tips-cta" style="display:none;margin-bottom:.6rem">
+        <button class="btn btn-bl btn-sm" id="btn-jump-missing" type="button" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span>📝</span><span id="btn-jump-missing-lbl">Doplnit chybějící tipy</span><span id="btn-jump-missing-count" style="opacity:.85;font-weight:400"></span>
+        </button>
+      </div>
       <div class="card extra-card" id="extra-card">
         <div class="extra-head">
           <div>
@@ -2189,6 +2232,19 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div id="page-admin" style="display:none">
+      <div class="admin-shortcut-bar" id="admin-shortcut-bar">
+        <button class="admin-shortcut-btn" id="ashc-refresh" type="button" title="Výsledky">⚽ <span class="ashc-lbl">VÝSLEDKY</span></button>
+        <button class="admin-shortcut-btn" id="ashc-teams" type="button" title="Týmy">🏟 <span class="ashc-lbl">TÝMY</span></button>
+        <button class="admin-shortcut-btn" id="ashc-fifa" type="button" title="FIFA Ranking">🏅 <span class="ashc-lbl">FIFA</span></button>
+        <button class="admin-shortcut-btn" id="ashc-odds" type="button" title="Kurzy">📈 <span class="ashc-lbl">KURZY</span></button>
+      </div>
+      <div class="admin-overview-grid" id="admin-overview-grid">
+        <div class="aov-card"><div class="aov-val" id="aov-players">0</div><div class="aov-lbl">Hráčů</div></div>
+        <div class="aov-card"><div class="aov-val" id="aov-tips">0</div><div class="aov-lbl">Celkem tipů</div></div>
+        <div class="aov-card"><div class="aov-val" id="aov-played">0</div><div class="aov-lbl">Odehráno</div></div>
+        <div class="aov-card aov-warn" id="aov-card-missing"><div class="aov-val" id="aov-missing">0</div><div class="aov-lbl">Bez tipu dnes</div></div>
+      </div>
+      <div id="aov-missing-list" class="aov-missing-list" style="display:none"></div>
       <div class="card">
         <div class="clbl" id="admin-clbl">Admin - přehled všech tipů</div>
         <div class="ibox" id="admin-extra-info">Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.</div>
@@ -2282,7 +2338,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.7.2';
+var APP_VERSION='v5.7.3';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3762,6 +3818,8 @@ function updateHeaderRanking(){
   if(idx<0||!mine){val.innerHTML='-';bar.style.width='0%';return;}
   val.innerHTML='#'+(idx+1)+' <span class="hdr-rank-meta-inline">'+mine.total+'b · '+mine.pre+'<span class="rank-exact">P</span> · '+mine.spr+'<span class="rank-trend">T</span> · '+mine.dif+'<span style="color:var(--gd)">D</span></span>';;
   bar.style.width=(scored.length?Math.max(8,Math.round((1-(idx/Math.max(scored.length-1,1)))*100)):0)+'%';
+  // F15: comeback / pozice toast
+  try{ checkRankChange(); }catch(_){}
 }
 
 function renderTodayBox(){
@@ -4935,6 +4993,131 @@ function renderLiveBanner(liveEvents){
   b.style.display='flex';
 }
 // B4: Match countdown banner - nejbliszsi nezatipovany zapas v ramci 24h
+// F15: Comeback / pozice toast - po loginu nebo update žebříčku ukáže rozdíl vůči snapshotu z localStorage
+function checkRankChange(){
+  if(!me) return;
+  try{
+    var snap=getLeaderboardSnapshot('cel');
+    if(!snap||!snap.length) return;
+    var myIdx=-1;
+    for(var i=0;i<snap.length;i++){ if(snap[i].p.id===me.id){ myIdx=i; break; } }
+    if(myIdx<0) return;
+    var myRank=myIdx+1;
+    var storageKey='ms26_last_rank_'+me.id;
+    var prev=null;
+    try{ prev=parseInt(localStorage.getItem(storageKey)||'',10); }catch(_){}
+    // Uložit nový snapshot
+    try{ localStorage.setItem(storageKey,String(myRank)); }catch(_){}
+    if(!prev||isNaN(prev)||prev===myRank) return;
+    var diff=prev-myRank; // pozitivni = posun nahoru
+    var msg;
+    if(diff>0){
+      msg=LANG==='en' ? ('🚀 You moved up '+diff+' position'+(diff>1?'s':'')+'! Now #'+myRank) : ('🚀 Posun nahoru o '+diff+'! Aktuálně #'+myRank);
+    } else {
+      msg=LANG==='en' ? ('⬇ You dropped '+Math.abs(diff)+' position'+(Math.abs(diff)>1?'s':'')+'. Now #'+myRank) : ('⬇ Pokles o '+Math.abs(diff)+'. Aktuálně #'+myRank);
+    }
+    try{ showToast(msg, diff>0?'ok':'info'); }catch(_){}
+  }catch(_){}
+}
+// F13: Live admin overview
+function renderAdminOverview(){
+  if(!me||!me.je_admin) return;
+  var grid=document.getElementById('admin-overview-grid');
+  var listEl=document.getElementById('aov-missing-list');
+  if(!grid) return;
+  var nPlayers=(players||[]).length;
+  var nTipsTotal=0;
+  (players||[]).forEach(function(p){ var t=allTips[p.id]||{}; nTipsTotal+=Object.keys(t).length; });
+  // Include my own tips (which are in myTips, not allTips)
+  nTipsTotal+=Object.keys(myTips||{}).length;
+  // Played = unique matches with skore
+  var nPlayed=Object.keys(results||{}).length;
+  // Bez tipu dnes - kdo nemá tip na dnešní zápas
+  var todayMatches=SZ.concat(PZ).filter(function(z){
+    var dz=mDate(z); var now=new Date();
+    return sameCalDay(dz,now) && dz>now; // jen budoucí dnes (ne odehrané)
+  });
+  var todayMatchIds=todayMatches.map(function(z){return z[0];});
+  var missingTodayPlayers=[];
+  (players||[]).forEach(function(p){
+    var tipsForPlayer=(p.id===me.id)?myTips:(allTips[p.id]||{});
+    var hasAll=todayMatchIds.every(function(id){ return !!tipsForPlayer[id]; });
+    if(!hasAll && todayMatchIds.length>0) missingTodayPlayers.push(p);
+  });
+  setText('aov-players', String(nPlayers));
+  setText('aov-tips', String(nTipsTotal));
+  setText('aov-played', String(nPlayed));
+  setText('aov-missing', String(missingTodayPlayers.length));
+  if(missingTodayPlayers.length>0 && listEl){
+    var names=missingTodayPlayers.map(function(p){return '<strong>'+escHtml(p.jmeno)+'</strong>';}).join(', ');
+    listEl.innerHTML='⏰ '+escHtml(LANG==='en'?'Without today\'s tip: ':'Bez tipu na dnešní zápas: ')+names;
+    listEl.style.display='block';
+  } else if(listEl){
+    listEl.style.display='none';
+  }
+}
+// F11: Můj progress mini-dashboard
+function renderMyProgress(){
+  var el=document.getElementById('my-progress-dash');
+  if(!el) return;
+  if(!me||currentPhase==='ex'){ el.style.display='none'; return; }
+  el.style.display='grid';
+  var allMatches=SZ.concat(PZ);
+  var tipsCount=Object.keys(myTips||{}).length;
+  var snap=getLeaderboardSnapshot('cel')||[];
+  var mine=null,others=[];
+  snap.forEach(function(s){ if(s.p.id===me.id) mine=s; else others.push(s); });
+  var pts=mine?mine.total:0;
+  var avg=others.length?(others.reduce(function(a,s){return a+s.total;},0)/others.length):0;
+  var diff=Math.round(pts-avg);
+  var missing=getMissingTipMatches().length;
+  setText('mpd-tips', String(tipsCount));
+  setText('mpd-pts', String(pts));
+  setText('mpd-avg', (diff>=0?'+':'')+String(diff));
+  setText('mpd-miss', String(missing));
+  // Tonalita pro 'Vůči Ø'
+  var avgEl=document.getElementById('mpd-avg');
+  if(avgEl){
+    avgEl.classList.remove('mpd-val-gn','mpd-val-rd');
+    if(diff>0) avgEl.classList.add('mpd-val-gn');
+    else if(diff<0) avgEl.classList.add('mpd-val-rd');
+  }
+}
+// F9: CTA "Doplnit chybějící tipy" - skoč na první budoucí nezatipovaný zápas
+function getMissingTipMatches(){
+  if(!me) return [];
+  var now=new Date();
+  var allMatches=SZ.concat(PZ);
+  return allMatches.filter(function(z){
+    var dz=mDate(z);
+    return !myTips[z[0]] && dz>now && !matchTeamsUnknown(z);
+  }).sort(function(a,b){ return mDate(a)-mDate(b); });
+}
+function renderMissingTipsCTA(){
+  var el=document.getElementById('missing-tips-cta');
+  if(!el) return;
+  var lst=getMissingTipMatches();
+  if(!lst.length || currentPhase==='ex'){ el.style.display='none'; return; }
+  el.style.display='block';
+  setText('btn-jump-missing-lbl', LANG==='en'?'Fill missing tips':'Doplnit chybějící tipy');
+  setText('btn-jump-missing-count','('+lst.length+')');
+}
+function jumpToFirstMissingTip(){
+  var lst=getMissingTipMatches();
+  if(!lst.length) return;
+  var first=lst[0];
+  // Najdi DOM element s data-zid odpovídajícím prvnímu zápasu
+  var matchEl=document.querySelector('[data-mid="'+first[0]+'"]') || document.querySelector('[data-zid="'+first[0]+'"]');
+  if(matchEl){
+    matchEl.scrollIntoView({behavior:'smooth',block:'center'});
+    // Highlight pulse
+    matchEl.classList.add('mr-saved-flash');
+    setTimeout(function(){ matchEl.classList.remove('mr-saved-flash'); }, 1500);
+    // Focus na input pokud existuje
+    var inp=matchEl.querySelector('input.tih, input.tia');
+    if(inp) setTimeout(function(){ inp.focus(); }, 600);
+  }
+}
 function renderMatchCountdownBanner(){
   var b=document.getElementById('mc-banner');
   if(!b||!me) return;
@@ -5353,6 +5536,8 @@ function renderTipy(){
   renderTodayBox();
   renderInsights();
   renderMatchCountdownBanner();
+  renderMyProgress();
+  renderMissingTipsCTA();
   renderSimilarity();
   renderExtraTipsBox();
   var extraCard=document.getElementById('extra-card');
@@ -5504,7 +5689,7 @@ function renderMatchRow(z,isAdmin,hasGT){
   var dLink=teamsUnknown?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=teamsUnknown?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
 
-  return '<div class="mr'+(isLive?' mr-live':'')+(urgentNoTip?' mr-urgent-tip':'')+(lastSavedTipIds.indexOf(String(id))>=0?' mr-saved-flash':'')+'">'+
+  return '<div class="mr'+(isLive?' mr-live':'')+(urgentNoTip?' mr-urgent-tip':'')+(lastSavedTipIds.indexOf(String(id))>=0?' mr-saved-flash':'')+'" data-mid="'+escAttr(String(id))+'">'+
     '<div class="mr-info">'+
       '<div class="mt">'+(isLive?'<span class="live-dot"></span>':'')+getGroupChipHtml(z)+dLink+' – '+hLink+getLiveBadgeHtml(z)+'</div>'+
       '<div class="mm">'+dStr(z)+
@@ -6431,6 +6616,7 @@ function adminUpsertTip(hid,zid,nt){
 }
 function renderAdmin(){
   if(!me||!me.je_admin) return;
+  renderAdminOverview();
   var el=document.getElementById('adm-list'),all=adminSort==='dt'?sortByDate(SZ.concat(PZ)):SZ.concat(PZ);
   if(!players.length){el.innerHTML='<div class="empty">'+tr('no_others')+'</div>';return;}
   var extraRows=players.slice().sort(function(a,b){ return a.jmeno.localeCompare(b.jmeno, LANG==='en'?'en':'cs'); }).map(function(p){
@@ -7375,6 +7561,18 @@ function init(){
   document.getElementById('btn-install-app').addEventListener('click',handleInstallApp);
   var themeBtn=document.getElementById('btn-theme'); if(themeBtn) themeBtn.addEventListener('click',toggleTheme);
   var faqBtn=document.getElementById('btn-faq'); if(faqBtn) faqBtn.addEventListener('click',openFaq);
+  var bjm=document.getElementById('btn-jump-missing'); if(bjm) bjm.addEventListener('click',jumpToFirstMissingTip);
+  // F10: Admin shortcut bar - proxy klikne na existujici buttony v hlavicce
+  function proxyClick(id){ var b=document.getElementById(id); if(b) b.click(); }
+  var ar=document.getElementById('ashc-refresh'); if(ar) ar.addEventListener('click',function(){proxyClick('btn-refresh');});
+  var at=document.getElementById('ashc-teams'); if(at) at.addEventListener('click',function(){proxyClick('btn-sync-teams');});
+  var af=document.getElementById('ashc-fifa'); if(af) af.addEventListener('click',function(){proxyClick('btn-sync-fifa');});
+  var ao=document.getElementById('ashc-odds'); if(ao) ao.addEventListener('click',function(){proxyClick('btn-sync-odds');});
+  // F13: Klik na "Bez tipu dnes" kartu toggluje seznam (list už je v UI - klik jen scroll na něj)
+  var aovm=document.getElementById('aov-card-missing'); if(aovm) aovm.addEventListener('click',function(){
+    var lst=document.getElementById('aov-missing-list');
+    if(lst && lst.style.display!=='none'){ lst.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  });
   document.getElementById('btn-refresh').addEventListener('click',fetchResults);
   var bst=document.getElementById('btn-sync-teams'); if(bst) bst.addEventListener('click',function(){syncTeamsData(true);});
   var bsf=document.getElementById('btn-sync-fifa'); if(bsf) bsf.addEventListener('click',syncFifaRanking);

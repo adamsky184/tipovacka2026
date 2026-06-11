@@ -2,6 +2,20 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.7.3 - 11. 6. 2026
+
+Větší UX wave (F9-F15):
+
+- **F9 Doplnit chybějící tipy CTA:** v Tipy taby tlačítko "📝 Doplnit chybějící tipy (X)" - skoč na první budoucí nezatipovaný zápas + pulse highlight + focus na input
+- **F10 Admin shortcut bar:** sticky lišta nahoře v Admin tabu (VÝSLEDKY / TÝMY / FIFA / KURZY) - proxy klik na existující buttony v hlavičce, neduplikuje logiku
+- **F11 Můj progress dashboard:** 4-card panel nahoře v Tipy (Tipy, Body, Vůči Ø s ±, Chybí) - hned vidíš stav
+- **F13 Live admin overview:** v Admin tabu 4 karty (Hráčů, Celkem tipů, Odehráno, Bez tipu dnes) + seznam jmen kdo nezatipoval dnešní zápas
+- **F15 Comeback toast po pozici:** localStorage snapshot tvé pozice - po update žebříčku, pokud se pozice změnila, toast "🚀 Posun nahoru o 2! Aktuálně #3"
+
+Přeskočeno (riziko rozbít stávající):
+- F12 (sdílení výsledku zápasu) - vyžaduje canvas rendering, podobné Q4. Přidává event listenery na `.mr` které mají input fields. Skip.
+- F14 (detail řádku zápasu po kliknutí) - click bubbling by zachytával i klik do input tipu. Tipy ostatních tab to už pokrývá. Skip.
+
 ## v5.7.2 - 11. 6. 2026
 
 Quick wins UX paket (QW1-5):
