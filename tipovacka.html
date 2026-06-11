@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.7.0';
+var APP_VERSION='v5.7.1';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4644,12 +4644,15 @@ function renderPaidLeagueInfoHtml(opts){
     : deadline.getDate()+'. '+(deadline.getMonth()+1)+'. '+deadline.getFullYear()+' '+pad(deadline.getHours())+':'+pad(deadline.getMinutes());
   var msg=LANG==='en'?PAID_LEAGUE.payment_message_en:PAID_LEAGUE.payment_message;
   var html='';
-  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Entry fee':'Vstupné')+'</span><span class="pi-val">'+PAID_LEAGUE.entry_fee_czk+' Kč</span></div>';
-  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Account':'Účet')+'</span><span class="pi-val">'+PAID_LEAGUE.account_iban+'</span></div>';
-  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Payment message':'Zpráva pro příjemce')+'</span><span class="pi-val">'+escHtml(msg)+'</span></div>';
-  html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Deadline':'Deadline')+'</span><span class="pi-val">'+escHtml(dlStr)+'</span></div>';
+  // v5.7.1: compact mod skryje platebni info (po startu turnaje uz irelevantni)
+  if(!opts.compact){
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Entry fee':'Vstupné')+'</span><span class="pi-val">'+PAID_LEAGUE.entry_fee_czk+' Kč</span></div>';
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Account':'Účet')+'</span><span class="pi-val">'+PAID_LEAGUE.account_iban+'</span></div>';
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Payment message':'Zpráva pro příjemce')+'</span><span class="pi-val">'+escHtml(msg)+'</span></div>';
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Deadline':'Deadline')+'</span><span class="pi-val">'+escHtml(dlStr)+'</span></div>';
+  }
   if(n>0){
-    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Current pool':'Aktuální pool')+'</span><span class="pi-val">'+pool+' Kč ('+n+' '+(LANG==='en'?'players':'hráčů')+')</span></div>';
+    html+='<div class="pi-row"><span class="pi-key">'+(LANG==='en'?'Pool':'Pool')+'</span><span class="pi-val">'+pool+' Kč ('+n+' '+(LANG==='en'?'players':'hráčů')+')</span></div>';
   }
   // Distribuce vyher
   html+='<div class="pi-row" style="border-bottom:none;flex-direction:column;align-items:flex-start"><span class="pi-key">'+(LANG==='en'?'Prize distribution (current count)':'Rozdělení výher (dle počtu)')+'</span>';
@@ -5660,11 +5663,11 @@ function syncOstScrollUX(){
   }
   var page=document.getElementById('page-ostatni');
   var active=!!page&&page.style.display!=='none';
-  var mobile=window.innerWidth<=760;
   var max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
   function applyState(){
     max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
-    var visible=active&&otherPhase!=='ex'&&mobile&&max>16;
+    // v5.7.1: floating scrollbar i na desktopu, pokud je co rolovat
+    var visible=active&&otherPhase!=='ex'&&max>16;
     floating.style.display=visible?'flex':'none';
     range.max=String(max);
     range.value=String(Math.min(max,Math.round(scroller.scrollLeft||0)));
@@ -5678,6 +5681,36 @@ function syncOstScrollUX(){
   range.oninput=function(){
     scroller.scrollLeft=Number(range.value||0);
   };
+  jump.onclick=function(){
+    var goStart=(scroller.scrollLeft||0)>max/2;
+    scroller.scrollTo({left:goStart?0:max,behavior:'smooth'});
+  };
+  applyState();
+  requestAnimationFrame(applyState);
+}
+
+function syncAdminScrollUX(){
+  var scroller=document.getElementById('admin-table-wrap');
+  var floating=document.getElementById('admin-scroll-floating');
+  var range=document.getElementById('admin-scroll-range');
+  var jump=document.getElementById('admin-scroll-jump');
+  if(!scroller||!floating||!range||!jump) return;
+  var page=document.getElementById('page-admin');
+  var active=!!page&&page.style.display!=='none';
+  var max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
+  function applyState(){
+    max=Math.max(0,Math.round(scroller.scrollWidth-scroller.clientWidth));
+    var visible=active&&max>16;
+    floating.style.display=visible?'flex':'none';
+    range.max=String(max);
+    range.value=String(Math.min(max,Math.round(scroller.scrollLeft||0)));
+    jump.textContent=(scroller.scrollLeft||0)>max/2?(LANG==='en'?'Start':'Začátek'):(LANG==='en'?'End':'Konec');
+  }
+  scroller.onscroll=function(){
+    range.value=String(Math.min(max,Math.round(scroller.scrollLeft||0)));
+    jump.textContent=(scroller.scrollLeft||0)>max/2?(LANG==='en'?'Start':'Začátek'):(LANG==='en'?'End':'Konec');
+  };
+  range.oninput=function(){ scroller.scrollLeft=Number(range.value||0); };
   jump.onclick=function(){
     var goStart=(scroller.scrollLeft||0)>max/2;
     scroller.scrollTo({left:goStart?0:max,behavior:'smooth'});
@@ -5740,7 +5773,7 @@ function renderZeb(){
   var paidSummaryEl=document.getElementById('zeb-paid-summary');
   if(paidSummaryEl){
     if(zebPaidFilter==='paid' && getPaidPlayers().length>0){
-      paidSummaryEl.innerHTML='<div class="paid-info-box" style="margin:.4rem 0 .6rem">'+renderPaidLeagueInfoHtml({includeDisclaimer:false})+'</div>';
+      paidSummaryEl.innerHTML='<div class="paid-info-box" style="margin:.4rem 0 .6rem">'+renderPaidLeagueInfoHtml({includeDisclaimer:false,compact:true})+'</div>';
     } else {
       paidSummaryEl.innerHTML='';
     }
@@ -6368,7 +6401,7 @@ function renderAdmin(){
     '</div>';
   var html=paidSummary+'<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+tr('admin_extra_overview')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+tr('admin_col_player')+'</th><th style="text-align:center">'+(LANG==='en'?'💰 Paid':'💰 Soutěž o peníze')+'</th><th>'+tr('extra_winner')+'</th><th>'+tr('extra_scorer')+'</th><th>'+tr('admin_col_updated')+'</th><th style="text-align:right">'+tr('admin_col_actions')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
   html+='<div class="tier-filters" style="margin:.35rem 0 .7rem"><div class="tier2" style="display:flex"><button class="sort-chip'+(adminSort==='dt'?' on':'')+'" id="admin-sort-dt">'+tr('by_date')+'</button><button class="sort-chip'+(adminSort==='sk'?' on':'')+'" id="admin-sort-sk">'+tr('by_group')+'</button></div></div>';
-  html+='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
+  html+='<div id="admin-table-wrap" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
   players.forEach(function(p,i){
     html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="'+escAttr(tr('click_delete'))+'">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
   });
@@ -6387,7 +6420,14 @@ function renderAdmin(){
     html+='</tr>';
   });
   html+='</tbody></table></div>';
+  // v5.7.1: floating scrollbar pro admin tabulku (desktop i mobil, hodne hracu = horizontalni scroll)
+  html+='<div class="ost-scroll-floating" id="admin-scroll-floating" style="display:none">'+
+    '<span class="ost-scroll-floating-lbl">'+escHtml(LANG==="en"?"Scroll players":"Posun hráčů")+'</span>'+
+    '<input class="ost-scroll-range" id="admin-scroll-range" type="range" min="0" max="0" value="0" step="1" aria-label="'+escAttr(LANG==="en"?"Horizontal scroll":"Vodorovný posun")+'">'+
+    '<button class="ost-scroll-jump" id="admin-scroll-jump" type="button">'+escHtml(LANG==="en"?"End":"Konec")+'</button>'+
+  '</div>';
   el.innerHTML=html;
+  syncAdminScrollUX();
 
   el.querySelectorAll('.adh').forEach(function(th){
     th.addEventListener('click',function(){
@@ -7377,8 +7417,8 @@ function init(){
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);
-  window.addEventListener('resize',syncOstScrollUX);
-  window.addEventListener('orientationchange',function(){setTimeout(syncOstScrollUX,120);});
+  window.addEventListener('resize',function(){syncOstScrollUX();syncAdminScrollUX();});
+  window.addEventListener('orientationchange',function(){setTimeout(function(){syncOstScrollUX();syncAdminScrollUX();},120);});
   
 
   try{

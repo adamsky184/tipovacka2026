@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.7.1 - 11. 6. 2026
+
+UX polish - scroll a paid info.
+
+- **Floating scrollbar (Posun hráčů) i na desktopu** v Tipy ostatních - předtím jen mobile. Při hodně hráčích už nemusíš lovit horizontální scrollbar pod tabulkou.
+- **Floating scrollbar v ADMIN tabu** (desktop + mobil) - stejný pattern jako u Tipy ostatních. Pro admina který má 9+ hráčů a tipy přes 104 zápasů byla horizontální navigace hrůza.
+- **Žebříček PAID filter:** info box už neukazuje vstupné/účet/zprávu/deadline (po startu turnaje irelevantní). Zobrazí jen Pool a Rozdělení výher.
+
 ## v5.7.0 - 11. 6. 2026
 
 VÝSLEDKY refresh fix pro start turnaje.
