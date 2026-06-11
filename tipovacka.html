@@ -2266,7 +2266,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.6.9';
+var APP_VERSION='v5.7.0';
 var APP_VERSION_DATE_CS='10. 6. 2026';
 var APP_VERSION_DATE_EN='10 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -6991,10 +6991,16 @@ function fetchResults(){
       return json;
     })
     .then(function(json){
-      var found={},allMatches=SZ.concat(PZ);
+      var found={},liveCount=0,scheduledCount=0,allMatches=SZ.concat(PZ);
       (json.events||[]).forEach(function(ev){
         (ev.competitions||[]).forEach(function(comp){
-          var st=comp.status;if(!st||!st.type||!st.type.completed) return;
+          var st=comp.status;if(!st||!st.type) return;
+          if(!st.type.completed){
+            // Track live a scheduled pro lepsi feedback
+            if(st.type.state==='in') liveCount++;
+            else if(st.type.state==='pre') scheduledCount++;
+            return;
+          }
           var home=null,away=null;
           (comp.competitors||[]).forEach(function(c){ if(c.homeAway==='home') home=c; if(c.homeAway==='away') away=c; });
           if(!home||!away) return;
@@ -7006,6 +7012,8 @@ function fetchResults(){
         });
       });
       var cnt=Object.keys(found).length;
+      // Save for branch nize
+      json.__diag={cnt:cnt,live:liveCount,scheduled:scheduledCount};
       if(cnt>0){
         var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
@@ -7027,7 +7035,17 @@ function fetchResults(){
           document.getElementById('btn-refresh').disabled=false;
         });
       } else {
-        setSt('st-vys',tr('tournament_not_started'),false,true);
+        // Lepsi feedback - rozlisi 0 vsechno vs live probiha vs jen scheduled
+        var diag=json.__diag||{cnt:0,live:0,scheduled:0};
+        var msg;
+        if(diag.live>0){
+          msg=LANG==='en' ? ('Live: '+diag.live+' match(es) in progress. Results sync after final whistle.') : ('Live: '+diag.live+' zápas(ů) probíhá. Výsledky se uloží po jejich skončení.');
+        } else if(diag.scheduled>0){
+          msg=LANG==='en' ? ('No completed matches yet. '+diag.scheduled+' upcoming.') : ('Žádné odehrané zápasy. '+diag.scheduled+' nadcházející.');
+        } else {
+          msg=tr('tournament_not_started');
+        }
+        setSt('st-vys',msg,false,true);
         setText('st-vys-upd',formatLastUpdated());
         document.getElementById('btn-refresh').disabled=false;
       }

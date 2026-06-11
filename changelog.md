@@ -2,6 +2,23 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.7.0 - 11. 6. 2026
+
+VÝSLEDKY refresh fix pro start turnaje.
+
+- **Edge function `results-refresh` v6:** fetcha **3 dny** ze scoreboard ESPN (včera/dnes/zítra UTC) - pokrytí timezone overlap + delayed ESPN updatů. Předtím fetchla jen "default" view (často jen "dnešní" zápasy v US timezone)
+- **Frontend `fetchResults`:** lepší feedback po refreshi:
+  - "Live: X zápas(ů) probíhá. Výsledky se uloží po jejich skončení." pokud běží zápasy
+  - "Žádné odehrané zápasy. X nadcházející." pokud jen scheduled
+  - "✓ X" pokud completed match nalezeny (původní)
+- Frontend pořád filtruje jen `completed=true` zápasy - to je správně, body se přidělí až po dohrání
+
+**Test:**
+- ESPN core API ukazuje Mexiko-RSA jako "First half, 25'" (live)
+- ESPN scoreboard endpoint má delay, pro live zápas vrátí SCHEDULED ještě po skončení (~10-15 min)
+- Frontend teď ukáže "Live: 1 zápas" místo matoucího "tournament_not_started"
+- Po dohrání zápasu a aktualizaci ESPN scoreboard → tlačítko VÝSLEDKY uloží 1:0 (nebo cokoliv)
+
 ## v5.6.9 - 10. 6. 2026
 
 **SKUTEČNÝ KONEČNÝ ROOT CAUSE - registrace ukládala UNSALTED hash.**
