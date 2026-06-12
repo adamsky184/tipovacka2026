@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.3 - 12. 6. 2026
+
+**HOTFIX: LIVE indikátor mizel během zápasu.** ESPN posílá statusDesc "First Half"/"Second Half"/"Extra Time"/"Penalty Shootout" - live filtr znal jen "In Progress"/"Halftime"/"Live"/"Stoppage", takže zápas v 1./2. poločase vypadl z LIVE banneru, badge i živé projekce. Rozšířen regex + o poločase (clock=0) zápas zůstává live se štítkem "HT". Objeveno během Kanada-Bosna (First Half, 37′).
+
 ## v5.9.2 - 12. 6. 2026
 
 Fix zavádějící "Poslední aktualizace výsledků" + live propagace cron výsledků.
