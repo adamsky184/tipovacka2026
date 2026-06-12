@@ -2401,7 +2401,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.1';
+var APP_VERSION='v5.9.2';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3230,15 +3230,21 @@ function formatLastUpdated(){
   if(LANG==='en') return tr('updated')+' '+d.getDate()+' '+tr('months')[d.getMonth()]+' '+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   return tr('updated')+' '+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
 }
+function getResultsUpdatedDisplay(){
+  // v5.9.2: novejsi z (rucni admin refresh v localStorage) vs (server cron sync z app_sync_statuses)
+  var a=getResultsLastUpdated(), b=window.__resultsSyncAt||'';
+  if(a&&b) return Date.parse(b)>Date.parse(a)?b:a;
+  return b||a;
+}
 function renderResultsNote(){
   var el=document.getElementById('ibox-vys-note');
   if(!el) return;
-  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsLastUpdated());
+  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsUpdatedDisplay());
 }
 function renderTableNote(){
   var el=document.getElementById('ibox-tab-note');
   if(!el) return;
-  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsLastUpdated());
+  el.textContent=tr('ibox_vys_note')+': '+formatAnyUpdated(getResultsUpdatedDisplay());
 }
 function getExtraDeadlineIso(){
   return (extraTipMeta&&extraTipMeta.lockAt)||'2026-06-11T19:00:00.000Z';
@@ -3621,7 +3627,7 @@ function renderAdminSyncStatus(){
   if(!me||!me.je_admin){el.style.display='none';el.innerHTML='';return;}
   el.style.display='block';
   el.innerHTML=
-    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_results_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getResultsLastUpdated()))+'</span></div>'+
+    '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_results_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getResultsUpdatedDisplay()))+'</span></div>'+
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_teams_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getTeamsLastUpdated()))+'</span></div>'+
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_fifa_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getFifaUpdatedAt()))+'</span></div>'+
     '<div class="sync-row"><span class="sync-name">'+escHtml(tr('sync_odds_lbl'))+':</span><span class="sync-val">'+escHtml(formatAnyUpdated(getOddsLastUpdated()))+'</span></div>';
@@ -5383,6 +5389,24 @@ function pollLiveScores(){
         if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) liveScoresMap[z[0]]=ev;
       });
     });
+    // v5.9.2: cron auto-save detekce - dohrany zapas ktery jeste nemame lokalne -> stahnout vysledky
+    try{
+      var hasNewFinal=events.some(function(e){
+        if(!e||!e.completed||e.homeScore===''||e.homeScore==null) return false;
+        var hit=null;
+        allMatches.forEach(function(z){ if(!hit&&teamMatches(z[2],String(e.home||''))&&teamMatches(z[3],String(e.away||''))) hit=z[0]; });
+        return hit&&!results[hit];
+      });
+      if(hasNewFinal&&!window.__resultsReloadBusy){
+        window.__resultsReloadBusy=true;
+        loadResults().then(function(){
+          return Promise.all([loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]);
+        }).then(function(){
+          updProgress(); updateHeaderRanking(); renderTab(); renderPavouk();
+          if(document.getElementById('page-zebricek')&&document.getElementById('page-zebricek').style.display!=='none') renderZeb();
+        }).catch(function(){}).then(function(){ window.__resultsReloadBusy=false; });
+      }
+    }catch(_e){}
     renderLiveBanner(live);
     // Refresh tipy/ostatni/vysledky pokud jsou viditelne (aktualizace badge)
     try{

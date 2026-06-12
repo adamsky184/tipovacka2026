@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.2 - 12. 6. 2026
+
+Fix zavádějící "Poslední aktualizace výsledků" + live propagace cron výsledků.
+
+- **"Poslední aktualizace výsledků"** (Výsledky, Tabulka, admin sync) nově ukazuje novější z: ruční admin refresh vs. **server cron sync** (`app_sync_statuses.last_updated_at`, klient ho čte každých 30 s). Předtím jen localStorage z ručního kliknutí - vypadalo to, že se nic neděje, i když cron běžel.
+- **Auto-stažení nových výsledků do otevřené appky:** když poll detekuje dohraný zápas, který klient ještě nemá v `results`, sám zavolá `loadResults()` + přepočet žebříčků a překreslení (header, Tabulka, Pavouk, Žebříček). Guard `__resultsReloadBusy` proti souběhu. Předtím se nový výsledek objevil až po reloadu stránky.
+
 ## v5.9.1 - 12. 6. 2026
 
 **Plně automatický play-off** - na rozlosování pavouka už není potřeba myslet:
