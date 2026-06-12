@@ -1,4 +1,4 @@
-// match-summary edge function (v5.8.0)
+// match-summary edge function (v5.9.0 - pridan headToHead)
 // Server-side proxy ESPN, CORS-safe. Pro kartu zapasu (detail).
 // GET ?date=YYYYMMDD  -> kompaktni scoreboard (id, home, away, state) pro mapovani zapas -> ESPN event id
 // GET ?event=ID       -> orezany match summary (skore, statistiky, goly/karty/stridani, sestavy, info)
@@ -34,7 +34,18 @@ function trimSummary(d: any) {
     winner: !!c?.winner,
     team: c?.team?.displayName || "",
     abbr: c?.team?.abbreviation || "",
+    id: String(c?.id || c?.team?.id || ""),
   }));
+  const h2h = ((d?.headToHeadGames) || [])
+    .flatMap((g: any) => g?.events || [])
+    .slice(0, 6)
+    .map((g: any) => ({
+      date: g?.gameDate || "",
+      homeId: String(g?.homeTeamId || ""),
+      awayId: String(g?.awayTeamId || ""),
+      homeScore: g?.homeTeamScore ?? "",
+      awayScore: g?.awayTeamScore ?? "",
+    }));
   const stats = ((d?.boxscore?.teams) || []).map((t: any) => ({
     team: t?.team?.displayName || "",
     items: (t?.statistics || []).map((s: any) => ({
@@ -82,6 +93,7 @@ function trimSummary(d: any) {
     stats,
     keyEvents,
     rosters,
+    h2h,
     info: {
       venue: gi?.venue?.fullName || "",
       attendance: typeof gi?.attendance === "number" ? gi.attendance : null,

@@ -2,6 +2,19 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.0 - 12. 6. 2026
+
+**Live wave + automatizace** (UX balík dle Adamova výběru):
+
+- **Živá projekce žebříčku:** během live zápasu box "Živá projekce" v celkovém žebříčku - kdyby zápasy skončily aktuálním skóre: +body a posuny pozic (#3 → #1 ▲). Auto-refresh každých 30 s.
+- **Tipy odhaleny po výkopu:** `get_visible_tips_secure` nově vrací tipy všech hráčů u zápasů po kickoffu (migrace `v5_9_0_reveal_tips_after_kickoff` + nová tabulka `zapasy_meta` se 104 zápasy). Před výkopem se nic nemění.
+- **Auto-ukládání výsledků (cron-results v4):** cron každé 2 min sám uloží dohrané zápasy do `vysledky` (mapování přes `zapasy_meta` + aliasy, kickoff ±48 h guard). Insert-only - existující výsledek NIKDY nepřepíše (admin korekce mají přednost). Bez dalších ESPN callů.
+- **Karta zápasu: vzájemné zápasy (H2H)** z ESPN (match-summary v2).
+- **Ranní recap:** jednou denně v Tipy souhrn "Včera: +X b (Y× přesný) · aktuálně #N / Dnes: M zápasů, chybí ti tipy". Křížkem zavřít pro daný den.
+- **Export do kalendáře (.ics):** tlačítko 📅 Kalendář vedle Export CSV - nadcházející zápasy s připomínkou 30 min předem. Čistě client-side.
+- **Admin stale-data varování:** červený banner v Admin overview, když cron výsledků mlčí > 10 min během hracího dne.
+- **Mobil: horní 3 info boxy přes celou šířku** - dokud není play-off (skrytá 4. karta), grid 3 sloupce místo 4 (prázdná čtvrtina pryč), trochu větší písmo.
+
 ## v5.8.0 - 12. 6. 2026
 
 **Karta zápasu** - rozklikávací detail zápasu odevšad (tlačítko ⓘ u zápasu v Tipy, Výsledky, Tipy ostatních, Pavouk i v kartě týmu).
