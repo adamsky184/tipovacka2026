@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.5 - 12. 6. 2026
+
+Fix: v Tipy ostatních sloupec "Můj tip" nezobrazoval 🔥 u přesného tipu (ostatní hráči ho měli). Sjednoceno - 🔥 se ukazuje i u vlastního přesného tipu.
+
 ## v5.9.4 - 12. 6. 2026
 
 i18n sjednocení live označení: v CZ všude **ŽIVĚ** (badge u zápasu, LIVE filter chip, karta zápasu, admin hláška), v EN všude **LIVE**. Předtím mix obojího v obou mutacích. Filter chip se nově přejmenovává i při přepnutí jazyka.

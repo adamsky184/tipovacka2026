@@ -2401,7 +2401,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.4';
+var APP_VERSION='v5.9.5';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -6450,7 +6450,8 @@ function renderOstRow(z,others){
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
   var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+getGroupChipHtml(z)+dLink+' &ndash; '+hLink+getLiveBadgeHtml(z)+matchCardBtnHtml(z)+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
-  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+(myTip?escHtml(myTip):'&mdash;')+'</td>';
+  var myTipLabel=myTip?escHtml(myTip)+(myPts===10?'<span title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
+  html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+myTipLabel+'</td>';
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
     if(!canSee){html+='<td class="'+(isRivalId(p.id)?'ost-rival-cell':'')+'" style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;color:var(--mu)">?</td>';}
