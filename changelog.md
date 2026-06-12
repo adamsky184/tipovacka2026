@@ -2,6 +2,17 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.8.0 - 12. 6. 2026
+
+**Karta zápasu** - rozklikávací detail zápasu odevšad (tlačítko ⓘ u zápasu v Tipy, Výsledky, Tipy ostatních, Pavouk i v kartě týmu).
+
+- **Obsah z lokálních dat (okamžitě):** vlajky + týmy, skóre/odpočet/LIVE stav, skupina/kolo, datum, stadion (+ foto), FIFA ranking obou týmů, kurzy, tipy všech hráčů s body (stejná pravidla viditelnosti jako Tipy ostatních - bez vlastního tipu nevidíš)
+- **ESPN detail (lazy, až po rozkliknutí):** statistiky zápasu (držení, střely, rohy, fauly, karty, zákroky, přesnost přihrávek), góly a události (střelec, asistence, karty, střídání s minutáží), základní sestavy s formací, rozhodčí + návštěva
+- **Nová edge funkce `match-summary`** (proxy ESPN scoreboard + summary, CORS-safe, jen čtení - nezapisuje do DB)
+- **Výkon:** detail se stahuje až po otevření karty; dohraný zápas se cachuje v localStorage navždy, live zápas 60 s; mapování zápas → ESPN event id se cachuje trvale. Načtení appky beze změny.
+- ESPN sekce degraduje při výpadku/změně API - karta vždy ukáže aspoň lokální data
+- Tlačítko ⓘ je samostatný element s capture listenerem - žádný konflikt s input poli tipů (vyhnutí se F14 problému)
+
 ## v5.7.3 - 11. 6. 2026
 
 Větší UX wave (F9-F15):

@@ -26,3 +26,6 @@ _backup_*
 node_modules/
 dist/
 build/
+
+# Claude Code lokalni konfigurace (preview server apod.)
+.claude/
