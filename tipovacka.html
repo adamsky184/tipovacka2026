@@ -2118,7 +2118,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
     <div class="live-banner" id="live-banner" style="display:none">
       <span class="live-banner-dot"></span>
-      <span class="live-banner-lbl" id="live-banner-lbl">LIVE</span>
+      <span class="live-banner-lbl" id="live-banner-lbl">ŽIVĚ</span>
       <div class="live-banner-list" id="live-banner-list"></div>
     </div>
     <div id="page-tipy">
@@ -2169,7 +2169,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="extra-status" id="extra-status-note"></div>
       </div>
 
-      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-live" style="display:none">🔴 LIVE</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-live" style="display:none">🔴 ŽIVĚ</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button></div></div>
 
 
 
@@ -2401,7 +2401,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.3';
+var APP_VERSION='v5.9.4';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4634,6 +4634,7 @@ function applyI18n(){
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
   var tipQFLbls=LANG==='en'?['All','Today','Tomorrow','Missing']:['Vše','Dnes','Zítra','Neuložené'];
   ['qf-all','qf-today','qf-tomorrow','qf-missing'].forEach(function(id,i){setText(id,tipQFLbls[i]);});
+  setText('qf-live','🔴 '+(LANG==='en'?'LIVE':'ŽIVĚ'));
   setText('ptab-phase-sk',tr('phase_groups'));setText('ptab-phase-po',tr('phase_playoff'));setText('ptab-phase-ex',tr('phase_extra'));
   setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-phase-ex',tr('phase_extra'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
@@ -5257,7 +5258,7 @@ function openMatchCard(zid){
   // Skore / stav
   var scoreMain='–:–',scoreSub='',subCls='';
   if(res){ scoreMain=res.replace(':',' : '); scoreSub='FT'; }
-  else if(live&&live.homeScore!=null){ scoreMain=live.homeScore+' : '+live.awayScore; scoreSub='LIVE'+(live.clock?' '+live.clock:''); subCls=' class="live"'; }
+  else if(live&&live.homeScore!=null){ scoreMain=live.homeScore+' : '+live.awayScore; scoreSub=(LANG==='en'?'LIVE':'ŽIVĚ')+(live.clock?' '+live.clock:''); subCls=' class="live"'; }
   else if(started){ scoreMain='–:–'; scoreSub=LANG==='en'?'In play':'Hraje se'; subCls=' class="live"'; }
   else { var cd=cdStr(z); scoreSub=cd||''; }
 
@@ -5351,7 +5352,7 @@ function getLiveBadgeHtml(z){
   var isHt=/halftime|half[-\s]?time/.test(String(ev.statusDesc||'').toLowerCase());
   var clk=isHt?'HT':(ev.clock?escHtml(ev.clock)+(/['′]/.test(ev.clock)?'':'′'):'');
   var sc=(ev.homeScore!=null&&ev.awayScore!=null)?(' '+ev.homeScore+':'+ev.awayScore):'';
-  return '<span class="live-badge" title="'+escAttr(LANG==='en'?'Live':'Živě')+'">🔴 LIVE'+(clk?' '+clk:'')+sc+'</span>';
+  return '<span class="live-badge" title="'+escAttr(LANG==='en'?'Live':'Živě')+'">🔴 '+(LANG==='en'?'LIVE':'ŽIVĚ')+(clk?' '+clk:'')+sc+'</span>';
 }
 function startLiveScoresPolling(){
   // Spusti se po loginu. Polling jen kdyz vis viditelne.
@@ -7820,7 +7821,7 @@ function fetchResults(){
         var diag=json.__diag||{cnt:0,live:0,scheduled:0};
         var msg;
         if(diag.live>0){
-          msg=LANG==='en' ? ('Live: '+diag.live+' match(es) in progress. Results sync after final whistle.') : ('Live: '+diag.live+' zápas(ů) probíhá. Výsledky se uloží po jejich skončení.');
+          msg=LANG==='en' ? ('Live: '+diag.live+' match(es) in progress. Results sync after final whistle.') : ('Živě: '+diag.live+' zápas(ů) probíhá. Výsledky se uloží po jejich skončení.');
         } else if(diag.scheduled>0){
           msg=LANG==='en' ? ('No completed matches yet. '+diag.scheduled+' upcoming.') : ('Žádné odehrané zápasy. '+diag.scheduled+' nadcházející.');
         } else {
