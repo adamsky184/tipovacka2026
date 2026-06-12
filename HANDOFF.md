@@ -1,4 +1,4 @@
-# Tipovačka MS 2026 - Handoff (v5.7.3, 11. 6. 2026)
+# Tipovačka MS 2026 - Handoff (v5.8.0, 12. 6. 2026)
 
 > **Claude (Code): pokud Adam napíše "pokračuj v tipovačce", přečti tento soubor + `spec.md` + posledních 5 záznamů z `changelog.md` a navaž.**
 
@@ -6,8 +6,8 @@
 
 ## TL;DR aktuální stav
 
-- **Verze:** `v5.7.3` (`tipovacka.html` konstanta `APP_VERSION`)
-- **Datum:** 11. 6. 2026
+- **Verze:** `v5.8.0` (`tipovacka.html` konstanta `APP_VERSION`)
+- **Datum:** 12. 6. 2026
 - **Turnaj LIVE** - MS startuje 11. 6. 2026, právě hraje skupinová fáze
 - **Live URL:** https://tipovacka.chabrycity.cz/tipovacka.html
 - **Stav:** plně funkční. Žádný známý kritický bug. Hráči se přihlašují, ukládají tipy, vidí tipy ostatních. Admin refresh výsledků funguje (denní cron + manuální tlačítko).
@@ -88,6 +88,7 @@ TIPOVACKA2026/
 | `team-detail-refresh` | v4 | Detail jednoho týmu | true |
 | `odds-refresh` | v6 | The Odds API | true |
 | `cron-results` | v2 | pg_cron interval 2 min, ukládá `parsed_events` do `app_sync_statuses` | **false** (chráněno `CRON_SECRET` headerem) |
+| `match-summary` | v1 | ESPN summary/scoreboard proxy pro kartu zápasu (GET ?date= / ?event=), jen čtení | true |
 
 ### Hosting
 - **Primární URL:** `https://tipovacka.chabrycity.cz/tipovacka.html` (Vercel + custom doména)
@@ -181,6 +182,13 @@ Při každé změně:
 - ✅ Live admin overview (4 karty + seznam kdo nemá dnešní tip)
 - ✅ Comeback toast po změně pozice v žebříčku
 - ✅ Compact paid info v žebříčku (skryté vstupné/účet/deadline po startu)
+
+### v5.8.0 Karta zápasu
+- ✅ Rozklikávací detail zápasu (tlačítko ⓘ) z Tipy / Výsledky / Tipy ostatních / Pavouk / karta týmu
+- ✅ Lokální data hned: vlajky, skóre/LIVE/odpočet, stadion + foto, FIFA ranking, kurzy, tipy hráčů
+- ✅ ESPN detail lazy: statistiky, góly/karty/střídání, sestavy, rozhodčí, návštěva (edge fn `match-summary`)
+- ✅ Cache: localStorage `ms26_msum_<zid>` (final navždy, live 60 s), event id mapa `ms26_espn_evt_map_v1`
+- Klíčové funkce v `tipovacka.html`: `openMatchCard()`, `loadMatchSummary()`, `matchCardBtnHtml()` (delegovaný capture listener na `[data-mcard]`)
 
 ---
 
