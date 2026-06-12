@@ -1,4 +1,4 @@
-# Tipovačka MS 2026 - Handoff (v5.9.0, 12. 6. 2026)
+# Tipovačka MS 2026 - Handoff (v5.9.1, 12. 6. 2026)
 
 > **Claude (Code): pokud Adam napíše "pokračuj v tipovačce", přečti tento soubor + `spec.md` + posledních 5 záznamů z `changelog.md` a navaž.**
 
@@ -6,7 +6,7 @@
 
 ## TL;DR aktuální stav
 
-- **Verze:** `v5.9.0` (`tipovacka.html` konstanta `APP_VERSION`)
+- **Verze:** `v5.9.1` (`tipovacka.html` konstanta `APP_VERSION`)
 - **Datum:** 12. 6. 2026
 - **Turnaj LIVE** - MS startuje 11. 6. 2026, právě hraje skupinová fáze
 - **Live URL:** https://tipovacka.chabrycity.cz/tipovacka.html
@@ -87,7 +87,7 @@ TIPOVACKA2026/
 | `teams-refresh` | v5 | ESPN tymové info | true |
 | `team-detail-refresh` | v4 | Detail jednoho týmu | true |
 | `odds-refresh` | v6 | The Odds API | true |
-| `cron-results` | v4 | pg_cron interval 2 min, ukládá `parsed_events` + **auto-save dohraných zápasů do `vysledky`** (insert-only, nikdy nepřepisuje - admin korekce mají přednost) | **false** (chráněno `CRON_SECRET` headerem) |
+| `cron-results` | v5 | pg_cron interval 2 min, ukládá `parsed_events` + **auto-save dohraných zápasů do `vysledky`** (insert-only, nikdy nepřepisuje - admin korekce mají přednost) | **false** (chráněno `CRON_SECRET` headerem) |
 | `match-summary` | v2 | ESPN summary/scoreboard proxy pro kartu zápasu (GET ?date= / ?event=) + H2H, jen čtení | true |
 
 ### Hosting
@@ -193,7 +193,8 @@ Při každé změně:
 ### v5.9.0 Live wave + automatizace
 - ✅ **Tabulka `zapasy_meta`** (104 zápasů, kickoff UTC + lokální názvy týmů, RLS read-only) - migrace `backend/sql/13`
 - ✅ **Tipy odhaleny po výkopu** - `get_visible_tips_secure` 3. OR podmínka (migrace `backend/sql/14`); frontend `canSee` v `renderOstRow` + `openMatchCard`
-- ✅ **cron-results v4 auto-save výsledků** - insert-only do `vysledky`, mapování names+kickoff±48h; POZOR: play-off názvy v `zapasy_meta` jsou placeholdery („2. sk.A") - po rozlosování R32 nutno UPDATE zapasy_meta (jinak auto-save play-off nematchne a admin ukládá ručně)
+- ✅ **cron-results v5 auto-save výsledků** - insert-only do `vysledky`, mapování names+kickoff±48h
+- ✅ **v5.9.1 auto-resolve play-off**: cron sám doplní reálné dvojice do `zapasy_meta` (párování kickoff ±2h, jen placeholder řádky, unikátní kandidát); frontend po loginu přepíše placeholdery v PZ přes `applyZapasyMetaNames()` + `espnToLocalTeam()`. Žádný ruční zásah po rozlosování není potřeba. Fallback při selhání = ruční režim jako dřív.
 - ✅ Živá projekce žebříčku (`renderZeb`, jen fáze 'cel', přepočet z `liveScoresMap`)
 - ✅ Ranní recap (`renderDailyRecap`, dismiss klíč `ms26_recap_dismissed`)
 - ✅ Export .ics (`exportICS`, tlačítko `btn-ics` vedle Export CSV)
