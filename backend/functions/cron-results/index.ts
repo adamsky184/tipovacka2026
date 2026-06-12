@@ -1,8 +1,11 @@
-// cron-results edge function (v5.9.0)
+// cron-results edge function (v5.9.1)
 // Volane pg_cronem kazde 2 min. Stahne ESPN scoreboard, parse + ulozi parsed_events do app_sync_statuses.
-// v5.9.0 NOVE: dohrane zapasy auto-uklada do vysledky (mapovani pres zapasy_meta + TEAM_ALIASES).
+// v5.9.0: dohrane zapasy auto-uklada do vysledky (mapovani pres zapasy_meta + TEAM_ALIASES).
 //   - INSERT s ignoreDuplicates: existujici radek NIKDY neprepisuje (admin zustava zdroj pravdy pro korekce)
 //   - zadne dalsi ESPN cally navic, max 12 insertu/run
+// v5.9.1: auto-resolve play-off dvojic - kdyz ESPN event nematchne zadny zapas podle jmen,
+//   sparuje se podle casu vykopu (+-2h) s play-off radkem ktery ma jeste placeholder nazvy
+//   ("2. sk.A", "Vitez Z73"...) a UPDATE zapasy_meta na realne ESPN nazvy. Jen unikatni kandidat.
 // Bez verify_jwt (cron je interni). Anti-abuse: jen volani s tajnym CRON_SECRET v hlavicce.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -136,6 +139,40 @@ Deno.serve(async (req) => {
     const liveCount = parsed.filter((p) => p && !p.completed && p.homeScore !== "").length;
     const finalCount = parsed.filter((p) => p && p.completed).length;
 
+    // v5.9.1: auto-resolve play-off dvojic podle casu vykopu
+    let metaUpdated = 0;
+    const metaUpdatedIds: number[] = [];
+    // deno-lint-ignore no-explicit-any
+    let metaCache: any[] | null = null;
+    try {
+      const isPlaceholder = (s: string) => /sk\.|nejl|Vitez|Porazeny|Winner|Loser/i.test(s || "");
+      const { data: meta } = await sb.from("zapasy_meta").select("zapas_id,stage,home_team,away_team,kickoff");
+      metaCache = meta || [];
+      for (const ev of parsed) {
+        if (!ev || !ev.home || !ev.away || !ev.date) continue;
+        // Uz matchuje podle jmen? -> nic neresolvovat
+        const namedHit = metaCache.some((m) => nameMatches(m.home_team || "", ev.home) && nameMatches(m.away_team || "", ev.away));
+        if (namedHit) continue;
+        const evTime = Date.parse(ev.date);
+        if (!Number.isFinite(evTime)) continue;
+        const candidates = metaCache.filter((m) =>
+          isPlaceholder(m.home_team || "") && isPlaceholder(m.away_team || "") &&
+          m.kickoff && Math.abs(evTime - Date.parse(m.kickoff)) <= 2 * 3600 * 1000
+        );
+        if (candidates.length === 1 && metaUpdated < 8) {
+          const { error: updErr } = await sb.from("zapasy_meta")
+            .update({ home_team: ev.home, away_team: ev.away })
+            .eq("zapas_id", candidates[0].zapas_id);
+          if (!updErr) {
+            candidates[0].home_team = ev.home;
+            candidates[0].away_team = ev.away;
+            metaUpdated++;
+            metaUpdatedIds.push(candidates[0].zapas_id);
+          }
+        }
+      }
+    } catch (_e) { /* resolve selhani nesmi shodit cron */ }
+
     // v5.9.0: auto-save dohranych zapasu do vysledky (insert-only, nikdy neprepisuje)
     let autoSaved = 0;
     const autoSavedIds: number[] = [];
@@ -146,7 +183,7 @@ Deno.serve(async (req) => {
         return p.homeScore !== "" && p.awayScore !== "" && Number.isFinite(hs) && Number.isFinite(as);
       });
       if (completedEvents.length) {
-        const { data: meta } = await sb.from("zapasy_meta").select("zapas_id,home_team,away_team,kickoff");
+        const meta = metaCache || (await sb.from("zapasy_meta").select("zapas_id,home_team,away_team,kickoff")).data;
         const { data: existing } = await sb.from("vysledky").select("zapas_id");
         const hasResult = new Set((existing || []).map((r) => r.zapas_id));
         const rows: { zapas_id: number; skore: string; status: string; aktualizovano: string }[] = [];
@@ -184,7 +221,7 @@ Deno.serve(async (req) => {
       {
         key: "results",
         last_updated_at: new Date().toISOString(),
-        detail: { source: "cron", events_count: parsed.length, live_count: liveCount, final_count: finalCount, auto_saved: autoSaved, auto_saved_ids: autoSavedIds, parsed_events: parsed.slice(0, 30) },
+        detail: { source: "cron", events_count: parsed.length, live_count: liveCount, final_count: finalCount, auto_saved: autoSaved, auto_saved_ids: autoSavedIds, meta_updated: metaUpdated, meta_updated_ids: metaUpdatedIds, parsed_events: parsed.slice(0, 30) },
       },
       { onConflict: "key" },
     );

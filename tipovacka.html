@@ -2401,7 +2401,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.0';
+var APP_VERSION='v5.9.1';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4471,7 +4471,7 @@ function finishLogin(d){
     var bso2=document.getElementById('btn-sync-odds'); if(bso2) bso2.style.display='none';
   }
   loadFifaRankingData();
-  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds()]).then(function(){
+  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds(),applyZapasyMetaNames()]).then(function(){
     return loadResults().then(loadPlayers).then(loadMyTips).then(function(){
       return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]);
     });
@@ -4977,6 +4977,28 @@ function openPlayerDetail(playerId){
     '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('#pdet-close').onclick=close;
+}
+// v5.9.1: Auto-resolve play-off dvojic - cron uklada realne ESPN nazvy do zapasy_meta,
+// frontend je po loginu precte a prepise placeholdery ("2. sk.A") v PZ na lokalni nazvy tymu.
+function espnToLocalTeam(espnName){
+  if(!espnName) return '';
+  var found='';
+  Object.keys(TEAMS).forEach(function(sk){
+    TEAMS[sk].forEach(function(tm){ if(!found && teamMatches(tm[0],espnName)) found=tm[0]; });
+  });
+  return found;
+}
+function applyZapasyMetaNames(){
+  return sbf('zapasy_meta?select=zapas_id,home_team,away_team&zapas_id=gte.73').then(function(rows){
+    (rows||[]).forEach(function(r){
+      PZ.forEach(function(z){
+        if(z[0]!==r.zapas_id) return;
+        if(!matchTeamsUnknown(z)) return; // realne nazvy nikdy neprepisovat
+        var hLocal=espnToLocalTeam(r.home_team), aLocal=espnToLocalTeam(r.away_team);
+        if(hLocal && aLocal){ z[2]=hLocal; z[3]=aLocal; }
+      });
+    });
+  }).catch(function(){ /* offline/RLS fail -> placeholdery zustanou, nic se nerozbije */ });
 }
 // v5.9.0: Ranni recap - jednou denne souhrn vcerejska + dnesni program (dismissable)
 function recapDayKey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }

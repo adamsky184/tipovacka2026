@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.1 - 12. 6. 2026
+
+**Plně automatický play-off** - na rozlosování pavouka už není potřeba myslet:
+
+- **cron-results v5:** když ESPN event nematchne žádný zápas podle jmen, spáruje se podle času výkopu (±2 h) s play-off řádkem, který má ještě placeholder názvy ("2. sk.A", "Vítěz Z73"...) → UPDATE `zapasy_meta` na reálné názvy. Jen při jednoznačném kandidátovi, max 8/běh, reálné názvy nikdy nepřepisuje. Telemetrie `meta_updated_ids` v sync detailu.
+- **Frontend:** po loginu načte `zapasy_meta` (id ≥ 73) a přepíše placeholdery v pavouku/Tipy/Výsledky na lokální názvy (reverse alias mapping ESPN → CZ). Tím se automaticky aktivují i tip inputy, vlajky, kurzy a auto-save výsledků pro play-off.
+- Fallback: když mapování selže (přejmenování na ESPN apod.), placeholdery zůstanou a vše funguje jako dřív (ruční režim).
+
 ## v5.9.0 - 12. 6. 2026
 
 **Live wave + automatizace** (UX balík dle Adamova výběru):
