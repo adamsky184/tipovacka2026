@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.7 - 13. 6. 2026
+
+Žebříček – ke všem 4 boxíkům dashboardu (Přesné tipy, Správné trendy, Bonus za rozdíl, Úspěšnost) přidáno nenápadné „i" v rohu s vysvětlivkou statistiky. Na desktopu hover tooltip, na mobilu tap → toast. Plný i18n.
+
 ## v5.9.6 - 13. 6. 2026
 
 Dva fixy z reálného provozu:

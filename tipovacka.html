@@ -1590,7 +1590,9 @@ body.theme-light .toast{background:rgba(255,255,255,.98);box-shadow:0 10px 28px 
 .back-top-btn:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.06)}
 .zeb-info{margin-bottom:.75rem}
 .zeb-dash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 .8rem}
-.zeb-widget{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 12px 12px}
+.zeb-widget{position:relative;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 12px 12px}
+.zeb-widget-i{position:absolute;top:8px;right:8px;width:15px;height:15px;border-radius:50%;border:1px solid var(--bd2);color:var(--mu);font-size:.56rem;font-weight:700;font-style:italic;font-family:Georgia,serif;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;padding:0;background:transparent;opacity:.6;transition:opacity .15s,color .15s,border-color .15s}
+.zeb-widget-i:hover{opacity:1;color:var(--ac2);border-color:var(--ac2)}
 .zeb-widget-lbl{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px}
 .zeb-widget-val{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:700;color:#f4f8ff;margin-bottom:4px}
 .zeb-widget-sub{font-size:.68rem;color:var(--mu2);margin-bottom:10px}
@@ -2401,7 +2403,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.6';
+var APP_VERSION='v5.9.7';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -6533,11 +6535,24 @@ function renderZeb(){
       var exactPct=mine.hod?Math.round((mine.pre/mine.hod)*100):0;
       var trendPct=mine.hod?Math.round((mine.spr/mine.hod)*100):0;
       var diffPct=mine.hod?Math.round((mine.dif/mine.hod)*100):0;
+      // v5.9.7: vysvetlivky k boxikum (hover tooltip + tap toast)
+      var zInfo=LANG==='en'?{
+        exact:'Number of matches where you predicted the exact score (10 points each).',
+        trend:'Number of matches where you got the winner or draw right, but not the exact score (3 points each).',
+        diff:'Number of matches where you also got the exact goal difference right (+1 bonus point each).',
+        succ:'Share of rated matches where you got at least the winner/draw right (exact + correct trends / all rated).'
+      }:{
+        exact:'Počet zápasů, kde jsi trefil přesný výsledek (10 bodů za každý).',
+        trend:'Počet zápasů, kde jsi trefil vítěze nebo remízu, ale ne přesný výsledek (3 body za každý).',
+        diff:'Počet zápasů, kde jsi navíc trefil přesný rozdíl skóre (+1 bod za každý).',
+        succ:'Podíl ohodnocených zápasů, kde jsi trefil aspoň vítěze/remízu (přesné + správné trendy / všechny ohodnocené).'
+      };
+      function zInfoBtn(txt){ return '<button class="zeb-widget-i" type="button" data-zinfo="'+escAttr(txt)+'" title="'+escAttr(txt)+'" aria-label="'+escAttr(LANG==='en'?'Info':'Vysvětlivka')+'">i</button>'; }
       html+='<div class="zeb-dash">'+
-        '<div class="zeb-widget zeb-widget-gn"><div class="zeb-widget-lbl">'+escHtml(tr('exact_tips'))+'</div><div class="zeb-widget-val">'+mine.pre+'</div><div class="zeb-widget-sub">'+exactPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+exactPct+'%"></div></div></div>'+
-        '<div class="zeb-widget zeb-widget-bl"><div class="zeb-widget-lbl">'+escHtml(tr('right_trends'))+'</div><div class="zeb-widget-val">'+mine.spr+'</div><div class="zeb-widget-sub">'+trendPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+trendPct+'%"></div></div></div>'+
-        '<div class="zeb-widget zeb-widget-pu"><div class="zeb-widget-lbl">'+escHtml(tr('goal_diff_bonus'))+'</div><div class="zeb-widget-val">'+mine.dif+'</div><div class="zeb-widget-sub">'+diffPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+diffPct+'%"></div></div></div>'+
-        '<div class="zeb-widget zeb-widget-pu" title="'+escAttr(LANG==='en'?'Share of rated matches where you got at least the winner/draw right':'Podíl ohodnocených zápasů, kde jsi trefil aspoň vítěze/remízu')+'"><div class="zeb-widget-lbl">'+escHtml(tr('success_rate'))+'</div><div class="zeb-widget-val">'+success+'%</div><div class="zeb-widget-sub">'+mineHits+'/'+mine.hod+' '+escHtml(LANG==='en'?'matches':'zápasů')+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+success+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-gn">'+zInfoBtn(zInfo.exact)+'<div class="zeb-widget-lbl">'+escHtml(tr('exact_tips'))+'</div><div class="zeb-widget-val">'+mine.pre+'</div><div class="zeb-widget-sub">'+exactPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+exactPct+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-bl">'+zInfoBtn(zInfo.trend)+'<div class="zeb-widget-lbl">'+escHtml(tr('right_trends'))+'</div><div class="zeb-widget-val">'+mine.spr+'</div><div class="zeb-widget-sub">'+trendPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+trendPct+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-pu">'+zInfoBtn(zInfo.diff)+'<div class="zeb-widget-lbl">'+escHtml(tr('goal_diff_bonus'))+'</div><div class="zeb-widget-val">'+mine.dif+'</div><div class="zeb-widget-sub">'+diffPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+diffPct+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-pu">'+zInfoBtn(zInfo.succ)+'<div class="zeb-widget-lbl">'+escHtml(tr('success_rate'))+'</div><div class="zeb-widget-val">'+success+'%</div><div class="zeb-widget-sub">'+mineHits+'/'+mine.hod+' '+escHtml(LANG==='en'?'matches':'zápasů')+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+success+'%"></div></div></div>'+
       '</div>';
     }
   }
@@ -6562,6 +6577,10 @@ function renderZeb(){
   // L2: klik na jmeno hrace -> detail modal
   document.querySelectorAll('#zeb-list [data-pdet]').forEach(function(el){
     el.addEventListener('click',function(){ openPlayerDetail(el.getAttribute('data-pdet')); });
+  });
+  // v5.9.7: vysvetlivky boxiku - tap ukaze toast (mobil), hover ukaze title (desktop)
+  document.querySelectorAll('#zeb-list [data-zinfo]').forEach(function(el){
+    el.addEventListener('click',function(e){ e.stopPropagation(); showToast(el.getAttribute('data-zinfo'),'info'); });
   });
   document.querySelectorAll('[data-rival]').forEach(function(btn){
     btn.addEventListener('click',function(){
