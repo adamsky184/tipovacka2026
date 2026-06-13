@@ -618,7 +618,7 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .ost-scroll-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 0 .55rem;font-size:.68rem;color:var(--mu2);text-align:center}
 .ost-scroll-hint::before,.ost-scroll-hint::after{content:'↔';font-size:.78rem;color:var(--ac2);opacity:.85}
 .ost-scroll-wrap{position:relative}
-.ost-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
+.ost-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin;overscroll-behavior-x:contain}
 .ost-table{width:100%;border-collapse:separate;border-spacing:0 0;font-size:.78rem}
 .ost-strip th{position:sticky;top:0;z-index:4;background:var(--bg2);box-shadow:0 1px 0 rgba(28,48,80,.45)}
 /* v5.7.2: live indikator u zapasu */
@@ -666,12 +666,12 @@ body.theme-light .live-badge{color:#b91c1c;background:linear-gradient(90deg,rgba
 @keyframes live-pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 4px rgba(220,38,38,0)}}
 body.theme-light .ost-strip th{background:#fff}
 /* v5.7.2: sticky header pro Admin tabulku */
-#admin-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
+#admin-table-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin;overscroll-behavior-x:contain}
 #admin-table-wrap thead th{position:sticky;top:0;z-index:4;background:var(--bg2);box-shadow:0 1px 0 rgba(28,48,80,.45)}
 body.theme-light #admin-table-wrap thead th{background:#fff}
-.ost-scroll-floating{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(92vw,720px);display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;border:1px solid var(--bd2);background:color-mix(in srgb,var(--bg4) 88%, transparent);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.28);z-index:80}
+.ost-scroll-floating{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(92vw,720px);display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;border:1px solid var(--bd2);background:color-mix(in srgb,var(--bg4) 88%, transparent);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.28);z-index:80;touch-action:none}
 .ost-scroll-floating-lbl{font-size:.72rem;font-weight:700;color:var(--mu2);white-space:nowrap}
-.ost-scroll-range{flex:1;accent-color:var(--ac2)}
+.ost-scroll-range{flex:1;accent-color:var(--ac2);touch-action:none;height:34px}
 .ost-scroll-jump{border:1px solid var(--bd2);background:var(--bg3);color:var(--tx);border-radius:999px;padding:5px 9px;font-size:.74rem;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer}
 .ost-scroll-jump:hover{border-color:var(--ac2);color:var(--ac2)}
 body.theme-light .ost-scroll-floating{background:color-mix(in srgb,#ffffff 94%, transparent);box-shadow:0 10px 24px rgba(37,99,235,.12)}
@@ -2401,7 +2401,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.5';
+var APP_VERSION='v5.9.6';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -6527,7 +6527,9 @@ function renderZeb(){
     scored.forEach(function(s){if(s.p.id===me.id) mine=s;});
     if(mine){
       var exactPts=mine.pre*10, trendPts=mine.spr*3, diffPts=mine.dif;
-      var success=mine.hod?Math.round((Math.min(mine.total,mine.hod*10)/(mine.hod*10))*100):0;
+      // v5.9.6: Úspěšnost = % zápasů s aspoň správným tipem (vítěz/remíza), ne podíl z max bodů
+      var mineHits=mine.pre+mine.spr;
+      var success=mine.hod?Math.round((mineHits/mine.hod)*100):0;
       var exactPct=mine.hod?Math.round((mine.pre/mine.hod)*100):0;
       var trendPct=mine.hod?Math.round((mine.spr/mine.hod)*100):0;
       var diffPct=mine.hod?Math.round((mine.dif/mine.hod)*100):0;
@@ -6535,7 +6537,7 @@ function renderZeb(){
         '<div class="zeb-widget zeb-widget-gn"><div class="zeb-widget-lbl">'+escHtml(tr('exact_tips'))+'</div><div class="zeb-widget-val">'+mine.pre+'</div><div class="zeb-widget-sub">'+exactPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+exactPct+'%"></div></div></div>'+
         '<div class="zeb-widget zeb-widget-bl"><div class="zeb-widget-lbl">'+escHtml(tr('right_trends'))+'</div><div class="zeb-widget-val">'+mine.spr+'</div><div class="zeb-widget-sub">'+trendPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+trendPct+'%"></div></div></div>'+
         '<div class="zeb-widget zeb-widget-pu"><div class="zeb-widget-lbl">'+escHtml(tr('goal_diff_bonus'))+'</div><div class="zeb-widget-val">'+mine.dif+'</div><div class="zeb-widget-sub">'+diffPts+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+diffPct+'%"></div></div></div>'+
-        '<div class="zeb-widget zeb-widget-pu"><div class="zeb-widget-lbl">'+escHtml(tr('success_rate'))+'</div><div class="zeb-widget-val">'+success+'%</div><div class="zeb-widget-sub">'+mine.total+' '+escHtml(tr('points_short'))+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+success+'%"></div></div></div>'+
+        '<div class="zeb-widget zeb-widget-pu" title="'+escAttr(LANG==='en'?'Share of rated matches where you got at least the winner/draw right':'Podíl ohodnocených zápasů, kde jsi trefil aspoň vítěze/remízu')+'"><div class="zeb-widget-lbl">'+escHtml(tr('success_rate'))+'</div><div class="zeb-widget-val">'+success+'%</div><div class="zeb-widget-sub">'+mineHits+'/'+mine.hod+' '+escHtml(LANG==='en'?'matches':'zápasů')+'</div><div class="zeb-widget-track"><div class="zeb-widget-fill" style="width:'+success+'%"></div></div></div>'+
       '</div>';
     }
   }
@@ -6552,7 +6554,7 @@ function renderZeb(){
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
       '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+
-      (s.hod>0?'<div class="zeb-success-bar" title="'+escAttr((LANG==='en'?'Success rate: ':'Úspěšnost: ')+Math.round((Math.min(s.total,s.hod*10)/(s.hod*10))*100)+'%')+'"><div class="zeb-success-fill" style="width:'+Math.min(100,Math.round((Math.min(s.total,s.hod*10)/(s.hod*10))*100))+'%"></div></div>':'')+sparklineSvg(s.history)+'</div>'+
+      (s.hod>0?(function(){var sr=Math.round(((s.pre+s.spr)/s.hod)*100);return '<div class="zeb-success-bar" title="'+escAttr((LANG==='en'?'Success rate: ':'Úspěšnost: ')+sr+'% ('+(s.pre+s.spr)+'/'+s.hod+')')+'"><div class="zeb-success-fill" style="width:'+Math.min(100,sr)+'%"></div></div>';})():'')+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
   html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';

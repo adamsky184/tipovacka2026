@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.9.6 - 13. 6. 2026
+
+Dva fixy z reálného provozu:
+
+- **iOS posuvník hráčů (Tipy ostatních + Admin):** tah za slider iPhone interpretoval jako posun celé stránky (rubber-band). Přidáno `touch-action:none` na slider (gesto zůstane na posuvníku), `overscroll-behavior-x:contain` na tabulku (konec rubber-bandu) a `env(safe-area-inset-bottom)` odsazení nad home indikátor. Slider je i o něco vyšší (snazší chycení).
+- **Žebříček "Úspěšnost" přepočítána na výstižnější metriku:** dřív `body / (zápasů × 10)` = podíl z teoretického maxima (přesný tip v každém zápase), což trestalo i velmi dobré tipující (2/4 přesné + 1 trend = jen 57 %). Nově = **% zápasů, kde jsi trefil aspoň vítěze/remízu** (přesné + správné trendy / ohodnocené). Stejný příklad → 75 %. Sub-popisek ukazuje "X/Y zápasů", tooltip vysvětluje výpočet. Změněno i v dashboardu i v řádkovém success baru.
+
 ## v5.9.5 - 12. 6. 2026
 
 Fix: v Tipy ostatních sloupec "Můj tip" nezobrazoval 🔥 u přesného tipu (ostatní hráči ho měli). Sjednoceno - 🔥 se ukazuje i u vlastního přesného tipu.
