@@ -231,6 +231,14 @@ body.theme-light .venue{color:#5f7690}
 .pdet-tip-match{flex:1;color:var(--mu2);overflow:hidden;text-overflow:ellipsis}
 .pdet-tip-val{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);margin:0 .5rem}
 .pdet-tip-pts{font-weight:700;font-size:.72rem;padding:2px 6px;border-radius:6px}
+.pdet-ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.3rem}
+.pdet-ach{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--bd);border-radius:9px;background:var(--bg3);opacity:.4;filter:grayscale(.75)}
+.pdet-ach.earned{opacity:1;filter:none;border-color:rgba(34,197,94,.3);background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(34,197,94,.06))}
+.pdet-ach-ico{font-size:1.35rem;flex-shrink:0;line-height:1}
+.pdet-ach-txt{min-width:0}
+.pdet-ach-name{font-weight:700;font-size:.73rem;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdet-ach-desc{font-size:.58rem;color:var(--mu);line-height:1.25;margin-top:1px}
+@media(max-width:430px){.pdet-ach-grid{grid-template-columns:1fr}}
 /* v5.8.0: Match detail card (mcard) */
 .mcard-btn{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--bg3);border:1px solid var(--bd2);color:var(--mu2);font-size:.6rem;font-weight:700;font-style:italic;font-family:Georgia,serif;cursor:pointer;margin-left:6px;vertical-align:middle;flex-shrink:0;line-height:1;padding:0}
 .mcard-btn:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
@@ -266,6 +274,9 @@ body.theme-light .venue{color:#5f7690}
 .mcard-lu-num{min-width:17px;text-align:right;color:var(--mu);font-family:'Space Grotesk',sans-serif;font-size:.67rem;flex-shrink:0}
 .mcard-note{font-size:.72rem;color:var(--mu);text-align:center;padding:.45rem 0}
 .mcard-venue-img{width:100%;border-radius:10px;margin:.45rem 0 0;max-height:130px;object-fit:cover;display:block}
+.mcard-share-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,197,94,.16));border:1px solid var(--bd2);color:var(--tx);border-radius:10px;padding:7px 16px;font-size:.78rem;font-weight:700;cursor:pointer;transition:border-color .15s,transform .1s}
+.mcard-share-btn:hover{border-color:var(--ac2)}
+.mcard-share-btn:active{transform:scale(.96)}
 @media(max-width:430px){.mcard{padding:.9rem .8rem .8rem}.mcard-lineups{grid-template-columns:1fr}}
 /* v5.9.0: mobilni hlavicka - 3 boxy pres celou sirku dokud neni play-off (4. karta skryta) */
 @media(max-width:520px){
@@ -2403,7 +2414,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.9.7';
+var APP_VERSION='v5.10.0';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -4207,6 +4218,56 @@ function getPlayerDiscussionBadges(playerId,rankInfo){
   if(badges.length>3) badges=badges.slice(0,3);
   return badges;
 }
+// Q10+: Plny seznam achievementu hrace (splnene i nesplnene) pro detail profilu
+function getPlayerAchievements(pid){
+  pid=String(pid);
+  var snap=getLeaderboardRowMap('cel')[pid]||null;
+  var tips=(allTips&&allTips[pid])||((me&&String(me.id)===pid)?myTips:{})||{};
+  var allMatches=SZ.concat(PZ);
+  var scored=allMatches.filter(function(z){ return results[z[0]]&&tips[z[0]]; }).sort(function(a,b){ return mDate(b)-mDate(a); });
+  var exactCount=0,drawHits=0,recentExact=0,recentPoints=0,ratedCount=scored.length;
+  scored.forEach(function(z,idx){
+    var tip=tips[z[0]],res=results[z[0]],pts=calcPts(tip,res);
+    if(pts===10){ exactCount++; if(idx<5) recentExact++; }
+    if(idx<5) recentPoints+=(pts||0);
+    if(tipOutcome(tip)==='X'&&tipOutcome(res)==='X'&&pts>=3) drawHits++;
+  });
+  var blackSheep=0;
+  if(allTips){
+    scored.forEach(function(z){
+      var tip=tips[z[0]],res=results[z[0]];
+      if(!tip||!res||calcPts(tip,res)<3) return;
+      var sameOthers=0,allOthers=0;
+      Object.keys(allTips||{}).forEach(function(oid){
+        if(String(oid)===pid) return;
+        var ot=allTips[oid]&&allTips[oid][z[0]];
+        if(ot){ allOthers++; if(ot===tip) sameOthers++; }
+      });
+      if(allOthers>=3 && sameOthers===0) blackSheep++;
+    });
+  }
+  var comebackHit=false;
+  var seq=scored.map(function(z){ var t=tips[z[0]],r=results[z[0]]; return (t&&r)?calcPts(t,r):null; }).filter(function(x){return x!==null;});
+  for(var i=2;i<seq.length-1;i++){ if(seq[i-2]===0&&seq[i-1]===0&&seq[i]===0&&seq[i+1]===10){ comebackHit=true; break; } }
+  var totalRated=allMatches.filter(function(z){ return results[z[0]]; }).length;
+  var completionist=totalRated>=5 && ratedCount>=totalRated;
+  var rankMap=getDiscussionRankMap();
+  var rank=rankMap[pid]?rankMap[pid].rank:null;
+  var total=snap?snap.total:(rankMap[pid]?rankMap[pid].total:0);
+  var en=LANG==='en';
+  return [
+    {icon:'🎯',name:en?'First Blood':'První zásah',desc:en?'Land your first exact score':'Trefit první přesný výsledek',earned:exactCount>=1},
+    {icon:'🔫',name:'Sniper',desc:en?'5 exact scores':'5 přesných výsledků',earned:exactCount>=5},
+    {icon:'🐐',name:en?'Sharpshooter':'Ostrostřelec',desc:en?'10 exact scores':'10 přesných výsledků',earned:exactCount>=10},
+    {icon:'🔥',name:en?'On Fire':'Ve formě',desc:en?'2 exact or 16+ pts in last 5':'2 přesné nebo 16+ b v posl. 5',earned:(recentExact>=2||recentPoints>=16)},
+    {icon:'🤝',name:en?'Draw Wizard':'Mág remíz',desc:en?'3 correct draws':'3 trefené remízy',earned:drawHits>=3},
+    {icon:'🐑',name:'Black Sheep',desc:en?'Right when 3+ others wrong, 2×':'Jako jediný měl pravdu 2×',earned:blackSheep>=2},
+    {icon:'📈',name:'Comeback',desc:en?'10-pointer after 3 blanks':'Přesný tip po 3 nulách',earned:comebackHit},
+    {icon:'⚽',name:en?'Completionist':'Kompletista',desc:en?'Tipped every played match':'Natipoval všechny odehrané',earned:completionist},
+    {icon:'💯',name:en?'Centurion':'Stovkař',desc:en?'100+ total points':'100+ bodů celkem',earned:(total||0)>=100},
+    {icon:'🏆',name:en?'Leader':'Lídr',desc:en?'Sit at #1':'Být na 1. místě',earned:rank===1}
+  ];
+}
 function discussionReactionSummary(postId){
   var list=discussionReactions[String(postId)]||[];
   var emojis=['👍','😂','🔥','⚽'];
@@ -4970,6 +5031,13 @@ function openPlayerDetail(playerId){
       '</div>';
   }
 
+  var achs=getPlayerAchievements(pid);
+  var earnedCount=achs.filter(function(a){return a.earned;}).length;
+  var achHtml='<div class="pdet-section-h">'+(LANG==='en'?'Achievements':'Achievementy')+' <span style="color:var(--mu);font-weight:400">'+earnedCount+'/'+achs.length+'</span></div>'+
+    '<div class="pdet-ach-grid">'+achs.map(function(a){
+      return '<div class="pdet-ach'+(a.earned?' earned':'')+'" title="'+escAttr(a.desc)+'"><div class="pdet-ach-ico">'+a.icon+'</div><div class="pdet-ach-txt"><div class="pdet-ach-name">'+escHtml(a.name)+'</div><div class="pdet-ach-desc">'+escHtml(a.desc)+'</div></div></div>';
+    }).join('')+'</div>';
+
   overlay.innerHTML='<div class="pdet-card">'+
     '<button class="pdet-close" id="pdet-close">×</button>'+
     '<div class="pdet-h1">'+escHtml(player.jmeno)+(player.je_admin?' <span class="abadge2">ADMIN</span>':'')+'</div>'+
@@ -4979,6 +5047,7 @@ function openPlayerDetail(playerId){
     '<div class="pdet-stat"><div class="pdet-stat-v" style="color:var(--gn2)">'+exactCount+'</div><div class="pdet-stat-l">'+(LANG==='en'?'Exact':'Přesné')+'</div></div>'+
     '<div class="pdet-stat"><div class="pdet-stat-v" style="color:var(--mu)">'+savedCount+'</div><div class="pdet-stat-l">'+(LANG==='en'?'Saved tips':'Uloženo')+'</div></div>'+
     '</div>'+
+    achHtml+
     '<div class="pdet-section-h">'+(LANG==='en'?'Top 3 tips':'Nejlepší tipy')+'</div>'+
     topHtml+
     (worst.length?'<div class="pdet-section-h">'+(LANG==='en'?'Wrong tips':'Špatné tipy')+'</div>'+worstHtml:'')+
@@ -5318,12 +5387,15 @@ function openMatchCard(zid){
       '<div class="mcard-team"><span class="mcard-flag">'+(fl(h)||'🏳️')+'</span>'+escHtml(tN(h))+'</div>'+
     '</div>'+
     '<div class="mcard-meta">'+escHtml(ghL(z[1]))+' · '+escHtml(dStr(z))+(venue?' · 📍'+escHtml(String(venue).split('/')[0].trim()):'')+escHtml(fifaBits)+'</div>'+
+    ((res&&myTip)?'<div style="text-align:center;margin:.5rem 0 .2rem"><button class="mcard-share-btn" type="button" data-share-zid="'+zid+'">'+(LANG==='en'?'📤 Share result':'📤 Sdílet výsledek')+'</button></div>':'')+
     tipsHtml+oddsHtml+
     '<div id="mcard-espn"></div>'+
     (stadImg?'<img class="mcard-venue-img" loading="lazy" alt="'+escAttr(stadName)+'" src="'+escAttr(stadImg)+'">':'')+
   '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('.mcard-close').onclick=close;
+  var shareBtn=overlay.querySelector('[data-share-zid]');
+  if(shareBtn) shareBtn.onclick=function(){ shareMatchAsImage(shareBtn.getAttribute('data-share-zid')); };
 
   // ESPN detail jen pro zapasy po vykopu
   var espnEl=overlay.querySelector('#mcard-espn');
@@ -5701,6 +5773,92 @@ function shareLeaderboardAsImage(){
   }catch(e){
     showToast('Export error: '+(e&&e.message||''),'err');
   }
+}
+// F12: Sdileni vysledku zapasu jako PNG (canvas + Web Share API / download)
+function shareMatchAsImage(zid){
+  try{
+    zid=parseInt(zid,10);
+    var z=null; SZ.concat(PZ).forEach(function(m){ if(m[0]===zid) z=m; });
+    if(!z){ return; }
+    var res=results[zid]||'', myTip=myTips[zid]||'';
+    if(!res){ showToast(LANG==='en'?'Result not available yet':'Výsledek zatím není','err'); return; }
+    var pts=(res&&myTip)?calcPts(myTip,res):null;
+    var dName=tN(z[2]), hName=tN(z[3]);
+    var W=720, H=440;
+    var c=document.createElement('canvas'); c.width=W; c.height=H;
+    var ctx=c.getContext('2d');
+    // pozadi
+    var grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,'#0c1e35'); grad.addColorStop(1,'#0a1728');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+    var acc=ctx.createLinearGradient(0,0,W,0);
+    acc.addColorStop(0,'#3b82f6'); acc.addColorStop(0.5,'#a855f7'); acc.addColorStop(1,'#22c55e');
+    ctx.fillStyle=acc; ctx.fillRect(0,0,W,5);
+    // header
+    ctx.textAlign='center';
+    ctx.fillStyle='#7fa3c7'; ctx.font='700 15px Inter, sans-serif';
+    ctx.fillText((LANG==='en'?'WC 2026 · ':'TIPOVAČKA MS 2026 · ')+escForCanvas(ghL(z[1])).toUpperCase(), W/2, 52);
+    // tymy + skore
+    ctx.fillStyle='#eef5ff'; ctx.font='700 30px Space Grotesk, sans-serif';
+    ctx.fillText(escForCanvas(dName), W/2-150, 120);
+    ctx.fillText(escForCanvas(hName), W/2+150, 120);
+    // vlajky (emoji)
+    ctx.font='44px sans-serif';
+    ctx.fillText(fl(z[2])||'🏳️', W/2-150, 180);
+    ctx.fillText(fl(z[3])||'🏳️', W/2+150, 180);
+    // skore velke
+    ctx.fillStyle='#f4f8ff'; ctx.font='700 64px Space Grotesk, sans-serif';
+    ctx.fillText(res.replace(':',' : '), W/2, 175);
+    ctx.fillStyle='#7fa3c7'; ctx.font='600 14px Inter, sans-serif';
+    ctx.fillText('FT', W/2, 205);
+    // muj tip box
+    var boxY=250, boxH=110;
+    var exact=(pts===10);
+    ctx.fillStyle=exact?'rgba(34,197,94,.13)':(pts>=3?'rgba(59,130,246,.12)':'rgba(239,68,68,.10)');
+    ctx.strokeStyle=exact?'rgba(34,197,94,.5)':(pts>=3?'rgba(59,130,246,.4)':'rgba(239,68,68,.35)');
+    ctx.lineWidth=2;
+    roundRectCanvas(ctx,60,boxY,W-120,boxH,16); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#9fb6d0'; ctx.font='700 13px Inter, sans-serif';
+    ctx.fillText((LANG==='en'?'MY TIP':'MŮJ TIP')+(me&&me.jmeno?' · '+escForCanvas(me.jmeno).toUpperCase():''), W/2, boxY+30);
+    ctx.fillStyle=exact?'#4ade80':(pts>=3?'#60a5fa':'#f87171');
+    ctx.font='700 38px Space Grotesk, sans-serif';
+    ctx.fillText((myTip||'—').replace(':',' : ')+(exact?'  🔥':''), W/2, boxY+72);
+    ctx.fillStyle=exact?'#4ade80':(pts>=3?'#93c5fd':'#fca5a5');
+    ctx.font='700 16px Inter, sans-serif';
+    var ptsLbl=pts===null?'':(exact?(LANG==='en'?'EXACT HIT · +10 pts':'PŘESNÝ TIP · +10 b'):('+'+pts+(LANG==='en'?' pts':' b')));
+    if(ptsLbl) ctx.fillText(ptsLbl, W/2, boxY+98);
+    // footer
+    ctx.fillStyle='#5f7d9c'; ctx.font='500 12px Inter, sans-serif';
+    var dd=new Date();
+    ctx.fillText('© Tipovačka MS 2026 · '+APP_VERSION+' · tipovacka.chabrycity.cz', W/2, H-20);
+    ctx.textAlign='left';
+    // export
+    c.toBlob(function(blob){
+      if(!blob){ showToast('Export failed','err'); return; }
+      var fname='tipovacka-'+escForCanvas(dName).replace(/\s+/g,'')+'-'+escForCanvas(hName).replace(/\s+/g,'')+'.png';
+      var file=new File([blob],fname,{type:'image/png'});
+      var shareTitle=(LANG==='en'?dName+' '+res+' '+hName:dName+' '+res+' '+hName);
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file], title:shareTitle, text:exact?(LANG==='en'?'Nailed the exact score! 🔥':'Trefil jsem přesný výsledek! 🔥'):shareTitle}).catch(function(){});
+        return;
+      }
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a'); a.href=url; a.download=fname;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(url);},1000);
+      showToast(LANG==='en'?'Image downloaded':'Obrázek stažen','ok');
+    },'image/png');
+  }catch(e){ showToast('Export error: '+(e&&e.message||''),'err'); }
+}
+function escForCanvas(s){ return String(s==null?'':s); }
+function roundRectCanvas(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
 }
 // Q5: Onboarding tutorial - 3 obrazovky pri prvnim prihlaseni
 function getOnboardingKey(){ return me&&me.id?'ms26_onb_seen_'+String(me.id):''; }

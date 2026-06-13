@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.0 - 13. 6. 2026
+
+Dvě nové funkce (F12 + rozšíření achievementů):
+
+- **F12 Sdílení výsledku zápasu (PNG):** v kartě zápasu u dohraného zápasu, kde máš svůj tip, je tlačítko "📤 Sdílet výsledek". Vyrenderuje hezký obrázek (týmy + vlajky, finální skóre, tvůj tip + body, 🔥 u přesného) a nabídne Web Share (mobil) nebo stažení (desktop). Čistě canvas, žádný zásah do řádků tabulky (vyhnutí se původnímu riziku F12 s `.mr`).
+- **Achievementy v profilu hráče:** klik na jméno v žebříčku → detail nově ukazuje grid 10 achievementů (splněné barevně, nesplněné zašedlé s popisem jak je získat): První zásah, Sniper, Ostrostřelec, Ve formě, Mág remíz, Black Sheep, Comeback, Kompletista, Stovkař, Lídr. Počítáno z reálných tipů/výsledků, plný i18n. Kompaktní badge v řádku žebříčku zůstávají beze změny.
+
 ## v5.9.7 - 13. 6. 2026
 
 Žebříček – ke všem 4 boxíkům dashboardu (Přesné tipy, Správné trendy, Bonus za rozdíl, Úspěšnost) přidáno nenápadné „i" v rohu s vysvětlivkou statistiky. Na desktopu hover tooltip, na mobilu tap → toast. Plný i18n.
