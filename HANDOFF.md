@@ -1,4 +1,4 @@
-# Tipovačka MS 2026 - Handoff (v5.9.1, 12. 6. 2026)
+# Tipovačka MS 2026 - Handoff (v5.10.0, 13. 6. 2026)
 
 > **Claude (Code): pokud Adam napíše "pokračuj v tipovačce", přečti tento soubor + `spec.md` + posledních 5 záznamů z `changelog.md` a navaž.**
 
@@ -6,7 +6,7 @@
 
 ## TL;DR aktuální stav
 
-- **Verze:** `v5.9.1` (`tipovacka.html` konstanta `APP_VERSION`)
+- **Verze:** `v5.10.0` (`tipovacka.html` konstanta `APP_VERSION`)
 - **Datum:** 12. 6. 2026
 - **Turnaj LIVE** - MS startuje 11. 6. 2026, právě hraje skupinová fáze
 - **Live URL:** https://tipovacka.chabrycity.cz/tipovacka.html
@@ -209,15 +209,16 @@ Při každé změně:
 - **B12** Config.js rebrand-ready - vytáhnout tournament-specific data (název, datum, hostitelé, týmy, zápasy) do `config.js` pro snadný rebrand na Euro 2028 / MS 2030. Plán pro v6.0.
 - **F9 monitor** ESPN refresh - po každém zápase ověřit že VÝSLEDKY refresh správně ukládá skóre
 
-### Nižší priorita (skip dokud Adam nepožádá)
-- **F12 sdílení výsledku zápasu** - po přesném tipu PNG share. Skip pro v5.7.x (riziko canvas integrace s `.mr` element)
-- **F14 detail řádku zápasu po kliknutí** - inline expand panel. Skip (click bubbling konflikt s input fields)
-- Daily ESPN cron job - aktuálně manuální admin tlačítko, plus 2-min cron pro live. Denní 6:00 ráno backup cron pro completed.
+### Hotovo mezitím (v5.8–5.10)
+- ✅ ~~F9 monitor ESPN~~ → auto-save cron v5
+- ✅ ~~F14 detail řádku~~ → karta zápasu ⓘ (v5.8.0)
+- ✅ ~~F12 sdílení výsledku~~ → PNG share v kartě zápasu (v5.10.0, `shareMatchAsImage`)
+- ✅ ~~Achievements rozšíření~~ → 10 achievementů v profilu hráče (v5.10.0, `getPlayerAchievements`)
+- ✅ ~~Daily ESPN cron~~ → 2-min cron + auto-save běží
 
 ### Backlog (UX wishlist - viz memory `tipovacka_ux_wishlist.md`)
-- Detail page hráče (vlastně už hotové L2)
-- Achievements / badges systém (Q10 hotové, lze rozšířit)
 - Více cup-stage podpory (3rd place match, finále) - pro v6.0
+- Achievements lze dál rozšiřovat (streaky, denní výzvy)
 
 ---
 
