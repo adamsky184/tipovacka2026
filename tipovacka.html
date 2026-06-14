@@ -191,6 +191,8 @@ body.theme-light .venue{color:#5f7690}
 .live-banner-lbl{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.08em;color:#fda4af;text-transform:uppercase;flex-shrink:0}
 .live-banner-list{flex:1;display:flex;gap:.7rem;flex-wrap:wrap;font-size:.78rem;color:var(--tx);overflow:hidden}
 .live-banner-match{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:3px 8px;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.live-banner-match-clickable{cursor:pointer;transition:border-color .15s,background .15s}
+.live-banner-match-clickable:hover{border-color:rgba(255,255,255,.35);background:rgba(0,0,0,.3)}
 .live-banner-match b{color:var(--gd);font-size:.85rem}
 .live-banner-match .clock{color:var(--mu);font-size:.66rem;font-weight:500}
 @media(max-width:600px){
@@ -2414,7 +2416,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.10.0';
+var APP_VERSION='v5.10.1';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5502,12 +5504,17 @@ function renderLiveBanner(liveEvents){
   var list=document.getElementById('live-banner-list');
   if(!list) return;
   // max 3 zapasy aby se vzdy veslo
+  var allMatches=SZ.concat(PZ);
   var html=liveEvents.slice(0,3).map(function(ev){
     var home=tN(ev.home||''), away=tN(ev.away||'');
     var score=String(ev.homeScore||'0')+'-'+String(ev.awayScore||'0');
     var isHt=/halftime|half[-\s]?time/.test(String(ev.statusDesc||'').toLowerCase());
     var clock=isHt?'HT':(ev.clock?ev.clock+(/['′]/.test(ev.clock)?'':'′'):(ev.statusDesc||''));
-    return '<span class="live-banner-match">'+escHtml(home)+' <b>'+escHtml(score)+'</b> '+escHtml(away)+(clock?' <span class="clock">'+escHtml(clock)+'</span>':'')+'</span>';
+    // v5.10.1: klik na live proužek otevře kartu zápasu (data-mcard obsluhuje globální capture listener)
+    var zid=null;
+    allMatches.forEach(function(z){ if(zid==null && teamMatches(z[2],String(ev.home||''))&&teamMatches(z[3],String(ev.away||''))) zid=z[0]; });
+    var clickable=(zid!=null)?' live-banner-match-clickable" data-mcard="'+escAttr(String(zid)):'';
+    return '<span class="live-banner-match'+clickable+'">'+escHtml(home)+' <b>'+escHtml(score)+'</b> '+escHtml(away)+(clock?' <span class="clock">'+escHtml(clock)+'</span>':'')+'</span>';
   }).join('');
   if(liveEvents.length>3) html+='<span class="live-banner-match" style="background:transparent;border:none;color:var(--mu);font-size:.7rem">+'+(liveEvents.length-3)+'</span>';
   list.innerHTML=html;

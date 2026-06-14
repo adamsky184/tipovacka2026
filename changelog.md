@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.1 - 13. 6. 2026
+
+LIVE proužek nahoře je nově klikací – klik na probíhající zápas otevře jeho kartu (detail). Dřív šlo otevřít jen přes malé „i" u řádku zápasu, které v proužku nebylo. Mapování na zápas přes názvy týmů, kliknutí obsluhuje existující globální listener.
+
 ## v5.10.0 - 13. 6. 2026
 
 Dvě nové funkce (F12 + rozšíření achievementů):
