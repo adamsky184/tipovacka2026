@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.3 - 13. 6. 2026
+
+**FIX: prohlížeč nenabízel uložení hesla při loginu.** Přihlašovací i registrační pole byla v `<div>`, ne ve `<form>` – Firefox/Chrome nabídnou uložení přihlašovacích údajů spolehlivě jen při submitu skutečného formuláře. Login i registrace jsou teď `<form>` se submit handlerem (preventDefault → doLogin/doReg), pole mají `name` atributy. Enter i klik fungují stejně jako dřív, jen browser teď nabídne „Uložit heslo". Žádná změna v auth logice.
+
 ## v5.10.2 - 13. 6. 2026
 
 **FIX: rozdělaný tip se mazal po ~15-30 s.** Příčina: live poll (každých 30 s, během hracího dne) překresloval seznam Tipů a smazal neuložené hodnoty v políčkách. Dvě vrstvy opravy:

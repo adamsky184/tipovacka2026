@@ -2006,24 +2006,24 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="lo-tab on" id="ltl">Přihlásit se</button>
       <button class="lo-tab" id="ltr">Registrovat se</button>
     </div>
-    <div id="lf">
+    <form id="lf" autocomplete="on">
       <div class="lo-lbl" id="lbl-name1">JMÉNO</div>
-      <input class="lo-inp" id="lj" type="text" placeholder="Tvoje jméno..." autocomplete="username">
+      <input class="lo-inp" id="lj" name="username" type="text" placeholder="Tvoje jméno..." autocomplete="username">
       <div class="lo-lbl" id="lbl-pin1">PIN</div>
-      <input class="lo-inp" id="lp" type="password" placeholder="Tvůj PIN..." autocomplete="current-password">
-      <button class="lo-btn l" id="blo">Přihlásit se</button>
+      <input class="lo-inp" id="lp" name="password" type="password" placeholder="Tvůj PIN..." autocomplete="current-password">
+      <button class="lo-btn l" id="blo" type="submit">Přihlásit se</button>
       <div class="lo-err" id="le"></div>
-    </div>
-    <div id="rf" style="display:none">
+    </form>
+    <form id="rf" style="display:none" autocomplete="on">
       <div class="lo-lbl" id="lbl-name2">JMÉNO</div>
-      <input class="lo-inp" id="rj" type="text" placeholder="Tvoje jméno..." autocomplete="username">
+      <input class="lo-inp" id="rj" name="username" type="text" placeholder="Tvoje jméno..." autocomplete="username">
       <div class="lo-lbl" id="lbl-pin2">PIN (min. 4 znaky)</div>
-      <input class="lo-inp" id="rp" type="password" placeholder="Zvol si PIN..." autocomplete="new-password">
+      <input class="lo-inp" id="rp" name="new-password" type="password" placeholder="Zvol si PIN..." autocomplete="new-password">
       <div class="lo-lbl" id="lbl-pin3">POTVRD PIN</div>
-      <input class="lo-inp" id="rp2" type="password" placeholder="Znovu PIN..." autocomplete="new-password">
-      <button class="lo-btn r" id="brg">Registrovat se</button>
+      <input class="lo-inp" id="rp2" name="confirm-password" type="password" placeholder="Znovu PIN..." autocomplete="new-password">
+      <button class="lo-btn r" id="brg" type="submit">Registrovat se</button>
       <div class="lo-err" id="re"></div>
-    </div>
+    </form>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr">
       <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.4</span> · <span id="lo-date-lbl">7. 5. 2026</span>
@@ -2416,7 +2416,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.10.2';
+var APP_VERSION='v5.10.3';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -8272,10 +8272,9 @@ function init(){
   });
   document.getElementById('ltl').addEventListener('click',function(){swLTab('l');});
   document.getElementById('ltr').addEventListener('click',function(){swLTab('r');});
-  document.getElementById('blo').addEventListener('click',doLogin);
-  document.getElementById('brg').addEventListener('click',doReg);
-  document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
-  document.getElementById('rp2').addEventListener('keydown',function(e){if(e.key==='Enter') doReg();});
+  // v5.10.3: login/registrace jako <form> + submit handler -> prohlizec nabidne ulozeni hesla (Firefox/Chrome)
+  document.getElementById('lf').addEventListener('submit',function(e){ e.preventDefault(); doLogin(); });
+  document.getElementById('rf').addEventListener('submit',function(e){ e.preventDefault(); doReg(); });
   document.getElementById('btn-logout').addEventListener('click',doLogout);
   var bda=document.getElementById('btn-delete-account'); if(bda) bda.addEventListener('click',doDeleteAccount);
   var bcp=document.getElementById('btn-change-pin'); if(bcp) bcp.addEventListener('click',openChangePinModal);
