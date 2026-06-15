@@ -2416,7 +2416,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.10.1';
+var APP_VERSION='v5.10.2';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5489,7 +5489,8 @@ function pollLiveScores(){
     renderLiveBanner(live);
     // Refresh tipy/ostatni/vysledky pokud jsou viditelne (aktualizace badge)
     try{
-      if(document.getElementById('page-tipy')&&document.getElementById('page-tipy').style.display!=='none') renderTipy();
+      // v5.10.2: nepřekreslovat Tipy během aktivního psaní tipu (jinak se rozdělaný tip mazal)
+      if(document.getElementById('page-tipy')&&document.getElementById('page-tipy').style.display!=='none'&&!isTypingTip()) renderTipy();
       if(document.getElementById('page-ostatni')&&document.getElementById('page-ostatni').style.display!=='none') renderOst();
       if(document.getElementById('page-vysledky')&&document.getElementById('page-vysledky').style.display!=='none') renderVys();
       if(document.getElementById('page-zebricek')&&document.getElementById('page-zebricek').style.display!=='none') renderZeb(); // v5.9.0: ziva projekce
@@ -6165,6 +6166,10 @@ function renderHeaderCols(labels){
   }).join('');
 }
 
+function isTypingTip(){
+  var ae=document.activeElement;
+  return !!(ae&&ae.classList&&(ae.classList.contains('tih')||ae.classList.contains('tia')));
+}
 function renderTipy(){
   if(!me) return;
   updSavedProgress();
@@ -6228,6 +6233,25 @@ function renderTipy(){
     flushSection();
   }
 
+  // v5.10.2: zachovat rozdelane (neulozene) tipy + fokus/kurzor pres re-render (napr. z live pollu)
+  var __unsavedTips={}, __focusInfo=null;
+  (function(){
+    var ae=document.activeElement;
+    if(ae&&ae.id&&ae.classList&&(ae.classList.contains('tih')||ae.classList.contains('tia'))){
+      __focusInfo={id:ae.id,sel:null};
+      try{ __focusInfo.sel=ae.selectionStart; }catch(_e){}
+    }
+    document.querySelectorAll('#tipy-list input.tih, #tipy-list input.tia').forEach(function(inp){
+      if(inp.disabled) return;
+      var v=(inp.value||'').trim();
+      if(v==='') return;
+      var zid=inp.id.replace(/^ti[ha]/,'');
+      var sp=(myTips[zid]||'').split(':');
+      var savedSide=inp.classList.contains('tih')?(sp[0]||''):(sp[1]||'');
+      if(v!==String(savedSide).trim()) __unsavedTips[inp.id]=v;
+    });
+  })();
+
   document.getElementById('tipy-list').innerHTML=(html||'<div class="empty">'+tr('no_matches')+'</div>');
   // Event delegation for team links
   var tl=document.getElementById('tipy-list');
@@ -6253,7 +6277,17 @@ function renderTipy(){
     }
     if(ih&&!ih.disabled) ih.addEventListener('input',onDualInput);
     if(ia&&!ia.disabled) ia.addEventListener('input',onDualInput);
+    // v5.10.2: obnovit rozdelane neulozene hodnoty po re-renderu
+    var restored=false;
+    if(ih&&!ih.disabled&&__unsavedTips['tih'+z[0]]!=null){ ih.value=__unsavedTips['tih'+z[0]]; restored=true; }
+    if(ia&&!ia.disabled&&__unsavedTips['tia'+z[0]]!=null){ ia.value=__unsavedTips['tia'+z[0]]; restored=true; }
+    if(restored) onDualInput();
   });
+  // v5.10.2: obnovit fokus a pozici kurzoru (aby psani nepreruseno)
+  if(__focusInfo){
+    var __f=document.getElementById(__focusInfo.id);
+    if(__f&&!__f.disabled){ try{ __f.focus({preventScroll:true}); if(__focusInfo.sel!=null) __f.setSelectionRange(__focusInfo.sel,__focusInfo.sel); }catch(_e){} }
+  }
   updateSaveButtonsState();
 }
 function renderMatchRow(z,isAdmin,hasGT){

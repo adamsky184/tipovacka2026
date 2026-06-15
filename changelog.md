@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.2 - 13. 6. 2026
+
+**FIX: rozdělaný tip se mazal po ~15-30 s.** Příčina: live poll (každých 30 s, během hracího dne) překresloval seznam Tipů a smazal neuložené hodnoty v políčkách. Dvě vrstvy opravy:
+- Live poll už **nepřekreslí Tipy, když právě píšeš** (kurzor v políčku tipu).
+- `renderTipy()` při jakémkoli překreslení **zachová rozdělané neuložené hodnoty + fokus a pozici kurzoru** (chrání i proti ostatním zdrojům re-renderu, ne jen pollu).
+
 ## v5.10.1 - 13. 6. 2026
 
 LIVE proužek nahoře je nově klikací – klik na probíhající zápas otevře jeho kartu (detail). Dřív šlo otevřít jen přes malé „i" u řádku zápasu, které v proužku nebylo. Mapování na zápas přes názvy týmů, kliknutí obsluhuje existující globální listener.
