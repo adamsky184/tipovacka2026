@@ -1,4 +1,4 @@
-# Tipovačka MS 2026 - Handoff (v5.10.0, 13. 6. 2026)
+# Tipovačka MS 2026 - Handoff (v5.10.4, 17. 6. 2026)
 
 > **Claude (Code): pokud Adam napíše "pokračuj v tipovačce", přečti tento soubor + `spec.md` + posledních 5 záznamů z `changelog.md` a navaž.**
 
@@ -6,7 +6,7 @@
 
 ## TL;DR aktuální stav
 
-- **Verze:** `v5.10.0` (`tipovacka.html` konstanta `APP_VERSION`)
+- **Verze:** `v5.10.4` (`tipovacka.html` konstanta `APP_VERSION`)
 - **Datum:** 12. 6. 2026
 - **Turnaj LIVE** - MS startuje 11. 6. 2026, právě hraje skupinová fáze
 - **Live URL:** https://tipovacka.chabrycity.cz/tipovacka.html
@@ -215,6 +215,11 @@ Při každé změně:
 - ✅ ~~F12 sdílení výsledku~~ → PNG share v kartě zápasu (v5.10.0, `shareMatchAsImage`)
 - ✅ ~~Achievements rozšíření~~ → 10 achievementů v profilu hráče (v5.10.0, `getPlayerAchievements`)
 - ✅ ~~Daily ESPN cron~~ → 2-min cron + auto-save běží
+
+### Vyšší priorita
+- **PZ (play-off) datumy** - skupinový rozpis byl opraven dle ESPN (v5.10.4), ale PZ (zápasy 73-104) má datumy posunuté o ~den u R32/osmifinále. Nejde tipovat (placeholdery), ale **opravit před koncem skupin (~28.6.)** - jinak auto-resolve dvojic (v5.9.1, kickoff ±2h) může mis-matchnout. Nutné pečlivé mapování pavouku (na placeholdery nelze matchovat podle jmen).
+- **Venue u přeřazených skupinových zápasů** - po opravě rozpisu (v5.10.4) některé venue nesedí (kosmetika, jen fotka/štítek; neovlivňuje tipy/skóre). ESPN přejmenoval Azteca→Estadio Banorte. Mapovat ESPN stadion→naše venue stringy.
+- **Zálohy v DB po opravě rozpisu:** `tipy_bak_szfix` (47 tipů swap-zápasů), `zapasy_meta_bak_szfix` (104 řádků). Smazat až po ověření, že je vše OK.
 
 ### Backlog (UX wishlist - viz memory `tipovacka_ux_wishlist.md`)
 - Více cup-stage podpory (3rd place match, finále) - pro v6.0
