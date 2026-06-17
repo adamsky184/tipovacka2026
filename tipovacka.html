@@ -2416,7 +2416,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.10.5';
+var APP_VERSION='v5.10.6';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -7893,18 +7893,22 @@ function syncOdds(){
     events.forEach(function(ev){
       var hn=ev.home_team||'',an=ev.away_team||'';
       var match=null;
+      // v5.10.6: parovani nezavisle na poradi domaci/host (Odds API muze mit jine poradi nez nase)
       allMatches.forEach(function(z){
-        if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) match=z;
+        if((teamMatches(z[2],hn)&&teamMatches(z[3],an))||(teamMatches(z[2],an)&&teamMatches(z[3],hn))) match=z;
       });
       if(!match) return;
+      // kurzy priradime podle NASEHO poradi domaci/host (ne podle poradi Odds API)
+      var ourHomeIsApiHome=teamMatches(match[2],hn);
+      var homeName=ourHomeIsApiHome?hn:an, awayName=ourHomeIsApiHome?an:hn;
       var bookmakers=Array.isArray(ev.bookmakers)?ev.bookmakers:[];
       bookmakers.forEach(function(b){
         var market=(b.markets||[]).find(function(m){return m.key==='h2h';});
         if(!market) return;
         var outcomes=Array.isArray(market.outcomes)?market.outcomes:[];
-        var h=outcomes.find(function(o){return o.name===hn;});
+        var h=outcomes.find(function(o){return o.name===homeName;});
         var d=outcomes.find(function(o){return /draw/i.test(o.name);});
-        var a=outcomes.find(function(o){return o.name===an;});
+        var a=outcomes.find(function(o){return o.name===awayName;});
         rows.push({zapas_id:match[0],bookmaker:b.key||b.title||'unknown',
           home_odds:h?String(h.price):'',draw_odds:d?String(d.price):'',away_odds:a?String(a.price):''});
       });

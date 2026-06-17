@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.6 - 17. 6. 2026
+
+Fix: u prohozených zápasů (oprava rozpisu v5.10.4) chyběly kurzy. Příčina: párování kurzů vyžadovalo shodu pořadí domácí/host s Odds API, a poslední sync proběhl před opravou rozpisu. Opraveno dvojím způsobem:
+- **Párování kurzů nezávislé na pořadí** domácí/host (robustní i pro budoucí play-off, kde Odds API může mít jiné pořadí než my). Kurzy se přiřadí podle našeho pořadí týmů.
+- **Kurzy znovu načteny** pro všech 24 prohozených zápasů (z10 Švýcarsko–Bosna apod.) - 71/72 skupin teď má kurzy (chybí jen odehraný z7, který je nepotřebuje). Plná záloha `match_odds_bak_oddsfix`.
+
 ## v5.10.5 - 17. 6. 2026
 
 **OPRAVA PLAY-OFF (73-104) + skupinové stadiony.** Navazuje na v5.10.4 (skupinové datumy). Zjištěno, že celý play-off pavouk byl postavený jinak než oficiální/ESPN rozpis (jiné datumy, stadiony i párování dvojic).
