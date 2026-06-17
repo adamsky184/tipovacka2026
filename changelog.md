@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.5 - 17. 6. 2026
+
+**OPRAVA PLAY-OFF (73-104) + skupinové stadiony.** Navazuje na v5.10.4 (skupinové datumy). Zjištěno, že celý play-off pavouk byl postavený jinak než oficiální/ESPN rozpis (jiné datumy, stadiony i párování dvojic).
+
+- **Play-off kompletně přestaveno dle ESPN** (autoritativní zdroj): správné datumy, stadiony, pořadí i bracket struktura (kdo s kým hraje). Ověřeno: bijekce 32↔32 zápasů, 0 topologických porušení (každý zápas je po svých feeder-zápasech). PZ v `tipovacka.html` + `zapasy_meta`.
+- **Bezpečné:** play-off má 0 uložených tipů (placeholdery nelze tipovat), takže žádná migrace tipů. Auto-resolve (v5.9.1) navíc plní reálné týmy dle času. Plná záloha `zapasy_meta_bak_pzfix`.
+- **Skupinové stadiony** opraveny dle ESPN u 42 zápasů (kosmetika - jen fotka/štítek). ESPN přejmenoval Azteca→Estadio Banorte.
+- Vše ověřeno proti ESPN, JS validní, odehrané zápasy nedotčeny.
+
 ## v5.10.4 - 17. 6. 2026
 
 **OPRAVA ROZPISU SKUPIN dle oficiálního/ESPN rozpisu.** 46 ze 72 skupinových zápasů mělo špatný čas/datum, z toho 24 i prohozené domácí/hosty (vs. realita). Všechny chyby byly u budoucích zápasů; 26 OK a všech 19 odehraných bylo správně (nedotčeno).
