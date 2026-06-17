@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.10.4 - 17. 6. 2026
+
+**OPRAVA ROZPISU SKUPIN dle oficiálního/ESPN rozpisu.** 46 ze 72 skupinových zápasů mělo špatný čas/datum, z toho 24 i prohozené domácí/hosty (vs. realita). Všechny chyby byly u budoucích zápasů; 26 OK a všech 19 odehraných bylo správně (nedotčeno).
+
+- **Časy/data** opraveny u všech 46 zápasů (SZ v `tipovacka.html` + `zapasy_meta`).
+- **Domácí/hosty** srovnány na oficiální pořadí u 24 zápasů. Aby hráči o nic nepřišli, **uložené tipy na těchto zápasech byly automaticky prohozeny** (tip „X:Y" → „Y:X") — predikce zůstává identická, jen v novém pořadí týmů. Ověřeno: 47/47 tipů, 0 chyb, plná záloha (`tipy_bak_szfix`, `zapasy_meta_bak_szfix`).
+- Bezpečnost: vše zálohováno před změnou, každý krok ověřen proti ESPN (0 zbylých neshod), odehrané zápasy beze změny.
+
+Pozn.: stadiony (venue) u některých přeřazených zápasů ještě neodpovídají – kosmetické (jen fotka/štítek), neovlivňuje tipy ani skóre; oprava zvlášť. Play-off datumy prověřím samostatně.
+
 ## v5.10.3 - 13. 6. 2026
 
 **FIX: prohlížeč nenabízel uložení hesla při loginu.** Přihlašovací i registrační pole byla v `<div>`, ne ve `<form>` – Firefox/Chrome nabídnou uložení přihlašovacích údajů spolehlivě jen při submitu skutečného formuláře. Login i registrace jsou teď `<form>` se submit handlerem (preventDefault → doLogin/doReg), pole mají `name` atributy. Enter i klik fungují stejně jako dřív, jen browser teď nabídne „Uložit heslo". Žádná změna v auth logice.
