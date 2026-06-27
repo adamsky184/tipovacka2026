@@ -2,6 +2,11 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.11.3 - 28. 6. 2026
+
+**Pavouk se teď doplňuje i v otevřené appce** (nejen po reloadu/přihlášení). Dřív server (cron) doplnil rozlosované týmy do DB správně, ale otevřená appka je načítala jen při přihlášení - proto auto-refresh ani tlačítko VÝSLEDKY pavouk neaktualizovaly.
+- Nová `refreshPlayoffNames()` napojená na **auto-refresh (každých 30 s)** i na tlačítko **VÝSLEDKY** - obojí teď doplní nově rozlosované play-off týmy do pavouka, Tipů i Výsledků a překreslí (jen když se něco změnilo, nepřerušuje psaní tipu).
+
 ## v5.11.2 - 28. 6. 2026
 
 **Částečný resolve play-off** - rozhodnuté týmy se zobrazí, i když soupeř ještě není znám.

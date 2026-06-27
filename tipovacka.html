@@ -2444,7 +2444,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.11.2';
+var APP_VERSION='v5.11.3';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5102,17 +5102,34 @@ function isPlaceholderTeam(n){
 }
 function applyZapasyMetaNames(){
   return sbf('zapasy_meta?select=zapas_id,home_team,away_team&zapas_id=gte.73').then(function(rows){
+    var changed=0;
     (rows||[]).forEach(function(r){
       PZ.forEach(function(z){
         if(z[0]!==r.zapas_id) return;
         if(!matchTeamsUnknown(z)) return; // uz plne rozlosovano -> neprepisovat
         // castecny resolve - kazdou stranu zvlast (jeden tym znamy, druhy jeste ne)
         var hLocal=espnToLocalTeam(r.home_team), aLocal=espnToLocalTeam(r.away_team);
-        if(hLocal && isPlaceholderTeam(z[2])) z[2]=hLocal;
-        if(aLocal && isPlaceholderTeam(z[3])) z[3]=aLocal;
+        if(hLocal && isPlaceholderTeam(z[2])){ z[2]=hLocal; changed++; }
+        if(aLocal && isPlaceholderTeam(z[3])){ z[3]=aLocal; changed++; }
       });
     });
-  }).catch(function(){ /* offline/RLS fail -> placeholdery zustanou, nic se nerozbije */ });
+    return changed;
+  }).catch(function(){ return 0; });
+}
+// v5.11.3: pravidelne doplneni rozlosovani play-off do otevrene appky (nejen pri loginu)
+function refreshPlayoffNames(){
+  if(!me) return Promise.resolve(0);
+  return applyZapasyMetaNames().then(function(changed){
+    if(changed>0){
+      try{
+        if(document.getElementById('page-pavouk')&&document.getElementById('page-pavouk').style.display!=='none') renderPavouk();
+        if(document.getElementById('page-tipy')&&document.getElementById('page-tipy').style.display!=='none'&&!isTypingTip()) renderTipy();
+        if(document.getElementById('page-vysledky')&&document.getElementById('page-vysledky').style.display!=='none') renderVys();
+        if(document.getElementById('page-ostatni')&&document.getElementById('page-ostatni').style.display!=='none') renderOst();
+      }catch(_e){}
+    }
+    return changed;
+  });
 }
 // v5.9.0: Ranni recap - jednou denne souhrn vcerejska + dnesni program (dismissable)
 function recapDayKey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
@@ -5529,6 +5546,8 @@ function pollLiveScores(){
       if(document.getElementById('page-vysledky')&&document.getElementById('page-vysledky').style.display!=='none') renderVys();
       if(document.getElementById('page-zebricek')&&document.getElementById('page-zebricek').style.display!=='none') renderZeb(); // v5.9.0: ziva projekce
     }catch(_){}
+    // v5.11.3: doplnit nove rozlosovane play-off tymy do otevrene appky (cron je doplnuje do DB)
+    try{ refreshPlayoffNames(); }catch(_){}
   }).catch(function(){ renderLiveBanner([]); });
 }
 function renderLiveBanner(liveEvents){
@@ -8116,6 +8135,8 @@ function fetchResults(){
       var cnt=Object.keys(found).length;
       // Save for branch nize
       json.__diag={cnt:cnt,live:liveCount,scheduled:scheduledCount};
+      // v5.11.3: VYSLEDKY refresh nove doplni i rozlosovani play-off do pavouka/Tipy
+      try{ refreshPlayoffNames(); }catch(_e){}
       if(cnt>0){
         var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
