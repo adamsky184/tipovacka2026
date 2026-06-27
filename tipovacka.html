@@ -360,6 +360,34 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .bm-n{font-weight:500;font-size:.76rem}
 .bm-s{font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--gd)}
 .bm-d{font-size:.63rem;color:var(--mu);text-align:center;margin-top:3px}
+/* v5.11.0: novy pavouk play-off (bracket tree) */
+.pav2{display:flex;min-width:max-content;padding:4px 2px 8px}
+.pav2-round{display:flex;flex-direction:column;justify-content:space-around;flex:0 0 auto;width:158px}
+.pav2-rhead{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mu2);text-align:center;padding:5px 0;margin:0 8px 4px 0;border-bottom:2px solid var(--bd2);position:sticky;top:0;background:var(--bg);z-index:2}
+.pav2-cell{display:flex;flex-direction:column;justify-content:center;flex:1 0 auto;position:relative}
+.pav2-match{position:relative;margin:5px 16px 5px 0;background:var(--bg2);border:1px solid var(--bd);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .1s}
+.pav2-match:hover{border-color:var(--ac2)}
+.pav2-match:active{transform:scale(.98)}
+.pav2-match.is-live{border-color:rgba(239,68,68,.55)}
+.pav2-row{display:flex;align-items:center;gap:6px;padding:5px 8px}
+.pav2-row+.pav2-row{border-top:1px solid var(--bd)}
+.pav2-fl{font-size:.9rem;flex-shrink:0;width:18px;text-align:center}
+.pav2-nm{flex:1;font-size:.73rem;color:var(--mu2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pav2-row.win .pav2-nm{color:var(--tx);font-weight:700}
+.pav2-row.out .pav2-nm{opacity:.5}
+.pav2-sc{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.76rem;color:var(--tx);min-width:14px;text-align:right}
+.pav2-row.win .pav2-sc{color:var(--gn2)}
+.pav2-meta{font-size:.55rem;color:var(--mu);padding:3px 8px 5px;display:flex;align-items:center;gap:4px;border-top:1px solid var(--bd)}
+.pav2-live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 1.4s infinite;flex-shrink:0}
+/* konektory: horizontalni vystup vpravo z kazdeho zapasu */
+.pav2-round:not(:last-child) .pav2-match::after{content:'';position:absolute;top:50%;right:-16px;width:16px;height:2px;background:var(--bd2)}
+.pav2-champ{display:flex;flex-direction:column;justify-content:center;align-items:center;width:150px;padding-left:8px}
+.pav2-champ-lbl{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gd);margin-bottom:6px}
+.pav2-champ-card{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(168,85,247,.12));border:1px solid rgba(245,158,11,.4);border-radius:12px;padding:12px 10px;text-align:center;width:100%}
+.pav2-champ-fl{font-size:2rem}
+.pav2-champ-nm{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--tx);margin-top:3px}
+.pav2-o3{margin-top:10px;border-top:1px dashed var(--bd2);padding-top:8px;width:158px}
+.pav2-o3-lbl{font-size:.56rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);text-align:center;margin-bottom:4px}
 .lo-wrap{position:fixed;inset:0;background:radial-gradient(ellipse at center,#0a1828,#050c14);z-index:9999;display:flex;align-items:center;justify-content:center;padding:max(1rem,env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(1rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))}
 .lo-card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;width:100%;max-width:390px;position:relative;overflow:hidden}
 .lo-card.lo-card-en{max-width:430px;padding:1.9rem 1.9rem 1.8rem}
@@ -2262,7 +2290,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div id="page-pavouk" style="display:none">
-      <div class="ibox" id="ibox-pav">Pavouk play-off se automaticky doplní po skupinové fázi (28.6.2026).</div>
+      <div class="ibox" id="ibox-pav">Pavouk se doplňuje automaticky podle výsledků. Klikni na zápas pro detail.</div>
       <div class="card"><div style="overflow-x:auto"><div id="pav-list"><div class="empty"><span class="sp"></span>Načítám...</div></div></div></div>
     </div>
 
@@ -2416,7 +2444,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.10.6';
+var APP_VERSION='v5.11.0';
 var APP_VERSION_DATE_CS='12. 6. 2026';
 var APP_VERSION_DATE_EN='12 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -2483,7 +2511,7 @@ var T={
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',history_table:'Historická tabulka',history_title:'Historie mistrovství světa',history_finals:'Finále',history_medals:'Medaile',history_awards:'Ocenění',history_records:'Rekordy',history_scorers:'Střelci',history_facts:'Zajímavosti',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
-    ibox_pav:'Pavouk se automaticky doplní po skupinové fázi (28.6.2026).',
+    ibox_pav:'Pavouk se doplňuje automaticky podle výsledků. Klikni na zápas pro detail.',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
     ibox_vys_note:'Poslední aktualizace výsledků',
     clbl_stad:'Stadiony MS 2026',clbl_tymy:'Kvalifikované týmy MS 2026',
@@ -2602,7 +2630,7 @@ var T={
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',history_table:'History Table',history_title:'World Cup history',history_finals:'Finals',history_medals:'Medals',history_awards:'Awards',history_records:'Records',history_scorers:'Scorers',history_facts:'Interesting facts',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
-    ibox_pav:'Bracket auto-fills after group stage (28.6.2026).',
+    ibox_pav:'Bracket fills automatically from results. Tap a match for details.',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
     ibox_vys_note:'Results last updated',
     clbl_stad:'World Cup 2026 Stadiums',clbl_tymy:'Qualified Teams WC 2026',
@@ -6895,28 +6923,81 @@ function render3m(tbls){
   if(tl){ tl.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
 }
 
+function pavFeederIds(z){
+  // vrati [id1,id2] feeder zapasu nebo null (pro R32 = list)
+  function fid(label){
+    var m;
+    if(m=String(label).match(/^Vitez Z(\d+)/)) return +m[1];
+    if(m=String(label).match(/^Vitez OF(\d+)/)) return 88+ +m[1];
+    if(m=String(label).match(/^Vitez CF(\d+)/)) return 96+ +m[1];
+    if(m=String(label).match(/^(?:Vitez|Porazeny) SF(\d+)/)) return 100+ +m[1];
+    return null;
+  }
+  var a=fid(z[2]),b=fid(z[3]);
+  return (a&&b)?[a,b]:null;
+}
 function renderPavouk(){
-  var rounds=[
-    {lbl:tr('r16'),matches:PZ.slice(0,16)},
-    {lbl:tr('r8'),matches:PZ.slice(16,24)},
-    {lbl:tr('qf'),matches:PZ.slice(24,28)},
-    {lbl:tr('sf'),matches:PZ.slice(28,30)},
-    {lbl:tr('o3'),matches:[PZ[30]]},
-    {lbl:tr('fin'),matches:[PZ[31]]}
-  ];
-  var html='<div style="display:flex;gap:8px">';
-  rounds.forEach(function(round){
-    html+='<div style="flex:1;min-width:135px"><div style="font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;text-align:center">'+escHtml(round.lbl)+'</div>';
-    round.matches.forEach(function(z){
-      if(!z) return;
-      var id=z[0],d=z[2],h=z[3],venue=(z[9]||'').split('/')[0].trim(),res=results[id];
-      var hg=res?res.split(':')[0]:'',ag=res?res.split(':')[1]:'';
-      html+='<div class="bm"><div class="bm-t"><span class="bm-n">'+fT(d)+'</span><span class="bm-s">'+escHtml(hg)+'</span></div><div class="bm-t"><span class="bm-n">'+fT(h)+'</span><span class="bm-s">'+escHtml(ag)+'</span></div><div class="bm-d">'+dStr(z)+(venue?' 📍'+escHtml(venue):'')+matchCardBtnHtml(z)+'</div></div>';
-    });
+  var byId={}; PZ.forEach(function(z){ byId[z[0]]=z; });
+  var parentOf={};
+  PZ.forEach(function(z){ var f=pavFeederIds(z); if(f){ parentOf[f[0]]=z[0]; parentOf[f[1]]=z[0]; } });
+  // postupujici tym (podle skore; pri remize dle toho kdo je v navazujicim zapase)
+  function advanced(z){
+    var res=results[z[0]]; if(!res||matchTeamsUnknown(z)) return null;
+    var sp=res.split(':').map(Number); if(isNaN(sp[0])||isNaN(sp[1])) return null;
+    if(sp[0]>sp[1]) return z[2];
+    if(sp[1]>sp[0]) return z[3];
+    var par=parentOf[z[0]]; // remiza -> penalty: kdo je v navazujicim zapase
+    if(par&&byId[par]){ var pz=byId[par];
+      if(teamMatches(pz[2],z[2])||teamMatches(pz[3],z[2])) return z[2];
+      if(teamMatches(pz[2],z[3])||teamMatches(pz[3],z[3])) return z[3];
+    }
+    return null;
+  }
+  // sestav sloupce od finale zpet (bracket poradi -> feedery sousedi)
+  var cols=[[104]];
+  while(true){
+    var prev=cols[0],next=[],any=false;
+    prev.forEach(function(id){ var f=byId[id]?pavFeederIds(byId[id]):null; if(f){ any=true; next.push(f[0],f[1]); } });
+    if(!any) break; cols.unshift(next);
+  }
+  var heads=[tr('r16'),tr('r8'),tr('qf'),tr('sf'),tr('fin')];
+  // zarovnat hlavicky na pocet sloupcu
+  var headByLen={16:tr('r16'),8:tr('r8'),4:tr('qf'),2:tr('sf'),1:tr('fin')};
+  function teamRow(z,which){
+    var name=which==='home'?z[2]:z[3];
+    var unknown=matchTeamsUnknown(z);
+    var res=results[z[0]];
+    var sp=res?res.split(':'):['',''];
+    var sc=which==='home'?(sp[0]||''):(sp[1]||'');
+    var adv=advanced(z);
+    var isWin=adv&&teamMatches(name,adv);
+    var isOut=adv&&!isWin;
+    var fl0=unknown?'':(fl(name)||'');
+    var disp=unknown?fT(name):tN(name);
+    return '<div class="pav2-row'+(isWin?' win':'')+(isOut?' out':'')+'"><span class="pav2-fl">'+(fl0||'')+'</span><span class="pav2-nm">'+escHtml(disp)+'</span><span class="pav2-sc">'+escHtml(sc)+'</span></div>';
+  }
+  function matchHtml(z){
+    var isLive=!!liveScoresMap[z[0]];
+    var venue=(z[9]||'').split('/')[0].trim();
+    return '<div class="pav2-match'+(isLive?' is-live':'')+'" data-mcard="'+z[0]+'">'+
+      teamRow(z,'home')+teamRow(z,'away')+
+      '<div class="pav2-meta">'+(isLive?'<span class="pav2-live-dot"></span>':'')+escHtml(dStr(z))+(venue?' · 📍'+escHtml(venue):'')+'</div>'+
+    '</div>';
+  }
+  var html='<div class="pav2">';
+  cols.forEach(function(col,ci){
+    html+='<div class="pav2-round"><div class="pav2-rhead">'+escHtml(headByLen[col.length]||heads[ci]||'')+'</div>';
+    col.forEach(function(id){ html+='<div class="pav2-cell">'+(byId[id]?matchHtml(byId[id]):'')+'</div>'; });
     html+='</div>';
   });
-  html+='</div>';
-  document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.5rem 0">'+html+'</div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  // champion + 3. misto
+  var fin=byId[104],champ=fin?advanced(fin):null;
+  html+='<div class="pav2-champ"><div class="pav2-champ-lbl">🏆 '+(LANG==='en'?'Champion':'Vítěz')+'</div>'+
+    '<div class="pav2-champ-card"><div class="pav2-champ-fl">'+(champ?(fl(champ)||'🏆'):'🏆')+'</div><div class="pav2-champ-nm">'+(champ?escHtml(tN(champ)):'<span style="color:var(--mu);font-size:.7rem">'+(LANG==='en'?'TBD':'?')+'</span>')+'</div></div>';
+  var o3=byId[103];
+  if(o3){ html+='<div class="pav2-o3"><div class="pav2-o3-lbl">'+escHtml(tr('o3'))+'</div>'+matchHtml(o3)+'</div>'; }
+  html+='</div></div>';
+  document.getElementById('pav-list').innerHTML='<div style="overflow-x:auto;padding:.3rem 0">'+html+'</div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
 }
 
 function renderStadiony(){

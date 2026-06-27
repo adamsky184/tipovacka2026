@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.11.0 - 28. 6. 2026
+
+**Záložka Play-off předělána na pořádný pavouk (bracket strom).** Dřív jen syrové sloupce boxů. Nově:
+- Vizuální bracket strom - feeder dvojice u sebe, navazující zápas vycentrovaný mezi nimi, propojovací linky.
+- Karty s vlajkami, skóre, **zvýrazněním postupujícího** (vítěz tučně/zeleně, poražený zašedlý; u remízy/penalt dle toho, kdo je v dalším kole).
+- LIVE indikátor u probíhajícího zápasu, datum + stadion, klik otevře detail zápasu.
+- Box **vítěze turnaje** 🏆 + zápas o 3. místo zvlášť.
+- Horizontální scroll (standard pro pavouk), funguje na mobilu i desktopu. Nerozhodnuté zápasy ukazují placeholder, doplní se samy.
+
 ## v5.10.6 - 17. 6. 2026
 
 Fix: u prohozených zápasů (oprava rozpisu v5.10.4) chyběly kurzy. Příčina: párování kurzů vyžadovalo shodu pořadí domácí/host s Odds API, a poslední sync proběhl před opravou rozpisu. Opraveno dvojím způsobem:
