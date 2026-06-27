@@ -2444,9 +2444,9 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.11.0';
-var APP_VERSION_DATE_CS='12. 6. 2026';
-var APP_VERSION_DATE_EN='12 June 2026';
+var APP_VERSION='v5.11.1';
+var APP_VERSION_DATE_CS='28. 6. 2026';
+var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
 var PAID_LEAGUE = {
   enabled: true,
@@ -5733,10 +5733,18 @@ function jumpToMatchTipInput(){
   var b=document.getElementById('mc-banner');
   var zid=b&&b.dataset.zid;
   if(!zid) return;
+  var pid=parseInt(zid,10);
+  // v5.11.1: zajistit spravnou zalozku + fazi + filtr, jinak input neni v DOM (napr. play-off zapas pri fazi Skupiny)
+  try{ showTab('tipy'); }catch(_e){}
+  try{ setPhaseTab(pid>=73?'po':'sk'); }catch(_e){}
+  try{ if(typeof tipQuickFilter!=='undefined' && tipQuickFilter!=='all') setTipQuickFilter('all'); }catch(_e){}
+  // renderTipy probehl synchronne -> input by mel existovat
   var ih=document.getElementById('tih'+zid);
   if(ih){
     ih.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(function(){ ih.focus(); },350);
+    setTimeout(function(){ try{ ih.focus(); }catch(_e){} },350);
+    // kratke zvyrazneni radku
+    var row=ih.closest&&ih.closest('.mr'); if(row){ row.classList.add('mr-saved-flash'); setTimeout(function(){ row.classList.remove('mr-saved-flash'); },1500); }
   }
 }
 // Q4: Render zebricek jako PNG canvas + Web Share API / download

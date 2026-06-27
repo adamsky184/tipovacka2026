@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.11.1 - 28. 6. 2026
+
+Dva fixy:
+- **Footer datum** - konstanty data verze nebyly aktualizované (zůstaly 12.6.). Opraveno na 28.6.2026.
+- **Tlačítko „Tipni teď"** (banner odpočtu) nereagovalo, když nejbližší nezatipovaný zápas byl play-off a v Moje tipy byla aktivní fáze Skupiny → input nebyl v DOM. Nově tlačítko nejdřív přepne na správnou záložku, fázi (Skupiny/Play-off) a zruší filtr, pak skočí na políčko + zvýrazní řádek.
+
 ## v5.11.0 - 28. 6. 2026
 
 **Záložka Play-off předělána na pořádný pavouk (bracket strom).** Dřív jen syrové sloupce boxů. Nově:
