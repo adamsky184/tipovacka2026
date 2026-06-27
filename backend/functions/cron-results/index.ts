@@ -1,4 +1,4 @@
-// cron-results edge function (v5.9.1)
+// cron-results edge function (v5.10.7)
 // Volane pg_cronem kazde 2 min. Stahne ESPN scoreboard, parse + ulozi parsed_events do app_sync_statuses.
 // v5.9.0: dohrane zapasy auto-uklada do vysledky (mapovani pres zapasy_meta + TEAM_ALIASES).
 //   - INSERT s ignoreDuplicates: existujici radek NIKDY neprepisuje (admin zustava zdroj pravdy pro korekce)
@@ -139,17 +139,47 @@ Deno.serve(async (req) => {
     const liveCount = parsed.filter((p) => p && !p.completed && p.homeScore !== "").length;
     const finalCount = parsed.filter((p) => p && p.completed).length;
 
-    // v5.9.1: auto-resolve play-off dvojic podle casu vykopu
+    // v5.10.7: auto-resolve play-off dvojic - SIROKE okno (default scoreboard vidi jen ~1 den dopredu,
+    // takze R32 zapasy se neresolvovaly dokud nebyly skoro na spadnuti; ted bereme dalsich ~12 dni).
     let metaUpdated = 0;
     const metaUpdatedIds: number[] = [];
     // deno-lint-ignore no-explicit-any
     let metaCache: any[] | null = null;
     try {
       const isPlaceholder = (s: string) => /sk\.|nejl|Vitez|Porazeny|Winner|Loser/i.test(s || "");
+      // ESPN placeholder na strane soupere (jeste nerozhodnuto) - nikdy nezapisovat do zapasy_meta
+      const isEspnPlaceholder = (s: string) => /group|winner|loser|place|runner|tbd|3rd|2nd|1st/i.test(s || "");
+      // Siroke okno pro resolve (yesterday .. +12 dni)
+      const d0 = new Date(Date.now() - 24 * 3600 * 1000);
+      const d1 = new Date(Date.now() + 12 * 24 * 3600 * 1000);
+      const fmt = (d: Date) => `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, "0")}${String(d.getUTCDate()).padStart(2, "0")}`;
+      // deno-lint-ignore no-explicit-any
+      let resolveEvents: any[] = parsed;
+      try {
+        const rRes = await fetch(`${ESPN_SCOREBOARD_URL}?dates=${fmt(d0)}-${fmt(d1)}`, {
+          headers: { "User-Agent": "TipovackaMS2026/5.10 (+cron-resolve)", "Accept": "application/json" },
+        });
+        if (rRes.ok) {
+          const rJson = await rRes.json();
+          // deno-lint-ignore no-explicit-any
+          resolveEvents = (Array.isArray(rJson?.events) ? rJson.events : []).map((ev: any) => {
+            const comp = ev.competitions?.[0];
+            if (!comp) return null;
+            // deno-lint-ignore no-explicit-any
+            const home = comp.competitors?.find((c: any) => c.homeAway === "home");
+            // deno-lint-ignore no-explicit-any
+            const away = comp.competitors?.find((c: any) => c.homeAway === "away");
+            return { home: home?.team?.displayName || "", away: away?.team?.displayName || "", date: ev?.date || "" };
+          }).filter(Boolean);
+        }
+      } catch (_e) { /* fallback na parsed (default okno) */ }
+
       const { data: meta } = await sb.from("zapasy_meta").select("zapas_id,stage,home_team,away_team,kickoff");
       metaCache = meta || [];
-      for (const ev of parsed) {
+      for (const ev of resolveEvents) {
         if (!ev || !ev.home || !ev.away || !ev.date) continue;
+        // ESPN jeste nema realne tymy (placeholder) -> nezapisovat
+        if (isEspnPlaceholder(ev.home) || isEspnPlaceholder(ev.away)) continue;
         // Uz matchuje podle jmen? -> nic neresolvovat
         const namedHit = metaCache.some((m) => nameMatches(m.home_team || "", ev.home) && nameMatches(m.away_team || "", ev.away));
         if (namedHit) continue;
@@ -159,7 +189,7 @@ Deno.serve(async (req) => {
           isPlaceholder(m.home_team || "") && isPlaceholder(m.away_team || "") &&
           m.kickoff && Math.abs(evTime - Date.parse(m.kickoff)) <= 2 * 3600 * 1000
         );
-        if (candidates.length === 1 && metaUpdated < 8) {
+        if (candidates.length === 1 && metaUpdated < 16) {
           const { error: updErr } = await sb.from("zapasy_meta")
             .update({ home_team: ev.home, away_team: ev.away })
             .eq("zapas_id", candidates[0].zapas_id);
