@@ -2444,7 +2444,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.11.1';
+var APP_VERSION='v5.11.2';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5096,14 +5096,20 @@ function espnToLocalTeam(espnName){
   });
   return found;
 }
+// v5.11.2: je dany nazev tymu jeste placeholder (nerozhodnuto)?
+function isPlaceholderTeam(n){
+  return /sk\.|nejl|Vitez|Porazeny|Winner|Loser|Group|Place|Third|1st|2nd|3rd/i.test(String(n||''));
+}
 function applyZapasyMetaNames(){
   return sbf('zapasy_meta?select=zapas_id,home_team,away_team&zapas_id=gte.73').then(function(rows){
     (rows||[]).forEach(function(r){
       PZ.forEach(function(z){
         if(z[0]!==r.zapas_id) return;
-        if(!matchTeamsUnknown(z)) return; // realne nazvy nikdy neprepisovat
+        if(!matchTeamsUnknown(z)) return; // uz plne rozlosovano -> neprepisovat
+        // castecny resolve - kazdou stranu zvlast (jeden tym znamy, druhy jeste ne)
         var hLocal=espnToLocalTeam(r.home_team), aLocal=espnToLocalTeam(r.away_team);
-        if(hLocal && aLocal){ z[2]=hLocal; z[3]=aLocal; }
+        if(hLocal && isPlaceholderTeam(z[2])) z[2]=hLocal;
+        if(aLocal && isPlaceholderTeam(z[3])) z[3]=aLocal;
       });
     });
   }).catch(function(){ /* offline/RLS fail -> placeholdery zustanou, nic se nerozbije */ });
@@ -6973,7 +6979,7 @@ function renderPavouk(){
   var headByLen={16:tr('r16'),8:tr('r8'),4:tr('qf'),2:tr('sf'),1:tr('fin')};
   function teamRow(z,which){
     var name=which==='home'?z[2]:z[3];
-    var unknown=matchTeamsUnknown(z);
+    var unknown=isPlaceholderTeam(name);
     var res=results[z[0]];
     var sp=res?res.split(':'):['',''];
     var sc=which==='home'?(sp[0]||''):(sp[1]||'');

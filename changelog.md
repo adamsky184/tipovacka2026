@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.11.2 - 28. 6. 2026
+
+**Částečný resolve play-off** - rozhodnuté týmy se zobrazí, i když soupeř ještě není znám.
+- Dřív se zápas play-off doplnil jen když byli známí OBA týmy. Proto se týmy z dohraných skupin (Anglie, Chorvatsko, Ghana...) neukázaly, dokud nebyli rozhodnuti jejich soupeři (3. místa / další skupiny).
+- Nově se doplní každá strana zvlášť: pavouk i Tipy ukáží „Anglie vs ?" hned, jak je Anglie jistá. Tipovat půjde po doplnění obou týmů.
+- cron-results v7: částečný resolve (stačí jedna strana), široké okno 12 dní. Frontend `applyZapasyMetaNames` + pavouk doplněny per-tým. Aktuálně známé strany doplněny hned.
+
 ## v5.11.1 - 28. 6. 2026
 
 Dva fixy:

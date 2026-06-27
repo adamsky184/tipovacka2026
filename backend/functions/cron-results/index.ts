@@ -1,4 +1,4 @@
-// cron-results edge function (v5.10.7)
+// cron-results edge function (v5.11.2 - castecny resolve play-off)
 // Volane pg_cronem kazde 2 min. Stahne ESPN scoreboard, parse + ulozi parsed_events do app_sync_statuses.
 // v5.9.0: dohrane zapasy auto-uklada do vysledky (mapovani pres zapasy_meta + TEAM_ALIASES).
 //   - INSERT s ignoreDuplicates: existujici radek NIKDY neprepisuje (admin zustava zdroj pravdy pro korekce)
@@ -178,26 +178,32 @@ Deno.serve(async (req) => {
       metaCache = meta || [];
       for (const ev of resolveEvents) {
         if (!ev || !ev.home || !ev.away || !ev.date) continue;
-        // ESPN jeste nema realne tymy (placeholder) -> nezapisovat
-        if (isEspnPlaceholder(ev.home) || isEspnPlaceholder(ev.away)) continue;
-        // Uz matchuje podle jmen? -> nic neresolvovat
+        // v5.10.7+: castecny resolve - staci aby JEDNA strana byla rozhodnuta
+        if (isEspnPlaceholder(ev.home) && isEspnPlaceholder(ev.away)) continue;
+        // Uz plne matchuje podle jmen? -> nic neresolvovat
         const namedHit = metaCache.some((m) => nameMatches(m.home_team || "", ev.home) && nameMatches(m.away_team || "", ev.away));
         if (namedHit) continue;
         const evTime = Date.parse(ev.date);
         if (!Number.isFinite(evTime)) continue;
+        // kandidat: aspon jedna strana jeste placeholder + kickoff +-2h (poradi nasi=ESPN dle v5.10.5)
         const candidates = metaCache.filter((m) =>
-          isPlaceholder(m.home_team || "") && isPlaceholder(m.away_team || "") &&
+          (isPlaceholder(m.home_team || "") || isPlaceholder(m.away_team || "")) &&
           m.kickoff && Math.abs(evTime - Date.parse(m.kickoff)) <= 2 * 3600 * 1000
         );
         if (candidates.length === 1 && metaUpdated < 16) {
-          const { error: updErr } = await sb.from("zapasy_meta")
-            .update({ home_team: ev.home, away_team: ev.away })
-            .eq("zapas_id", candidates[0].zapas_id);
-          if (!updErr) {
-            candidates[0].home_team = ev.home;
-            candidates[0].away_team = ev.away;
-            metaUpdated++;
-            metaUpdatedIds.push(candidates[0].zapas_id);
+          const cand = candidates[0];
+          // deno-lint-ignore no-explicit-any
+          const patch: any = {};
+          if (!isEspnPlaceholder(ev.home) && isPlaceholder(cand.home_team || "")) patch.home_team = ev.home;
+          if (!isEspnPlaceholder(ev.away) && isPlaceholder(cand.away_team || "")) patch.away_team = ev.away;
+          if (Object.keys(patch).length) {
+            const { error: updErr } = await sb.from("zapasy_meta").update(patch).eq("zapas_id", cand.zapas_id);
+            if (!updErr) {
+              if (patch.home_team) cand.home_team = patch.home_team;
+              if (patch.away_team) cand.away_team = patch.away_team;
+              metaUpdated++;
+              metaUpdatedIds.push(cand.zapas_id);
+            }
           }
         }
       }
