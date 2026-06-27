@@ -2175,6 +2175,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <button class="mc-banner-close" id="mc-banner-close" type="button" aria-label="Zavřít">×</button>
       </div>
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!</div>
+      <div class="ibox" id="ibox-po-note" style="display:none">🏆 Play-off: tipuje se výsledek po základní hrací době i prodloužení. Penaltový rozstřel se nepočítá — zápas rozhodnutý na penalty se boduje jako remíza (skóre po prodloužení).</div>
       <div id="my-progress-dash" class="my-progress-dash" style="display:none">
         <div class="mpd-item"><div class="mpd-val" id="mpd-tips">0</div><div class="mpd-lbl">Tipy</div></div>
         <div class="mpd-item"><div class="mpd-val mpd-val-gn" id="mpd-pts">0</div><div class="mpd-lbl">Body</div></div>
@@ -2444,7 +2445,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.11.3';
+var APP_VERSION='v5.11.4';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -2510,6 +2511,7 @@ var T={
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',history_table:'Historická tabulka',history_title:'Historie mistrovství světa',history_finals:'Finále',history_medals:'Medaile',history_awards:'Ocenění',history_records:'Rekordy',history_scorers:'Střelci',history_facts:'Zajímavosti',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
+    po_score_note:'🏆 Play-off: tipuje se výsledek po základní hrací době i prodloužení. Penaltový rozstřel se nepočítá — zápas rozhodnutý na penalty se boduje jako remíza (skóre po prodloužení).',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se doplňuje automaticky podle výsledků. Klikni na zápas pro detail.',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
@@ -2609,7 +2611,7 @@ var T={
     admin_col_actions:'Akce',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
-    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
+    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Play-off: tipuje se výsledek po základní hrací době i prodloužení; penaltový rozstřel se nepočítá (zápas na penalty = remíza).<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
@@ -2629,6 +2631,7 @@ var T={
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',history_table:'History Table',history_title:'World Cup history',history_finals:'Finals',history_medals:'Medals',history_awards:'Awards',history_records:'Records',history_scorers:'Scorers',history_facts:'Interesting facts',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
+    po_score_note:"🏆 Play-off: tip the score after regulation and extra time. Penalty shootouts don't count — a match decided on penalties scores as a draw (score after extra time).",
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket fills automatically from results. Tap a match for details.',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
@@ -2728,7 +2731,7 @@ var T={
     ost_top3:'Top 3 leaderboard',
     ost_top3_hint:'Full ranking is in Leaderboard',
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
-    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Match scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.<br>Extra picks: tournament winner 30 points, top scorer 20 points.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
+    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Match scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.<br>Play-off: tip the score after regulation and extra time; penalty shootouts don\'t count (a penalty match = a draw).<br>Extra picks: tournament winner 30 points, top scorer 20 points.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
@@ -6255,6 +6258,9 @@ function renderTipy(){
   if(tipSortRow) tipSortRow.style.display=(currentPhase==='sk')?'flex':'none';
   if(tipQf) tipQf.style.display=(currentPhase==='sk')?'flex':'none';
   if(tipMain) tipMain.style.display=(currentPhase==='ex')?'none':'block';
+  // v5.11.4: info o bodovani play-off (vc. prodlouzeni, bez penalt) - jen ve fazi play-off
+  var poNote=document.getElementById('ibox-po-note');
+  if(poNote){ poNote.textContent=tr('po_score_note'); poNote.style.display=(currentPhase==='po')?'block':'none'; }
   if(currentPhase==='ex'){
     document.getElementById('tipy-list').innerHTML='';
     updateSaveButtonsState();

@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.11.4 - 28. 6. 2026
+
+Transparentní info o bodování play-off. V záložce Moje tipy se ve fázi Play-off zobrazí info box: tipuje se výsledek po základní hrací době **i prodloužení**, penaltový rozstřel se nepočítá (zápas na penalty = remíza, skóre po prodloužení). Stejná věta doplněna do Pravidla/FAQ. Plný i18n. (Beze změny bodovací logiky - jen zprůhlednění stávajícího chování.)
+
 ## v5.11.3 - 28. 6. 2026
 
 **Pavouk se teď doplňuje i v otevřené appce** (nejen po reloadu/přihlášení). Dřív server (cron) doplnil rozlosované týmy do DB správně, ale otevřená appka je načítala jen při přihlášení - proto auto-refresh ani tlačítko VÝSLEDKY pavouk neaktualizovaly.
