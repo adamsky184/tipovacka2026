@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.4 - 28. 6. 2026
+
+Video sestřih přímo v kartě zápasu (YouTube embed).
+- Tlačítko **▶ Sestřih** u dohraných zápasů nyní **přehraje video přímo v appce** (rozklikávací 16:9 přehrávač, znovu klik = sbalí).
+- Video se dohledává přes **YouTube Data API** s preferencí **oficiálních kanálů (FIFA aj.)** před spamem; nalezené ID se **cachuje 1× na zápas** v DB (tabulka `match_media`) → minimální kvóta.
+- API klíč je uložen **jen na serveru** (privátní tabulka `app_secrets`, čte výhradně edge funkce přes service-role) – nikdy ve frontendu ani v gitu.
+- Když se sestřih nenajde, tlačítko bezpečně **otevře YouTube vyhledávání** (fallback). Embed = `youtube-nocookie.com`.
+
 ## v5.12.3 - 28. 6. 2026
 
 Karta zápasu – odkaz na detail vede přímo na zápas.
