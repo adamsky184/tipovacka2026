@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.0 - 28. 6. 2026
+
+**Play-off: tipuje se výsledek po 90 minutách + tip na postupujícího (+5 b).** Velký, pečlivě připravený zásah.
+- **Skóre = základní hrací doba (90 min)** jako u sázkovky. Prodloužení se do skóre nepočítá (cron dopočítá 90' z ESPN linescores po poločasech; admin může opravit). Penaltový rozstřel se do skóre nepočítá.
+- **U remízového play-off tipu** se objeví výběr „Kdo postoupí?" (vlajky domácí/hosté). Za správného postupujícího **+5 bodů** — plošně pro všechny, kdo trefí (i u rozhodného tipu se bere tipovaný vítěz). Bonus jen u zápasů rozhodnutých po remíze v 90' (prodloužení/penalty).
+- Bodování jinak beze změny: 10 přesný / 3 vítěz-remíza / +1 rozdíl. Skupiny zcela beze změny.
+- DB: nové sloupce `tipy.postup`, `vysledky.postupujici`; leaderboard funkce + save RPC rozšířeny (bonus počítá autoritativně server). cron-results v8.
+- UI: výběr postupujícího u tipu, zobrazení u uloženého tipu (✓+5 / ✗), info box v Play-off fázi, doplněno do Pravidla/FAQ, **jednorázový vyskakovací popup** pro všechny vysvětlující systém.
+- Bezpečně: nové sloupce nullable, skupiny i účty nedotčeny, vše ověřeno (bodovací logika na 7 případech, 90' výpočet na reálných datech, UI v preview).
+
 ## v5.11.4 - 28. 6. 2026
 
 Transparentní info o bodování play-off. V záložce Moje tipy se ve fázi Play-off zobrazí info box: tipuje se výsledek po základní hrací době **i prodloužení**, penaltový rozstřel se nepočítá (zápas na penalty = remíza, skóre po prodloužení). Stejná věta doplněna do Pravidla/FAQ. Plný i18n. (Beze změny bodovací logiky - jen zprůhlednění stávajícího chování.)

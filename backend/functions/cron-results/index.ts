@@ -1,4 +1,4 @@
-// cron-results edge function (v5.11.2 - castecny resolve play-off)
+// cron-results edge function (v5.12.0 - play-off 90 min + postupujici)
 // Volane pg_cronem kazde 2 min. Stahne ESPN scoreboard, parse + ulozi parsed_events do app_sync_statuses.
 // v5.9.0: dohrane zapasy auto-uklada do vysledky (mapovani pres zapasy_meta + TEAM_ALIASES).
 //   - INSERT s ignoreDuplicates: existujici radek NIKDY neprepisuje (admin zustava zdroj pravdy pro korekce)
@@ -125,6 +125,7 @@ Deno.serve(async (req) => {
       const away = comp.competitors?.find((c: any) => c.homeAway === "away");
       const st = comp.status;
       return {
+        id: String(ev?.id || ""),
         home: home?.team?.displayName || "",
         away: away?.team?.displayName || "",
         homeScore: home?.score ?? "",
@@ -222,7 +223,8 @@ Deno.serve(async (req) => {
         const meta = metaCache || (await sb.from("zapasy_meta").select("zapas_id,home_team,away_team,kickoff")).data;
         const { data: existing } = await sb.from("vysledky").select("zapas_id");
         const hasResult = new Set((existing || []).map((r) => r.zapas_id));
-        const rows: { zapas_id: number; skore: string; status: string; aktualizovano: string }[] = [];
+        // deno-lint-ignore no-explicit-any
+        const rows: any[] = [];
         for (const ev of completedEvents) {
           if (!ev) continue;
           const evTime = ev.date ? Date.parse(ev.date) : NaN;
@@ -236,12 +238,41 @@ Deno.serve(async (req) => {
             return true;
           });
           if (hits.length === 1 && !hasResult.has(hits[0].zapas_id)) {
-            rows.push({
-              zapas_id: hits[0].zapas_id,
-              skore: `${Number(ev.homeScore)}:${Number(ev.awayScore)}`,
-              status: "final",
-              aktualizovano: new Date().toISOString(),
-            });
+            const zid = hits[0].zapas_id;
+            let skore = `${Number(ev.homeScore)}:${Number(ev.awayScore)}`;
+            let postupujici: string | null = null;
+            // v5.12.0: play-off se boduje za 90 min + postupujici. Dopocet z ESPN summary (linescores po polocasech).
+            if (zid >= 73 && ev.id) {
+              try {
+                const sRes = await fetch(`${ESPN_SCOREBOARD_URL.replace("/scoreboard", "/summary")}?event=${ev.id}`, {
+                  headers: { "User-Agent": "TipovackaMS2026/5.12 (+cron-90)", "Accept": "application/json" },
+                });
+                if (sRes.ok) {
+                  const sj = await sRes.json();
+                  const hc = sj?.header?.competitions?.[0];
+                  // deno-lint-ignore no-explicit-any
+                  const ch = (hc?.competitors || []).find((c: any) => c.homeAway === "home");
+                  // deno-lint-ignore no-explicit-any
+                  const ca = (hc?.competitors || []).find((c: any) => c.homeAway === "away");
+                  // deno-lint-ignore no-explicit-any
+                  const sum2 = (ls: any) => {
+                    const a = Array.isArray(ls) ? ls : [];
+                    return (Number(a?.[0]?.displayValue) || 0) + (Number(a?.[1]?.displayValue) || 0);
+                  };
+                  const h90 = sum2(ch?.linescores), a90 = sum2(ca?.linescores);
+                  // pouzij 90' jen kdyz linescores davaji smysl (aspon 2 periody u obou)
+                  if (Array.isArray(ch?.linescores) && ch.linescores.length >= 2 && Array.isArray(ca?.linescores) && ca.linescores.length >= 2) {
+                    skore = `${h90}:${a90}`;
+                    if (h90 === a90) {
+                      // remiza po 90 -> postupujici = vitez zapasu (prodlouzeni/penalty)
+                      if (ch?.winner) postupujici = "H";
+                      else if (ca?.winner) postupujici = "A";
+                    }
+                  }
+                }
+              } catch (_e) { /* fallback na scoreboard skore (reg+ET); admin muze opravit */ }
+            }
+            rows.push({ zapas_id: zid, skore, postupujici, status: "final", aktualizovano: new Date().toISOString() });
           }
         }
         if (rows.length) {
