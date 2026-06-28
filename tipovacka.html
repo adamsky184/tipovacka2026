@@ -274,6 +274,17 @@ body.theme-light .venue{color:#5f7690}
 .mcard-lu-form{color:var(--mu);font-size:.65rem;margin-bottom:4px}
 .mcard-lu-p{display:flex;gap:5px;padding:1.5px 0;color:var(--mu2)}
 .mcard-lu-num{min-width:17px;text-align:right;color:var(--mu);font-family:'Space Grotesk',sans-serif;font-size:.67rem;flex-shrink:0}
+.pl-pitch{position:relative;background:linear-gradient(180deg,#11623a,#0c4a2c);border:1px solid var(--bd2);border-radius:12px;padding:8px 10px;margin:4px 0 10px;overflow:hidden}
+.pl-pitch::before{content:'';position:absolute;left:10px;right:10px;top:50%;height:1px;background:rgba(255,255,255,.22)}
+.pl-pitch::after{content:'';position:absolute;left:50%;top:50%;width:54px;height:54px;border:1px solid rgba(255,255,255,.22);border-radius:50%;transform:translate(-50%,-50%)}
+.pl-half{display:flex;flex-direction:column;gap:8px;padding:8px 0;position:relative;z-index:1}
+.pl-row{display:flex;justify-content:space-around;align-items:flex-start;gap:2px}
+.pl-tok{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0;text-align:center}
+.pl-num{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.95);color:#0b1220;font-weight:700;font-size:.72rem;font-family:'Space Grotesk',sans-serif;flex-shrink:0}
+.pl-nm{font-size:.59rem;color:#fff;line-height:1.05;text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-teamlbl{font-weight:700;font-size:.72rem;color:#fff;text-align:center;padding:3px 0;position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pl-form{color:rgba(255,255,255,.65);font-size:.62rem;font-weight:600}
+.pl-mid{height:0}
 .mcard-note{font-size:.72rem;color:var(--mu);text-align:center;padding:.45rem 0}
 .mcard-venue-img{width:100%;border-radius:10px;margin:.45rem 0 0;max-height:130px;object-fit:cover;display:block}
 .mcard-share-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,197,94,.16));border:1px solid var(--bd2);color:var(--tx);border-radius:10px;padding:7px 16px;font-size:.78rem;font-weight:700;cursor:pointer;transition:border-color .15s,transform .1s}
@@ -2461,7 +2472,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.4';
+var APP_VERSION='v5.12.5';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5350,18 +5361,58 @@ function msumEventsHtml(sum){
   if(!rows) return '';
   return '<div class="mcard-sec">'+(LANG==='en'?'Goals & events':'Góly a události')+'</div>'+rows;
 }
+// --- Pitch (rozestavení) z ESPN dat: hloubka řady dle pozice, řazení L/R ---
+function _luDepth(pos){
+  var p=(pos||'').toUpperCase();
+  if(p.charAt(0)==='G') return 0;                                   // brankář
+  if(/^(CDM|DM|RDM|LDM)/.test(p)) return 2;                          // defenzivní záloha
+  if(/^(CAM|AM)/.test(p)) return 4;                                  // ofenzivní záloha
+  if(/^(RWB|LWB|WB|RB|LB|RCB|LCB|CB|RCD|LCD|CD|SW|D)/.test(p)) return 1; // obrana
+  if(/^(CF|ST|SS|FW|LW|RW|F|W)/.test(p)) return 5;                   // útok/křídla
+  return 3;                                                          // záloha
+}
+function _luSide(pos){
+  var p=(pos||'').toUpperCase();
+  if(/L/.test(p)&&!/R/.test(p)) return -1;
+  if(/R/.test(p)&&!/L/.test(p)) return 1;
+  return 0;
+}
+function _luShort(name){ var parts=String(name||'').trim().split(' '); return parts[parts.length-1]||''; }
+function _luRows(starters){
+  var byd={};
+  starters.forEach(function(p){ var d=_luDepth(p.pos); (byd[d]=byd[d]||[]).push(p); });
+  return Object.keys(byd).map(Number).sort(function(a,b){return a-b;}).map(function(d){
+    return byd[d].slice().sort(function(a,b){ return _luSide(a.pos)-_luSide(b.pos); });
+  }); // index 0 = GK ... poslední = útok
+}
+function _luTok(p){ return '<div class="pl-tok"><span class="pl-num">'+escHtml(p.jersey||'')+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span></div>'; }
+function _luHalf(rows,isAway){
+  var ordered=isAway?rows:rows.slice().reverse(); // away: GK nahoře→útok dolů; home: útok nahoře→GK dole
+  return ordered.map(function(r){ return '<div class="pl-row">'+r.map(_luTok).join('')+'</div>'; }).join('');
+}
+function _luListSide(r){
+  var h='<div class="mcard-lu-team">'+escHtml(r.team)+'</div>'+(r.formation?'<div class="mcard-lu-form">'+escHtml(r.formation)+'</div>':'');
+  r.starters.forEach(function(p){ h+='<div class="mcard-lu-p"><span class="mcard-lu-num">'+escHtml(p.jersey||'')+'</span><span>'+escHtml(p.name)+(p.pos?' <span style="color:var(--mu);font-size:.62rem">'+escHtml(p.pos)+'</span>':'')+'</span></div>'; });
+  return '<div>'+h+'</div>';
+}
 function msumLineupsHtml(sum,z){
   var ros=(sum.rosters||[]).filter(function(r){return r.starters&&r.starters.length;});
   if(ros.length<2) return '';
   var hm=null,aw=null;
   ros.forEach(function(r){ if(r.homeAway==='home') hm=r; if(r.homeAway==='away') aw=r; });
   if(!hm||!aw){ hm=ros[0]; aw=ros[1]; }
-  function side(r){
-    var h='<div class="mcard-lu-team">'+escHtml(r.team)+'</div>'+(r.formation?'<div class="mcard-lu-form">'+escHtml(r.formation)+'</div>':'');
-    r.starters.forEach(function(p){ h+='<div class="mcard-lu-p"><span class="mcard-lu-num">'+escHtml(p.jersey||'')+'</span><span>'+escHtml(p.name)+(p.pos?' <span style="color:var(--mu);font-size:.62rem">'+escHtml(p.pos)+'</span>':'')+'</span></div>'; });
-    return '<div>'+h+'</div>';
-  }
-  return '<div class="mcard-sec">'+(LANG==='en'?'Starting lineups':'Základní sestavy')+'</div><div class="mcard-lineups">'+side(hm)+side(aw)+'</div>';
+  var sec='<div class="mcard-sec">'+(LANG==='en'?'Lineups':'Sestavy')+'</div>';
+  // fallback na seznam, kdyz ESPN nedodalo pozice
+  if(!hm.starters.concat(aw.starters).some(function(p){return p.pos;}))
+    return sec+'<div class="mcard-lineups">'+_luListSide(hm)+_luListSide(aw)+'</div>';
+  function lbl(r){ return escHtml(r.team)+(r.formation?' <span class="pl-form">'+escHtml(r.formation)+'</span>':''); }
+  return sec+'<div class="pl-pitch">'+
+    '<div class="pl-teamlbl">'+lbl(aw)+'</div>'+
+    '<div class="pl-half">'+_luHalf(_luRows(aw.starters),true)+'</div>'+
+    '<div class="pl-mid"></div>'+
+    '<div class="pl-half">'+_luHalf(_luRows(hm.starters),false)+'</div>'+
+    '<div class="pl-teamlbl">'+lbl(hm)+'</div>'+
+    '</div>';
 }
 function msumH2hHtml(sum){
   var h2=(sum.h2h||[]);

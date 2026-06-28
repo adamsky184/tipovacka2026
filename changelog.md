@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.5 - 28. 6. 2026
+
+Sestavy na hřišti s rozestavením (jako FlashScore).
+- V kartě zápasu se **základní sestavy** nově zobrazují **na hřišti dle rozestavení** (formace, čísla + jména, obě mužstva na jednom hřišti) místo prostého seznamu. Data z ESPN (formace + pozice hráčů), bezpečně, bez scrapingu.
+- Pozn.: **hodnocení hráčů (6.0, 5.4…) z Livesportu/SofaScore přidat nelze** – tyto služby blokují automatický přístup (403/CORS), proto je u hráčů nezobrazujeme.
+- Když ESPN u zápasu pozice nedodá, automatický fallback na původní seznam.
+
 ## v5.12.4 - 28. 6. 2026
 
 Video sestřih přímo v kartě zápasu (YouTube embed).
