@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.2 - 28. 6. 2026
+
+Karta zápasu – externí odkazy u dohraných zápasů.
+- **▶ Sestřih** – odkaz na YouTube vyhledání highlightů zápasu (oficiální FIFA/vysílatel, funguje v ČR).
+- **📊 Hodnocení hráčů** – odkaz na vyhledání hodnocení hráčů (Livesport/WhoScored/SofaScore).
+- Záměrně **pouze odkazy ven, žádný scraping** – tyto služby nemají veřejné API a blokují roboty; bezpečné, nic neohrožuje appku ani data.
+
 ## v5.12.1 - 28. 6. 2026
 
 Doladění bonusu za postupujícího + transparentnost.
