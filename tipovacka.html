@@ -2456,7 +2456,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.2';
+var APP_VERSION='v5.12.3';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5453,10 +5453,11 @@ function openMatchCard(zid){
     var enD=(TMEN[d]||tN(d)), enH=(TMEN[h]||tN(h));
     var yr=(kickoff&&kickoff.getFullYear)?kickoff.getFullYear():2026;
     var qHi=encodeURIComponent(enD+' vs '+enH+' highlights '+yr);
-    var qRt=encodeURIComponent(enD+' vs '+enH+' player ratings '+yr);
+    var qRt=encodeURIComponent(enD+' vs '+enH+' '+yr+' player ratings sofascore');
+    // Hodnoceni/detail: primy ESPN match deep-link (href doplnime po dohledani event id), fallback = cilene vyhledavani.
     extHtml='<div class="mcard-extlinks">'+
       '<a class="mcard-ext" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query='+qHi+'">▶ '+(LANG==='en'?'Highlights':'Sestřih')+'</a>'+
-      '<a class="mcard-ext" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q='+qRt+'">📊 '+(LANG==='en'?'Player ratings':'Hodnocení hráčů')+'</a>'+
+      '<a id="mcard-rate'+zid+'" class="mcard-ext" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q='+qRt+'">📊 '+(LANG==='en'?'Stats & lineups':'Statistiky & sestavy')+'</a>'+
       '</div>';
   }
 
@@ -5483,6 +5484,15 @@ function openMatchCard(zid){
   overlay.querySelector('.mcard-close').onclick=close;
   var shareBtn=overlay.querySelector('[data-share-zid]');
   if(shareBtn) shareBtn.onclick=function(){ shareMatchAsImage(shareBtn.getAttribute('data-share-zid')); };
+
+  // Primy odkaz na detail zapasu na ESPN (spolehlivy deep-link, otevre se v CR). Fallback (vyhledavani) zustava pokud se eid nedohleda.
+  if(res){
+    try{ resolveEspnEventId(z).then(function(eid){
+      if(!eid||!overlay.parentNode) return;
+      var a=overlay.querySelector('#mcard-rate'+zid);
+      if(a) a.href='https://www.espn.com/soccer/match/_/gameId/'+encodeURIComponent(eid);
+    }).catch(function(){}); }catch(e){}
+  }
 
   // ESPN detail jen pro zapasy po vykopu
   var espnEl=overlay.querySelector('#mcard-espn');

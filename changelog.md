@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.3 - 28. 6. 2026
+
+Karta zápasu – odkaz na detail vede přímo na zápas.
+- Tlačítko **📊 Statistiky & sestavy** nyní vede **přímo na stránku daného zápasu na ESPN** (statistiky, sestavy) – spolehlivý deep-link, funguje v ČR. Fallback na cílené vyhledávání, pokud se zápas zatím nedohledá.
+- Pozn.: přímý odkaz na hodnocení hráčů (SofaScore/WhoScored/Livesport/FotMob) nelze garantovat – tyto služby blokují automatizovaný přístup (403) a CORS; proto deep-link na ESPN, který je dostupný a stabilní. (YouTube embed sestřihů se chystá zvlášť.)
+
 ## v5.12.2 - 28. 6. 2026
 
 Karta zápasu – externí odkazy u dohraných zápasů.
