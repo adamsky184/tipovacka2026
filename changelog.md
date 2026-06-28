@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.1 - 28. 6. 2026
+
+Doladění bonusu za postupujícího + transparentnost.
+- **Bonus za správného postupujícího je 3 body** (dřív 5) — konzistentní s 3 body za vítěze; +1 za rozdíl skóre zůstává.
+- **Tabulka bodů** doplněna do info boxu, Pravidla/FAQ i popupu: 10 přesný · 3 vítěz/remíza · +1 rozdíl · +3 postup.
+- **Žebříček** nově ukazuje samostatně „+Xb postup" u hráče (leaderboard funkce vrací sloupec `adv`), ať není bonus jen schovaný v součtu.
+
 ## v5.12.0 - 28. 6. 2026
 
 **Play-off: tipuje se výsledek po 90 minutách + tip na postupujícího (+5 b).** Velký, pečlivě připravený zásah.

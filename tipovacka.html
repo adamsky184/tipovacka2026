@@ -2182,7 +2182,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <button class="mc-banner-close" id="mc-banner-close" type="button" aria-label="Zavřít">×</button>
       </div>
       <div class="ibox" id="ibox-tipy">Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!</div>
-      <div class="ibox" id="ibox-po-note" style="display:none">🏆 Play-off: tipuje se výsledek po základní hrací době (90 minut), prodloužení se do skóre nepočítá. Když je po 90 minutách remíza, tipni navíc kdo postoupí — za správného postupujícího máš +5 bodů.</div>
+      <div class="ibox" id="ibox-po-note" style="display:none">🏆 Play-off: tipuje se výsledek po základní hrací době (90 minut), prodloužení se do skóre nepočítá. Když je po 90 minutách remíza, tipni navíc kdo postoupí — za správného postupujícího máš +3 body. Body: 10 přesný · 3 vítěz/remíza · +1 rozdíl · +3 postup.</div>
       <div id="my-progress-dash" class="my-progress-dash" style="display:none">
         <div class="mpd-item"><div class="mpd-val" id="mpd-tips">0</div><div class="mpd-lbl">Tipy</div></div>
         <div class="mpd-item"><div class="mpd-val mpd-val-gn" id="mpd-pts">0</div><div class="mpd-lbl">Body</div></div>
@@ -2452,7 +2452,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.0';
+var APP_VERSION='v5.12.1';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -2518,7 +2518,7 @@ var T={
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',history_table:'Historická tabulka',history_title:'Historie mistrovství světa',history_finals:'Finále',history_medals:'Medaile',history_awards:'Ocenění',history_records:'Rekordy',history_scorers:'Střelci',history_facts:'Zajímavosti',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
-    po_score_note:'🏆 Play-off: tipuje se výsledek po základní hrací době (90 minut), prodloužení se do skóre nepočítá. Když je po 90 minutách remíza, tipni navíc kdo postoupí — za správného postupujícího máš +5 bodů.',
+    po_score_note:'🏆 Play-off: tipuje se výsledek po základní hrací době (90 minut), prodloužení se do skóre nepočítá. Když je po 90 minutách remíza, tipni navíc kdo postoupí — za správného postupujícího máš +3 body. Body: 10 přesný · 3 vítěz/remíza · +1 rozdíl · +3 postup.',
     ibox_ost:'Tipy ostatních jsou viditelné jen pro zápasy kde máš svůj tip uložen. Ostatní zápasy zobrazují "?".',
     ibox_pav:'Pavouk se doplňuje automaticky podle výsledků. Klikni na zápas pro detail.',
     ibox_tymy:'Soupisky budou doplněny po uzavření nominací (konec května 2026).',
@@ -2618,7 +2618,7 @@ var T={
     admin_col_actions:'Akce',
     ost_top3_hint:'Kompletní pořadí je v Žebříčku',
     teams_note:'Týmové profily, soupisky, fixtures a stats se načítají z ESPN a nemusí odpovídat finálním oficiálním nominacím FIFA pro MS 2026.',
-    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Play-off: tipuje se výsledek po 90 minutách (prodloužení se do skóre nepočítá); u remízy navíc tipni postupujícího za +5 bodů.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
+    team_overview:'Profil',team_fixtures:'Zápasy',team_stats:'Statistiky',team_squad:'Soupiska',team_back:'← Zpět na týmy',leader_info:'Bodování zápasů: 10 bodů za přesný výsledek, 3 body za správného vítěze nebo remízu a +1 bod za správný rozdíl skóre.<br>Play-off: tipuje se výsledek po 90 minutách (prodloužení se do skóre nepočítá); u remízy navíc tipni postupujícího za +3 body.<br>Extra tipy: vítěz turnaje 30 bodů, král střelců 20 bodů.',exact_tips:'Přesné tipy',right_trends:'Správné trendy',success_rate:'Úspěšnost',points_short:'bodů',back_top:'↑ Zpět nahoru',team_pick:'Vyber tým',
     team_loading:'Načítám ESPN data týmu...',team_sync_done:'Týmová data připravena',team_sync_fail:'Týmová data se nepodařilo načíst',espn_profile:'Profil',espn_squad:'Soupiska',map_link:'Mapa',no_team_data:'Pro tento tým zatím nejsou ESPN data dostupná.',fixtures_empty:'Fixtures zatím nejsou dostupné',stats_empty:'Statistiky zatím nejsou dostupné',squad_empty:'Soupiska zatím není dostupná',team_squad:'Soupiska',standings_lbl:'Pořadí FIFA',status_cached:'Cache',status_live:'Živá data',team_back:'← Zpět na týmy',
     sync_teams:'TÝMY',sync_results:'VÝSLEDKY',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures zatím nejsou k dispozici',stats_empty:'Stats zatím nejsou k dispozici',squad_empty:'Soupiska zatím není k dispozici',status_current:'Aktuální',status_cached:'Cache',
     standings_lbl:'Pořadí FIFA',apps_lbl:'Starty',goals_lbl:'Góly',assists_lbl:'Asistence',age_lbl:'Věk',pos_lbl:'Pozice',nat_lbl:'Země',height_lbl:'Výška',
@@ -2638,7 +2638,7 @@ var T={
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',history_table:'History Table',history_title:'World Cup history',history_finals:'Finals',history_medals:'Medals',history_awards:'Awards',history_records:'Records',history_scorers:'Scorers',history_facts:'Interesting facts',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
-    po_score_note:"🏆 Play-off: tip the score after regulation (90 minutes); extra time is not counted in the score. If it's a draw after 90 minutes, also pick who advances — a correct pick gives you +5 points.",
+    po_score_note:"🏆 Play-off: tip the score after regulation (90 minutes); extra time is not counted. If it's a draw after 90 minutes, also pick who advances — a correct pick gives +3 points. Points: 10 exact · 3 winner/draw · +1 diff · +3 advance.",
     ibox_ost:"Others' tips are visible only for matches where you have a saved tip. Other matches show '?'.",
     ibox_pav:'Bracket fills automatically from results. Tap a match for details.',
     ibox_tymy:'Rosters will be added after nominations close (end of May 2026).',
@@ -2738,7 +2738,7 @@ var T={
     ost_top3:'Top 3 leaderboard',
     ost_top3_hint:'Full ranking is in Leaderboard',
     teams_note:'Team profiles, squad, fixtures and stats are pulled from ESPN and may not match the final official FIFA World Cup 2026 squads.',
-    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Match scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.<br>Play-off: tip the score after 90 minutes (extra time not counted); on a draw also pick who advances for +5 points.<br>Extra picks: tournament winner 30 points, top scorer 20 points.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
+    team_overview:'Profile',team_fixtures:'Fixtures',team_stats:'Stats',team_squad:'Squad',team_back:'← Back to teams',leader_info:'Match scoring: 10 points for exact score, 3 points for correct winner or draw and +1 point for the correct goal difference.<br>Play-off: tip the score after 90 minutes (extra time not counted); on a draw also pick who advances for +3 points.<br>Extra picks: tournament winner 30 points, top scorer 20 points.',exact_tips:'Exact tips',right_trends:'Correct trends',success_rate:'Success rate',points_short:'pts',back_top:'↑ Back to top',team_pick:'Select a team',
     team_loading:'Loading ESPN team data...',team_sync_done:'Team data ready',team_sync_fail:'Team data failed to load',espn_profile:'Profile',espn_squad:'Squad',map_link:'Map',no_team_data:'No ESPN data available for this team yet.',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',team_squad:'Squad',standings_lbl:'FIFA rank',status_cached:'Cache',status_live:'Live data',team_back:'← Back to teams',
     sync_teams:'TEAMS',sync_results:'RESULTS',sync_fifa:'FIFA RANKING',fixtures_empty:'Fixtures are not available yet',stats_empty:'Stats are not available yet',squad_empty:'Squad is not available yet',status_current:'Live',status_cached:'Cache',
     standings_lbl:'FIFA rank',apps_lbl:'Apps',goals_lbl:'Goals',assists_lbl:'Assists',age_lbl:'Age',pos_lbl:'Pos',nat_lbl:'Nat',height_lbl:'Height',
@@ -3892,6 +3892,7 @@ function buildLeaderboardFromCache(phase){
       recentExact:+row.recent_exact||0,
       recentPoints:+row.recent_points||0,
       drawHits:+row.draw_hits||0,
+      adv:+row.adv||0,
       history:Array.isArray(row.history)?row.history:[]
     };
   }).sort(function(a,b){
@@ -5958,14 +5959,14 @@ function maybeShowPlayoffPopup(){
     ? '<div class="onb-emoji">🏆</div><div class="onb-title">Play-off is here!</div><div class="onb-text" style="text-align:left">'+
       'A few things about scoring in the knockout stage:<br><br>'+
       '⚽ <b>Tip the score after 90 minutes</b> (regulation). Extra time is <b>not</b> counted in the score — so a goal in extra time won\'t change your result.<br><br>'+
-      '🤝 If it\'s a <b>draw after 90 minutes</b>, you also pick <b>who advances</b> (extra time or penalties). A correct pick = <b>+5 points</b>.<br><br>'+
-      '🏅 Scoring stays the same otherwise: 10 exact · 3 winner/draw · +1 goal difference.'+
+      '🤝 If it\'s a <b>draw after 90 minutes</b>, you also pick <b>who advances</b> (extra time or penalties). A correct pick = <b>+3 points</b>.<br><br>'+
+      '🏅 Points: <b>10</b> exact · <b>3</b> winner/draw · <b>+1</b> goal difference · <b>+3</b> advance.'+
       '</div>'
     : '<div class="onb-emoji">🏆</div><div class="onb-title">Play-off je tu!</div><div class="onb-text" style="text-align:left">'+
       'Pár věcí k bodování ve vyřazovací fázi:<br><br>'+
       '⚽ <b>Tipuje se výsledek po 90 minutách</b> (základní hrací doba). Prodloužení se do skóre <b>nepočítá</b> — gól v prodloužení ti tedy výsledek nezmění.<br><br>'+
-      '🤝 Když je po <b>90 minutách remíza</b>, tipneš navíc <b>kdo postoupí</b> (v prodloužení nebo na penalty). Správný tip = <b>+5 bodů</b>.<br><br>'+
-      '🏅 Jinak bodování stejné: 10 přesný · 3 vítěz/remíza · +1 rozdíl skóre.'+
+      '🤝 Když je po <b>90 minutách remíza</b>, tipneš navíc <b>kdo postoupí</b> (v prodloužení nebo na penalty). Správný tip = <b>+3 body</b>.<br><br>'+
+      '🏅 Body: <b>10</b> přesný · <b>3</b> vítěz/remíza · <b>+1</b> rozdíl skóre · <b>+3</b> postup.'+
       '</div>';
   overlay.innerHTML='<div class="onb-card">'+body+
     '<div class="onb-actions" style="justify-content:center"><button class="onb-next" id="po-popup-ok">'+(en?'Got it':'Rozumím')+'</button></div></div>';
@@ -6451,7 +6452,7 @@ function renderMatchRow(z,isAdmin,hasGT){
         var myAdv=myTipsPostup[id];
         if(myAdv){
           var actual=resultsAdvance[id],mark='';
-          if(actual) mark=(actual===myAdv)?' <span style="color:var(--gn2);font-weight:700">✓+5</span>':' <span style="color:#f87171">✗</span>';
+          if(actual) mark=(actual===myAdv)?' <span style="color:var(--gn2);font-weight:700">✓+3</span>':' <span style="color:#f87171">✗</span>';
           advLine='<div class="tadv-saved">'+escHtml(LANG==='en'?'adv: ':'postup: ')+escHtml(fT(myAdv==='H'?d:h))+mark+'</div>';
         }
       }
@@ -6470,12 +6471,12 @@ function renderMatchRow(z,isAdmin,hasGT){
       '<input class="tia'+(!locked&&svCls?' '+svCls:'')+'" id="tia'+id+'" value="'+escAttr(av)+'" placeholder="0" maxlength="2" pattern="[0-9]*"'+dis+' inputmode="numeric" autocomplete="off">'+
       aiBtn+
     '</div>';
-    // v5.12.0: u play-off remizoveho tipu vyber postupujiciho (+5 b)
+    // v5.12.0: u play-off remizoveho tipu vyber postupujiciho (+3 b)
     if(id>=73 && !locked){
       var savedAdv=myTipsPostup[id]||'';
       var isDrawNow=(hv!==''&&av!==''&&hv===av);
       tipHtml+='<div class="tadv-wrap" id="tadvwrap'+id+'" style="display:'+(isDrawNow?'flex':'none')+'">'+
-        '<span class="tadv-lbl">'+escHtml(LANG==='en'?'Advances? (+5)':'Postoupí? (+5)')+'</span>'+
+        '<span class="tadv-lbl">'+escHtml(LANG==='en'?'Advances? (+3)':'Postoupí? (+3)')+'</span>'+
         '<button type="button" class="tadv-btn'+(savedAdv==='H'?' on':'')+'" data-adv-zid="'+id+'" data-adv="H" title="'+escAttr(tN(d))+'">'+(fl(d)||'🏠')+'</button>'+
         '<button type="button" class="tadv-btn'+(savedAdv==='A'?' on':'')+'" data-adv-zid="'+id+'" data-adv="A" title="'+escAttr(tN(h))+'">'+(fl(h)||'✈️')+'</button>'+
         '<input type="hidden" id="tadv'+id+'" value="'+escAttr(savedAdv)+'">'+
@@ -6928,7 +6929,7 @@ function renderZeb(){
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
       '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
-      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+
+      '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.adv?'<span style="color:var(--gd)" title="'+escAttr(LANG==='en'?'Advance bonus':'Bonus za postupujícího')+'">+'+s.adv+'b '+(LANG==='en'?'advance':'postup')+'</span>':'')+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+
       (s.hod>0?(function(){var sr=Math.round(((s.pre+s.spr)/s.hod)*100);return '<div class="zeb-success-bar" title="'+escAttr((LANG==='en'?'Success rate: ':'Úspěšnost: ')+sr+'% ('+(s.pre+s.spr)+'/'+s.hod+')')+'"><div class="zeb-success-fill" style="width:'+Math.min(100,sr)+'%"></div></div>';})():'')+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
