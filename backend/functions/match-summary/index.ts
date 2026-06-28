@@ -68,18 +68,39 @@ function trimSummary(d: any) {
       shootout: !!e?.shootout,
     }))
     .filter((e: any) => e.scoringPlay || /card|substitution/i.test(e.type));
-  const rosters = ((d?.rosters) || []).map((r: any) => ({
-    homeAway: r?.homeAway || "",
-    team: r?.team?.displayName || "",
-    formation: r?.formation || "",
-    starters: (r?.roster || [])
-      .filter((p: any) => p?.starter)
-      .map((p: any) => ({
+  // Mapa udalosti na hrace dle ESPN athlete id (spolehlivejsi nez jmena) pro ikonky v sestave
+  const evByAth: Record<string, { g: number; y: number; r: number }> = {};
+  ((d?.keyEvents) || []).forEach((e: any) => {
+    const txt = String(e?.type?.text || "").toLowerCase();
+    const aid = String(((e?.participants || [])[0])?.athlete?.id || "");
+    if (!aid) return;
+    const rec = (evByAth[aid] = evByAth[aid] || { g: 0, y: 0, r: 0 });
+    if (e?.scoringPlay && !/own goal/i.test(txt)) rec.g++;
+    else if (/yellow/.test(txt)) rec.y++;
+    else if (/red/.test(txt)) rec.r++;
+  });
+  const rosters = ((d?.rosters) || []).map((r: any) => {
+    const all = (r?.roster || []).map((p: any) => {
+      const id = String(p?.athlete?.id || "");
+      const ev = evByAth[id] || { g: 0, y: 0, r: 0 };
+      return {
         name: p?.athlete?.displayName || "",
         jersey: p?.jersey || "",
         pos: p?.position?.abbreviation || "",
-      })),
-  }));
+        starter: !!p?.starter,
+        subOut: !!p?.subbedOut,
+        subIn: !!p?.subbedIn,
+        g: ev.g, y: ev.y, r: ev.r,
+      };
+    });
+    return {
+      homeAway: r?.homeAway || "",
+      team: r?.team?.displayName || "",
+      formation: r?.formation || "",
+      starters: all.filter((p: any) => p.starter),
+      subs: all.filter((p: any) => !p.starter),
+    };
+  });
   const gi = d?.gameInfo || {};
   const ref = ((gi?.officials || [])[0]) || {};
   return {

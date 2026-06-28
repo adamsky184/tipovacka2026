@@ -285,6 +285,20 @@ body.theme-light .venue{color:#5f7690}
 .pl-teamlbl{font-weight:700;font-size:.72rem;color:#fff;text-align:center;padding:3px 0;position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .pl-form{color:rgba(255,255,255,.65);font-size:.62rem;font-weight:600}
 .pl-mid{height:0}
+.pl-box{position:absolute;left:50%;transform:translateX(-50%);width:42%;height:42px;border:1px solid rgba(255,255,255,.18);z-index:0}
+.pl-box-t{top:24px;border-top:0}
+.pl-box-b{bottom:24px;border-bottom:0}
+.pl-ic{display:flex;align-items:center;justify-content:center;gap:1px;font-size:.62rem;line-height:1;margin-top:1px}
+.pl-ic-g{font-size:.62rem}
+.pl-ic-out{color:#ff6b6b;font-size:.52rem}
+.pl-ic-in{color:#37d67a;font-size:.6rem}
+.pl-subs{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:2px 0 4px;align-items:start}
+.pl-subcol{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pl-subteam{font-weight:700;font-size:.68rem;color:var(--mu);margin-bottom:2px}
+.pl-subp{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--tx);min-width:0}
+.pl-subnum{min-width:16px;text-align:right;color:var(--mu);font-family:'Space Grotesk',sans-serif;font-size:.66rem}
+.pl-subnm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-subp .pl-ic{display:inline-flex;margin:0 0 0 2px}
 .mcard-note{font-size:.72rem;color:var(--mu);text-align:center;padding:.45rem 0}
 .mcard-venue-img{width:100%;border-radius:10px;margin:.45rem 0 0;max-height:130px;object-fit:cover;display:block}
 .mcard-share-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,197,94,.16));border:1px solid var(--bd2);color:var(--tx);border-radius:10px;padding:7px 16px;font-size:.78rem;font-weight:700;cursor:pointer;transition:border-color .15s,transform .1s}
@@ -299,6 +313,11 @@ body.theme-light .venue{color:#5f7690}
 .mcard-hlwrap{margin:.3rem 0 .2rem}
 .mcard-hl{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
 .mcard-hl iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.mcard-hl-thumb{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background-size:cover;background-position:center;text-decoration:none}
+.mcard-hl-thumb::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.mcard-hl-play{position:relative;display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:rgba(255,0,0,.9);color:#fff;font-size:1.4rem;padding-left:4px}
+.mcard-hl-yt{position:relative;color:#fff;font-weight:700;font-size:.78rem;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.mcard-hl-load{display:block}
 @media(max-width:430px){.mcard{padding:.9rem .8rem .8rem}.mcard-lineups{grid-template-columns:1fr}}
 /* v5.9.0: mobilni hlavicka - 3 boxy pres celou sirku dokud neni play-off (4. karta skryta) */
 @media(max-width:520px){
@@ -2472,7 +2491,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.5';
+var APP_VERSION='v5.12.6';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5385,7 +5404,27 @@ function _luRows(starters){
     return byd[d].slice().sort(function(a,b){ return _luSide(a.pos)-_luSide(b.pos); });
   }); // index 0 = GK ... poslední = útok
 }
-function _luTok(p){ return '<div class="pl-tok"><span class="pl-num">'+escHtml(p.jersey||'')+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span></div>'; }
+function _luIcons(p,isSub){
+  var s='';
+  if(p.g){ s+='<span class="pl-ic-g">⚽'+(p.g>1?'×'+p.g:'')+'</span>'; }
+  if(p.y) s+='🟨';
+  if(p.r) s+='🟥';
+  if(!isSub&&p.subOut) s+='<span class="pl-ic-out">▼</span>';
+  return s?'<span class="pl-ic">'+s+'</span>':'';
+}
+function _luTok(p){ return '<div class="pl-tok"><span class="pl-num">'+escHtml(p.jersey||'')+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span>'+_luIcons(p,false)+'</div>'; }
+function _luSubsHtml(hm,aw){
+  function list(r){
+    var ins=(r.subs||[]).filter(function(p){return p.subIn;});
+    if(!ins.length) return '';
+    var h='<div class="pl-subcol"><div class="pl-subteam">'+escHtml(r.team)+'</div>';
+    ins.forEach(function(p){ h+='<div class="pl-subp"><span class="pl-ic-in">▲</span><span class="pl-subnum">'+escHtml(p.jersey||'')+'</span><span class="pl-subnm">'+escHtml(_luShort(p.name))+'</span>'+_luIcons(p,true)+'</div>'; });
+    return h+'</div>';
+  }
+  var l1=list(hm),l2=list(aw);
+  if(!l1&&!l2) return '';
+  return '<div class="mcard-sec">'+(LANG==='en'?'Substitutes on':'Střídání')+'</div><div class="pl-subs">'+l1+l2+'</div>';
+}
 function _luHalf(rows,isAway){
   var ordered=isAway?rows:rows.slice().reverse(); // away: GK nahoře→útok dolů; home: útok nahoře→GK dole
   return ordered.map(function(r){ return '<div class="pl-row">'+r.map(_luTok).join('')+'</div>'; }).join('');
@@ -5407,12 +5446,13 @@ function msumLineupsHtml(sum,z){
     return sec+'<div class="mcard-lineups">'+_luListSide(hm)+_luListSide(aw)+'</div>';
   function lbl(r){ return escHtml(r.team)+(r.formation?' <span class="pl-form">'+escHtml(r.formation)+'</span>':''); }
   return sec+'<div class="pl-pitch">'+
+    '<div class="pl-box pl-box-t"></div><div class="pl-box pl-box-b"></div>'+
     '<div class="pl-teamlbl">'+lbl(aw)+'</div>'+
     '<div class="pl-half">'+_luHalf(_luRows(aw.starters),true)+'</div>'+
     '<div class="pl-mid"></div>'+
     '<div class="pl-half">'+_luHalf(_luRows(hm.starters),false)+'</div>'+
     '<div class="pl-teamlbl">'+lbl(hm)+'</div>'+
-    '</div>';
+    '</div>'+_luSubsHtml(hm,aw);
 }
 function msumH2hHtml(sum){
   var h2=(sum.h2h||[]);
@@ -5442,6 +5482,40 @@ function renderMatchSummaryInto(el,sum,z){
   var html=msumStatsHtml(sum,z)+msumEventsHtml(sum)+msumLineupsHtml(sum,z)+msumH2hHtml(sum)+msumInfoHtml(sum);
   el.innerHTML=html||('<div class="mcard-note">'+(LANG==='en'?'No detail data available yet.':'Detailní data zatím nejsou k dispozici.')+'</div>');
 }
+// YouTube IFrame API (lazy load) - umoznuje zachytit chybu prehrani a degradovat na nahled
+function ytEnsureApi(cb){
+  if(window.YT&&window.YT.Player){ cb(); return; }
+  ytEnsureApi._cbs=(ytEnsureApi._cbs||[]); ytEnsureApi._cbs.push(cb);
+  if(ytEnsureApi._loading) return; ytEnsureApi._loading=true;
+  var prev=window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady=function(){ if(typeof prev==='function'){try{prev();}catch(e){}} (ytEnsureApi._cbs||[]).forEach(function(f){try{f();}catch(e){}}); ytEnsureApi._cbs=[]; };
+  var s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+}
+function ytThumbFallback(wrap,vid){
+  if(!wrap||!wrap.parentNode) return;
+  wrap.innerHTML='<a class="mcard-hl mcard-hl-thumb" href="https://www.youtube.com/watch?v='+encodeURIComponent(vid)+'" target="_blank" rel="noopener noreferrer" style="background-image:url(https://i.ytimg.com/vi/'+encodeURIComponent(vid)+'/hqdefault.jpg)"><span class="mcard-hl-play">▶</span><span class="mcard-hl-yt">'+(LANG==='en'?'Watch on YouTube':'Přehrát na YouTube')+'</span></a>';
+}
+function ytEmbed(wrap,vid){
+  // pokus o inline prehravac; kdyz API nejde nacist (blokovac) NEBO embed selze (rights) -> nahled s prokliknutim
+  wrap.innerHTML='<div class="mcard-hl"><div id="ytp_'+vid+'"></div></div>';
+  var done=false;
+  function fail(){ if(done) return; done=true; ytThumbFallback(wrap,vid); }
+  // pojistka: kdyz se do 6,5 s ani nevytvori prehravac (API se nenacetl), spadni na nahled
+  var t=setTimeout(function(){ if(!done && (!wrap.parentNode || !wrap.querySelector('iframe'))) fail(); },6500);
+  ytEnsureApi(function(){
+    if(done||!wrap.parentNode){ clearTimeout(t); return; }
+    try{
+      new YT.Player('ytp_'+vid,{
+        videoId:vid,
+        playerVars:{rel:0,playsinline:1,modestbranding:1},
+        events:{
+          'onReady':function(){ done=true; clearTimeout(t); },
+          'onError':function(){ clearTimeout(t); fail(); }
+        }
+      });
+    }catch(e){ clearTimeout(t); fail(); }
+  });
+}
 function loadHighlight(btn,overlay){
   var zid=btn.getAttribute('data-hl-zid');
   var wrap=overlay.querySelector('#mcard-hl'+zid);
@@ -5450,20 +5524,20 @@ function loadHighlight(btn,overlay){
   if(wrap.getAttribute('data-open')==='1'){ wrap.innerHTML=''; wrap.removeAttribute('data-open'); btn.classList.remove('on'); return; }
   if(btn.getAttribute('data-loading')==='1') return;
   var q=btn.getAttribute('data-hl-q');
-  function fallback(){ try{ window.open('https://www.youtube.com/results?search_query='+q,'_blank','noopener'); }catch(e){} }
+  function searchFallback(){ try{ window.open('https://www.youtube.com/results?search_query='+q,'_blank','noopener'); }catch(e){} }
   btn.setAttribute('data-loading','1');
   var orig=btn.innerHTML; btn.innerHTML='▶ …';
+  wrap.setAttribute('data-open','1'); btn.classList.add('on');
+  wrap.innerHTML='<div class="mcard-hl mcard-hl-load"><div class="skeleton" style="position:absolute;inset:0"></div></div>';
   var h=btn.getAttribute('data-hl-h'),a=btn.getAttribute('data-hl-a'),y=btn.getAttribute('data-hl-y');
   fetch(SBU+'/functions/v1/yt-highlights?zapas_id='+encodeURIComponent(zid)+'&home='+encodeURIComponent(h)+'&away='+encodeURIComponent(a)+'&year='+encodeURIComponent(y),{headers:{'apikey':SBK,'Authorization':'Bearer '+SBK}})
     .then(function(r){return r.json();})
     .then(function(j){
       btn.innerHTML=orig; btn.removeAttribute('data-loading');
       if(!wrap.parentNode) return;
-      if(j&&j.ok&&j.video_id){
-        wrap.innerHTML='<div class="mcard-hl"><iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(j.video_id)+'" title="Highlights" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>';
-        wrap.setAttribute('data-open','1'); btn.classList.add('on');
-      } else { fallback(); }
-    }).catch(function(){ btn.innerHTML=orig; btn.removeAttribute('data-loading'); fallback(); });
+      if(j&&j.ok&&j.video_id){ ytEmbed(wrap,j.video_id); }
+      else { wrap.innerHTML=''; wrap.removeAttribute('data-open'); btn.classList.remove('on'); searchFallback(); }
+    }).catch(function(){ btn.innerHTML=orig; btn.removeAttribute('data-loading'); wrap.innerHTML=''; wrap.removeAttribute('data-open'); btn.classList.remove('on'); searchFallback(); });
 }
 function openMatchCard(zid){
   zid=parseInt(zid,10);
@@ -5574,7 +5648,11 @@ function openMatchCard(zid){
     }).catch(function(){}); }catch(e){}
   }
   var hlBtn=overlay.querySelector('[data-hl-zid]');
-  if(hlBtn) hlBtn.onclick=function(){ loadHighlight(hlBtn,overlay); };
+  if(hlBtn){
+    hlBtn.onclick=function(){ loadHighlight(hlBtn,overlay); };
+    // u dohranych zapasu sestrih rovnou rozbal (dominantni nahore)
+    if(res) loadHighlight(hlBtn,overlay);
+  }
 
   // ESPN detail jen pro zapasy po vykopu
   var espnEl=overlay.querySelector('#mcard-espn');

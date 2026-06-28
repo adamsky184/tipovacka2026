@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.6 - 28. 6. 2026
+
+Sestřih rovnou rozbalený + spolehlivost, sestavy bohatší a hezčí.
+- **Sestřih se u dohraných zápasů rozbalí rovnou** při otevření karty (velký 16:9, dominantní). Znovu klik na tlačítko = sbalí.
+- **Oprava „videa nefungují":** přehrávač přes YouTube IFrame API zachytí selhání (práva na obsah, nebo zablokovaný YouTube blokovačem reklam) a **automaticky ukáže náhled s prokliknutím „Přehrát na YouTube"** místo mrtvé černé plochy. Vždy tedy funkční odkaz.
+- **Sestavy hezčí + víc info:** hřiště s vápny, u hráčů ikonky **⚽ gólů, 🟨🟥 karet a ▼ vystřídání**, a nová sekce **Střídání** (kdo přišel na hřiště). Data z ESPN mapovaná přes ID hráče (spolehlivé).
+- Pozn.: hodnocení hráčů (rating) stále nelze – Livesport/SofaScore blokují přístup.
+
 ## v5.12.5 - 28. 6. 2026
 
 Sestavy na hřišti s rozestavením (jako FlashScore).
