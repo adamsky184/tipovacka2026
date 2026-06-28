@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.7 - 28. 6. 2026
+
+Sestavy: góly/karty/střídání výrazně přímo na hřišti (jako FlashScore/ESPN).
+- Odznáčky nyní sedí **přímo na dresovém kolečku hráče**: **⚽ gól** (vč. počtu), **🟨/🟥 karta** v rohu, **červená ↓** u vystřídaných hráčů – výrazné a na první pohled čitelné.
+- Sekce **Střídání** ukazuje příchozí (▲) i s jejich góly/kartami.
+
 ## v5.12.6 - 28. 6. 2026
 
 Sestřih rovnou rozbalený + spolehlivost, sestavy bohatší a hezčí.

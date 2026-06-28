@@ -288,6 +288,14 @@ body.theme-light .venue{color:#5f7690}
 .pl-box{position:absolute;left:50%;transform:translateX(-50%);width:42%;height:42px;border:1px solid rgba(255,255,255,.18);z-index:0}
 .pl-box-t{top:24px;border-top:0}
 .pl-box-b{bottom:24px;border-bottom:0}
+.pl-numwrap{position:relative;display:inline-block}
+.pl-b{position:absolute;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.pl-b-g{bottom:-5px;right:-9px;width:17px;height:17px;border-radius:50%;background:#fff;font-size:.62rem;box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pl-b-g i{font-style:normal;font-size:.5rem;font-weight:700;color:#0b1220;margin-left:1px}
+.pl-b-card{top:-3px;right:-6px;width:9px;height:12px;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pl-b-y{background:#facc15}
+.pl-b-r{background:#ef4444}
+.pl-b-out{top:-5px;left:-7px;width:16px;height:16px;border-radius:50%;background:#ef4444;color:#fff;font-size:.66rem;font-weight:800;box-shadow:0 1px 2px rgba(0,0,0,.5)}
 .pl-ic{display:flex;align-items:center;justify-content:center;gap:1px;font-size:.62rem;line-height:1;margin-top:1px}
 .pl-ic-g{font-size:.62rem}
 .pl-ic-out{color:#ff6b6b;font-size:.52rem}
@@ -2491,7 +2499,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.6';
+var APP_VERSION='v5.12.7';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -5412,7 +5420,14 @@ function _luIcons(p,isSub){
   if(!isSub&&p.subOut) s+='<span class="pl-ic-out">▼</span>';
   return s?'<span class="pl-ic">'+s+'</span>':'';
 }
-function _luTok(p){ return '<div class="pl-tok"><span class="pl-num">'+escHtml(p.jersey||'')+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span>'+_luIcons(p,false)+'</div>'; }
+function _luTok(p){
+  var b='';
+  if(p.subOut) b+='<span class="pl-b pl-b-out">↓</span>';
+  if(p.r) b+='<span class="pl-b pl-b-card pl-b-r"></span>';
+  else if(p.y) b+='<span class="pl-b pl-b-card pl-b-y"></span>';
+  if(p.g) b+='<span class="pl-b pl-b-g">⚽'+(p.g>1?'<i>'+p.g+'</i>':'')+'</span>';
+  return '<div class="pl-tok"><span class="pl-numwrap"><span class="pl-num">'+escHtml(p.jersey||'')+'</span>'+b+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span></div>';
+}
 function _luSubsHtml(hm,aw){
   function list(r){
     var ins=(r.subs||[]).filter(function(p){return p.subIn;});
