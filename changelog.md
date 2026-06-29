@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.8 - 29. 6. 2026
+
+Pavouk play-off – spojovací čáry mezi koly.
+- Bracket nyní **vizuálně navazuje**: každá dvojice zápasů je propojená spojovací čárou do navazujícího zápasu (16F → osmifinále → čtvrtfinále → semifinále → finále). Dřív tam byly jen krátké pahýly, takže to vypadalo jako nepropojené plovoucí boxy.
+- Zarovnání bylo už dřív přesné (každý zápas přesně mezi svými dvěma feedery), doplněny tedy jen klasické bracket spojnice.
+
 ## v5.12.7 - 28. 6. 2026
 
 Sestavy: góly/karty/střídání výrazně přímo na hřišti (jako FlashScore/ESPN).

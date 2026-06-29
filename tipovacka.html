@@ -426,8 +426,12 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .pav2-row.win .pav2-sc{color:var(--gn2)}
 .pav2-meta{font-size:.55rem;color:var(--mu);padding:3px 8px 5px;display:flex;align-items:center;gap:4px;border-top:1px solid var(--bd)}
 .pav2-live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 1.4s infinite;flex-shrink:0}
-/* konektory: horizontalni vystup vpravo z kazdeho zapasu */
-.pav2-round:not(:last-child) .pav2-match::after{content:'';position:absolute;top:50%;right:-16px;width:16px;height:2px;background:var(--bd2)}
+/* bracket konektory: horizontalni vystup ze zapasu -> svisla spojnice dvojice -> do navazujiciho zapasu.
+   Pozn.: prvni dite .pav2-round je .pav2-rhead, takze horni zapas dvojice je nth-child(even). */
+.pav2-feeder .pav2-match::after{content:'';position:absolute;top:50%;right:-8px;width:8px;height:2px;background:var(--bd2)}
+.pav2-feeder .pav2-cell::after{content:'';position:absolute;right:0;width:8px;height:50%;box-sizing:border-box;border-right:2px solid var(--bd2)}
+.pav2-feeder .pav2-cell:nth-child(even)::after{top:50%;border-top:2px solid var(--bd2)}
+.pav2-feeder .pav2-cell:nth-child(odd)::after{bottom:50%;border-bottom:2px solid var(--bd2)}
 .pav2-champ{display:flex;flex-direction:column;justify-content:center;align-items:center;width:150px;padding-left:8px}
 .pav2-champ-lbl{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gd);margin-bottom:6px}
 .pav2-champ-card{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(168,85,247,.12));border:1px solid rgba(245,158,11,.4);border-radius:12px;padding:12px 10px;text-align:center;width:100%}
@@ -2499,7 +2503,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.7';
+var APP_VERSION='v5.12.8';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -7324,7 +7328,7 @@ function renderPavouk(){
   }
   var html='<div class="pav2">';
   cols.forEach(function(col,ci){
-    html+='<div class="pav2-round"><div class="pav2-rhead">'+escHtml(headByLen[col.length]||heads[ci]||'')+'</div>';
+    html+='<div class="pav2-round'+(ci<cols.length-1?' pav2-feeder':'')+'"><div class="pav2-rhead">'+escHtml(headByLen[col.length]||heads[ci]||'')+'</div>';
     col.forEach(function(id){ html+='<div class="pav2-cell">'+(byId[id]?matchHtml(byId[id]):'')+'</div>'; });
     html+='</div>';
   });
