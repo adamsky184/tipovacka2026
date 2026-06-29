@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.11 - 30. 6. 2026
+
+Footer datum automaticky dle posledního deploye.
+- Datum ve footeru se teď bere **automaticky z `Last-Modified` souboru** (= reálné datum nasazení), takže už nikdy nebude staré. Fallback = konstanta (taky aktualizována).
+- Pozn.: HEAD požadavek obchází service worker i cache, takže datum je vždy čerstvé.
+
 ## v5.12.10 - 29. 6. 2026
 
 Pavouk – předrátování feederů dle oficiálního FIFA bracketu.

@@ -2503,9 +2503,27 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.10';
-var APP_VERSION_DATE_CS='28. 6. 2026';
-var APP_VERSION_DATE_EN='28 June 2026';
+var APP_VERSION='v5.12.11';
+var APP_VERSION_DATE_CS='30. 6. 2026';
+var APP_VERSION_DATE_EN='30 June 2026';
+// Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
+var __deployDate=null;
+function setAutoFooterDate(){
+  function apply(){
+    if(!__deployDate) return;
+    var d=__deployDate, mo=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var txt=(typeof LANG!=='undefined'&&LANG==='en')?(d.getDate()+' '+mo[d.getMonth()]+' '+d.getFullYear()):(d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear());
+    ['date-lbl','lo-date-lbl'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=txt; });
+  }
+  if(__deployDate){ apply(); return; }
+  try{
+    fetch(location.pathname+'?_lm='+Date.now(),{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=r.headers.get('Last-Modified'); if(!lm) return;
+      var d=new Date(lm); if(isNaN(d.getTime())) return;
+      __deployDate=d; apply();
+    }).catch(function(){});
+  }catch(e){}
+}
 // === PAID LEAGUE CONFIG ===
 var PAID_LEAGUE = {
   enabled: true,
@@ -4851,6 +4869,7 @@ function applyI18n(){
   var bcs=document.getElementById('cp-save'); if(bcs) bcs.textContent=tr('cp_save');
   setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
   setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
+  setAutoFooterDate(); // datum ve footeru = realne datum posledniho deploye (Last-Modified), ne natvrdo
   updateInstallButton();
   updateThemeButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
