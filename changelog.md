@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.10 - 29. 6. 2026
+
+Pavouk – předrátování feederů dle oficiálního FIFA bracketu.
+- Ověřeno proti oficiální FIFA struktuře (přes stadiony) i proti živým ESPN datům: naše napojení sedělo celé kromě **prohozených domácích feederů u osmifinále 90 a 91**.
+- Opraveno: **osmifinále 90** ← vítězové **Z76 a Z77** (Philadelphia), **osmifinále 91** ← vítězové **Z74 a Z78** (MetLife). Tím vítěz zápasu Z74 (např. Brazílie) správně postupuje do zápasu 91, jak má dle FIFA/ESPN.
+- Zbytek pavouka (88–104, čtvrtfinále, semifinále, finále) byl správně. Validace: bijekce 32, 0 topologických porušení.
+
 ## v5.12.9 - 29. 6. 2026
 
 Pavouk – oprava rozsypané návaznosti po doplnění postupujících.
