@@ -2503,7 +2503,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.8';
+var APP_VERSION='v5.12.9';
 var APP_VERSION_DATE_CS='28. 6. 2026';
 var APP_VERSION_DATE_EN='28 June 2026';
 // === PAID LEAGUE CONFIG ===
@@ -3056,6 +3056,9 @@ var PZ=[
   [103,'O3','Porazeny SF1','Porazeny SF2',2026,7,18,23,0,'Miami / Hard Rock'],
   [104,'FIN','Vitez SF1','Vitez SF2',2026,7,19,21,0,'New York / MetLife'],
 ];
+// Stabilni feeder topologie pavouka: zachytit PUVODNI placeholder labely jednou,
+// protoze z[2]/z[3] se za behu prepisuji realnymi tymy (a pak by parser feederu selhal -> rozsypany strom).
+var PAV_ORIG={}; PZ.forEach(function(z){ PAV_ORIG[z[0]]=[z[2],z[3]]; });
 
 var STAD=[
   ['MetLife Stadium','New York/NJ','USA','78 576','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
@@ -7266,7 +7269,8 @@ function render3m(tbls){
 }
 
 function pavFeederIds(z){
-  // vrati [id1,id2] feeder zapasu nebo null (pro R32 = list)
+  // vrati [id1,id2] feeder zapasu nebo null. Cte z PUVODNICH placeholderu (PAV_ORIG),
+  // aby parsovani nezaviselo na uz prepsanych realnych tymech v z[2]/z[3].
   function fid(label){
     var m;
     if(m=String(label).match(/^Vitez Z(\d+)/)) return +m[1];
@@ -7275,7 +7279,8 @@ function pavFeederIds(z){
     if(m=String(label).match(/^(?:Vitez|Porazeny) SF(\d+)/)) return 100+ +m[1];
     return null;
   }
-  var a=fid(z[2]),b=fid(z[3]);
+  var o=(typeof PAV_ORIG!=='undefined'&&PAV_ORIG[z[0]])||[z[2],z[3]];
+  var a=fid(o[0]),b=fid(o[1]);
   return (a&&b)?[a,b]:null;
 }
 function renderPavouk(){

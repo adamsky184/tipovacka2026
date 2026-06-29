@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.9 - 29. 6. 2026
+
+Pavouk – oprava rozsypané návaznosti po doplnění postupujících.
+- **Bug:** feeder topologie se parsovala z aktuálních názvů týmů. Jakmile se „Vítěz Z73" přepsal na reálný tým (např. „Canada"), parser selhal a strom se rozsypal → osmifinálové zápasy končily vedle špatných 16F zápasů (proto se Kanada objevila vedle Brazílie).
+- **Oprava:** feedery se nově čtou z **původních placeholderů** zachycených při startu (nezávisle na přepsaných týmech). Pavouk teď navazuje správně – postupující tým sedí u svého 16F zápasu.
+
 ## v5.12.8 - 29. 6. 2026
 
 Pavouk play-off – spojovací čáry mezi koly.
