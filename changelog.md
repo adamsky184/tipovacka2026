@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.12 - 30. 6. 2026
+
+Pavouk – KOMPLETNÍ oprava osmifinálových feederů dle oficiálního FIFA bracketu.
+- Zdroj pravdy: ESPN **core API `matchNumber`** (= oficiální FIFA číslo zápasu) + feeder placeholdery s ověřeným pořadím. Předchozí pokusy vycházely z chybně přečtené tabulky.
+- Správné napojení osmifinále: 89←Z73,**Z76** (Kanada × vítěz Niz–Maroko), 90←**Z75,Z78**, 91←Z74,**Z77**, 95←Z86,**Z87**, 96←Z85,**Z88**. (92,93,94 i celé čtvrtfinále/semifinále/finále už byly správně.)
+- Ověřeno: 0 nesrovnalostí proti ESPN, bijekce 32, a kontrola proti reálné situaci (Kanada vs vítěz Nizozemsko–Maroko).
+
 ## v5.12.11 - 30. 6. 2026
 
 Footer datum automaticky dle posledního deploye.
