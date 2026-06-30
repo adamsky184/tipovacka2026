@@ -2509,7 +2509,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.13';
+var APP_VERSION='v5.12.14';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7844,21 +7844,24 @@ function renderAdmin(){
     '</div>';
   var html=paidSummary+'<div class="card" style="margin-bottom:.8rem;padding:.85rem .95rem"><div class="clbl" style="margin-bottom:.55rem">'+tr('admin_extra_overview')+'</div><div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+tr('admin_col_player')+'</th><th style="text-align:center">'+(LANG==='en'?'💰 Paid':'💰 Soutěž o peníze')+'</th><th>'+tr('extra_winner')+'</th><th>'+tr('extra_scorer')+'</th><th>'+tr('admin_col_updated')+'</th><th style="text-align:right">'+tr('admin_col_actions')+'</th></tr></thead><tbody>'+extraRows+'</tbody></table></div></div>';
   html+='<div class="tier-filters" style="margin:.35rem 0 .7rem"><div class="tier2" style="display:flex"><button class="sort-chip'+(adminSort==='dt'?' on':'')+'" id="admin-sort-dt">'+tr('by_date')+'</button><button class="sort-chip'+(adminSort==='sk'?' on':'')+'" id="admin-sort-sk">'+tr('by_group')+'</button></div></div>';
-  html+='<div id="admin-table-wrap" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px">'+tr('match')+'</th>';
+  html+='<div id="admin-table-wrap" style="overflow:auto;max-height:74vh"><table style="width:100%;border-collapse:collapse;font-size:.77rem"><thead><tr><th style="text-align:left;padding:5px 7px;color:var(--mu);border-bottom:1px solid var(--bd);min-width:130px;position:sticky;top:0;left:0;z-index:6;background:var(--bg)">'+tr('match')+'</th>';
   players.forEach(function(p,i){
-    html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer" title="'+escAttr(tr('click_delete'))+'">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
+    html+='<th class="adh" data-hid="'+escAttr(p.id)+'" data-jmeno="'+escAttr(p.jmeno)+'" style="padding:5px 6px;color:'+AVC[i%AVC.length]+';border-bottom:1px solid var(--bd);text-align:center;min-width:70px;cursor:pointer;position:sticky;top:0;z-index:5;background:var(--bg)" title="'+escAttr(tr('click_delete'))+'">'+escHtml(p.jmeno)+' <span style="opacity:.5;font-size:.6rem">&#128465;</span></th>';
   });
   html+='</tr></thead><tbody>';
   all.forEach(function(z){
     var id=z[0],d=z[2],h=z[3],res=results[id];
-    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem">'+fT(d)+' &ndash; '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+escHtml(res)+')</span>':'')+'</td>';
+    html+='<tr><td style="padding:4px 7px;border-bottom:1px solid rgba(28,48,80,.4);font-size:.75rem;position:sticky;left:0;z-index:2;background:var(--bg)">'+fT(d)+' &ndash; '+fT(h)+(res?' <span style="color:var(--gn2);font-weight:700">('+escHtml(res)+')</span>':'')+'</td>';
     players.forEach(function(p){
+      var isMe=me&&p.id===me.id;
       var tips=allTips[p.id]||{},tip=tips[id]||'';
-      if(me&&p.id===me.id) tip=myTips[id]||tip||'';
+      if(isMe) tip=myTips[id]||tip||'';
+      var pu=isMe?(myTipsPostup[id]||''):((allTipsPostup[p.id]||{})[id]||'');
       var pts=(res&&tip)?calcPts(tip,res):null;
+      var advB=res?calcAdvBonus(id,tip,pu):0;
       var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
       var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
-      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+'</td>';
+      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+advPickHtml(id,tip,pu,z,res,true)+(advB>0?'<span style="color:#c4b5fd;font-size:.6rem;font-weight:700"> +'+advB+'</span>':'')+'</td>';
     });
     html+='</tr>';
   });

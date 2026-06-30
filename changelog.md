@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.14 - 30. 6. 2026
+
+Admin: postupující v tipech + přilepená hlavička.
+- V admin tabulce tipů se nově u play-off remízových tipů ukáže **zvolený postupující** (→ vlajka) + po zápase ✓/✗ a **bonus +3** přímo v buňce.
+- **Přilepená hlavička** se jmény hráčů (drží se nahoře při scrollu dolů) + **přilepený první sloupec** se zápasem (drží se při vodorovném scrollu) — už je vždy jasné, který tip je čí.
+
 ## v5.12.13 - 30. 6. 2026
 
 Dvě opravy: počet gólů na hřišti + postupující v tipech ostatních.
