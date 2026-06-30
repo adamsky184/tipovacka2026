@@ -267,6 +267,12 @@ body.theme-light .venue{color:#5f7690}
 .mcard-ev.is-sub{opacity:.62}
 .mcard-tips{display:flex;flex-wrap:wrap;gap:4px}
 .mcard-tip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:3px 7px;font-size:.72rem;color:var(--mu2)}
+.mcard-adv{font-size:.66rem;color:#c4b5fd;font-weight:600;white-space:nowrap}
+.mcard-adv.adv-ok{color:var(--gn2)}
+.mcard-adv.adv-no{color:#f87171}
+.ost-adv{display:block;font-size:.6rem;font-weight:700;margin-top:1px;color:#a78bda}
+.ost-adv.adv-ok{color:var(--gn2)}
+.ost-adv.adv-no{color:#f87171}
 .mcard-tip b{color:var(--tx);font-family:'Space Grotesk',sans-serif}
 .mcard-tip.is-me{border-color:var(--ac)}
 .mcard-lineups{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;font-size:.72rem}
@@ -290,8 +296,8 @@ body.theme-light .venue{color:#5f7690}
 .pl-box-b{bottom:24px;border-bottom:0}
 .pl-numwrap{position:relative;display:inline-block}
 .pl-b{position:absolute;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
-.pl-b-g{bottom:-5px;right:-9px;width:17px;height:17px;border-radius:50%;background:#fff;font-size:.62rem;box-shadow:0 1px 2px rgba(0,0,0,.5)}
-.pl-b-g i{font-style:normal;font-size:.5rem;font-weight:700;color:#0b1220;margin-left:1px}
+.pl-b-g{bottom:-5px;right:-10px;min-width:17px;height:17px;padding:0 3px 0 1px;border-radius:9px;background:#fff;font-size:.6rem;box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pl-b-g i{font-style:normal;font-size:.6rem;font-weight:800;color:#0b1220;margin-left:1px}
 .pl-b-card{top:-3px;right:-6px;width:9px;height:12px;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.5)}
 .pl-b-y{background:#facc15}
 .pl-b-r{background:#ef4444}
@@ -2503,7 +2509,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.12';
+var APP_VERSION='v5.12.13';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3267,7 +3273,7 @@ var VENUE_ALIASES={
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCounts={},leaderboardCache={cel:null,sk:null,po:null};
 // v5.12.0: play-off postupujici - resultsAdvance[zid]='H'/'A' (kdo postoupil), myTipsPostup[zid]='H'/'A' (moje volba u remizoveho tipu)
-var resultsAdvance={},myTipsPostup={};
+var resultsAdvance={},myTipsPostup={},allTipsPostup={};
 var derivedStatsCache={similarity:null,insightsRows:null};
 var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all',zebPaidFilter='all';
 var pendingTeamFocus='';
@@ -3906,9 +3912,10 @@ function loadMyTips(){
 function loadAllTips(){
   if(!me||!myPin){ allTips={}; return Promise.resolve(); }
   return rpcWithRetry('get_visible_tips_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
-    allTips={};(d||[]).forEach(function(t){
+    allTips={};allTipsPostup={};(d||[]).forEach(function(t){
       if(!allTips[t.hrac_id]) allTips[t.hrac_id]={};
       allTips[t.hrac_id][parseInt(t.zapas_id,10)]=t.tip;
+      if(t.postup){ if(!allTipsPostup[t.hrac_id]) allTipsPostup[t.hrac_id]={}; allTipsPostup[t.hrac_id][parseInt(t.zapas_id,10)]=t.postup; }
     });
     invalidateDerivedCaches();
     window.__loadAllTipsLastOk = true;
@@ -4954,6 +4961,28 @@ function calcPts(tip,res){
   var meta=scoreMeta(tip,res);
   return meta?meta.total:null;
 }
+// Bonus za spravneho postupujiciho (+3) - stejna logika jako serverovy leaderboard.
+// Postupujici = u rozhodneho tipu dle skore, u remizoveho tipu dle volby hrace (postup 'H'/'A').
+function calcAdvBonus(zid,tip,postup){
+  if(!tip||zid<73) return 0;
+  var adv=resultsAdvance[zid]; if(!adv) return 0;
+  var sp=String(tip).split(':'),hh=parseInt(sp[0],10),aa=parseInt(sp[1],10);
+  if(isNaN(hh)||isNaN(aa)) return 0;
+  var pick=(hh>aa)?'H':(aa>hh)?'A':(postup||'');
+  return (pick&&pick===adv)?3:0;
+}
+// HTML indikace, koho hrac zvolil na postup (jen u play-off remizoveho tipu). compact=true -> jen vlajka+znacka.
+function advPickHtml(zid,tip,postup,z,res,compact){
+  if(zid<73||!postup||!z) return '';
+  var sp=String(tip).split(':'); if(sp[0]===undefined||sp[0]!==sp[1]) return '';
+  var team=(postup==='H')?z[2]:z[3];
+  var flag=fl(team)||'🏳️';
+  var ok=(res&&resultsAdvance[zid])?(postup===resultsAdvance[zid]):null;
+  var mark=ok===true?'✓':ok===false?'✗':'';
+  var cls=ok===true?' adv-ok':ok===false?' adv-no':'';
+  if(compact) return '<span class="ost-adv'+cls+'" title="'+escAttr((LANG==='en'?'Advances: ':'Postup: ')+tN(team))+'">→'+flag+mark+'</span>';
+  return '<span class="mcard-adv'+cls+'">→ '+flag+' '+escHtml(tN(team))+(mark?' '+mark:'')+'</span>';
+}
 function setSt(id,msg,err,ok){
   var e=document.getElementById(id);if(!e) return;
   e.textContent=msg;e.className='sb'+(err?' err':ok?' ok':'');
@@ -5628,11 +5657,15 @@ function openMatchCard(zid){
     if(canSee){
       var chips='';
       players.forEach(function(p){
-        var t=(String(p.id)===String(me.id))?myTip:((allTips[p.id]||{})[zid]||'');
+        var isMe=String(p.id)===String(me.id);
+        var t=isMe?myTip:((allTips[p.id]||{})[zid]||'');
         if(!t) return;
+        var pu=isMe?(myTipsPostup[zid]||''):((allTipsPostup[p.id]||{})[zid]||'');
         var pts=(res&&t)?calcPts(t,res):null;
+        var advB=res?calcAdvBonus(zid,t,pu):0;
         var ptsB=(pts!==null)?' <span class="pt '+getPtsClass(pts)+'" style="font-size:.62rem;padding:1px 4px">'+pts+'b</span>':'';
-        chips+='<span class="mcard-tip'+(String(p.id)===String(me.id)?' is-me':'')+'">'+escHtml(p.jmeno)+' <b>'+escHtml(t)+'</b>'+ptsB+'</span>';
+        var advBchip=(advB>0)?' <span class="pt" style="font-size:.62rem;padding:1px 4px;background:rgba(168,85,247,.2);color:#c4b5fd">+'+advB+'</span>':'';
+        chips+='<span class="mcard-tip'+(isMe?' is-me':'')+'">'+escHtml(p.jmeno)+' <b>'+escHtml(t)+'</b>'+advPickHtml(zid,t,pu,z,res,false)+ptsB+advBchip+'</span>';
       });
       if(chips) tipsHtml='<div class="mcard-sec">'+(LANG==='en'?'Player tips':'Tipy hráčů')+'</div><div class="mcard-tips">'+chips+'</div>';
     } else {
@@ -7043,7 +7076,7 @@ function renderOstRow(z,others){
   var hLink=matchTeamsUnknown(z)?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
   var html='<tr><td style="padding:5px 8px;border-bottom:1px solid rgba(28,48,80,.4)"><div style="font-weight:600">'+getGroupChipHtml(z)+dLink+' &ndash; '+hLink+getLiveBadgeHtml(z)+matchCardBtnHtml(z)+'</div><div class="d-mobile-sm" style="font-size:.72rem;color:var(--mu);margin-top:2px">'+escHtml(dStr(z))+(venueHtml?' <span style="color:var(--bd2)">📍 '+venueHtml+'</span>':'')+'</div></td>';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;font-weight:700;color:'+(res?'var(--gn2)':'var(--mu)')+'">'+(res?escHtml(res):'&mdash;')+'</td>';
-  var myTipLabel=myTip?escHtml(myTip)+(myPts===10?'<span title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
+  var myTipLabel=myTip?escHtml(myTip)+(myPts===10?'<span title="'+escAttr(LANG==='en'?'Exact hit':'Přesný tip')+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':'')+advPickHtml(id,myTip,myTipsPostup[id]||'',z,res,true):'&mdash;';
   html+='<td style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+myBg+';color:'+myCol+';font-weight:'+(myTip?700:400)+'">'+myTipLabel+'</td>';
   others.forEach(function(p){
     var tips=allTips[p.id]||{},tip=tips[id]||'';
@@ -7052,7 +7085,7 @@ function renderOstRow(z,others){
       var pts=(res&&tip)?calcPts(tip,res):null;
       var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
       var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
-      var tipLabel=tip?escHtml(tip)+(pts===10?'<span title="'+escAttr(LANG==="en"?"Exact hit":"Přesný tip")+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':''):'&mdash;';
+      var tipLabel=tip?escHtml(tip)+(pts===10?'<span title="'+escAttr(LANG==="en"?"Exact hit":"Přesný tip")+'" style="margin-left:4px;opacity:.78;font-size:.78em">🔥</span>':'')+advPickHtml(id,tip,(allTipsPostup[p.id]||{})[id]||'',z,res,true):'&mdash;';
       html+='<td class="'+(isRivalId(p.id)?'ost-rival-cell':'')+'" style="padding:5px 7px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+'">'+tipLabel+'</td>';
     }
   });

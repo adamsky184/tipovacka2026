@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.13 - 30. 6. 2026
+
+Dvě opravy: počet gólů na hřišti + postupující v tipech ostatních.
+- **Sestava na hřišti:** u hráče s víc góly se teď zobrazí **počet** (např. ⚽2). Dřív se číslo nevešlo.
+- **Tipy ostatních (play-off):** když někdo tipne remízu, je teď vidět **koho zvolil na postup** (→ vlajka + tým) — v kartě zápasu i v tabulce Ostatní, jako admin i hráč. Po zápase ✓/✗ a **bonus +3** za správného postupujícího se ukáže přímo u tipu.
+- (DB: `get_visible_tips_secure` nově vrací i sloupec `postup`.)
+
 ## v5.12.12 - 30. 6. 2026
 
 Pavouk – KOMPLETNÍ oprava osmifinálových feederů dle oficiálního FIFA bracketu.
