@@ -292,7 +292,20 @@ body.theme-light .venue{color:#5f7690}
 .fin-hitlist{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;font-size:.72rem;color:var(--mu2)}
 .fin-hitlist>div{padding:1px 0}
 .fin-empty{font-size:.72rem;color:var(--mu)}
-@media(max-width:560px){.fin-hitlist{grid-template-columns:1fr}}
+.fin-info{margin:10px 0 2px;background:var(--bg);border:1px solid var(--bd);border-radius:10px}
+.fin-info>summary{cursor:pointer;padding:8px 12px;font-size:.74rem;color:var(--ac2);font-weight:600;list-style:none}
+.fin-info>summary::-webkit-details-marker{display:none}
+.fin-info-body{padding:2px 12px 10px;display:flex;flex-direction:column;gap:4px;font-size:.72rem;color:var(--mu2)}
+.fin-info-body b{color:var(--tx)}
+.fin-mlink{cursor:pointer;border-bottom:1px dotted var(--bd2)}
+.fin-mlink:active{opacity:.7}
+.fin-awards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.fin-award{display:flex;align-items:center;gap:9px;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:8px 10px}
+.fin-award-ic{font-size:1.35rem;flex-shrink:0}
+.fin-award-t{font-size:.66rem;color:var(--gd);font-weight:700}
+.fin-award-w{font-size:.82rem;font-weight:700;color:var(--tx)}
+.fin-award-d{font-size:.64rem;color:var(--mu)}
+@media(max-width:560px){.fin-hitlist{grid-template-columns:1fr}.fin-awards{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fin-charts{grid-template-columns:1fr}.fin-tiles{grid-template-columns:repeat(2,1fr)}}
 .mcard-tip b{color:var(--tx);font-family:'Space Grotesk',sans-serif}
 .mcard-tip.is-me{border-color:var(--ac)}
@@ -2535,7 +2548,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.20';
+var APP_VERSION='v5.12.21';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7240,10 +7253,23 @@ function finaleReportHtml(pid){
   var serverTotal=R.celRow?(R.celRow.total-((R.celRow.extra)||0)):R.engineTotal;
   var verified=(R.engineTotal===serverTotal);
   var maxPhase=Math.max(R.skTotal,R.poTotal,1);
-  var big=R.biggest, bigTxt=big?((fl(big.z[2])||'')+' '+escHtml(tN(big.z[2]))+' '+escHtml(big.res)+' '+escHtml(tN(big.z[3]))+(fl(big.z[3])?' '+fl(big.z[3]):'')+' · '+(big.exact?'přesně ':'')+'+'+big.tot+' b'):'—';
+  function mlbl(z,res){ return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])||'🏳️')+' '+escHtml(tN(z[2]))+' <b style="color:var(--tx)">'+escHtml(res)+'</b> '+escHtml(tN(z[3]))+' '+(fl(z[3])||'🏳️')+'</span>'; }
+  var big=R.biggest, bigTxt=big?(mlbl(big.z,big.res)+' · '+(big.exact?'přesně ':'')+'+'+big.tot+' b'):'—';
   var favTxt=R.fav?escHtml(R.fav.s)+' ('+R.fav.n+'×)':'—';
   var legend=segs.map(function(s){return '<div><span style="color:'+s.c+'">●</span> '+s.t+'</div>';}).join('');
-  function mlbl(z,res){ return (fl(z[2])||'🏳️')+' '+escHtml(tN(z[2]))+' <b style="color:var(--tx)">'+escHtml(res)+'</b> '+escHtml(tN(z[3]))+' '+(fl(z[3])||'🏳️'); }
+  var infoBox='<details class="fin-info"><summary>ⓘ Co znamenají statistiky?</summary><div class="fin-info-body">'+
+    '<div><b>přesných</b> — kolik zápasů jsi trefil úplně přesně na skóre (10 b). V % podíl z hodnocených.</div>'+
+    '<div><b>úspěšnost</b> — % hodnocených zápasů, kde jsi získal aspoň nějaké body (přesně / vítěz / rozdíl).</div>'+
+    '<div><b>⌀ b/zápas</b> — průměrný počet bodů na jeden hodnocený zápas.</div>'+
+    '<div><b>nejlepší den</b> — nejvíc bodů nasbíraných za jeden hrací den.</div>'+
+    '<div><b>sólo trefy</b> — přesné trefy, které nikdo jiný netrefil přesně (tvoje unikátní).</div>'+
+    '<div><b>body za postup</b> — +3 za správně tipnutého postupujícího u remízových tipů v play-off.</div>'+
+    '<div><b>série</b> — nejdelší řada po sobě jdoucích zápasů, kde jsi bodoval.</div>'+
+    '<div><b>trefené remízy</b> — kolik remíz jsi trefil (výsledek i tip byly remíza).</div>'+
+    '<div><b>skladba tipů</b> — z kolika zápasů máš přesně / rozdíl (4 b) / vítěze (3 b) / mimo (0 b).</div>'+
+    '<div><b>kumulativní body</b> — jak ti body narůstaly v čase vs. průměr všech vs. vítěz.</div>'+
+    '<div><b>vývoj pořadí</b> — jak se měnilo tvé místo v žebříčku po jednotlivých zápasech.</div>'+
+    '</div></details>';
   var CX=finaleCrossStats(pid,R.rated||[]);
   var CUM=finaleCumCompare(pid);
   var exacts=(R.rated||[]).filter(function(r){return r.exact;}).sort(function(a,b){return a.zid-b.zid;});
@@ -7272,6 +7298,7 @@ function finaleReportHtml(pid){
       '<div class="fin-tile" title="Nejdelší série po sobě jdoucích zápasů, kde jsi bodoval."><b style="color:#f97316">'+R.streak+'</b><span>série 🔥</span></div>'+
       '<div class="fin-tile" title="Kolik remíz jsi správně tipnul (výsledek i tvůj tip byla remíza)."><b>'+R.drawHits+'</b><span>trefené remízy</span></div>'+
     '</div>'+
+    infoBox+
     '<div class="fin-charts">'+
       '<div class="fin-chart"><h4>Skladba tipů (počet zápasů)</h4><div style="display:flex;align-items:center;gap:8px">'+_svgDonut(segs)+'<div style="font-size:.63rem;line-height:1.55;color:var(--mu2)">'+legend+'</div></div></div>'+
       '<div class="fin-chart"><h4>Body podle fáze</h4>'+
@@ -7300,6 +7327,29 @@ function finalePodiumHtml(cel){
   }
   return '<div class="fin-podium">'+pod(cel[1],2)+pod(cel[0],1)+pod(cel[2],3)+'</div>';
 }
+function finaleAwards(){
+  var cel=buildLeaderboardFromCache('cel')||[]; if(!cel.length) return [];
+  var reps=cel.map(function(r){ var R=buildPlayerReport(String(r.p.id)); return {name:r.p.jmeno,R:R,CX:finaleCrossStats(String(r.p.id),R.rated||[])}; });
+  function best(metric,minRated){ var b=null; reps.forEach(function(x){ if(minRated&&x.R.hod<minRated) return; var v=metric(x); if(v==null) return; if(b===null||v>b.v) b={x:x,v:v}; }); return b; }
+  var A=[]; function add(ic,t,b,d){ if(b&&b.x) A.push({ic:ic,t:t,w:b.x.name,d:d(b)}); }
+  A.push({ic:'👑',t:'Šampion',w:reps[0].name,d:reps[0].R.total+' b'});
+  add('🎯','Snajpr',best(function(x){return x.R.pre;}),function(b){return b.v+' přesných';});
+  add('🧠','Prorok',best(function(x){return x.R.hod?(x.R.pre+x.R.spr)/x.R.hod:0;},30),function(b){return Math.round(b.v*100)+'% úspěšnost';});
+  add('🌟','Sólo král',best(function(x){return x.CX.solo.length;}),function(b){return b.v+' sólo trefy';});
+  add('🔥','Král série',best(function(x){return x.R.streak;}),function(b){return b.v+' v řadě';});
+  add('🎲','Riskér',best(function(x){return x.R.avgGoals;},30),function(b){return '⌀ '+b.v.toFixed(1)+' gólů/tip';});
+  add('🛡️','Sázka na jistotu',best(function(x){return x.R.drawTipPct;},30),function(b){return Math.round(b.v)+'% remíz';});
+  add('🐣','Skupinový král',best(function(x){return x.R.skTotal;}),function(b){return b.v+' b';});
+  add('⚔️','Playoff král',best(function(x){return x.R.poTotal;}),function(b){return b.v+' b';});
+  add('📅','Nejlepší den',best(function(x){return x.R.bestDay.pts;}),function(b){return '+'+b.v+' b za den';});
+  return A;
+}
+function finaleAwardsHtml(){
+  var A=finaleAwards(); if(!A.length) return '';
+  return '<div class="fin-awards-wrap"><div style="font-size:.78rem;font-weight:800;text-align:center;margin:14px 0 6px">🏅 Ceny turnaje</div><div class="fin-awards">'+
+    A.map(function(a){ return '<div class="fin-award"><div class="fin-award-ic">'+a.ic+'</div><div><div class="fin-award-t">'+escHtml(a.t)+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div></div></div>'; }).join('')+
+  '</div></div>';
+}
 function renderFinale(){
   var el=document.getElementById('finale-list'); if(!el) return;
   if(!canSeeFinale()){ el.innerHTML='<div class="empty">Zakončení bude odemčeno po turnaji.</div>'; return; }
@@ -7308,12 +7358,13 @@ function renderFinale(){
   if(!finaleSelPid || !cel.some(function(r){return String(r.p.id)===String(finaleSelPid);})) finaleSelPid=me?String(me.id):String(cel[0].p.id);
   var lock=FINALE_PUBLIC?'':'<div class="fin-lock">🔒 Náhled zakončení — zamčeno, ostatní hráči to zatím nevidí.</div>';
   var opts=cel.map(function(r,i){ return '<option value="'+escAttr(r.p.id)+'"'+(String(r.p.id)===String(finaleSelPid)?' selected':'')+'>'+(i+1)+'. '+escHtml(r.p.jmeno)+' — '+r.total+' b</option>'; }).join('');
-  el.innerHTML=lock+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+
+  el.innerHTML=lock+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml()+
     '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
     '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   var sel=document.getElementById('fin-sel');
   if(sel) sel.onchange=function(){ finaleSelPid=sel.value; var rep=document.getElementById('fin-report'); if(rep) rep.innerHTML=finaleReportHtml(finaleSelPid); };
+  el.onclick=function(e){ var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); } };
 }
 function renderZeb(){
   var scored=getLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel');

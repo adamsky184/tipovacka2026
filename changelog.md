@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.21 - 1. 7. 2026
+
+Zakončení — vysvětlivky, klikací zápasy, ceny/superlativy (zamčené, jen admin).
+- **Viditelné vysvětlivky** „ⓘ Co znamenají statistiky?" (rozklikávací — funguje i na mobilu, ne jen hover).
+- **Klikací zápasy** ve vysvědčení → otevřou detail karty (statistiky + tipy ostatních).
+- **🏅 Ceny turnaje**: Šampion, Snajpr, Prorok, Sólo král, Král série, Riskér, Sázka na jistotu, Skupinový/Playoff král, Nejlepší den — automaticky z dat.
+
 ## v5.12.20 - 1. 7. 2026
 
 Zakončení / vysvědčení — vylepšení dle feedbacku (stále zamčené, jen admin).
