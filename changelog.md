@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.15 - 1. 7. 2026
+
+Oprava: cizí tipy se u někoho nenačítaly (stará verze z cache) + odolnost.
+- Ověřeno kompletně: DB data neporušená (zápas 79 má všech 13 tipů), funkce/RPC vrací data správně (HTTP 200), frontend render funguje. Příčina: **service worker servíroval starší HTML z cache** (byl o verzi pozadu).
+- **SW přepnut na network-first** – appka teď vždy načte nejnovější verzi, cache jen jako offline záloha.
+- **loadAllTips self-heal**: když načtení cizích tipů selže nebo přijde prázdné, samo to zkusí ještě jednou; karta zápasu si tipy sama donačte a obnoví.
+
 ## v5.12.14 - 30. 6. 2026
 
 Admin: postupující v tipech + přilepená hlavička.

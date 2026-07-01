@@ -2509,7 +2509,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.14';
+var APP_VERSION='v5.12.15';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3909,7 +3909,7 @@ function loadMyTips(){
     invalidateDerivedCaches();
   });
 }
-function loadAllTips(){
+function loadAllTips(_retry){
   if(!me||!myPin){ allTips={}; return Promise.resolve(); }
   return rpcWithRetry('get_visible_tips_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
     allTips={};allTipsPostup={};(d||[]).forEach(function(t){
@@ -3919,10 +3919,15 @@ function loadAllTips(){
     });
     invalidateDerivedCaches();
     window.__loadAllTipsLastOk = true;
+    // self-heal: kdyz prislo prazdno, ale mam vlastni tipy (tj. mel bych videt i cizi), zkus jednou znovu
+    if((!d||!d.length) && !_retry && Object.keys(myTips||{}).length){
+      return new Promise(function(res){ setTimeout(function(){ loadAllTips(true).then(res); }, 700); });
+    }
   }).catch(function(e){
     allTips={};
     window.__loadAllTipsLastOk = false;
     window.__loadAllTipsLastErr = String((e&&e.message)||'');
+    if(!_retry) return new Promise(function(res){ setTimeout(function(){ loadAllTips(true).then(res); }, 1000); });
   });
 }
 function loadTipTrends(){
@@ -5710,6 +5715,10 @@ function openMatchCard(zid){
   '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('.mcard-close').onclick=close;
+  // self-heal: kdyz jsou tipy ostatnich neni nactene (prazdno), donacti a kartu obnov
+  if(me&&myPin&&canSee&&!teamsUnknown&&!Object.keys(allTips).length){
+    loadAllTips().then(function(){ if(overlay.parentNode&&Object.keys(allTips).length){ close(); openMatchCard(zid); } });
+  }
   var shareBtn=overlay.querySelector('[data-share-zid]');
   if(shareBtn) shareBtn.onclick=function(){ shareMatchAsImage(shareBtn.getAttribute('data-share-zid')); };
 

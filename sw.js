@@ -2,7 +2,7 @@
 // CACHE_NAME musi obsahovat verzi, aby noveho deployu hraci dostali novy obsah.
 // Pri zmene APP_VERSION v tipovacka.html prepis i CACHE_VERSION zde.
 
-const CACHE_VERSION = "v5.12.14";
+const CACHE_VERSION = "v5.12.15";
 const CACHE_NAME = "tipovacka-ms-2026-" + CACHE_VERSION;
 
 self.addEventListener("install", (event) => {
@@ -34,19 +34,18 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (req.mode === "navigate") {
-  // Stale-while-revalidate pro statika (assets, manifest, sw...)
+  // Network-first: vzdy nacti cerstvy HTML (aby uzivatel nebyl o verzi pozadu),
+  // cache jen jako fallback pri offline.
   event.respondWith(
-    caches.match(req).then((cached) => {
-      const network = fetch(req)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    }),
+    fetch(req)
+      .then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
+        }
+        return res;
+      })
+      .catch(() => caches.match(req)),
   );
+  }
 });
