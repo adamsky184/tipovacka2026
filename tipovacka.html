@@ -2576,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.26';
+var APP_VERSION='v5.12.27';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6852,7 +6852,7 @@ function renderMatchRow(z,isAdmin,hasGT){
     var hv=sp[0]||'',av=sp[1]||'';
     var dis=locked?' disabled':'';
     var svCls=(hv!==''&&av!=='')?'sv':'';
-    var aiBtn=(!locked && hv==='' && av==='')?('<button class="tip-ai-btn" data-ai-zid="'+id+'" type="button" title="'+escAttr(LANG==='en'?'Suggest tip':'Navrhnout tip')+'">🤖</button>'):'';
+    var aiBtn=''; // v5.12.27: navrh tipu odstranen (nefungoval spolehlive, navrhoval porad 1:1)
     tipHtml='<div class="tip-dual'+(!locked?' tip-dual-active':'')+'">'+
       '<input class="tih'+(!locked&&svCls?' '+svCls:'')+'" id="tih'+id+'" value="'+escAttr(hv)+'" placeholder="0" maxlength="2" pattern="[0-9]*"'+dis+' inputmode="numeric" autocomplete="off">'+
       '<span class="tip-sep">:</span>'+

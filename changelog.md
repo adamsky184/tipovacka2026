@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.27 - 2. 7. 2026
+
+Odstraněno tlačítko **„Navrhnout tip" (🤖)** u zadávání tipů — nefungovalo spolehlivě (navrhovalo pořád 1:1) a na mobilu bylo stejně skryté. Minimální zásah: tlačítko se nevykresluje, ostatní logika tipování beze změny.
+
 ## v5.12.26 - 2. 7. 2026
 
 **Oprava bodování postupujícího (+3).** Bonus se nově uděluje **jen za správně tipnutou remízu + správného postupujícího** — přesně jak popisují pravidla.
