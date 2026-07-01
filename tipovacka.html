@@ -309,6 +309,12 @@ body.theme-light .venue{color:#5f7690}
 .fin-drows>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.73rem}
 .fin-drows>div>span{color:var(--mu2);flex-shrink:0}
 .fin-drows>div>b{color:var(--tx);text-align:right}
+.fin-globalwrap{margin-top:6px}
+.fin-simrow{font-size:.73rem;line-height:1.7}
+.fin-xtab{width:100%;border-collapse:collapse;font-size:.72rem}
+.fin-xtab th{text-align:left;color:var(--mu2);font-weight:600;padding:3px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.fin-xtab td{padding:3px 6px;border-bottom:1px solid var(--bd);color:var(--tx)}
+.fin-xtab tr:last-child td{border-bottom:none}
 @media(max-width:560px){.fin-hitlist{grid-template-columns:1fr}.fin-awards{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fin-charts{grid-template-columns:1fr}.fin-tiles{grid-template-columns:repeat(2,1fr)}}
 .mcard-tip b{color:var(--tx);font-family:'Space Grotesk',sans-serif}
@@ -2552,7 +2558,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.22';
+var APP_VERSION='v5.12.23';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4988,7 +4994,7 @@ function showTab(name){
   if(name==='historie') renderHistory();
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
-  if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips()]).then(renderFinale); }
+  if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta()]).then(renderFinale); }
   if(name==='pravidla') renderRules();
   requestAnimationFrame(syncOstScrollUX);
   requestAnimationFrame(function(){ animatePageEnter(name); });
@@ -7371,9 +7377,12 @@ function finalePodiumHtml(cel){
   }
   return '<div class="fin-podium">'+pod(cel[1],2)+pod(cel[0],1)+pod(cel[2],3)+'</div>';
 }
-function finaleAwards(){
-  var cel=buildLeaderboardFromCache('cel')||[]; if(!cel.length) return [];
-  var reps=cel.map(function(r){ var R=buildPlayerReport(String(r.p.id)); return {name:r.p.jmeno,R:R,CX:finaleCrossStats(String(r.p.id),R.rated||[])}; });
+function finaleBuildReps(){
+  var cel=buildLeaderboardFromCache('cel')||[];
+  return cel.map(function(r){ var id=String(r.p.id); var R=buildPlayerReport(id); return {id:id,name:r.p.jmeno,total:r.total,R:R,CX:finaleCrossStats(id,R.rated||[])}; });
+}
+function finaleAwards(reps){
+  reps=reps||finaleBuildReps(); if(!reps.length) return [];
   function best(metric,minRated){ var b=null; reps.forEach(function(x){ if(minRated&&x.R.hod<minRated) return; var v=metric(x); if(v==null) return; if(b===null||v>b.v) b={x:x,v:v}; }); return b; }
   var A=[]; function add(ic,t,b,d){ if(b&&b.x) A.push({ic:ic,t:t,w:b.x.name,d:d(b)}); }
   A.push({ic:'👑',t:'Šampion',w:reps[0].name,d:reps[0].R.total+' b'});
@@ -7394,11 +7403,90 @@ function finaleAwards(){
   if(stab&&stab.x) A.push({ic:'🪨',t:'Nejstabilnější',w:stab.x.name,d:'±'+stab.v.toFixed(1)+' b rozptyl'});
   return A;
 }
-function finaleAwardsHtml(){
-  var A=finaleAwards(); if(!A.length) return '';
+function finaleAwardsHtml(reps){
+  var A=finaleAwards(reps); if(!A.length) return '';
   return '<div class="fin-awards-wrap"><div style="font-size:.78rem;font-weight:800;text-align:center;margin:14px 0 6px">🏅 Ceny turnaje</div><div class="fin-awards">'+
     A.map(function(a){ return '<div class="fin-award"><div class="fin-award-ic">'+a.ic+'</div><div><div class="fin-award-t">'+escHtml(a.t)+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div></div></div>'; }).join('')+
   '</div></div>';
+}
+// ===== TURNAJ V CISLECH (globalni statistiky, admin-only) =====
+function _finZids(){ return SZ.concat(PZ).map(function(z){return z[0];}).filter(function(z){return results[z];}).sort(function(a,b){return a-b;}); }
+function _finZmap(){ var m={}; SZ.concat(PZ).forEach(function(z){ m[z[0]]=z; }); return m; }
+function finaleGlobalStats(reps){
+  var pls=players||[], zmap=_finZmap(), zids=_finZids();
+  var perMatch=[], recSingle={pts:-1}, need=Math.max(3,Math.ceil(pls.length*0.5));
+  zids.forEach(function(zid){ var z=zmap[zid],res=results[zid]; if(!z) return;
+    var tip=0,sc=0;
+    pls.forEach(function(p){ var id=String(p.id); var t=_finTips(id)[zid]; if(!t) return; tip++;
+      var m=scoreMeta(t,res),pt=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(id)[zid]); if(pt>0) sc++;
+      if(pt>recSingle.pts) recSingle={pts:pt,zid:zid,z:z,who:p.jmeno,res:res,tip:t}; });
+    if(tip>=need) perMatch.push({zid:zid,z:z,res:res,tip:tip,sc:sc,ratio:sc/tip});
+  });
+  var hardest=null,easiest=null; perMatch.forEach(function(x){ if(!hardest||x.ratio<hardest.ratio||(x.ratio===hardest.ratio&&x.tip>hardest.tip)) hardest=x; if(!easiest||x.ratio>easiest.ratio||(x.ratio===easiest.ratio&&x.tip>easiest.tip)) easiest=x; });
+  var surprise=null;
+  zids.forEach(function(zid){ var od=getOddsForMatch(zid),z=zmap[zid],res=results[zid]; if(!od||!z) return;
+    var rp=String(res).split(':'),rh=+rp[0],ra=+rp[1]; if(isNaN(rh)||isNaN(ra)) return;
+    var out=rh>ra?'H':rh<ra?'A':'D', o=Number(out==='H'?od.home_odds:out==='A'?od.away_odds:od.draw_odds);
+    if(!isFinite(o)||o<=1) return; if(!surprise||o>surprise.odds) surprise={zid:zid,z:z,res:res,odds:o,out:out}; });
+  if(surprise){ var w=[]; pls.forEach(function(p){ var t=_finTips(String(p.id))[surprise.zid]; if(t){ var m=scoreMeta(t,surprise.res); if(m&&m.correctOutcome) w.push(p.jmeno); } }); surprise.correct=w; }
+  var maxStreak={n:0}; (reps||[]).forEach(function(x){ if(x.R.streak>maxStreak.n) maxStreak={n:x.R.streak,who:x.name}; });
+  var totalTips=0,totalExact=0; pls.forEach(function(p){ var tp=_finTips(String(p.id)); zids.forEach(function(zid){ if(tp[zid]){ totalTips++; var m=scoreMeta(tp[zid],results[zid]); if(m&&m.exact) totalExact++; } }); });
+  return {hardest:hardest,easiest:easiest,surprise:surprise,recSingle:recSingle,maxStreak:maxStreak,matches:zids.length,totalTips:totalTips,totalExact:totalExact};
+}
+function finaleTitleRace(){
+  var cel=buildLeaderboardFromCache('cel')||[], top=cel.slice(0,4), zids=_finZids();
+  var cum={}, series=top.map(function(r){ var id=String(r.p.id); cum[id]=0; return {id:id,name:r.p.jmeno,vals:[]}; });
+  zids.forEach(function(zid){ var res=results[zid]; series.forEach(function(s){ var t=_finTips(s.id)[zid]; if(t){ var m=scoreMeta(t,res); cum[s.id]+=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(s.id)[zid]); } s.vals.push(cum[s.id]); }); });
+  return series;
+}
+function finaleSimilarPairs(){
+  var pls=players||[], zids=SZ.concat(PZ).map(function(z){return z[0];}), pairs=[];
+  for(var i=0;i<pls.length;i++) for(var j=i+1;j<pls.length;j++){
+    var a=_finTips(String(pls[i].id)),b=_finTips(String(pls[j].id)),same=0,common=0;
+    zids.forEach(function(z){ if(a[z]&&b[z]){ common++; if(a[z]===b[z]) same++; } });
+    if(common>=20) pairs.push({a:pls[i].jmeno,b:pls[j].jmeno,pct:same/common,common:common,same:same});
+  }
+  pairs.sort(function(x,y){return y.pct-x.pct;});
+  return {most:pairs.slice(0,3), least:pairs.length?pairs[pairs.length-1]:null};
+}
+function finaleExtraHtml(){
+  var cel=buildLeaderboardFromCache('cel')||[];
+  var wa=(extraTipMeta&&extraTipMeta.winnerActual)||'', sa=(extraTipMeta&&extraTipMeta.scorerActual)||'';
+  var any=false;
+  var rows=cel.map(function(r){ var rec=extraTipsByPlayer[String(r.p.id)]||{}; var wt=rec.winnerTip||'',st=rec.scorerTip||''; if(wt||st) any=true;
+    var wok=wa&&wt?(teamMatches(wt,wa)?' <span style="color:var(--gn)">✓</span>':' <span style="color:var(--mu2)">✗</span>'):'';
+    var sok=sa&&st?(normTeamName(st)===normTeamName(sa)?' <span style="color:var(--gn)">✓</span>':' <span style="color:var(--mu2)">✗</span>'):'';
+    return '<tr><td>'+escHtml(r.p.jmeno)+'</td><td>'+(wt?(fl(wt)?fl(wt)+' ':'')+escHtml(wt)+wok:'—')+'</td><td>'+(st?escHtml(st)+sok:'—')+'</td></tr>';
+  }).join('');
+  if(!any) return '';
+  var head=(wa||sa)?('<div style="font-size:.68rem;color:var(--mu);margin-bottom:6px">Skutečnost: 🏆 vítěz '+(fl(wa)?fl(wa)+' ':'')+escHtml(wa||'?')+' · ⚽ král střelců '+escHtml(sa||'?')+'</div>')
+    :'<div style="font-size:.68rem;color:var(--mu);margin-bottom:6px">Vyhodnotí se po turnaji — zatím jen tipy hráčů.</div>';
+  return '<div class="fin-sec"><h4>🎯 Extra tipy (vítěz turnaje / král střelců)</h4>'+head+
+    '<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th>Hráč</th><th>Vítěz</th><th>Král střelců</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function finaleGlobalHtml(reps){
+  var G=finaleGlobalStats(reps);
+  function ml(x){ if(!x||!x.z) return '—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
+  var race=finaleTitleRace(), rc=['#fbbf24','#94a3b8','#f97316','#60a5fa'];
+  var raceSeries=race.map(function(s,i){ return {vals:s.vals,color:rc[i%4],w:i===0?2.6:1.6}; });
+  var raceLeg=race.map(function(s,i){ return '<span style="color:'+rc[i%4]+'">●</span> '+escHtml(s.name)+' ('+(s.vals.length?s.vals[s.vals.length-1]:0)+' b)'; }).join(' &nbsp; ');
+  var sim=finaleSimilarPairs();
+  var simHtml=sim.most.map(function(p,i){ return '<div class="fin-simrow">'+(i===0?'🥇 ':'')+escHtml(p.a)+' × '+escHtml(p.b)+' — <b>'+Math.round(p.pct*100)+'%</b> <span style="color:var(--mu2)">('+p.same+'/'+p.common+' stejných)</span></div>'; }).join('')
+    +(sim.least?'<div class="fin-simrow" style="color:var(--mu)">nejodlišnější: '+escHtml(sim.least.a)+' × '+escHtml(sim.least.b)+' — '+Math.round(sim.least.pct*100)+'%</div>':'');
+  return '<div class="fin-globalwrap">'+
+    '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🌍 Turnaj v číslech</div>'+
+    '<div style="font-size:.66rem;color:var(--mu);text-align:center;margin-bottom:8px">'+G.matches+' odehraných zápasů · '+G.totalTips+' tipů · '+G.totalExact+'× přesná trefa</div>'+
+    '<div class="fin-sec"><div class="fin-drows">'+
+      '<div><span>🌍 Nejtěžší zápas</span><b>'+ml(G.hardest)+(G.hardest?' <span style="color:var(--mu2)">('+G.hardest.sc+'/'+G.hardest.tip+' bodovalo)</span>':'')+'</b></div>'+
+      '<div><span>🍰 Nejlehčí zápas</span><b>'+ml(G.easiest)+(G.easiest?' <span style="color:var(--mu2)">('+G.easiest.sc+'/'+G.easiest.tip+' bodovalo)</span>':'')+'</b></div>'+
+      '<div><span>😱 Největší překvapení</span><b>'+ml(G.surprise)+(G.surprise?' <span style="color:var(--mu2)">(kurz '+G.surprise.odds.toFixed(1)+' · trefili: '+(G.surprise.correct.length?escHtml(G.surprise.correct.join(', ')):'nikdo')+')</span>':'')+'</b></div>'+
+      '<div><span>🔥 Nejvíc bodů v zápase</span><b>'+(G.recSingle.pts>=0?'+'+G.recSingle.pts+' b — '+escHtml(G.recSingle.who)+' · '+ml(G.recSingle):'—')+'</b></div>'+
+      '<div><span>🔥 Nejdelší série trefů</span><b>'+(G.maxStreak.n?G.maxStreak.n+' zápasů — '+escHtml(G.maxStreak.who):'—')+'</b></div>'+
+    '</div></div>'+
+    '<div class="fin-sec"><h4>👑 Bitva o titul — vývoj bodů (TOP 4)</h4>'+_svgMultiLine(raceSeries)+'<div style="font-size:.62rem;color:var(--mu2);margin-top:4px;line-height:1.7">'+raceLeg+'</div></div>'+
+    '<div class="fin-sec"><h4>🧬 Podobnost tipérů</h4>'+simHtml+'</div>'+
+    finaleExtraHtml()+
+  '</div>';
 }
 function renderFinale(){
   var el=document.getElementById('finale-list'); if(!el) return;
@@ -7408,7 +7496,8 @@ function renderFinale(){
   if(!finaleSelPid || !cel.some(function(r){return String(r.p.id)===String(finaleSelPid);})) finaleSelPid=me?String(me.id):String(cel[0].p.id);
   var lock=FINALE_PUBLIC?'':'<div class="fin-lock">🔒 Náhled zakončení — zamčeno, ostatní hráči to zatím nevidí.</div>';
   var opts=cel.map(function(r,i){ return '<option value="'+escAttr(r.p.id)+'"'+(String(r.p.id)===String(finaleSelPid)?' selected':'')+'>'+(i+1)+'. '+escHtml(r.p.jmeno)+' — '+r.total+' b</option>'; }).join('');
-  el.innerHTML=lock+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml()+
+  var reps=finaleBuildReps();
+  el.innerHTML=lock+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml(reps)+finaleGlobalHtml(reps)+
     '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
     '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';

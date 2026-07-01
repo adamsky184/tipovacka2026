@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.23 - 1. 7. 2026
+
+Zakončení — **🌍 Turnaj v číslech** (globální statistiky, zamčené, jen admin). Dávka 2/N.
+- Nejtěžší / nejlehčí zápas (kolik hráčů bodovalo), 😱 největší překvapení (výsledek nejvíc proti kurzům + kdo ho trefil).
+- 🔥 Rekordy: nejvíc bodů v jednom zápase (kdo a v jakém) + nejdelší série trefů.
+- 👑 **Bitva o titul** — graf vývoje bodů TOP 4 (kdo kdy vedl).
+- 🧬 **Podobnost tipérů** — nej/nejméně shodné dvojice (% stejných tipů).
+- 🎯 **Extra tipy odhaleny** — vítěz turnaje / král střelců každého hráče vs. skutečnost.
+- Ověřeno proti DB: nejtěžší zápas #13 (0/14), nejlehčí #25 (14/14), 98 přesných trefů.
+
 ## v5.12.22 - 1. 7. 2026
 
 Zakončení — detailní rozbor hráče + nové ceny (zamčené, jen admin). Dávka 1/N.
