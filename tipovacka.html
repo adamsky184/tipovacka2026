@@ -2509,7 +2509,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.16';
+var APP_VERSION='v5.12.17';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6988,7 +6988,25 @@ function renderOst(){
       '<input class="ost-scroll-range" id="ost-scroll-range" type="range" min="0" max="0" value="0" step="1" aria-label="'+escAttr(LANG==="en"?"Horizontal scroll":"Vodorovný posun")+'">'+
       '<button class="ost-scroll-jump" id="ost-scroll-jump" type="button">'+escHtml(LANG==="en"?"End":"Konec")+'</button>'+
     '</div></div><div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
-  el.innerHTML=html;
+  // DOCASNA DIAGNOSTIKA (jen admin): ukaze stav nactenych tipu + nastroje
+  if(me&&me.je_admin){
+    var _pl=Object.keys(allTips||{}).length,_tot=0; Object.keys(allTips||{}).forEach(function(pid){ _tot+=Object.keys(allTips[pid]||{}).length; });
+    var dbg='<div id="ost-dbg" style="background:#7c2d12;color:#fff;padding:7px 10px;border-radius:8px;margin:0 0 8px;font-size:.72rem;line-height:1.5">'+
+      '🔧 '+escHtml(APP_VERSION)+' · hráčů s načtenými tipy: <b>'+_pl+'</b> · tipů celkem: <b>'+_tot+'</b> · loadOK: <b>'+String(window.__loadAllTipsLastOk)+'</b>'+(window.__loadAllTipsLastErr?' · err: '+escHtml(String(window.__loadAllTipsLastErr)):'')+
+      '<br><button id="dbg-reload" class="btn btn-sm" style="margin-top:5px">Načíst tipy znovu</button> <button id="dbg-nuke" class="btn btn-sm" style="margin-top:5px">Vyčistit cache + obnovit</button></div>';
+    el.innerHTML=dbg+html;
+  } else {
+    el.innerHTML=html;
+  }
+  var _dr=document.getElementById('dbg-reload'); if(_dr) _dr.onclick=function(){ _dr.disabled=true; _dr.textContent='...'; loadAllTips().then(function(){ renderOst(); }); };
+  var _dn=document.getElementById('dbg-nuke'); if(_dn) _dn.onclick=function(){
+    _dn.disabled=true; _dn.textContent='...';
+    Promise.resolve().then(function(){ return navigator.serviceWorker?navigator.serviceWorker.getRegistrations():[]; })
+      .then(function(rs){ return Promise.all((rs||[]).map(function(r){return r.unregister();})); })
+      .then(function(){ return caches&&caches.keys?caches.keys():[]; })
+      .then(function(ks){ return Promise.all((ks||[]).map(function(k){return caches.delete(k);})); })
+      .then(function(){ location.reload(true); }).catch(function(){ location.reload(true); });
+  };
   var ol=document.getElementById('ost-list');
   if(ol){ ol.onclick=function(e){ var team=e.target.closest('.link-team'); if(team&&team.dataset.team) filterByTeam(team.dataset.team); var st=e.target.closest('.link-venue'); if(st&&st.dataset.stadium) goStadiony(st.dataset.stadium); }; }
   syncOstScrollUX();

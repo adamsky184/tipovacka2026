@@ -2,6 +2,11 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.17 - 1. 7. 2026
+
+Diagnostika (dočasná) pro dohledání proč admin nevidí cizí tipy.
+- V „Tipy ostatních" se adminovi ukáže řádek se stavem: verze appky, kolik hráčů má načtené tipy, celkem tipů, loadOK. + tlačítka „Načíst tipy znovu" a „Vyčistit cache + obnovit" (odregistruje starý service worker a promaže cache).
+
 ## v5.12.16 - 1. 7. 2026
 
 Oprava: admin neviděl cizí tipy u nezačatých zápasů v tabulce Ostatní.
