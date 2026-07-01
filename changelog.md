@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.18 - 1. 7. 2026
+
+Oprava (jádro): tipy ostatních se u nezačatých playoff zápasů nezobrazovaly (ořez 1000 řádků).
+- **Příčina:** funkce `get_visible_tips_secure` vracela tipy jako tabulku a PostgREST ořezal odpověď na 1000 řádků. V DB je 1101 tipů; seřazené dle čísla zápasu se do 1000 vešly jen zápasy do č. 78, takže **všech 96 tipů na playoff 79+ se useklo** (týkalo se hlavně admina, ale i běžní hráči už měli přes 1000 viditelných tipů).
+- **Oprava:** funkce nyní vrací **jeden JSON agregát** (`jsonb_agg`) místo tabulky → 1 řádek, žádný ořez. Data byla celou dobu v pořádku, jen se odpověď tiše usekla.
+- Odstraněn dočasný diagnostický řádek.
+
 ## v5.12.17 - 1. 7. 2026
 
 Diagnostika (dočasná) pro dohledání proč admin nevidí cizí tipy.
