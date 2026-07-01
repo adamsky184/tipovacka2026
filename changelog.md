@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.26 - 2. 7. 2026
+
+**Oprava bodování postupujícího (+3).** Bonus se nově uděluje **jen za správně tipnutou remízu + správného postupujícího** — přesně jak popisují pravidla.
+- Dřív ho dostal i ten, kdo tipoval **výhru** u zápasu, který skončil remízou po 90' (tj. špatný výsledek = 0 bodů základ, ale i tak +3). To bylo nelogické.
+- Opraveno konzistentně na dvou místech: serverová funkce `get_leaderboard_snapshot_secure` (chirurgický `regexp_replace` jen bloku bonusu, zbytek funkce byte-identický) + klientský `calcAdvBonus`.
+- Dopad: **5 hráčů −3 body** (Belgie–Senegal 2:2 — tipovali výhru Belgie). Pořadí se nepřeskládalo. Ostatní beze změny.
+- Ověřeno: ground-truth SQL (staré vs. nové body), tělo funkce po zásahu, 9 unit-testů klienta.
+
 ## v5.12.25 - 1. 7. 2026
 
 Zakončení — **prezentační vrstva** (zamčené, jen admin). Dávka 3/N.

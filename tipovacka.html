@@ -2576,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.25';
+var APP_VERSION='v5.12.26';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5040,14 +5040,15 @@ function calcPts(tip,res){
   return meta?meta.total:null;
 }
 // Bonus za spravneho postupujiciho (+3) - stejna logika jako serverovy leaderboard.
-// Postupujici = u rozhodneho tipu dle skore, u remizoveho tipu dle volby hrace (postup 'H'/'A').
+// v5.12.26: jen kdyz hrac tipoval REMIZU (spravny vysledek u remizoveho zapasu) a zvolil spravneho postupujiciho.
+// Rozhodnuty tip (vyhra) u zapasu, ktery skoncil remizou po 90', = spatny vysledek -> zadny bonus.
 function calcAdvBonus(zid,tip,postup){
   if(!tip||zid<73) return 0;
   var adv=resultsAdvance[zid]; if(!adv) return 0;
   var sp=String(tip).split(':'),hh=parseInt(sp[0],10),aa=parseInt(sp[1],10);
   if(isNaN(hh)||isNaN(aa)) return 0;
-  var pick=(hh>aa)?'H':(aa>hh)?'A':(postup||'');
-  return (pick&&pick===adv)?3:0;
+  if(hh!==aa) return 0;
+  return (postup&&postup===adv)?3:0;
 }
 // HTML indikace, koho hrac zvolil na postup (jen u play-off remizoveho tipu). compact=true -> jen vlajka+znacka.
 function advPickHtml(zid,tip,postup,z,res,compact){
