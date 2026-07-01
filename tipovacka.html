@@ -2509,7 +2509,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.15';
+var APP_VERSION='v5.12.16';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6917,7 +6917,7 @@ function renderPlayerFilter(){
   });
 }
 function renderOstExtras(others){
-  var canSee=extraTipsSavedByMe();
+  var canSee=extraTipsSavedByMe()||(me&&me.je_admin);
   var html='<div style="overflow-x:auto"><table class="tbl" style="width:100%"><thead><tr><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+escHtml(tr('extra_winner'))+'</th><th>'+escHtml(tr('extra_scorer'))+'</th></tr></thead><tbody>';
   others.forEach(function(p){
     var rec=extraTipsByPlayer[String(p.id)]||null;
@@ -7076,7 +7076,7 @@ function renderOstStrip(title,others){
 }
 
 function renderOstRow(z,others){
-  var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],myTip=myTips[id]||'',canSee=!!myTip||mDate(z)<=new Date();
+  var id=z[0],d=z[2],h=z[3],venue=z[9]||'',res=results[id],myTip=myTips[id]||'',canSee=!!myTip||mDate(z)<=new Date()||(me&&me.je_admin);
   var myPts=(res&&myTip)?calcPts(myTip,res):null;
   var myBg=myPts===10?'rgba(34,197,94,.1)':myPts===4?'rgba(245,158,11,.1)':(myPts===3?'rgba(59,130,246,.1)':(myPts===0&&myTip)?'rgba(239,68,68,.1)':'');
   var myCol=myPts===10?'var(--gn2)':myPts===4?'#fbbf24':(myPts===3?'var(--ac2)':(myPts===0&&myTip)?'#f87171':'var(--mu2)');

@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.16 - 1. 7. 2026
+
+Oprava: admin neviděl cizí tipy u nezačatých zápasů v tabulce Ostatní.
+- **Skutečná příčina** (konečně): tabulka „Tipy ostatních" skrývala cizí tipy u ještě nezačatých zápasů podle pravidla „vidíš, jen když jsi tipoval nebo zápas začal" a **nebrala ohled na admina**. Proto jsi od Mexiko–Ekvádor dále (nezačaté playoff zápasy) viděl jen svoje. Data i RPC přitom byla celou dobu v pořádku (admin dostává všechny tipy).
+- **Oprava:** admin teď v tabulce Ostatní (i u bonusových tipů) vidí **všechny cizí tipy**, konzistentně s kartou zápasu a admin záložkou. Běžným hráčům zůstává fér skrývání nezačatých zápasů beze změny.
+
 ## v5.12.15 - 1. 7. 2026
 
 Oprava: cizí tipy se u někoho nenačítaly (stará verze z cache) + odolnost.
