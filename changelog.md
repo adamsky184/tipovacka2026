@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.19 - 1. 7. 2026
+
+Zakončení turnaje / vysvědčení tipéra — ZAMČENÝ náhled (jen admin).
+- Nová záložka **🏆 Zakončení** (zatím vidí jen admin, `FINALE_PUBLIC=false` → zveřejní se až na schválení).
+- **Pódium** top 3 + **vysvědčení každého hráče** (lze projet kohokoliv přes výběr).
+- Statistiky: body, přesných, úspěšnost, ⌀ b/zápas, přesnost %, body za postup, nejdelší série, trefené remízy, nejlepší den, největší trefa, DNA stylu.
+- **Grafy** (SVG): skladba tipů (donut), body podle fáze, kumulativní body, vývoj pořadí.
+- Core čísla brána ze **serverového žebříčku** + ověřovací plaketa „✓ sedí se žebříčkem" (engine ověřen proti reálným datům: Adam 247, Michal 221 vč. postupu, Jendak6 219).
+
 ## v5.12.18 - 1. 7. 2026
 
 Oprava (jádro): tipy ostatních se u nezačatých playoff zápasů nezobrazovaly (ořez 1000 řádků).
