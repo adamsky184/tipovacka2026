@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.22 - 1. 7. 2026
+
+Zakončení — detailní rozbor hráče + nové ceny (zamčené, jen admin). Dávka 1/N.
+- Nová sekce **🔎 Detailní rozbor**: konzistence (rozptyl bodů → stabilní/houpačka), úspěšnost u gólových vs. opatrných zápasů, nemesis/nejlepší tým, body co ležely, „uteklo o gól" (smůla vs. těsná trefa), věštec na outsidery (dle kurzů).
+- Nové ceny: **🎰 Věštec, 😈 Smolař, 🍀 Šťastlivec, 🪨 Nejstabilnější**.
+- Pozn.: „uteklo o gól" = zápasy rozhodnuté rozdílem ≤1 (minuty gólů neukládáme).
+- Ověřeno: outsider/kurzová logika i metriky na reálných datech.
+
 ## v5.12.21 - 1. 7. 2026
 
 Zakončení — vysvětlivky, klikací zápasy, ceny/superlativy (zamčené, jen admin).
