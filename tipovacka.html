@@ -314,6 +314,20 @@ body.theme-light .venue{color:#5f7690}
 .fin-syncbtn{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer}
 .fin-syncbtn:disabled{opacity:.55;cursor:default}
 .fin-sync-stat{color:var(--mu2)}
+.fin-sharebtn{flex-shrink:0;width:38px;height:38px;border-radius:10px;border:1px solid var(--bd2);background:var(--bg3);color:var(--ac2);font-size:1.05rem;cursor:pointer;line-height:1}
+.fin-sharebtn:hover{border-color:var(--ac);background:var(--bg4)}
+.fin-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10000}
+.fin-story{display:flex;gap:9px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 1px 6px;-webkit-overflow-scrolling:touch}
+.fin-story-card{scroll-snap-align:center;flex:0 0 auto;width:150px;min-height:150px;background:linear-gradient(160deg,var(--bg4),var(--bg3));border:1px solid var(--bd2);border-radius:14px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.fin-story-ic{font-size:1.5rem}
+.fin-story-big{font-size:1.7rem;font-weight:900;color:var(--tx);line-height:1.1}
+.fin-story-sub{font-size:.72rem;font-weight:700;color:var(--ac2)}
+.fin-story-foot{font-size:.6rem;color:var(--mu2);line-height:1.3;margin-top:2px}
+.fin-tl{display:flex;gap:4px;align-items:flex-end;overflow-x:auto;padding:4px 1px;min-height:92px}
+.fin-tl-col{flex:0 0 auto;width:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px}
+.fin-tl-val{font-size:.6rem;font-weight:700;color:var(--tx)}
+.fin-tl-bar{width:16px;border-radius:4px 4px 0 0;min-height:3px}
+.fin-tl-lbl{font-size:.52rem;color:var(--mu2);white-space:nowrap;transform:rotate(-45deg);transform-origin:center;margin-top:3px;height:20px}
 .fin-simrow{font-size:.73rem;line-height:1.7}
 .fin-xtab{width:100%;border-collapse:collapse;font-size:.72rem}
 .fin-xtab th{text-align:left;color:var(--mu2);font-weight:600;padding:3px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
@@ -2562,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.24';
+var APP_VERSION='v5.12.25';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7330,6 +7344,111 @@ function buildPlayerReport(pid){
     lateUnlucky:lateUnlucky, lateLucky:lateLucky, lateUnluckyList:lateUnluckyList, lateLuckyList:lateLuckyList,
     history:(celRow&&celRow.history)?celRow.history:[] };
 }
+// ===== DAVKA 3: Wrapped pribeh + timeline + konfety + sdileni (admin-only, zamcene) =====
+function finaleDayBuckets(pid){
+  var tips=_finTips(pid),postup=_finPostup(pid),all=SZ.concat(PZ),days={};
+  all.forEach(function(z){ var zid=z[0],tip=tips[zid],res=results[zid]; if(!tip||!res) return;
+    var m=scoreMeta(tip,res),pt=(m?m.total:0)+calcAdvBonus(zid,tip,postup[zid]);
+    var d=mDate(z),dk=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+    if(!days[dk]) days[dk]={pts:0,n:0,exact:0}; days[dk].pts+=pt; days[dk].n++; if(m&&m.exact) days[dk].exact++;
+  });
+  var cum=0; return Object.keys(days).sort().map(function(k){ cum+=days[k].pts; var p=k.split('-'); return {key:k,label:(+p[2])+'.'+(+p[1])+'.',pts:days[k].pts,n:days[k].n,exact:days[k].exact,cum:cum}; });
+}
+function finaleTimelineHtml(pid){
+  var days=finaleDayBuckets(pid); if(!days.length) return '';
+  var max=Math.max.apply(null,days.map(function(d){return d.pts;}).concat([1]));
+  var best=days[0],worst=days[0]; days.forEach(function(d){ if(d.pts>best.pts)best=d; if(d.pts<worst.pts)worst=d; });
+  var rows=days.map(function(d){
+    var h=Math.max(3,Math.round(56*d.pts/max)), col=(d===best)?'#22c55e':(d===worst&&worst!==best)?'#ef4444':'var(--ac)';
+    return '<div class="fin-tl-col" title="'+escAttr(d.label+': '+d.pts+' b · '+d.n+' záp. · '+d.exact+' přesných')+'"><div class="fin-tl-val">'+d.pts+'</div><div class="fin-tl-bar" style="height:'+h+'px;background:'+col+'"></div><div class="fin-tl-lbl">'+escHtml(d.label)+'</div></div>';
+  }).join('');
+  return '<div class="fin-sec"><h4>🗓️ Den po dni</h4><div class="fin-tl">'+rows+'</div>'+
+    '<div style="font-size:.64rem;color:var(--mu2);margin-top:6px">🟢 nej den '+escHtml(best.label)+' (+'+best.pts+' b)'+(worst!==best?' · 🔴 nejslabší '+escHtml(worst.label)+' (+'+worst.pts+' b)':'')+'</div></div>';
+}
+function finaleStorySlides(pid){
+  var R=buildPlayerReport(pid),cel=buildLeaderboardFromCache('cel')||[],cx=finaleCrossStats(pid,R.rated||[]);
+  var rank=1; for(var i=0;i<cel.length;i++){ if(String(cel[i].p.id)===String(pid)){rank=i+1;break;} }
+  var succ=R.hod?Math.round(100*(R.pre+R.spr)/R.hod):0, s=[];
+  s.push({ic:'🎬',big:''+R.saved,sub:'tipů jsi zadal',foot:R.hod+' už vyhodnoceno'});
+  s.push({ic:'🎯',big:R.pre+'×',sub:'přesná trefa',foot:succ+'% celková úspěšnost'});
+  s.push({ic:'🔥',big:''+R.streak,sub:'zápasů v řadě s body',foot:'tvoje nejdelší série'});
+  s.push({ic:'📅',big:'+'+R.bestDay.pts,sub:'nejlepší den',foot:'nejvíc bodů za jeden den'});
+  if(cx&&cx.solo&&cx.solo.length) s.push({ic:'🌟',big:''+cx.solo.length,sub:'sólo trefy',foot:'skóre, co nikdo jiný netrefil'});
+  if((R.lateUnlucky||R.lateLucky)&&Object.keys(goalMinsByZapas).length) s.push({ic:'🕐',big:R.lateUnlucky+' / '+R.lateLucky,sub:'pozdní góly proti / pro',foot:'smolař / lucker závěru'});
+  s.push({ic:rank===1?'👑':'🏁',big:rank+'.',sub:'místo v žebříčku',foot:R.total+' bodů celkem'});
+  return s;
+}
+function finaleStoryHtml(pid){
+  return '<div class="fin-sec"><h4>📖 Tvůj turnaj v kostce</h4><div class="fin-story">'+
+    finaleStorySlides(pid).map(function(s){ return '<div class="fin-story-card"><div class="fin-story-ic">'+s.ic+'</div><div class="fin-story-big">'+escHtml(s.big)+'</div><div class="fin-story-sub">'+escHtml(s.sub)+'</div><div class="fin-story-foot">'+escHtml(s.foot)+'</div></div>'; }).join('')+
+    '</div><div style="font-size:.58rem;color:var(--mu2);text-align:center;margin-top:3px">← potáhni pro další →</div></div>';
+}
+function finaleConfetti(dur){
+  try{
+    var c=document.createElement('canvas'); c.className='fin-confetti'; c.width=window.innerWidth; c.height=window.innerHeight;
+    document.body.appendChild(c); var ctx=c.getContext('2d');
+    var cols=['#fbbf24','#22c55e','#3b82f6','#ef4444','#a855f7','#f97316'], N=150, ps=[];
+    for(var i=0;i<N;i++) ps.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*0.6,r:4+Math.random()*5,c:cols[i%cols.length],vy:2.2+Math.random()*3,vx:-1.5+Math.random()*3,rot:Math.random()*6.28,vr:-0.2+Math.random()*0.4});
+    var start=null;
+    function frame(t){ if(start===null)start=t; var el=t-start; ctx.clearRect(0,0,c.width,c.height);
+      ps.forEach(function(p){ p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.fillRect(-p.r,-p.r,p.r*2,p.r*1.2); ctx.restore(); if(p.y>c.height+30){ p.y=-20; p.x=Math.random()*c.width; } });
+      if(el<dur) requestAnimationFrame(frame); else if(c.parentNode) c.parentNode.removeChild(c);
+    }
+    requestAnimationFrame(frame);
+  }catch(_e){}
+}
+function finaleWelcomePopup(force){
+  if(!me||!me.je_admin) return;
+  var cel=buildLeaderboardFromCache('cel')||[]; if(!cel.length) return;
+  var key='ms26_fin_welcome_'+String(me.id);
+  if(!force){ try{ if(sessionStorage.getItem(key)==='1') return; }catch(_e){} }
+  try{ sessionStorage.setItem(key,'1'); }catch(_e){}
+  var overlay=document.createElement('div'); overlay.className='onb-overlay';
+  function close(){ if(overlay.parentNode) overlay.parentNode.removeChild(overlay); }
+  overlay.addEventListener('click',function(e){ if(e.target===overlay) close(); });
+  overlay.innerHTML='<div class="onb-card" style="text-align:center">'+
+    '<div class="onb-emoji">🎉</div><div class="onb-title">Tipovačka skončila!</div>'+
+    '<div class="onb-text">Šampionem se stává<br><span style="font-size:1.35rem;font-weight:900;color:var(--gd)">👑 '+escHtml(cel[0].p.jmeno)+'</span><br><span style="color:var(--mu2)">'+cel[0].total+' bodů</span><br><br>Projeď si vysvědčení každého hráče, ceny turnaje i statistiky.</div>'+
+    '<div class="onb-actions" style="justify-content:center"><button class="onb-next" id="fin-wel-ok">Zobrazit zakončení 🏆</button></div></div>';
+  document.body.appendChild(overlay);
+  overlay.querySelector('#fin-wel-ok').onclick=close;
+  finaleConfetti(3800);
+}
+function finaleShareCard(pid){
+  var R=buildPlayerReport(pid),cel=buildLeaderboardFromCache('cel')||[];
+  var rank=1; for(var i=0;i<cel.length;i++){ if(String(cel[i].p.id)===String(pid)){rank=i+1;break;} }
+  var name=(R.celRow?R.celRow.p.jmeno:'?'), succ=R.hod?Math.round(100*(R.pre+R.spr)/R.hod):0;
+  var W=1080,H=1350,c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+  var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a1524'); g.addColorStop(1,'#122235'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  x.strokeStyle='#1c3050'; x.lineWidth=6; x.strokeRect(24,24,W-48,H-48);
+  x.textAlign='center';
+  x.fillStyle='#60a5fa'; x.font='bold 42px sans-serif'; x.fillText('TIPOVAČKA MS 2026', W/2, 120);
+  x.fillStyle='#eef5ff'; x.font='bold 30px sans-serif'; x.fillText('— VYSVĚDČENÍ —', W/2, 168);
+  var medal=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'';
+  if(medal){ x.font='130px sans-serif'; x.fillText(medal, W/2, 330); }
+  x.fillStyle='#fde68a'; x.font='bold 66px sans-serif'; x.fillText(name, W/2, medal?440:380);
+  x.fillStyle='#7fa3c7'; x.font='32px sans-serif'; x.fillText(rank+'. místo · '+R.total+' bodů', W/2, medal?495:430);
+  var solo=finaleCrossStats(pid,R.rated||[]).solo.length;
+  var tiles=[['🎯 '+R.pre,'přesných trefů'],['✅ '+succ+'%','úspěšnost'],['🔥 '+R.streak,'nejdelší série'],['📅 +'+R.bestDay.pts,'nejlepší den'],['🌟 '+solo,'sólo trefy'],['⚽ '+R.avgGoals.toFixed(1),'⌀ gólů/tip']];
+  var ty=640,tw=W/2;
+  tiles.forEach(function(t,i){ var col=i%2,row=(i/2)|0, cx2=col*tw+tw/2, cy=ty+row*185;
+    x.fillStyle='#eef5ff'; x.font='bold 60px sans-serif'; x.fillText(t[0], cx2, cy);
+    x.fillStyle='#7fa3c7'; x.font='28px sans-serif'; x.fillText(t[1], cx2, cy+44);
+  });
+  x.fillStyle='#4b6a8a'; x.font='26px sans-serif'; x.fillText('tipovacka.chabrycity.cz', W/2, H-56);
+  return c;
+}
+function finaleShare(pid){
+  var c=finaleShareCard(pid); if(!c) return;
+  c.toBlob(function(blob){ if(!blob) return; var fn='vysvedceni-tipovacka.png';
+    var file=window.File?new File([blob],fn,{type:'image/png'}):null;
+    if(navigator.share && file && navigator.canShare && navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:'Moje vysvědčení — Tipovačka MS 2026'}).catch(function(){});
+    } else {
+      var url=URL.createObjectURL(blob),a=document.createElement('a'); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url);},1500);
+    }
+  },'image/png');
+}
 function finaleReportHtml(pid){
   var R=buildPlayerReport(pid),cel=buildLeaderboardFromCache('cel')||[];
   var rank=1; for(var i=0;i<cel.length;i++){ if(String(cel[i].p.id)===String(pid)){ rank=i+1; break; } }
@@ -7381,7 +7500,8 @@ function finaleReportHtml(pid){
     '<div style="display:flex;align-items:center;gap:11px">'+
       '<div style="width:42px;height:42px;border-radius:50%;background:var(--bg3);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ac2)">'+escHtml(ini(name))+'</div>'+
       '<div style="flex:1"><div style="font-weight:800;font-size:1rem">'+escHtml(name)+' <span style="color:var(--gd);font-size:.82rem">'+medal+' místo</span></div>'+
-      '<div style="color:var(--mu);font-size:.74rem">'+R.total+' bodů · '+R.hod+' hodnocených · '+R.saved+' tipů</div></div></div>'+
+      '<div style="color:var(--mu);font-size:.74rem">'+R.total+' bodů · '+R.hod+' hodnocených · '+R.saved+' tipů</div></div>'+
+      '<button type="button" class="fin-sharebtn" data-share-pid="'+escAttr(pid)+'" title="Uložit / sdílet vysvědčení jako obrázek">📤</button></div>'+
     '<div class="fin-tiles">'+
       '<div class="fin-tile" title="Kolik zápasů jsi trefil úplně přesně na skóre (10 b). V závorce podíl z hodnocených."><b style="color:#22c55e">'+R.pre+'</b><span>přesných 🎯 · '+exactPct+'%</span></div>'+
       '<div class="fin-tile" title="Podíl hodnocených zápasů, kde jsi získal aspoň nějaké body (přesně / vítěz / rozdíl)."><b style="color:#60a5fa">'+succ+'%</b><span>úspěšnost</span></div>'+
@@ -7394,6 +7514,7 @@ function finaleReportHtml(pid){
       '<div class="fin-tile" title="Nejdelší série po sobě jdoucích zápasů, kde jsi bodoval."><b style="color:#f97316">'+R.streak+'</b><span>série 🔥</span></div>'+
       '<div class="fin-tile" title="Kolik remíz jsi správně tipnul (výsledek i tvůj tip byla remíza)."><b>'+R.drawHits+'</b><span>trefené remízy</span></div>'+
     '</div>'+
+    finaleStoryHtml(pid)+
     infoBox+
     '<div class="fin-charts">'+
       '<div class="fin-chart"><h4>Skladba tipů (počet zápasů)</h4><div style="display:flex;align-items:center;gap:8px">'+_svgDonut(segs)+'<div style="font-size:.63rem;line-height:1.55;color:var(--mu2)">'+legend+'</div></div></div>'+
@@ -7404,6 +7525,7 @@ function finaleReportHtml(pid){
       '<div class="fin-chart"><h4>Kumulativní body — ty vs. průměr vs. vítěz</h4>'+_svgMultiLine([{vals:CUM.leader,color:'#fbbf24',w:1.6,dash:'3 3'},{vals:CUM.avg,color:'#7c8aa0',w:1.6,dash:'3 3'},{vals:CUM.me,color:'#22c55e',w:2.4}])+'<div style="font-size:.6rem;color:var(--mu2);margin-top:2px"><span style="color:#22c55e">●</span> ty · <span style="color:#7c8aa0">●</span> průměr · <span style="color:#fbbf24">●</span> vítěz</div></div>'+
       '<div class="fin-chart"><h4>Vývoj pořadí</h4>'+_svgLine(finaleRankSeries(pid),{invert:true,color:'#c4b5fd',dot:'#fbbf24',yTop:'1.',yBot:cel.length+'.',xLabel:'zápasy →'})+'</div>'+
     '</div>'+
+    finaleTimelineHtml(pid)+
     '<div class="fin-sec"><h4>🎯 Všechny přesné trefy ('+exacts.length+')</h4>'+exactHtml+'</div>'+
     '<div class="fin-sec"><h4>🌟 V čem jsi jiný — sólo trefy ('+CX.solo.length+')</h4>'+soloHtml+contraHtml+'</div>'+
     '<div class="fin-sec"><h4>⚔️ Rival</h4>'+rivalHtml+'</div>'+
@@ -7575,6 +7697,7 @@ function renderFinale(){
   var syncedN=Object.keys(goalSyncByZapas).length, playedN=SZ.concat(PZ).filter(function(z){return results[z[0]];}).length;
   var adminBar=(me&&me.je_admin)?('<div class="fin-adminbar">🕐 Minuty gólů: <b>'+syncedN+'/'+playedN+'</b> zápasů načteno '+
     '<button type="button" class="fin-syncbtn" id="fin-sync">'+(syncedN<playedN?'Načíst chybějící':'Přenačíst vše')+'</button>'+
+    '<button type="button" class="fin-syncbtn" id="fin-replay" style="background:var(--gd);border-color:var(--gd)">🎉 Úvod</button>'+
     '<span id="fin-sync-stat" class="fin-sync-stat"></span></div>'):'';
   var reps=finaleBuildReps();
   el.innerHTML=lock+adminBar+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml(reps)+finaleGlobalHtml(reps)+
@@ -7588,7 +7711,13 @@ function renderFinale(){
     syncAllGoalMinutes(force,function(done,total,okc,fail){ if(st) st.textContent=' '+done+'/'+total+' (ok '+okc+(fail?', chyba '+fail:'')+')'; })
       .then(function(){ syncBtn.disabled=false; renderFinale(); })
       .catch(function(e){ if(st) st.textContent=' chyba: '+((e&&e.message)||e); syncBtn.disabled=false; }); };
-  el.onclick=function(e){ var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); } };
+  el.onclick=function(e){
+    var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
+    var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); }
+  };
+  var replayBtn=document.getElementById('fin-replay');
+  if(replayBtn) replayBtn.onclick=function(){ finaleWelcomePopup(true); };
+  setTimeout(function(){ try{ finaleWelcomePopup(false); }catch(_e){} }, 250);
 }
 function renderZeb(){
   var scored=getLeaderboardSnapshot(zebPhase==='po'?'po':zebPhase==='sk'?'sk':'cel');

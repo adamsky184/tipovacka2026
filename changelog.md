@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.25 - 1. 7. 2026
+
+Zakončení — **prezentační vrstva** (zamčené, jen admin). Dávka 3/N.
+- 🎉 **Welcome popup s konfetami** při otevření (jméno šampiona) + tlačítko „🎉 Úvod" na přehrání.
+- 📖 **Tvůj turnaj v kostce** — swipe karty (Spotify-Wrapped styl): tipy, přesné, série, nejlepší den, sólo trefy, pozdní góly, umístění.
+- 🗓️ **Den po dni** — sloupcová timeline bodů (zeleně nej den, červeně nejslabší).
+- 📤 **Sdílení vysvědčení** — tlačítko vygeneruje obrázek 1080×1350 (medaile + 6 statistik) → Web Share / stažení PNG.
+- Ověřeno v preview: konfety (canvas + úklid), obrázek (validní PNG), story/timeline render.
+
 ## v5.12.24 - 1. 7. 2026
 
 Zakončení — **reálné minuty gólů z ESPN** (nová cache, zamčené jen admin). Dávka 2b/N.
