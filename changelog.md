@@ -2,6 +2,18 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.20 - 1. 7. 2026
+
+Zakončení / vysvědčení — vylepšení dle feedbacku (stále zamčené, jen admin).
+- Jasnější dlaždice + **tooltipy** u každé (co přesně znamená); „přesných · 15 %" pohromadě místo matoucí zvlášť „přesnost".
+- Nová dlaždice **sólo trefy** (přesné trefy, které nikdo jiný netrefil).
+- Nová sekce **🎯 Všechny přesné trefy** (výpis zápasů).
+- Nová sekce **🌟 V čem jsi jiný** (sólo trefy + nejlepší „proti proudu").
+- Nová sekce **⚔️ Rival** (koho nejčastěji přetipoval / tvůj přemožitel).
+- Grafy mají **popisy os** (hodnoty + „zápasy →").
+- **Kumulativní graf** nově porovnává **ty vs. průměr vs. vítěz** v jednom.
+- Engine ověřen proti reálným datům; sólo trefy ověřeny proti DB.
+
 ## v5.12.19 - 1. 7. 2026
 
 Zakončení turnaje / vysvědčení tipéra — ZAMČENÝ náhled (jen admin).

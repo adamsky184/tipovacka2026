@@ -287,6 +287,12 @@ body.theme-light .venue{color:#5f7690}
 .fin-chart{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 8px 6px}
 .fin-chart h4{margin:0 0 4px 4px;font-size:.72rem;color:var(--mu);font-weight:600}
 .fin-verify{font-size:.63rem;color:var(--gn2);margin-top:10px;text-align:right}
+.fin-sec{margin-top:12px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.fin-sec h4{margin:0 0 6px;font-size:.78rem;color:var(--tx);font-weight:700}
+.fin-hitlist{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;font-size:.72rem;color:var(--mu2)}
+.fin-hitlist>div{padding:1px 0}
+.fin-empty{font-size:.72rem;color:var(--mu)}
+@media(max-width:560px){.fin-hitlist{grid-template-columns:1fr}}
 @media(max-width:560px){.fin-charts{grid-template-columns:1fr}.fin-tiles{grid-template-columns:repeat(2,1fr)}}
 .mcard-tip b{color:var(--tx);font-family:'Space Grotesk',sans-serif}
 .mcard-tip.is-me{border-color:var(--ac)}
@@ -2529,7 +2535,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.19';
+var APP_VERSION='v5.12.20';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7138,11 +7144,50 @@ function _svgDonut(segs){
 }
 function _svgLine(vals,opts){
   opts=opts||{}; if(!vals||!vals.length) return '<div style="color:var(--mu);font-size:.66rem;padding:14px 6px">zatím bez dat</div>';
-  var w=280,h=104,pl=8,pr=8,pt=10,pb=12;
+  var w=280,h=112,pl=(opts.yTop||opts.yBot)?24:8,pr=8,pt=10,pb=16;
   var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals),range=(max-min)||1,n=vals.length;
   var pts=vals.map(function(v,i){ var x=pl+(n===1?(w-pl-pr)/2:i*(w-pl-pr)/(n-1)); var norm=(v-min)/range; if(opts.invert) norm=1-norm; var y=pt+(1-norm)*(h-pt-pb); return x.toFixed(1)+','+y.toFixed(1); });
   var last=pts[pts.length-1].split(',');
-  return '<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;height:auto"><polyline points="'+pts.join(' ')+'" fill="none" stroke="'+(opts.color||'#c4b5fd')+'" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+last[0]+'" cy="'+last[1]+'" r="3.2" fill="'+(opts.dot||'#fbbf24')+'"/></svg>';
+  var ax='';
+  if(opts.yTop) ax+='<text x="2" y="13" fill="#5f728e" font-size="9">'+opts.yTop+'</text>';
+  if(opts.yBot) ax+='<text x="2" y="'+(h-pb+7)+'" fill="#5f728e" font-size="9">'+opts.yBot+'</text>';
+  if(opts.xLabel) ax+='<text x="'+(w-46)+'" y="'+(h-3)+'" fill="#5f728e" font-size="9">'+opts.xLabel+'</text>';
+  return '<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;height:auto">'+ax+'<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+(opts.color||'#c4b5fd')+'" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+last[0]+'" cy="'+last[1]+'" r="3.2" fill="'+(opts.dot||'#fbbf24')+'"/></svg>';
+}
+function _svgMultiLine(series){
+  var w=280,h=118,pl=26,pr=8,pt=10,pb=16,maxV=0,n=0;
+  series.forEach(function(s){ s.vals.forEach(function(v){ if(v>maxV) maxV=v; }); if(s.vals.length>n) n=s.vals.length; });
+  if(maxV<=0) maxV=1; if(!n) return '<div style="color:var(--mu);font-size:.66rem;padding:14px 6px">zatím bez dat</div>';
+  function pp(vals){ return vals.map(function(v,i){ var x=pl+(n<=1?(w-pl-pr)/2:i*(w-pl-pr)/(n-1)); var y=pt+(1-v/maxV)*(h-pt-pb); return x.toFixed(1)+','+y.toFixed(1); }).join(' '); }
+  var lines=series.map(function(s){ return '<polyline points="'+pp(s.vals)+'" fill="none" stroke="'+s.color+'" stroke-width="'+(s.w||2)+'" stroke-linejoin="round" stroke-linecap="round"'+(s.dash?' stroke-dasharray="'+s.dash+'"':'')+'/>'; }).join('');
+  return '<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;height:auto"><text x="2" y="13" fill="#5f728e" font-size="9">'+maxV+' b</text><text x="2" y="'+(h-pb+7)+'" fill="#5f728e" font-size="9">0</text><text x="'+(w-46)+'" y="'+(h-3)+'" fill="#5f728e" font-size="9">zápasy →</text>'+lines+'</svg>';
+}
+function finaleCumCompare(pid){
+  var zids=Object.keys(results).map(Number).filter(function(z){return z>=1&&z<=104&&results[z];}).sort(function(a,b){return a-b;});
+  var pls=players||[],cum={}; pls.forEach(function(p){ cum[String(p.id)]=0; });
+  var ld=(buildLeaderboardFromCache('cel')||[])[0]; ld=ld?String(ld.p.id):null;
+  var meA=[],avgA=[],ldA=[];
+  zids.forEach(function(zid){ var res=results[zid];
+    pls.forEach(function(p){ var pd=String(p.id); var t=_finTips(pd)[zid]; if(t){ var m=scoreMeta(t,res); cum[pd]+=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(pd)[zid]); } });
+    meA.push(cum[String(pid)]);
+    var s=0; pls.forEach(function(p){ s+=cum[String(p.id)]; }); avgA.push(pls.length?Math.round(s/pls.length):0);
+    ldA.push(ld?cum[ld]:0);
+  });
+  return {me:meA,avg:avgA,leader:ldA};
+}
+function finaleCrossStats(pid,ratedList){
+  var others=(players||[]).filter(function(p){ return String(p.id)!==String(pid); });
+  var solo=[],contra=null,h2hWin={},h2hLoss={};
+  others.forEach(function(o){ h2hWin[o.id]=0; h2hLoss[o.id]=0; });
+  (ratedList||[]).forEach(function(r){
+    var zid=r.zid,res=r.res,scoredOthers=0,exactOthers=0,tippedOthers=0;
+    others.forEach(function(o){ var t=_finTips(String(o.id))[zid]; if(!t) return; tippedOthers++; var m=scoreMeta(t,res),pt=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(String(o.id))[zid]); if(pt>0) scoredOthers++; if(m&&m.exact) exactOthers++; if(r.tot>pt) h2hWin[o.id]++; else if(pt>r.tot) h2hLoss[o.id]++; });
+    if(r.exact && exactOthers===0) solo.push(r);
+    if(r.tot>0){ var ratio=tippedOthers?scoredOthers/tippedOthers:1; if(!contra||ratio<contra.ratio||(ratio===contra.ratio&&r.tot>contra.r.tot)) contra={r:r,ratio:ratio,scored:scoredOthers,tipped:tippedOthers}; }
+  });
+  var beat=null,lost=null;
+  others.forEach(function(o){ if(!beat||h2hWin[o.id]>beat.n) beat={id:o.id,n:h2hWin[o.id],jm:o.jmeno}; if(!lost||h2hLoss[o.id]>lost.n) lost={id:o.id,n:h2hLoss[o.id],jm:o.jmeno}; });
+  return {solo:solo,contra:contra,beat:beat,lost:lost};
 }
 function finaleRankSeries(pid){
   var zids=Object.keys(results).map(Number).filter(function(z){return z>=1&&z<=104&&results[z];}).sort(function(a,b){return a-b;});
@@ -7176,7 +7221,7 @@ function buildPlayerReport(pid){
   var streak=0,curr=0; rated.forEach(function(r){ if(r.tot>0){ curr++; if(curr>streak) streak=curr; } else curr=0; });
   var biggest=null; rated.forEach(function(r){ if(!biggest||r.tot>biggest.tot) biggest=r; });
   var fav=null; Object.keys(scoreFreq).forEach(function(s){ if(!fav||scoreFreq[s]>fav.n) fav={s:s,n:scoreFreq[s]}; });
-  return { pid:pid, celRow:celRow,
+  return { pid:pid, celRow:celRow, rated:rated,
     total:celRow?celRow.total:engineTotal, engineTotal:engineTotal,
     pre:celRow?celRow.pre:0, spr:celRow?celRow.spr:0, dif:celRow?celRow.dif:0, spa:celRow?celRow.spa:0,
     hod:celRow?celRow.hod:rated.length, saved:savedCount, adv:celRow?celRow.adv:0, drawHits:celRow?celRow.drawHits:0,
@@ -7198,32 +7243,47 @@ function finaleReportHtml(pid){
   var big=R.biggest, bigTxt=big?((fl(big.z[2])||'')+' '+escHtml(tN(big.z[2]))+' '+escHtml(big.res)+' '+escHtml(tN(big.z[3]))+(fl(big.z[3])?' '+fl(big.z[3]):'')+' · '+(big.exact?'přesně ':'')+'+'+big.tot+' b'):'—';
   var favTxt=R.fav?escHtml(R.fav.s)+' ('+R.fav.n+'×)':'—';
   var legend=segs.map(function(s){return '<div><span style="color:'+s.c+'">●</span> '+s.t+'</div>';}).join('');
+  function mlbl(z,res){ return (fl(z[2])||'🏳️')+' '+escHtml(tN(z[2]))+' <b style="color:var(--tx)">'+escHtml(res)+'</b> '+escHtml(tN(z[3]))+' '+(fl(z[3])||'🏳️'); }
+  var CX=finaleCrossStats(pid,R.rated||[]);
+  var CUM=finaleCumCompare(pid);
+  var exacts=(R.rated||[]).filter(function(r){return r.exact;}).sort(function(a,b){return a.zid-b.zid;});
+  var exactHtml=exacts.length?('<div class="fin-hitlist">'+exacts.map(function(r){return '<div>'+mlbl(r.z,r.res)+'</div>';}).join('')+'</div>'):'<div class="fin-empty">zatím žádná přesná trefa</div>';
+  var soloHtml=CX.solo.length?('<div class="fin-hitlist">'+CX.solo.sort(function(a,b){return a.zid-b.zid;}).map(function(r){return '<div>'+mlbl(r.z,r.res)+' <span style="color:var(--gd)">— jako jediný! 🎯</span></div>';}).join('')+'</div>'):'<div class="fin-empty">žádná přesná trefa, kterou by nikdo jiný neměl</div>';
+  var contraHtml=(CX.contra&&CX.contra.tipped)?('<div style="font-size:.74rem;margin-top:6px">💡 Nejlepší „proti proudu": '+mlbl(CX.contra.r.z,CX.contra.r.res)+' — bodoval jsi ('+CX.contra.r.tot+' b) a jen '+CX.contra.scored+' z '+CX.contra.tipped+' ostatních</div>'):'';
+  var pl=function(n){return n===1?'':(n>=2&&n<=4?'y':'');};
+  var rivalHtml='<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+    (CX.beat?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Nejčastěji přetipoval</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.beat.jm)+' <span style="color:var(--gn2)">'+CX.beat.n+'×</span></div></div>':'')+
+    (CX.lost?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Tvůj přemožitel</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.lost.jm)+' <span style="color:#f87171">'+CX.lost.n+'×</span></div></div>':'')+
+  '</div>';
   var h='<div class="fin-card">'+
     '<div style="display:flex;align-items:center;gap:11px">'+
       '<div style="width:42px;height:42px;border-radius:50%;background:var(--bg3);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ac2)">'+escHtml(ini(name))+'</div>'+
       '<div style="flex:1"><div style="font-weight:800;font-size:1rem">'+escHtml(name)+' <span style="color:var(--gd);font-size:.82rem">'+medal+' místo</span></div>'+
       '<div style="color:var(--mu);font-size:.74rem">'+R.total+' bodů · '+R.hod+' hodnocených · '+R.saved+' tipů</div></div></div>'+
     '<div class="fin-tiles">'+
-      '<div class="fin-tile"><b style="color:#22c55e">'+R.pre+'</b><span>přesných 🎯</span></div>'+
-      '<div class="fin-tile"><b style="color:#60a5fa">'+succ+'%</b><span>úspěšnost</span></div>'+
-      '<div class="fin-tile"><b>'+avg+'</b><span>⌀ b/zápas</span></div>'+
-      '<div class="fin-tile"><b style="color:#fbbf24">+'+R.bestDay.pts+'</b><span>nejlepší den</span></div>'+
+      '<div class="fin-tile" title="Kolik zápasů jsi trefil úplně přesně na skóre (10 b). V závorce podíl z hodnocených."><b style="color:#22c55e">'+R.pre+'</b><span>přesných 🎯 · '+exactPct+'%</span></div>'+
+      '<div class="fin-tile" title="Podíl hodnocených zápasů, kde jsi získal aspoň nějaké body (přesně / vítěz / rozdíl)."><b style="color:#60a5fa">'+succ+'%</b><span>úspěšnost</span></div>'+
+      '<div class="fin-tile" title="Průměrný počet bodů na jeden hodnocený zápas."><b>'+avg+'</b><span>⌀ b/zápas</span></div>'+
+      '<div class="fin-tile" title="Nejvíc bodů, kolik jsi nasbíral za jeden hrací den."><b style="color:#fbbf24">+'+R.bestDay.pts+'</b><span>nejlepší den</span></div>'+
     '</div>'+
     '<div class="fin-tiles">'+
-      '<div class="fin-tile"><b>'+exactPct+'%</b><span>přesnost</span></div>'+
-      '<div class="fin-tile"><b style="color:#a855f7">'+R.adv+'</b><span>body za postup</span></div>'+
-      '<div class="fin-tile"><b style="color:#f97316">'+R.streak+'</b><span>série 🔥</span></div>'+
-      '<div class="fin-tile"><b>'+R.drawHits+'</b><span>trefené remízy</span></div>'+
+      '<div class="fin-tile" title="Přesné trefy, které nikdo jiný netrefil přesně — tvoje unikátní."><b style="color:#e879f9">'+CX.solo.length+'</b><span>sólo trefy 🌟</span></div>'+
+      '<div class="fin-tile" title="Body za správně tipnutého postupujícího u remízových tipů v play-off (+3)."><b style="color:#a855f7">'+R.adv+'</b><span>body za postup</span></div>'+
+      '<div class="fin-tile" title="Nejdelší série po sobě jdoucích zápasů, kde jsi bodoval."><b style="color:#f97316">'+R.streak+'</b><span>série 🔥</span></div>'+
+      '<div class="fin-tile" title="Kolik remíz jsi správně tipnul (výsledek i tvůj tip byla remíza)."><b>'+R.drawHits+'</b><span>trefené remízy</span></div>'+
     '</div>'+
     '<div class="fin-charts">'+
-      '<div class="fin-chart"><h4>Skladba tipů</h4><div style="display:flex;align-items:center;gap:8px">'+_svgDonut(segs)+'<div style="font-size:.63rem;line-height:1.55;color:var(--mu2)">'+legend+'</div></div></div>'+
+      '<div class="fin-chart"><h4>Skladba tipů (počet zápasů)</h4><div style="display:flex;align-items:center;gap:8px">'+_svgDonut(segs)+'<div style="font-size:.63rem;line-height:1.55;color:var(--mu2)">'+legend+'</div></div></div>'+
       '<div class="fin-chart"><h4>Body podle fáze</h4>'+
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:60px;font-size:.66rem;color:var(--mu2)">Skupiny</div><div style="flex:1;background:var(--bg3);border-radius:5px;height:14px;overflow:hidden"><div style="width:'+Math.round(100*R.skTotal/maxPhase)+'%;height:100%;background:#3b82f6"></div></div><div style="width:34px;text-align:right;font-size:.68rem;font-weight:700">'+R.skTotal+'</div></div>'+
         '<div style="display:flex;align-items:center;gap:8px"><div style="width:60px;font-size:.66rem;color:var(--mu2)">Play-off</div><div style="flex:1;background:var(--bg3);border-radius:5px;height:14px;overflow:hidden"><div style="width:'+Math.round(100*R.poTotal/maxPhase)+'%;height:100%;background:#a855f7"></div></div><div style="width:34px;text-align:right;font-size:.68rem;font-weight:700">'+R.poTotal+'</div></div>'+
       '</div>'+
-      '<div class="fin-chart"><h4>Kumulativní body</h4>'+_svgLine((R.history||[]).map(Number),{color:'#22c55e',dot:'#22c55e'})+'</div>'+
-      '<div class="fin-chart"><h4>Vývoj pořadí (1. = nahoře)</h4>'+_svgLine(finaleRankSeries(pid),{invert:true,color:'#c4b5fd',dot:'#fbbf24'})+'</div>'+
+      '<div class="fin-chart"><h4>Kumulativní body — ty vs. průměr vs. vítěz</h4>'+_svgMultiLine([{vals:CUM.leader,color:'#fbbf24',w:1.6,dash:'3 3'},{vals:CUM.avg,color:'#7c8aa0',w:1.6,dash:'3 3'},{vals:CUM.me,color:'#22c55e',w:2.4}])+'<div style="font-size:.6rem;color:var(--mu2);margin-top:2px"><span style="color:#22c55e">●</span> ty · <span style="color:#7c8aa0">●</span> průměr · <span style="color:#fbbf24">●</span> vítěz</div></div>'+
+      '<div class="fin-chart"><h4>Vývoj pořadí</h4>'+_svgLine(finaleRankSeries(pid),{invert:true,color:'#c4b5fd',dot:'#fbbf24',yTop:'1.',yBot:cel.length+'.',xLabel:'zápasy →'})+'</div>'+
     '</div>'+
+    '<div class="fin-sec"><h4>🎯 Všechny přesné trefy ('+exacts.length+')</h4>'+exactHtml+'</div>'+
+    '<div class="fin-sec"><h4>🌟 V čem jsi jiný — sólo trefy ('+CX.solo.length+')</h4>'+soloHtml+contraHtml+'</div>'+
+    '<div class="fin-sec"><h4>⚔️ Rival</h4>'+rivalHtml+'</div>'+
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">'+
       '<div style="flex:1;min-width:150px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px"><div style="font-size:.63rem;color:var(--mu)">Největší trefa</div><div style="font-size:.74rem;font-weight:700;margin-top:2px">'+bigTxt+'</div></div>'+
       '<div style="flex:1;min-width:150px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px"><div style="font-size:.63rem;color:var(--mu)">Styl (DNA)</div><div style="font-size:.74rem;font-weight:700;margin-top:2px">⌀ '+R.avgGoals.toFixed(1)+' gólů/tip · '+Math.round(R.drawTipPct)+'% remíz · oblíbený '+favTxt+'</div></div>'+
