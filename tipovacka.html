@@ -310,6 +310,10 @@ body.theme-light .venue{color:#5f7690}
 .fin-drows>div>span{color:var(--mu2);flex-shrink:0}
 .fin-drows>div>b{color:var(--tx);text-align:right}
 .fin-globalwrap{margin-top:6px}
+.fin-adminbar{background:var(--bg4);border:1px dashed var(--bd2);border-radius:10px;padding:7px 10px;font-size:.72rem;color:var(--mu2);margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.fin-syncbtn{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer}
+.fin-syncbtn:disabled{opacity:.55;cursor:default}
+.fin-sync-stat{color:var(--mu2)}
 .fin-simrow{font-size:.73rem;line-height:1.7}
 .fin-xtab{width:100%;border-collapse:collapse;font-size:.72rem}
 .fin-xtab th{text-align:left;color:var(--mu2);font-weight:600;padding:3px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
@@ -2558,7 +2562,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.23';
+var APP_VERSION='v5.12.24';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4994,7 +4998,7 @@ function showTab(name){
   if(name==='historie') renderHistory();
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
-  if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta()]).then(renderFinale); }
+  if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta(),loadGoalMinutes()]).then(renderFinale); }
   if(name==='pravidla') renderRules();
   requestAnimationFrame(syncOstScrollUX);
   requestAnimationFrame(function(){ animatePageEnter(name); });
@@ -5139,6 +5143,48 @@ function loadMatchOdds(){
 }
 function getOddsForMatch(zid){ return matchOddsByZapas[parseInt(zid,10)]||null; }
 function formatOdds(v){ if(v==null||v==='') return '-'; var n=Number(v); return isFinite(n)?n.toFixed(2):'-'; }
+// Minuty golu (ESPN cache) - pro finale statistiky "uteklo o pozdni gol"
+var goalMinsByZapas={}; // {zapas_id: [{seq,minute,stoppage,side,scorer,own_goal,penalty}]}
+var goalSyncByZapas={}; // {zapas_id: {goal_count,synced_at}}
+function loadGoalMinutes(){
+  return Promise.all([
+    sbf('goal_minutes?select=zapas_id,seq,minute,stoppage,side,scorer,own_goal,penalty&order=zapas_id.asc,seq.asc'),
+    sbf('goal_minutes_sync?select=zapas_id,goal_count,synced_at')
+  ]).then(function(res){
+    goalMinsByZapas={};
+    (res[0]||[]).forEach(function(g){ var z=parseInt(g.zapas_id,10); (goalMinsByZapas[z]=goalMinsByZapas[z]||[]).push(g); });
+    goalSyncByZapas={};
+    (res[1]||[]).forEach(function(s){ goalSyncByZapas[parseInt(s.zapas_id,10)]=s; });
+  }).catch(function(){ goalMinsByZapas={}; goalSyncByZapas={}; });
+}
+// Admin: dohledej ESPN event id (klient ma alias logiku) a posli do goal-minutes-sync. Jen odehrane, jen chybejici (nebo force).
+function syncAllGoalMinutes(force,onProgress){
+  if(!me||!me.je_admin) return Promise.reject(new Error('admin only'));
+  var todo=SZ.concat(PZ).filter(function(z){ return results[z[0]] && (force || !goalSyncByZapas[z[0]]); });
+  var done=0,okc=0,fail=0,total=todo.length;
+  if(onProgress) onProgress(0,total,0,0);
+  function one(z){
+    return resolveEspnEventId(z).then(function(eid){
+      if(!eid) throw new Error('no event');
+      return fetch(SBU+'/functions/v1/goal-minutes-sync',{method:'POST',headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'content-type':'application/json'},body:JSON.stringify({zapas_id:z[0],event_id:eid})})
+        .then(function(r){return r.json();}).then(function(j){ if(!j||!j.ok) throw new Error((j&&j.error)||'sync fail'); okc++; });
+    }).catch(function(){ fail++; }).then(function(){ done++; if(onProgress) onProgress(done,total,okc,fail); });
+  }
+  // sekvencne (setri ESPN rate-limit; match-summary si cachuje date fetche)
+  var p=Promise.resolve();
+  todo.forEach(function(z){ p=p.then(function(){ return one(z); }); });
+  return p.then(function(){ return loadGoalMinutes(); }).then(function(){ return {ok:okc,fail:fail,total:total}; });
+}
+// Vrati zmenu vysledku pozdnim golem (>=85' a <=90'): {early,final,late[]} nebo null kdyz pozdni gol nezmenil vysledek
+function finaleLateSwing(zid){
+  var g=goalMinsByZapas[zid]; if(!g||!g.length) return null;
+  var eh=0,ea=0,fh=0,fa=0;
+  g.forEach(function(x){ if(x.minute>90) return; var isH=x.side==='H'; if(isH){fh++; if(x.minute<85)eh++;} else {fa++; if(x.minute<85)ea++;} });
+  var eo=eh>ea?'H':eh<ea?'A':'D', fo=fh>fa?'H':fh<fa?'A':'D';
+  if(eo===fo) return null;
+  var late=g.filter(function(x){return x.minute>=85&&x.minute<=90;});
+  return {early:eo,final:fo,late:late};
+}
 // L1: Heuristic tip suggester - kombinace FIFA ranking + odds (pokud k dispozici)
 function getFifaRankFor(localTeamName){
   // fifaRankingData je array of {team_name, rank, points}
@@ -7249,6 +7295,7 @@ function buildPlayerReport(pid){
   var meanP=rated.length?sumP/rated.length:0, varP=0; rated.forEach(function(r){ varP+=(r.tot-meanP)*(r.tot-meanP); });
   var stdev=rated.length?Math.sqrt(varP/rated.length):0;
   var typG={n:0,sc:0}, typO={n:0,sc:0}, teamStat={}, leftOnTable=0, ofous=0, tesne=0, outsiders=0;
+  var lateUnlucky=0, lateLucky=0, lateUnluckyList=[], lateLuckyList=[];
   rated.forEach(function(r){
     var rp=String(r.res).split(':'),rh=+rp[0],ra=+rp[1]; if(isNaN(rh)||isNaN(ra)) return;
     var diff=Math.abs(rh-ra), tot=rh+ra, m=scoreMeta(tips[r.zid],r.res), correct=!!(m&&m.correctOutcome);
@@ -7257,6 +7304,12 @@ function buildPlayerReport(pid){
     if(correct && !r.exact) leftOnTable+=(10-r.tot);
     if(r.tot===0 && diff<=1) ofous++;
     if(r.tot>0 && diff<=1) tesne++;
+    // realny "uteklo o pozdni gol" (dle minut golu z ESPN, kdyz jsou nacachovane)
+    var sw=finaleLateSwing(r.zid);
+    if(sw){ var spl=String(tips[r.zid]).split(':'),tlh=+spl[0],tla=+spl[1]; var to=tlh>tla?'H':tlh<tla?'A':'D';
+      if(to===sw.early && to!==sw.final){ lateUnlucky++; lateUnluckyList.push({z:r.z,res:r.res,late:sw.late}); }
+      else if(to===sw.final && to!==sw.early){ lateLucky++; lateLuckyList.push({z:r.z,res:r.res,late:sw.late}); }
+    }
     // vestec: tip proti kurzove favoritce a vysel spravny vysledek
     var od=(typeof getOddsForMatch==='function')?getOddsForMatch(r.zid):null;
     if(od && r.tot>0){
@@ -7274,6 +7327,7 @@ function buildPlayerReport(pid){
     skTotal:skRow?skRow.total:0, poTotal:poRow?poRow.total:0,
     bestDay:bestDay, streak:streak, biggest:biggest, avgGoals:savedCount?goalsSum/savedCount:0, drawTipPct:savedCount?100*drawTips/savedCount:0, fav:fav,
     stdev:stdev, meanP:meanP, typG:typG, typO:typO, nemesis:nemesis, favTeam:favTeam, leftOnTable:leftOnTable, ofous:ofous, tesne:tesne, outsiders:outsiders,
+    lateUnlucky:lateUnlucky, lateLucky:lateLucky, lateUnluckyList:lateUnluckyList, lateLuckyList:lateLuckyList,
     history:(celRow&&celRow.history)?celRow.history:[] };
 }
 function finaleReportHtml(pid){
@@ -7288,6 +7342,7 @@ function finaleReportHtml(pid){
   var verified=(R.engineTotal===serverTotal);
   var maxPhase=Math.max(R.skTotal,R.poTotal,1);
   function mlbl(z,res){ return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])||'🏳️')+' '+escHtml(tN(z[2]))+' <b style="color:var(--tx)">'+escHtml(res)+'</b> '+escHtml(tN(z[3]))+' '+(fl(z[3])||'🏳️')+'</span>'; }
+  function lateTxt(x){ var lg=(x.late&&x.late.length)?x.late[x.late.length-1]:null; var mm=lg?(lg.minute+(lg.stoppage?'+'+lg.stoppage:'')+"' "+(lg.scorer||'')):''; return '<span class="fin-mlink" data-mcard="'+x.z[0]+'">'+escHtml(tN(x.z[2]))+'–'+escHtml(tN(x.z[3]))+(mm?' ('+escHtml(mm)+')':'')+'</span>'; }
   var big=R.biggest, bigTxt=big?(mlbl(big.z,big.res)+' · '+(big.exact?'přesně ':'')+'+'+big.tot+' b'):'—';
   var favTxt=R.fav?escHtml(R.fav.s)+' ('+R.fav.n+'×)':'—';
   var legend=segs.map(function(s){return '<div><span style="color:'+s.c+'">●</span> '+s.t+'</div>';}).join('');
@@ -7307,7 +7362,8 @@ function finaleReportHtml(pid){
     '<div><b>gólové / opatrné zápasy</b> — úspěšnost zvlášť u zápasů s ≥3 góly a ≤2 góly (dle skutečného výsledku).</div>'+
     '<div><b>nemesis / nejlepší tým</b> — u zápasů kterého mužstva jsi průměrně bodoval nejmíň / nejvíc.</div>'+
     '<div><b>body co ležely</b> — kolik bys měl navíc, kdyby tvé správně tipnuté vítěze byly rovnou přesné skóre.</div>'+
-    '<div><b>uteklo o gól</b> — zápasy rozhodnuté o jediný gól: „smůla" = netrefil jsi, „těsná trefa" = trefil. (Nemáme minuty gólů, bereme rozdíl skóre ≤1.)</div>'+
+    '<div><b>těsné zápasy</b> — zápasy rozhodnuté o jediný gól: „smůla" = netrefil jsi, „těsná trefa" = trefil.</div>'+
+    '<div><b>uteklo o pozdní gól</b> — gól v 85.–90.+ minutě otočil výsledek: bez něj bys tipoval správně (smolař). „Zachránil" = pozdní gól ti naopak výsledek dorovnal (lucker). Počítáno z reálných minut gólů (ESPN).</div>'+
     '<div><b>věštec na outsidery</b> — kolikrát jsi tipnul jiný výsledek než kurzová favoritka a vyšlo to.</div>'+
     '</div></details>';
   var CX=finaleCrossStats(pid,R.rated||[]);
@@ -7358,7 +7414,11 @@ function finaleReportHtml(pid){
       '<div><span>😖 Nemesis tým</span><b>'+(R.nemesis?((fl(R.nemesis.team)||'')+' '+escHtml(tN(R.nemesis.team))+' (⌀ '+R.nemesis.avg.toFixed(1)+' b)'):'—')+'</b></div>'+
       '<div><span>💚 Nejlepší tým</span><b>'+(R.favTeam?((fl(R.favTeam.team)||'')+' '+escHtml(tN(R.favTeam.team))+' (⌀ '+R.favTeam.avg.toFixed(1)+' b)'):'—')+'</b></div>'+
       '<div><span>💸 Body co ležely</span><b>+'+R.leftOnTable+' b (netrefené přesné u správných vítězů)</b></div>'+
-      '<div><span>😱 Uteklo o gól</span><b>'+R.ofous+'× smůla · '+R.tesne+'× těsná trefa</b></div>'+
+      '<div><span>😱 Těsné zápasy (±1 gól)</span><b>'+R.ofous+'× smůla · '+R.tesne+'× těsná trefa</b></div>'+
+      (Object.keys(goalMinsByZapas).length?(
+        '<div><span>🕐 Uteklo o pozdní gól</span><b>'+(R.lateUnlucky?R.lateUnlucky+'× '+R.lateUnluckyList.map(lateTxt).join(', '):'0× (žádná smůla v závěru)')+'</b></div>'+
+        '<div><span>🍀 Zachránil pozdní gól</span><b>'+(R.lateLucky?R.lateLucky+'× '+R.lateLuckyList.map(lateTxt).join(', '):'0×')+'</b></div>'
+      ):'')+
       '<div><span>🎰 Věštec na outsidery</span><b>'+R.outsiders+'× vsazeno proti favoritovi a vyšlo</b></div>'+
     '</div></div>'+
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">'+
@@ -7396,8 +7456,15 @@ function finaleAwards(reps){
   add('⚔️','Playoff král',best(function(x){return x.R.poTotal;}),function(b){return b.v+' b';});
   add('📅','Nejlepší den',best(function(x){return x.R.bestDay.pts;}),function(b){return '+'+b.v+' b za den';});
   add('🎰','Věštec',best(function(x){return x.R.outsiders;}),function(b){return b.v+'× proti favoritovi a vyšlo';});
-  add('😈','Smolař',best(function(x){return x.R.ofous;}),function(b){return b.v+'× uteklo o gól';});
-  add('🍀','Šťastlivec',best(function(x){return x.R.tesne;}),function(b){return b.v+'× těsná trefa';});
+  // Smolař/Šťastlivec dle reálných pozdních gólů, kdyz jsou minuty nacachovane; jinak proxy (±1 gól)
+  var hasLate=reps.some(function(x){return ((x.R.lateUnlucky||0)+(x.R.lateLucky||0))>0;});
+  if(hasLate){
+    add('😈','Smolař závěru',best(function(x){return x.R.lateUnlucky;}),function(b){return b.v+'× uteklo o pozdní gól';});
+    add('🍀','Lucker závěru',best(function(x){return x.R.lateLucky;}),function(b){return b.v+'× zachránil pozdní gól';});
+  } else {
+    add('😈','Smolař',best(function(x){return x.R.ofous;}),function(b){return b.v+'× těsně netrefil';});
+    add('🍀','Šťastlivec',best(function(x){return x.R.tesne;}),function(b){return b.v+'× těsná trefa';});
+  }
   // nejstabilnejsi = nejmensi rozptyl (min 30 hodnocenych)
   var stab=null; reps.forEach(function(x){ if(x.R.hod<30) return; if(stab===null||x.R.stdev<stab.v) stab={x:x,v:x.R.stdev}; });
   if(stab&&stab.x) A.push({ic:'🪨',t:'Nejstabilnější',w:stab.x.name,d:'±'+stab.v.toFixed(1)+' b rozptyl'});
@@ -7431,7 +7498,12 @@ function finaleGlobalStats(reps){
   if(surprise){ var w=[]; pls.forEach(function(p){ var t=_finTips(String(p.id))[surprise.zid]; if(t){ var m=scoreMeta(t,surprise.res); if(m&&m.correctOutcome) w.push(p.jmeno); } }); surprise.correct=w; }
   var maxStreak={n:0}; (reps||[]).forEach(function(x){ if(x.R.streak>maxStreak.n) maxStreak={n:x.R.streak,who:x.name}; });
   var totalTips=0,totalExact=0; pls.forEach(function(p){ var tp=_finTips(String(p.id)); zids.forEach(function(zid){ if(tp[zid]){ totalTips++; var m=scoreMeta(tp[zid],results[zid]); if(m&&m.exact) totalExact++; } }); });
-  return {hardest:hardest,easiest:easiest,surprise:surprise,recSingle:recSingle,maxStreak:maxStreak,matches:zids.length,totalTips:totalTips,totalExact:totalExact};
+  var latest=null,lateDecided=0,hasGoals=false;
+  zids.forEach(function(zid){ var g=goalMinsByZapas[zid]; if(!g||!g.length) return; hasGoals=true;
+    g.forEach(function(x){ if(x.minute>90) return; var eff=x.minute+(x.stoppage||0); if(!latest||eff>latest.eff) latest={eff:eff,zid:zid,z:zmap[zid],res:results[zid],g:x}; });
+    if(finaleLateSwing(zid)) lateDecided++;
+  });
+  return {hardest:hardest,easiest:easiest,surprise:surprise,recSingle:recSingle,maxStreak:maxStreak,matches:zids.length,totalTips:totalTips,totalExact:totalExact,latest:latest,lateDecided:lateDecided,hasGoals:hasGoals};
 }
 function finaleTitleRace(){
   var cel=buildLeaderboardFromCache('cel')||[], top=cel.slice(0,4), zids=_finZids();
@@ -7482,6 +7554,10 @@ function finaleGlobalHtml(reps){
       '<div><span>😱 Největší překvapení</span><b>'+ml(G.surprise)+(G.surprise?' <span style="color:var(--mu2)">(kurz '+G.surprise.odds.toFixed(1)+' · trefili: '+(G.surprise.correct.length?escHtml(G.surprise.correct.join(', ')):'nikdo')+')</span>':'')+'</b></div>'+
       '<div><span>🔥 Nejvíc bodů v zápase</span><b>'+(G.recSingle.pts>=0?'+'+G.recSingle.pts+' b — '+escHtml(G.recSingle.who)+' · '+ml(G.recSingle):'—')+'</b></div>'+
       '<div><span>🔥 Nejdelší série trefů</span><b>'+(G.maxStreak.n?G.maxStreak.n+' zápasů — '+escHtml(G.maxStreak.who):'—')+'</b></div>'+
+      (G.hasGoals?(
+        '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+escHtml(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
+        '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'
+      ):'')+
     '</div></div>'+
     '<div class="fin-sec"><h4>👑 Bitva o titul — vývoj bodů (TOP 4)</h4>'+_svgMultiLine(raceSeries)+'<div style="font-size:.62rem;color:var(--mu2);margin-top:4px;line-height:1.7">'+raceLeg+'</div></div>'+
     '<div class="fin-sec"><h4>🧬 Podobnost tipérů</h4>'+simHtml+'</div>'+
@@ -7496,13 +7572,22 @@ function renderFinale(){
   if(!finaleSelPid || !cel.some(function(r){return String(r.p.id)===String(finaleSelPid);})) finaleSelPid=me?String(me.id):String(cel[0].p.id);
   var lock=FINALE_PUBLIC?'':'<div class="fin-lock">🔒 Náhled zakončení — zamčeno, ostatní hráči to zatím nevidí.</div>';
   var opts=cel.map(function(r,i){ return '<option value="'+escAttr(r.p.id)+'"'+(String(r.p.id)===String(finaleSelPid)?' selected':'')+'>'+(i+1)+'. '+escHtml(r.p.jmeno)+' — '+r.total+' b</option>'; }).join('');
+  var syncedN=Object.keys(goalSyncByZapas).length, playedN=SZ.concat(PZ).filter(function(z){return results[z[0]];}).length;
+  var adminBar=(me&&me.je_admin)?('<div class="fin-adminbar">🕐 Minuty gólů: <b>'+syncedN+'/'+playedN+'</b> zápasů načteno '+
+    '<button type="button" class="fin-syncbtn" id="fin-sync">'+(syncedN<playedN?'Načíst chybějící':'Přenačíst vše')+'</button>'+
+    '<span id="fin-sync-stat" class="fin-sync-stat"></span></div>'):'';
   var reps=finaleBuildReps();
-  el.innerHTML=lock+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml(reps)+finaleGlobalHtml(reps)+
+  el.innerHTML=lock+adminBar+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+finalePodiumHtml(cel)+finaleAwardsHtml(reps)+finaleGlobalHtml(reps)+
     '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
     '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   var sel=document.getElementById('fin-sel');
   if(sel) sel.onchange=function(){ finaleSelPid=sel.value; var rep=document.getElementById('fin-report'); if(rep) rep.innerHTML=finaleReportHtml(finaleSelPid); };
+  var syncBtn=document.getElementById('fin-sync');
+  if(syncBtn) syncBtn.onclick=function(){ var st=document.getElementById('fin-sync-stat'); var force=(syncedN>=playedN); syncBtn.disabled=true; if(st) st.textContent=' načítám…';
+    syncAllGoalMinutes(force,function(done,total,okc,fail){ if(st) st.textContent=' '+done+'/'+total+' (ok '+okc+(fail?', chyba '+fail:'')+')'; })
+      .then(function(){ syncBtn.disabled=false; renderFinale(); })
+      .catch(function(e){ if(st) st.textContent=' chyba: '+((e&&e.message)||e); syncBtn.disabled=false; }); };
   el.onclick=function(e){ var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); } };
 }
 function renderZeb(){

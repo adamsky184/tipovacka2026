@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.24 - 1. 7. 2026
+
+Zakončení — **reálné minuty gólů z ESPN** (nová cache, zamčené jen admin). Dávka 2b/N.
+- Nová tabulka `goal_minutes` + edge funkce `goal-minutes-sync` (stahuje minuty gólů z ESPN, jen veřejná data).
+- **🕐 Uteklo o pozdní gól** (smolař) / **🍀 Zachránil pozdní gól** (lucker): gól v 85.–90.+ min otočil výsledek — bez něj bys tipoval správně. Nahrazuje proxy „rozdíl ≤1".
+- Ceny **😈 Smolař závěru / 🍀 Lucker závěru** dle reálných dat.
+- Turnaj v číslech: **🕐 Nejpozdější gól** + počet zápasů rozhodnutých pozdním gólem.
+- Admin lišta: „Minuty gólů X/Y načteno" + tlačítko dohrání z ESPN.
+- Ověřeno proti DB: všech 79 zápasů rekonstrukce 90' = skóre; 10 zápasů otočeno pozdním gólem; nejpozdější gól Arnautović 90+12' (z56).
+
 ## v5.12.23 - 1. 7. 2026
 
 Zakončení — **🌍 Turnaj v číslech** (globální statistiky, zamčené, jen admin). Dávka 2/N.

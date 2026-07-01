@@ -2,7 +2,7 @@
 // CACHE_NAME musi obsahovat verzi, aby noveho deployu hraci dostali novy obsah.
 // Pri zmene APP_VERSION v tipovacka.html prepis i CACHE_VERSION zde.
 
-const CACHE_VERSION = "v5.12.23";
+const CACHE_VERSION = "v5.12.24";
 const CACHE_NAME = "tipovacka-ms-2026-" + CACHE_VERSION;
 
 self.addEventListener("install", (event) => {
