@@ -2576,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.27';
+var APP_VERSION='v5.12.28';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -9104,12 +9104,11 @@ function fetchResults(){
     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
     .then(function(json){
       if(!json||!json.ok) throw new Error((json&&json.error)||'results-refresh failed');
-      // Build kompatibilni JSON ze zpracovaneho 'events'
-      json={events:Array.isArray(json.events)?json.events:[]};
-      return json;
+      // v5.12.28: zachovej i server-computed resolved (spravne 90' skore + postupujici u play-off)
+      return {events:Array.isArray(json.events)?json.events:[], resolved:Array.isArray(json.resolved)?json.resolved:null};
     })
     .then(function(json){
-      var found={},liveCount=0,scheduledCount=0,allMatches=SZ.concat(PZ);
+      var liveCount=0,scheduledCount=0,allMatches=SZ.concat(PZ);
       (json.events||[]).forEach(function(ev){
         (ev.competitions||[]).forEach(function(comp){
           var st=comp.status;if(!st||!st.type) return;
@@ -9117,27 +9116,39 @@ function fetchResults(){
             // Track live a scheduled pro lepsi feedback
             if(st.type.state==='in') liveCount++;
             else if(st.type.state==='pre') scheduledCount++;
-            return;
           }
-          var home=null,away=null;
-          (comp.competitors||[]).forEach(function(c){ if(c.homeAway==='home') home=c; if(c.homeAway==='away') away=c; });
-          if(!home||!away) return;
-          var hn=(home.team&&home.team.displayName)||'',an=(away.team&&away.team.displayName)||'';
-          var hs=Number(home.score),as=Number(away.score);
-          if(isNaN(hs)||isNaN(as)) return;
-          var score=hs+':'+as;
-          allMatches.forEach(function(z){ if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) found[z[0]]=score; });
         });
       });
-      var cnt=Object.keys(found).length;
+      // v5.12.28: preferuj server-computed resolved (spravne 90' skore + postupujici u play-off dle linescores);
+      // fallback na stare mapovani z events dle jmen (bezpecna degradace, kdyz resolved chybi/prazdny)
+      var rows;
+      if(json.resolved && json.resolved.length){
+        rows=json.resolved.map(function(r){ return {zapas_id:parseInt(r.zapas_id,10),skore:String(r.skore),postupujici:(r.postupujici===undefined?null:r.postupujici)}; });
+      } else {
+        var found={};
+        (json.events||[]).forEach(function(ev){
+          (ev.competitions||[]).forEach(function(comp){
+            var st=comp.status;if(!st||!st.type||!st.type.completed) return;
+            var home=null,away=null;
+            (comp.competitors||[]).forEach(function(c){ if(c.homeAway==='home') home=c; if(c.homeAway==='away') away=c; });
+            if(!home||!away) return;
+            var hn=(home.team&&home.team.displayName)||'',an=(away.team&&away.team.displayName)||'';
+            var hs=Number(home.score),as=Number(away.score);
+            if(isNaN(hs)||isNaN(as)) return;
+            var score=hs+':'+as;
+            allMatches.forEach(function(z){ if(teamMatches(z[2],hn)&&teamMatches(z[3],an)) found[z[0]]=score; });
+          });
+        });
+        rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
+      }
+      var cnt=rows.length;
       // Save for branch nize
       json.__diag={cnt:cnt,live:liveCount,scheduled:scheduledCount};
       // v5.11.3: VYSLEDKY refresh nove doplni i rozlosovani play-off do pavouka/Tipy
       try{ refreshPlayoffNames(); }catch(_e){}
       if(cnt>0){
-        var rows=Object.keys(found).map(function(id){return {zapas_id:parseInt(id,10),skore:found[id]};});
         sbf('vysledky','POST',rows,'resolution=merge-duplicates,return=minimal').then(function(){
-          Object.keys(found).forEach(function(id){results[parseInt(id,10)]=found[id];});
+          rows.forEach(function(r){ results[r.zapas_id]=r.skore; if('postupujici' in r){ if(r.postupujici) resultsAdvance[r.zapas_id]=r.postupujici; else delete resultsAdvance[r.zapas_id]; } });
           setResultsLastUpdated();
           Promise.all([loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]).finally(function(){
             updProgress(); renderVys(); renderTipy(); updateHeaderRanking(); renderTab(); renderPavouk(); renderSimilarity(); renderTodayBox(); renderInsights();

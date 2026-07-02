@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.28 - 2. 7. 2026
+
+**Oprava ručního „Načíst výsledky z ESPN" u play-off.** Dřív ukládalo finální skóre včetně prodloužení (přepsalo správná data z cronu) → rozbilo bodování remízových tipů (Belgie–Senegal uloženo 3:2 místo 2:2 po 90').
+- Edge fce `results-refresh` nově dopočítá server-side správné řádky `resolved` = 90' skóre + postupující u play-off (stejná logika jako cron, prodloužení se nepočítá). Multi-day fetch zachován.
+- Klient upsertne `resolved` (vč. postupujícího, čímž maže i staré chybné hodnoty); když `resolved` chybí, spadne zpět na staré mapování (bezpečná degradace).
+- Data z81 Belgie–Senegal opravena na 2:2 + postupující H.
+- Ověřeno: server vrací z81 = 2:2/H (ne 3:2), z80 2:1, z82 2:0; klientská transformace + fallback otestovány.
+
 ## v5.12.27 - 2. 7. 2026
 
 Odstraněno tlačítko **„Navrhnout tip" (🤖)** u zadávání tipů — nefungovalo spolehlivě (navrhovalo pořád 1:1) a na mobilu bylo stejně skryté. Minimální zásah: tlačítko se nevykresluje, ostatní logika tipování beze změny.
