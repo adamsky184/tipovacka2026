@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.30 - 5. 7. 2026
+
+Admin může nově upravit i **postupujícího** u tipů (playoff remíza), nejen skóre:
+- RPC `admin_upsert_tip_secure` rozšířena o `p_postup` (stejná validace jako u hráče: jen remízový tip na play-off, jinak null).
+- V admin matici: klik na buňku playoff zápasu → po zadání remízového skóre se admin zeptá i na postupujícího (H = domácí / A = host).
+- Oprava dat: Jendak6 u Brazílie–Norsko (z91) doplněn postup Brazílie (tip 1:1 zůstává).
+
 ## v5.12.29 - 5. 7. 2026
 
 Zakončení — úpravy dle zpětné vazby (stále zamčené, jen admin):

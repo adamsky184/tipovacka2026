@@ -2576,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.29';
+var APP_VERSION='v5.12.30';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -8454,12 +8454,13 @@ function renderFifaRanking(){
   }
 }
 
-function adminUpsertTip(hid,zid,nt){
+function adminUpsertTip(hid,zid,nt,postup){
   // v5.1.1: Secure RPC misto direct REST. Server overi admin auth + PIN, zvalidaduje format.
+  // v5.12.30: p_postup = volba postupujiciho (jen playoff remiza; server ji stejne zvaliduje/vynuluje).
   if(!me||!me.je_admin||!myPin) return Promise.reject(new Error('Not admin'));
-  return rpcWithRetry('admin_upsert_tip_secure',{
-    p_admin_id:me.id,p_pin:myPin,p_target_hrac_id:hid,p_zapas_id:parseInt(zid,10),p_tip:nt||''
-  }).then(function(d){
+  var params={p_admin_id:me.id,p_pin:myPin,p_target_hrac_id:hid,p_zapas_id:parseInt(zid,10),p_tip:nt||''};
+  if(postup!==undefined) params.p_postup=postup||null;
+  return rpcWithRetry('admin_upsert_tip_secure',params).then(function(d){
     if(d&&d.chyba) throw new Error(d.chyba);
     return d;
   });
@@ -8507,7 +8508,7 @@ function renderAdmin(){
       var advB=res?calcAdvBonus(id,tip,pu):0;
       var bg=pts===10?'rgba(34,197,94,.1)':pts===4?'rgba(245,158,11,.1)':(pts===3?'rgba(59,130,246,.1)':(pts===0&&tip)?'rgba(239,68,68,.1)':'');
       var col=pts===10?'var(--gn2)':pts===4?'#fbbf24':(pts===3?'var(--ac2)':(pts===0&&tip)?'#f87171':'var(--mu)');
-      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+advPickHtml(id,tip,pu,z,res,true)+(advB>0?'<span style="color:#c4b5fd;font-size:.6rem;font-weight:700"> +'+advB+'</span>':'')+'</td>';
+      html+='<td class="atc" data-hid="'+escAttr(p.id)+'" data-zid="'+escAttr(id)+'" data-tip="'+escAttr(tip||'')+'" data-postup="'+escAttr(pu||'')+'" style="padding:4px 6px;border-bottom:1px solid rgba(28,48,80,.4);text-align:center;background:'+bg+';color:'+col+';font-weight:'+(tip?700:400)+';cursor:pointer;font-family:Space Grotesk,sans-serif">'+(tip?escHtml(tip):'&mdash;')+advPickHtml(id,tip,pu,z,res,true)+(advB>0?'<span style="color:#c4b5fd;font-size:.6rem;font-weight:700"> +'+advB+'</span>':'')+'</td>';
     });
     html+='</tr>';
   });
@@ -8641,15 +8642,27 @@ function renderAdmin(){
 
   el.querySelectorAll('.atc').forEach(function(td){
     td.addEventListener('click',function(){
-      var nt=prompt(tr('tip_prompt_admin')+td.dataset.zid+' (2:1):',td.dataset.tip||'');
+      var zid=td.dataset.zid,hid=td.dataset.hid,zidN=parseInt(zid,10);
+      var nt=prompt(tr('tip_prompt_admin')+zid+' (2:1):',td.dataset.tip||'');
       if(nt===null) return;
       nt=nt.trim();
       if(nt && !/^[0-9]+:[0-9]+$/.test(nt)){showToast(tr('format_21'),'err');return;}
-      var zid=td.dataset.zid,hid=td.dataset.hid;
-      adminUpsertTip(hid,zid,nt).then(function(){
+      // v5.12.30: u playoff remizoveho tipu se zeptej i na postupujiciho (H=domaci, A=host). Jinak vynulovan.
+      var postup='';
+      if(nt){ var sp=nt.split(':');
+        if(zidN>=73 && sp[0]===sp[1]){
+          var zm=SZ.concat(PZ).filter(function(z){return z[0]===zidN;})[0];
+          var hn=zm?tN(zm[2]):(LANG==='en'?'home':'domácí'), an=zm?tN(zm[3]):(LANG==='en'?'away':'host');
+          var ans=prompt((LANG==='en'?'Who advances? H = ':'Kdo postoupí? H = ')+hn+(LANG==='en'?' (home), A = ':' (domácí), A = ')+an+(LANG==='en'?' (away):':' (host):'), td.dataset.postup||'');
+          if(ans===null) return;
+          ans=(ans||'').trim().toUpperCase();
+          postup=(ans==='H'||ans==='A')?ans:'';
+        }
+      }
+      adminUpsertTip(hid,zid,nt,postup).then(function(){
         if(String(hid)===String(me.id)){
-          if(nt==='') delete myTips[parseInt(zid,10)];
-          else myTips[parseInt(zid,10)]=nt;
+          if(nt===''){ delete myTips[zidN]; delete myTipsPostup[zidN]; }
+          else { myTips[zidN]=nt; if(postup) myTipsPostup[zidN]=postup; else delete myTipsPostup[zidN]; }
           updSavedProgress();
         }
         return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po')]);
