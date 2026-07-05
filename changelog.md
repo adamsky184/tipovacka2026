@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.29 - 5. 7. 2026
+
+Zakončení — úpravy dle zpětné vazby (stále zamčené, jen admin):
+- **Smolař/lucker závěru nově bodově** — místo pouhé změny výsledku (H/D/A) se počítá ztráta/zisk bodů pozdním gólem (85.–90.+), takže se chytnou i ztracené **přesné tipy** (např. z89 Kanada–Maroko: Jendak6 tipoval 0:2, gól v 90+8 → 0:3, přišel o přesný tip). U každého zápasu skóre před→po + kolik bodů to udělalo.
+- **Graf kumulativních bodů**: přidána 4. (úzká) linie **1. místo (průběžný lídr)** = kdo zrovna vedl, vedle finálního vítěze.
+- **Čeština**: „Přesných trefů" → „Přesných tipů"; „Nejčastěji přetipoval / Tvůj přemožitel" → „Nejčastěji jsi přebodoval / Nejčastěji tě přebodoval (N× víc bodů)".
+- **Po zveřejnění** (`FINALE_PUBLIC=true`) bude Zakončení **první tab** + domovská obrazovka + welcome popup jako první slide (ostatní login popupy potlačeny). Zatím neaktivní (zamčené).
+
 ## v5.12.28 - 2. 7. 2026
 
 **Oprava ručního „Načíst výsledky z ESPN" u play-off.** Dřív ukládalo finální skóre včetně prodloužení (přepsalo správná data z cronu) → rozbilo bodování remízových tipů (Belgie–Senegal uloženo 3:2 místo 2:2 po 90').

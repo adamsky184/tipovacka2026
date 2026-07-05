@@ -2576,7 +2576,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.28';
+var APP_VERSION='v5.12.29';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4724,7 +4724,9 @@ function finishLogin(d){
   var unEl=document.getElementById('hdr-username-lbl');if(unEl) unEl.textContent=me.jmeno;
   var ppEl=document.getElementById('pp');if(ppEl) ppEl.style.display='flex';
   document.getElementById('btn-logout').style.display='inline-block';
-  if(canSeeFinale()){ var tabFin=document.getElementById('tab-finale'); if(tabFin) tabFin.style.display='inline-block'; }
+  if(canSeeFinale()){ var tabFin=document.getElementById('tab-finale'); if(tabFin){ tabFin.style.display='inline-block';
+    // Po zverejneni (FINALE_PUBLIC) je Zakonceni prvni tab v menu + domovska obrazovka
+    if(FINALE_PUBLIC){ var nav=document.getElementById('mainnav'); if(nav&&nav.firstChild&&nav.firstChild!==tabFin) nav.insertBefore(tabFin,nav.firstChild); } } }
   if(me.je_admin){
     document.getElementById('ab').style.display='inline-block';
     document.getElementById('tab-admin').style.display='inline-block';
@@ -4766,18 +4768,18 @@ function finishLogin(d){
     try{ startLiveScoresPolling(); }catch(_e){}
     // Q5: Onboarding tutorial pro nove hrace (jen prvni prihlaseni)
     setTimeout(function(){ try{ maybeShowOnboarding(); }catch(_e){} }, 400);
-    // v5.12.0: jednorazovy play-off info popup (po onboardingu, jen kdyz je play-off otevrene)
-    setTimeout(function(){ try{ if(!document.querySelector('.onb-overlay')) maybeShowPlayoffPopup(); }catch(_e){} }, 1200);
-    // Q6: Quick stats po loginu (jen pokud onboarding uz videl)
+    // v5.12.0: jednorazovy play-off info popup (po onboardingu, jen kdyz je play-off otevrene). Po zverejneni zakonceni potlaceno (ma prednost finale welcome).
+    setTimeout(function(){ try{ if(!FINALE_PUBLIC && !document.querySelector('.onb-overlay')) maybeShowPlayoffPopup(); }catch(_e){} }, 1200);
+    // Q6: Quick stats po loginu (jen pokud onboarding uz videl; po zverejneni zakonceni potlaceno)
     try{
-      if(localStorage.getItem(getOnboardingKey())==='1') showLoginQuickStats();
+      if(!FINALE_PUBLIC && localStorage.getItem(getOnboardingKey())==='1') showLoginQuickStats();
     }catch(_e){}
     loadFifaRankingFromDb(true).then(function(){
       if(tymPhase==='rk' || document.getElementById('page-tymy').style.display!=='none') renderTymy();
       renderAdminSyncStatus();
     });
   });
-  showTab('tipy');
+  showTab(FINALE_PUBLIC?'finale':'tipy');
 }
 function openChangePinModal(){
   if(!me) return;
@@ -5199,6 +5201,17 @@ function finaleLateSwing(zid){
   if(eo===fo) return null;
   var late=g.filter(function(x){return x.minute>=85&&x.minute<=90;});
   return {early:eo,final:fo,late:late};
+}
+// Skore pred pozdnimi goly (min<85) vs finalni 90' + seznam pozdnich golu. Null kdyz zadny pozdni gol nezmenil skore.
+function finaleBeforeLate(zid){
+  var g=goalMinsByZapas[zid]; if(!g||!g.length) return null;
+  var hb=0,ab=0,hf=0,af=0,late=[];
+  g.forEach(function(x){ if(x.minute>90) return; var isH=x.side==='H';
+    if(isH) hf++; else af++;
+    if(x.minute<85){ if(isH) hb++; else ab++; } else late.push(x);
+  });
+  if(!late.length || (hb===hf && ab===af)) return null;
+  return {before:hb+':'+ab, final:hf+':'+af, late:late};
 }
 // L1: Heuristic tip suggester - kombinace FIFA ranking + odds (pokud k dispozici)
 function getFifaRankFor(localTeamName){
@@ -7250,14 +7263,16 @@ function finaleCumCompare(pid){
   var zids=Object.keys(results).map(Number).filter(function(z){return z>=1&&z<=104&&results[z];}).sort(function(a,b){return a-b;});
   var pls=players||[],cum={}; pls.forEach(function(p){ cum[String(p.id)]=0; });
   var ld=(buildLeaderboardFromCache('cel')||[])[0]; ld=ld?String(ld.p.id):null;
-  var meA=[],avgA=[],ldA=[];
+  var meA=[],avgA=[],ldA=[],fpA=[];
   zids.forEach(function(zid){ var res=results[zid];
     pls.forEach(function(p){ var pd=String(p.id); var t=_finTips(pd)[zid]; if(t){ var m=scoreMeta(t,res); cum[pd]+=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(pd)[zid]); } });
     meA.push(cum[String(pid)]);
-    var s=0; pls.forEach(function(p){ s+=cum[String(p.id)]; }); avgA.push(pls.length?Math.round(s/pls.length):0);
+    var s=0,mx=0; pls.forEach(function(p){ var v=cum[String(p.id)]; s+=v; if(v>mx) mx=v; });
+    avgA.push(pls.length?Math.round(s/pls.length):0);
     ldA.push(ld?cum[ld]:0);
+    fpA.push(mx); // prubezny lider (max kumulativnich bodu v danem kole)
   });
-  return {me:meA,avg:avgA,leader:ldA};
+  return {me:meA,avg:avgA,leader:ldA,first:fpA};
 }
 function finaleCrossStats(pid,ratedList){
   var others=(players||[]).filter(function(p){ return String(p.id)!==String(pid); });
@@ -7319,11 +7334,13 @@ function buildPlayerReport(pid){
     if(correct && !r.exact) leftOnTable+=(10-r.tot);
     if(r.tot===0 && diff<=1) ofous++;
     if(r.tot>0 && diff<=1) tesne++;
-    // realny "uteklo o pozdni gol" (dle minut golu z ESPN, kdyz jsou nacachovane)
-    var sw=finaleLateSwing(r.zid);
-    if(sw){ var spl=String(tips[r.zid]).split(':'),tlh=+spl[0],tla=+spl[1]; var to=tlh>tla?'H':tlh<tla?'A':'D';
-      if(to===sw.early && to!==sw.final){ lateUnlucky++; lateUnluckyList.push({z:r.z,res:r.res,late:sw.late}); }
-      else if(to===sw.final && to!==sw.early){ lateLucky++; lateLuckyList.push({z:r.z,res:r.res,late:sw.late}); }
+    // realny "uteklo o pozdni gol" - BODOVA definice: body pred pozdnimi goly vs finalni 90'
+    // (chyta i ztratu presneho tipu, ne jen zmenu vysledku). Dle minut golu z ESPN, kdyz jsou nacachovane.
+    var bl=finaleBeforeLate(r.zid);
+    if(bl){
+      var mb=scoreMeta(tips[r.zid],bl.before), pb=mb?mb.total:0, pf=r.pts;
+      if(pf<pb){ lateUnlucky++; lateUnluckyList.push({z:r.z,res:r.res,before:bl.before,late:bl.late,lost:pb-pf}); }
+      else if(pf>pb){ lateLucky++; lateLuckyList.push({z:r.z,res:r.res,before:bl.before,late:bl.late,gain:pf-pb}); }
     }
     // vestec: tip proti kurzove favoritce a vysel spravny vysledek
     var od=(typeof getOddsForMatch==='function')?getOddsForMatch(r.zid):null;
@@ -7430,7 +7447,7 @@ function finaleShareCard(pid){
   x.fillStyle='#fde68a'; x.font='bold 66px sans-serif'; x.fillText(name, W/2, medal?440:380);
   x.fillStyle='#7fa3c7'; x.font='32px sans-serif'; x.fillText(rank+'. místo · '+R.total+' bodů', W/2, medal?495:430);
   var solo=finaleCrossStats(pid,R.rated||[]).solo.length;
-  var tiles=[['🎯 '+R.pre,'přesných trefů'],['✅ '+succ+'%','úspěšnost'],['🔥 '+R.streak,'nejdelší série'],['📅 +'+R.bestDay.pts,'nejlepší den'],['🌟 '+solo,'sólo trefy'],['⚽ '+R.avgGoals.toFixed(1),'⌀ gólů/tip']];
+  var tiles=[['🎯 '+R.pre,'přesných tipů'],['✅ '+succ+'%','úspěšnost'],['🔥 '+R.streak,'nejdelší série'],['📅 +'+R.bestDay.pts,'nejlepší den'],['🌟 '+solo,'sólo trefy'],['⚽ '+R.avgGoals.toFixed(1),'⌀ gólů/tip']];
   var ty=640,tw=W/2;
   tiles.forEach(function(t,i){ var col=i%2,row=(i/2)|0, cx2=col*tw+tw/2, cy=ty+row*185;
     x.fillStyle='#eef5ff'; x.font='bold 60px sans-serif'; x.fillText(t[0], cx2, cy);
@@ -7462,7 +7479,8 @@ function finaleReportHtml(pid){
   var verified=(R.engineTotal===serverTotal);
   var maxPhase=Math.max(R.skTotal,R.poTotal,1);
   function mlbl(z,res){ return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])||'🏳️')+' '+escHtml(tN(z[2]))+' <b style="color:var(--tx)">'+escHtml(res)+'</b> '+escHtml(tN(z[3]))+' '+(fl(z[3])||'🏳️')+'</span>'; }
-  function lateTxt(x){ var lg=(x.late&&x.late.length)?x.late[x.late.length-1]:null; var mm=lg?(lg.minute+(lg.stoppage?'+'+lg.stoppage:'')+"' "+(lg.scorer||'')):''; return '<span class="fin-mlink" data-mcard="'+x.z[0]+'">'+escHtml(tN(x.z[2]))+'–'+escHtml(tN(x.z[3]))+(mm?' ('+escHtml(mm)+')':'')+'</span>'; }
+  function lateTxt(x){ var lg=(x.late&&x.late.length)?x.late[x.late.length-1]:null; var mm=lg?(lg.minute+(lg.stoppage?'+'+lg.stoppage:'')+"' "+(lg.scorer||'')):''; var sc=x.before?(escHtml(x.before)+'→'+escHtml(x.res)):''; var d=x.lost?' <span style="color:#f87171">−'+x.lost+'b</span>':(x.gain?' <span style="color:var(--gn2)">+'+x.gain+'b</span>':''); return '<span class="fin-mlink" data-mcard="'+x.z[0]+'">'+escHtml(tN(x.z[2]))+'–'+escHtml(tN(x.z[3]))+(sc?' '+sc:'')+(mm?' ('+escHtml(mm)+')':'')+'</span>'+d; }
+  function lateList(list,key){ return (list||[]).slice().sort(function(a,b){return (b[key]||0)-(a[key]||0);}).map(lateTxt).join(', '); }
   var big=R.biggest, bigTxt=big?(mlbl(big.z,big.res)+' · '+(big.exact?'přesně ':'')+'+'+big.tot+' b'):'—';
   var favTxt=R.fav?escHtml(R.fav.s)+' ('+R.fav.n+'×)':'—';
   var legend=segs.map(function(s){return '<div><span style="color:'+s.c+'">●</span> '+s.t+'</div>';}).join('');
@@ -7476,14 +7494,14 @@ function finaleReportHtml(pid){
     '<div><b>série</b> — nejdelší řada po sobě jdoucích zápasů, kde jsi bodoval.</div>'+
     '<div><b>trefené remízy</b> — kolik remíz jsi trefil (výsledek i tip byly remíza).</div>'+
     '<div><b>skladba tipů</b> — z kolika zápasů máš přesně / rozdíl (4 b) / vítěze (3 b) / mimo (0 b).</div>'+
-    '<div><b>kumulativní body</b> — jak ti body narůstaly v čase vs. průměr všech vs. vítěz.</div>'+
+    '<div><b>kumulativní body</b> — jak ti body narůstaly v čase vs. průměr všech vs. průběžný lídr (kdo zrovna vedl) vs. finální vítěz.</div>'+
     '<div><b>vývoj pořadí</b> — jak se měnilo tvé místo v žebříčku po jednotlivých zápasech.</div>'+
     '<div><b>konzistence</b> — jak stálé byly tvé body (rozptyl). Malý = stabilní, velký = houpačka.</div>'+
     '<div><b>gólové / opatrné zápasy</b> — úspěšnost zvlášť u zápasů s ≥3 góly a ≤2 góly (dle skutečného výsledku).</div>'+
     '<div><b>nemesis / nejlepší tým</b> — u zápasů kterého mužstva jsi průměrně bodoval nejmíň / nejvíc.</div>'+
     '<div><b>body co ležely</b> — kolik bys měl navíc, kdyby tvé správně tipnuté vítěze byly rovnou přesné skóre.</div>'+
     '<div><b>těsné zápasy</b> — zápasy rozhodnuté o jediný gól: „smůla" = netrefil jsi, „těsná trefa" = trefil.</div>'+
-    '<div><b>uteklo o pozdní gól</b> — gól v 85.–90.+ minutě otočil výsledek: bez něj bys tipoval správně (smolař). „Zachránil" = pozdní gól ti naopak výsledek dorovnal (lucker). Počítáno z reálných minut gólů (ESPN).</div>'+
+    '<div><b>uteklo o pozdní gól</b> — gól v 85.–90.+ minutě ti sebral body (i přesný tip): bez něj bys měl víc bodů = smolař. „Zachránil" = pozdní gól ti body naopak přidal = lucker. U každého zápasu je skóre před gólem → finální a kolik bodů to udělalo. Počítáno z reálných minut gólů (ESPN).</div>'+
     '<div><b>věštec na outsidery</b> — kolikrát jsi tipnul jiný výsledek než kurzová favoritka a vyšlo to.</div>'+
     '</div></details>';
   var CX=finaleCrossStats(pid,R.rated||[]);
@@ -7494,8 +7512,8 @@ function finaleReportHtml(pid){
   var contraHtml=(CX.contra&&CX.contra.tipped)?('<div style="font-size:.74rem;margin-top:6px">💡 Nejlepší „proti proudu": '+mlbl(CX.contra.r.z,CX.contra.r.res)+' — bodoval jsi ('+CX.contra.r.tot+' b) a jen '+CX.contra.scored+' z '+CX.contra.tipped+' ostatních</div>'):'';
   var pl=function(n){return n===1?'':(n>=2&&n<=4?'y':'');};
   var rivalHtml='<div style="display:flex;gap:8px;flex-wrap:wrap">'+
-    (CX.beat?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Nejčastěji přetipoval</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.beat.jm)+' <span style="color:var(--gn2)">'+CX.beat.n+'×</span></div></div>':'')+
-    (CX.lost?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Tvůj přemožitel</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.lost.jm)+' <span style="color:#f87171">'+CX.lost.n+'×</span></div></div>':'')+
+    (CX.beat?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Nejčastěji jsi přebodoval</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.beat.jm)+' <span style="color:var(--gn2)">'+CX.beat.n+'× víc bodů</span></div></div>':'')+
+    (CX.lost?'<div style="flex:1;min-width:140px"><span style="color:var(--mu);font-size:.66rem">Nejčastěji tě přebodoval</span><div style="font-weight:700;font-size:.78rem">'+escHtml(CX.lost.jm)+' <span style="color:#f87171">'+CX.lost.n+'× víc bodů</span></div></div>':'')+
   '</div>';
   var h='<div class="fin-card">'+
     '<div style="display:flex;align-items:center;gap:11px">'+
@@ -7523,7 +7541,7 @@ function finaleReportHtml(pid){
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:60px;font-size:.66rem;color:var(--mu2)">Skupiny</div><div style="flex:1;background:var(--bg3);border-radius:5px;height:14px;overflow:hidden"><div style="width:'+Math.round(100*R.skTotal/maxPhase)+'%;height:100%;background:#3b82f6"></div></div><div style="width:34px;text-align:right;font-size:.68rem;font-weight:700">'+R.skTotal+'</div></div>'+
         '<div style="display:flex;align-items:center;gap:8px"><div style="width:60px;font-size:.66rem;color:var(--mu2)">Play-off</div><div style="flex:1;background:var(--bg3);border-radius:5px;height:14px;overflow:hidden"><div style="width:'+Math.round(100*R.poTotal/maxPhase)+'%;height:100%;background:#a855f7"></div></div><div style="width:34px;text-align:right;font-size:.68rem;font-weight:700">'+R.poTotal+'</div></div>'+
       '</div>'+
-      '<div class="fin-chart"><h4>Kumulativní body — ty vs. průměr vs. vítěz</h4>'+_svgMultiLine([{vals:CUM.leader,color:'#fbbf24',w:1.6,dash:'3 3'},{vals:CUM.avg,color:'#7c8aa0',w:1.6,dash:'3 3'},{vals:CUM.me,color:'#22c55e',w:2.4}])+'<div style="font-size:.6rem;color:var(--mu2);margin-top:2px"><span style="color:#22c55e">●</span> ty · <span style="color:#7c8aa0">●</span> průměr · <span style="color:#fbbf24">●</span> vítěz</div></div>'+
+      '<div class="fin-chart"><h4>Kumulativní body — ty vs. průměr vs. 1. místo vs. vítěz</h4>'+_svgMultiLine([{vals:CUM.first,color:'#fb7185',w:1.4},{vals:CUM.leader,color:'#fbbf24',w:1.4,dash:'3 3'},{vals:CUM.avg,color:'#7c8aa0',w:1.4,dash:'3 3'},{vals:CUM.me,color:'#22c55e',w:2}])+'<div style="font-size:.6rem;color:var(--mu2);margin-top:2px"><span style="color:#22c55e">●</span> ty · <span style="color:#7c8aa0">●</span> průměr · <span style="color:#fb7185">●</span> 1. místo (průběžný lídr) · <span style="color:#fbbf24">●</span> vítěz (finální)</div></div>'+
       '<div class="fin-chart"><h4>Vývoj pořadí</h4>'+_svgLine(finaleRankSeries(pid),{invert:true,color:'#c4b5fd',dot:'#fbbf24',yTop:'1.',yBot:cel.length+'.',xLabel:'zápasy →'})+'</div>'+
     '</div>'+
     finaleTimelineHtml(pid)+
@@ -7539,8 +7557,8 @@ function finaleReportHtml(pid){
       '<div><span>💸 Body co ležely</span><b>+'+R.leftOnTable+' b (netrefené přesné u správných vítězů)</b></div>'+
       '<div><span>😱 Těsné zápasy (±1 gól)</span><b>'+R.ofous+'× smůla · '+R.tesne+'× těsná trefa</b></div>'+
       (Object.keys(goalMinsByZapas).length?(
-        '<div><span>🕐 Uteklo o pozdní gól</span><b>'+(R.lateUnlucky?R.lateUnlucky+'× '+R.lateUnluckyList.map(lateTxt).join(', '):'0× (žádná smůla v závěru)')+'</b></div>'+
-        '<div><span>🍀 Zachránil pozdní gól</span><b>'+(R.lateLucky?R.lateLucky+'× '+R.lateLuckyList.map(lateTxt).join(', '):'0×')+'</b></div>'
+        '<div><span>🕐 Uteklo o pozdní gól</span><b>'+(R.lateUnlucky?R.lateUnlucky+'× '+lateList(R.lateUnluckyList,'lost'):'0× (žádná smůla v závěru)')+'</b></div>'+
+        '<div><span>🍀 Zachránil pozdní gól</span><b>'+(R.lateLucky?R.lateLucky+'× '+lateList(R.lateLuckyList,'gain'):'0×')+'</b></div>'
       ):'')+
       '<div><span>🎰 Věštec na outsidery</span><b>'+R.outsiders+'× vsazeno proti favoritovi a vyšlo</b></div>'+
     '</div></div>'+
