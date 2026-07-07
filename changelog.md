@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.33 - 5. 7. 2026
+
+Moje tipy — u odehraných zápasů nově decentní **ikonka výkonu** (🔥 přesný / 🟢 správný trend / 🔴 mimo) na bodovém řádku pod tipem, sladěná s Výsledky. Vejde se na desktop i mobil, tipování budoucích zápasů beze změny.
+
 ## v5.12.32 - 5. 7. 2026
 
 Výsledky — nový **filtr podle tvého tipu**: Vše · 🔥 Přesné · ✅ Bodované · 🔴 Mimo (chip lišta pod řazením, funguje ve skupinách i play-off).

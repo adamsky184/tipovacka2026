@@ -1973,6 +1973,7 @@ body.theme-light .history-fact-icon{background:rgba(37,99,235,.06);border-color:
 .vys-tip-dot.bad{background:#f87171;box-shadow:0 0 8px rgba(239,68,68,.4)}
 .vys-tip-mark{font-size:.85rem;line-height:1;flex-shrink:0}
 .vys-tip-pts{font-size:.56rem;font-weight:600;color:var(--mu);opacity:.85;letter-spacing:.02em}
+.mt-dot{width:6px;height:6px;vertical-align:middle;margin-right:3px}
 @media(max-width:760px){
   .hdr-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
   .hdr-sc{padding:8px 6px 9px}
@@ -2594,7 +2595,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.32';
+var APP_VERSION='v5.12.33';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6880,7 +6881,9 @@ function renderMatchRow(z,isAdmin,hasGT){
         }
       }
     }
-    tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>'+(pts!==null?'<div class="pt '+cls+'">'+pts+'b</div>':'')+advLine;
+    // v5.12.33: mini ikonka sladena s Vysledky (🔥 presny / zelena trend / cervena mimo) na bodovem radku
+    var mtMark=pts===10?'🔥 ':(pts===3||pts===4)?'<span class="vys-tip-dot ok mt-dot"></span>':(pts===0)?'<span class="vys-tip-dot bad mt-dot"></span>':'';
+    tipHtml='<div class="tip-saved '+cls+'">'+escHtml(tip)+'</div>'+(pts!==null?'<div class="pt '+cls+'">'+mtMark+pts+'b</div>':'')+advLine;
   } else {
     // Split existing tip into home/away
     var sp=tip?tip.split(':'):['',''];
