@@ -2,6 +2,18 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.31 - 5. 7. 2026
+
+Balík oprav a vylepšení:
+- **„Doplnit chybějící tipy"** — tlačítko nyní přepne na správnou fázi (skupiny/playoff) + resetuje filtr a doscrolluje na první chybějící tip (dřív nedělalo nic, když byl chybějící tip v jiné fázi).
+- **Header mini widgety** — „Tipy: skupiny" odkazuje do skupinové fáze, „Tipy: play-off" do playoff (dřív oba stejně).
+- **Výsledky, sloupec „Můj tip"** — přesný tip = 🔥, správný trend = zelená tečka, mimo = červená tečka; u každého decentně počet získaných bodů (vč. bonusu za postup).
+- **Zakončení:**
+  - Stupně vítězů graficky vylepšeny (barvy medailí, jasné 1./2./3. místo na sloupci).
+  - Grafy: popisky os přesunuty pod graf jako malý čitelný popisek (dřív „zápasy →" uvnitř grafu, zvětšené a matoucí jako tlačítko).
+  - „Tvůj turnaj v kostce" a „Den po dni" jdou nově posouvat i na desktopu (kolečko myši → vodorovně + tažení, viditelný scrollbar).
+  - Čeština: „Nejdelší série trefů" → „Nejdelší bodovací série".
+
 ## v5.12.30 - 5. 7. 2026
 
 Admin může nově upravit i **postupujícího** u tipů (playoff remíza), nejen skóre:
