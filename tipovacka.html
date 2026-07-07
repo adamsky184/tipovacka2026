@@ -2416,7 +2416,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
     <div id="page-vysledky" style="display:none">
       <div class="ibox" id="ibox-vys-note" style="margin-bottom:.55rem">Poslední aktualizace výsledků: nikdy</div>
-      <div class="tier-filters" id="vys-filters"><div class="tier1"><button class="phase-tab on" id="ptab-vys-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-vys-phase-po">Play-off</button></div><div class="tier2" id="vys-sort-row"><button class="sort-chip on" id="ptab-vys-dt">Řadit dle data</button><button class="sort-chip" id="ptab-vys-sk">Řadit dle skupin</button></div></div>
+      <div class="tier-filters" id="vys-filters"><div class="tier1"><button class="phase-tab on" id="ptab-vys-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-vys-phase-po">Play-off</button></div><div class="tier2" id="vys-sort-row"><button class="sort-chip on" id="ptab-vys-dt">Řadit dle data</button><button class="sort-chip" id="ptab-vys-sk">Řadit dle skupin</button></div><div class="tier3" id="vys-qf"><button class="fchip on" id="vqf-all">Vše</button><button class="fchip" id="vqf-exact">🔥 Přesné</button><button class="fchip" id="vqf-scored">✅ Bodované</button><button class="fchip" id="vqf-miss">🔴 Mimo</button></div></div>
       <div class="card">
         <div id="vys-list"><div class="empty" id="vys-empty">Klikni ↺ Výsledky nahoře</div></div>
         <div class="sb" id="st-vys"></div>
@@ -2594,7 +2594,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.31';
+var APP_VERSION='v5.12.32';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3364,7 +3364,7 @@ var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCount
 // v5.12.0: play-off postupujici - resultsAdvance[zid]='H'/'A' (kdo postoupil), myTipsPostup[zid]='H'/'A' (moje volba u remizoveho tipu)
 var resultsAdvance={},myTipsPostup={},allTipsPostup={};
 var derivedStatsCache={similarity:null,insightsRows:null};
-var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all',zebPaidFilter='all';
+var tipSort='dt',ostSort='dt',vysSort='dt',zebPhase='cel',tabPhase='sk',tymPhase='az',historyPhase='finals',tipQuickFilter='all',zebPaidFilter='all',vysQuickFilter='all';
 var pendingTeamFocus='';
 var rivalIds=[];
 var rankPulseState={cel:{lastHash:'',pulseMap:{}},sk:{lastHash:'',pulseMap:{}},po:{lastHash:'',pulseMap:{}}};
@@ -4923,6 +4923,7 @@ function applyI18n(){
   setText('ptab-ost-phase-sk',tr('phase_groups'));setText('ptab-ost-phase-po',tr('phase_playoff'));setText('ptab-ost-phase-ex',tr('phase_extra'));setText('ptab-ost-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-ost-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-zeb-cel',tr('overall'));setText('ptab-zeb-sk',tr('groups'));setText('ptab-zeb-po',tr('playoff'));
   setText('ptab-vys-phase-sk',tr('phase_groups'));setText('ptab-vys-phase-po',tr('phase_playoff'));setText('ptab-vys-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');setText('ptab-vys-dt',LANG==='en'?'Sort by date':'Řadit dle data');
+  setText('vqf-all',LANG==='en'?'All':'Vše');setText('vqf-exact',LANG==='en'?'🔥 Exact':'🔥 Přesné');setText('vqf-scored',LANG==='en'?'✅ Scored':'✅ Bodované');setText('vqf-miss',LANG==='en'?'🔴 Missed':'🔴 Mimo');
   setText('ptab-tab-sk',tr('by_groups'));setText('ptab-tab-3m',tr('third'));
   setText('ptab-tym-az',tr('by_alpha'));setText('ptab-tym-sk',tr('by_group'));setText('ptab-tym-rk',tr('ranking'));
   setText('ptab-his-finals',tr('history_finals'));setText('ptab-his-medals',tr('history_medals'));setText('ptab-his-awards',tr('history_awards'));setText('ptab-his-records',tr('history_records'));setText('ptab-his-scorers',tr('history_scorers'));setText('ptab-his-facts',tr('history_facts'));setText('clbl-history',tr('history_title'));
@@ -7908,8 +7909,18 @@ function renderZeb(){
   });
 }
 
+function vysQfMatch(z){
+  if(vysQuickFilter==='all') return true;
+  var res=results[z[0]],tip=myTips[z[0]];
+  if(!res||!tip) return false;
+  var pts=calcPts(tip,res); if(pts==null) return false;
+  if(vysQuickFilter==='exact') return pts===10;
+  if(vysQuickFilter==='scored') return pts>0;
+  if(vysQuickFilter==='miss') return pts===0;
+  return true;
+}
 function renderVys(){
-  var arr=vysPhase==='po'?PZ:(vysSort==='dt'?sortByDate(SZ):SZ);
+  var arr=(vysPhase==='po'?PZ:(vysSort==='dt'?sortByDate(SZ):SZ)).filter(vysQfMatch);
   var html='',prev=null;
   if(vysSort==='dt'){
     var gbd=groupByDate(arr);
@@ -7929,7 +7940,8 @@ function renderVys(){
     arr.forEach(function(z){ if(z[1]!==prev){ flush(); prev=z[1]; } cur.push(z); });
     flush();
   }
-  document.getElementById('vys-list').innerHTML=(html||'<div class="empty">'+tr('vys_empty')+'</div>')+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
+  var emptyMsg=vysQuickFilter!=='all'?(LANG==='en'?'No matches in this filter.':'Žádné zápasy v tomto filtru.'):tr('vys_empty');
+  document.getElementById('vys-list').innerHTML=(html||'<div class="empty">'+escHtml(emptyMsg)+'</div>')+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   renderResultsNote();
   var vl=document.getElementById('vys-list');
   if(vl){ vl.onclick=function(e){ var el=e.target.closest('.link-team'); if(el&&el.dataset.team) filterByTeam(el.dataset.team); }; }
@@ -9366,6 +9378,7 @@ function setOstPhase(phase){otherPhase=phase;['sk','po','ex'].forEach(function(p
 function setOstSort(sort){ostSort=sort;['ptab-ost-dt','ptab-ost-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-ost-dt'&&sort==='dt')||(id==='ptab-ost-sk'&&sort==='sk'));});renderOst();}
 function setVysPhase(phase){vysPhase=phase;['sk','po'].forEach(function(p){var b=document.getElementById('ptab-vys-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('vys-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';if(phase==='po') vysSort='po';else if(vysSort==='po') vysSort='dt';['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&vysSort==='dt')||(id==='ptab-vys-sk'&&vysSort==='sk'));});renderVys();}
 function setVysSort(sort){vysSort=sort;['ptab-vys-dt','ptab-vys-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-vys-dt'&&sort==='dt')||(id==='ptab-vys-sk'&&sort==='sk'));});renderVys();}
+function setVysQuickFilter(mode){vysQuickFilter=mode;[['all','vqf-all'],['exact','vqf-exact'],['scored','vqf-scored'],['miss','vqf-miss']].forEach(function(p){var b=document.getElementById(p[1]);if(b) b.classList.toggle('on',mode===p[0]);});renderVys();}
 function filterByTeam(teamName){
   pendingTeamFocus=teamName||'';
   showTab('tymy');
@@ -9585,6 +9598,7 @@ function init(){
   var vph2=document.getElementById('ptab-vys-phase-po');if(vph2) vph2.addEventListener('click',function(){setVysPhase('po');});
   var vs1=document.getElementById('ptab-vys-dt');if(vs1) vs1.addEventListener('click',function(){setVysSort('dt');});
   var vs2=document.getElementById('ptab-vys-sk');if(vs2) vs2.addEventListener('click',function(){setVysSort('sk');});
+  [['vqf-all','all'],['vqf-exact','exact'],['vqf-scored','scored'],['vqf-miss','miss']].forEach(function(p){var b=document.getElementById(p[0]);if(b) b.addEventListener('click',function(){setVysQuickFilter(p[1]);});});
   var pfb=document.getElementById('pf-btn');if(pfb) pfb.addEventListener('click',function(e){e.stopPropagation();var m=document.getElementById('pf-menu');if(m) m.classList.toggle('open');});
   var pfa=document.getElementById('pf-all');if(pfa) pfa.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return !me||p.id!==me.id;}).map(function(p){return String(p.id);});renderPlayerFilter();renderOst();});
   var pfr=document.getElementById('pf-rivals');if(pfr) pfr.addEventListener('click',function(){selectedOtherIds=players.filter(function(p){return (!me||p.id!==me.id)&&isRivalId(p.id);}).map(function(p){return String(p.id);});if(!selectedOtherIds.length) selectedOtherIds=['__none__'];renderPlayerFilter();renderOst();});
@@ -9599,7 +9613,7 @@ function init(){
   applyI18n();
   updateInstallButton();
   loadFifaRankingData();
-  tipSort='dt'; vysSort='dt'; tymPhase='az'; historyPhase='finals';
+  tipSort='dt'; vysSort='dt'; vysQuickFilter='all'; tymPhase='az'; historyPhase='finals';
   setPhaseTab('sk'); setOstPhase('sk'); setVysPhase('sk');
   updClock();
   setInterval(updClock,1000);

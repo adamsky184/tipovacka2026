@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.32 - 5. 7. 2026
+
+Výsledky — nový **filtr podle tvého tipu**: Vše · 🔥 Přesné · ✅ Bodované · 🔴 Mimo (chip lišta pod řazením, funguje ve skupinách i play-off).
+
 ## v5.12.31 - 5. 7. 2026
 
 Balík oprav a vylepšení:
