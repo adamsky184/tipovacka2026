@@ -2595,7 +2595,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.33';
+var APP_VERSION='v5.12.34';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5855,7 +5855,7 @@ function openMatchCard(zid){
       '<div class="mcard-score">'+escHtml(scoreMain)+(scoreSub?'<small'+subCls+'>'+escHtml(scoreSub)+'</small>':'')+'</div>'+
       '<div class="mcard-team"><span class="mcard-flag">'+(fl(h)||'🏳️')+'</span>'+escHtml(tN(h))+'</div>'+
     '</div>'+
-    '<div class="mcard-meta">'+escHtml(ghL(z[1]))+' · '+escHtml(dStr(z))+(venue?' · 📍'+escHtml(String(venue).split('/')[0].trim()):'')+escHtml(fifaBits)+'</div>'+
+    '<div class="mcard-meta">'+escHtml(ghL(z[1]))+' · '+escHtml(dStr(z))+(venue?' · '+(venueToStadiumName(venue)?'<a href="#" class="link-venue" onclick="goStadionyFromCard(\''+escAttr(venueToStadiumName(venue))+'\');return false;">📍'+escHtml(String(venue).split('/')[0].trim())+'</a>':'📍'+escHtml(String(venue).split('/')[0].trim()))+'':'')+escHtml(fifaBits)+'</div>'+
     ((res&&myTip)?'<div style="text-align:center;margin:.5rem 0 .2rem"><button class="mcard-share-btn" type="button" data-share-zid="'+zid+'">'+(LANG==='en'?'📤 Share result':'📤 Sdílet výsledek')+'</button></div>':'')+
     extHtml+
     tipsHtml+oddsHtml+
@@ -6676,6 +6676,13 @@ function getUnsavedTipsState(){
     state.valid=true;
     state.count++;
   });
+  // v5.12.34: dodatecne doplneni postupujiciho u ulozeneho remizoveho tipu (radek bez tip inputu)
+  document.querySelectorAll('#tipy-list input[id^="tadv"]').forEach(function(hidEl){
+    var id=hidEl.id.replace('tadv','');
+    if(!/^\d+$/.test(id) || document.getElementById('tih'+id)) return; // s inputy reseno vyse
+    var zidn=parseInt(id,10);
+    if((hidEl.value||null) && (myTipsPostup[zidn]||null)!==hidEl.value){ state.valid=true; state.count++; }
+  });
   return state;
 }
 function shouldWarnUnsavedTips(nextTab){
@@ -6741,6 +6748,8 @@ function renderTipy(){
 
   var isAdmin=me.je_admin;
   var baseArr=currentPhase==='po'?PZ:tipSort==='dt'?sortByDate(SZ):SZ;
+  // v5.12.34: LIVE filtr hleda napric fazemi (live zapasy muzou byt v playoff, i kdyz je zvolena skupinova cast)
+  if(tipQuickFilter==='live') baseArr=sortByDate(SZ.concat(PZ));
   var arr=getFilteredTipArr(baseArr);
   updateTipQuickButtons();
   var hasGT=Object.keys(globalTipCounts).length>0 || Object.keys(allTips).length>0;
@@ -6878,6 +6887,16 @@ function renderMatchRow(z,isAdmin,hasGT){
           var actual=resultsAdvance[id],mark='';
           if(actual) mark=(actual===myAdv)?' <span style="color:var(--gn2);font-weight:700">✓+3</span>':' <span style="color:#f87171">✗</span>';
           advLine='<div class="tadv-saved">'+escHtml(LANG==='en'?'adv: ':'postup: ')+escHtml(fT(myAdv==='H'?d:h))+mark+'</div>';
+        } else if(!started){
+          // v5.12.34: tip ulozen bez postupujiciho -> hrac ho muze doplnit do vykopu
+          advLine='<div class="tadv-wrap" id="tadvwrap'+id+'" style="display:flex">'+
+            '<span class="tadv-lbl">'+escHtml(LANG==='en'?'Add who advances (+3)':'Doplň postup (+3)')+'</span>'+
+            '<button type="button" class="tadv-btn" data-adv-zid="'+id+'" data-adv="H" title="'+escAttr(tN(d))+'">'+(fl(d)||'🏠')+'</button>'+
+            '<button type="button" class="tadv-btn" data-adv-zid="'+id+'" data-adv="A" title="'+escAttr(tN(h))+'">'+(fl(h)||'✈️')+'</button>'+
+            '<input type="hidden" id="tadv'+id+'" value="">'+
+          '</div>';
+        } else {
+          advLine='<div class="tadv-saved" style="color:var(--mu2)">'+escHtml(LANG==='en'?'no advancer picked':'bez tipu na postup')+'</div>';
         }
       }
     }
@@ -6936,7 +6955,7 @@ function renderMatchRow(z,isAdmin,hasGT){
     '</div>';
   }
 
-  var venueHtml=venue?('<span class="link-venue" onclick="goStadiony()" title="'+escAttr(venue)+'">'+escHtml(venue)+'</span>'):'';
+  var venueHtml=venue?stadiumLinkHtml(venue):''; // v5.12.34: proklik primo na konkretni stadion
   var dLink=teamsUnknown?fT(d):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(d)+'">'+fT(d)+'</span>');
   var hLink=teamsUnknown?fT(h):('<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(h)+'">'+fT(h)+'</span>');
 
@@ -6979,7 +6998,17 @@ async function saveTips(){
     if(mDate(z)<=now) return;
     var ih=document.getElementById('tih'+z[0]);
     var ia=document.getElementById('tia'+z[0]);
-    if(!ih||!ia||ih.disabled) return;
+    if(!ih||!ia||ih.disabled){
+      // v5.12.34: dodatecne doplneni postupujiciho k uz ulozenemu remizovemu tipu (jen kdyz chybi, pred vykopem)
+      if(z[0]>=73 && myTips[z[0]] && !myTipsPostup[z[0]]){
+        var spL=String(myTips[z[0]]).split(':');
+        if(spL[0]===spL[1]){
+          var lateEl=document.getElementById('tadv'+z[0]);
+          if(lateEl && lateEl.value) rows.push({hrac_id:me.id,zapas_id:z[0],tip:myTips[z[0]],postup:lateEl.value});
+        }
+      }
+      return;
+    }
     var hv=ih.value.trim(),av=ia.value.trim();
     if(hv===''||av==='') return;
     if(!/^[0-9]{1,2}$/.test(hv)||!/^[0-9]{1,2}$/.test(av)) return;
@@ -6996,6 +7025,16 @@ async function saveTips(){
     rows.push({hrac_id:me.id,zapas_id:z[0],tip:v,postup:postup});
   });
   if(!rows.length){setSt('st-tipy',tr('no_matches'));return;}
+  // v5.12.34: varovani - remizovy tip v play-off bez zvoleneho postupujiciho (+3 b by propadly)
+  var missAdv=rows.filter(function(r){ var sp=String(r.tip).split(':'); return r.zapas_id>=73 && sp[0]===sp[1] && !r.postup; });
+  if(missAdv.length){
+    var zmapAll={}; PZ.forEach(function(z){ zmapAll[z[0]]=z; });
+    var names=missAdv.map(function(r){ var z=zmapAll[r.zapas_id]; return z?(tN(z[2])+' – '+tN(z[3])):('#'+r.zapas_id); }).join(', ');
+    var q=LANG==='en'
+      ? 'Draw tip without picking who advances (+3 pts): '+names+'. Save anyway? (You can add the advancer later, but only until kickoff.)'
+      : 'U remízového tipu nemáš zvoleného postupujícího (+3 b): '+names+'. Uložit i tak? (Postupujícího můžeš doplnit i později, ale jen do výkopu.)';
+    if(!window.confirm(q)) return;
+  }
   setSt('st-tipy','...');
   if(btn) btn.disabled=true;
   var floatBtn=document.getElementById('float-sav-btn');
@@ -9361,6 +9400,11 @@ function stadiumLinkHtml(venue){
   var label=escHtml(String(venue).split('/')[0].trim());
   if(!stadium) return label;
   return '<a href="#" class="link-venue" onclick="goStadiony(\''+escAttr(stadium)+'\');return false;">'+label+'</a>';
+}
+function goStadionyFromCard(stadiumName){
+  // z karty zapasu: nejdriv zavri overlay, pak prejdi na konkretni stadion
+  document.querySelectorAll('.mcard-overlay').forEach(function(ov){ if(ov.parentNode) ov.parentNode.removeChild(ov); });
+  goStadiony(stadiumName);
 }
 function goStadiony(stadiumName){
   showTab('stadiony');

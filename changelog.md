@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.34 - 12. 7. 2026
+
+Opravy dle zpětné vazby hráčů:
+- **LIVE filtr v Moje tipy** — hledá nově napříč fázemi (živé playoff zápasy se zobrazí, i když je zvolená skupinová část; dřív ukazoval prázdno).
+- **Remízové tipy v play-off:**
+  - Při ukládání remízového tipu **bez postupujícího** se zobrazí varování (+3 b by propadly) s možností se vrátit.
+  - Uložený remízový tip bez postupujícího jde nově **doplnit dodatečně** — přímo v řádku zápasu, ale jen **do výkopu**. Po výkopu se zobrazí „bez tipu na postup".
+- **Prokliky na stadiony** — klik vede vždy na **konkrétní stadion** (scroll + zvýraznění): opraveno v Moje tipy (dřív jen obecně na Stadiony) a přidán proklik i z karty zápasu. Ověřeno pokrytí všech 104 zápasů.
+
 ## v5.12.33 - 5. 7. 2026
 
 Moje tipy — u odehraných zápasů nově decentní **ikonka výkonu** (🔥 přesný / 🟢 správný trend / 🔴 mimo) na bodovém řádku pod tipem, sladěná s Výsledky. Vejde se na desktop i mobil, tipování budoucích zápasů beze změny.
