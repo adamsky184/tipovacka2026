@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.35 - 12. 7. 2026
+
+Zakončení — **turnajové statistiky týmů a hráčů** (zamčené, jen admin). Sekce rozdělena na „📊 Statistiky tipérů" a „🏟️ Turnaj v číslech — týmy a hráči".
+- ⚽ **Král střelců — průběžné pořadí** (top 8, z toho penalty, v kolika zápasech skóroval) — přímá vazba na Extra tipy.
+- 🥅 **Gólové zajímavosti**: nejrychlejší gól (2' Saibari), penalty proměněné 14× / **neproměněné 6×** (jména + minuta + proklik na zápas, mj. Messi 2×), vlastní góly 14× (s prokliky), histogram gólů podle minut (75 gólů v 76.–90.+!).
+- 📈 **Týmové rekordy** z ESPN boxscore: nejtvrdší zápas (fauly+karty), nejvíc střel, nejjednoznačnější držení míče, nejvíc rohů, brankářský koncert — vše s proklikem na zápas.
+- Nová cache `match_stats` + edge fce `match-stats-sync` (ESPN boxscore + penaltové události); admin tlačítko „Načíst chybějící" nově plní i statistiky.
+- Ověřeno: 97/97 zápasů, penalty konzistentní (14 proměněných + 6 neproměněných = 20 kopaných dle boxscore).
+
 ## v5.12.34 - 12. 7. 2026
 
 Opravy dle zpětné vazby hráčů:
