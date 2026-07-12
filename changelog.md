@@ -2,6 +2,11 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.36 - 12. 7. 2026
+
+- **Žebříček — mini graf předělán**: místo kumulativní čáry (která z principu vždy končila nahoře a nic neříkala) nově **5 sloupečků = body za posledních 5 zápasů** (zelená přesný / oranžová +rozdíl / modrá vítěz / červená mimo) + vysvětlivka pod žebříčkem a tooltip s přesnými hodnotami.
+- **Zakončení — filtr sekcí** nahoře: Vše / 📊 Tipovačka / 🏟️ Turnaj (vysvědčení hráče přesunuto do sekce Tipovačka).
+
 ## v5.12.35 - 12. 7. 2026
 
 Zakončení — **turnajové statistiky týmů a hráčů** (zamčené, jen admin). Sekce rozdělena na „📊 Statistiky tipérů" a „🏟️ Turnaj v číslech — týmy a hráči".

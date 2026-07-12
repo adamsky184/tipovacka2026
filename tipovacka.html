@@ -162,6 +162,7 @@ body.theme-light .venue{color:#5f7690}
 .zeb-spark{display:block;margin-top:6px}
 .zeb-spark polyline{fill:none;stroke:var(--ac2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .zeb-spark .spark-base{stroke:rgba(127,163,199,.22);stroke-width:1}
+.zeb-spark-legend{font-size:.6rem;color:var(--mu2);text-align:center;margin:8px 0 2px;line-height:1.6}
 .lp{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gd);min-width:44px;text-align:right}
 .rr{display:grid;grid-template-columns:1fr 68px 1fr;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(28,48,80,.4)}
 .rr:last-child{border-bottom:none}
@@ -2595,7 +2596,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.35';
+var APP_VERSION='v5.12.36';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -2647,6 +2648,7 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','
 // Zakonceni turnaje: dokud FINALE_PUBLIC=false, vidi jen admin (zamceny nahled). Po schvaleni -> true + deploy.
 var FINALE_PUBLIC=false;
 var finaleSelPid=null;
+var finaleView='all'; // filtr zakonceni: all | tip (statistiky tiperu) | tour (turnaj v cislech)
 function canSeeFinale(){ return FINALE_PUBLIC || (me&&me.je_admin); }
 
 var LANG='cs';
@@ -4255,20 +4257,23 @@ function buildHistorySeries(tips,matches){
   return out;
 }
 function sparklineSvg(values){
+  // v5.12.36: sloupecky = body za poslednich 5 hodnocenych zapasu (drive kumulativni cara - vzdy koncila nahore, nic nerikala)
   if(!values||!values.length) return '';
-  var series=values.slice(-5);
-  if(series.length===1) series=[0,series[0]];
-  var w=60,h=18,pad=1;
-  var min=Math.min.apply(null,series),max=Math.max.apply(null,series);
-  if(min===max){min=min-1;max=max+1;}
-  var delta=series[series.length-1]-series[0];
-  var stroke=delta>0?'var(--gn2)':delta<0?'#f87171':'var(--ac2)';
-  var pts=series.map(function(v,i){
-    var x=pad+(i*(w-pad*2))/Math.max(series.length-1,1);
-    var y=h-pad-((v-min)/(max-min))*(h-pad*2);
-    return x.toFixed(1)+','+y.toFixed(1);
-  }).join(' ');
-  return '<svg class="zeb-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true"><line class="spark-base" x1="0" y1="'+(h-1)+'" x2="'+w+'" y2="'+(h-1)+'"></line><polyline points="'+pts+'" style="stroke:'+stroke+'"></polyline></svg>';
+  var diffs=[]; for(var i=0;i<values.length;i++){ diffs.push(values[i]-(i>0?values[i-1]:0)); }
+  var last=diffs.slice(-5);
+  var w=60,h=18,bw=9,gap=3,x0=Math.max(0,w-(last.length*(bw+gap)-gap));
+  function col(v){ return v>=10?'#22c55e':v>=4?'#fbbf24':v>0?'var(--ac2)':'#f87171'; }
+  var bars=last.map(function(v,i){
+    var bh=Math.max(2,Math.round((Math.min(v,13)/13)*(h-2)));
+    return '<rect x="'+(x0+i*(bw+gap))+'" y="'+(h-bh)+'" width="'+bw+'" height="'+bh+'" rx="1.5" fill="'+col(v)+'"/>';
+  }).join('');
+  var tip=(LANG==='en'?'Points in last 5 matches: ':'Body za posledních 5 zápasů: ')+last.join(' · ');
+  return '<svg class="zeb-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" role="img"><title>'+escHtml(tip)+'</title><line class="spark-base" x1="0" y1="'+(h-1)+'" x2="'+w+'" y2="'+(h-1)+'"></line>'+bars+'</svg>';
+}
+function sparklineLegendHtml(){
+  function sq(c){ return '<svg width="8" height="8" style="vertical-align:-1px"><rect width="8" height="8" rx="2" fill="'+c+'"/></svg>'; }
+  return '<div class="zeb-spark-legend">'+(LANG==='en'?'Mini chart = points in last 5 matches: ':'Mini graf = body za posledních 5 zápasů: ')+
+    sq('#22c55e')+' '+(LANG==='en'?'exact (10)':'přesný (10)')+' · '+sq('#fbbf24')+' +'+(LANG==='en'?'diff (4)':'rozdíl (4)')+' · '+sq('var(--ac2)')+' '+(LANG==='en'?'winner (3)':'vítěz (3)')+' · '+sq('#f87171')+' '+(LANG==='en'?'miss (0)':'mimo (0)')+'</div>';
 }
 function renderUpdBadge(){
   var raw=getResultsLastUpdated(),el=document.getElementById('upd-badge');
@@ -7894,11 +7899,16 @@ function renderFinale(){
     '<button type="button" class="fin-syncbtn" id="fin-replay" style="background:var(--gd);border-color:var(--gd)">🎉 Úvod</button>'+
     '<span id="fin-sync-stat" class="fin-sync-stat"></span></div>'):'';
   var reps=finaleBuildReps();
-  el.innerHTML=lock+adminBar+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+
-    '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:14px 0 4px">📊 Statistiky tipérů</div>'+
-    finalePodiumHtml(cel)+finaleAwardsHtml(reps)+finaleGlobalHtml(reps)+
-    '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
-    '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
+  // v5.12.36: filtr sekci (Vse / Tipovacka / Turnaj)
+  var chips='<div class="tier3" style="justify-content:center;margin:2px 0 10px"><button class="fchip'+(finaleView==='all'?' on':'')+'" data-finview="all" type="button">Vše</button><button class="fchip'+(finaleView==='tip'?' on':'')+'" data-finview="tip" type="button">📊 Tipovačka</button><button class="fchip'+(finaleView==='tour'?' on':'')+'" data-finview="tour" type="button">🏟️ Turnaj</button></div>';
+  el.innerHTML=lock+adminBar+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+chips+
+    '<div id="fin-blk-tip" style="display:'+(finaleView==='tour'?'none':'block')+'">'+
+      '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:14px 0 4px">📊 Statistiky tipérů</div>'+
+      finalePodiumHtml(cel)+finaleAwardsHtml(reps)+
+      '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
+      '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
+    '</div>'+
+    '<div id="fin-blk-tour" style="display:'+(finaleView==='tip'?'none':'block')+'">'+finaleGlobalHtml(reps)+'</div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   finaleBindHScroll(el);
   var sel=document.getElementById('fin-sel');
@@ -7909,6 +7919,15 @@ function renderFinale(){
       .then(function(){ syncBtn.disabled=false; renderFinale(); })
       .catch(function(e){ if(st) st.textContent=' chyba: '+((e&&e.message)||e); syncBtn.disabled=false; }); };
   el.onclick=function(e){
+    var fv=e.target.closest('[data-finview]');
+    if(fv&&fv.dataset.finview){
+      finaleView=fv.dataset.finview;
+      el.querySelectorAll('[data-finview]').forEach(function(b){ b.classList.toggle('on',b.dataset.finview===finaleView); });
+      var bt=document.getElementById('fin-blk-tip'),bo=document.getElementById('fin-blk-tour');
+      if(bt) bt.style.display=(finaleView==='tour')?'none':'block';
+      if(bo) bo.style.display=(finaleView==='tip')?'none':'block';
+      return;
+    }
     var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
     var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); }
   };
@@ -8021,7 +8040,7 @@ function renderZeb(){
       '<div class="lp">'+s.total+'</div></div>';
   }).join('')||'<div class="empty">'+tr('no_others')+'</div>';
   html+='<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
-  document.getElementById('zeb-list').innerHTML=html;
+  document.getElementById('zeb-list').innerHTML=html+(html?sparklineLegendHtml():'');
   // L2: klik na jmeno hrace -> detail modal
   document.querySelectorAll('#zeb-list [data-pdet]').forEach(function(el){
     el.addEventListener('click',function(){ openPlayerDetail(el.getAttribute('data-pdet')); });
