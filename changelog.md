@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.37 - 12. 7. 2026
+
+Zakončení — sekce 🏟️ Turnaj rozšířena o kompletní balík statistik (vše z existujících dat, s prokliky na zápasy):
+- 🥅 **Gólové zajímavosti** doplněny: gólovost (⌀/zápas, bez branek), nejgólovější zápas, góly v nastavení (45+/90+), **otočky** (vítěz prohrával), **hattricky** + dvougólové výkony, prodloužení (z toho penalty).
+- ⚔️ **Síla týmů**: top 5 ofenziv a defenziv (celkem + ⌀/zápas), nejvíc čistých kont, **čitelnost pro tipéry** (na kterém týmu hráči nejvíc/nejméně bodovali).
+- 📊 **Týmové agregáty (ESPN)**: fair-play vs. nejtvrdší tým, střelecká konverze (nejchladnokrevnější / nejvíc střel na gól), nejvyšší ⌀ držení míče, **„vyhrál bez míče"**, král rohů, nejvíc ofsajdů, brankářská zeď.
+
 ## v5.12.36 - 12. 7. 2026
 
 - **Žebříček — mini graf předělán**: místo kumulativní čáry (která z principu vždy končila nahoře a nic neříkala) nově **5 sloupečků = body za posledních 5 zápasů** (zelená přesný / oranžová +rozdíl / modrá vítěz / červená mimo) + vysvětlivka pod žebříčkem a tooltip s přesnými hodnotami.
