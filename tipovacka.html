@@ -2596,7 +2596,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.37';
+var APP_VERSION='v5.12.38';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7967,8 +7967,9 @@ function finaleGlobalHtml(reps){
   var sim=finaleSimilarPairs();
   var simHtml=sim.most.map(function(p,i){ return '<div class="fin-simrow">'+(i===0?'🥇 ':'')+escHtml(p.a)+' × '+escHtml(p.b)+' — <b>'+Math.round(p.pct*100)+'%</b> <span style="color:var(--mu2)">('+p.same+'/'+p.common+' stejných)</span></div>'; }).join('')
     +(sim.least?'<div class="fin-simrow" style="color:var(--mu)">nejodlišnější: '+escHtml(sim.least.a)+' × '+escHtml(sim.least.b)+' — '+Math.round(sim.least.pct*100)+'%</div>':'');
+  // v5.12.38: cast o TIPERECH (patri do bloku Tipovacka)
   return '<div class="fin-globalwrap">'+
-    '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🏟️ Turnaj v číslech — týmy a hráči</div>'+
+    '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🌐 Tipovačka v číslech</div>'+
     '<div style="font-size:.66rem;color:var(--mu);text-align:center;margin-bottom:8px">'+G.matches+' odehraných zápasů · '+G.totalTips+' tipů · '+G.totalExact+'× přesná trefa</div>'+
     '<div class="fin-sec"><div class="fin-drows">'+
       '<div><span>🌍 Nejtěžší zápas</span><b>'+ml(G.hardest)+(G.hardest?' <span style="color:var(--mu2)">('+G.hardest.sc+'/'+G.hardest.tip+' bodovalo)</span>':'')+'</b></div>'+
@@ -7976,16 +7977,26 @@ function finaleGlobalHtml(reps){
       '<div><span>😱 Největší překvapení</span><b>'+ml(G.surprise)+(G.surprise?' <span style="color:var(--mu2)">(kurz '+G.surprise.odds.toFixed(1)+' · trefili: '+(G.surprise.correct.length?escHtml(G.surprise.correct.join(', ')):'nikdo')+')</span>':'')+'</b></div>'+
       '<div><span>🔥 Nejvíc bodů v zápase</span><b>'+(G.recSingle.pts>=0?'+'+G.recSingle.pts+' b — '+escHtml(G.recSingle.who)+' · '+ml(G.recSingle):'—')+'</b></div>'+
       '<div><span>🔥 Nejdelší bodovací série</span><b>'+(G.maxStreak.n?G.maxStreak.n+' zápasů v řadě — '+escHtml(G.maxStreak.who):'—')+'</b></div>'+
-      (G.hasGoals?(
-        '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+escHtml(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
-        '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'
-      ):'')+
     '</div></div>'+
     '<div class="fin-sec"><h4>👑 Bitva o titul — vývoj bodů (TOP 4)</h4>'+_svgMultiLine(raceSeries)+'<div style="font-size:.62rem;color:var(--mu2);margin-top:4px;line-height:1.7">'+raceLeg+'</div></div>'+
     '<div class="fin-sec"><h4>🧬 Podobnost tipérů</h4>'+simHtml+'</div>'+
     finaleExtraHtml()+
+  '</div>';
+}
+// v5.12.38: cast o TURNAJI (tymy a hraci fotbaloveho MS) - blok Turnaj
+function finaleTourGlobalHtml(){
+  var G=finaleGlobalStats([]);
+  function ml(x){ if(!x||!x.z) return '—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
+  var lateHtml=G.hasGoals?('<div class="fin-sec"><div class="fin-drows">'+
+      '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+escHtml(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
+      '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'+
+    '</div></div>'):'';
+  return '<div class="fin-globalwrap">'+
+    '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🏟️ Turnaj v číslech — týmy a hráči</div>'+
+    '<div style="font-size:.66rem;color:var(--mu);text-align:center;margin-bottom:8px">'+G.matches+' odehraných zápasů</div>'+
     finaleScorersHtml()+
     finaleGoalFactsHtml()+
+    lateHtml+
     finaleTeamPowerHtml()+
     finaleTeamStatsHtml()+
     finaleTeamAggHtml()+
@@ -8023,10 +8034,11 @@ function renderFinale(){
     '<div id="fin-blk-tip" style="display:'+(finaleView==='tour'?'none':'block')+'">'+
       '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:14px 0 4px">📊 Statistiky tipérů</div>'+
       finalePodiumHtml(cel)+finaleAwardsHtml(reps)+
+      finaleGlobalHtml(reps)+
       '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
       '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
     '</div>'+
-    '<div id="fin-blk-tour" style="display:'+(finaleView==='tip'?'none':'block')+'">'+finaleGlobalHtml(reps)+'</div>'+
+    '<div id="fin-blk-tour" style="display:'+(finaleView==='tip'?'none':'block')+'">'+finaleTourGlobalHtml()+'</div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   finaleBindHScroll(el);
   var sel=document.getElementById('fin-sel');

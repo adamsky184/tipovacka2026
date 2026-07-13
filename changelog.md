@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.38 - 13. 7. 2026
+
+Zakončení — **oprava rozdělení filtru Tipovačka vs. Turnaj**. Blok Turnaj dřív obsahoval i statistiky o tipérech; nově čisté rozdělení:
+- **📊 Tipovačka**: podium, ceny, 🌐 Tipovačka v číslech (nejtěžší/nejlehčí zápas dle bodování, překvapení, rekordy tipérů), 👑 bitva o titul, 🧬 podobnost tipérů, 🎯 extra tipy, vysvědčení hráče.
+- **🏟️ Turnaj**: pouze fotbal — král střelců, gólové zajímavosti, nejpozdější gól, síla týmů, týmové rekordy a agregáty.
+
 ## v5.12.37 - 12. 7. 2026
 
 Zakončení — sekce 🏟️ Turnaj rozšířena o kompletní balík statistik (vše z existujících dat, s prokliky na zápasy):
