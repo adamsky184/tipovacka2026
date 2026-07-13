@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.49 - 13. 7. 2026
+
+- **Menu na desktopu** se roztáhne přes celou šířku obsahu (položky rovnoměrně).
+- **Vysvětlivky (ⓘ)**: doba zobrazení se řídí délkou textu (3,2–12 s, dřív fixně 3 s) a toast jde zavřít klepnutím.
+- **Zakončení** má v menu nové emoji 🏁 (odlišení od 🏆 Turnaj).
+
 ## v5.12.48 - 13. 7. 2026
 
 UX batch dle feedbacku:

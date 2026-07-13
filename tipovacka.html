@@ -927,6 +927,8 @@ body.theme-light .ost-scroll-floating{background:color-mix(in srgb,#ffffff 94%, 
 .tier2{display:flex;gap:4px;flex-wrap:wrap}.sort-chip{padding:4px 11px;border-radius:8px;font-size:.73rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
 .sort-chip:hover{border-color:var(--bd2);color:var(--mu2)}.sort-chip.on{background:rgba(59,130,246,.1);color:var(--ac2);border-color:rgba(59,130,246,.28)}
 .tier3{display:flex;gap:3px;flex-wrap:wrap}.fchip{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:600;cursor:pointer;background:transparent;color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
+/* v5.12.49: hlavni menu na desktopu roztazene pres celou sirku */
+@media(min-width:761px){.nav .nb{flex:1;text-align:center}}
 /* v5.12.48: filtry a submenu na plnou sirku (kompaktni UI) */
 #tipy-sort-row .sort-chip,#ost-sort-row .sort-chip{flex:1;text-align:center}
 #tipy-qf{width:100%}
@@ -2310,7 +2312,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="nb" id="tab-hub-turnaj">🏆 Turnaj</button>
       <button class="nb" id="tab-hub-tymy">👥 Týmy &amp; hráči</button>
       <button class="nb" id="tab-diskuze">💬 Diskuze</button>
-      <button class="nb" id="tab-finale" style="display:none">🏆 Zakončení</button>
+      <button class="nb" id="tab-finale" style="display:none">🏁 Zakončení</button>
       <button class="nb" id="tab-admin" style="display:none">🛠️ Admin</button>
     </nav>
     <div class="subnav" id="subnav" style="display:none"></div>
@@ -2647,7 +2649,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.48';
+var APP_VERSION='v5.12.49';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6846,10 +6848,13 @@ function showToast(msg,kind){
   toast.textContent=msg;
   stack.appendChild(toast);
   requestAnimationFrame(function(){ toast.classList.add('show'); });
+  // v5.12.49: delka zobrazeni dle delky textu (vysvetlivky slo dřív nestihnout přečíst)
+  var dur=Math.min(12000,Math.max(3200,String(msg).length*75));
+  toast.addEventListener('click',function(){ toast.classList.remove('show'); setTimeout(function(){ if(toast.parentNode) toast.parentNode.removeChild(toast); },180); });
   setTimeout(function(){
     toast.classList.remove('show');
     setTimeout(function(){ if(toast.parentNode) toast.parentNode.removeChild(toast); },180);
-  },3000);
+  },dur);
 }
 function rivalsStorageKey(){
   return me&&me.id ? 'ms26_rivals_'+String(me.id) : '';
