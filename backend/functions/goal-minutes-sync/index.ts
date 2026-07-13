@@ -72,13 +72,15 @@ Deno.serve(async (req) => {
       const own = /own goal/i.test(txt);
       const pen = /penalt/i.test(txt) && !/missed|saved/i.test(txt);
       const scorer = String(((e?.participants || [])[0])?.athlete?.displayName || "");
-      goals.push({ m: c.m, s: c.s, side, own, pen, scorer });
+      // v5.12.39: asistent = druhy participant u golu (ESPN ho uvadi, kdyz asistence padla)
+      const assist = (own || pen) ? "" : String(((e?.participants || [])[1])?.athlete?.displayName || "");
+      goals.push({ m: c.m, s: c.s, side, own, pen, scorer, assist });
     }
     goals.sort((a, b) => (a.m + a.s) - (b.m + b.s));
 
     const rows = goals.map((g, i) => ({
       zapas_id: zid, seq: i + 1, minute: g.m, stoppage: g.s,
-      side: g.side, scorer: g.scorer, own_goal: g.own, penalty: g.pen,
+      side: g.side, scorer: g.scorer, own_goal: g.own, penalty: g.pen, assist: g.assist,
     }));
 
     // Idempotentne: smaz stare radky zapasu, vloz nove.

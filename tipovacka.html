@@ -2596,7 +2596,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.38';
+var APP_VERSION='v5.12.39';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5190,7 +5190,7 @@ var goalMinsByZapas={}; // {zapas_id: [{seq,minute,stoppage,side,scorer,own_goal
 var goalSyncByZapas={}; // {zapas_id: {goal_count,synced_at}}
 function loadGoalMinutes(){
   return Promise.all([
-    sbf('goal_minutes?select=zapas_id,seq,minute,stoppage,side,scorer,own_goal,penalty&order=zapas_id.asc,seq.asc'),
+    sbf('goal_minutes?select=zapas_id,seq,minute,stoppage,side,scorer,own_goal,penalty,assist&order=zapas_id.asc,seq.asc'),
     sbf('goal_minutes_sync?select=zapas_id,goal_count,synced_at')
   ]).then(function(res){
     goalMinsByZapas={};
@@ -5202,9 +5202,9 @@ function loadGoalMinutes(){
 // Tymove statistiky zapasu (ESPN boxscore cache) - pro finale "Turnaj v cislech"
 var matchStatsByZapas={}; // {zapas_id:{home:{...},away:{...},pen_events:[...]}}
 function loadMatchStats(){
-  return sbf('match_stats?select=zapas_id,home,away,pen_events').then(function(d){
+  return sbf('match_stats?select=zapas_id,home,away,pen_events,attendance,referee').then(function(d){
     matchStatsByZapas={};
-    (d||[]).forEach(function(r){ matchStatsByZapas[parseInt(r.zapas_id,10)]={home:r.home||{},away:r.away||{},pen:Array.isArray(r.pen_events)?r.pen_events:[]}; });
+    (d||[]).forEach(function(r){ matchStatsByZapas[parseInt(r.zapas_id,10)]={home:r.home||{},away:r.away||{},pen:Array.isArray(r.pen_events)?r.pen_events:[],att:(r.attendance!=null?parseInt(r.attendance,10):null),ref:r.referee||''}; });
   }).catch(function(){ matchStatsByZapas={}; });
 }
 // Admin: dohledej ESPN event id (klient ma alias logiku) a posli do goal-minutes-sync. Jen odehrane, jen chybejici (nebo force).
@@ -5868,9 +5868,9 @@ function openMatchCard(zid){
   overlay.innerHTML='<div class="mcard">'+
     '<button class="mcard-close" type="button">×</button>'+
     '<div class="mcard-head">'+
-      '<div class="mcard-team"><span class="mcard-flag">'+(fl(d)||'🏳️')+'</span>'+escHtml(tN(d))+'</div>'+
+      '<div class="mcard-team"'+(matchTeamsUnknown(z)?'':' data-team="'+escAttr(d)+'" style="cursor:pointer" title="'+escAttr(tr('team_profile_hint'))+'"')+'><span class="mcard-flag">'+(fl(d)||'🏳️')+'</span>'+escHtml(tN(d))+'</div>'+
       '<div class="mcard-score">'+escHtml(scoreMain)+(scoreSub?'<small'+subCls+'>'+escHtml(scoreSub)+'</small>':'')+'</div>'+
-      '<div class="mcard-team"><span class="mcard-flag">'+(fl(h)||'🏳️')+'</span>'+escHtml(tN(h))+'</div>'+
+      '<div class="mcard-team"'+(matchTeamsUnknown(z)?'':' data-team="'+escAttr(h)+'" style="cursor:pointer" title="'+escAttr(tr('team_profile_hint'))+'"')+'><span class="mcard-flag">'+(fl(h)||'🏳️')+'</span>'+escHtml(tN(h))+'</div>'+
     '</div>'+
     '<div class="mcard-meta">'+escHtml(ghL(z[1]))+' · '+escHtml(dStr(z))+(venue?' · '+(venueToStadiumName(venue)?'<a href="#" class="link-venue" onclick="goStadionyFromCard(\''+escAttr(venueToStadiumName(venue))+'\');return false;">📍'+escHtml(String(venue).split('/')[0].trim())+'</a>':'📍'+escHtml(String(venue).split('/')[0].trim()))+'':'')+escHtml(fifaBits)+'</div>'+
     ((res&&myTip)?'<div style="text-align:center;margin:.5rem 0 .2rem"><button class="mcard-share-btn" type="button" data-share-zid="'+zid+'">'+(LANG==='en'?'📤 Share result':'📤 Sdílet výsledek')+'</button></div>':'')+
@@ -5881,6 +5881,8 @@ function openMatchCard(zid){
   '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('.mcard-close').onclick=close;
+  // v5.12.39: klik na tym v hlavicce karty -> profil tymu
+  overlay.querySelectorAll('.mcard-team[data-team]').forEach(function(el){ el.onclick=function(){ close(); filterByTeam(el.dataset.team); }; });
   // self-heal: kdyz jsou tipy ostatnich neni nactene (prazdno), donacti a kartu obnov
   if(me&&myPin&&canSee&&!teamsUnknown&&!Object.keys(allTips).length){
     loadAllTips().then(function(){ if(overlay.parentNode&&Object.keys(allTips).length){ close(); openMatchCard(zid); } });
@@ -7769,24 +7771,34 @@ function finaleExtraHtml(){
 // ===== TURNAJOVE STATISTIKY TYMU A HRACU (goal_minutes + match_stats, v5.12.35) =====
 function finaleScorersHtml(){
   var agg={};
+  function P(n){ return agg[n]=agg[n]||{g:0,a:0,pen:0,m:{}}; }
   Object.keys(goalMinsByZapas).forEach(function(zid){
     goalMinsByZapas[zid].forEach(function(g){
-      if(g.own_goal||!g.scorer) return;
-      var a=agg[g.scorer]=agg[g.scorer]||{g:0,pen:0,m:{}};
-      a.g++; if(g.penalty) a.pen++; a.m[zid]=1;
+      if(g.own_goal) return;
+      if(g.scorer){ var s=P(g.scorer); s.g++; if(g.penalty) s.pen++; s.m[zid]=1; }
+      if(g.assist) P(g.assist).a++;
     });
   });
-  var arr=Object.keys(agg).map(function(n){return {n:n,g:agg[n].g,pen:agg[n].pen,mz:Object.keys(agg[n].m).length};});
+  var arr=Object.keys(agg).map(function(n){return {n:n,g:agg[n].g,a:agg[n].a,kb:agg[n].g+agg[n].a,pen:agg[n].pen,mz:Object.keys(agg[n].m).length};});
   if(!arr.length) return '';
-  arr.sort(function(a,b){return b.g-a.g||b.mz-a.mz;});
+  arr.sort(function(a,b){return b.g-a.g||b.a-a.a||b.mz-a.mz;});
   var top=arr.slice(0,8);
   var most=arr.slice().sort(function(a,b){return b.mz-a.mz||b.g-a.g;})[0];
   var rows=top.map(function(s,i){
-    return '<tr><td style="color:var(--mu2)">'+(i+1)+'.</td><td>'+escHtml(s.n)+'</td><td style="text-align:right;font-weight:700">'+s.g+'</td><td style="text-align:right;color:var(--mu2)">'+(s.pen?s.pen+'× pen':'—')+'</td><td style="text-align:right;color:var(--mu2)">'+s.mz+' záp.</td></tr>';
+    return '<tr><td style="color:var(--mu2)">'+(i+1)+'.</td><td>'+escHtml(s.n)+'</td><td style="text-align:right;font-weight:700">'+s.g+'</td><td style="text-align:right;color:var(--mu2)">'+(s.a||'—')+'</td><td style="text-align:right;color:var(--mu2)">'+(s.pen?s.pen+'× pen':'—')+'</td><td style="text-align:right;color:var(--mu2)">'+s.mz+' záp.</td></tr>';
   }).join('');
+  // v5.12.39: kral asistenci + kanadske bodovani (gol+asistence)
+  var asis=arr.filter(function(x){return x.a>0;}).sort(function(a,b){return b.a-a.a||b.g-a.g;}).slice(0,3);
+  var asisHtml=asis.length?asis.map(function(s,i){return (i===0?'🥇 ':'')+escHtml(s.n)+' <span style="color:var(--mu2)">('+s.a+')</span>';}).join(', '):'—';
+  var kan=arr.slice().sort(function(a,b){return b.kb-a.kb||b.g-a.g;}).slice(0,3);
+  var kanHtml=kan.map(function(s,i){return (i===0?'🥇 ':'')+escHtml(s.n)+' <span style="color:var(--mu2)">('+s.g+'+'+s.a+' = '+s.kb+')</span>';}).join(', ');
   return '<div class="fin-sec"><h4>⚽ Král střelců — průběžné pořadí</h4>'+
-    '<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th></th><th>Hráč</th><th style="text-align:right">Gólů</th><th style="text-align:right">z toho pen.</th><th style="text-align:right">skóroval v</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    (most?'<div style="font-size:.66rem;color:var(--mu2);margin-top:5px">Skóroval v nejvíce zápasech: <b style="color:var(--tx)">'+escHtml(most.n)+'</b> ('+most.mz+')</div>':'')+
+    '<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th></th><th>Hráč</th><th style="text-align:right">Gólů</th><th style="text-align:right">Asist.</th><th style="text-align:right">z toho pen.</th><th style="text-align:right">skóroval v</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="fin-drows" style="margin-top:7px">'+
+      '<div><span>🅰️ Král asistencí</span><b>'+asisHtml+'</b></div>'+
+      '<div><span>🍁 Kanadské bodování (G+A)</span><b>'+kanHtml+'</b></div>'+
+      (most?'<div><span>📅 Skóroval v nejvíce zápasech</span><b>'+escHtml(most.n)+' <span style="color:var(--mu2)">('+most.mz+')</span></b></div>':'')+
+    '</div>'+
   '</div>';
 }
 function finaleGoalFactsHtml(){
@@ -7903,7 +7915,7 @@ function _finTeamAgg(){
   });
   return agg;
 }
-function _finTeamLbl(n){ return (fl(n)?fl(n)+' ':'')+escHtml(tN(n)); }
+function _finTeamLbl(n){ return '<span class="link-team" title="'+escAttr(tr('team_profile_hint'))+'" data-team="'+escAttr(n)+'">'+(fl(n)?fl(n)+' ':'')+escHtml(tN(n))+'</span>'; }
 function finaleTeamPowerHtml(){
   var agg=_finTeamAgg(); var names=Object.keys(agg).filter(function(n){return agg[n].m>=2;});
   if(!names.length) return '';
@@ -7946,6 +7958,19 @@ function finaleTeamAggHtml(){
   });
   function ml(zid){ var z=zmap[zid]; return '<span class="fin-mlink" data-mcard="'+zid+'">'+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+'</span>'; }
   function fairLbl(n){ var a=agg[n]; return _finTeamLbl(n)+' <span style="color:var(--mu2)">(⌀ '+per(a,'cards').toFixed(1)+' karet, '+per(a,'fouls').toFixed(0)+' faulů/záp.)</span>'; }
+  // v5.12.39: navstevy + rozhodci
+  var attMax=null,attSum=0,attN=0,refCnt={};
+  Object.keys(matchStatsByZapas).forEach(function(zidS){
+    var zid=parseInt(zidS,10), ms=matchStatsByZapas[zid]; if(!zmap[zid]) return;
+    if(ms.att){ attSum+=ms.att; attN++; if(!attMax||ms.att>attMax.att) attMax={zid:zid,att:ms.att}; }
+    if(ms.ref) refCnt[ms.ref]=(refCnt[ms.ref]||0)+1;
+  });
+  var topRef=Object.keys(refCnt).sort(function(a,b){return refCnt[b]-refCnt[a];})[0];
+  var attRows=(attN?(
+      '<div><span>🏟️ Největší návštěva</span><b>'+attMax.att.toLocaleString('cs-CZ')+' · '+ml(attMax.zid)+'</b></div>'+
+      '<div><span>👥 Průměrná návštěva</span><b>'+Math.round(attSum/attN).toLocaleString('cs-CZ')+' diváků ('+attN+' záp.)</b></div>'
+    ):'')+
+    (topRef?'<div><span>👨‍⚖️ Nejvytíženější rozhodčí</span><b>'+escHtml(topRef)+' <span style="color:var(--mu2)">('+refCnt[topRef]+' záp.)</span></b></div>':'');
   return '<div class="fin-sec"><h4>📊 Týmové agregáty (ESPN)</h4><div class="fin-drows">'+
     '<div><span>😇 Fair-play</span><b>'+fairLbl(fair[0])+'</b></div>'+
     '<div><span>😈 Nejtvrdší tým</span><b>'+fairLbl(fair[fair.length-1])+'</b></div>'+
@@ -7956,6 +7981,7 @@ function finaleTeamAggHtml(){
     '<div><span>🚩 Král rohů</span><b>'+_finTeamLbl(corn)+' <span style="color:var(--mu2)">('+agg[corn].corners+')</span></b></div>'+
     '<div><span>🏁 Nejvíc ofsajdů</span><b>'+_finTeamLbl(offs)+' <span style="color:var(--mu2)">('+agg[offs].offsides+')</span></b></div>'+
     '<div><span>🧤 Brankářská zeď</span><b>'+_finTeamLbl(sav)+' <span style="color:var(--mu2)">('+agg[sav].saves+' zákroků)</span></b></div>'+
+    attRows+
   '</div></div>';
 }
 function finaleGlobalHtml(reps){
@@ -8059,6 +8085,7 @@ function renderFinale(){
       return;
     }
     var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
+    var tm=e.target.closest('.link-team'); if(tm&&tm.dataset.team){ filterByTeam(tm.dataset.team); return; }
     var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); }
   };
   var replayBtn=document.getElementById('fin-replay');
@@ -8442,7 +8469,7 @@ function renderTeamSchedule(localName){
   function row(z){
     var venue=z[9]||'', res=results[z[0]]||'—', mine=myTips&&myTips[z[0]]?myTips[z[0]]:'—';
     return '<div class="tc-team-sched-row">'+
-      '<div class="tc-team-sched-match">'+fT(z[2])+' - '+fT(z[3])+matchCardBtnHtml(z)+'</div>'+
+      '<div class="tc-team-sched-match">'+(matchTeamsUnknown(z)?fT(z[2])+' - '+fT(z[3]):'<span class="link-team" data-team="'+escAttr(z[2])+'">'+fT(z[2])+'</span> - <span class="link-team" data-team="'+escAttr(z[3])+'">'+fT(z[3])+'</span>')+matchCardBtnHtml(z)+'</div>'+
       '<div class="tc-team-sched-meta"><span>'+escHtml(dStr(z))+'</span>'+(venue?'<span>'+stadiumLinkHtml(venue)+'</span>':'')+'<span>'+escHtml(res)+'</span><span class="tc-team-sched-tip">'+(LANG==='en'?'My tip: ':'Můj tip: ')+escHtml(mine)+'</span></div>'+
       '</div>';
   }

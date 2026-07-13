@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.39 - 13. 7. 2026
+
+**Asistence + návštěvy + prokliky na týmy všude.**
+- 🅰️ **Asistence z ESPN** (nový sloupec `goal_minutes.assist`, backfill 100 zápasů, 211 asistencí): střelecká tabulka má sloupec Asist., nově **Král asistencí** a **🍁 Kanadské bodování (G+A)**.
+- 🏟️ **Návštěvy a rozhodčí** (nové sloupce `match_stats.attendance/referee`): největší návštěva (s proklikem), průměrná návštěva, nejvytíženější rozhodčí.
+- **Prokliky na profil týmu**: karta zápasu (klik na název týmu v hlavičce), Zakončení (síla týmů, agregáty, čitelnost — všechny názvy týmů), rozpis v profilu týmu (soupeři). Tabulka/Výsledky/Tipy už měly.
+
 ## v5.12.38 - 13. 7. 2026
 
 Zakončení — **oprava rozdělení filtru Tipovačka vs. Turnaj**. Blok Turnaj dřív obsahoval i statistiky o tipérech; nově čisté rozdělení:

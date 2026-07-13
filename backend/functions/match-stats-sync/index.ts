@@ -82,9 +82,17 @@ Deno.serve(async (req) => {
       penEvents.push({ minute: c ? c.m : null, stoppage: c ? c.s : 0, side, player, outcome, type: txt });
     }
 
+    // v5.12.39: navsteva + rozhodci z gameInfo
+    const gi = d?.gameInfo || {};
+    const attendance = typeof gi?.attendance === "number" && gi.attendance > 0 ? gi.attendance : null;
+    // deno-lint-ignore no-explicit-any
+    const ref0 = ((gi?.officials || [])[0]) as any;
+    const referee = String(ref0?.fullName || ref0?.displayName || "");
+
     const { error: upErr } = await sb.from("match_stats").upsert({
       zapas_id: zid, event_id: event,
       home: sides.H, away: sides.A, pen_events: penEvents,
+      attendance: attendance, referee: referee,
       synced_at: new Date().toISOString(),
     }, { onConflict: "zapas_id" });
     if (upErr) throw new Error("upsert: " + upErr.message);
