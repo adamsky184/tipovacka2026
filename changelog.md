@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.42 - 13. 7. 2026
+
+**Nová záložka 🧑 Hráči + opravy kapacit stadionů + prokliky hráčů všude.**
+- **Záložka Hráči** v menu: žebříčky Góly / Asistence / G+A / Střely / Karty / Brankáři + fulltext hledání hráče či týmu; klik na hráče → profil, na tým → stránka týmu.
+- **Prokliky na hráče z karty zápasu**: góly, karty, střídání i sestavy (hřiště + lavička) jsou klikací → profil hráče (lazy načtení dat).
+- **Profil hráče rozšířen**: ⌀ na zápas (góly, asistence, střely, fauly; brankář zákroky/obdržené) + střelecká konverze; jména hráčů mají vlaječku týmu.
+- **Kapacity stadionů opraveny** (všech 16): staré hodnoty byly před-turnajové odhady — u 14 stadionů byla reálná návštěva vyšší než uváděná kapacita. Nově oficiální čísla (Wikipedia/FIFA), sedí s max. návštěvami z ESPN (Azteca 80 824, MetLife 80 663…).
+- **🏟️ Stadionové zajímavosti v Zakončení**: celková a ⌀ návštěvnost, vyprodané zápasy (69 ze 100!), nejvyšší ⌀ návštěva, nejgólovější/nejchudší stadion — s prokliky na stadiony.
+- Vlaječky týmů doplněny do gólových zajímavostí a týmových rekordů.
+
 ## v5.12.41 - 13. 7. 2026
 
 Zakončení — ceny za remízy rozděleny: **🤝 Remízový král** = nejvíc trefených remíz; **❤️ Milovník remíz** = nejvyšší podíl remízových tipů (styl, min. 30 hodnocených).

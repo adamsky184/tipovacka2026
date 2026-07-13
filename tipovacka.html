@@ -2275,6 +2275,7 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="nb" id="tab-tabulka">Tabulka</button>
       <button class="nb" id="tab-pavouk">Play-off</button>
       <button class="nb" id="tab-tymy">Týmy</button>
+      <button class="nb" id="tab-hraci">Hráči</button>
       <button class="nb" id="tab-stadiony">Stadiony</button>
       <button class="nb" id="tab-historie">Historie</button>
       <button class="nb" id="tab-diskuze">Diskuze</button>
@@ -2525,6 +2526,14 @@ body.admin-user #btn-logout{padding:0 10px}
       </div>
     </div>
 
+    <div id="page-hraci" style="display:none">
+      <div class="card">
+        <div class="clbl" id="clbl-hraci">Hráči turnaje</div>
+        <div id="hraci-controls"></div>
+        <div id="hraci-list"><div class="empty">Načítám…</div></div>
+      </div>
+    </div>
+
     <div id="page-diskuze" style="display:none">
       <div class="discussion-wrap">
         <div class="card discussion-composer">
@@ -2598,7 +2607,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.41';
+var APP_VERSION='v5.12.42';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -2646,7 +2655,7 @@ var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 var AVC=['#1d4ed8','#065f46','#6d28d9','#92400e','#0e7490','#7c3aed','#1e40af','#4c1d95','#0f766e','#78350f'];
 var SKU=['A','B','C','D','E','F','G','H','I','J','K','L'];
-var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','historie','tymy','diskuze','pravidla','finale','admin'];
+var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stadiony','historie','tymy','hraci','diskuze','pravidla','finale','admin'];
 // Zakonceni turnaje: dokud FINALE_PUBLIC=false, vidi jen admin (zamceny nahled). Po schvaleni -> true + deploy.
 var FINALE_PUBLIC=false;
 var finaleSelPid=null;
@@ -3179,22 +3188,22 @@ var PZ=[
 var PAV_ORIG={}; PZ.forEach(function(z){ PAV_ORIG[z[0]]=[z[2],z[3]]; });
 
 var STAD=[
-  ['MetLife Stadium','New York/NJ','USA','78 576','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
-  ['AT&T Stadium','Arlington (Dallas)','USA','70 122','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
-  ['SoFi Stadium','Los Angeles','USA','69 650','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
-  ['Hard Rock Stadium','Miami','USA','64 091','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
-  ['Lumen Field','Seattle','USA','65 123','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
-  ["Levi's Stadium",'San Francisco','USA','69 391','16F, skupiny',37.4033,-121.9694,'levis.jpeg','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
-  ['Arrowhead Stadium','Kansas City','USA','67 513','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
-  ['NRG Stadium','Houston','USA','68 311','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
-  ['Lincoln Financial Field','Philadelphia','USA','65 827','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
-  ['Mercedes-Benz Stadium','Atlanta','USA','67 382','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
-  ['Gillette Stadium','Boston','USA','63 815','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
-  ['BMO Field','Toronto','Kanada','44 315','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
-  ['BC Place','Vancouver','Kanada','48 821','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
-  ['Estadio Azteca','Mexico City','Mexiko','72 766','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
-  ['Estadio BBVA','Monterrey','Mexiko','50 113','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
-  ['Estadio Akron','Guadalajara','Mexiko','44 330','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
+  ['MetLife Stadium','New York/NJ','USA','80 663','Finale, SF, OF',40.8135,-74.0745,'metlife.jpeg','https://en.wikipedia.org/wiki/MetLife_Stadium'],
+  ['AT&T Stadium','Arlington (Dallas)','USA','70 649','9 zápasů',32.7477,-97.0931,'att.jpeg','https://en.wikipedia.org/wiki/AT%26T_Stadium'],
+  ['SoFi Stadium','Los Angeles','USA','70 492','SF, 16F, skupiny',33.9534,-118.3390,'sofi.jpeg','https://en.wikipedia.org/wiki/SoFi_Stadium'],
+  ['Hard Rock Stadium','Miami','USA','64 478','O 3. místo, 16F, skupiny',25.9580,-80.2389,'hardrock.jpeg','https://en.wikipedia.org/wiki/Hard_Rock_Stadium'],
+  ['Lumen Field','Seattle','USA','66 925','CF, skupiny',47.5952,-122.3316,'lumen.jpeg','https://en.wikipedia.org/wiki/Lumen_Field'],
+  ["Levi's Stadium",'San Francisco','USA','69 391','68 827','https://en.wikipedia.org/wiki/Levi%27s_Stadium'],
+  ['Arrowhead Stadium','Kansas City','USA','69 045','16F, skupiny',39.0489,-94.4839,'arrowhead.jpeg','https://en.wikipedia.org/wiki/Arrowhead_Stadium'],
+  ['NRG Stadium','Houston','USA','68 777','CF, OF, skupiny',29.6847,-95.4107,'nrg.jpeg','https://en.wikipedia.org/wiki/NRG_Stadium'],
+  ['Lincoln Financial Field','Philadelphia','USA','68 324','OF, skupiny',39.9008,-75.1675,'lincolnfinancial.jpeg','https://en.wikipedia.org/wiki/Lincoln_Financial_Field'],
+  ['Mercedes-Benz Stadium','Atlanta','USA','68 239','CF, 16F, skupiny',33.7554,-84.4009,'mercedesbenz.jpg','https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium'],
+  ['Gillette Stadium','Boston','USA','64 146','16F, skupiny',42.0909,-71.2643,'gillette.jpeg','https://en.wikipedia.org/wiki/Gillette_Stadium'],
+  ['BMO Field','Toronto','Kanada','43 036','16F, skupiny',43.6334,-79.4179,'bmofield.jpg','https://en.wikipedia.org/wiki/BMO_Field'],
+  ['BC Place','Vancouver','Kanada','52 497','16F, skupiny',49.2768,-123.1118,'bcplace.jpeg','https://en.wikipedia.org/wiki/BC_Place'],
+  ['Estadio Azteca','Mexico City','Mexiko','80 824','Zahajovací, skupiny',19.3029,-99.1505,'azteca.jpeg','https://en.wikipedia.org/wiki/Estadio_Azteca'],
+  ['Estadio BBVA','Monterrey','Mexiko','51 243','16F, skupiny',25.6693,-100.2438,'bbva.jpeg','https://en.wikipedia.org/wiki/Estadio_BBVA'],
+  ['Estadio Akron','Guadalajara','Mexiko','45 664','Skupiny',20.6867,-103.4677,'akron.jpeg','https://en.wikipedia.org/wiki/Estadio_Akron']
 ];
 var STAD_EXTRA={
   'MetLife Stadium':{stdCap:'82 500',addr:'1 MetLife Stadium Dr, East Rutherford, NJ 07073, USA',planek:'https://digitalhub.fifa.com/m/5454a7f9f4589f64/original/Stadium_Map_New_York_New_Jersey.png',homeCs:'New York Giants, New York Jets',homeEn:'New York Giants, New York Jets',descCs:'Multifunkční stadion v areálu Meadowlands, kousek od New York City.',descEn:'A multipurpose Meadowlands venue just outside New York City.',factCs:'Bude hostit finále MS 2026 a po dokončení patřil k nejdražším stadionům v USA.',factEn:'It will host the 2026 World Cup final and was one of the most expensive stadiums built in the US.'},
@@ -4920,7 +4929,7 @@ function applyI18n(){
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
-  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-historie',tr('tab_historie'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));
+  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-historie',tr('tab_historie'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));setText('tab-hraci',LANG==='en'?'Players':'Hráči');
 
   setText('ptab-tipy-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
@@ -5042,6 +5051,7 @@ function showTab(name){
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
   if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta(),loadGoalMinutes(),loadMatchStats(),loadPlayerStats()]).then(renderFinale); }
+  if(name==='hraci'){ var he=document.getElementById('hraci-list'); if(he&&!Object.keys(playerStatsByName).length) he.innerHTML='<div class="empty">Načítám…</div>'; (Object.keys(playerStatsByName).length?Promise.resolve():loadPlayerStats()).then(renderHraci); }
   if(name==='pravidla') renderRules();
   requestAnimationFrame(syncOstScrollUX);
   requestAnimationFrame(function(){ animatePageEnter(name); });
@@ -5234,10 +5244,18 @@ function loadPlayerStats(){
   }).catch(function(){ playerStatsByName={}; });
 }
 // Klikaci jmeno hrace -> profil (jen kdyz mame jeho data)
+function mkPl(n){ if(!n) return ''; return '<span class="link-player" data-player="'+escAttr(n)+'">'+escHtml(n)+'</span>'; }
+function openPlayerProfileLazy(name){
+  if(playerStatsByName[name]) return openPlayerProfile(name);
+  loadPlayerStats().then(function(){ if(playerStatsByName[name]) openPlayerProfile(name); });
+}
 function plink(name){
   if(!name) return '';
-  if(!playerStatsByName[name]) return escHtml(name);
-  return '<span class="link-player" data-player="'+escAttr(name)+'">'+escHtml(name)+'</span>';
+  var rec=playerStatsByName[name];
+  if(!rec) return escHtml(name);
+  var lt=(typeof espnToLocalTeam==='function')?espnToLocalTeam(rec.team):'';
+  var flag=lt?(fl(lt)||''):'';
+  return '<span class="link-player" data-player="'+escAttr(name)+'">'+(flag?flag+' ':'')+escHtml(name)+'</span>';
 }
 function openPlayerProfile(name){
   var p=playerStatsByName[name]; if(!p) return;
@@ -5265,6 +5283,7 @@ function openPlayerProfile(name){
     '<div style="font-weight:800;font-size:1rem;margin-bottom:2px">'+escHtml(name)+'</div>'+
     '<div style="font-size:.74rem;color:var(--mu2);margin-bottom:10px">'+(localTeam?'<span class="link-team" data-team="'+escAttr(localTeam)+'">'+teamLbl+'</span>':teamLbl)+(p.pos?' · '+escHtml(p.pos):'')+(p.subG?' · 🃏 '+p.subG+' gólů ze střídačky':'')+'</div>'+
     '<div class="fin-tiles">'+tiles+'</div><div class="fin-tiles">'+tiles2+'</div>'+
+    '<div style="font-size:.66rem;color:var(--mu2);margin:2px 0 6px">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+'</div>'+
     '<div style="font-size:.68rem;color:var(--mu);margin:8px 0 3px;font-weight:700">Góly a asistence v zápasech</div>'+matchList+
   '</div>';
   document.body.appendChild(overlay);
@@ -5663,13 +5682,13 @@ function msumEventsHtml(sum){
     var t=String(ev.type||'').toLowerCase(),icon,cls='',label='';
     if(ev.scoringPlay){
       icon=ev.ownGoal?'⚽':'⚽'; cls=' is-goal';
-      label='<b>'+escHtml(ev.players[0]||'')+'</b>';
+      label='<b>'+mkPl(ev.players[0])+'</b>';
       if(ev.ownGoal) label+=' <span style="color:var(--mu)">('+(LANG==='en'?'own goal':'vlastní')+')</span>';
       else if(ev.penalty) label+=' <span style="color:var(--mu)">(pen.)</span>';
-      else if(ev.players[1]) label+=' <span style="color:var(--mu)">('+escHtml(ev.players[1])+')</span>';
-    } else if(t.indexOf('yellow')>=0){ icon='🟨'; label=escHtml(ev.players[0]||''); }
-    else if(t.indexOf('red')>=0){ icon='🟥'; label='<b>'+escHtml(ev.players[0]||'')+'</b>'; }
-    else if(t.indexOf('substitution')>=0){ icon='🔄'; cls=' is-sub'; label=escHtml(ev.players[0]||'')+' ⇄ '+escHtml(ev.players[1]||''); }
+      else if(ev.players[1]) label+=' <span style="color:var(--mu)">('+mkPl(ev.players[1])+')</span>';
+    } else if(t.indexOf('yellow')>=0){ icon='🟨'; label=mkPl(ev.players[0]); }
+    else if(t.indexOf('red')>=0){ icon='🟥'; label='<b>'+mkPl(ev.players[0])+'</b>'; }
+    else if(t.indexOf('substitution')>=0){ icon='🔄'; cls=' is-sub'; label=mkPl(ev.players[0])+' ⇄ '+mkPl(ev.players[1]); }
     else return;
     var teamShort=ev.team?' <span style="color:var(--mu);font-size:.66rem">'+escHtml(ev.team)+'</span>':'';
     rows+='<div class="mcard-ev'+cls+'"><span class="mcard-ev-clock">'+escHtml(ev.clock||'')+'</span><span>'+icon+'</span><span>'+label+teamShort+'</span></div>';
@@ -5715,14 +5734,14 @@ function _luTok(p){
   if(p.r) b+='<span class="pl-b pl-b-card pl-b-r"></span>';
   else if(p.y) b+='<span class="pl-b pl-b-card pl-b-y"></span>';
   if(p.g) b+='<span class="pl-b pl-b-g">⚽'+(p.g>1?'<i>'+p.g+'</i>':'')+'</span>';
-  return '<div class="pl-tok"><span class="pl-numwrap"><span class="pl-num">'+escHtml(p.jersey||'')+'</span>'+b+'</span><span class="pl-nm">'+escHtml(_luShort(p.name))+'</span></div>';
+  return '<div class="pl-tok"><span class="pl-numwrap"><span class="pl-num">'+escHtml(p.jersey||'')+'</span>'+b+'</span><span class="pl-nm link-player" data-player="'+escAttr(p.name)+'">'+escHtml(_luShort(p.name))+'</span></div>';
 }
 function _luSubsHtml(hm,aw){
   function list(r){
     var ins=(r.subs||[]).filter(function(p){return p.subIn;});
     if(!ins.length) return '';
     var h='<div class="pl-subcol"><div class="pl-subteam">'+escHtml(r.team)+'</div>';
-    ins.forEach(function(p){ h+='<div class="pl-subp"><span class="pl-ic-in">▲</span><span class="pl-subnum">'+escHtml(p.jersey||'')+'</span><span class="pl-subnm">'+escHtml(_luShort(p.name))+'</span>'+_luIcons(p,true)+'</div>'; });
+    ins.forEach(function(p){ h+='<div class="pl-subp"><span class="pl-ic-in">▲</span><span class="pl-subnum">'+escHtml(p.jersey||'')+'</span><span class="pl-subnm link-player" data-player="'+escAttr(p.name)+'">'+escHtml(_luShort(p.name))+'</span>'+_luIcons(p,true)+'</div>'; });
     return h+'</div>';
   }
   var l1=list(hm),l2=list(aw);
@@ -5946,6 +5965,7 @@ function openMatchCard(zid){
   overlay.querySelector('.mcard-close').onclick=close;
   // v5.12.39: klik na tym v hlavicce karty -> profil tymu
   overlay.querySelectorAll('.mcard-team[data-team]').forEach(function(el){ el.onclick=function(){ close(); filterByTeam(el.dataset.team); }; });
+  overlay.addEventListener('click',function(e){ var pl=e.target.closest('.link-player'); if(pl&&pl.dataset.player){ e.stopPropagation(); openPlayerProfileLazy(pl.dataset.player); } });
   // self-heal: kdyz jsou tipy ostatnich neni nactene (prazdno), donacti a kartu obnov
   if(me&&myPin&&canSee&&!teamsUnknown&&!Object.keys(allTips).length){
     loadAllTips().then(function(){ if(overlay.parentNode&&Object.keys(allTips).length){ close(); openMatchCard(zid); } });
@@ -7867,7 +7887,7 @@ function finaleScorersHtml(){
 }
 function finaleGoalFactsHtml(){
   var zmap=_finZmap();
-  function ml(zid,txt){ var z=zmap[zid]; if(!z) return escHtml(txt||''); return '<span class="fin-mlink" data-mcard="'+zid+'">'+escHtml(txt||(tN(z[2])+' – '+tN(z[3])))+'</span>'; }
+  function ml(zid,txt){ var z=zmap[zid]; if(!z) return escHtml(txt||''); return '<span class="fin-mlink" data-mcard="'+zid+'">'+(txt?escHtml(txt):((fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')))+'</span>'; }
   var all=[]; Object.keys(goalMinsByZapas).forEach(function(zid){ goalMinsByZapas[zid].forEach(function(g){ all.push({zid:parseInt(zid,10),g:g}); }); });
   if(!all.length) return '';
   var fastest=null; all.forEach(function(x){ if(!x.g.own_goal && (!fastest || x.g.minute<fastest.g.minute)) fastest=x; });
@@ -8020,7 +8040,7 @@ function finaleTeamAggHtml(){
     var pp=parseFloat(String((o||{}).possessionPct||'').replace(',','.'));
     if(isFinite(pp)&&pp>0&&(!noBall||pp<noBall.pp)) noBall={zid:zid,pp:pp,team:side==='H'?z[2]:z[3]};
   });
-  function ml(zid){ var z=zmap[zid]; return '<span class="fin-mlink" data-mcard="'+zid+'">'+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+'</span>'; }
+  function ml(zid){ var z=zmap[zid]; return '<span class="fin-mlink" data-mcard="'+zid+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
   function fairLbl(n){ var a=agg[n]; return _finTeamLbl(n)+' <span style="color:var(--mu2)">(⌀ '+per(a,'cards').toFixed(1)+' karet, '+per(a,'fouls').toFixed(0)+' faulů/záp.)</span>'; }
   // v5.12.39: navstevy + rozhodci
   var attMax=null,attSum=0,attN=0,refCnt={};
@@ -8112,10 +8132,78 @@ function finaleTourGlobalHtml(){
     finalePlayerAggHtml()+
     finaleGoalFactsHtml()+
     lateHtml+
+    finaleStadiumHtml()+
     finaleTeamPowerHtml()+
     finaleTeamStatsHtml()+
     finaleTeamAggHtml()+
   '</div>';
+}
+// ===== ZALOZKA HRACI (v5.12.42) =====
+var hraciMode='g', hraciSearch='';
+function renderHraci(){
+  var ctrl=document.getElementById('hraci-controls'), listEl=document.getElementById('hraci-list');
+  if(!ctrl||!listEl) return;
+  var names=Object.keys(playerStatsByName);
+  if(!names.length){ listEl.innerHTML='<div class="empty">'+(LANG==='en'?'Player data not available yet.':'Hráčská data zatím nejsou k dispozici.')+'</div>'; return; }
+  var modes=[['g','⚽ '+(LANG==='en'?'Goals':'Góly')],['a','🅰️ '+(LANG==='en'?'Assists':'Asistence')],['kb','🍁 G+A'],['sh','🥅 '+(LANG==='en'?'Shots':'Střely')],['cards','🟨 '+(LANG==='en'?'Cards':'Karty')],['gk','🧤 '+(LANG==='en'?'Keepers':'Brankáři')]];
+  ctrl.innerHTML='<div class="tier3" style="margin-bottom:8px">'+modes.map(function(m){ return '<button class="fchip'+(hraciMode===m[0]?' on':'')+'" data-hmode="'+m[0]+'" type="button">'+m[1]+'</button>'; }).join('')+'</div>'+
+    '<input id="hraci-q" type="text" placeholder="'+(LANG==='en'?'Search player or team…':'Hledej hráče nebo tým…')+'" value="'+escAttr(hraciSearch)+'" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--bd2);border-radius:9px;color:var(--tx);padding:7px 11px;font-size:.8rem;margin-bottom:8px" autocomplete="off">';
+  var rows=names.map(function(n){ var q=playerStatsByName[n]; return {n:n,p:q,g:q.g,a:q.a,kb:q.g+q.a,sh:q.sh,cards:q.y+q.r,sv:q.sv}; });
+  var qs=hraciSearch.toLowerCase().trim();
+  if(qs){ rows=rows.filter(function(r){ var lt=(typeof espnToLocalTeam==='function')?espnToLocalTeam(r.p.team):''; return r.n.toLowerCase().indexOf(qs)>=0 || String(r.p.team).toLowerCase().indexOf(qs)>=0 || (lt&&tN(lt).toLowerCase().indexOf(qs)>=0); }); }
+  var isGkMode=hraciMode==='gk';
+  if(isGkMode) rows=rows.filter(function(r){ return r.p.pos==='G'; });
+  var key=isGkMode?'sv':hraciMode;
+  rows.sort(function(a,b){ return (b[key]-a[key])||(b.kb-a.kb)||(a.n<b.n?-1:1); });
+  rows=rows.filter(function(r){ return r[key]>0 || qs; }).slice(0,40);
+  function teamCell(p){ var lt=(typeof espnToLocalTeam==='function')?espnToLocalTeam(p.team):''; if(!lt) return escHtml(p.team); return '<span class="link-team" data-team="'+escAttr(lt)+'">'+(fl(lt)?fl(lt)+' ':'')+escHtml(tN(lt))+'</span>'; }
+  var head=isGkMode
+    ? '<th style="text-align:right">'+(LANG==='en'?'Saves':'Zákroky')+'</th><th style="text-align:right">'+(LANG==='en'?'Conceded':'Obdrž.')+'</th><th style="text-align:right">'+(LANG==='en'?'Clean sheets':'Čistá konta')+'</th>'
+    : '<th style="text-align:right">⚽</th><th style="text-align:right">🅰️</th><th style="text-align:right">🥅</th><th style="text-align:right">🟨/🟥</th>';
+  var body=rows.map(function(r,i){
+    var cells=isGkMode
+      ? '<td style="text-align:right;font-weight:700">'+r.p.sv+'</td><td style="text-align:right">'+r.p.gc+'</td><td style="text-align:right">'+r.p.cs+'</td>'
+      : '<td style="text-align:right;font-weight:'+(hraciMode==='g'?'700':'400')+'">'+r.g+'</td><td style="text-align:right;font-weight:'+(hraciMode==='a'?'700':'400')+'">'+r.a+'</td><td style="text-align:right">'+r.sh+'</td><td style="text-align:right">'+r.p.y+'/'+r.p.r+'</td>';
+    return '<tr><td style="color:var(--mu2)">'+(i+1)+'.</td><td><span class="link-player" data-player="'+escAttr(r.n)+'">'+escHtml(r.n)+'</span></td><td>'+teamCell(r.p)+'</td>'+cells+'<td style="text-align:right;color:var(--mu2)">'+r.p.apps+'</td></tr>';
+  }).join('');
+  listEl.innerHTML=(rows.length?('<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th></th><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+(LANG==='en'?'Team':'Tým')+'</th>'+head+'<th style="text-align:right">'+(LANG==='en'?'Apps':'Záp.')+'</th></tr></thead><tbody>'+body+'</tbody></table></div>'):'<div class="empty">'+(LANG==='en'?'No players found.':'Nikdo nenalezen.')+'</div>')+
+    '<div style="font-size:.62rem;color:var(--mu2);margin-top:7px">'+(LANG==='en'?'Click a player for their profile, a team for its page. Stats from played matches.':'Klikni na hráče pro jeho profil, na tým pro jeho stránku. Statistiky z odehraných zápasů.')+'</div>';
+  var page=document.getElementById('page-hraci');
+  if(page&&!page.__bound){ page.__bound=true;
+    page.addEventListener('click',function(e){
+      var ch=e.target.closest('[data-hmode]'); if(ch){ hraciMode=ch.dataset.hmode; renderHraci(); return; }
+      var pl=e.target.closest('.link-player'); if(pl&&pl.dataset.player){ openPlayerProfile(pl.dataset.player); return; }
+      var tm=e.target.closest('.link-team'); if(tm&&tm.dataset.team){ filterByTeam(tm.dataset.team); }
+    });
+    page.addEventListener('input',function(e){ if(e.target&&e.target.id==='hraci-q'){ hraciSearch=e.target.value; var el2=document.getElementById('hraci-list'); var pos=e.target.selectionStart; renderHraci(); var q=document.getElementById('hraci-q'); if(q){ q.focus(); try{q.setSelectionRange(pos,pos);}catch(_e){} } } });
+  }
+}
+// ===== STADIONOVE STATS V ZAKONCENI (v5.12.42) =====
+function finaleStadiumHtml(){
+  var zmap=_finZmap(), agg={}, capMap={};
+  try{ STAD.forEach(function(r){ capMap[r[0]]=parseInt(String(r[3]).replace(/\s/g,''),10)||0; }); }catch(_e){}
+  Object.keys(matchStatsByZapas).forEach(function(zidS){
+    var zid=parseInt(zidS,10), z=zmap[zid], ms=matchStatsByZapas[zid]; if(!z||!z[9]) return;
+    var st=venueToStadiumName(z[9]); if(!st) return;
+    var a=agg[st]=agg[st]||{att:0,attN:0,max:0,g:0,gN:0,sold:0};
+    if(ms.att){ a.att+=ms.att; a.attN++; if(ms.att>a.max)a.max=ms.att; var cap=capMap[st]||0; if(cap&&ms.att>=cap-150) a.sold++; }
+    var res=results[zid]; if(res&&/^\d+:\d+$/.test(String(res))){ var sp=String(res).split(':'); a.g+=(+sp[0])+(+sp[1]); a.gN++; }
+  });
+  var names=Object.keys(agg); if(!names.length) return '';
+  var totAtt=0,totN=0,totSold=0; names.forEach(function(n){ totAtt+=agg[n].att; totN+=agg[n].attN; totSold+=agg[n].sold; });
+  function slink(n){ return '<a href="#" class="link-venue" onclick="goStadiony(\''+escAttr(n)+'\');return false;">'+escHtml(n)+'</a>'; }
+  var byAvg=names.filter(function(n){return agg[n].attN>=3;}).sort(function(a,b){return (agg[b].att/agg[b].attN)-(agg[a].att/agg[a].attN);});
+  var topAvg=byAvg.slice(0,3).map(function(n,i){ return (i===0?'🥇 ':'')+slink(n)+' <span style="color:var(--mu2)">(⌀ '+Math.round(agg[n].att/agg[n].attN).toLocaleString('cs-CZ')+')</span>'; }).join(', ');
+  var byGoals=names.filter(function(n){return agg[n].gN>=4;}).sort(function(a,b){return (agg[b].g/agg[b].gN)-(agg[a].g/agg[a].gN);});
+  var topG=byGoals.length?slink(byGoals[0])+' <span style="color:var(--mu2)">(⌀ '+(agg[byGoals[0]].g/agg[byGoals[0]].gN).toFixed(1)+' gólů/zápas)</span>':'—';
+  var lowG=byGoals.length?slink(byGoals[byGoals.length-1])+' <span style="color:var(--mu2)">(⌀ '+(agg[byGoals[byGoals.length-1]].g/agg[byGoals[byGoals.length-1]].gN).toFixed(1)+')</span>':'—';
+  return '<div class="fin-sec"><h4>🏟️ Stadionové zajímavosti</h4><div class="fin-drows">'+
+    '<div><span>👥 Celková návštěvnost</span><b>'+totAtt.toLocaleString('cs-CZ')+' diváků ('+totN+' záp., ⌀ '+(totN?Math.round(totAtt/totN).toLocaleString('cs-CZ'):0)+')</b></div>'+
+    '<div><span>🎫 Vyprodané zápasy</span><b>'+totSold+' z '+totN+'</b></div>'+
+    '<div><span>🏟️ Nejvyšší ⌀ návštěva</span><b>'+topAvg+'</b></div>'+
+    '<div><span>⚽ Nejgólovější stadion</span><b>'+topG+'</b></div>'+
+    '<div><span>🥶 Nejchudší na góly</span><b>'+lowG+'</b></div>'+
+  '</div></div>';
 }
 // Horizontalni posun kontejneru na desktopu: kolecko mysi -> vodorovne + drag; grab kurzor kdyz je co posouvat.
 function enableHDrag(el){
