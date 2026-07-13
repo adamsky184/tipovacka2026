@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.41 - 13. 7. 2026
+
+Zakončení — ceny za remízy rozděleny: **🤝 Remízový král** = nejvíc trefených remíz; **❤️ Milovník remíz** = nejvyšší podíl remízových tipů (styl, min. 30 hodnocených).
+
 ## v5.12.40 - 13. 7. 2026
 
 **Hráčské profily + hráčské zajímavosti.**
