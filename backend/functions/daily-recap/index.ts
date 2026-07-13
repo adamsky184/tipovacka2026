@@ -31,6 +31,7 @@ Deno.serve(async (req) => {
 
     const { data: metaAll } = await sb.from("zapasy_meta").select("zapas_id,kickoff");
     const yZids = new Set((metaAll || []).filter((m) => m.kickoff >= since && m.kickoff <= nowIso).map((m) => m.zapas_id));
+    // i ve volny den posilame "updates" (poradi, skokani) - jen bez vysledku
 
     const { data: vysAll } = await sb.from("vysledky").select("zapas_id,skore,postupujici");
     const playedAll = (vysAll || []).filter((v) => /^\d+:\d+$/.test(String(v.skore)));

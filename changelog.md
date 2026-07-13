@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.50 - 13. 7. 2026
+
+Tipovačka bot (Diskuze):
+- Bez výplně „Včera se nehrálo" — když se nehrálo, karta ukáže jen updates (pořadí, skokan/propad, dnešní program).
+- **Admin může souhrn smazat** (× v hlavičce karty; zmizí všem, další ráno se vygeneruje nový). RPC whitelist rozšířen o klíč `daily_recap`.
+
 ## v5.12.49 - 13. 7. 2026
 
 - **Menu na desktopu** se roztáhne přes celou šířku obsahu (položky rovnoměrně).
