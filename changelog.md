@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.45 - 13. 7. 2026
+
+Feedback batch:
+- **Menu**: ikonky u všech položek (⚽ 👀 🏅 🏆 👥 💬 🛠️).
+- **Submenu (huby)**: opraveno odsazení a přesah — sub-záložky nově navazují na menu v jednom spojeném boxu (desktop i mobil).
+- **Infoboxy**: všechny ⓘ boxy jdou skrýt křížkem (po reloadu se zase objeví).
+- **Zápasy**: ikonka výkonu (🔥/🟢/🔴) + body se nově zobrazují i adminovi u odehraných zápasů (vč. bonusu za postup), decentně pod tipem.
+- **Denní recap přepracován dle vzoru**: odesílatel 🤖 Tipovačka bot, vlajky a české názvy týmů, poznámka „na penalty / v prodloužení postoupil X", tipéři dne, **📊 aktuální pořadí (top 3)**, **📈 skokan / 📉 propad dne**, „Dnes se hraje" v patičce. Čas změněn na **07:00 ČR** (05:00 UTC).
+- Oprava: recap počítal pořadí jen z prvních 1000 tipů (PostgREST limit) — nyní stránkuje se stabilním řazením; ověřeno proti DB (320/290/270 přesně sedí).
+
 ## v5.12.44 - 13. 7. 2026
 
 **📰 Denní recap v Diskuzi.** Každé ráno v 9:00 se nahoře v Diskuzi objeví automatický souhrn včerejška: výsledky (s prokliky na karty zápasů) + 🏅 tipéři dne (nejvíc bodů za včerejší zápasy). Nová edge fce `daily-recap` + denní cron; žádný zásah do účtů ani příspěvků (karta je mimo vlákno diskuze).

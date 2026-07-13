@@ -95,6 +95,7 @@ body.theme-light .venue{color:#5f7690}
 .btn-sm{padding:4px 10px;font-size:.75rem}
 .btn:disabled{opacity:.45;cursor:default}
 .nav{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:.85rem;display:flex;gap:2px;flex-wrap:wrap;overflow:visible}
+.nav.has-sub{border-radius:12px 12px 0 0;margin-bottom:0;border-bottom:none}
 .nb{padding:6px 12px;border-radius:9px;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--mu);background:none;border:none;white-space:nowrap;transition:.15s;font-family:'Space Grotesk',sans-serif;position:relative}
 .nb:hover{color:var(--tx)}
 /* C2: modernější active tab indicator - tenká čára dole místo plně vyplněného tlačítka */
@@ -177,7 +178,7 @@ body.theme-light .venue{color:#5f7690}
 .gtl-lbl{font-size:.52rem;color:var(--mu2);line-height:1.1}
 .gtl-cap{font-size:.55rem;color:var(--mu2);text-align:center;margin-top:3px}
 .daily-fact{margin-top:8px;padding:7px 10px;background:var(--bg3);border:1px solid var(--bd);border-radius:9px;font-size:.7rem;color:var(--tx);line-height:1.5}
-.subnav{display:flex;gap:5px;flex-wrap:wrap;padding:6px 2px 0}
+.subnav{display:flex;gap:6px;flex-wrap:wrap;padding:8px 6px;margin:0 0 14px;background:var(--bg2);border:1px solid var(--bd);border-top:none;border-radius:0 0 12px 12px}
 .nb-sub{padding:5px 12px;border-radius:18px;font-size:.72rem;font-weight:600;background:var(--bg3);color:var(--mu2);border:1px solid var(--bd);cursor:pointer;transition:.15s;font-family:'Space Grotesk',sans-serif}
 .nb-sub.on{background:rgba(59,130,246,.16);border-color:var(--ac);color:var(--ac2)}
 .nb-sub:hover{border-color:var(--bd2)}
@@ -476,6 +477,8 @@ body.theme-light .admin-stale-warn{color:#b91c1c}
 @keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .skeleton-row{height:54px;margin-bottom:6px}
 .skeleton-stack{padding:.5rem 0}
+.ibox-x{position:absolute;top:4px;right:6px;background:transparent;border:none;color:var(--mu2);font-size:1.05rem;line-height:1;cursor:pointer;padding:2px 5px;border-radius:6px}
+.ibox-x:hover{color:var(--tx);background:rgba(255,255,255,.06)}
 .ibox{position:relative;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:9px;padding:.7rem .95rem .7rem 2.15rem;margin-bottom:.75rem;font-size:.79rem;color:#93c5fd;line-height:1.55}
 .ibox::before{content:'i';position:absolute;left:.78rem;top:.78rem;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(148,163,184,.35);color:var(--mu2);font-size:.56rem;font-weight:700}
 body.theme-light .ibox{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.28);color:#1e40af}
@@ -2288,13 +2291,13 @@ body.admin-user #btn-logout{padding:0 10px}
 
     <nav class="nav" id="mainnav">
       <button class="nb on" id="tab-tipy">⚽ Zápasy</button>
-      <button class="nb" id="tab-ostatni">Tipy ostatních</button>
-      <button class="nb" id="tab-zebricek">Žebříček</button>
+      <button class="nb" id="tab-ostatni">👀 Tipy ostatních</button>
+      <button class="nb" id="tab-zebricek">🏅 Žebříček</button>
       <button class="nb" id="tab-hub-turnaj">🏆 Turnaj</button>
-      <button class="nb" id="tab-hub-tymy">Týmy &amp; hráči</button>
-      <button class="nb" id="tab-diskuze">Diskuze</button>
+      <button class="nb" id="tab-hub-tymy">👥 Týmy &amp; hráči</button>
+      <button class="nb" id="tab-diskuze">💬 Diskuze</button>
       <button class="nb" id="tab-finale" style="display:none">🏆 Zakončení</button>
-      <button class="nb" id="tab-admin" style="display:none">Admin</button>
+      <button class="nb" id="tab-admin" style="display:none">🛠️ Admin</button>
     </nav>
     <div class="subnav" id="subnav" style="display:none"></div>
 
@@ -2630,7 +2633,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.44';
+var APP_VERSION='v5.12.45';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -2713,9 +2716,9 @@ var T={
     exp:'↓ Export CSV',save:'Uložit tipy',name:'JMÉNO',pin:'PIN',pin_min:'PIN (min. 4 znaky)',
     pin_c:'POTVRD PIN',lo_sub:'USA · Kanada · Mexiko · 11.6.–19.7.2026',
     lo_meta:'PIN slouží k přihlášení i potvrzení uložení tipů.',
-    tab_tipy:'⚽ Zápasy',tab_ostatni:'Tipy ostatních',tab_zebricek:'Žebříček',
+    tab_tipy:'⚽ Zápasy',tab_ostatni:'👀 Tipy ostatních',tab_zebricek:'🏅 Žebříček',
     tab_vysledky:'Výsledky',tab_tabulka:'Tabulka',tab_pavouk:'Play-off',
-    tab_stadiony:'Stadiony',tab_historie:'Historie',tab_tymy:'Týmy',tab_diskuze:'Diskuze',tab_pravidla:'Pravidla',
+    tab_stadiony:'Stadiony',tab_historie:'Historie',tab_tymy:'Týmy',tab_diskuze:'💬 Diskuze',tab_pravidla:'Pravidla',
     by_groups:'Řadit dle skupin',by_date:'Řadit dle data',playoff:'Play-off',overall:'Celkový',
     groups:'Skupiny',third:'Tabulka 3. míst',by_group:'Řadit dle skupin',by_alpha:'Řadit abecedně',ranking:'Žebříček FIFA',history_table:'Historická tabulka',history_title:'Historie mistrovství světa',history_finals:'Finále',history_medals:'Medaile',history_awards:'Ocenění',history_records:'Rekordy',history_scorers:'Střelci',history_facts:'Zajímavosti',
     ibox_tipy:'Tipy lze zadat jen před zahájením zápasu. Po uložení jsou trvale zamčeny a nelze je již měnit!',
@@ -2833,9 +2836,9 @@ var T={
     exp:'↓ Export CSV',save:'Save Tips',name:'NAME',pin:'PIN',pin_min:'PIN (min. 4 chars)',
     pin_c:'CONFIRM PIN',lo_sub:'USA · Canada · Mexico · 11 Jun - 19 Jul 2026',
     lo_meta:'Your PIN is used for login and saving tips.',
-    tab_tipy:'⚽ Matches',tab_ostatni:"Others' Tips",tab_zebricek:'Leaderboard',
+    tab_tipy:'⚽ Matches',tab_ostatni:"👀 Others' Tips",tab_zebricek:'🏅 Leaderboard',
     tab_vysledky:'Results',tab_tabulka:'Table',tab_pavouk:'Playoff',
-    tab_stadiony:'Stadiums',tab_historie:'History',tab_tymy:'Teams',tab_diskuze:'Discussion',tab_pravidla:'Rules',
+    tab_stadiony:'Stadiums',tab_historie:'History',tab_tymy:'Teams',tab_diskuze:'💬 Discussion',tab_pravidla:'Rules',
     by_groups:'By Group',by_date:'By Date',playoff:'Playoff',overall:'Overall',
     groups:'Groups',third:'3rd Place Table',by_group:'By Group',by_alpha:'Alphabetical',ranking:'FIFA Ranking',history_table:'History Table',history_title:'World Cup history',history_finals:'Finals',history_medals:'Medals',history_awards:'Awards',history_records:'Records',history_scorers:'Scorers',history_facts:'Interesting facts',
     ibox_tipy:'Tips can only be entered before kickoff. Once saved they are permanently locked and cannot be changed anymore.',
@@ -4592,14 +4595,47 @@ function loadDailyRecap(){
 function dailyRecapCardHtml(){
   if(!dailyRecapData||!dailyRecapData.detail) return '';
   var det=dailyRecapData.detail;
-  if((!det.lines||!det.lines.length)&&(!det.top||!det.top.length)) return '';
-  var lines=(det.lines||[]).map(function(l){ return '<div style="font-size:.74rem;line-height:1.7"><span class="fin-mlink" data-mcard="'+parseInt(l.zid,10)+'">'+escHtml(l.txt)+'</span></div>'; }).join('');
+  var hasContent=(det.lines&&det.lines.length)||(det.standings&&det.standings.length);
+  if(!hasContent) return '';
+  var zmap={}; SZ.concat(PZ).forEach(function(z){ zmap[z[0]]=z; });
+  function dParts(iso){ var p=String(iso||'').split('-'); return p.length===3?((+p[2])+'. '+(+p[1])+'. '+p[0]):iso; }
+  // vysledky s vlajkami + poznamka o postupu
+  var lines=(det.lines||[]).map(function(l){
+    var zid=parseInt(l.zid,10), z=zmap[zid]; if(!z) return '';
+    var sk=l.skore||l.txt||'';
+    var note='';
+    if(l.postupujici){
+      var team=l.postupujici==='H'?tN(z[2]):tN(z[3]);
+      note=' <span style="color:var(--mu2);font-size:.66rem">('+(l.et?'v prodloužení postoupil':'na penalty postoupil')+' '+escHtml(team)+')</span>';
+    }
+    return '<div style="font-size:.76rem;line-height:1.8"><span class="fin-mlink" data-mcard="'+zid+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(sk)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'+note+'</div>';
+  }).join('');
   var meds=['🥇','🥈','🥉'];
-  var top=(det.top||[]).map(function(t,i){ return meds[i]+' '+escHtml(t.jmeno)+' <span style="color:var(--mu2)">(+'+t.p+' b'+(t.exact?', '+t.exact+'× přesně':'')+')</span>'; }).join(' · ');
-  return '<div class="card daily-recap-card" id="daily-recap-card" style="margin-bottom:.7rem;padding:.8rem .95rem">'+
-    '<div style="font-weight:800;font-size:.8rem;margin-bottom:5px">📰 Včerejší den v tipovačce <span style="color:var(--mu2);font-weight:400;font-size:.64rem">('+escHtml(det.date||'')+' · automatický souhrn)</span></div>'+
-    (lines?lines:'<div style="font-size:.72rem;color:var(--mu)">Včera se nehrálo.</div>')+
-    (top?'<div style="font-size:.72rem;margin-top:6px">🏅 Tipéři dne: '+top+'</div>':'')+
+  var top=(det.top||[]).map(function(t,i2){ return meds[i2]+' '+escHtml(t.jmeno)+' <span style="color:var(--mu2)">(+'+t.p+' b'+(t.exact?', '+t.exact+'× přesně':'')+')</span>'; }).join(' · ');
+  var stand=(det.standings||[]).map(function(t,i2){ return meds[i2]+' '+escHtml(t.jmeno)+' <b>'+t.total+' b</b>'; }).join(' · ');
+  var movers='';
+  if(det.up||det.down){
+    movers='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">'+
+      (det.up?'<div style="flex:1;min-width:150px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:8px;padding:6px 10px"><div style="font-size:.62rem;color:var(--gn2);font-weight:700">📈 Skokan dne</div><div style="font-size:.74rem;color:var(--gn2)">'+escHtml(det.up.jmeno)+' · '+det.up.from+'. → '+det.up.to+'. místo</div></div>':'')+
+      (det.down?'<div style="flex:1;min-width:150px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);border-radius:8px;padding:6px 10px"><div style="font-size:.62rem;color:#f87171;font-weight:700">📉 Propad dne</div><div style="font-size:.74rem;color:#f87171">'+escHtml(det.down.jmeno)+' · '+det.down.from+'. → '+det.down.to+'. místo</div></div>':'')+
+    '</div>';
+  }
+  // dnes se hraje (klientsky)
+  var now=new Date();
+  var today=SZ.concat(PZ).filter(function(z){ return sameCalDay(mDate(z),now); }).sort(function(a,b){return mDate(a)-mDate(b);}).slice(0,3);
+  var todayHtml=today.length?('<div style="font-size:.64rem;color:var(--mu2);margin-top:8px;border-top:1px solid var(--bd);padding-top:6px">Dnes se hraje: '+today.map(function(z){ var d2=mDate(z); var hh=('0'+d2.getHours()).slice(-2)+':'+('0'+d2.getMinutes()).slice(-2); return (fl(z[2])||'')+' '+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+' ('+hh+')'; }).join(' · ')+'</div>'):'';
+  function secLbl(t){ return '<div style="font-size:.66rem;font-weight:700;color:var(--mu2);margin:8px 0 3px">'+t+'</div>'; }
+  return '<div class="card daily-recap-card" id="daily-recap-card" style="margin-bottom:.7rem;padding:.85rem 1rem">'+
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">'+
+      '<div style="width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🤖</div>'+
+      '<div><div style="font-weight:800;font-size:.8rem">Tipovačka bot</div>'+
+      '<div style="font-size:.62rem;color:var(--mu2)">📰 Ranní souhrn · '+escHtml(dParts(det.date))+' · 07:00</div></div>'+
+    '</div>'+
+    (lines?(secLbl('⚽ Včerejší výsledky')+lines):'<div style="font-size:.72rem;color:var(--mu)">Včera se nehrálo.</div>')+
+    (top?(secLbl('🏅 Tipéři dne')+'<div style="font-size:.76rem">'+top+'</div>'):'')+
+    (stand?(secLbl('📊 Aktuální pořadí')+'<div style="font-size:.76rem">'+stand+'</div>'):'')+
+    movers+
+    todayHtml+
   '</div>';
 }
 function renderDiscussion(){
@@ -5015,7 +5051,7 @@ function applyI18n(){
   setText('tab-tipy',tr('tab_tipy'));setText('tab-ostatni',tr('tab_ostatni'));
   setText('tab-zebricek',tr('tab_zebricek'));setText('tab-vysledky',tr('tab_vysledky'));
   setText('tab-tabulka',tr('tab_tabulka'));setText('tab-pavouk',tr('tab_pavouk'));
-  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-historie',tr('tab_historie'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));setText('tab-hraci',LANG==='en'?'Players':'Hráči');setText('tab-hub-turnaj',LANG==='en'?'🏆 Tournament':'🏆 Turnaj');setText('tab-hub-tymy',LANG==='en'?'Teams & players':'Týmy & hráči');
+  setText('tab-stadiony',tr('tab_stadiony'));setText('tab-historie',tr('tab_historie'));setText('tab-tymy',tr('tab_tymy'));setText('tab-diskuze',tr('tab_diskuze'));setText('tab-hraci',LANG==='en'?'Players':'Hráči');setText('tab-hub-turnaj',LANG==='en'?'🏆 Tournament':'🏆 Turnaj');setText('tab-hub-tymy',LANG==='en'?'👥 Teams & players':'👥 Týmy & hráči');
 
   setText('ptab-tipy-dt',LANG==='en'?'Sort by date':'Řadit dle data');
   setText('ptab-tipy-sk',LANG==='en'?'Sort by group':'Řadit dle skupin');
@@ -5136,10 +5172,21 @@ function updateHubNav(name){
   var sn=document.getElementById('subnav'); if(!sn) return;
   var hub=hubOf(name);
   Object.keys(HUBS).forEach(function(h){ var b=document.getElementById(h); if(b) b.classList.toggle('on',h===hub); });
+  var mn=document.getElementById('mainnav');
+  if(mn) mn.classList.toggle('has-sub',!!hub);
   if(!hub){ sn.style.display='none'; sn.innerHTML=''; return; }
   sn.innerHTML=HUBS[hub].items.map(function(it){ return '<button class="nb-sub'+(it[0]===name?' on':'')+'" data-sub="'+it[0]+'" type="button">'+it[1]+'</button>'; }).join('');
   sn.style.display='flex';
   sn.querySelectorAll('[data-sub]').forEach(function(b){ b.onclick=function(){ showTab(b.dataset.sub); }; });
+}
+function enhanceIboxes(){
+  document.querySelectorAll('.ibox:not(.ibox-dism)').forEach(function(b){
+    b.classList.add('ibox-dism');
+    var x=document.createElement('button'); x.className='ibox-x'; x.type='button'; x.innerHTML='×';
+    x.title=(LANG==='en'?'Hide':'Skrýt'); x.setAttribute('aria-label',x.title);
+    x.onclick=function(ev){ ev.stopPropagation(); b.style.display='none'; };
+    b.appendChild(x);
+  });
 }
 function showTab(name){
   if(name==='vysledky') name='tipy'; // v5.12.43: Vysledky slouceny do Zapasu
@@ -5162,6 +5209,7 @@ function showTab(name){
   if(name==='tymy'&&!Object.keys(playerStatsByName).length){ loadPlayerStats().then(function(){ try{ if(document.getElementById('page-tymy').style.display!=='none') renderTymy(); }catch(_e){} }); }
   if(name==='hraci'){ var he=document.getElementById('hraci-list'); if(he&&!Object.keys(playerStatsByName).length) he.innerHTML='<div class="empty">Načítám…</div>'; (Object.keys(playerStatsByName).length?Promise.resolve():loadPlayerStats()).then(renderHraci); }
   if(name==='pravidla') renderRules();
+  setTimeout(enhanceIboxes,60);
   requestAnimationFrame(syncOstScrollUX);
   requestAnimationFrame(function(){ animatePageEnter(name); });
 }
@@ -7130,6 +7178,13 @@ function renderMatchRow(z,isAdmin,hasGT){
       '<input class="tia'+(!locked&&svCls?' '+svCls:'')+'" id="tia'+id+'" value="'+escAttr(av)+'" placeholder="0" maxlength="2" pattern="[0-9]*"'+dis+' inputmode="numeric" autocomplete="off">'+
       aiBtn+
     '</div>';
+    // v5.12.45: u odehranych zapasu ikonka vykonu + body (i pro admina, ktery ma inputy)
+    if(locked&&tip&&res&&pts!==null){
+      var clsL=getPtsClass(pts);
+      var mmL=pts===10?'🔥 ':(pts>0?'<span class="vys-tip-dot ok mt-dot"></span>':'<span class="vys-tip-dot bad mt-dot"></span>');
+      var advL=(id>=73&&res)?calcAdvBonus(id,tip,(myTipsPostup&&myTipsPostup[id])||''):0;
+      tipHtml+='<div class="pt '+clsL+'">'+mmL+(pts+advL)+'b</div>';
+    }
     // v5.12.0: u play-off remizoveho tipu vyber postupujiciho (+3 b)
     if(id>=73 && !locked){
       var savedAdv=myTipsPostup[id]||'';
