@@ -2636,7 +2636,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.46';
+var APP_VERSION='v5.12.47';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3983,6 +3983,9 @@ function rpc(fn,p){
     });
   });
 }
+function withTimeout(promise,ms,label){
+  return Promise.race([promise,new Promise(function(_,rej){setTimeout(function(){rej(new Error((label||'Požadavek')+': časový limit vypršel'));},ms);})]);
+}
 async function rpcWithRetry(fn,p){
   try{
     return await rpc(fn,p);
@@ -3994,7 +3997,7 @@ async function rpcWithRetry(fn,p){
 }
 function authErrMsg(e){
   var msg=(e&&e.message)?String(e.message):'';
-  if(/Failed to fetch|NetworkError|Load failed|Casovy limit|Timeout|fetch/i.test(msg)) return tr('conn_failed');
+  if(/Failed to fetch|NetworkError|Load failed|Casovy limit|časový limit|Timeout|fetch/i.test(msg)) return tr('conn_failed');
   return tr('auth_failed')+': '+msg;
 }
 function isSha256Hex(v){
@@ -4836,12 +4839,12 @@ function doLogin(){
   authBusy=true;
   document.getElementById('blo').disabled=true;
   setText('le',tr('loading_login'));
-  sha256Hex(p).then(function(pinHash){
-    return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
+  withTimeout(sha256Hex(p).then(function(pinHash){
+    return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p});
+  }),12000,'Přihlášení').then(function(d){
       if(d&&d.chyba){setText('le',d.chyba);return;}
       myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
       finishLogin(d);
-    });
   }).catch(function(e){
     setText('le',authErrMsg(e));
   }).finally(function(){
@@ -4858,12 +4861,12 @@ function doReg(){
   authBusy=true;
   document.getElementById('brg').disabled=true;
   setText('re',tr('loading_register'));
-  sha256Hex(p).then(function(pinHash){
-    return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p}).then(function(d){
+  withTimeout(sha256Hex(p).then(function(pinHash){
+    return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p});
+  }),12000,'Registrace').then(function(d){
       if(d&&d.chyba){setText('re',d.chyba);return;}
       myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
       finishLogin(d);
-    });
   }).catch(function(e){
     setText('re',authErrMsg(e));
   }).finally(function(){
