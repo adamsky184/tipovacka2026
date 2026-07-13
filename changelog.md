@@ -2,6 +2,15 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.40 - 13. 7. 2026
+
+**Hráčské profily + hráčské zajímavosti.**
+- Nová tabulka `player_match_stats` (3 158 řádků, 100 zápasů, jen additivní) — per-zápas staty všech nastoupivších hráčů z ESPN soupisek. Ověřeno křížem: góly 278=278, asistence 211=211 vs. minuty gólů.
+- **Profil hráče**: klik na jméno hráče (střelci, asistence, hattricky, penalty, vlastňáky, hráčské zajímavosti) otevře kartu — zápasy/góly/asistence/střely/karty/fauly (brankář: zákroky, obdržené, čistá konta) + seznam zápasů s G/A s proklikem; klik na tým otevře profil týmu.
+- **🧑 Hráčské zajímavosti** (Turnaj): nejvíc karet, brankář turnaje, nejvíc čistých kont, žolík ze střídačky (54 gólů po střídání!), nejefektivnější střelec, nejvíc střel bez gólu, nejfaulovanější hráč, největší faulista.
+- Texty: odstraněny popisky „(ESPN)" ze Zakončení; cena „Sázka na jistotu" přejmenována na **🤝 Remízový král** (= kdo tipoval nejvyšší podíl remíz).
+- Admin „Načíst chybějící" doplňuje minuty gólů, týmové i hráčské staty naráz.
+
 ## v5.12.39 - 13. 7. 2026
 
 **Asistence + návštěvy + prokliky na týmy všude.**
