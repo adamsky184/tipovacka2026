@@ -179,6 +179,9 @@ body.theme-light .venue{color:#5f7690}
 .gtl-g.og{filter:grayscale(.6);opacity:.8}
 .gtl-lbl{font-size:.52rem;color:var(--mu2);line-height:1.1}
 .gtl-cap{font-size:.55rem;color:var(--mu2);text-align:center;margin-top:3px}
+.gtl-g.lvl2{bottom:26px}
+.gtl-side.gtl-away .gtl-g.lvl2{bottom:auto;top:26px}
+.gtl.tall .gtl-side{height:56px}
 .daily-fact{margin-top:8px;padding:7px 10px;background:var(--bg3);border:1px solid var(--bd);border-radius:9px;font-size:.7rem;color:var(--tx);line-height:1.5}
 .subnav{display:flex;gap:7px;flex-wrap:wrap;padding:10px 8px;margin:0 0 14px;background:var(--bg2);border:1px solid var(--bd);border-top:none;border-radius:0 0 12px 12px;box-shadow:inset 0 1px 0 var(--bd)}
 .nb-sub{padding:7px 15px;border-radius:10px;font-size:.78rem;font-weight:700;background:var(--bg3);color:var(--mu2);border:1px solid var(--bd2);cursor:pointer;transition:.15s;font-family:'Space Grotesk',sans-serif}
@@ -924,6 +927,14 @@ body.theme-light .ost-scroll-floating{background:color-mix(in srgb,#ffffff 94%, 
 .tier2{display:flex;gap:4px;flex-wrap:wrap}.sort-chip{padding:4px 11px;border-radius:8px;font-size:.73rem;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
 .sort-chip:hover{border-color:var(--bd2);color:var(--mu2)}.sort-chip.on{background:rgba(59,130,246,.1);color:var(--ac2);border-color:rgba(59,130,246,.28)}
 .tier3{display:flex;gap:3px;flex-wrap:wrap}.fchip{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:600;cursor:pointer;background:transparent;color:var(--mu);border:1px solid var(--bd);transition:.15s;font-family:'Space Grotesk',sans-serif}
+/* v5.12.48: filtry a submenu na plnou sirku (kompaktni UI) */
+#tipy-sort-row .sort-chip,#ost-sort-row .sort-chip{flex:1;text-align:center}
+#tipy-qf{width:100%}
+#tipy-qf .fchip{flex:1 1 0;text-align:center;padding:4px 3px;min-width:0;white-space:nowrap}
+.subnav{flex-wrap:nowrap}
+.nb-sub{flex:1;text-align:center;padding:7px 4px;min-width:0;white-space:nowrap}
+@media(max-width:600px){.nb-sub{font-size:.64rem;padding:7px 2px}#tipy-qf .fchip{font-size:.6rem;padding:4px 1px}}
+
 .fchip:hover{border-color:var(--bd2);color:var(--mu2)}.fchip.on{background:rgba(59,130,246,.1);color:var(--ac2);border-color:rgba(59,130,246,.28)}
 .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:.6rem}
 .mini-card{background:var(--bg3);border:1px solid var(--bd);border-radius:9px;padding:.55rem .7rem}
@@ -2384,7 +2395,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="extra-status" id="extra-status-note"></div>
       </div>
 
-      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-live" style="display:none">🔴 ŽIVĚ</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button><button class="fchip" id="qf-exact">🔥 Přesné</button><button class="fchip" id="qf-scored">✅ Bodované</button><button class="fchip" id="qf-miss">🔴 Mimo</button></div></div>
+      <div class="tier-filters" id="tipy-filters"><div class="tier1"><button class="phase-tab on" id="ptab-phase-sk">Skupinová část</button><button class="phase-tab" id="ptab-phase-po">Play-off</button><button class="phase-tab" id="ptab-phase-ex" style="display:none">Celkový vítěz</button></div><div class="tier2" id="tipy-sort-row"><button class="sort-chip on" id="ptab-tipy-dt">Řadit dle data</button><button class="sort-chip" id="ptab-tipy-sk">Řadit dle skupin</button></div><div class="tier3" id="tipy-qf"><button class="fchip on" id="qf-all">Vše</button><button class="fchip" id="qf-live" style="display:none">🔴 ŽIVĚ</button><button class="fchip" id="qf-today">Dnes</button><button class="fchip" id="qf-tomorrow">Zítra</button><button class="fchip" id="qf-missing">Neuložené</button><button class="fchip" id="qf-exact" title="Přesné tipy">🔥</button><button class="fchip" id="qf-scored" title="Bodované tipy">✅</button><button class="fchip" id="qf-miss" title="Tipy mimo">🔴</button></div></div>
 
 
 
@@ -2636,7 +2647,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.47';
+var APP_VERSION='v5.12.48';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -6040,7 +6051,7 @@ function openMatchCard(zid){
 
   // Skore / stav
   var scoreMain='–:–',scoreSub='',subCls='';
-  if(res){ scoreMain=res.replace(':',' : '); scoreSub='FT'; }
+  if(res){ scoreMain=res.replace(':',' : '); scoreSub=(zid>=73&&resultsAdvance[zid])?(LANG==='en'?'after 90 min':'po 90 min'):'FT'; }
   else if(live&&live.homeScore!=null){ scoreMain=live.homeScore+' : '+live.awayScore; scoreSub=(LANG==='en'?'LIVE':'ŽIVĚ')+(live.clock?' '+live.clock:''); subCls=' class="live"'; }
   else if(started){ scoreMain='–:–'; scoreSub=LANG==='en'?'In play':'Hraje se'; subCls=' class="live"'; }
   else { var cd=cdStr(z); scoreSub=cd||''; }
@@ -6102,6 +6113,7 @@ function openMatchCard(zid){
     extHtml='<div class="mcard-extlinks">'+
       '<button type="button" class="mcard-ext" data-hl-zid="'+zid+'" data-hl-h="'+escAttr(enD)+'" data-hl-a="'+escAttr(enH)+'" data-hl-y="'+yr+'" data-hl-q="'+qHi+'">▶ '+(LANG==='en'?'Highlights':'Sestřih')+'</button>'+
       '<a id="mcard-rate'+zid+'" class="mcard-ext" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q='+qRt+'">📊 '+(LANG==='en'?'Stats & lineups':'Statistiky & sestavy')+'</a>'+
+      ((res&&myTip)?'<button type="button" class="mcard-ext" data-share-zid="'+zid+'" title="'+escAttr(LANG==='en'?'Share result':'Sdílet výsledek')+'">📤 '+(LANG==='en'?'Share':'Sdílet')+'</button>':'')+
       '</div>'+
       '<div class="mcard-hlwrap" id="mcard-hl'+zid+'"></div>';
   }
@@ -6120,7 +6132,7 @@ function openMatchCard(zid){
     '</div>'+
     '<div class="mcard-meta">'+escHtml(ghL(z[1]))+' · '+escHtml(dStr(z))+(venue?' · '+(venueToStadiumName(venue)?'<a href="#" class="link-venue" onclick="goStadionyFromCard(\''+escAttr(venueToStadiumName(venue))+'\');return false;">📍'+escHtml(String(venue).split('/')[0].trim())+'</a>':'📍'+escHtml(String(venue).split('/')[0].trim()))+'':'')+escHtml(fifaBits)+'</div>'+
     '<div id="mcard-gtl"></div>'+
-    ((res&&myTip)?'<div style="text-align:center;margin:.5rem 0 .2rem"><button class="mcard-share-btn" type="button" data-share-zid="'+zid+'">'+(LANG==='en'?'📤 Share result':'📤 Sdílet výsledek')+'</button></div>':'')+
+
     extHtml+
     tipsHtml+oddsHtml+
     '<div id="mcard-espn"></div>'+
@@ -10048,15 +10060,35 @@ function mcardGoalTimelineHtml(zid,z){
   function lbl(g){ var nm=(g.scorer||'').split(' '); nm=nm.length>1?nm[nm.length-1]:nm[0]; return escHtml(nm)+' '+g.minute+(g.stoppage?'+'+g.stoppage:'')+"'"+(g.penalty?' (p)':'')+(g.own_goal?' (vl.)':''); }
   var maxM=Math.max(90,Math.max.apply(null,gl.map(function(g){return g.minute+(g.stoppage||0);})));
   function pos(g){ return Math.min(97,Math.max(2,Math.round(100*(g.minute+(g.stoppage||0))/maxM))); }
-  var top='',bot='';
-  gl.forEach(function(g){ var el='<span class="gtl-g'+(g.own_goal?' og':'')+'" style="left:'+pos(g)+'%" data-player="'+escAttr(g.scorer||'')+'" title="'+escAttr((g.scorer||'')+(g.assist?' (as. '+g.assist+')':''))+'">'+(g.side==='H'?'⚽<div class="gtl-lbl">':'<div class="gtl-lbl">')+lbl(g)+(g.side==='H'?'</div>':'</div>⚽')+'</span>'; if(g.side==='H') top+=el; else bot+=el; });
-  return '<div class="gtl"><div class="gtl-side">'+top+'</div><div class="gtl-line"><span class="gtl-tick" style="left:50%"></span></div><div class="gtl-side gtl-away">'+bot+'</div>'+
+  var top='',bot='',lastH=-99,lastA=-99,lvlH=false,lvlA=false,anyLvl=false;
+  gl.slice().sort(function(a,b){return (a.minute+(a.stoppage||0)/100)-(b.minute+(b.stoppage||0)/100);}).forEach(function(g){
+    var px=pos(g),lvl=false;
+    if(g.side==='H'){ if(px-lastH<13){ lvlH=!lvlH; lvl=lvlH; } else lvlH=false; lastH=px; }
+    else { if(px-lastA<13){ lvlA=!lvlA; lvl=lvlA; } else lvlA=false; lastA=px; }
+    if(lvl) anyLvl=true;
+    var el='<span class="gtl-g'+(g.own_goal?' og':'')+(lvl?' lvl2':'')+'" style="left:'+px+'%" data-player="'+escAttr(g.scorer||'')+'" title="'+escAttr((g.scorer||'')+(g.assist?' (as. '+g.assist+')':''))+'">'+(g.side==='H'?'⚽<div class="gtl-lbl">':'<div class="gtl-lbl">')+lbl(g)+(g.side==='H'?'</div>':'</div>⚽')+'</span>';
+    if(g.side==='H') top+=el; else bot+=el;
+  });
+  return '<div class="gtl'+(anyLvl?' tall':'')+'"><div class="gtl-side">'+top+'</div><div class="gtl-line"><span class="gtl-tick" style="left:50%"></span></div><div class="gtl-side gtl-away">'+bot+'</div>'+
     '<div class="gtl-cap">'+escHtml(tN(z[2]))+' nahoře · '+escHtml(tN(z[3]))+' dole · osa 0–'+maxM+"'"+'</div></div>';
 }
 function renderMcardGoalTimeline(overlay,zid,z){
   var host=overlay.querySelector('#mcard-gtl'); if(!host) return;
   if(!results[zid] && !(liveScoresMap&&liveScoresMap[zid])) return;
-  function paint(){ if(!overlay.parentNode) return; var h=mcardGoalTimelineHtml(zid,z); if(h) host.innerHTML=h; }
+  function paint(){
+    if(!overlay.parentNode) return;
+    var h=mcardGoalTimelineHtml(zid,z); if(h) host.innerHTML=h;
+    // v5.12.48: transparentni finalni vysledek u playoff (prodlouzeni/penalty)
+    if(zid>=73&&resultsAdvance[zid]&&results[zid]){
+      var gl2=goalMinsByZapas[zid]||[],fh=0,fa=0,et=false;
+      gl2.forEach(function(g){ if(g.side==='H')fh++; else fa++; if(g.minute>90)et=true; });
+      var team=resultsAdvance[zid]==='H'?tN(z[2]):tN(z[3]);
+      var sm=overlay.querySelector('.mcard-score small');
+      if(sm) sm.textContent=et
+        ?((LANG==='en'?'after ET ':'po prodloužení ')+fh+':'+fa+' · '+(LANG==='en'?'through: ':'postup: ')+team)
+        :((LANG==='en'?'on penalties: ':'na penalty postoupil: ')+team);
+    }
+  }
   if(goalMinsByZapas[zid]) paint(); else loadGoalMinutes().then(paint).catch(function(){});
 }
 function goStadionyFromCard(stadiumName){

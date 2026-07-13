@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.48 - 13. 7. 2026
+
+UX batch dle feedbacku:
+- **Karta zápasu — transparentní výsledek playoff**: pod skóre po 90 min se nově zobrazí i finále („po prodloužení 3:1 · postup: Argentina" / „na penalty postoupil X") místo matoucího „FT".
+- **Timeline gólů**: góly blízko sebe se už nepřekrývají (odstupňování do dvou úrovní).
+- **Sdílet výsledek**: velké tlačítko nahrazeno malým „📤 Sdílet" vedle Sestřihu a Statistik.
+- **Filtry a submenu na plnou šířku** (hlavně mobil): Řadit dle data/skupin, rychlé filtry (Vše · Dnes · Zítra · Neuložené · 🔥 · ✅ · 🔴 — výsledkové jen emoji s tooltipem), submenu Turnaj (5 položek) i Týmy & hráči vždy na jeden řádek přes celou šířku.
+
 ## v5.12.47 - 13. 7. 2026
 
 Přihlášení/registrace: přidán 12s timeout — při zamrzlém síťovém požadavku (mobilní síť, PWA) už nezůstane viset „Připojuji se…", ale zobrazí se chyba připojení a jde to hned zkusit znovu. Backend i login flow ověřeny (RPC < 200 ms).
