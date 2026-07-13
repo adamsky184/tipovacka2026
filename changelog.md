@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.46 - 13. 7. 2026
+
+Feedback batch 2:
+- **Tipy ostatních opraveny** (hlavně mobil): ukotvené sloupce měly rozjeté šířky (th 220px vs. td 148px) → obsah přetékal pod ukotvený výsledek, mizely názvy týmů i ⓘ. Šířky sjednoceny přes CSS proměnné (desktop 230px, mobil 152px), názvy se zalamují, ⓘ viditelné, ukotvená část oddělena stínem. **Badges (SNIPER apod.) u jmen hráčů odstraněny** (rival jen ★).
+- **Infoboxy — křížek všude**: i18n refresh mazal křížky přepsáním obsahu; nově je hlídá MutationObserver a doplní je po každém překreslení (vč. boxu v Žebříčku a Soutěže o peníze).
+- **Submenu výraznější**: aktivní pod-záložka je plná modrá pilulka se stínem, větší tlačítka, vnitřní oddělení od menu.
+
 ## v5.12.45 - 13. 7. 2026
 
 Feedback batch:
