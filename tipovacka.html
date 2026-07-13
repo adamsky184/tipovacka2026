@@ -2574,7 +2574,8 @@ body.admin-user #btn-logout{padding:0 10px}
             </div>
           </div>
         </div>
-        <div class="card"><div id="discussion-list" class="discussion-list"><div class="discussion-empty">Načítám diskuzi...</div></div></div>
+        <div class="card"><div id="daily-recap-host"></div>
+        <div id="discussion-list" class="discussion-list"><div class="discussion-empty">Načítám diskuzi...</div></div></div>
       </div>
     </div>
 
@@ -2629,7 +2630,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.43';
+var APP_VERSION='v5.12.44';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4582,9 +4583,30 @@ function discussionReactionSummary(postId){
     };
   });
 }
+var dailyRecapData=null;
+function loadDailyRecap(){
+  return sbf("app_sync_statuses?key=eq.daily_recap&select=detail,last_updated_at").then(function(d){
+    dailyRecapData=(d&&d[0])?d[0]:null;
+  }).catch(function(){ dailyRecapData=null; });
+}
+function dailyRecapCardHtml(){
+  if(!dailyRecapData||!dailyRecapData.detail) return '';
+  var det=dailyRecapData.detail;
+  if((!det.lines||!det.lines.length)&&(!det.top||!det.top.length)) return '';
+  var lines=(det.lines||[]).map(function(l){ return '<div style="font-size:.74rem;line-height:1.7"><span class="fin-mlink" data-mcard="'+parseInt(l.zid,10)+'">'+escHtml(l.txt)+'</span></div>'; }).join('');
+  var meds=['🥇','🥈','🥉'];
+  var top=(det.top||[]).map(function(t,i){ return meds[i]+' '+escHtml(t.jmeno)+' <span style="color:var(--mu2)">(+'+t.p+' b'+(t.exact?', '+t.exact+'× přesně':'')+')</span>'; }).join(' · ');
+  return '<div class="card daily-recap-card" id="daily-recap-card" style="margin-bottom:.7rem;padding:.8rem .95rem">'+
+    '<div style="font-weight:800;font-size:.8rem;margin-bottom:5px">📰 Včerejší den v tipovačce <span style="color:var(--mu2);font-weight:400;font-size:.64rem">('+escHtml(det.date||'')+' · automatický souhrn)</span></div>'+
+    (lines?lines:'<div style="font-size:.72rem;color:var(--mu)">Včera se nehrálo.</div>')+
+    (top?'<div style="font-size:.72rem;margin-top:6px">🏅 Tipéři dne: '+top+'</div>':'')+
+  '</div>';
+}
 function renderDiscussion(){
   var el=document.getElementById('discussion-list');
   if(!el) return;
+  var recapHost=document.getElementById('daily-recap-host');
+  if(recapHost){ recapHost.innerHTML=dailyRecapCardHtml(); if(!recapHost.__bound){ recapHost.__bound=true; recapHost.addEventListener('click',function(e){ var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard) openMatchCard(parseInt(mc.dataset.mcard,10)); }); } }
   if(!discussionPosts.length){ el.innerHTML='<div class="discussion-empty">'+escHtml(tr('discussion_empty'))+'</div>'; return; }
   var ranks=getDiscussionRankMap();
   var medals={1:'🥇',2:'🥈',3:'🥉'};
@@ -5134,7 +5156,7 @@ function showTab(name){
   if(name==='tabulka'){ renderTab(); renderTableNote(); }
   if(name==='historie') renderHistory();
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
-  if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions()]).then(renderDiscussion);
+  if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions(),loadDailyRecap()]).then(renderDiscussion);
   if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta(),loadGoalMinutes(),loadMatchStats(),loadPlayerStats()]).then(renderFinale); }
   if(name==='stats'){ var se=document.getElementById('stats-list'); if(se&&!se.__filled) se.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadGoalMinutes(),loadMatchStats(),loadPlayerStats(),sbf('vysledky?select=zapas_id,skore,postupujici').then(function(d){results={};resultsAdvance={};(d||[]).forEach(function(v){var zid=parseInt(v.zapas_id,10);results[zid]=v.skore;if(v.postupujici)resultsAdvance[zid]=v.postupujici;});})]).then(renderStatsTab); }
   if(name==='tymy'&&!Object.keys(playerStatsByName).length){ loadPlayerStats().then(function(){ try{ if(document.getElementById('page-tymy').style.display!=='none') renderTymy(); }catch(_e){} }); }

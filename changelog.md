@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.44 - 13. 7. 2026
+
+**📰 Denní recap v Diskuzi.** Každé ráno v 9:00 se nahoře v Diskuzi objeví automatický souhrn včerejška: výsledky (s prokliky na karty zápasů) + 🏅 tipéři dne (nejvíc bodů za včerejší zápasy). Nová edge fce `daily-recap` + denní cron; žádný zásah do účtů ani příspěvků (karta je mimo vlákno diskuze).
+
 ## v5.12.43 - 13. 7. 2026
 
 **Velká reorganizace menu (13 → 7 položek) + veřejné statistiky + novinky.** Záloha: git tag `v5.12.42-stable` + archive/.
