@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.47 - 13. 7. 2026
+
+Přihlášení/registrace: přidán 12s timeout — při zamrzlém síťovém požadavku (mobilní síť, PWA) už nezůstane viset „Připojuji se…", ale zobrazí se chyba připojení a jde to hned zkusit znovu. Backend i login flow ověřeny (RPC < 200 ms).
+
 ## v5.12.46 - 13. 7. 2026
 
 Feedback batch 2:
