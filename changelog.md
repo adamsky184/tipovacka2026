@@ -2,6 +2,19 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.43 - 13. 7. 2026
+
+**Velká reorganizace menu (13 → 7 položek) + veřejné statistiky + novinky.** Záloha: git tag `v5.12.42-stable` + archive/.
+- **⚽ Zápasy** (dřív Moje tipy) vstřebaly Výsledky: nové filtry 🔥 Přesné / ✅ Bodované / 🔴 Mimo (fungují ve skupinách i play-off), ikony výkonu a body už byly. Staré odkazy na Výsledky přesměrovány.
+- **🏆 Turnaj** — nový hub s pod-záložkami Skupiny · Play-off · **Statistiky** · Stadiony · Historie. Klik na Turnaj otevře aktuální fázi (teď Play-off).
+- **📊 Statistiky turnaje zveřejněny** (dřív zamčené v Zakončení): střelci, hráčské/gólové/týmové/stadionové zajímavosti — vše s prokliky. **Auto-aktualizace cronem** (nová edge fce `stats-cron`, každých 10 min doplní góly/asistence, boxscore, hráče i návštěvy nově dohraných zápasů).
+- **Týmy & hráči** — druhý hub (Týmy · Hráči).
+- **Zakončení** je nyní čistě tipérské (turnajový blok nahrazen odkazem na Statistiky).
+- **Tipy ostatních**: sloupce Zápas + Výsledek jsou ukotvené — při posunu do stran se hýbou jen hráči a tipy.
+- **Karta zápasu**: okamžitá **timeline gólů** z naší cache (střelci, minuty, penalty/vlastňáky, domácí nahoře/hosté dole) — nečeká na ESPN.
+- **Zajímavost dne** v boxu „Dnes se hraje" (rotuje denně: top střelec, nejrychlejší gól, asistence, penalty…).
+- **Karta týmu**: „Nej střelec na MS" se průběžně aktualizuje o letošní góly (např. Messi 13 + 8 letos = 21).
+
 ## v5.12.42 - 13. 7. 2026
 
 **Nová záložka 🧑 Hráči + opravy kapacit stadionů + prokliky hráčů všude.**
