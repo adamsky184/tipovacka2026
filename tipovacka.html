@@ -182,6 +182,11 @@ body.theme-light .venue{color:#5f7690}
 .gtl-g.lvl2{bottom:26px}
 .gtl-side.gtl-away .gtl-g.lvl2{bottom:auto;top:26px}
 .gtl.tall .gtl-side{height:56px}
+.recap-hist{margin:2px 0 .7rem}
+.recap-hist>summary{cursor:pointer;font-size:.72rem;color:var(--mu2);padding:5px 2px;list-style:none}
+.recap-hist>summary::-webkit-details-marker{display:none}
+.recap-hist>summary:hover{color:var(--tx)}
+.recap-hist .daily-recap-card{opacity:.88}
 .daily-fact{margin-top:8px;padding:7px 10px;background:var(--bg3);border:1px solid var(--bd);border-radius:9px;font-size:.7rem;color:var(--tx);line-height:1.5}
 .subnav{display:flex;gap:7px;flex-wrap:wrap;padding:10px 8px;margin:0 0 14px;background:var(--bg2);border:1px solid var(--bd);border-top:none;border-radius:0 0 12px 12px;box-shadow:inset 0 1px 0 var(--bd)}
 .nb-sub{padding:7px 15px;border-radius:10px;font-size:.78rem;font-weight:700;background:var(--bg3);color:var(--mu2);border:1px solid var(--bd2);cursor:pointer;transition:.15s;font-family:'Space Grotesk',sans-serif}
@@ -2649,7 +2654,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.50';
+var APP_VERSION='v5.12.51';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4605,16 +4610,14 @@ function discussionReactionSummary(postId){
     };
   });
 }
-var dailyRecapData=null;
+var dailyRecapList=[]; // v5.12.51: historie souhrnu (kazdy den novy, neprepisuje se)
 function loadDailyRecap(){
-  return sbf("app_sync_statuses?key=eq.daily_recap&select=detail,last_updated_at").then(function(d){
-    dailyRecapData=(d&&d[0])?d[0]:null;
-  }).catch(function(){ dailyRecapData=null; });
+  return sbf("daily_recaps?hidden=eq.false&select=recap_date,detail&order=recap_date.desc&limit=14").then(function(d){
+    dailyRecapList=(d||[]).map(function(r){ return r.detail||{}; }).filter(function(det){ return (det.lines&&det.lines.length)||(det.standings&&det.standings.length); });
+  }).catch(function(){ dailyRecapList=[]; });
 }
-function dailyRecapCardHtml(){
-  if(!dailyRecapData||!dailyRecapData.detail) return '';
-  var det=dailyRecapData.detail;
-  if(det.hidden) return ''; // admin recap skryl
+function dailyRecapCardHtml(det){
+  if(!det) return '';
   var hasContent=(det.lines&&det.lines.length)||(det.standings&&det.standings.length);
   if(!hasContent) return '';
   var zmap={}; SZ.concat(PZ).forEach(function(z){ zmap[z[0]]=z; });
@@ -4645,12 +4648,12 @@ function dailyRecapCardHtml(){
   var today=SZ.concat(PZ).filter(function(z){ return sameCalDay(mDate(z),now); }).sort(function(a,b){return mDate(a)-mDate(b);}).slice(0,3);
   var todayHtml=today.length?('<div style="font-size:.64rem;color:var(--mu2);margin-top:8px;border-top:1px solid var(--bd);padding-top:6px">Dnes se hraje: '+today.map(function(z){ var d2=mDate(z); var hh=('0'+d2.getHours()).slice(-2)+':'+('0'+d2.getMinutes()).slice(-2); return (fl(z[2])||'')+' '+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+' ('+hh+')'; }).join(' · ')+'</div>'):'';
   function secLbl(t){ return '<div style="font-size:.66rem;font-weight:700;color:var(--mu2);margin:8px 0 3px">'+t+'</div>'; }
-  return '<div class="card daily-recap-card" id="daily-recap-card" style="margin-bottom:.7rem;padding:.85rem 1rem">'+
+  return '<div class="card daily-recap-card" style="margin-bottom:.7rem;padding:.85rem 1rem">'+
     '<div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">'+
       '<div style="width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🤖</div>'+
       '<div style="flex:1"><div style="font-weight:800;font-size:.8rem">Tipovačka bot</div>'+
       '<div style="font-size:.62rem;color:var(--mu2)">📰 Ranní souhrn · '+escHtml(dParts(det.date))+' · 07:00</div></div>'+
-      ((me&&me.je_admin)?'<button type="button" id="recap-del" title="Smazat dnešní souhrn (jen admin)" style="background:transparent;border:none;color:var(--mu2);font-size:1.15rem;cursor:pointer;padding:2px 7px;border-radius:6px">×</button>':'')+
+      ((me&&me.je_admin)?'<button type="button" class="recap-del" data-date="'+escAttr(det.date||'')+'" title="Smazat tento souhrn (jen admin)" style="background:transparent;border:none;color:var(--mu2);font-size:1.15rem;cursor:pointer;padding:2px 7px;border-radius:6px">×</button>':'')+
     '</div>'+
     (lines?(secLbl('⚽ Včerejší výsledky')+lines):'')+
     (top?(secLbl('🏅 Tipéři dne')+'<div style="font-size:.76rem">'+top+'</div>'):'')+
@@ -4663,14 +4666,26 @@ function renderDiscussion(){
   var el=document.getElementById('discussion-list');
   if(!el) return;
   var recapHost=document.getElementById('daily-recap-host');
-  if(recapHost){ recapHost.innerHTML=dailyRecapCardHtml(); if(!recapHost.__bound){ recapHost.__bound=true;
+  if(recapHost){
+    var recapHtml='';
+    if(dailyRecapList.length){
+      recapHtml=dailyRecapCardHtml(dailyRecapList[0]);
+      if(dailyRecapList.length>1){
+        recapHtml+='<details class="recap-hist"><summary>📜 Starší souhrny bota ('+(dailyRecapList.length-1)+')</summary>'+dailyRecapList.slice(1).map(function(det){return dailyRecapCardHtml(det);}).join('')+'</details>';
+      }
+    }
+    recapHost.innerHTML=recapHtml;
+    if(!recapHost.__bound){ recapHost.__bound=true;
     recapHost.addEventListener('click',function(e){
-      if(e.target&&e.target.id==='recap-del'){
+      var del=e.target.closest('.recap-del');
+      if(del){
         if(!me||!me.je_admin||!myPin) return;
-        if(!window.confirm('Smazat dnešní souhrn bota? (Zítra ráno se vygeneruje nový.)')) return;
-        var det=(dailyRecapData&&dailyRecapData.detail)||{};
-        rpcWithRetry('admin_update_sync_status_secure',{p_admin_id:me.id,p_pin:myPin,p_key:'daily_recap',p_detail:{hidden:true,date:det.date||''}})
-          .then(function(r){ if(r&&r.chyba) throw new Error(r.chyba); if(dailyRecapData) dailyRecapData.detail={hidden:true}; recapHost.innerHTML=''; showToast('Souhrn smazán.','ok'); })
+        var dDate=del.dataset.date||'';
+        if(!window.confirm('Smazat souhrn bota z '+dDate+'?')) return;
+        rpcWithRetry('admin_set_recap_hidden_secure',{p_admin_id:me.id,p_pin:myPin,p_date:dDate,p_hidden:true})
+          .then(function(r){ if(r&&r.chyba) throw new Error(r.chyba);
+            dailyRecapList=dailyRecapList.filter(function(det){return det.date!==dDate;});
+            showToast('Souhrn smazán.','ok'); renderDiscussion(); })
           .catch(function(err){ showToast('Chyba: '+(err&&err.message||err),'err'); });
         return;
       }

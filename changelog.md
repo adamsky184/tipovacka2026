@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.51 - 18. 7. 2026
+
+**Tipovačka bot — historie souhrnů.** Souhrny se už nepřepisují: každý den má vlastní záznam (nová tabulka `daily_recaps`). V Diskuzi je nahoře nejnovější souhrn a pod ním rozklikávací „📜 Starší souhrny bota (N)" — historie zůstává viditelná (14 dní zpět). Admin maže jednotlivé dny (× na konkrétní kartě, RPC `admin_set_recap_hidden_secure`).
+
 ## v5.12.50 - 13. 7. 2026
 
 Tipovačka bot (Diskuze):

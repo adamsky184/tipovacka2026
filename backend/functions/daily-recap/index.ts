@@ -99,6 +99,8 @@ Deno.serve(async (req) => {
       .sort((a, b) => b.p - a.p || b.exact - a.exact).slice(0, 3).filter((x) => x.p > 0);
 
     const detail = { date: new Date().toISOString().slice(0, 10), lines, top, standings, up, down };
+    // v5.12.51: historie - kazdy den vlastni zaznam (zadne prepisovani)
+    await sb.from("daily_recaps").upsert({ recap_date: detail.date, detail, hidden: false }, { onConflict: "recap_date" });
     await sb.from("app_sync_statuses").upsert({ key: "daily_recap", last_updated_at: new Date().toISOString(), detail }, { onConflict: "key" });
     return json({ ok: true, matches: lines.length, top, standings, up, down });
   } catch (e) {
