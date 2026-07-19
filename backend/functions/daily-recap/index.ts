@@ -1,4 +1,4 @@
-// daily-recap edge function (v5.12.45)
+// daily-recap edge function (v5.12.65 - +extra body v poradi)
 // Denne v 05:00 UTC (07:00 CZ) sestavi souhrn vcerejska: vysledky, tiperi dne,
 // aktualni poradi (top 3) a skokan/propad dne. Uklada do app_sync_statuses key 'daily_recap'.
 // Zadny novy uzivatel, zadny zasah do tipu. Auth: X-Cron-Secret.
@@ -80,6 +80,20 @@ Deno.serve(async (req) => {
         before[t.hrac_id] += p;
       }
     });
+    // v5.12.65: extra body (vitez +30, kral strelcu +20, sdilena cena pres ' / ') do celkoveho poradi
+    const norm = (x: string) => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    const { data: ets } = await sb.from("extra_tip_settings").select("winner_actual,scorer_actual").limit(1).maybeSingle();
+    if (ets && (ets.winner_actual || ets.scorer_actual)) {
+      const wA = norm(ets.winner_actual || "");
+      const sA = String(ets.scorer_actual || "").split("/").map((x) => norm(x)).filter(Boolean);
+      const { data: extras } = await sb.from("extra_tips").select("hrac_id,winner_tip,scorer_tip");
+      (extras || []).forEach((e) => {
+        let add = 0;
+        if (wA && norm(e.winner_tip) === wA) add += 30;
+        if (sA.length && sA.indexOf(norm(e.scorer_tip)) >= 0) add += 20;
+        if (add && (e.hrac_id in tot)) tot[e.hrac_id] += add;
+      });
+    }
     function ranks(map: Record<string, number>) {
       const ids = Object.keys(map).sort((a, b) => map[b] - map[a] || (nameBy[a] || "").localeCompare(nameBy[b] || ""));
       const r: Record<string, number> = {}; ids.forEach((id, i) => { r[id] = i + 1; });
