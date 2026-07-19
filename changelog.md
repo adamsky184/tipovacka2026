@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.66 - 20. 7. 2026
+
+- **Přihrávky**: v kartě zápasu přibyly řádky Přihrávky a Přesné přihrávky (týmové, z uložených boxscore dat); v statistikách týmu „přihrávky přesné / celkem" a „⌀ přihrávek na zápas". U jednotlivých hráčů ESPN přihrávky neposkytuje.
+- **Finále a bronz správně**: u z104 už není „postup Španělsko", ale „🏆 mistr světa: Španělsko" (u z103 „🥉 bronz:") — v kartě zápasu, souhrnu bota i zápasech týmu.
+- **Highlights finále opraveny**: cache držela video Argentina–Cabo Verde (hledání běželo hodinu po finále, dřív než FIFA nahrála sestřih) — přecachováno na skutečný sestřih finále (ověřeno přes YouTube oEmbed).
+- **Keepalive proti uspání Supabase**: denní Vercel Cron (`/api/keepalive`, 06:00 UTC) pinguje Supabase REST — free projekt tak nebude uspán pro neaktivitu.
+
 ## v5.12.65 - 20. 7. 2026
 
 **Po turnaji: e-mail v Můj účet, závěrečný souhrn, vypnutí botů, archiv.**

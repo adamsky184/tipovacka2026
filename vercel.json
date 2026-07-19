@@ -3,6 +3,9 @@
   "rewrites": [
     { "source": "/", "destination": "/tipovacka.html" }
   ],
+  "crons": [
+    { "path": "/api/keepalive", "schedule": "0 6 * * *" }
+  ],
   "headers": [
     {
       "source": "/sw.js",
