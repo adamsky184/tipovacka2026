@@ -2730,7 +2730,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.60';
+var APP_VERSION='v5.12.61';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4694,10 +4694,24 @@ function discussionReactionSummary(postId){
   });
 }
 var dailyRecapList=[]; // v5.12.51: historie souhrnu (kazdy den novy, neprepisuje se)
+var recapReactions={}; // v5.12.61: {date:[{hrac_id,emoji}]}
 function loadDailyRecap(){
-  return sbf("daily_recaps?hidden=eq.false&select=recap_date,detail&order=recap_date.desc&limit=14").then(function(d){
-    dailyRecapList=(d||[]).map(function(r){ return r.detail||{}; }).filter(function(det){ return (det.lines&&det.lines.length)||(det.standings&&det.standings.length); });
-  }).catch(function(){ dailyRecapList=[]; });
+  return Promise.all([
+    sbf("daily_recaps?hidden=eq.false&select=recap_date,detail&order=recap_date.desc&limit=14"),
+    sbf("recap_reactions?select=recap_date,hrac_id,emoji")
+  ]).then(function(res){
+    dailyRecapList=(res[0]||[]).map(function(r){ return r.detail||{}; }).filter(function(det){ return (det.lines&&det.lines.length)||(det.standings&&det.standings.length); });
+    recapReactions={};
+    (res[1]||[]).forEach(function(row){ var k=String(row.recap_date); (recapReactions[k]=recapReactions[k]||[]).push({hrac_id:String(row.hrac_id),emoji:row.emoji}); });
+  }).catch(function(){ dailyRecapList=[]; recapReactions={}; });
+}
+function recapReactionSummary(date){
+  var list=recapReactions[String(date)]||[];
+  return ['👍','😂','🔥','⚽'].map(function(emoji){
+    var items=list.filter(function(r){ return r.emoji===emoji; });
+    var names=items.map(function(r){ var pl=(players||[]).find(function(p){ return String(p.id)===String(r.hrac_id); }); return (pl&&pl.jmeno)||''; }).filter(Boolean);
+    return {emoji:emoji,count:items.length,mine:!!(me&&items.some(function(r){ return String(r.hrac_id)===String(me.id); })),title:names.join(', ')};
+  });
 }
 function dailyRecapCardHtml(det){
   if(!det) return '';
@@ -4743,6 +4757,10 @@ function dailyRecapCardHtml(det){
     (stand?(secLbl('📊 Aktuální pořadí')+'<div style="font-size:.76rem">'+stand+'</div>'):'')+
     movers+
     todayHtml+
+    // v5.12.61: reakce a odpoved jako u bezne diskuze
+    (me?('<div class="discussion-reactions">'+recapReactionSummary(det.date).map(function(item){
+      return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-recap-react="'+escAttr(det.date||'')+'" data-recap-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
+    }).join('')+'<button class="discussion-react-btn" type="button" data-recap-reply="'+escAttr(det.date||'')+'">💬 '+escHtml(tr('discussion_reply'))+'</button></div>'):'')+
   '</div>';
 }
 function renderDiscussion(){
@@ -4771,6 +4789,34 @@ function renderDiscussion(){
             dailyRecapList=dailyRecapList.filter(function(det){return det.date!==dDate;});
             showToast('Souhrn smazán.','ok'); renderDiscussion(); })
           .catch(function(err){ showToast('Chyba: '+(err&&err.message||err),'err'); });
+        return;
+      }
+      var rr=e.target.closest('[data-recap-react]');
+      if(rr){
+        if(!me||!myPin){ showToast(tr('discussion_login'),'err'); return; }
+        var rDate=rr.dataset.recapReact||'', rEmoji=rr.dataset.recapEmoji||'';
+        rr.classList.add('pop'); setTimeout(function(){ rr.classList.remove('pop'); },160);
+        rpcWithRetry('recap_toggle_reaction_secure',{p_hrac_id:me.id,p_pin:myPin,p_date:rDate,p_emoji:rEmoji})
+          .then(function(r){ if(r&&r.chyba) throw new Error(r.chyba);
+            var list=recapReactions[rDate]=recapReactions[rDate]||[];
+            var ix=-1; list.forEach(function(x,i2){ if(String(x.hrac_id)===String(me.id)&&x.emoji===rEmoji) ix=i2; });
+            if(ix>=0) list.splice(ix,1); else list.push({hrac_id:String(me.id),emoji:rEmoji});
+            renderDiscussion(); })
+          .catch(function(err){ showToast('Chyba: '+((err&&err.message)||err),'err'); });
+        return;
+      }
+      var rp=e.target.closest('[data-recap-reply]');
+      if(rp){
+        if(!me){ showToast(tr('discussion_login'),'err'); return; }
+        var ta=document.getElementById('discussion-body');
+        if(ta){
+          var pp=String(rp.dataset.recapReply||'').split('-');
+          var lbl=pp.length===3?((+pp[2])+'. '+(+pp[1])+'.'):rp.dataset.recapReply;
+          if(ta.value.indexOf('K souhrnu bota')<0) ta.value='↪ K souhrnu bota ('+lbl+'): '+ta.value;
+          ta.focus();
+          try{ ta.setSelectionRange(ta.value.length,ta.value.length); }catch(_e){}
+          ta.scrollIntoView({behavior:'smooth',block:'center'});
+        }
         return;
       }
       var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard) openMatchCard(parseInt(mc.dataset.mcard,10));

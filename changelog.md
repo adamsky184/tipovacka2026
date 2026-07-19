@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.61 - 19. 7. 2026
+
+**Reakce na souhrny bota.** U každého souhrnu Tipovačka bota v Diskuzi jsou stejné emoji reakce jako u běžných příspěvků (👍😂🔥⚽ s počty a jmény po najetí, zvýraznění vlastní reakce) + tlačítko „💬 Odpovědět", které předvyplní composer („↪ K souhrnu bota (19. 7.): …"). Nová tabulka `recap_reactions` (RLS, PIN-auth RPC `recap_toggle_reaction_secure`, reakce per den souhrnu).
+
 ## v5.12.60 - 19. 7. 2026
 
 **UX vylepšení napříč appkou.**
