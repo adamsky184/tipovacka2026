@@ -2730,7 +2730,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.61';
+var APP_VERSION='v5.12.62';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4775,7 +4775,7 @@ function renderDiscussion(){
         recapHtml+='<details class="recap-hist"><summary>📜 Starší souhrny bota ('+(dailyRecapList.length-1)+')</summary>'+dailyRecapList.slice(1).map(function(det){return dailyRecapCardHtml(det);}).join('')+'</details>';
       }
     }
-    recapHost.innerHTML=((me&&finaleIsPublic())?'<div class="ank-host"></div>':'')+recapHtml;
+    recapHost.innerHTML=((me&&(finaleIsPublic()||me.je_admin))?'<div class="ank-host"></div>':'')+recapHtml;
     refreshAnketa();
     if(!recapHost.__bound){ recapHost.__bound=true;
     recapHost.addEventListener('click',function(e){
@@ -7998,7 +7998,8 @@ function anketaCardHtml(){
 }
 function refreshAnketa(){
   var hosts=document.querySelectorAll('.ank-host'); if(!hosts.length) return;
-  if(!me||!finaleIsPublic()){ hosts.forEach(function(h){ h.innerHTML=''; }); return; }
+  // admin vidi anketu uz v nahledu pred zverejnenim (hraci az po finale)
+  if(!me||(!finaleIsPublic()&&!me.je_admin)){ hosts.forEach(function(h){ h.innerHTML=''; }); return; }
   if(!zakMeta) loadZakMeta();
   var html=anketaCardHtml();
   hosts.forEach(function(h){ h.innerHTML=html; });
