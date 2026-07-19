@@ -402,7 +402,10 @@ body.theme-light .venue{color:#5f7690}
 #fab-top{position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:900;width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--bg4) 88%, transparent);border:1px solid var(--bd2);color:var(--mu2);font-size:1rem;font-weight:800;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);backdrop-filter:blur(6px);transition:.15s}
 #fab-top.show{display:flex}
 #fab-top:hover{color:var(--ac2);border-color:var(--ac)}
-.fin-award-i{font-size:.56rem;color:var(--mu2);cursor:pointer;text-decoration:underline dotted;white-space:nowrap}
+.fin-award{position:relative}
+.fin-award-i{display:none;position:absolute;top:6px;right:9px;font-size:.68rem;color:var(--mu2);cursor:pointer;opacity:.75;padding:2px 4px}
+.fin-award-i:hover{color:var(--ac2);opacity:1}
+.fin-award.open .fin-award-i{display:block}
 .fin-award-desc{display:none;font-size:.6rem;color:var(--mu2);margin:3px 0 4px;line-height:1.5;font-style:italic}
 .fin-award-desc.on{display:block}
 .fin-sub3 span{color:var(--mu2)}
@@ -2730,7 +2733,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.62';
+var APP_VERSION='v5.12.63';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -8311,7 +8314,7 @@ function finaleAwardTop3Html(a){
     t.__mi=mi;
     return '<div class="fin-award-row">'+meds[mi]+' '+escHtml(t.n)+' <span>'+escHtml(t.d)+'</span></div>';
   }).join('');
-  var info=AWARD_INFO[a.t]?('<div><span class="fin-award-i" role="button">ⓘ co je to?</span><div class="fin-award-desc">'+escHtml(AWARD_INFO[a.t])+'</div></div>'):'';
+  var info=AWARD_INFO[a.t]?('<div class="fin-award-desc">'+escHtml(AWARD_INFO[a.t])+'</div>'):'';
   return '<div class="fin-award-top3">'+info+rows+'</div>';
 }
 function finaleAwardsHtml(reps){
@@ -8319,7 +8322,7 @@ function finaleAwardsHtml(reps){
   return '<div class="fin-awards-wrap"><div style="font-size:.78rem;font-weight:800;text-align:center;margin:14px 0 6px">🏅 Ceny turnaje</div><div class="fin-awards">'+
     A.map(function(a){
       var t3=finaleAwardTop3Html(a);
-      return '<div class="fin-award'+(t3?' has-top':'')+'"><div class="fin-award-ic">'+a.ic+'</div><div style="min-width:0"><div class="fin-award-t">'+escHtml(a.t)+(t3?' <span class="fin-award-caret">▾</span>':'')+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div>'+t3+'</div></div>';
+      return '<div class="fin-award'+(t3?' has-top':'')+'">'+(t3&&AWARD_INFO[a.t]?'<span class="fin-award-i" role="button" title="Co je to za statistiku?">ⓘ</span>':'')+'<div class="fin-award-ic">'+a.ic+'</div><div style="min-width:0"><div class="fin-award-t">'+escHtml(a.t)+(t3?' <span class="fin-award-caret">▾</span>':'')+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div>'+t3+'</div></div>';
     }).join('')+
   '</div><div style="font-size:.58rem;color:var(--mu2);text-align:center;margin-top:4px">Klepni na cenu pro top 3.</div></div>';
 }
@@ -8818,7 +8821,7 @@ function renderFinale(){
       return;
     }
     var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
-    var ai=e.target.closest('.fin-award-i'); if(ai){ var dsc=ai.parentNode.querySelector('.fin-award-desc'); if(dsc) dsc.classList.toggle('on'); return; }
+    var ai=e.target.closest('.fin-award-i'); if(ai){ var awc=ai.closest('.fin-award'); var dsc=awc&&awc.querySelector('.fin-award-desc'); if(dsc) dsc.classList.toggle('on'); return; }
     var aw=e.target.closest('.fin-award.has-top'); if(aw && !e.target.closest('.link-player,.link-team,[data-mcard]')){ aw.classList.toggle('open'); return; }
     var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ openPlayerProfile(pl.dataset.player); return; }
     var tm=e.target.closest('.link-team'); if(tm&&tm.dataset.team){ filterByTeam(tm.dataset.team); return; }

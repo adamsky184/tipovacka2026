@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.63 - 19. 7. 2026
+
+Ceny turnaje: „ⓘ" přesunuto do pravého horního rohu rozbalené karty (decentní, nic nepřekáží); klepnutím se pod ním rozbalí vysvětlení statistiky.
+
 ## v5.12.62 - 19. 7. 2026
 
 Admin náhled ankety: admin vidí anketu + výzvu na e-mail už před zveřejněním Zakončení (v uvítacím popupu přes „🎉 Úvod", v Zakončení pod stupni vítězů i v Diskuzi). Hráčům se ukáže až po finále.
