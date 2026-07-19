@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.54 - 19. 7. 2026
+
+**Anketa „Bude další tipovačka?" + párování e-mailu.**
+- Po zveřejnění Zakončení se hráčům ukáže anketa (🇪🇺 EURO 2028 / 🌍 AFCON 2027 / ⚽ obojí / 🤷 nevím / 🙅 už hrát nebudu) — v uvítacím popupu, v Zakončení pod stupni vítězů a zrcadlená v Diskuzi nad souhrny bota. Po hlasování se ukážou průběžné výsledky; hlas i vzkaz lze kdykoliv změnit.
+- **Nepovinný e-mail** — hráč si může spárovat profil s e-mailem, aby o něj (a historii) nepřišel a dostal pozvánku do další tipovačky. Kdykoliv lze změnit či smazat.
+- Backend: nové tabulky `hrac_emaily` a `anketa_hlasy` (RLS zamčené, přístup jen přes PIN-auth RPC `set_email_secure`, `set_anketa_secure`, `get_zakonceni_meta_secure`). Admin vidí detail hlasů a e-mailů (`admin_get_anketa_secure`, tlačítko v kartě). Žádný zásah do účtů ani tipů.
+
 ## v5.12.53 - 19. 7. 2026
 
 **Zakončení — top 3 mini žebříčky.**

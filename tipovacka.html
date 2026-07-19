@@ -340,6 +340,22 @@ body.theme-light .venue{color:#5f7690}
 .link-player:hover{color:var(--ac2)}
 .fin-mlink:active{opacity:.7}
 .fin-drows>div.fin-sub3,.fin-sub3{display:block;font-size:.62rem;color:var(--mu2);text-align:right;margin:-2px 0 3px;line-height:1.6}
+.ank-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin:10px 0;text-align:left}
+.ank-title{font-weight:800;font-size:.88rem;margin-bottom:4px}
+.ank-note{font-size:.68rem;color:var(--mu2);line-height:1.5}
+.ank-opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ank-opt{border:1px solid var(--bd);background:var(--bg3);border-radius:999px;padding:6px 11px;font-size:.72rem;cursor:pointer;color:var(--tx)}
+.ank-opt.on{border-color:var(--ac);background:rgba(59,130,246,.16);font-weight:800}
+.ank-bars{margin-top:9px}
+.ank-bar-row{display:flex;align-items:center;gap:7px;font-size:.66rem;margin:3px 0;color:var(--mu2)}
+.ank-bar-lbl{flex:0 0 128px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ank-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.ank-bar{display:block;height:100%;background:var(--ac);border-radius:4px;min-width:2px}
+.ank-bar-n{flex:0 0 auto;font-variant-numeric:tabular-nums}
+.ank-mail{margin-top:10px;border-top:1px dashed var(--bd);padding-top:8px}
+.ank-mail-row,.ank-kom{display:flex;gap:6px;margin-top:6px}
+.ank-mail-in,.ank-kom-in{flex:1;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:9px;padding:7px 10px;font-size:.78rem;min-width:0}
+.ank-mail-btn,.ank-kom-btn{border:1px solid var(--ac);background:var(--ac);color:#fff;border-radius:9px;padding:7px 12px;font-size:.75rem;font-weight:700;cursor:pointer;flex:0 0 auto}
 .fin-sub3 span{color:var(--mu2)}
 .fin-award.has-top{cursor:pointer}
 .fin-award-caret{color:var(--mu2);font-size:.6rem}
@@ -2663,7 +2679,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.53';
+var APP_VERSION='v5.12.54';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3433,6 +3449,7 @@ var VENUE_ALIASES={
 };
 
 var me=null,myPin=null,players=[],results={},myTips={},allTips={},globalTipCounts={},leaderboardCache={cel:null,sk:null,po:null};
+var zakMeta=null,zakMetaLoading=false;
 // v5.12.0: play-off postupujici - resultsAdvance[zid]='H'/'A' (kdo postoupil), myTipsPostup[zid]='H'/'A' (moje volba u remizoveho tipu)
 var resultsAdvance={},myTipsPostup={},allTipsPostup={};
 var derivedStatsCache={similarity:null,insightsRows:null};
@@ -4689,7 +4706,8 @@ function renderDiscussion(){
         recapHtml+='<details class="recap-hist"><summary>📜 Starší souhrny bota ('+(dailyRecapList.length-1)+')</summary>'+dailyRecapList.slice(1).map(function(det){return dailyRecapCardHtml(det);}).join('')+'</details>';
       }
     }
-    recapHost.innerHTML=recapHtml;
+    recapHost.innerHTML=((me&&finaleIsPublic())?'<div class="ank-host"></div>':'')+recapHtml;
+    refreshAnketa();
     if(!recapHost.__bound){ recapHost.__bound=true;
     recapHost.addEventListener('click',function(e){
       var del=e.target.closest('.recap-del');
@@ -7826,6 +7844,114 @@ function finaleConfetti(dur){
     requestAnimationFrame(frame);
   }catch(_e){}
 }
+// v5.12.54: anketa "bude dalsi tipovacka?" + parovani e-mailu (nove RPC, zadny zasah do tipu)
+var ANKETA_OPTS=[
+  {k:'euro2028',l:'\ud83c\uddea\ud83c\uddfa EURO 2028'},
+  {k:'afcon2027',l:'\ud83c\udf0d AFCON 2027'},
+  {k:'oboji',l:'\u26bd Klidn\u011b oboj\u00ed'},
+  {k:'uvidim',l:'\ud83e\udd37 Je\u0161t\u011b nev\u00edm'},
+  {k:'konec',l:'\ud83d\ude45 Dal\u0161\u00ed u\u017e hr\u00e1t nebudu'}
+];
+function loadZakMeta(){
+  if(!me||!myPin||zakMetaLoading) return;
+  zakMetaLoading=true;
+  rpcWithRetry('get_zakonceni_meta_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
+    zakMetaLoading=false;
+    if(d&&d.ok){ zakMeta=d; refreshAnketa(); }
+  }).catch(function(){ zakMetaLoading=false; });
+}
+function anketaCardHtml(){
+  if(!me) return '';
+  var m=zakMeta;
+  var head='<div class="ank-title">\ud83d\uddf3\ufe0f Anketa: Bude dal\u0161\u00ed tipova\u010dka?</div>';
+  if(!m) return '<div class="ank-card">'+head+'<div class="ank-note">Na\u010d\u00edt\u00e1m\u2026</div></div>';
+  var opts='<div class="ank-opts">'+ANKETA_OPTS.map(function(o){return '<button type="button" class="ank-opt'+(m.volba===o.k?' on':'')+'" data-anketa="'+o.k+'">'+o.l+'</button>';}).join('')+'</div>';
+  var bars='';
+  if(m.volba){
+    var tot=m.celkem||0;
+    bars='<div class="ank-bars">'+ANKETA_OPTS.map(function(o){
+      var n=(m.souhrn&&m.souhrn[o.k])||0,pct=tot?Math.round(100*n/tot):0;
+      return '<div class="ank-bar-row"><span class="ank-bar-lbl">'+o.l+'</span><span class="ank-track"><span class="ank-bar" style="width:'+Math.max(2,pct)+'%"></span></span><span class="ank-bar-n">'+n+'\u00d7 ('+pct+'%)</span></div>';
+    }).join('')+'<div class="ank-note" style="margin-top:3px">Celkem hlasovalo: '+tot+' \u00b7 hlas m\u016f\u017ee\u0161 kdykoliv zm\u011bnit</div></div>';
+    bars+='<div class="ank-kom"><input type="text" class="ank-kom-in" maxlength="200" placeholder="\ud83d\udcac Vzkaz pro m\u011b (nepovinn\u00e9)" value="'+escAttr(m.komentar||'')+'"><button type="button" class="ank-kom-btn">OK</button></div>';
+  }
+  var mail;
+  if(m.email && !m.__edit){
+    mail='<div class="ank-mail"><div class="ank-note">\ud83d\udcec E-mail ulo\u017een: <b style="color:var(--tx)">'+escHtml(m.email)+'</b> \u2014 ozvu se ti, a\u017e budu chystat dal\u0161\u00ed tipova\u010dku. <span class="ank-mail-edit" style="text-decoration:underline;cursor:pointer">Zm\u011bnit</span></div></div>';
+  } else {
+    mail='<div class="ank-mail"><div class="ank-note">\ud83d\udcec <b style="color:var(--tx)">Nech mi e-mail</b> (nepovinn\u00e9) \u2014 tipova\u010dku d\u011bl\u00e1m jako sv\u016fj projekt a r\u00e1d se ti ozvu, a\u017e budu chystat dal\u0161\u00ed. O sv\u016fj profil, body a historii tak nep\u0159ijde\u0161.</div>'+
+      '<div class="ank-mail-row"><input type="email" class="ank-mail-in" maxlength="120" placeholder="tvuj@email.cz" value="'+escAttr(m.email||'')+'"><button type="button" class="ank-mail-btn">Ulo\u017eit</button></div></div>';
+  }
+  var admin=(me&&me.je_admin)?'<div style="text-align:right;margin-top:6px"><button type="button" class="fin-syncbtn ank-admin-btn">\ud83d\udccb Detail (admin)</button></div>':'';
+  return '<div class="ank-card">'+head+'<div class="ank-note">Turnaj kon\u010d\u00ed \u2014 hlasuj, o co bys m\u011bl z\u00e1jem p\u0159\u00ed\u0161t\u011b.</div>'+opts+bars+mail+admin+'</div>';
+}
+function refreshAnketa(){
+  var hosts=document.querySelectorAll('.ank-host'); if(!hosts.length) return;
+  if(!me||!finaleIsPublic()){ hosts.forEach(function(h){ h.innerHTML=''; }); return; }
+  if(!zakMeta) loadZakMeta();
+  var html=anketaCardHtml();
+  hosts.forEach(function(h){ h.innerHTML=html; });
+}
+function anketaVote(k){
+  if(!me||!myPin) return;
+  var old=zakMeta&&zakMeta.volba;
+  if(old===k) return;
+  rpcWithRetry('set_anketa_secure',{p_hrac_id:me.id,p_pin:myPin,p_volba:k}).then(function(r){
+    if(r&&r.chyba) throw new Error(r.chyba);
+    if(!zakMeta) zakMeta={ok:true,souhrn:{},celkem:0};
+    zakMeta.souhrn=zakMeta.souhrn||{};
+    if(old){ zakMeta.souhrn[old]=Math.max(0,(zakMeta.souhrn[old]||1)-1); } else { zakMeta.celkem=(zakMeta.celkem||0)+1; }
+    zakMeta.souhrn[k]=(zakMeta.souhrn[k]||0)+1;
+    zakMeta.volba=k;
+    refreshAnketa();
+    showToast('Hlas ulo\u017een. D\u00edky! \ud83d\uddf3\ufe0f','ok');
+  }).catch(function(e){ showToast('Chyba: '+((e&&e.message)||e),'err'); });
+}
+function anketaSaveMail(btn){
+  if(!me||!myPin) return;
+  var card=btn.closest('.ank-card'),inp=card&&card.querySelector('.ank-mail-in'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  btn.disabled=true;
+  rpcWithRetry('set_email_secure',{p_hrac_id:me.id,p_pin:myPin,p_email:v}).then(function(r){
+    if(r&&r.chyba) throw new Error(r.chyba);
+    if(zakMeta){ zakMeta.email=(r&&r.email)||null; zakMeta.__edit=false; }
+    refreshAnketa();
+    showToast(v?'E-mail ulo\u017een. D\u00edky! \ud83d\udcec':'E-mail odebr\u00e1n.','ok');
+  }).catch(function(e){ btn.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
+}
+function anketaSaveKom(btn){
+  if(!me||!myPin||!zakMeta||!zakMeta.volba) return;
+  var card=btn.closest('.ank-card'),inp=card&&card.querySelector('.ank-kom-in'); if(!inp) return;
+  var v=(inp.value||'').trim(); if(!v) return;
+  rpcWithRetry('set_anketa_secure',{p_hrac_id:me.id,p_pin:myPin,p_volba:zakMeta.volba,p_komentar:v}).then(function(r){
+    if(r&&r.chyba) throw new Error(r.chyba);
+    zakMeta.komentar=v; refreshAnketa();
+    showToast('Vzkaz ulo\u017een. \ud83d\udcac','ok');
+  }).catch(function(e){ showToast('Chyba: '+((e&&e.message)||e),'err'); });
+}
+function anketaAdminDetail(){
+  if(!me||!me.je_admin||!myPin) return;
+  rpcWithRetry('admin_get_anketa_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){
+    if(!d||d.chyba) throw new Error((d&&d.chyba)||'chyba');
+    var vol={}; ANKETA_OPTS.forEach(function(o){ vol[o.k]=o.l; });
+    var rows=(d.hlasy||[]).map(function(h){ return '<div style="margin:3px 0"><b>'+escHtml(h.jmeno)+'</b> \u2014 '+(vol[h.volba]||escHtml(h.volba))+(h.komentar?' \u00b7 <i>\u201e'+escHtml(h.komentar)+'\u201c</i>':'')+'</div>'; }).join('')||'<div class="ank-note">Zat\u00edm nikdo nehlasoval.</div>';
+    var mails=(d.emaily||[]).map(function(x){ return '<div style="margin:3px 0"><b>'+escHtml(x.jmeno)+'</b> \u2014 '+escHtml(x.email)+'</div>'; }).join('')||'<div class="ank-note">Zat\u00edm \u017e\u00e1dn\u00fd e-mail.</div>';
+    var ov=document.createElement('div'); ov.className='onb-overlay';
+    ov.innerHTML='<div class="onb-card" style="max-height:82vh;overflow-y:auto;text-align:left"><div class="onb-title">\ud83d\udccb Anketa \u2014 detail</div>'+
+      '<div style="font-size:.78rem"><div style="font-weight:800;margin:8px 0 4px">\ud83d\uddf3\ufe0f Hlasy ('+(d.hlasy||[]).length+')</div>'+rows+
+      '<div style="font-weight:800;margin:12px 0 4px">\ud83d\udcec E-maily ('+(d.emaily||[]).length+')</div>'+mails+'</div>'+
+      '<div class="onb-actions" style="justify-content:center;margin-top:10px"><button class="onb-next" type="button">Zav\u0159\u00edt</button></div></div>';
+    ov.addEventListener('click',function(e){ if(e.target===ov||e.target.closest('.onb-next')) ov.remove(); });
+    document.body.appendChild(ov);
+  }).catch(function(e){ showToast('Chyba: '+((e&&e.message)||e),'err'); });
+}
+document.addEventListener('click',function(e){
+  var op=e.target.closest('.ank-opt'); if(op&&op.dataset.anketa){ anketaVote(op.dataset.anketa); return; }
+  if(e.target.closest('.ank-kom-btn')){ anketaSaveKom(e.target.closest('.ank-kom-btn')); return; }
+  if(e.target.closest('.ank-mail-btn')){ anketaSaveMail(e.target.closest('.ank-mail-btn')); return; }
+  if(e.target.closest('.ank-mail-edit')){ if(zakMeta){ zakMeta.__edit=true; refreshAnketa(); } return; }
+  if(e.target.closest('.ank-admin-btn')){ anketaAdminDetail(); return; }
+});
 function finaleWelcomePopup(force){
   if(!me) return;
   if(!finaleIsPublic() && !me.je_admin) return;
@@ -7836,12 +7962,14 @@ function finaleWelcomePopup(force){
   var overlay=document.createElement('div'); overlay.className='onb-overlay';
   function close(){ if(overlay.parentNode) overlay.parentNode.removeChild(overlay); }
   overlay.addEventListener('click',function(e){ if(e.target===overlay) close(); });
-  overlay.innerHTML='<div class="onb-card" style="text-align:center">'+
+  overlay.innerHTML='<div class="onb-card" style="text-align:center;max-height:88vh;overflow-y:auto">'+
     '<div class="onb-emoji">🎉</div><div class="onb-title">Tipovačka skončila!</div>'+
     '<div class="onb-text">Šampionem se stává<br><span style="font-size:1.35rem;font-weight:900;color:var(--gd)">👑 '+escHtml(cel[0].p.jmeno)+'</span><br><span style="color:var(--mu2)">'+cel[0].total+' bodů</span><br><br>Projeď si vysvědčení každého hráče, ceny turnaje i statistiky.</div>'+
+    '<div class="ank-host" style="text-align:left"></div>'+
     '<div class="onb-actions" style="justify-content:center"><button class="onb-next" id="fin-wel-ok">Zobrazit zakončení 🏆</button></div></div>';
   document.body.appendChild(overlay);
   overlay.querySelector('#fin-wel-ok').onclick=close;
+  refreshAnketa();
   finaleConfetti(3800);
 }
 function finaleShareCard(pid){
@@ -8521,7 +8649,7 @@ function renderFinale(){
   el.innerHTML=lock+adminBar+'<div style="font-size:1.05rem;font-weight:800;text-align:center;margin:2px 0 8px">🏆 Zakončení tipovačky</div>'+chips+
     '<div id="fin-blk-tip" style="display:'+(finaleView==='tour'?'none':'block')+'">'+
       '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:14px 0 4px">📊 Statistiky tipérů</div>'+
-      finalePodiumHtml(cel)+finaleAwardsHtml(reps)+
+      finalePodiumHtml(cel)+'<div class="ank-host"></div>'+finaleAwardsHtml(reps)+
       finaleGlobalHtml(reps)+
       '<div style="text-align:center;margin:16px 0 4px"><div style="font-size:.72rem;color:var(--mu);margin-bottom:4px">Vysvědčení hráče (můžeš projet kohokoliv)</div><select id="fin-sel" class="fin-sel">'+opts+'</select></div>'+
       '<div id="fin-report">'+finaleReportHtml(finaleSelPid)+'</div>'+
@@ -8529,6 +8657,7 @@ function renderFinale(){
     '<div id="fin-blk-tour"><div class="fin-sec" style="text-align:center"><span class="fin-mlink" onclick="showTab(&quot;stats&quot;)" style="font-size:.78rem">🏟️ Turnajové statistiky (střelci, týmy, hráči, stadiony) najdeš v záložce Turnaj → Statistiky</span></div></div>'+
     '<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
   finaleBindHScroll(el);
+  refreshAnketa();
   var sel=document.getElementById('fin-sel');
   if(sel) sel.onchange=function(){ finaleSelPid=sel.value; var rep=document.getElementById('fin-report'); if(rep){ rep.innerHTML=finaleReportHtml(finaleSelPid); finaleBindHScroll(rep); } };
   var syncBtn=document.getElementById('fin-sync');
