@@ -356,6 +356,48 @@ body.theme-light .venue{color:#5f7690}
 .ank-mail-row,.ank-kom{display:flex;gap:6px;margin-top:6px}
 .ank-mail-in,.ank-kom-in{flex:1;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:9px;padding:7px 10px;font-size:.78rem;min-width:0}
 .ank-mail-btn,.ank-kom-btn{border:1px solid var(--ac);background:var(--ac);color:#fff;border-radius:9px;padding:7px 12px;font-size:.75rem;font-weight:700;cursor:pointer;flex:0 0 auto}
+/* v5.12.58: design soupisky a profilu hrace */
+.sq-head{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+.sq-flag{font-size:2.1rem;line-height:1}
+.sq-name{font-weight:900;font-size:1.12rem;line-height:1.2}
+.sq-sub{font-size:.64rem;color:var(--mu2);margin-top:2px}
+.sq-sec{display:flex;align-items:center;gap:8px;margin:13px 0 5px}
+.sq-sec-badge{font-size:.58rem;font-weight:800;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase;white-space:nowrap}
+.sq-sec-line{flex:1;height:1px;background:var(--bd)}
+.sq-sec-n{font-size:.6rem;color:var(--mu);font-weight:700}
+.pos-G{background:rgba(251,191,36,.14);color:#fbbf24}
+.pos-D{background:rgba(59,130,246,.16);color:#60a5fa}
+.pos-M{background:rgba(34,197,94,.14);color:var(--gn2)}
+.pos-F{background:rgba(239,68,68,.14);color:#f87171}
+.pos-X{background:var(--bg3);color:var(--mu2)}
+.sq-row{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:10px;margin:2px 0;background:rgba(255,255,255,.02);border:1px solid transparent}
+.sq-row.has-st{border-color:var(--bd)}
+.sq-num{flex:0 0 26px;height:26px;border-radius:8px;background:var(--bg3);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;color:var(--mu2);font-variant-numeric:tabular-nums}
+.sq-nm{flex:1;min-width:0;font-size:.75rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sq-nm .link-player{cursor:pointer}
+.sq-age{color:var(--mu2);font-weight:400;font-size:.6rem}
+.sq-chips{display:flex;gap:4px;flex:0 0 auto;flex-wrap:wrap;justify-content:flex-end}
+.sq-chip{font-size:.58rem;padding:2px 7px;border-radius:999px;background:var(--bg3);color:var(--mu2);font-weight:700;white-space:nowrap}
+.sq-chip.g{background:rgba(34,197,94,.14);color:var(--gn2)}
+.sq-chip.a{background:rgba(59,130,246,.16);color:#7fb2ff}
+.sq-chip.sv{background:rgba(251,191,36,.13);color:#fbbf24}
+.sq-chip.mut{background:transparent;opacity:.55;font-style:italic;font-weight:500}
+.sq-m{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;margin:3px 0;background:rgba(255,255,255,.02);cursor:pointer;border:1px solid transparent}
+.sq-m:hover{border-color:var(--bd2)}
+.sq-m-round{flex:0 0 54px;font-size:.54rem;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
+.sq-m-t{flex:1;min-width:0;font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sq-m-t small{color:var(--mu2);font-size:.6rem}
+.sq-m-res{flex:0 0 auto;font-weight:800;font-size:.72rem;padding:2px 8px;border-radius:8px;font-variant-numeric:tabular-nums}
+.sq-m-res.w{background:rgba(34,197,94,.15);color:var(--gn2)}
+.sq-m-res.l{background:rgba(239,68,68,.14);color:#f87171}
+.sq-m-res.d{background:rgba(251,191,36,.13);color:#fbbf24}
+.sq-m-res.n{background:var(--bg3);color:var(--mu2)}
+.tc-team-link.tc-main{grid-column:1/-1;cursor:pointer;font-family:inherit;background:rgba(59,130,246,.14);border-color:var(--ac);color:var(--ac2);font-weight:800;font-size:.76rem}
+.tc-team-link.tc-main:hover{background:rgba(59,130,246,.22)}
+.pp-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-right:24px}
+.pp-name{font-weight:900;font-size:1.05rem;line-height:1.2}
+.pp-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;align-items:center}
+.pp-avg{font-size:.64rem;color:var(--mu2);background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;padding:6px 9px;margin:6px 0 2px;line-height:1.6}
 .fin-sub3 span{color:var(--mu2)}
 .fin-award.has-top{cursor:pointer}
 .fin-award-caret{color:var(--mu2);font-size:.6rem}
@@ -2681,7 +2723,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.57';
+var APP_VERSION='v5.12.58';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5517,7 +5559,11 @@ function openPlayerProfile(name){
   var isGk=p.pos==='G';
   var zmap={}; SZ.concat(PZ).forEach(function(z){ zmap[z[0]]=z; });
   var scored=p.matches.filter(function(m){return m.g>0||m.a>0;});
-  var matchList=scored.length?scored.map(function(m){ var z=zmap[m.zid]; if(!z) return ''; return '<div style="font-size:.72rem;line-height:1.7"><span class="fin-mlink" data-mcard="'+m.zid+'">'+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+'</span> <span style="color:var(--mu2)">'+(m.g?('⚽'+(m.g>1?'×'+m.g:'')):'')+(m.a?(' 🅰️'+(m.a>1?'×'+m.a:'')):'')+'</span></div>'; }).join(''):'<div style="font-size:.7rem;color:var(--mu)">bez gólu a asistence</div>';
+  var matchList=scored.length?scored.map(function(m){ var z=zmap[m.zid]; if(!z) return '';
+    var res=results[m.zid];
+    var chips=(m.g?'<span class="sq-chip g">⚽ '+m.g+'</span>':'')+(m.a?'<span class="sq-chip a">🅰️ '+m.a+'</span>':'');
+    return '<div class="sq-m" data-mcard="'+m.zid+'"><span class="sq-m-round">'+sqRound(m.zid)+'</span><span class="sq-m-t">'+(fl(z[2])||'')+' '+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+'</span><span class="sq-chips">'+chips+'</span><span class="sq-m-res n">'+escHtml(res||'–:–')+'</span></div>';
+  }).join(''):'<div style="font-size:.7rem;color:var(--mu)">'+(LANG==='en'?'no goal or assist':'bez gólu a asistence')+'</div>';
   function tile(v,l){ return '<div class="fin-tile"><b>'+v+'</b><span>'+l+'</span></div>'; }
   var tiles=isGk
     ? tile(p.apps,'zápasů')+tile(p.sv,'zákroků')+tile(p.gc,'obdržených')+tile(p.cs,'čistých kont')
@@ -5533,11 +5579,10 @@ function openPlayerProfile(name){
   });
   overlay.innerHTML='<div class="pdet-card" style="max-width:420px">'+
     '<button class="pdet-close" id="pp-close" type="button" style="position:absolute;top:8px;right:10px;background:transparent;border:none;color:var(--mu);font-size:1.2rem;cursor:pointer">×</button>'+
-    '<div style="font-weight:800;font-size:1rem;margin-bottom:2px">'+escHtml(name)+'</div>'+
-    '<div style="font-size:.74rem;color:var(--mu2);margin-bottom:10px">'+(localTeam?'<span class="link-team" data-team="'+escAttr(localTeam)+'">'+teamLbl+'</span>':teamLbl)+(p.pos?' · '+escHtml(p.pos):'')+(p.subG?' · 🃏 '+p.subG+' gólů ze střídačky':'')+'</div>'+
+    '<div class="pp-head"><div><div class="pp-name">'+escHtml(name)+'</div><div class="pp-meta">'+(localTeam?'<span class="sq-chip"><span class="link-team" data-team="'+escAttr(localTeam)+'" style="cursor:pointer">'+teamLbl+'</span></span>':'<span class="sq-chip">'+teamLbl+'</span>')+(p.pos?'<span class="sq-sec-badge pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+({G:'Brankář',D:'Obránce',M:'Záložník',F:'Útočník'}[p.pos]||escHtml(p.pos))+'</span>':'')+(p.subG?'<span class="sq-chip g">🃏 '+p.subG+' ze střídačky</span>':'')+'</div></div></div>'+
     '<div class="fin-tiles">'+tiles+'</div><div class="fin-tiles">'+tiles2+'</div>'+
-    '<div style="font-size:.66rem;color:var(--mu2);margin:2px 0 6px">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+'</div>'+
-    '<div style="font-size:.68rem;color:var(--mu);margin:8px 0 3px;font-weight:700">Góly a asistence v zápasech</div>'+matchList+
+    '<div class="pp-avg">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+'</div>'+
+    '<div class="sq-sec" style="margin-top:10px"><span class="sq-sec-badge pos-M">'+(LANG==='en'?'Goals & assists':'Góly a asistence')+'</span><span class="sq-sec-line"></span></div>'+matchList+
   '</div>';
   document.body.appendChild(overlay);
   var cb=overlay.querySelector('#pp-close'); if(cb) cb.onclick=close;
@@ -9090,32 +9135,51 @@ function renderTeamSchedule(localName){
 
 // v5.12.57: vlastni soupisky z team_rosters (oficialni kadr vc. hracu bez minut) + zapasy tymu
 var rosterCache={};
+function sqRound(zid){ if(zid<73) return (LANG==='en'?'Group':'Skupina'); if(zid<89) return '1/16'; if(zid<97) return (LANG==='en'?'R16':'Osmifinále'); if(zid<101) return (LANG==='en'?'QF':'Čtvrtfinále'); if(zid<103) return (LANG==='en'?'SF':'Semifinále'); if(zid===103) return (LANG==='en'?'3rd place':'O 3. místo'); return (LANG==='en'?'Final':'Finále'); }
+function sqResCls(name,z,res,adv){
+  if(!/^\d+:\d+$/.test(String(res||''))) return 'n';
+  var sp=String(res).split(':').map(Number), side=(z[2]===name?'H':'A');
+  var my=(side==='H'?sp[0]:sp[1]), op=(side==='H'?sp[1]:sp[0]);
+  if(my>op) return 'w'; if(my<op) return 'l';
+  if(adv) return adv===side?'w':'l';
+  return 'd';
+}
 function teamSquadHtml(name,rows){
-  var POS={G:(LANG==='en'?'Goalkeepers':'Brank\u00e1\u0159i'),D:(LANG==='en'?'Defenders':'Obr\u00e1nci'),M:(LANG==='en'?'Midfielders':'Z\u00e1lo\u017en\u00edci'),F:(LANG==='en'?'Forwards':'\u00dato\u010dn\u00edci')};
-  var by={}; (rows||[]).forEach(function(r){ var k=POS[r.pos]?r.pos:'X'; (by[k]=by[k]||[]).push(r); });
-  var h='<div class="onb-title" style="text-align:center">'+(fl(name)||'')+' '+escHtml(tN(name))+'</div>';
-  if(!rows||!rows.length) h+='<div class="empty">'+(LANG==='en'?'Squad not available.':'Soupiska nen\u00ed k dispozici.')+'</div>';
+  var POS={G:(LANG==='en'?'Goalkeepers':'Brankáři'),D:(LANG==='en'?'Defenders':'Obránci'),M:(LANG==='en'?'Midfielders':'Záložníci'),F:(LANG==='en'?'Forwards':'Útočníci')};
+  var by={},ages=[],played=0;
+  (rows||[]).forEach(function(r){ var k=POS[r.pos]?r.pos:'X'; (by[k]=by[k]||[]).push(r); if(r.age)ages.push(r.age); if(playerStatsByName[r.player])played++; });
+  var avgAge=ages.length?(ages.reduce(function(a,b){return a+b;},0)/ages.length).toFixed(1):null;
+  var h='<div class="sq-head"><span class="sq-flag">'+(fl(name)||'🏳️')+'</span><div><div class="sq-name">'+escHtml(tN(name))+'</div><div class="sq-sub">'+(rows&&rows.length?rows.length+(LANG==='en'?' players · ':' hráčů · ')+played+(LANG==='en'?' with minutes':' se starty')+(avgAge?' · ⌀ '+avgAge+(LANG==='en'?' yrs':' let'):''):'')+'</div></div></div>';
+  if(!rows||!rows.length) h+='<div class="empty">'+(LANG==='en'?'Squad not available.':'Soupiska není k dispozici.')+'</div>';
   ['G','D','M','F','X'].forEach(function(k){
     var list=by[k]; if(!list||!list.length) return;
-    h+='<div style="font-weight:800;font-size:.72rem;margin:10px 0 3px;color:var(--mu2);text-transform:uppercase;letter-spacing:.04em">'+(POS[k]||(LANG==='en'?'Others':'Ostatn\u00ed'))+' ('+list.length+')</div>';
+    h+='<div class="sq-sec"><span class="sq-sec-badge pos-'+k+'">'+(POS[k]||(LANG==='en'?'Others':'Ostatní'))+'</span><span class="sq-sec-line"></span><span class="sq-sec-n">'+list.length+'</span></div>';
     list.sort(function(a,b){ return (a.jersey!=null?a.jersey:99)-(b.jersey!=null?b.jersey:99); });
     h+=list.map(function(r){
       var st=playerStatsByName[r.player];
-      var stat=st?(st.apps+'\u00d7'+(k==='G'?(' \u00b7 '+st.sv+' z\u00e1krok\u016f'+(st.cs?' \u00b7 '+st.cs+'\u00d7 nula':'')):((st.g?' \u00b7 '+st.g+' g':'')+(st.a?' \u00b7 '+st.a+' a':'')))):(LANG==='en'?'no minutes':'bez startu');
+      var chips='';
+      if(st){
+        chips+='<span class="sq-chip">'+st.apps+'×</span>';
+        if(k==='G'){ if(st.sv) chips+='<span class="sq-chip sv">🧤 '+st.sv+'</span>'; if(st.cs) chips+='<span class="sq-chip g">'+st.cs+'× nula</span>'; }
+        else { if(st.g) chips+='<span class="sq-chip g">⚽ '+st.g+'</span>'; if(st.a) chips+='<span class="sq-chip a">🅰️ '+st.a+'</span>'; }
+      } else {
+        chips='<span class="sq-chip mut">'+(LANG==='en'?'no minutes':'bez startu')+'</span>';
+      }
       var nm=st?('<span class="link-player" data-player="'+escAttr(r.player)+'">'+escHtml(r.player)+'</span>'):escHtml(r.player);
-      return '<div style="display:flex;gap:8px;font-size:.74rem;line-height:1.75;align-items:baseline"><span style="flex:0 0 20px;color:var(--mu2);text-align:right;font-variant-numeric:tabular-nums">'+(r.jersey!=null?r.jersey:'\u2013')+'</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+nm+(r.age?' <span style="color:var(--mu2);font-size:.62rem">('+r.age+')</span>':'')+'</span><span style="flex:0 0 auto;color:var(--mu2);font-size:.64rem;white-space:nowrap">'+stat+'</span></div>';
+      return '<div class="sq-row'+(st?' has-st':'')+'"><span class="sq-num">'+(r.jersey!=null?r.jersey:'–')+'</span><span class="sq-nm">'+nm+(r.age?' <span class="sq-age">('+r.age+')</span>':'')+'</span><span class="sq-chips">'+chips+'</span></div>';
     }).join('');
   });
   var ms=SZ.concat(PZ).filter(function(z){ return z[2]===name||z[3]===name; });
   if(ms.length){
-    h+='<div style="font-weight:800;font-size:.72rem;margin:12px 0 3px;color:var(--mu2);text-transform:uppercase;letter-spacing:.04em">'+(LANG==='en'?'Matches at WC 2026':'Z\u00e1pasy na MS 2026')+' ('+ms.length+')</div>';
+    h+='<div class="sq-sec"><span class="sq-sec-badge pos-X">'+(LANG==='en'?'Matches at WC 2026':'Zápasy na MS 2026')+'</span><span class="sq-sec-line"></span><span class="sq-sec-n">'+ms.length+'</span></div>';
     h+=ms.map(function(z){
-      var res=results[z[0]]||'\u2013:\u2013'; var adv=resultsAdvance&&resultsAdvance[z[0]];
-      var advTx=(adv&&results[z[0]])?(' <span style="color:var(--mu2);font-size:.62rem">(postup: '+escHtml(tN(adv==='H'?z[2]:z[3]))+')</span>'):'';
-      return '<div class="fin-mlink" data-mcard="'+z[0]+'" style="display:flex;gap:6px;font-size:.72rem;line-height:1.8;cursor:pointer"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(fl(z[2])||'')+' '+escHtml(tN(z[2]))+' \u2013 '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+advTx+'</span><b style="flex:0 0 auto">'+escHtml(res)+'</b></div>';
+      var res=results[z[0]]; var adv=resultsAdvance&&resultsAdvance[z[0]];
+      var cls=sqResCls(name,z,res,adv);
+      var advTx=(adv&&res)?('<br><small>'+(LANG==='en'?'advanced: ':'postup: ')+escHtml(tN(adv==='H'?z[2]:z[3]))+'</small>'):'';
+      return '<div class="sq-m" data-mcard="'+z[0]+'"><span class="sq-m-round">'+sqRound(z[0])+'</span><span class="sq-m-t">'+(fl(z[2])||'')+' '+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+advTx+'</span><span class="sq-m-res '+cls+'">'+escHtml(res||'–:–')+'</span></div>';
     }).join('');
   }
-  h+='<div style="font-size:.6rem;color:var(--mu2);margin-top:8px;text-align:center">'+(LANG==='en'?'Official tournament squad \u00b7 tap a player with minutes for profile':'Ofici\u00e1ln\u00ed nomina\u010dn\u00ed listina \u00b7 klepni na hr\u00e1\u010de se starty pro profil')+'</div>';
+  h+='<div style="font-size:.58rem;color:var(--mu2);margin-top:8px;text-align:center">'+(LANG==='en'?'Official tournament squad · tap a player with minutes for profile':'Oficiální nominační listina · klepni na hráče se starty pro profil')+'</div>';
   return h;
 }
 function openTeamSquad(name){
@@ -9134,8 +9198,13 @@ function openTeamSquad(name){
   Promise.all([p1,p2]).then(function(res){ var rows=Array.isArray(res[0])?res[0]:[]; rosterCache[name]=rows; fill(rows); }).catch(function(){ fill([]); });
 }
 function renderTeamLinks(localName){
-  // v5.12.57: vlastni soupiska + zapasy (ESPN/FIFA odkazy odstranены - appka je sobestacna)
-  return '<div class="tc-team-links"><button type="button" class="tc-team-link" data-squad="'+escAttr(localName)+'" style="grid-column:1/-1;cursor:pointer;font-family:inherit">\ud83d\udccb '+(LANG==='en'?'Squad, stats & matches':'Soupiska, statistiky a z\u00e1pasy')+'</button></div>';
+  // v5.12.58: dominantni vlastni soupiska + male externi odkazy FIFA/ESPN (clanky, zajimavosti)
+  var urls=(typeof getEspnTeamUrls==='function')?getEspnTeamUrls(localName):null;
+  var fifaUrl=(typeof getFifaProfileUrl==='function')?getFifaProfileUrl(getFifaRecord(localName)):'';
+  var ext='';
+  if(fifaUrl) ext+='<a class="tc-team-link" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer">🌐 FIFA</a>';
+  if(urls&&urls.profile) ext+='<a class="tc-team-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">📰 ESPN</a>';
+  return '<div class="tc-team-links"><button type="button" class="tc-team-link tc-main" data-squad="'+escAttr(localName)+'">📋 '+(LANG==='en'?'Squad, stats & matches':'Soupiska, statistiky a zápasy')+'</button>'+ext+'</div>';
 }
 var WORLD_CUP_FACTS=[
   {icon:'🌍',titleCs:'Jediný stálý účastník',titleEn:'Ever-present nation',bodyCs:'Brazílie je jedinou zemí, která hrála na každém mistrovství světa od roku 1930.',bodyEn:'Brazil is the only nation to have appeared at every World Cup since 1930.'},

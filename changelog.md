@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.58 - 19. 7. 2026
+
+**Design soupisky a profilu hráče + návrat malých FIFA/ESPN odkazů.**
+- Soupiska: hlavička s vlajkou a souhrnem (počet hráčů, se starty, ⌀ věk), barevné sekce pozic (🟡 brankáři, 🔵 obránci, 🟢 záložníci, 🔴 útočníci), dresová čísla v rámečku, statistiky jako barevné chipy (⚽ góly, 🅰️ asistence, 🧤 zákroky, „bez startu" decentně).
+- Zápasy týmu: štítek kola (Skupina/1/16/Osmifinále…), výsledek barevně podle výhry/prohry/remízy z pohledu týmu (u remíz v playoff rozhoduje postup).
+- Profil hráče: stejný designový systém — chip týmu, badge pozice, ⌀ statistiky v boxu, góly/asistence po zápasech s kolem a výsledkem.
+- V kartě týmu zůstává dominantní naše tlačítko soupisky + malé odkazy 🌐 FIFA a 📰 ESPN (články).
+
 ## v5.12.57 - 19. 7. 2026
 
 **Vlastní soupisky — konec ESPN odkazů.**
