@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.65 - 20. 7. 2026
+
+**Po turnaji: e-mail v Můj účet, závěrečný souhrn, vypnutí botů, archiv.**
+- **E-mail v Můj účet** (Pravidla → Můj účet): trvalé pole pro uložení/změnu e-mailu k profilu — stejná data jako v anketě (jedno místo pravdy `hrac_emaily`).
+- **Závěrečný souhrn bota** vygenerován (finále, tipéři dne, konečné pořadí) — `daily-recap` v6 nově započítává extra body (vítěz +30 / král střelců +20), takže konečné pořadí sedí s žebříčkem: Adam184 374 · Michal Roubal 327 · Dave80 280.
+- **Croni vypnuti**: cron-results (2 min), stats-cron (10 min) i daily-recap (denně) odplánovány — turnaj skončil. Auto-vyhodnocení extra tipů proběhlo správně (Španělsko + Kylian Mbappé, dle FIFA pravidel).
+- **Archiv turnaje**: nové tabulky `turnaje` a `turnaj_archiv` (13 hráčů, konečné pořadí vč. extra bodů + spárované e-maily) — podklad pro budoucí síň slávy. Git tag `v5.12-final-turnaj` + lokální kopie souborů v `archive/`.
+
 ## v5.12.64 - 20. 7. 2026
 
 **📌 Připnutý příspěvek v diskuzi.** Admin může u hlavního příspěvku kliknout „📌 Připnout" — příspěvek se zvýrazní (zlatý rámeček + štítek „Připnutý příspěvek") a drží se první v diskuzi bez ohledu na stáří. Připnutý může být vždy jen jeden (nové připnutí odepne předchozí), „Odepnout" vrací normální řazení. RPC `admin_set_post_pinned_secure` (jen admin, jen hlavní příspěvky).

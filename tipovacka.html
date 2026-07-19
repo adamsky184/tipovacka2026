@@ -2695,6 +2695,11 @@ body.admin-user #btn-logout{padding:0 10px}
           PIN slouží k přihlášení i potvrzení uložení tipů. Doporučujeme změnit z výchozí hodnoty.
         </div>
         <button class="btn btn-ol btn-sm" id="btn-change-pin" style="margin-bottom:.85rem">🔑 Změnit PIN</button>
+        <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin:0 0 .45rem" id="account-email-info">
+          📬 E-mail k profilu (nepovinné) — až budu chystat další tipovačku, ozvu se ti. O svůj profil, body a historii nepřijdeš.
+        </div>
+        <div class="ank-mail-row" style="max-width:360px"><input type="email" class="ank-mail-in" id="acct-email-in" maxlength="120" placeholder="tvuj@email.cz"><button type="button" class="ank-mail-btn" id="acct-email-btn">Uložit</button></div>
+        <div style="font-size:.66rem;color:var(--mu2);margin:4px 0 .85rem;min-height:14px" id="acct-email-st"></div>
         <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-info-txt">
           Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.
         </div>
@@ -2735,7 +2740,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.64';
+var APP_VERSION='v5.12.65';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5415,6 +5420,7 @@ function showTab(name){
   if(name==='historie') renderHistory();
   if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions(),loadDailyRecap()]).then(renderDiscussion);
+  if(name==='pravidla'&&me) fillAcctEmail();
   if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta(),loadGoalMinutes(),loadMatchStats(),loadPlayerStats()]).then(renderFinale); }
   if(name==='stats'){ var se=document.getElementById('stats-list'); if(se&&!se.__filled) se.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadGoalMinutes(),loadMatchStats(),loadPlayerStats(),sbf('vysledky?select=zapas_id,skore,postupujici').then(function(d){results={};resultsAdvance={};(d||[]).forEach(function(v){var zid=parseInt(v.zapas_id,10);results[zid]=v.skore;if(v.postupujici)resultsAdvance[zid]=v.postupujici;});})]).then(renderStatsTab); }
   if(name==='tymy'&&!Object.keys(playerStatsByName).length){ loadPlayerStats().then(function(){ try{ if(document.getElementById('page-tymy').style.display!=='none') renderTymy(); }catch(_e){} }); }
@@ -8017,6 +8023,30 @@ function anketaCardHtml(){
   }
   var admin=(me&&me.je_admin)?'<div style="text-align:right;margin-top:6px"><button type="button" class="fin-syncbtn ank-admin-btn">\ud83d\udccb Detail (admin)</button></div>':'';
   return '<div class="ank-card">'+head+'<div class="ank-note">Turnaj kon\u010d\u00ed \u2014 hlasuj, o co bys m\u011bl z\u00e1jem p\u0159\u00ed\u0161t\u011b.</div>'+opts+bars+mail+admin+'</div>';
+}
+// v5.12.65: e-mail i v Muj ucet (Pravidla) - stejna data jako v ankete
+function fillAcctEmail(){
+  var inp=document.getElementById('acct-email-in'),st=document.getElementById('acct-email-st'),btn=document.getElementById('acct-email-btn');
+  if(!inp||!me) return;
+  function apply(){ inp.value=(zakMeta&&zakMeta.email)||''; if(st) st.textContent=(zakMeta&&zakMeta.email)?'✓ Uloženo':'Zatím žádný e-mail neuložen.'; }
+  if(zakMeta){ apply(); }
+  else if(myPin){ rpcWithRetry('get_zakonceni_meta_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){ if(d&&d.ok) zakMeta=d; apply(); }).catch(apply); }
+  if(btn&&!btn.__bound){ btn.__bound=true;
+    btn.addEventListener('click',function(){
+      if(!me||!myPin){ showToast('Nejdřív se přihlas.','err'); return; }
+      var v=(inp.value||'').trim();
+      btn.disabled=true;
+      rpcWithRetry('set_email_secure',{p_hrac_id:me.id,p_pin:myPin,p_email:v}).then(function(r){
+        btn.disabled=false;
+        if(r&&r.chyba) throw new Error(r.chyba);
+        if(!zakMeta) zakMeta={ok:true};
+        zakMeta.email=(r&&r.email)||null; zakMeta.__edit=false;
+        if(st) st.textContent=v?'✓ Uloženo':'E-mail odebrán.';
+        showToast(v?'E-mail uložen. Díky! 📬':'E-mail odebrán.','ok');
+        refreshAnketa();
+      }).catch(function(e){ btn.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
+    });
+  }
 }
 function refreshAnketa(){
   var hosts=document.querySelectorAll('.ank-host'); if(!hosts.length) return;
