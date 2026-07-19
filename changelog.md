@@ -2,6 +2,11 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.56 - 19. 7. 2026
+
+- **Skutečné plánky pro New York a Vancouver**: FIFA 3D vizualizace nahrazeny oficiálním sektorovým plánkem MetLife Stadium (metlifestadium.com) a mapou areálu BC Place s bránami (bcplace.com).
+- **Nej střelec na MS živě pro všechny týmy**: opraveno párování týmů (ESPN ukládá anglické názvy — „France" vs „Francie"), takže letošní střelec může předstihnout historického. Francie: Just Fontaine (13) → **Kylian Mbappé (12 + 10 letos = 22)**, Norsko → Haaland (7), Senegal → Sarr (4), Belgie → Lukaku (5+3=8), Kanada → J. David (3) ad. — celkem 13 týmů. U sdílených historických rekordů bez jména („3 góly (více hráčů)") se nahrazuje jen při striktně vyšším počtu.
+
 ## v5.12.55 - 19. 7. 2026
 
 - **Zakončení — top 3 čitelně**: rozkliknutá cena se roztáhne přes celou šířku a text se zalamuje (nic se neořezává).

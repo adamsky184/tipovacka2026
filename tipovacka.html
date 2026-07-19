@@ -2681,7 +2681,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.55';
+var APP_VERSION='v5.12.56';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -9306,6 +9306,29 @@ function renderHistory(){
   }
   host.innerHTML=renderHistoryFinals()+'<div class="back-top-wrap"><button class="back-top-btn" type="button" onclick="scrollTopSmooth()">'+escHtml(tr('back_top'))+'</button></div>';
 }
+// v5.12.56: nejlepsi strelec tymu na MS zive pro vsechny tymy - kandidati = historicky strelec tymu
+// + hraci z historickeho top15 + vsichni letosni strelci tymu; letosni goly se pripocitavaji
+function teamTopScorerLive(name,scorerStr){
+  try{
+    var baseBy={};
+    var mm=String(scorerStr||'').match(/^(.+?)\s*\((\d+)\)\s*$/);
+    if(mm) baseBy[mm[1].trim()]=parseInt(mm[2],10);
+    // formaty bez jmena ('3 goly (vice hracu)') -> prah: nahrad jen kdyz letosni hrac ma striktne vic
+    var thr=0;
+    if(!mm){ var m2=String(scorerStr||'').match(/^(\d+)\s*g[oó]l/i); if(m2) thr=parseInt(m2[1],10); }
+    WORLD_CUP_TOP_SCORERS.forEach(function(r){ if(plainNorm(r.nation)===plainNorm(name)||plainNorm(r.nation)===plainNorm(tN(name))) baseBy[r.name]=Math.max(baseBy[r.name]||0,r.goals); });
+    var cands={};
+    Object.keys(baseBy).forEach(function(n){ cands[n]={base:baseBy[n],live:0}; });
+    Object.keys(playerStatsByName).forEach(function(n){ var q=playerStatsByName[n]; if(!q.g||!q.team) return; if(q.team!==name&&!(typeof teamMatches==='function'&&teamMatches(name,q.team))&&plainNorm(q.team)!==plainNorm(name)) return; (cands[n]=cands[n]||{base:0,live:0}).live=q.g; });
+    var best=null;
+    Object.keys(cands).forEach(function(n){ var c=cands[n],t=c.base+c.live;
+      if(!best||t>best.t||(t===best.t&&c.base>best.base)) best={n:n,t:t,base:c.base,live:c.live}; });
+    if(!best||best.t<=thr) return scorerStr;
+    if(!best.live) return best.n+' ('+best.t+')';
+    if(!best.base) return best.n+' ('+best.live+(LANG==='en'?' at WC 2026':' na MS 2026')+')';
+    return best.n+' ('+best.base+' + '+best.live+(LANG==='en'?' in 2026 = ':' letos = ')+best.t+')';
+  }catch(_e){ return scorerStr; }
+}
 function renderTeamCard(name, sk){
   var fifaRec=getFifaRecord(name), rk=fifaRec.rank;
   var extra=getTeamExtra(name);
@@ -9314,12 +9337,7 @@ function renderTeamCard(name, sk){
   var best=(LANG==='en'?(extra.bestEn||''):(extra.bestCs||''))||'—';
   var last=(LANG==='en'?(extra.lastEn||extra.last||''):(extra.lastCs||extra.last||''))||'—';
   var scorer=(LANG==='en'?(extra.scorerEn||extra.scorer||''):(extra.scorerCs||extra.scorer||''))||'—';
-  // v5.12.43: prubezna aktualizace o goly z letosniho turnaje
-  (function(){ try{
-    var mm=String(scorer).match(/^(.+?)\s*\((\d+)\)\s*$/); if(!mm) return;
-    var pn=mm[1].trim(), hist=parseInt(mm[2],10), rec=playerStatsByName[pn];
-    if(rec&&rec.g>0){ scorer=pn+' ('+hist+' + '+rec.g+' letos = '+(hist+rec.g)+')'; }
-  }catch(_e){} })();
+  scorer=teamTopScorerLive(name,scorer);
   var fact=(LANG==='en'?(extra.factEn||''):(extra.factCs||''))||'';
   var lblApps=LANG==='en'?'World Cups':'MS účasti';
   var lblBest=LANG==='en'?'Best finish':'Nejlépe';
