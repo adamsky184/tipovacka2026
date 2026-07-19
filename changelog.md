@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.67 - 20. 7. 2026
+
+**Můj profil — kliknutím na jméno vpravo nahoře.**
+- Nový modal profilu: **avatar** (iniciály / 28 emoji / 48 vlajek — zobrazí se v headeru i u příspěvků v diskuzi), **oblíbený tým** (vlaječka u jména v diskuzi), **e-mail** (uložení/změna, lze se jím i přihlašovat), **🔑 Změnit PIN** a **Moje historie** (turnaje z archivu: umístění, body, trofeje) + „Členem od".
+- **Přihlášení jménem NEBO e-mailem** (nové RPC `prihlasit_hrace_email_secure` — dohledá profil přes spárovaný e-mail a deleguje na stávající ověření; na přihlašování jménem se nesahalo).
+- Nová tabulka `hrac_profil` (avatar, fav_team; RLS, zápis jen PIN-auth RPC `set_profil_secure`). Na `hrace` se nesahalo.
+- FAQ → Můj účet: e-mail a Změnit PIN přesunuty do profilu; v FAQ zůstává jen smazání účtu + odkaz na profil.
+
 ## v5.12.66 - 20. 7. 2026
 
 - **Přihrávky**: v kartě zápasu přibyly řádky Přihrávky a Přesné přihrávky (týmové, z uložených boxscore dat); v statistikách týmu „přihrávky přesné / celkem" a „⌀ přihrávek na zápas". U jednotlivých hráčů ESPN přihrávky neposkytuje.

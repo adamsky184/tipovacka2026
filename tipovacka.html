@@ -399,6 +399,14 @@ body.theme-light .venue{color:#5f7690}
 .pp-name{font-weight:900;font-size:1.05rem;line-height:1.2}
 .pp-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;align-items:center}
 .pp-avg{font-size:.64rem;color:var(--mu2);background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;padding:6px 9px;margin:6px 0 2px;line-height:1.6}
+.hdr-user{cursor:pointer}
+.hdr-av.emo{font-size:1rem;background:var(--bg3);border:1px solid var(--bd2)}
+.disc-ava{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;flex-shrink:0}
+.disc-ava.emo{font-size:.85rem;background:var(--bg3);border:1px solid var(--bd2)}
+.pf-grid{display:flex;flex-wrap:wrap;gap:5px;max-height:150px;overflow-y:auto;padding:4px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px}
+.pf-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;border:2px solid transparent;background:var(--bg3);flex-shrink:0}
+.pf-av.on{border-color:var(--ac);background:rgba(59,130,246,.18)}
+.pf-cur.emo{font-size:1.5rem;background:var(--bg3);border:1px solid var(--bd2)}
 #fab-top{position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:900;width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--bg4) 88%, transparent);border:1px solid var(--bd2);color:var(--mu2);font-size:1rem;font-weight:800;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);backdrop-filter:blur(6px);transition:.15s}
 #fab-top.show{display:flex}
 #fab-top:hover{color:var(--ac2);border-color:var(--ac)}
@@ -2307,8 +2315,8 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="lo-tab" id="ltr">Registrovat se</button>
     </div>
     <form id="lf" autocomplete="on">
-      <div class="lo-lbl" id="lbl-name1">JMÉNO</div>
-      <input class="lo-inp" id="lj" name="username" type="text" placeholder="Tvoje jméno..." autocomplete="username">
+      <div class="lo-lbl" id="lbl-name1">JMÉNO NEBO E-MAIL</div>
+      <input class="lo-inp" id="lj" name="username" type="text" placeholder="Tvoje jméno nebo e-mail..." autocomplete="username">
       <div class="lo-lbl" id="lbl-pin1">PIN</div>
       <input class="lo-inp" id="lp" name="password" type="password" placeholder="Tvůj PIN..." autocomplete="current-password">
       <button class="lo-btn l" id="blo" type="submit">Přihlásit se</button>
@@ -2691,15 +2699,8 @@ body.admin-user #btn-logout{padding:0 10px}
       </div>
       <div class="card" style="margin-top:1rem">
         <div class="clbl" id="account-clbl">Můj účet</div>
-        <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-pin-info">
-          PIN slouží k přihlášení i potvrzení uložení tipů. Doporučujeme změnit z výchozí hodnoty.
-        </div>
-        <button class="btn btn-ol btn-sm" id="btn-change-pin" style="margin-bottom:.85rem">🔑 Změnit PIN</button>
-        <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin:0 0 .45rem" id="account-email-info">
-          📬 E-mail k profilu (nepovinné) — až budu chystat další tipovačku, ozvu se ti. O svůj profil, body a historii nepřijdeš.
-        </div>
-        <div class="ank-mail-row" style="max-width:360px"><input type="email" class="ank-mail-in" id="acct-email-in" maxlength="120" placeholder="tvuj@email.cz"><button type="button" class="ank-mail-btn" id="acct-email-btn">Uložit</button></div>
-        <div style="font-size:.66rem;color:var(--mu2);margin:4px 0 .85rem;min-height:14px" id="acct-email-st"></div>
+
+        <div style="font-size:.72rem;color:var(--mu2);line-height:1.55;margin-bottom:.65rem">Avatar, e-mail, změnu PINu a svou historii najdeš nově po kliknutí na své jméno vpravo nahoře.</div>
         <div style="font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:.65rem" id="account-info-txt">
           Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.
         </div>
@@ -2740,7 +2741,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.66';
+var APP_VERSION='v5.12.67';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4875,7 +4876,7 @@ function renderDiscussion(){
     var isPinned=!!post.pinned&&!isReply;
     return '<div class="discussion-post'+(isReply?' reply':'')+(isPinned?' pinned':'')+'">'+
       (isPinned?'<div class="discussion-pin-badge">📌 Připnutý příspěvek</div>':'')+
-      '<div class="discussion-top"><div class="discussion-author">'+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
+      '<div class="discussion-top"><div class="discussion-author">'+avaHtml(post.hrac_id,getDiscussionAuthorName(post),'disc-ava')+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+favFlagHtml(post.hrac_id)+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
       '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
       '<div class="discussion-reactions">'+reacts.map(function(item){
         return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
@@ -5041,8 +5042,10 @@ function doLogin(){
   authBusy=true;
   document.getElementById('blo').disabled=true;
   setText('le',tr('loading_login'));
+  var loginByMail=j.indexOf('@')>0;
   withTimeout(sha256Hex(p).then(function(pinHash){
-    return rpcWithRetry('prihlasit_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p});
+    return rpcWithRetry(loginByMail?'prihlasit_hrace_email_secure':'prihlasit_hrace_secure',
+      loginByMail?{p_email:j,p_pin_hash:pinHash,p_pin_plain:p}:{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p});
   }),12000,'Přihlášení').then(function(d){
       if(d&&d.chyba){setText('le',d.chyba);return;}
       myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
@@ -5087,6 +5090,7 @@ function finishLogin(d){
   document.getElementById('lo').style.display='none';
   document.getElementById('app').style.display='block';
   var unEl=document.getElementById('hdr-username-lbl');if(unEl) unEl.textContent=me.jmeno;
+  var ppW=document.getElementById('pp'); if(ppW&&!ppW.__pfBound){ ppW.__pfBound=true; ppW.addEventListener('click',function(){ openMyProfile(); }); }
   var ppEl=document.getElementById('pp');if(ppEl) ppEl.style.display='flex';
   document.getElementById('btn-logout').style.display='inline-block';
   if(canSeeFinale()){ var tabFin=document.getElementById('tab-finale'); if(tabFin){ tabFin.style.display='inline-block';
@@ -5107,11 +5111,12 @@ function finishLogin(d){
   }
   loadFifaRankingData();
   setTimeout(function(){ try{ if(!Object.keys(playerStatsByName).length) loadPlayerStats(); }catch(_e){} },2500);
-  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds(),applyZapasyMetaNames()]).then(function(){
+  Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds(),applyZapasyMetaNames(),loadProfily()]).then(function(){
     return loadResults().then(loadPlayers).then(loadMyTips).then(function(){
       return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]);
     });
   }).then(function(){
+    applyHeaderAvatar();
     updSavedProgress();
     renderTipy();
     updateHeaderRanking();
@@ -8052,6 +8057,115 @@ function fillAcctEmail(){
       }).catch(function(e){ btn.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
     });
   }
+}
+// v5.12.67: personifikace profilu (avatar, oblibeny tym) + modal Muj profil
+var profilByHrac={};
+function loadProfily(){
+  return sbf('hrac_profil?select=hrac_id,avatar,fav_team').then(function(d){
+    profilByHrac={};
+    (d||[]).forEach(function(r){ profilByHrac[String(r.hrac_id)]={avatar:r.avatar||'',fav:r.fav_team||''}; });
+  }).catch(function(){});
+}
+function avaHtml(pid,jmeno,cls){
+  var pr=profilByHrac[String(pid)];
+  var emo=pr&&pr.avatar;
+  var inner=emo?escHtml(pr.avatar):escHtml(String(jmeno||'?').slice(0,2).toUpperCase());
+  return '<span class="'+cls+(emo?' emo':'')+'">'+inner+'</span>';
+}
+function favFlagHtml(pid){
+  var pr=profilByHrac[String(pid)]; if(!pr||!pr.fav) return '';
+  var f=fl(pr.fav); return f?' <span title="'+escAttr((LANG==='en'?'Supports ':'Fandí: ')+tN(pr.fav))+'" style="font-size:.85em">'+f+'</span>':'';
+}
+function applyHeaderAvatar(){
+  var el=document.getElementById('hdr-av'); if(!el||!me) return;
+  var pr=profilByHrac[String(me.id)];
+  if(pr&&pr.avatar){ el.textContent=pr.avatar; el.classList.add('emo'); }
+  else { el.textContent=me.jmeno?me.jmeno.slice(0,2).toUpperCase():'?'; el.classList.remove('emo'); }
+}
+var AVA_EMOJIS=['⚽','🥅','🏆','🎯','🔥','⭐','⚡','🚀','👑','🧠','🍀','🎲','🦁','🐺','🦊','🐻','🦅','🦈','🐙','🐐','🐸','🐧','😎','🤠','👻','🤖','🍺','☕'];
+var TURNAJ_NAZVY={ms2026:'MS 2026'};
+function openMyProfile(){
+  if(!me) return;
+  var pr=profilByHrac[String(me.id)]||{avatar:'',fav:''};
+  var sel={avatar:pr.avatar||'',fav:pr.fav||''};
+  var pl=(players||[]).find(function(x){ return String(x.id)===String(me.id); })||{};
+  var since=pl.vytvoreno?new Date(pl.vytvoreno):null;
+  var sinceTx=since?(since.getDate()+'. '+(since.getMonth()+1)+'. '+since.getFullYear()):'';
+  var teams=[]; Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(t){ teams.push(t[0]); }); });
+  teams.sort(function(a,b){ return tN(a).localeCompare(tN(b),'cs'); });
+  function grid(){
+    var h='<div class="pf-grid"><span class="pf-av'+(sel.avatar===''?' on':'')+'" data-av="" title="Iniciály">Aa</span>';
+    AVA_EMOJIS.forEach(function(e){ h+='<span class="pf-av'+(sel.avatar===e?' on':'')+'" data-av="'+escAttr(e)+'">'+e+'</span>'; });
+    teams.forEach(function(t){ var f=fl(t); if(!f) return; h+='<span class="pf-av'+(sel.avatar===f?' on':'')+'" data-av="'+escAttr(f)+'" title="'+escAttr(tN(t))+'">'+f+'</span>'; });
+    return h+'</div>';
+  }
+  var favOpts='<option value="">— žádný —</option>'+teams.map(function(t){ return '<option value="'+escAttr(t)+'"'+(sel.fav===t?' selected':'')+'>'+escHtml(tN(t))+'</option>'; }).join('');
+  var ov=document.createElement('div'); ov.className='onb-overlay'; ov.style.zIndex='1160';
+  ov.innerHTML='<div class="onb-card" style="max-height:88vh;overflow-y:auto;text-align:left;width:min(520px,94vw)">'+
+    '<div class="pp-head">'+avaHtml(me.id,me.jmeno,'pp-ava pf-cur')+'<div><div class="pp-name">'+escHtml(me.jmeno)+(me.je_admin?' <span class="discussion-admin">ADMIN</span>':'')+'</div><div class="ank-note">'+(sinceTx?('Členem od '+sinceTx):'')+'</div></div></div>'+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-D">Avatar</span><span class="sq-sec-line"></span></div>'+grid()+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-M">Oblíbený tým</span><span class="sq-sec-line"></span></div>'+
+    '<select class="fin-sel" id="pf-fav" style="max-width:none">'+favOpts+'</select>'+
+    '<div style="text-align:right;margin-top:8px"><button type="button" class="ank-mail-btn" id="pf-save">Uložit profil</button></div>'+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-G">E-mail</span><span class="sq-sec-line"></span></div>'+
+    '<div class="ank-note">Ozvu se ti, až budu chystat další tipovačku. Můžeš se jím i přihlašovat.</div>'+
+    '<div class="ank-mail-row"><input type="email" class="ank-mail-in" id="pf-email-in" maxlength="120" placeholder="tvuj@email.cz"><button type="button" class="ank-mail-btn" id="pf-email-btn">Uložit</button></div>'+
+    '<div class="ank-note" id="pf-email-st" style="min-height:14px;margin-top:3px"></div>'+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-F">Účet</span><span class="sq-sec-line"></span></div>'+
+    '<button type="button" class="btn btn-ol btn-sm" id="pf-pin">🔑 Změnit PIN</button>'+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-X">Moje historie</span><span class="sq-sec-line"></span></div>'+
+    '<div id="pf-hist" class="ank-note">Načítám…</div>'+
+    '<div class="onb-actions" style="justify-content:center;margin-top:12px"><button class="onb-next" type="button">Zavřít</button></div></div>';
+  ov.addEventListener('click',function(e){
+    if(e.target===ov||e.target.closest('.onb-next')){ ov.remove(); return; }
+    var av=e.target.closest('.pf-av');
+    if(av){ sel.avatar=av.dataset.av||''; ov.querySelectorAll('.pf-av').forEach(function(x){ x.classList.toggle('on',(x.dataset.av||'')===sel.avatar); });
+      var cur=ov.querySelector('.pf-cur'); if(cur){ if(sel.avatar){ cur.textContent=sel.avatar; cur.classList.add('emo'); } else { cur.textContent=String(me.jmeno||'?').slice(0,2).toUpperCase(); cur.classList.remove('emo'); } } return; }
+  });
+  document.body.appendChild(ov);
+  var favSel=ov.querySelector('#pf-fav');
+  ov.querySelector('#pf-save').addEventListener('click',function(){
+    var btn=this; btn.disabled=true;
+    rpcWithRetry('set_profil_secure',{p_hrac_id:me.id,p_pin:myPin,p_avatar:sel.avatar||null,p_fav_team:(favSel&&favSel.value)||null}).then(function(r){
+      btn.disabled=false;
+      if(r&&r.chyba) throw new Error(r.chyba);
+      profilByHrac[String(me.id)]={avatar:sel.avatar||'',fav:(favSel&&favSel.value)||''};
+      applyHeaderAvatar(); try{ renderDiscussion(); }catch(_e){}
+      showToast('Profil uložen. ✓','ok');
+    }).catch(function(e2){ btn.disabled=false; showToast('Chyba: '+((e2&&e2.message)||e2),'err'); });
+  });
+  // e-mail
+  var eIn=ov.querySelector('#pf-email-in'), eSt=ov.querySelector('#pf-email-st');
+  function eApply(){ if(zakMeta){ eIn.value=zakMeta.email||''; eSt.textContent=zakMeta.email?'✓ Uloženo':'Zatím žádný e-mail neuložen.'; } }
+  if(zakMeta) eApply(); else if(myPin) rpcWithRetry('get_zakonceni_meta_secure',{p_hrac_id:me.id,p_pin:myPin}).then(function(d){ if(d&&d.ok) zakMeta=d; eApply(); }).catch(function(){});
+  ov.querySelector('#pf-email-btn').addEventListener('click',function(){
+    var btn=this, v=(eIn.value||'').trim(); btn.disabled=true;
+    rpcWithRetry('set_email_secure',{p_hrac_id:me.id,p_pin:myPin,p_email:v}).then(function(r){
+      btn.disabled=false;
+      if(r&&r.chyba) throw new Error(r.chyba);
+      if(!zakMeta) zakMeta={ok:true}; zakMeta.email=(r&&r.email)||null;
+      eSt.textContent=v?'✓ Uloženo':'E-mail odebrán.';
+      showToast(v?'E-mail uložen. 📬':'E-mail odebrán.','ok'); refreshAnketa();
+    }).catch(function(e2){ btn.disabled=false; showToast('Chyba: '+((e2&&e2.message)||e2),'err'); });
+  });
+  // zmena PIN (presun overlay do body, aby fungoval z jakekoliv zalozky)
+  ov.querySelector('#pf-pin').addEventListener('click',function(){
+    var cpo=document.getElementById('cp-overlay');
+    if(cpo&&cpo.parentNode!==document.body) document.body.appendChild(cpo);
+    if(typeof openChangePinModal==='function') openChangePinModal();
+  });
+  // historie z turnaj_archiv
+  sbf('turnaj_archiv?hrac_id=eq.'+encodeURIComponent(me.id)+'&select=turnaj_id,poradi,body,extra_body').then(function(rows){
+    var el=ov.querySelector('#pf-hist'); if(!el) return;
+    rows=rows||[];
+    if(!rows.length){ el.textContent='Zatím žádný dokončený turnaj.'; return; }
+    var tot=0;
+    el.innerHTML=rows.map(function(r){
+      tot+=r.body||0;
+      var med=r.poradi===1?'🥇':r.poradi===2?'🥈':r.poradi===3?'🥉':'';
+      return '<div style="display:flex;gap:8px;font-size:.76rem;color:var(--tx);line-height:1.9"><span style="flex:1">'+escHtml(TURNAJ_NAZVY[r.turnaj_id]||r.turnaj_id)+'</span><span>'+med+' '+r.poradi+'. místo</span><b style="flex:0 0 auto">'+r.body+' b</b></div>';
+    }).join('')+'<div class="ank-note" style="margin-top:4px">Celkem '+rows.length+' turnaj'+(rows.length>=5?'ů':rows.length>1?'e':'')+' · '+tot+' bodů'+(rows.some(function(r){return r.poradi===1;})?' · 🏆':'')+'</div>';
+  }).catch(function(){ var el=ov.querySelector('#pf-hist'); if(el) el.textContent='—'; });
 }
 function refreshAnketa(){
   var hosts=document.querySelectorAll('.ank-host'); if(!hosts.length) return;
