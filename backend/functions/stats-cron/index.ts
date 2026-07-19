@@ -40,6 +40,46 @@ function json(o: unknown, status = 200) {
   return new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json" } });
 }
 
+// v5.12.52: auto-vyhodnoceni extra tipu po finale (z104).
+// Vitez = vitez finale (lokalni nazev tymu). Kral strelcu dle FIFA Zlate kopacky:
+// goly -> asistence -> (minuty nemame) -> goly ze hry bez penalt -> plna shoda = sdilena cena (zapise se "A / B", parovani resi klient).
+// Spusti se jen kdyz winner_actual jeste neni vyplneny (admin override ma prednost).
+// deno-lint-ignore no-explicit-any
+async function evalFinale(sb: any, dryRun: boolean) {
+  const { data: fin } = await sb.from("vysledky").select("zapas_id,skore,postupujici").eq("zapas_id", 104).maybeSingle();
+  if (!fin || !/^\d+:\d+$/.test(String(fin.skore))) return { active: false, reason: "finale jeste nedohrano" };
+  const { data: set } = await sb.from("extra_tip_settings").select("id,winner_actual,scorer_actual").limit(1).maybeSingle();
+  if (set && set.winner_actual) return { active: false, reason: "uz vyhodnoceno (admin/auto)" };
+  const { data: meta } = await sb.from("zapasy_meta").select("home_team,away_team").eq("zapas_id", 104).maybeSingle();
+  const sp = String(fin.skore).split(":").map(Number);
+  const side = sp[0] > sp[1] ? "H" : sp[0] < sp[1] ? "A" : (fin.postupujici || "");
+  if (!side || !meta) return { active: false, reason: "vitez neurcen" };
+  const espnName = side === "H" ? meta.home_team : meta.away_team;
+  let local = String(espnName || "");
+  for (const [loc, aliases] of Object.entries(TEAM_ALIASES)) {
+    if (loc === local || aliases.some((a) => a.toLowerCase() === local.toLowerCase())) { local = loc; break; }
+  }
+  const { data: gm } = await sb.from("goal_minutes").select("scorer,assist,penalty,own_goal");
+  const agg: Record<string, { g: number; open: number }> = {}; const asis: Record<string, number> = {};
+  // deno-lint-ignore no-explicit-any
+  (gm || []).forEach((g: any) => {
+    if (g.assist) asis[g.assist] = (asis[g.assist] || 0) + 1;
+    if (g.own_goal || !g.scorer) return;
+    const a = agg[g.scorer] = agg[g.scorer] || { g: 0, open: 0 };
+    a.g++; if (!g.penalty) a.open++;
+  });
+  const cand = Object.keys(agg).map((n) => ({ n, g: agg[n].g, a: asis[n] || 0, open: agg[n].open }))
+    .sort((x, y) => y.g - x.g || y.a - x.a || y.open - x.open);
+  if (!cand.length) return { active: false, reason: "zadni strelci" };
+  const t0 = cand[0];
+  const tied = cand.filter((c) => c.g === t0.g && c.a === t0.a && c.open === t0.open);
+  const scorer = tied.map((t) => t.n).join(" / ");
+  if (!dryRun && set) {
+    await sb.from("extra_tip_settings").update({ winner_actual: local, scorer_actual: scorer, updated_at: new Date().toISOString() }).eq("id", set.id);
+  }
+  return { active: true, dryRun, winner: local, scorer, shared: tied.length > 1, top3: cand.slice(0, 3) };
+}
+
 Deno.serve(async (req) => {
   if (CRON_SECRET) {
     const provided = req.headers.get("X-Cron-Secret") || "";
@@ -48,11 +88,21 @@ Deno.serve(async (req) => {
   if (!SUPABASE_URL || !SERVICE_KEY) return json({ ok: false, error: "env" }, 500);
   try {
     const sb = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+    // deno-lint-ignore no-explicit-any
+    const body: any = await req.json().catch(() => ({}));
+    if (body && body.dry_run_finale === true) {
+      const fe = await evalFinale(sb, true);
+      return json({ ok: true, finale: fe });
+    }
     const { data: vys } = await sb.from("vysledky").select("zapas_id");
     const { data: synced } = await sb.from("goal_minutes_sync").select("zapas_id");
     const have = new Set((synced || []).map((r) => r.zapas_id));
     const targets = (vys || []).map((r) => r.zapas_id).filter((z) => !have.has(z)).slice(0, 6);
-    if (!targets.length) return json({ ok: true, done: 0, note: "nothing to sync" });
+    if (!targets.length) {
+      let finale0 = null;
+      try { finale0 = await evalFinale(sb, false); } catch (_e) { finale0 = { active: false, reason: "eval error" }; }
+      return json({ ok: true, done: 0, note: "nothing to sync", finale: finale0 });
+    }
 
     const { data: meta } = await sb.from("zapasy_meta").select("zapas_id,home_team,away_team,kickoff");
     // deno-lint-ignore no-explicit-any
@@ -101,7 +151,10 @@ Deno.serve(async (req) => {
         else { fail++; detail.push(`z${zid}:${JSON.stringify(g?.ok)}/${JSON.stringify(st?.ok)}`); }
       } catch (e) { fail++; detail.push(`z${zid}:${e instanceof Error ? e.message : "err"}`); }
     }
-    return json({ ok: true, done: ok, fail, detail });
+    // po finale: auto-vyhodnoceni extra tipu (idempotentni, nikdy neprepise admina)
+    let finale = null;
+    try { finale = await evalFinale(sb, false); } catch (_e) { finale = { active: false, reason: "eval error" }; }
+    return json({ ok: true, done: ok, fail, detail, finale });
   } catch (e) {
     return json({ ok: false, error: e instanceof Error ? e.message : String(e) }, 500);
   }

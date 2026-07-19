@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.52 - 19. 7. 2026
+
+**Finálový den — automatické vyhodnocení extra tipů + auto-zveřejnění Zakončení.**
+- `stats-cron` po uložení výsledku finále (z104) sám vyhodnotí extra tipy: **vítěz turnaje** = vítěz finále (lokální název, +30 b) a **král střelců dle oficiálních pravidel FIFA Zlaté kopačky**: góly → asistence → góly ze hry bez penalt → při úplné shodě sdílená cena (tip na kohokoliv ze sdílených platí, +20 b). Admin override má vždy přednost (auto se spustí jen do prázdných polí). Přidán dry-run (`{"dry_run_finale":true}`).
+- **Zakončení se zveřejní automaticky**, jakmile je finále dohrané: záložka 🏁 se ukáže všem, přesune se na začátek menu, otevře se jako výchozí a spustí se uvítání s konfetami a jménem šampiona — bez nutnosti deploye.
+- Párování tipů ověřeno na reálných datech (diakritika řešena normalizací; všech 11 tipů na vítěze validních).
+
 ## v5.12.51 - 18. 7. 2026
 
 **Tipovačka bot — historie souhrnů.** Souhrny se už nepřepisují: každý den má vlastní záznam (nová tabulka `daily_recaps`). V Diskuzi je nahoře nejnovější souhrn a pod ním rozklikávací „📜 Starší souhrny bota (N)" — historie zůstává viditelná (14 dní zpět). Admin maže jednotlivé dny (× na konkrétní kartě, RPC `admin_set_recap_hidden_secure`).

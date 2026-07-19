@@ -2654,7 +2654,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.51';
+var APP_VERSION='v5.12.52';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -2707,7 +2707,9 @@ var TABS=['tipy','ostatni','zebricek','vysledky','tabulka','pavouk','stats','sta
 var FINALE_PUBLIC=false;
 var finaleSelPid=null;
 var finaleView='all'; // filtr zakonceni: all | tip (statistiky tiperu) | tour (turnaj v cislech)
-function canSeeFinale(){ return FINALE_PUBLIC || (me&&me.je_admin); }
+// v5.12.52: zakonceni se zverejni automaticky, jakmile je dohrane finale (z104 ma vysledek)
+function finaleIsPublic(){ return FINALE_PUBLIC || !!(typeof results!=='undefined'&&results&&results[104]); }
+function canSeeFinale(){ return finaleIsPublic() || (me&&me.je_admin); }
 
 var LANG='cs';
 var authBusy=false;
@@ -3555,7 +3557,11 @@ function getExtraPointsForPlayer(playerId){
   if(!rec) return 0;
   var total=0;
   if(extraTipMeta.winnerActual && plainNorm(rec.winnerTip)===plainNorm(extraTipMeta.winnerActual)) total+=30;
-  if(extraTipMeta.scorerActual && plainNorm(rec.scorerTip)===plainNorm(extraTipMeta.scorerActual)) total+=20;
+  // v5.12.52: sdilena Zlata kopacka = "A / B" -> tip na kohokoliv ze sdilenych plati
+  if(extraTipMeta.scorerActual){
+    var scActs=String(extraTipMeta.scorerActual).split('/').map(function(x){return plainNorm(x);}).filter(Boolean);
+    if(scActs.indexOf(plainNorm(rec.scorerTip))>=0) total+=20;
+  }
   return total;
 }
 function invalidateDerivedCaches(){
@@ -4969,22 +4975,32 @@ function finishLogin(d){
     setText('st-vys-upd',formatLastUpdated());
     renderUpdBadge();
     renderAdminSyncStatus();
+    // v5.12.52: po dohranem finale zverejni Zakonceni vsem (tab + prvni pozice + uvitani)
+    try{
+      if(canSeeFinale()){
+        var tfin=document.getElementById('tab-finale');
+        if(tfin){ tfin.style.display='inline-block';
+          if(finaleIsPublic()){ var nav0=document.getElementById('mainnav'); if(nav0&&nav0.firstChild!==tfin) nav0.insertBefore(tfin,nav0.firstChild); } }
+        var seenKey='ms26_fin_auto_'+(me?String(me.id):'x');
+        if(finaleIsPublic() && !sessionStorage.getItem(seenKey)){ try{sessionStorage.setItem(seenKey,'1');}catch(_e2){} showTab('finale'); }
+      }
+    }catch(_e){}
     // B3: spustit polling live scoreboard (kazdych 30s)
     try{ startLiveScoresPolling(); }catch(_e){}
     // Q5: Onboarding tutorial pro nove hrace (jen prvni prihlaseni)
     setTimeout(function(){ try{ maybeShowOnboarding(); }catch(_e){} }, 400);
     // v5.12.0: jednorazovy play-off info popup (po onboardingu, jen kdyz je play-off otevrene). Po zverejneni zakonceni potlaceno (ma prednost finale welcome).
-    setTimeout(function(){ try{ if(!FINALE_PUBLIC && !document.querySelector('.onb-overlay')) maybeShowPlayoffPopup(); }catch(_e){} }, 1200);
+    setTimeout(function(){ try{ if(!finaleIsPublic() && !document.querySelector('.onb-overlay')) maybeShowPlayoffPopup(); }catch(_e){} }, 1200);
     // Q6: Quick stats po loginu (jen pokud onboarding uz videl; po zverejneni zakonceni potlaceno)
     try{
-      if(!FINALE_PUBLIC && localStorage.getItem(getOnboardingKey())==='1') showLoginQuickStats();
+      if(!finaleIsPublic() && localStorage.getItem(getOnboardingKey())==='1') showLoginQuickStats();
     }catch(_e){}
     loadFifaRankingFromDb(true).then(function(){
       if(tymPhase==='rk' || document.getElementById('page-tymy').style.display!=='none') renderTymy();
       renderAdminSyncStatus();
     });
   });
-  showTab(FINALE_PUBLIC?'finale':'tipy');
+  showTab(finaleIsPublic()?'finale':'tipy');
 }
 function openChangePinModal(){
   if(!me) return;
@@ -7802,7 +7818,8 @@ function finaleConfetti(dur){
   }catch(_e){}
 }
 function finaleWelcomePopup(force){
-  if(!me||!me.je_admin) return;
+  if(!me) return;
+  if(!finaleIsPublic() && !me.je_admin) return;
   var cel=buildLeaderboardFromCache('cel')||[]; if(!cel.length) return;
   var key='ms26_fin_welcome_'+String(me.id);
   if(!force){ try{ if(sessionStorage.getItem(key)==='1') return; }catch(_e){} }
@@ -8457,7 +8474,7 @@ function renderFinale(){
   var cel=buildLeaderboardFromCache('cel');
   if(!cel||!cel.length){ el.innerHTML='<div class="empty">Načítám…</div>'; return; }
   if(!finaleSelPid || !cel.some(function(r){return String(r.p.id)===String(finaleSelPid);})) finaleSelPid=me?String(me.id):String(cel[0].p.id);
-  var lock=FINALE_PUBLIC?'':'<div class="fin-lock">🔒 Náhled zakončení — zamčeno, ostatní hráči to zatím nevidí.</div>';
+  var lock=finaleIsPublic()?'':'<div class="fin-lock">🔒 Náhled zakončení — zamčeno, ostatní hráči to zatím nevidí.</div>';
   var opts=cel.map(function(r,i){ return '<option value="'+escAttr(r.p.id)+'"'+(String(r.p.id)===String(finaleSelPid)?' selected':'')+'>'+(i+1)+'. '+escHtml(r.p.jmeno)+' — '+r.total+' b</option>'; }).join('');
   var syncedN=Object.keys(goalSyncByZapas).length, playedN=SZ.concat(PZ).filter(function(z){return results[z[0]];}).length;
   var adminBar=(me&&me.je_admin)?('<div class="fin-adminbar">🕐 Minuty gólů: <b>'+syncedN+'/'+playedN+'</b> zápasů načteno '+
