@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.53 - 19. 7. 2026
+
+**Zakončení — top 3 mini žebříčky.**
+- **Ceny turnaje**: každá cena (Snajpr, Prorok, Sólo král…) je nyní rozklikávací — klepnutím se rozbalí top 3 s medailemi 🥇🥈🥉 (shodné hodnoty sdílí medaili). Šampion zůstává bez rozbalení (stupně vítězů ho pokrývají).
+- **Tipovačka v číslech**: u rekordů „Nejvíc bodů v zápase" a „Nejdelší bodovací série" přibyl druhý řádek s 2.–3. místem (vč. prokliku na zápas).
+- **Hráčské zajímavosti**: všech 8 řádků (karty, brankář, čistá konta, žolík, efektivita…) ukazuje i 2.–3. místo s proklikem na profil hráče.
+
 ## v5.12.52 - 19. 7. 2026
 
 **Finálový den — automatické vyhodnocení extra tipů + auto-zveřejnění Zakončení.**

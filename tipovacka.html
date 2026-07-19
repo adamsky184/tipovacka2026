@@ -339,6 +339,15 @@ body.theme-light .venue{color:#5f7690}
 .link-player{cursor:pointer;border-bottom:1px dotted var(--bd2)}
 .link-player:hover{color:var(--ac2)}
 .fin-mlink:active{opacity:.7}
+.fin-drows>div.fin-sub3,.fin-sub3{display:block;font-size:.62rem;color:var(--mu2);text-align:right;margin:-2px 0 3px;line-height:1.6}
+.fin-sub3 span{color:var(--mu2)}
+.fin-award.has-top{cursor:pointer}
+.fin-award-caret{color:var(--mu2);font-size:.6rem}
+.fin-award.open .fin-award-caret{display:inline-block;transform:rotate(180deg)}
+.fin-award-top3{display:none;margin-top:5px;border-top:1px dashed var(--bd);padding-top:4px}
+.fin-award.open .fin-award-top3{display:block}
+.fin-award-row{font-size:.62rem;color:var(--tx);line-height:1.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fin-award-row span{color:var(--mu2)}
 .fin-awards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .fin-award{display:flex;align-items:center;gap:9px;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:8px 10px}
 .fin-award-ic{font-size:1.35rem;flex-shrink:0}
@@ -2654,7 +2663,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.52';
+var APP_VERSION='v5.12.53';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7995,53 +8004,71 @@ function finaleBuildReps(){
 }
 function finaleAwards(reps){
   reps=reps||finaleBuildReps(); if(!reps.length) return [];
-  function best(metric,minRated){ var b=null; reps.forEach(function(x){ if(minRated&&x.R.hod<minRated) return; var v=metric(x); if(v==null) return; if(b===null||v>b.v) b={x:x,v:v}; }); return b; }
-  var A=[]; function add(ic,t,b,d){ if(b&&b.x) A.push({ic:ic,t:t,w:b.x.name,d:d(b)}); }
+  // v5.12.53: top 3 v kazde cene (rank misto best); asc=true pro "mensi je lepsi"
+  function rank(metric,minRated,asc){
+    var arr=[]; reps.forEach(function(x){ if(minRated&&x.R.hod<minRated) return; var v=metric(x); if(v==null) return; arr.push({x:x,v:v}); });
+    arr.sort(function(a,b){ return asc?(a.v-b.v):(b.v-a.v); });
+    return arr.slice(0,3).filter(function(b){ return asc?true:b.v>0; });
+  }
+  var A=[]; function add(ic,t,list,d){ if(!list.length||!list[0].x) return; A.push({ic:ic,t:t,w:list[0].x.name,d:d(list[0]),top3:list.map(function(b){return {n:b.x.name,d:d(b),v:b.v};})}); }
   A.push({ic:'👑',t:'Šampion',w:reps[0].name,d:reps[0].R.total+' b'});
-  add('🎯','Snajpr',best(function(x){return x.R.pre;}),function(b){return b.v+' přesných';});
-  add('🧠','Prorok',best(function(x){return x.R.hod?(x.R.pre+x.R.spr)/x.R.hod:0;},30),function(b){return Math.round(b.v*100)+'% úspěšnost';});
-  add('🌟','Sólo král',best(function(x){return x.CX.solo.length;}),function(b){return b.v+' sólo trefy';});
-  add('🔥','Král série',best(function(x){return x.R.streak;}),function(b){return b.v+' zápasů v řadě';});
-  add('🎲','Riskér',best(function(x){return x.R.avgGoals;},30),function(b){return '⌀ '+b.v.toFixed(1)+' gólů/tip';});
-  add('🤝','Remízový král',best(function(x){return x.R.drawHits;}),function(b){return b.v+' trefených remíz';});
-  add('❤️','Milovník remíz',best(function(x){return x.R.drawTipPct;},30),function(b){return Math.round(b.v)+'% tipů na remízu';});
-  add('🐣','Skupinový král',best(function(x){return x.R.skTotal;}),function(b){return b.v+' b';});
-  add('⚔️','Playoff král',best(function(x){return x.R.poTotal;}),function(b){return b.v+' b';});
-  add('📅','Nejlepší den',best(function(x){return x.R.bestDay.pts;}),function(b){return '+'+b.v+' b za den';});
-  add('🎰','Věštec',best(function(x){return x.R.outsiders;}),function(b){return b.v+'× proti favoritovi a vyšlo';});
-  // Smolař/Šťastlivec dle reálných pozdních gólů, kdyz jsou minuty nacachovane; jinak proxy (±1 gól)
+  add('🎯','Snajpr',rank(function(x){return x.R.pre;}),function(b){return b.v+' přesných';});
+  add('🧠','Prorok',rank(function(x){return x.R.hod?(x.R.pre+x.R.spr)/x.R.hod:0;},30),function(b){return Math.round(b.v*100)+'% úspěšnost';});
+  add('🌟','Sólo král',rank(function(x){return x.CX.solo.length;}),function(b){return b.v+' sólo trefy';});
+  add('🔥','Král série',rank(function(x){return x.R.streak;}),function(b){return b.v+' zápasů v řadě';});
+  add('🎲','Riskér',rank(function(x){return x.R.avgGoals;},30),function(b){return '⌀ '+b.v.toFixed(1)+' gólů/tip';});
+  add('🤝','Remízový král',rank(function(x){return x.R.drawHits;}),function(b){return b.v+' trefených remíz';});
+  add('❤️','Milovník remíz',rank(function(x){return x.R.drawTipPct;},30),function(b){return Math.round(b.v)+'% tipů na remízu';});
+  add('🐣','Skupinový král',rank(function(x){return x.R.skTotal;}),function(b){return b.v+' b';});
+  add('⚔️','Playoff král',rank(function(x){return x.R.poTotal;}),function(b){return b.v+' b';});
+  add('📅','Nejlepší den',rank(function(x){return x.R.bestDay.pts;}),function(b){return '+'+b.v+' b za den';});
+  add('🎰','Věštec',rank(function(x){return x.R.outsiders;}),function(b){return b.v+'× proti favoritovi a vyšlo';});
   var hasLate=reps.some(function(x){return ((x.R.lateUnlucky||0)+(x.R.lateLucky||0))>0;});
   if(hasLate){
-    add('😈','Smolař závěru',best(function(x){return x.R.lateUnlucky;}),function(b){return b.v+'× uteklo o pozdní gól';});
-    add('🍀','Lucker závěru',best(function(x){return x.R.lateLucky;}),function(b){return b.v+'× zachránil pozdní gól';});
+    add('😈','Smolař závěru',rank(function(x){return x.R.lateUnlucky;}),function(b){return b.v+'× uteklo o pozdní gól';});
+    add('🍀','Lucker závěru',rank(function(x){return x.R.lateLucky;}),function(b){return b.v+'× zachránil pozdní gól';});
   } else {
-    add('😈','Smolař',best(function(x){return x.R.ofous;}),function(b){return b.v+'× těsně netrefil';});
-    add('🍀','Šťastlivec',best(function(x){return x.R.tesne;}),function(b){return b.v+'× těsná trefa';});
+    add('😈','Smolař',rank(function(x){return x.R.ofous;}),function(b){return b.v+'× těsně netrefil';});
+    add('🍀','Šťastlivec',rank(function(x){return x.R.tesne;}),function(b){return b.v+'× těsná trefa';});
   }
-  // nejstabilnejsi = nejmensi rozptyl (min 30 hodnocenych)
-  var stab=null; reps.forEach(function(x){ if(x.R.hod<30) return; if(stab===null||x.R.stdev<stab.v) stab={x:x,v:x.R.stdev}; });
-  if(stab&&stab.x) A.push({ic:'🪨',t:'Nejstabilnější',w:stab.x.name,d:'±'+stab.v.toFixed(1)+' b rozptyl'});
+  add('🪨','Nejstabilnější',rank(function(x){return x.R.stdev;},30,true),function(b){return '±'+b.v.toFixed(1)+' b rozptyl';});
   return A;
+}
+function finaleAwardTop3Html(a){
+  if(!a.top3||a.top3.length<2) return '';
+  var meds=['🥇','🥈','🥉'];
+  var rows=a.top3.map(function(t,i){
+    var mi=i; if(i>0&&t.v===a.top3[i-1].v) mi=a.top3[i-1].__mi!==undefined?a.top3[i-1].__mi:i-1;
+    t.__mi=mi;
+    return '<div class="fin-award-row">'+meds[mi]+' '+escHtml(t.n)+' <span>'+escHtml(t.d)+'</span></div>';
+  }).join('');
+  return '<div class="fin-award-top3">'+rows+'</div>';
 }
 function finaleAwardsHtml(reps){
   var A=finaleAwards(reps); if(!A.length) return '';
   return '<div class="fin-awards-wrap"><div style="font-size:.78rem;font-weight:800;text-align:center;margin:14px 0 6px">🏅 Ceny turnaje</div><div class="fin-awards">'+
-    A.map(function(a){ return '<div class="fin-award"><div class="fin-award-ic">'+a.ic+'</div><div><div class="fin-award-t">'+escHtml(a.t)+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div></div></div>'; }).join('')+
-  '</div></div>';
+    A.map(function(a){
+      var t3=finaleAwardTop3Html(a);
+      return '<div class="fin-award'+(t3?' has-top':'')+'"><div class="fin-award-ic">'+a.ic+'</div><div style="min-width:0"><div class="fin-award-t">'+escHtml(a.t)+(t3?' <span class="fin-award-caret">▾</span>':'')+'</div><div class="fin-award-w">'+escHtml(a.w)+'</div><div class="fin-award-d">'+escHtml(a.d)+'</div>'+t3+'</div></div>';
+    }).join('')+
+  '</div><div style="font-size:.58rem;color:var(--mu2);text-align:center;margin-top:4px">Klepni na cenu pro top 3.</div></div>';
 }
 // ===== TURNAJ V CISLECH (globalni statistiky, admin-only) =====
 function _finZids(){ return SZ.concat(PZ).map(function(z){return z[0];}).filter(function(z){return results[z];}).sort(function(a,b){return a-b;}); }
 function _finZmap(){ var m={}; SZ.concat(PZ).forEach(function(z){ m[z[0]]=z; }); return m; }
 function finaleGlobalStats(reps){
   var pls=players||[], zmap=_finZmap(), zids=_finZids();
-  var perMatch=[], recSingle={pts:-1}, need=Math.max(3,Math.ceil(pls.length*0.5));
+  var perMatch=[], recSingle={pts:-1}, recAll=[], need=Math.max(3,Math.ceil(pls.length*0.5));
   zids.forEach(function(zid){ var z=zmap[zid],res=results[zid]; if(!z) return;
     var tip=0,sc=0;
     pls.forEach(function(p){ var id=String(p.id); var t=_finTips(id)[zid]; if(!t) return; tip++;
       var m=scoreMeta(t,res),pt=(m?m.total:0)+calcAdvBonus(zid,t,_finPostup(id)[zid]); if(pt>0) sc++;
+      if(pt>0) recAll.push({pts:pt,zid:zid,z:z,who:p.jmeno,res:res});
       if(pt>recSingle.pts) recSingle={pts:pt,zid:zid,z:z,who:p.jmeno,res:res,tip:t}; });
     if(tip>=need) perMatch.push({zid:zid,z:z,res:res,tip:tip,sc:sc,ratio:sc/tip});
   });
+  recAll.sort(function(a,b){return b.pts-a.pts;});
+  var recTop3=recAll.slice(0,3);
   var hardest=null,easiest=null; perMatch.forEach(function(x){ if(!hardest||x.ratio<hardest.ratio||(x.ratio===hardest.ratio&&x.tip>hardest.tip)) hardest=x; if(!easiest||x.ratio>easiest.ratio||(x.ratio===easiest.ratio&&x.tip>easiest.tip)) easiest=x; });
   var surprise=null;
   zids.forEach(function(zid){ var od=getOddsForMatch(zid),z=zmap[zid],res=results[zid]; if(!od||!z) return;
@@ -8050,13 +8077,14 @@ function finaleGlobalStats(reps){
     if(!isFinite(o)||o<=1) return; if(!surprise||o>surprise.odds) surprise={zid:zid,z:z,res:res,odds:o,out:out}; });
   if(surprise){ var w=[]; pls.forEach(function(p){ var t=_finTips(String(p.id))[surprise.zid]; if(t){ var m=scoreMeta(t,surprise.res); if(m&&m.correctOutcome) w.push(p.jmeno); } }); surprise.correct=w; }
   var maxStreak={n:0}; (reps||[]).forEach(function(x){ if(x.R.streak>maxStreak.n) maxStreak={n:x.R.streak,who:x.name}; });
+  var streakTop3=(reps||[]).slice().sort(function(a,b){return b.R.streak-a.R.streak;}).slice(0,3).filter(function(x){return x.R.streak>0;}).map(function(x){return {n:x.R.streak,who:x.name};});
   var totalTips=0,totalExact=0; pls.forEach(function(p){ var tp=_finTips(String(p.id)); zids.forEach(function(zid){ if(tp[zid]){ totalTips++; var m=scoreMeta(tp[zid],results[zid]); if(m&&m.exact) totalExact++; } }); });
   var latest=null,lateDecided=0,hasGoals=false;
   zids.forEach(function(zid){ var g=goalMinsByZapas[zid]; if(!g||!g.length) return; hasGoals=true;
     g.forEach(function(x){ if(x.minute>90) return; var eff=x.minute+(x.stoppage||0); if(!latest||eff>latest.eff) latest={eff:eff,zid:zid,z:zmap[zid],res:results[zid],g:x}; });
     if(finaleLateSwing(zid)) lateDecided++;
   });
-  return {hardest:hardest,easiest:easiest,surprise:surprise,recSingle:recSingle,maxStreak:maxStreak,matches:zids.length,totalTips:totalTips,totalExact:totalExact,latest:latest,lateDecided:lateDecided,hasGoals:hasGoals};
+  return {hardest:hardest,easiest:easiest,surprise:surprise,recSingle:recSingle,recTop3:recTop3,maxStreak:maxStreak,streakTop3:streakTop3,matches:zids.length,totalTips:totalTips,totalExact:totalExact,latest:latest,lateDecided:lateDecided,hasGoals:hasGoals};
 }
 function finaleTitleRace(){
   var cel=buildLeaderboardFromCache('cel')||[], top=cel.slice(0,4), zids=_finZids();
@@ -8323,7 +8351,9 @@ function finaleGlobalHtml(reps){
       '<div><span>🍰 Nejlehčí zápas</span><b>'+ml(G.easiest)+(G.easiest?' <span style="color:var(--mu2)">('+G.easiest.sc+'/'+G.easiest.tip+' bodovalo)</span>':'')+'</b></div>'+
       '<div><span>😱 Největší překvapení</span><b>'+ml(G.surprise)+(G.surprise?' <span style="color:var(--mu2)">(kurz '+G.surprise.odds.toFixed(1)+' · trefili: '+(G.surprise.correct.length?escHtml(G.surprise.correct.join(', ')):'nikdo')+')</span>':'')+'</b></div>'+
       '<div><span>🔥 Nejvíc bodů v zápase</span><b>'+(G.recSingle.pts>=0?'+'+G.recSingle.pts+' b — '+escHtml(G.recSingle.who)+' · '+ml(G.recSingle):'—')+'</b></div>'+
+      ((G.recTop3&&G.recTop3.length>1)?'<div class="fin-sub3">'+G.recTop3.slice(1).map(function(r,i){return (i===0?'🥈':'🥉')+' '+escHtml(r.who)+' +'+r.pts+' b · '+ml(r);}).join(' &nbsp; ')+'</div>':'')+
       '<div><span>🔥 Nejdelší bodovací série</span><b>'+(G.maxStreak.n?G.maxStreak.n+' zápasů v řadě — '+escHtml(G.maxStreak.who):'—')+'</b></div>'+
+      ((G.streakTop3&&G.streakTop3.length>1)?'<div class="fin-sub3">'+G.streakTop3.slice(1).map(function(r,i){return (i===0?'🥈':'🥉')+' '+escHtml(r.who)+' ('+r.n+')';}).join(' · ')+'</div>':'')+
     '</div></div>'+
     '<div class="fin-sec"><h4>👑 Bitva o titul — vývoj bodů (TOP 4)</h4>'+_svgMultiLine(raceSeries)+'<div style="font-size:.62rem;color:var(--mu2);margin-top:4px;line-height:1.7">'+raceLeg+'</div></div>'+
     '<div class="fin-sec"><h4>🧬 Podobnost tipérů</h4>'+simHtml+'</div>'+
@@ -8333,25 +8363,29 @@ function finaleGlobalHtml(reps){
 // v5.12.40: hracske zajimavosti z player_match_stats
 function finalePlayerAggHtml(){
   var names=Object.keys(playerStatsByName); if(!names.length) return '';
-  function top(metric,filter){ var b=null; names.forEach(function(n){ var p=playerStatsByName[n]; if(filter&&!filter(p)) return; var v=metric(p); if(v==null) return; if(!b||v>b.v) b={n:n,v:v,p:p}; }); return b; }
-  var cards=top(function(p){return p.y+p.r;});
-  var gkSv=top(function(p){return p.sv;},function(p){return p.pos==='G';});
-  var gkCs=top(function(p){return p.cs;},function(p){return p.pos==='G'&&p.apps>=3;});
-  var joker=top(function(p){return p.subG;});
-  var eff=top(function(p){return p.sh>=8?p.g/p.sh:null;},function(p){return p.g>0;});
-  var dry=top(function(p){return p.g===0?p.sh:null;});
-  var fouled=top(function(p){return p.fs;});
-  var fouler=top(function(p){return p.fc;});
+  function top(metric,filter){ var l=top3(metric,filter); return l[0]||null; }
+  function top3(metric,filter){ var arr=[]; names.forEach(function(n){ var p=playerStatsByName[n]; if(filter&&!filter(p)) return; var v=metric(p); if(v==null) return; arr.push({n:n,v:v,p:p}); }); arr.sort(function(a,b){return b.v-a.v;}); return arr.slice(0,3).filter(function(b){return b.v>0;}); }
+  var cards=top3(function(p){return p.y+p.r;});
+  var gkSv=top3(function(p){return p.sv;},function(p){return p.pos==='G';});
+  var gkCs=top3(function(p){return p.cs;},function(p){return p.pos==='G'&&p.apps>=3;});
+  var joker=top3(function(p){return p.subG;});
+  var eff=top3(function(p){return p.sh>=8?p.g/p.sh:null;},function(p){return p.g>0;});
+  var dry=top3(function(p){return p.g===0?p.sh:null;});
+  var fouled=top3(function(p){return p.fs;});
+  var fouler=top3(function(p){return p.fc;});
   function row(ic,lbl,b,fmt){ if(!b||!b.v) return ''; return '<div><span>'+ic+' '+lbl+'</span><b>'+plink(b.n)+' <span style="color:var(--mu2)">('+fmt(b)+')</span></b></div>'; }
+  function row3(ic,lbl,list,fmt){ if(!list||!list.length||!list[0].v) return ''; var h=row(ic,lbl,list[0],fmt);
+    if(list.length>1){ h+='<div class="fin-sub3">'+list.slice(1).map(function(b,i){return (i===0?'🥈':'🥉')+' '+plink(b.n)+' <span>('+fmt(b)+')</span>';}).join(' &nbsp; ')+'</div>'; }
+    return h; }
   return '<div class="fin-sec"><h4>🧑 Hráčské zajímavosti</h4><div class="fin-drows">'+
-    row('🟨','Nejvíc karet',cards,function(b){return b.p.y+'×🟨'+(b.p.r?' + '+b.p.r+'×🟥':'');})+
-    row('🧤','Brankář turnaje (zákroky)',gkSv,function(b){return b.v+' zákroků, '+b.p.gc+' obdržených';})+
-    row('🧱','Nejvíc čistých kont (brankář)',gkCs,function(b){return b.v+'× v '+b.p.apps+' zápasech';})+
-    row('🃏','Žolík ze střídačky',joker,function(b){return b.v+' gólů po střídání';})+
-    row('🎯','Nejefektivnější střelec (min. 8 střel)',eff,function(b){return b.p.g+' gólů z '+b.p.sh+' střel ('+Math.round(100*b.v)+' %)';})+
-    row('😤','Nejvíc střel bez gólu',dry,function(b){return b.v+' střel, 0 gólů';})+
-    row('🤕','Nejfaulovanější hráč',fouled,function(b){return b.v+'× faulován';})+
-    row('🚜','Největší faulista',fouler,function(b){return b.v+' faulů';})+
+    row3('🟨','Nejvíc karet',cards,function(b){return b.p.y+'×🟨'+(b.p.r?' + '+b.p.r+'×🟥':'');})+
+    row3('🧤','Brankář turnaje (zákroky)',gkSv,function(b){return b.v+' zákroků, '+b.p.gc+' obdržených';})+
+    row3('🧱','Nejvíc čistých kont (brankář)',gkCs,function(b){return b.v+'× v '+b.p.apps+' zápasech';})+
+    row3('🃏','Žolík ze střídačky',joker,function(b){return b.v+' gólů po střídání';})+
+    row3('🎯','Nejefektivnější střelec (min. 8 střel)',eff,function(b){return b.p.g+' gólů z '+b.p.sh+' střel ('+Math.round(100*b.v)+' %)';})+
+    row3('😤','Nejvíc střel bez gólu',dry,function(b){return b.v+' střel, 0 gólů';})+
+    row3('🤕','Nejfaulovanější hráč',fouled,function(b){return b.v+'× faulován';})+
+    row3('🚜','Největší faulista',fouler,function(b){return b.v+' faulů';})+
   '</div><div style="font-size:.6rem;color:var(--mu2);margin-top:5px">Klikni na jméno hráče pro jeho profil.</div></div>';
 }
 // v5.12.38: cast o TURNAJI (tymy a hraci fotbaloveho MS) - blok Turnaj
@@ -8513,6 +8547,7 @@ function renderFinale(){
       return;
     }
     var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
+    var aw=e.target.closest('.fin-award.has-top'); if(aw && !e.target.closest('.link-player,.link-team,[data-mcard]')){ aw.classList.toggle('open'); return; }
     var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ openPlayerProfile(pl.dataset.player); return; }
     var tm=e.target.closest('.link-team'); if(tm&&tm.dataset.team){ filterByTeam(tm.dataset.team); return; }
     var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ openMatchCard(parseInt(mc.dataset.mcard,10)); }
