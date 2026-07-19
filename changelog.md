@@ -2,6 +2,12 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.55 - 19. 7. 2026
+
+- **Zakončení — top 3 čitelně**: rozkliknutá cena se roztáhne přes celou šířku a text se zalamuje (nic se neořezává).
+- **Stadiony — plánky lokálně**: všech 16 plánků stažených přímo v appce (`assets/planky/`), o nic nepřijdeme (FIFA 2 originály už smazala — nahrazeny oficiálními FIFA vizualizacemi). Plánek se nově otevírá v appce (lightbox), žádné odkazy na cizí web.
+- **Živé statistiky v Historie**: žebříček střelců MS průběžně započítává góly z MS 2026 (Messi 13+8=21 → nové pořadí) a Messiho rekord v počtu zápasů se dopočítává o letošní starty. Statistiky hráčů se přednačítají hned po přihlášení, aby Týmy/Historie byly živé od prvního zobrazení.
+
 ## v5.12.54 - 19. 7. 2026
 
 **Anketa „Bude další tipovačka?" + párování e-mailu.**
