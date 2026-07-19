@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.64 - 20. 7. 2026
+
+**📌 Připnutý příspěvek v diskuzi.** Admin může u hlavního příspěvku kliknout „📌 Připnout" — příspěvek se zvýrazní (zlatý rámeček + štítek „Připnutý příspěvek") a drží se první v diskuzi bez ohledu na stáří. Připnutý může být vždy jen jeden (nové připnutí odepne předchozí), „Odepnout" vrací normální řazení. RPC `admin_set_post_pinned_secure` (jen admin, jen hlavní příspěvky).
+
 ## v5.12.63 - 19. 7. 2026
 
 Ceny turnaje: „ⓘ" přesunuto do pravého horního rohu rozbalené karty (decentní, nic nepřekáží); klepnutím se pod ním rozbalí vysvětlení statistiky.

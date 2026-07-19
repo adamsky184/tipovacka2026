@@ -1055,6 +1055,8 @@ body.theme-light .ost-scroll-floating{background:color-mix(in srgb,#ffffff 94%, 
 .discussion-textarea{min-height:90px;resize:vertical}
 .discussion-list{display:grid;gap:10px}
 .discussion-post{padding:.85rem .95rem;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025)}
+.discussion-post.pinned{border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.05)}
+.discussion-pin-badge{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);border-radius:999px;padding:2px 9px;margin-bottom:7px}
 .discussion-post.reply{position:relative;margin-left:26px;background:rgba(255,255,255,.02)}
 .discussion-post.reply::before{content:'';position:absolute;left:-12px;top:12px;bottom:12px;width:1px;background:var(--bd2);opacity:.9}
 .discussion-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
@@ -2733,7 +2735,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.63';
+var APP_VERSION='v5.12.64';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3671,7 +3673,7 @@ function loadExtraMeta(){
   }).catch(function(){});
 }
 function loadDiscussion(){
-  return sbf('discussion_posts?select=id,parent_id,hrac_id,body,created_at&order=created_at.asc').then(function(d){
+  return sbf('discussion_posts?select=id,parent_id,hrac_id,body,created_at,pinned&order=created_at.asc').then(function(d){
     discussionPosts=d||[];
   }).catch(function(){ discussionPosts=[]; });
 }
@@ -4848,6 +4850,7 @@ function renderDiscussion(){
     byParent[key].sort(function(a,b){ return postTs(a)-postTs(b); });
   });
   var rootPosts=(byParent.root||[]).slice().sort(function(a,b){
+    var pin=(b.pinned?1:0)-(a.pinned?1:0); if(pin) return pin;
     return latestThreadTs(b)-latestThreadTs(a);
   });
   if(!discussionVisibleRoots||discussionVisibleRoots<1) discussionVisibleRoots=20;
@@ -4861,13 +4864,15 @@ function renderDiscussion(){
     var canDelete=me&&me.je_admin;
     var reacts=discussionReactionSummary(post.id);
     var replies=(byParent[String(post.id)]||[]).map(function(r){ return renderPost(r,true); }).join('');
-    return '<div class="discussion-post'+(isReply?' reply':'')+'">'+
+    var isPinned=!!post.pinned&&!isReply;
+    return '<div class="discussion-post'+(isReply?' reply':'')+(isPinned?' pinned':'')+'">'+
+      (isPinned?'<div class="discussion-pin-badge">📌 Připnutý příspěvek</div>':'')+
       '<div class="discussion-top"><div class="discussion-author">'+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
       '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
       '<div class="discussion-reactions">'+reacts.map(function(item){
         return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
       }).join('')+'</div>'+
-      '<div class="discussion-actions"><button class="discussion-link" type="button" data-reply="'+escAttr(post.id)+'">'+escHtml(tr('discussion_reply'))+'</button>'+(canDelete?'<button class="discussion-link danger" type="button" data-del="'+escAttr(post.id)+'">'+escHtml(tr('discussion_delete'))+'</button>':'')+'</div>'+
+      '<div class="discussion-actions"><button class="discussion-link" type="button" data-reply="'+escAttr(post.id)+'">'+escHtml(tr('discussion_reply'))+'</button>'+(canDelete?'<button class="discussion-link danger" type="button" data-del="'+escAttr(post.id)+'">'+escHtml(tr('discussion_delete'))+'</button>':'')+((me&&me.je_admin&&!isReply)?'<button class="discussion-link" type="button" data-pin="'+escAttr(post.id)+'" data-pinned="'+(post.pinned?'1':'0')+'">'+(post.pinned?'Odepnout':'📌 Připnout')+'</button>':'')+'</div>'+
       replies+
     '</div>';
   }
@@ -4905,6 +4910,20 @@ function renderDiscussion(){
       if(cancel) cancel.style.display='inline-block';
       if(status) status.textContent=tr('discussion_replying_to')+' '+(discussionReplyTo?getDiscussionAuthorName(discussionReplyTo):('#'+pid));
       var ta=document.getElementById('discussion-body'); if(ta) ta.focus();
+    });
+  });
+  el.querySelectorAll('[data-pin]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(!me||!me.je_admin||!myPin) return;
+      var pid=parseInt(btn.getAttribute('data-pin'),10);
+      var want=btn.getAttribute('data-pinned')!=='1';
+      rpcWithRetry('admin_set_post_pinned_secure',{p_admin_id:me.id,p_pin:myPin,p_post_id:pid,p_pinned:want}).then(function(r){
+        if(r&&r.chyba) throw new Error(r.chyba);
+        return loadDiscussion();
+      }).then(function(){
+        renderDiscussion();
+        showToast(want?'Příspěvek připnut. 📌':'Příspěvek odepnut.','ok');
+      }).catch(function(e){ showToast('Chyba: '+((e&&e.message)||e),'err'); });
     });
   });
   el.querySelectorAll('[data-del]').forEach(function(btn){
