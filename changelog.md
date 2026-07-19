@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.60 - 19. 7. 2026
+
+**UX vylepšení napříč appkou.**
+- **Soupiska → profil hráče**: profil se otevírá nad soupiskou — zavřením (× nebo klik mimo) se vracíš zpět na soupisku, nic se neztrácí.
+- **Hráči**: čísla dresů barevně podle pozice (🟡🔵🟢🔴), profil hráče má avatar s iniciálami v barvě pozice. (Skutečné fotky ESPN nabízí jen u ~7 % hráčů — bez spolehlivého zdroje pro všech 1247 hráčů zatím iniciály.)
+- **Plovoucí „↑ nahoru"**: na dlouhých stránkách se po odscrollování objeví decentní kulaté tlačítko vlevo dole (nekoliduje s Uložit ani toasty), návrat plynulým scrollem.
+- **Ceny turnaje**: v rozkliknuté ceně je „ⓘ co je to?" — po klepnutí se ukáže vysvětlení statistiky (všech 16 cen).
+
 ## v5.12.59 - 19. 7. 2026
 
 **Odehrané minuty, ofsajdy a týmové statistiky.**

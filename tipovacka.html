@@ -372,7 +372,8 @@ body.theme-light .venue{color:#5f7690}
 .pos-X{background:var(--bg3);color:var(--mu2)}
 .sq-row{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:10px;margin:2px 0;background:rgba(255,255,255,.02);border:1px solid transparent}
 .sq-row.has-st{border-color:var(--bd)}
-.sq-num{flex:0 0 26px;height:26px;border-radius:8px;background:var(--bg3);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;color:var(--mu2);font-variant-numeric:tabular-nums}
+.sq-num{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid transparent;display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:800;font-variant-numeric:tabular-nums}
+.pp-ava{flex:0 0 44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;letter-spacing:.02em}
 .sq-nm{flex:1;min-width:0;font-size:.75rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sq-nm .link-player{cursor:pointer}
 .sq-age{color:var(--mu2);font-weight:400;font-size:.6rem}
@@ -398,6 +399,12 @@ body.theme-light .venue{color:#5f7690}
 .pp-name{font-weight:900;font-size:1.05rem;line-height:1.2}
 .pp-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;align-items:center}
 .pp-avg{font-size:.64rem;color:var(--mu2);background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;padding:6px 9px;margin:6px 0 2px;line-height:1.6}
+#fab-top{position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:900;width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--bg4) 88%, transparent);border:1px solid var(--bd2);color:var(--mu2);font-size:1rem;font-weight:800;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);backdrop-filter:blur(6px);transition:.15s}
+#fab-top.show{display:flex}
+#fab-top:hover{color:var(--ac2);border-color:var(--ac)}
+.fin-award-i{font-size:.56rem;color:var(--mu2);cursor:pointer;text-decoration:underline dotted;white-space:nowrap}
+.fin-award-desc{display:none;font-size:.6rem;color:var(--mu2);margin:3px 0 4px;line-height:1.5;font-style:italic}
+.fin-award-desc.on{display:block}
 .fin-sub3 span{color:var(--mu2)}
 .fin-award.has-top{cursor:pointer}
 .fin-award-caret{color:var(--mu2);font-size:.6rem}
@@ -2723,7 +2730,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.59';
+var APP_VERSION='v5.12.60';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5588,7 +5595,7 @@ function openPlayerProfile(name){
   });
   overlay.innerHTML='<div class="pdet-card" style="max-width:420px">'+
     '<button class="pdet-close" id="pp-close" type="button" style="position:absolute;top:8px;right:10px;background:transparent;border:none;color:var(--mu);font-size:1.2rem;cursor:pointer">×</button>'+
-    '<div class="pp-head"><div><div class="pp-name">'+escHtml(name)+'</div><div class="pp-meta">'+(localTeam?'<span class="sq-chip"><span class="link-team" data-team="'+escAttr(localTeam)+'" style="cursor:pointer">'+teamLbl+'</span></span>':'<span class="sq-chip">'+teamLbl+'</span>')+(p.pos?'<span class="sq-sec-badge pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+({G:'Brankář',D:'Obránce',M:'Záložník',F:'Útočník'}[p.pos]||escHtml(p.pos))+'</span>':'')+(p.subG?'<span class="sq-chip g">🃏 '+p.subG+' ze střídačky</span>':'')+'</div></div></div>'+
+    '<div class="pp-head"><span class="pp-ava pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+escHtml(name.split(' ').map(function(w){return w.charAt(0);}).slice(0,2).join('').toUpperCase())+'</span><div><div class="pp-name">'+escHtml(name)+'</div><div class="pp-meta">'+(localTeam?'<span class="sq-chip"><span class="link-team" data-team="'+escAttr(localTeam)+'" style="cursor:pointer">'+teamLbl+'</span></span>':'<span class="sq-chip">'+teamLbl+'</span>')+(p.pos?'<span class="sq-sec-badge pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+({G:'Brankář',D:'Obránce',M:'Záložník',F:'Útočník'}[p.pos]||escHtml(p.pos))+'</span>':'')+(p.subG?'<span class="sq-chip g">🃏 '+p.subG+' ze střídačky</span>':'')+'</div></div></div>'+
     '<div class="fin-tiles">'+tiles+'</div><div class="fin-tiles">'+tiles2+'</div><div class="fin-tiles">'+tiles3+'</div>'+
     '<div class="pp-avg">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+goalSplit+(p.og?' · ⚠️ '+p.og+' vlastní gól'+(p.og>1?'y':''):'')+'</div>'+
     '<div class="sq-sec" style="margin-top:10px"><span class="sq-sec-badge pos-M">'+(LANG==='en'?'Goals & assists':'Góly a asistence')+'</span><span class="sq-sec-line"></span></div>'+matchList+
@@ -8231,6 +8238,24 @@ function finaleAwards(reps){
   add('🪨','Nejstabilnější',rank(function(x){return x.R.stdev;},30,true),function(b){return '±'+b.v.toFixed(1)+' b rozptyl';});
   return A;
 }
+var AWARD_INFO={
+  'Snajpr':'Nejvíc přesně trefených výsledků (10 b za zápas).',
+  'Prorok':'Nejvyšší úspěšnost — podíl hodnocených zápasů, kde tipér získal aspoň nějaké body.',
+  'Sólo král':'Nejvíc sólo tref — přesný výsledek, který v daném zápase netrefil nikdo jiný.',
+  'Král série':'Nejdelší šňůra zápasů v řadě, ve kterých tipér bodoval.',
+  'Riskér':'Nejvyšší průměr gólů ve vlastních tipech — nejodvážnější tipování.',
+  'Remízový král':'Nejvíc správně trefených remíz.',
+  'Milovník remíz':'Největší podíl remíz mezi vlastními tipy.',
+  'Skupinový král':'Nejvíc bodů získaných ve skupinové fázi.',
+  'Playoff král':'Nejvíc bodů získaných ve vyřazovací fázi.',
+  'Nejlepší den':'Nejvíc bodů získaných během jednoho hracího dne.',
+  'Věštec':'Nejvíc trefených tipů proti kurzovému favoritovi (dle sázkových kurzů).',
+  'Smolař závěru':'Nejčastěji přišel o body kvůli gólu v samém závěru zápasu.',
+  'Lucker závěru':'Nejčastěji mu gól v závěru body naopak zachránil.',
+  'Smolař':'Nejčastěji minul body jen o kousek.',
+  'Šťastlivec':'Nejvíc těsných tref.',
+  'Nejstabilnější':'Nejmenší rozptyl bodů mezi zápasy — nejvyrovnanější výkony.'
+};
 function finaleAwardTop3Html(a){
   if(!a.top3||a.top3.length<2) return '';
   var meds=['🥇','🥈','🥉'];
@@ -8239,7 +8264,8 @@ function finaleAwardTop3Html(a){
     t.__mi=mi;
     return '<div class="fin-award-row">'+meds[mi]+' '+escHtml(t.n)+' <span>'+escHtml(t.d)+'</span></div>';
   }).join('');
-  return '<div class="fin-award-top3">'+rows+'</div>';
+  var info=AWARD_INFO[a.t]?('<div><span class="fin-award-i" role="button">ⓘ co je to?</span><div class="fin-award-desc">'+escHtml(AWARD_INFO[a.t])+'</div></div>'):'';
+  return '<div class="fin-award-top3">'+info+rows+'</div>';
 }
 function finaleAwardsHtml(reps){
   var A=finaleAwards(reps); if(!A.length) return '';
@@ -8745,6 +8771,7 @@ function renderFinale(){
       return;
     }
     var sh=e.target.closest('[data-share-pid]'); if(sh&&sh.dataset.sharePid){ finaleShare(sh.dataset.sharePid); return; }
+    var ai=e.target.closest('.fin-award-i'); if(ai){ var dsc=ai.parentNode.querySelector('.fin-award-desc'); if(dsc) dsc.classList.toggle('on'); return; }
     var aw=e.target.closest('.fin-award.has-top'); if(aw && !e.target.closest('.link-player,.link-team,[data-mcard]')){ aw.classList.toggle('open'); return; }
     var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ openPlayerProfile(pl.dataset.player); return; }
     var tm=e.target.closest('.link-team'); if(tm&&tm.dataset.team){ filterByTeam(tm.dataset.team); return; }
@@ -9175,7 +9202,7 @@ function teamSquadHtml(name,rows){
         chips='<span class="sq-chip mut">'+(LANG==='en'?'no minutes':'bez startu')+'</span>';
       }
       var nm=st?('<span class="link-player" data-player="'+escAttr(r.player)+'">'+escHtml(r.player)+'</span>'):escHtml(r.player);
-      return '<div class="sq-row'+(st?' has-st':'')+'"><span class="sq-num">'+(r.jersey!=null?r.jersey:'–')+'</span><span class="sq-nm">'+nm+(r.age?' <span class="sq-age">('+r.age+')</span>':'')+'</span><span class="sq-chips">'+chips+'</span></div>';
+      return '<div class="sq-row'+(st?' has-st':'')+'"><span class="sq-num pos-'+k+'">'+(r.jersey!=null?r.jersey:'–')+'</span><span class="sq-nm">'+nm+(r.age?' <span class="sq-age">('+r.age+')</span>':'')+'</span><span class="sq-chips">'+chips+'</span></div>';
     }).join('');
   });
   h+=teamAggStatsHtml(name);
@@ -9237,7 +9264,7 @@ function openTeamSquad(name){
   ov.innerHTML='<div class="onb-card" style="max-height:88vh;overflow-y:auto;text-align:left;width:min(540px,94vw)"><div class="squad-body"><div class="empty">Na\u010d\u00edt\u00e1m\u2026</div></div><div class="onb-actions" style="justify-content:center;margin-top:10px"><button class="onb-next" type="button">Zav\u0159\u00edt</button></div></div>';
   ov.addEventListener('click',function(e){
     if(e.target===ov||e.target.closest('.onb-next')){ ov.remove(); return; }
-    var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ ov.remove(); openPlayerProfileLazy(pl.dataset.player); return; }
+    var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ openPlayerProfileLazy(pl.dataset.player); return; }
     var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ ov.remove(); openMatchCard(parseInt(mc.dataset.mcard,10)); }
   });
   document.body.appendChild(ov);
@@ -10519,6 +10546,21 @@ function goStadiony(stadiumName){
   },60);
 }
 function scrollTopSmooth(){window.scrollTo({top:0,behavior:'smooth'});}
+// v5.12.60: plovouci sipka nahoru na dlouhych strankach (vlevo dole, nekoliduje s Ulozit/toasty)
+(function(){
+  function mk(){
+    if(document.getElementById('fab-top')) return;
+    var b=document.createElement('button'); b.id='fab-top'; b.type='button'; b.title='Zpět nahoru'; b.setAttribute('aria-label','Zpět nahoru'); b.textContent='↑';
+    b.onclick=function(){ scrollTopSmooth(); };
+    document.body.appendChild(b);
+    var shown=false;
+    window.addEventListener('scroll',function(){
+      var sh=(window.scrollY||0)>700;
+      if(sh!==shown){ shown=sh; b.classList.toggle('show',sh); }
+    },{passive:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mk); else mk();
+})();
 var currentPhase='sk';
 function setPhaseTab(phase){currentPhase=phase;['sk','po','ex'].forEach(function(p){var b=document.getElementById('ptab-phase-'+p);if(b) b.classList.toggle('on',p===phase);});var sr=document.getElementById('tipy-sort-row');if(sr) sr.style.display=phase==='sk'?'flex':'none';var qf=document.getElementById('tipy-qf');if(qf) qf.style.display=(phase==='ex')?'none':'flex';if(phase==='po') tipSort='po';else if(phase==='sk'&&tipSort==='po') tipSort='dt';['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&tipSort==='dt')||(id==='ptab-tipy-sk'&&tipSort==='sk'));});renderTipy();}
 function setSortChip(sort){tipSort=sort;['ptab-tipy-dt','ptab-tipy-sk'].forEach(function(id){var b=document.getElementById(id);if(b) b.classList.toggle('on',(id==='ptab-tipy-dt'&&sort==='dt')||(id==='ptab-tipy-sk'&&sort==='sk'));});renderTipy();}
