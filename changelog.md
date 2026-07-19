@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.59 - 19. 7. 2026
+
+**Odehrané minuty, ofsajdy a týmové statistiky.**
+- `match-stats-sync` v4: přesné odehrané minuty každého hráče (základ/střídání dle minut výměn z ESPN, zkrácení při červené kartě, prodloužení = 120′) + ofsajdy. Jednorázový re-sync všech 103 zápasů (3254 řádků, kontrola: 11×90′ = 990′ na tým sedí).
+- **Profil hráče**: nová řada dlaždic — odehrané minuty, základ + střídal, góly na 90′ (u brankářů zákroky a obdržené na 90′), ofsajdy. V souhrnu navíc rozpad gólů „ze hry + z penalt" (z minut gólů) a případné vlastní góly.
+- **Soupiska**: u každého hráče i minuty („8× · 720′").
+- **Modal týmu**: nová sekce „Statistiky týmu na MS 2026" — bilance a skóre, ⌀ držení míče, střely/na bránu, ⌀ střel, rohy, fauly, karty, ofsajdy, ⌀ přesnost přihrávek (z uložených boxscore dat).
+
 ## v5.12.58 - 19. 7. 2026
 
 **Design soupisky a profilu hráče + návrat malých FIFA/ESPN odkazů.**

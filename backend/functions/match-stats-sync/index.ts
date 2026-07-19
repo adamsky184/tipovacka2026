@@ -1,4 +1,4 @@
-// match-stats-sync edge function (v5.12.40 - +player_match_stats)
+// match-stats-sync edge function (v5.12.59 - +minutes/offsides per hrac)
 // Stahne z ESPN summary tymove boxscore statistiky zapasu + penaltove udalosti + hracske radky a nacachuje do match_stats / player_match_stats.
 // Klient posle vyreseny event_id (ma alias logiku). Volani: POST {zapas_id, event_id} (anon JWT staci).
 // Cte jen verejna ESPN data. Zapisuje pouze do match_stats.
@@ -82,6 +82,16 @@ Deno.serve(async (req) => {
       penEvents.push({ minute: c ? c.m : null, stoppage: c ? c.s : 0, side, player, outcome, type: txt });
     }
 
+    // v5.12.59: delka zapasu z keyEvents (zakladni minuta >90 => prodlouzeni 120')
+    let maxBase = 0;
+    // deno-lint-ignore no-explicit-any
+    for (const e of (d?.keyEvents || []) as any[]) {
+      if (e?.shootout) continue;
+      const c = parseClock(e?.clock?.displayValue || "");
+      if (c && c.m > maxBase) maxBase = c.m;
+    }
+    const matchLen = maxBase > 90 ? 120 : 90;
+
     // v5.12.40: hracske per-zapas statistiky ze soupisek (jen hraci, kteri nastoupili)
     // deno-lint-ignore no-explicit-any
     const pRows: any[] = [];
@@ -100,7 +110,27 @@ Deno.serve(async (req) => {
           st[String(s?.name || "")] = Number(s?.value) || 0;
         }
         if (!(st["appearances"] >= 1)) continue;
+        // v5.12.59: presne odehrane minuty ze substituci a cervenych karet v plays
+        const subMins: number[] = []; let redMin: number | null = null;
+        // deno-lint-ignore no-explicit-any
+        for (const pl of (p?.plays || []) as any[]) {
+          const c = parseClock(pl?.clock?.displayValue || "");
+          if (!c) continue;
+          if (pl?.substitution) subMins.push(c.m);
+          if (pl?.redCard && redMin === null) redMin = c.m;
+        }
+        subMins.sort((a, b) => a - b);
+        let mFrom = 0, mTo = matchLen;
+        if (p?.starter) {
+          if (p?.subbedOut && subMins.length) mTo = subMins[subMins.length - 1];
+        } else if (p?.subbedIn) {
+          mFrom = subMins.length ? subMins[0] : matchLen;
+          if (p?.subbedOut && subMins.length > 1) mTo = subMins[subMins.length - 1];
+        }
+        if (redMin !== null && redMin < mTo) mTo = redMin;
+        const minutes = Math.max(0, Math.min(matchLen, mTo) - mFrom);
         pRows.push({
+          minutes: minutes, offsides: st["offsides"] || 0,
           zapas_id: zid, side, player: name, team: teamName,
           pos: String(p?.position?.abbreviation || ""),
           starter: !!p?.starter, sub_in: !!p?.subbedIn,
