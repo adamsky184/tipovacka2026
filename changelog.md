@@ -2,6 +2,13 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.57 - 19. 7. 2026
+
+**Vlastní soupisky — konec ESPN odkazů.**
+- Nová tabulka `team_rosters`: oficiální nominace všech 48 týmů (1247 hráčů vč. těch s 0 minutami) stažené jednorázově edge funkcí `roster-sync` — data zůstávají navždy v naší DB.
+- Karta týmu má místo 5 externích odkazů (FIFA + 4× ESPN) jediné tlačítko **„📋 Soupiska, statistiky a zápasy"** — vlastní modal: kádr po pozicích (číslo dresu, věk, starty/góly/asistence, u brankářů zákroky a nuly, „bez startu" u nehrajících), proklik na profil hráče, a všechny zápasy týmu na MS s výsledky (proklik na kartu zápasu).
+- Appka je tím u týmů 100% soběstačná — žádné externí odkazy, které by po turnaji umřely.
+
 ## v5.12.56 - 19. 7. 2026
 
 - **Skutečné plánky pro New York a Vancouver**: FIFA 3D vizualizace nahrazeny oficiálním sektorovým plánkem MetLife Stadium (metlifestadium.com) a mapou areálu BC Place s bránami (bcplace.com).

@@ -2681,7 +2681,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.56';
+var APP_VERSION='v5.12.57';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -7960,6 +7960,7 @@ function openPlanek(src,name){
 }
 document.addEventListener('click',function(e){
   var pb=e.target.closest('[data-planek]'); if(pb&&pb.dataset.planek){ openPlanek(pb.dataset.planek,pb.dataset.planekName||''); return; }
+  var sq=e.target.closest('[data-squad]'); if(sq&&sq.dataset.squad){ openTeamSquad(sq.dataset.squad); return; }
   var op=e.target.closest('.ank-opt'); if(op&&op.dataset.anketa){ anketaVote(op.dataset.anketa); return; }
   if(e.target.closest('.ank-kom-btn')){ anketaSaveKom(e.target.closest('.ank-kom-btn')); return; }
   if(e.target.closest('.ank-mail-btn')){ anketaSaveMail(e.target.closest('.ank-mail-btn')); return; }
@@ -9087,22 +9088,54 @@ function renderTeamSchedule(localName){
   return html;
 }
 
-function renderTeamLinks(localName){
-  var urls=getEspnTeamUrls(localName);
-  var fifaUrl=getFifaProfileUrl(getFifaRecord(localName));
-  if(!urls){
-    if(!espnTeamIndex || !espnTeamIndex.length){
-      return '<div class="tc-team-note">'+(LANG==='en'?'Loading ESPN links...':'Načítám ESPN odkazy...')+'</div>';
-    }
-    return (fifaUrl?'<div class="tc-team-links"><a class="tc-team-link" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('fifa_profile'))+'</a></div>':'')+'<div class="tc-team-note">'+(LANG==='en'?'ESPN links are not available for this team yet.':'ESPN odkazy pro tento tým zatím nejsou k dispozici.')+'</div>';
+// v5.12.57: vlastni soupisky z team_rosters (oficialni kadr vc. hracu bez minut) + zapasy tymu
+var rosterCache={};
+function teamSquadHtml(name,rows){
+  var POS={G:(LANG==='en'?'Goalkeepers':'Brank\u00e1\u0159i'),D:(LANG==='en'?'Defenders':'Obr\u00e1nci'),M:(LANG==='en'?'Midfielders':'Z\u00e1lo\u017en\u00edci'),F:(LANG==='en'?'Forwards':'\u00dato\u010dn\u00edci')};
+  var by={}; (rows||[]).forEach(function(r){ var k=POS[r.pos]?r.pos:'X'; (by[k]=by[k]||[]).push(r); });
+  var h='<div class="onb-title" style="text-align:center">'+(fl(name)||'')+' '+escHtml(tN(name))+'</div>';
+  if(!rows||!rows.length) h+='<div class="empty">'+(LANG==='en'?'Squad not available.':'Soupiska nen\u00ed k dispozici.')+'</div>';
+  ['G','D','M','F','X'].forEach(function(k){
+    var list=by[k]; if(!list||!list.length) return;
+    h+='<div style="font-weight:800;font-size:.72rem;margin:10px 0 3px;color:var(--mu2);text-transform:uppercase;letter-spacing:.04em">'+(POS[k]||(LANG==='en'?'Others':'Ostatn\u00ed'))+' ('+list.length+')</div>';
+    list.sort(function(a,b){ return (a.jersey!=null?a.jersey:99)-(b.jersey!=null?b.jersey:99); });
+    h+=list.map(function(r){
+      var st=playerStatsByName[r.player];
+      var stat=st?(st.apps+'\u00d7'+(k==='G'?(' \u00b7 '+st.sv+' z\u00e1krok\u016f'+(st.cs?' \u00b7 '+st.cs+'\u00d7 nula':'')):((st.g?' \u00b7 '+st.g+' g':'')+(st.a?' \u00b7 '+st.a+' a':'')))):(LANG==='en'?'no minutes':'bez startu');
+      var nm=st?('<span class="link-player" data-player="'+escAttr(r.player)+'">'+escHtml(r.player)+'</span>'):escHtml(r.player);
+      return '<div style="display:flex;gap:8px;font-size:.74rem;line-height:1.75;align-items:baseline"><span style="flex:0 0 20px;color:var(--mu2);text-align:right;font-variant-numeric:tabular-nums">'+(r.jersey!=null?r.jersey:'\u2013')+'</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+nm+(r.age?' <span style="color:var(--mu2);font-size:.62rem">('+r.age+')</span>':'')+'</span><span style="flex:0 0 auto;color:var(--mu2);font-size:.64rem;white-space:nowrap">'+stat+'</span></div>';
+    }).join('');
+  });
+  var ms=SZ.concat(PZ).filter(function(z){ return z[2]===name||z[3]===name; });
+  if(ms.length){
+    h+='<div style="font-weight:800;font-size:.72rem;margin:12px 0 3px;color:var(--mu2);text-transform:uppercase;letter-spacing:.04em">'+(LANG==='en'?'Matches at WC 2026':'Z\u00e1pasy na MS 2026')+' ('+ms.length+')</div>';
+    h+=ms.map(function(z){
+      var res=results[z[0]]||'\u2013:\u2013'; var adv=resultsAdvance&&resultsAdvance[z[0]];
+      var advTx=(adv&&results[z[0]])?(' <span style="color:var(--mu2);font-size:.62rem">(postup: '+escHtml(tN(adv==='H'?z[2]:z[3]))+')</span>'):'';
+      return '<div class="fin-mlink" data-mcard="'+z[0]+'" style="display:flex;gap:6px;font-size:.72rem;line-height:1.8;cursor:pointer"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(fl(z[2])||'')+' '+escHtml(tN(z[2]))+' \u2013 '+escHtml(tN(z[3]))+' '+(fl(z[3])||'')+advTx+'</span><b style="flex:0 0 auto">'+escHtml(res)+'</b></div>';
+    }).join('');
   }
-  return '<div class="tc-team-links">'+
-    (fifaUrl?'<a class="tc-team-link" href="'+escAttr(fifaUrl)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('fifa_profile'))+'</a>':'')+
-    '<a class="tc-team-link" href="'+escAttr(urls.profile)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_profile'))+'</a>'+
-    '<a class="tc-team-link" href="'+escAttr(urls.fixtures)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('team_fixtures'))+'</a>'+
-    '<a class="tc-team-link" href="'+escAttr(urls.stats)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('team_stats'))+'</a>'+
-    '<a class="tc-team-link" href="'+escAttr(urls.squad)+'" target="_blank" rel="noopener noreferrer">'+escHtml(tr('espn_squad'))+'</a>'+
-  '</div>';
+  h+='<div style="font-size:.6rem;color:var(--mu2);margin-top:8px;text-align:center">'+(LANG==='en'?'Official tournament squad \u00b7 tap a player with minutes for profile':'Ofici\u00e1ln\u00ed nomina\u010dn\u00ed listina \u00b7 klepni na hr\u00e1\u010de se starty pro profil')+'</div>';
+  return h;
+}
+function openTeamSquad(name){
+  var ov=document.createElement('div'); ov.className='onb-overlay'; ov.style.zIndex='1150';
+  ov.innerHTML='<div class="onb-card" style="max-height:88vh;overflow-y:auto;text-align:left;width:min(540px,94vw)"><div class="squad-body"><div class="empty">Na\u010d\u00edt\u00e1m\u2026</div></div><div class="onb-actions" style="justify-content:center;margin-top:10px"><button class="onb-next" type="button">Zav\u0159\u00edt</button></div></div>';
+  ov.addEventListener('click',function(e){
+    if(e.target===ov||e.target.closest('.onb-next')){ ov.remove(); return; }
+    var pl=e.target.closest('[data-player]'); if(pl&&pl.dataset.player){ ov.remove(); openPlayerProfileLazy(pl.dataset.player); return; }
+    var mc=e.target.closest('[data-mcard]'); if(mc&&mc.dataset.mcard){ ov.remove(); openMatchCard(parseInt(mc.dataset.mcard,10)); }
+  });
+  document.body.appendChild(ov);
+  function fill(rows){ var el=ov.querySelector('.squad-body'); if(el) el.innerHTML=teamSquadHtml(name,rows); }
+  if(rosterCache[name]){ fill(rosterCache[name]); return; }
+  var p1=fetch(SBU+'/rest/v1/team_rosters?team=eq.'+encodeURIComponent(name)+'&select=player,jersey,pos,age',{headers:{'apikey':SBK,'Authorization':'Bearer '+SBK}}).then(function(r){ return r.json(); });
+  var p2=Object.keys(playerStatsByName).length?Promise.resolve():loadPlayerStats();
+  Promise.all([p1,p2]).then(function(res){ var rows=Array.isArray(res[0])?res[0]:[]; rosterCache[name]=rows; fill(rows); }).catch(function(){ fill([]); });
+}
+function renderTeamLinks(localName){
+  // v5.12.57: vlastni soupiska + zapasy (ESPN/FIFA odkazy odstranены - appka je sobestacna)
+  return '<div class="tc-team-links"><button type="button" class="tc-team-link" data-squad="'+escAttr(localName)+'" style="grid-column:1/-1;cursor:pointer;font-family:inherit">\ud83d\udccb '+(LANG==='en'?'Squad, stats & matches':'Soupiska, statistiky a z\u00e1pasy')+'</button></div>';
 }
 var WORLD_CUP_FACTS=[
   {icon:'🌍',titleCs:'Jediný stálý účastník',titleEn:'Ever-present nation',bodyCs:'Brazílie je jedinou zemí, která hrála na každém mistrovství světa od roku 1930.',bodyEn:'Brazil is the only nation to have appeared at every World Cup since 1930.'},
