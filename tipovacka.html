@@ -2741,7 +2741,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.67';
+var APP_VERSION='v5.12.68';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -3427,6 +3427,7 @@ var WORLD_CUP_MEDAL_TABLE=[
 ];
 
 var WORLD_CUP_AWARDS=[
+  {year:2026,ball:'Rodri',ballNation:'Španělsko',glove:'Unai Simón',gloveNation:'Španělsko',young:'Pau Cubarsí',youngNation:'Španělsko'},
   {year:2022,ball:'Lionel Messi',ballNation:'Argentina',glove:'Emiliano Martínez',gloveNation:'Argentina',young:'Enzo Fernández',youngNation:'Argentina'},
   {year:2018,ball:'Luka Modrić',ballNation:'Chorvatsko',glove:'Thibaut Courtois',gloveNation:'Belgie',young:'Kylian Mbappé',youngNation:'Francie'},
   {year:2014,ball:'Lionel Messi',ballNation:'Argentina',glove:'Manuel Neuer',gloveNation:'Německo',young:'Paul Pogba',youngNation:'Francie'},
@@ -5317,7 +5318,7 @@ function applyI18n(){
   setText('hdr-sub',tr('hdr_sub'));setText('vys-empty',tr('vys_empty'));
   setText('lo-sub',tr('lo_sub'));setText('lo-meta',tr('lo_meta'));
   refreshPaidLoginBox();
-  setText('lbl-name1',tr('name'));setText('lbl-pin1',tr('pin'));
+  setText('lbl-name1',(LANG==='en'?'NAME OR E-MAIL':'JMÉNO NEBO E-MAIL'));setText('lbl-pin1',tr('pin'));
   setText('lbl-name2',tr('name'));setText('lbl-pin2',tr('pin_min'));setText('lbl-pin3',tr('pin_c'));
   setText('admin-clbl',tr('admin_overview'));
   setText('admin-extra-info',tr('extra_admin_info'));
@@ -5345,7 +5346,7 @@ function applyI18n(){
   setHtml('ibox-zeb',tr('leader_info'));
   setText('pf-btn-lbl',tr('show_players'));setText('pf-all',tr('all_players'));setText('pf-rivals',tr('rival_only'));setText('pf-none',LANG==='en'?'None':'Nikdo');setText('pf-done',LANG==='en'?'Done':'Hotovo');
 
-  document.getElementById('lj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
+  document.getElementById('lj').placeholder=LANG==='en'?'Your name or e-mail...':'Tvoje jméno nebo e-mail...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
   document.getElementById('rj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
   document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
@@ -8830,9 +8831,22 @@ function finalePlayerAggHtml(){
   '</div><div style="font-size:.6rem;color:var(--mu2);margin-top:5px">Klikni na jméno hráče pro jeho profil.</div></div>';
 }
 // v5.12.38: cast o TURNAJI (tymy a hraci fotbaloveho MS) - blok Turnaj
+// v5.12.68: oficialni individualni oceneni MS 2026 (zdroj: FIFA/NBC po finale 19. 7. 2026)
+function wc26AwardsHtml(){
+  function pl2(n){ return '<span class="link-player" data-player="'+escAttr(n)+'">'+escHtml(n)+'</span>'; }
+  function card(ic,t,w,flag,d,sub){
+    return '<div class="fin-award" style="align-items:flex-start"><div class="fin-award-ic">'+ic+'</div><div style="min-width:0"><div class="fin-award-t">'+t+'</div><div class="fin-award-w">'+flag+' '+w+'</div><div class="fin-award-d">'+d+'</div>'+(sub?'<div class="fin-award-row" style="margin-top:3px"><span>'+sub+'</span></div>':'')+'</div></div>';
+  }
+  return '<div class="fin-sec"><div style="font-size:.78rem;font-weight:800;text-align:center;margin:2px 0 8px">🏅 Oficiální ocenění MS 2026</div><div class="fin-awards">'+
+    card('🏅','Zlatý míč',pl2('Rodri'),'🇪🇸','nejlepší hráč turnaje','🥈 '+pl2('Lionel Messi')+' · 🥉 '+pl2('Kylian Mbappé'))+
+    card('⚽','Zlatá kopačka',pl2('Kylian Mbappé'),'🇫🇷','10 gólů','🥈 '+pl2('Lionel Messi')+' 8 · 🥉 '+pl2('Jude Bellingham')+' / '+pl2('Erling Haaland')+' 7')+
+    card('🧤','Zlatá rukavice',pl2('Unai Simón'),'🇪🇸','nejlepší brankář · 7 čistých kont','')+
+    card('🌟','Mladý hráč turnaje',pl2('Pau Cubarsí'),'🇪🇸','nejlepší hráč do 21 let','')+
+  '</div></div>';
+}
 function finaleTourGlobalHtml(){
   var G=finaleGlobalStats([]);
-  function ml(x){ if(!x||!x.z) return '—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
+  function ml(x){ if(!x||!x.z) return ''+wc26AwardsHtml()+'—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
   var lateHtml=G.hasGoals?('<div class="fin-sec"><div class="fin-drows">'+
       '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+plink(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
       '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'+

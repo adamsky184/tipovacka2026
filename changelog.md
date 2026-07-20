@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.68 - 20. 7. 2026
+
+**Oficiální individuální ocenění MS 2026** (Turnaj → Statistiky, nahoře): 🏅 Zlatý míč Rodri (🥈 Messi, 🥉 Mbappé) · ⚽ Zlatá kopačka Mbappé 10 gólů (🥈 Messi 8, 🥉 Bellingham/Haaland 7) · 🧤 Zlatá rukavice Unai Simón (7 čistých kont — sedí s našimi daty) · 🌟 Mladý hráč Pau Cubarsí. Jména proklikávací na profily. Rok 2026 doplněn i do Historie → Ocenění. Fix: i18n přepisoval nový login label „Jméno nebo e-mail".
+
 ## v5.12.67 - 20. 7. 2026
 
 **Můj profil — kliknutím na jméno vpravo nahoře.**
