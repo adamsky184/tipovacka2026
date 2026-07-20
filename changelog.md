@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.71 - 20. 7. 2026
+
+Oficiální ocenění MS 2026 přes celou šířku appky: na desktopu 4 karty vedle sebe (auto-fit, žádné prázdné sloupce), na mobilu karty pod sebou na plnou šířku.
+
 ## v5.12.70 - 20. 7. 2026
 
 **Statistiky logicky seřazené + stupně vítězů turnaje.** Úplně nahoře nová „bedna": 🥇 Španělsko (mistr světa) · 🥈 Argentina (finalista) · 🥉 Anglie (3. místo) — s vlajkami a prokliky na týmy. Pak oficiální ocenění → král střelců a hráčské zajímavosti → gólové statistiky (kdy padají góly, penalty) → týmové → vytížení/věk → stadiony → rozhodčí.
