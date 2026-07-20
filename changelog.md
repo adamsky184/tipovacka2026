@@ -2,6 +2,17 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.69 - 20. 7. 2026
+
+**Velký balík statistik + opravy.**
+- **Oprava**: oficiální ocenění MS 2026 se omylem vložila do skryté větve — nyní správně nahoře v Turnaj → Statistiky.
+- **Turnaj → Statistiky nové sekce**: 🎯 Penalty (22 nařízeno / 16 proměněno, seznam neproměněných vč. 2× Messi) · 🧑‍⚖️ Rozhodčí (nejvytíženější, nejpřísnější/nejmírnější dle ⌀ karet) · ⏱️ Kdy padají góly (histogram po 15 min — 26 % gólů v 76.–90.+, 59 % po pauze) · 💪 Železný muž (nejvíc minut) a 🃏 Superžolík (nejrychlejší gól po příchodu ze střídačky) · 🎂 Věk turnaje (nejmladší/nejstarší se starty — Mora 17 vs Ronaldo 41, kádry, ⌀ věk šampiona).
+- **Karta zápasu**: řádek **Formace** (např. finále 4-2-3-1 vs 4-4-2) + sbalitelné „Více statistik ▾" (bloky, konverze střel, centry, skluzy, zachycené míče, odkopy, dlouhé míče).
+- **Modal týmu**: konverze střel, skluzy, zachycené+bloky, odkopy, centry, nejčastější formace.
+- **Hráči**: nový režim „⏱ Minuty" + sloupec minut; **profil hráče**: přesnost střel na bránu %.
+- **Nová data (dosync z ESPN, 104 zápasů)**: formace obou týmů + minuta příchodu každého střídajícího (`sub_in_min`, 1000 řádků).
+- **Turnaj v menu**: po dohraném turnaji se hub otevírá rovnou na Statistiky (dřív pavouk).
+
 ## v5.12.68 - 20. 7. 2026
 
 **Oficiální individuální ocenění MS 2026** (Turnaj → Statistiky, nahoře): 🏅 Zlatý míč Rodri (🥈 Messi, 🥉 Mbappé) · ⚽ Zlatá kopačka Mbappé 10 gólů (🥈 Messi 8, 🥉 Bellingham/Haaland 7) · 🧤 Zlatá rukavice Unai Simón (7 čistých kont — sedí s našimi daty) · 🌟 Mladý hráč Pau Cubarsí. Jména proklikávací na profily. Rok 2026 doplněn i do Historie → Ocenění. Fix: i18n přepisoval nový login label „Jméno nebo e-mail".

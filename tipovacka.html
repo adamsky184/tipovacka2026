@@ -407,6 +407,9 @@ body.theme-light .venue{color:#5f7690}
 .pf-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;border:2px solid transparent;background:var(--bg3);flex-shrink:0}
 .pf-av.on{border-color:var(--ac);background:rgba(59,130,246,.18)}
 .pf-cur.emo{font-size:1.5rem;background:var(--bg3);border:1px solid var(--bd2)}
+.mcard-more{margin-top:4px}
+.mcard-more summary{font-size:.66rem;color:var(--ac2);cursor:pointer;text-align:center;padding:4px 0;list-style:none}
+.mcard-more summary::-webkit-details-marker{display:none}
 #fab-top{position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:900;width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--bg4) 88%, transparent);border:1px solid var(--bd2);color:var(--mu2);font-size:1rem;font-weight:800;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);backdrop-filter:blur(6px);transition:.15s}
 #fab-top.show{display:flex}
 #fab-top:hover{color:var(--ac2);border-color:var(--ac)}
@@ -2741,7 +2744,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.68';
+var APP_VERSION='v5.12.69';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -5388,8 +5391,9 @@ var HUBS={
   'tab-hub-tymy':{items:[['tymy','Týmy'],['hraci','Hráči']]}
 };
 function hubDefaultTarget(hubId){
+  var over=!!(results&&results[104]); // turnaj dohran -> rovnou statistiky
   var poOn=(typeof isPlayoffOpened==='function'&&isPlayoffOpened())||Object.keys(results||{}).some(function(z){return parseInt(z,10)>=73;});
-  if(hubId==='tab-hub-turnaj') return poOn?'pavouk':'tabulka';
+  if(hubId==='tab-hub-turnaj') return over?'stats':(poOn?'pavouk':'tabulka');
   return 'tymy';
 }
 function hubOf(name){ var found=null; Object.keys(HUBS).forEach(function(h){ HUBS[h].items.forEach(function(it){ if(it[0]===name) found=h; }); }); return found; }
@@ -5599,9 +5603,9 @@ function loadGoalMinutes(){
 // Tymove statistiky zapasu (ESPN boxscore cache) - pro finale "Turnaj v cislech"
 var matchStatsByZapas={}; // {zapas_id:{home:{...},away:{...},pen_events:[...]}}
 function loadMatchStats(){
-  return sbf('match_stats?select=zapas_id,home,away,pen_events,attendance,referee').then(function(d){
+  return sbf('match_stats?select=zapas_id,home,away,pen_events,attendance,referee,home_formation,away_formation').then(function(d){
     matchStatsByZapas={};
-    (d||[]).forEach(function(r){ matchStatsByZapas[parseInt(r.zapas_id,10)]={home:r.home||{},away:r.away||{},pen:Array.isArray(r.pen_events)?r.pen_events:[],att:(r.attendance!=null?parseInt(r.attendance,10):null),ref:r.referee||''}; });
+    (d||[]).forEach(function(r){ matchStatsByZapas[parseInt(r.zapas_id,10)]={home:r.home||{},away:r.away||{},pen:Array.isArray(r.pen_events)?r.pen_events:[],att:(r.attendance!=null?parseInt(r.attendance,10):null),ref:r.referee||'',hf:r.home_formation||'',af:r.away_formation||''}; });
   }).catch(function(){ matchStatsByZapas={}; });
 }
 // Hracske per-zapas statistiky (ESPN soupisky cache) - profily hracu + zajimavosti v zakonceni
@@ -5609,7 +5613,7 @@ var playerStatsByName={}; // {jmeno:{team,pos,apps,g,a,sh,sot,fc,fs,y,r,og,sv,gc
 function loadPlayerStats(){
   var all=[];
   function page(off){
-    return sbf('player_match_stats?select=zapas_id,side,player,team,pos,sub_in,starter,minutes,offsides,goals,assists,shots,shots_on_target,fouls_committed,fouls_suffered,yellow,red,own_goals,saves,goals_conceded&order=zapas_id.asc&limit=1000&offset='+off).then(function(d){
+    return sbf('player_match_stats?select=zapas_id,side,player,team,pos,sub_in,starter,minutes,offsides,sub_in_min,goals,assists,shots,shots_on_target,fouls_committed,fouls_suffered,yellow,red,own_goals,saves,goals_conceded&order=zapas_id.asc&limit=1000&offset='+off).then(function(d){
       d=d||[]; all=all.concat(d);
       if(d.length===1000) return page(off+1000);
     });
@@ -5625,7 +5629,7 @@ function loadPlayerStats(){
       p.min+=r.minutes||0; p.off+=r.offsides||0; if(r.starter) p.startN++;
       if(r.pos==='G' && (r.goals_conceded||0)===0) p.cs++;
       if(r.sub_in && r.goals) p.subG+=r.goals;
-      p.matches.push({zid:parseInt(r.zapas_id,10),g:r.goals||0,a:r.assists||0});
+      p.matches.push({zid:parseInt(r.zapas_id,10),g:r.goals||0,a:r.assists||0,sim:(r.sub_in_min!=null?r.sub_in_min:null)});
     });
   }).catch(function(){ playerStatsByName={}; });
 }
@@ -5680,7 +5684,7 @@ function openPlayerProfile(name){
     '<button class="pdet-close" id="pp-close" type="button" style="position:absolute;top:8px;right:10px;background:transparent;border:none;color:var(--mu);font-size:1.2rem;cursor:pointer">×</button>'+
     '<div class="pp-head"><span class="pp-ava pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+escHtml(name.split(' ').map(function(w){return w.charAt(0);}).slice(0,2).join('').toUpperCase())+'</span><div><div class="pp-name">'+escHtml(name)+'</div><div class="pp-meta">'+(localTeam?'<span class="sq-chip"><span class="link-team" data-team="'+escAttr(localTeam)+'" style="cursor:pointer">'+teamLbl+'</span></span>':'<span class="sq-chip">'+teamLbl+'</span>')+(p.pos?'<span class="sq-sec-badge pos-'+(({G:'G',D:'D',M:'M',F:'F'})[p.pos]||'X')+'">'+({G:'Brankář',D:'Obránce',M:'Záložník',F:'Útočník'}[p.pos]||escHtml(p.pos))+'</span>':'')+(p.subG?'<span class="sq-chip g">🃏 '+p.subG+' ze střídačky</span>':'')+'</div></div></div>'+
     '<div class="fin-tiles">'+tiles+'</div><div class="fin-tiles">'+tiles2+'</div><div class="fin-tiles">'+tiles3+'</div>'+
-    '<div class="pp-avg">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+goalSplit+(p.og?' · ⚠️ '+p.og+' vlastní gól'+(p.og>1?'y':''):'')+'</div>'+
+    '<div class="pp-avg">⌀ na zápas: '+(isGk?((p.sv/p.apps).toFixed(1)+' zákroků · '+(p.gc/p.apps).toFixed(1)+' obdržených'):((p.g/p.apps).toFixed(2)+' gólů · '+(p.a/p.apps).toFixed(2)+' asistencí · '+(p.sh/p.apps).toFixed(1)+' střel'))+' · '+(p.fc/p.apps).toFixed(1)+' faulů'+(!isGk&&p.sh>0?' · konverze '+Math.round(100*p.g/p.sh)+' %':'')+(!isGk&&p.sh>0?' · na bránu '+Math.round(100*p.sot/p.sh)+' %':'')+goalSplit+(p.og?' · ⚠️ '+p.og+' vlastní gól'+(p.og>1?'y':''):'')+'</div>'+
     '<div class="sq-sec" style="margin-top:10px"><span class="sq-sec-badge pos-M">'+(LANG==='en'?'Goals & assists':'Góly a asistence')+'</span><span class="sq-sec-line"></span></div>'+matchList+
   '</div>';
   document.body.appendChild(overlay);
@@ -5988,6 +5992,19 @@ var MSUM_STATS=[
   ['accuratePasses','Přesné přihrávky','Accurate Passes',''],
   ['passPct','Přesnost přihrávek','Pass Accuracy','%']
 ];
+// v5.12.69: rozsirene statistiky (sbalitelne)
+var MSUM_STATS2=[
+  ['blockedShots','Zblokované střely','Blocked Shots',''],
+  ['shotPct','Konverze střel','Shot Conversion','%'],
+  ['totalCrosses','Centry','Crosses',''],
+  ['accurateCrosses','Přesné centry','Accurate Crosses',''],
+  ['totalTackles','Skluzy','Tackles',''],
+  ['effectiveTackles','Úspěšné skluzy','Effective Tackles',''],
+  ['interceptions','Zachycené míče','Interceptions',''],
+  ['totalClearance','Odkopy','Clearances',''],
+  ['totalLongBalls','Dlouhé míče','Long Balls',''],
+  ['accurateLongBalls','Přesné dlouhé míče','Accurate Long Balls','']
+];
 function matchCardBtnHtml(z){
   return '<button class="mcard-btn" type="button" data-mcard="'+escAttr(String(z[0]))+'" title="'+escAttr(LANG==='en'?'Match detail':'Detail zápasu')+'" aria-label="'+escAttr(LANG==='en'?'Match detail':'Detail zápasu')+'">i</button>';
 }
@@ -6057,11 +6074,12 @@ function msumStatsHtml(sum,z){
   teams.forEach(function(t){ if(teamMatches(z[2],t.team)) hm=t; else if(teamMatches(z[3],t.team)) aw=t; });
   if(!hm||!aw){ hm=teams[0]; aw=teams[1]; }
   function val(t,name){ var f=null; (t.items||[]).forEach(function(s){ if(s.name===name) f=s.value; }); return f; }
+  function rowsFor(list){
   var rows='';
-  MSUM_STATS.forEach(function(def){
+  list.forEach(function(def){
     var hv=val(hm,def[0]),av=val(aw,def[0]);
     if(hv==null&&av==null) return;
-    if(def[0]==='passPct'){
+    if(def[0]==='passPct'||def[0]==='shotPct'){
       // ESPN vraci pass completion jako zlomek (0.9 = 90 %)
       if(hv!=null&&!isNaN(parseFloat(hv))) hv=String(Math.round(parseFloat(hv)*100));
       if(av!=null&&!isNaN(parseFloat(av))) av=String(Math.round(parseFloat(av)*100));
@@ -6070,8 +6088,16 @@ function msumStatsHtml(sum,z){
     var hLead=!isNaN(hn)&&!isNaN(an)&&hn>an,aLead=!isNaN(hn)&&!isNaN(an)&&an>hn;
     rows+='<div class="mcard-stat-row"><span class="'+(hLead?'lead':'')+'">'+escHtml(hv==null?'—':hv)+def[3]+'</span><span class="mcard-stat-name">'+escHtml(LANG==='en'?def[2]:def[1])+'</span><span class="'+(aLead?'lead':'')+'">'+escHtml(av==null?'—':av)+def[3]+'</span></div>';
   });
+  return rows;
+  }
+  var rows=rowsFor(MSUM_STATS);
   if(!rows) return '';
-  return '<div class="mcard-sec">'+(LANG==='en'?'Match stats':'Statistiky zápasu')+'</div>'+rows;
+  // formace (z nasi cache), pokud jsou
+  var msf=matchStatsByZapas[z[0]];
+  var formRow=(msf&&(msf.hf||msf.af))?('<div class="mcard-stat-row"><span>'+escHtml(msf.hf||'—')+'</span><span class="mcard-stat-name">'+(LANG==='en'?'Formation':'Formace')+'</span><span>'+escHtml(msf.af||'—')+'</span></div>'):'';
+  var rows2=rowsFor(MSUM_STATS2);
+  var moreBlk=rows2?('<details class="mcard-more"><summary>'+(LANG==='en'?'More stats':'Více statistik')+' ▾</summary>'+rows2+'</details>'):'';
+  return '<div class="mcard-sec">'+(LANG==='en'?'Match stats':'Statistiky zápasu')+'</div>'+formRow+rows+moreBlk;
 }
 function msumEventsHtml(sum){
   var evs=(sum.keyEvents||[]);
@@ -8844,14 +8870,128 @@ function wc26AwardsHtml(){
     card('🌟','Mladý hráč turnaje',pl2('Pau Cubarsí'),'🇪🇸','nejlepší hráč do 21 let','')+
   '</div></div>';
 }
+// v5.12.69: dalsi turnajove sekce (penalty, rozhodci, cas golu, minuty, vek, superzolik)
+var rosterAll=null; // [{team,player,jersey,pos,age}]
+function loadAllRosters(){
+  if(rosterAll) return Promise.resolve(rosterAll);
+  var all=[];
+  function page(off){
+    return sbf('team_rosters?select=team,player,pos,age&order=team.asc,player.asc&limit=1000&offset='+off).then(function(d){
+      d=d||[]; all=all.concat(d);
+      if(d.length===1000) return page(off+1000);
+    });
+  }
+  return page(0).then(function(){ rosterAll=all; return all; });
+}
+function tourExtraStatsHtml(){
+  var zmap={}; SZ.concat(PZ).forEach(function(z){ zmap[z[0]]=z; });
+  function ml2(zid){ var z=zmap[zid]; if(!z) return ''; return '<span class="fin-mlink" data-mcard="'+zid+'">'+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+'</span>'; }
+  var h='';
+  // --- Penalty (mimo rozstrely) ---
+  var penAll=[];
+  Object.keys(matchStatsByZapas).forEach(function(zs){ var zid=parseInt(zs,10); if(!zmap[zid]) return;
+    (matchStatsByZapas[zid].pen||[]).forEach(function(e){ if(e&&(e.outcome==='scored'||e.outcome==='missed'||e.outcome==='saved')) penAll.push({zid:zid,e:e}); });
+  });
+  if(penAll.length){
+    var penSc=penAll.filter(function(x){return x.e.outcome==='scored';}).length;
+    var missed=penAll.filter(function(x){return x.e.outcome!=='scored';});
+    var missHtml=missed.length?missed.map(function(x){ return (x.e.player?plink(x.e.player):'?')+' <span style="color:var(--mu2)">('+(x.e.outcome==='saved'?'chycena':'zahozena')+(x.e.minute?', '+x.e.minute+'.\u2032':'')+')</span> · '+ml2(x.zid); }).join('<br>'):'—';
+    h+='<div class="fin-sec"><h4>🎯 Penalty (mimo rozstřely)</h4><div class="fin-drows">'+
+      '<div><span>Nařízeno / proměněno</span><b>'+penAll.length+' / '+penSc+' ('+Math.round(100*penSc/penAll.length)+' %)</b></div>'+
+    '</div>'+(missed.length?('<div style="font-size:.7rem;color:var(--mu2);margin-top:4px">Neproměněné:</div><div style="font-size:.74rem;line-height:1.8">'+missHtml+'</div>'):'')+'</div>';
+  }
+  // --- Rozhodci ---
+  var refA={};
+  Object.keys(matchStatsByZapas).forEach(function(zs){ var zid=parseInt(zs,10); var ms2=matchStatsByZapas[zid]; if(!zmap[zid]||!ms2.ref) return;
+    var a=refA[ms2.ref]=refA[ms2.ref]||{n:0,y:0,r:0};
+    a.n++;
+    ['home','away'].forEach(function(k){ var sd=ms2[k]||{}; a.y+=parseInt(sd.yellowCards,10)||0; a.r+=parseInt(sd.redCards,10)||0; });
+  });
+  var refNames=Object.keys(refA);
+  if(refNames.length){
+    var byN=refNames.slice().sort(function(a,b){return refA[b].n-refA[a].n;}).slice(0,3);
+    var eligible=refNames.filter(function(r){return refA[r].n>=3;});
+    var strict=eligible.slice().sort(function(a,b){return (refA[b].y+3*refA[b].r)/refA[b].n-(refA[a].y+3*refA[a].r)/refA[a].n;});
+    function refLbl(r){ var a=refA[r]; return escHtml(r)+' <span style="color:var(--mu2)">('+a.n+' záp., ⌀ '+((a.y+a.r)/a.n).toFixed(1)+' karet'+(a.r?', '+a.r+'×🟥':'')+')</span>'; }
+    h+='<div class="fin-sec"><h4>🧑‍⚖️ Rozhodčí</h4><div class="fin-drows">'+
+      '<div><span>Nejvytíženější</span><b>'+byN.map(refLbl).join('<br>')+'</b></div>'+
+      (strict.length?('<div><span>Nejpřísnější (min. 3 záp.)</span><b>'+refLbl(strict[0])+'</b></div>'+
+      '<div><span>Nejmírnější (min. 3 záp.)</span><b>'+refLbl(strict[strict.length-1])+'</b></div>'):'')+
+    '</div></div>';
+  }
+  // --- Kdy padaji goly ---
+  var buckets=[['1–15′',0],['16–30′',0],['31–45+′',0],['46–60′',0],['61–75′',0],['76–90+′',0],['prodloužení',0]];
+  var tot=0, half2=0, stopp=0;
+  Object.keys(goalMinsByZapas).forEach(function(zs){ var zid=parseInt(zs,10); if(!zmap[zid]) return;
+    (goalMinsByZapas[zid]||[]).forEach(function(g){
+      var m=g.minute||0; tot++;
+      var bi=m>90?6:m>75?5:m>60?4:m>45?3:m>30?2:m>15?1:0;
+      buckets[bi][1]++;
+      if(m>45) half2++;
+      if(g.stoppage>0) stopp++;
+    });
+  });
+  if(tot){
+    var mx=Math.max.apply(null,buckets.map(function(b){return b[1];}));
+    var barRows=buckets.map(function(b){ var pct=Math.round(100*b[1]/tot);
+      return '<div class="ank-bar-row"><span class="ank-bar-lbl" style="flex-basis:86px">'+b[0]+'</span><span class="ank-track"><span class="ank-bar" style="width:'+(mx?Math.max(2,Math.round(100*b[1]/mx)):2)+'%"></span></span><span class="ank-bar-n">'+b[1]+' ('+pct+'%)</span></div>'; }).join('');
+    h+='<div class="fin-sec"><h4>⏱️ Kdy padají góly</h4><div class="ank-bars" style="margin-top:2px">'+barRows+'</div>'+
+      '<div style="font-size:.64rem;color:var(--mu2);margin-top:4px">'+tot+' gólů celkem · '+Math.round(100*half2/tot)+' % po pauze · '+stopp+' v nastavení</div></div>';
+  }
+  // --- Zelezny muz + superzolik ---
+  var names=Object.keys(playerStatsByName);
+  if(names.length){
+    var byMin=names.slice().sort(function(a,b){return (playerStatsByName[b].min||0)-(playerStatsByName[a].min||0);}).slice(0,3);
+    var meds=['🥇','🥈','🥉'];
+    var ironHtml=byMin.map(function(n,i){ return meds[i]+' '+plink(n)+' <span style="color:var(--mu2)">('+playerStatsByName[n].min+'′ / '+playerStatsByName[n].apps+' záp.)</span>'; }).join('<br>');
+    // superzolik: nejrychlejsi gol po prichodu ze stridacky
+    var jolly=[];
+    names.forEach(function(n){ var q=playerStatsByName[n];
+      (q.matches||[]).forEach(function(mrec){ if(mrec.sim==null||!mrec.g) return;
+        (goalMinsByZapas[mrec.zid]||[]).forEach(function(g){ if(g.scorer===n&&!g.own_goal&&g.minute>=mrec.sim){ jolly.push({n:n,zid:mrec.zid,delta:g.minute-mrec.sim,min:g.minute}); } });
+      });
+    });
+    jolly.sort(function(a,b){return a.delta-b.delta;});
+    var jollyHtml=jolly.slice(0,3).map(function(j,i){ return meds[i]+' '+plink(j.n)+' <span style="color:var(--mu2)">('+(j.delta===0?'okamžitě po příchodu':'gól za '+j.delta+'′ po příchodu')+', '+j.min+'.\u2032)</span> · '+ml2(j.zid); }).join('<br>');
+    h+='<div class="fin-sec"><h4>💪 Vytížení a žolíci</h4><div class="fin-drows">'+
+      '<div><span>🦾 Železný muž (nejvíc minut)</span><b>'+ironHtml+'</b></div>'+
+      (jolly.length?('<div><span>🃏 Superžolík (nejrychlejší gól po příchodu)</span><b>'+jollyHtml+'</b></div>'):'')+
+    '</div></div>';
+  }
+  // --- Vek (potrebuje kompletni soupisky) ---
+  if(rosterAll&&rosterAll.length){
+    var withMin={}, teamAges={};
+    rosterAll.forEach(function(r){ if(!r.age) return;
+      (teamAges[r.team]=teamAges[r.team]||[]).push(r.age);
+      if(playerStatsByName[r.player]&&(playerStatsByName[r.player].min||0)>0) withMin[r.player]=r;
+    });
+    var wm=Object.keys(withMin);
+    if(wm.length){
+      wm.sort(function(a,b){return withMin[a].age-withMin[b].age;});
+      var yng=withMin[wm[0]], oldp=withMin[wm[wm.length-1]];
+      var tA=Object.keys(teamAges).map(function(t){ var arr=teamAges[t]; return {t:t,avg:arr.reduce(function(x,y){return x+y;},0)/arr.length}; }).sort(function(a,b){return a.avg-b.avg;});
+      var yTeams=tA.slice(0,3).map(function(x){return _finTeamLbl(x.t)+' <span style="color:var(--mu2)">(⌀ '+x.avg.toFixed(1)+')</span>';}).join(', ');
+      var oTeams=tA.slice(-3).reverse().map(function(x){return _finTeamLbl(x.t)+' <span style="color:var(--mu2)">(⌀ '+x.avg.toFixed(1)+')</span>';}).join(', ');
+      var champ=tA.filter(function(x){return x.t==='Spanelsko';})[0];
+      h+='<div class="fin-sec"><h4>🎂 Věk turnaje</h4><div class="fin-drows">'+
+        '<div><span>👶 Nejmladší se starty</span><b>'+plink(yng.player)+' <span style="color:var(--mu2)">('+yng.age+' let, '+escHtml(tN(yng.team))+')</span></b></div>'+
+        '<div><span>🧓 Nejstarší se starty</span><b>'+plink(oldp.player)+' <span style="color:var(--mu2)">('+oldp.age+' let, '+escHtml(tN(oldp.team))+')</span></b></div>'+
+        '<div><span>Nejmladší kádry</span><b>'+yTeams+'</b></div>'+
+        '<div><span>Nejstarší kádry</span><b>'+oTeams+'</b></div>'+
+        (champ?('<div><span>🏆 ⌀ věk šampiona</span><b>'+champ.avg.toFixed(1)+' let</b></div>'):'')+
+      '</div></div>';
+    }
+  }
+  return h;
+}
 function finaleTourGlobalHtml(){
   var G=finaleGlobalStats([]);
-  function ml(x){ if(!x||!x.z) return ''+wc26AwardsHtml()+'—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
+  function ml(x){ if(!x||!x.z) return '—'; var z=x.z; return '<span class="fin-mlink" data-mcard="'+z[0]+'">'+(fl(z[2])?fl(z[2])+' ':'')+escHtml(tN(z[2]))+' <b>'+escHtml(x.res)+'</b> '+escHtml(tN(z[3]))+(fl(z[3])?' '+fl(z[3]):'')+'</span>'; }
   var lateHtml=G.hasGoals?('<div class="fin-sec"><div class="fin-drows">'+
       '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+plink(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
       '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'+
     '</div></div>'):'';
-  return '<div class="fin-globalwrap">'+
+  return '<div class="fin-globalwrap">'+wc26AwardsHtml()+tourExtraStatsHtml()+
     '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🏟️ Turnaj v číslech — týmy a hráči</div>'+
     '<div style="font-size:.66rem;color:var(--mu);text-align:center;margin-bottom:8px">'+G.matches+' odehraných zápasů</div>'+
     finaleScorersHtml()+
@@ -8869,6 +9009,7 @@ function renderStatsTab(){
   var el=document.getElementById('stats-list'); if(!el) return;
   el.innerHTML=finaleTourGlobalHtml();
   el.__filled=true;
+  if(!rosterAll){ loadAllRosters().then(function(){ try{ var pg=document.getElementById('page-stats'); if(pg&&pg.style.display!=='none') renderStatsTab(); }catch(_e){} }); }
   finaleBindHScroll(el);
   if(!el.__bound){ el.__bound=true;
     el.addEventListener('click',function(e){
@@ -8885,10 +9026,10 @@ function renderHraci(){
   if(!ctrl||!listEl) return;
   var names=Object.keys(playerStatsByName);
   if(!names.length){ listEl.innerHTML='<div class="empty">'+(LANG==='en'?'Player data not available yet.':'Hráčská data zatím nejsou k dispozici.')+'</div>'; return; }
-  var modes=[['g','⚽ '+(LANG==='en'?'Goals':'Góly')],['a','🅰️ '+(LANG==='en'?'Assists':'Asistence')],['kb','🍁 G+A'],['sh','🥅 '+(LANG==='en'?'Shots':'Střely')],['cards','🟨 '+(LANG==='en'?'Cards':'Karty')],['gk','🧤 '+(LANG==='en'?'Keepers':'Brankáři')]];
+  var modes=[['g','⚽ '+(LANG==='en'?'Goals':'Góly')],['a','🅰️ '+(LANG==='en'?'Assists':'Asistence')],['kb','🍁 G+A'],['sh','🥅 '+(LANG==='en'?'Shots':'Střely')],['cards','🟨 '+(LANG==='en'?'Cards':'Karty')],['min','⏱ '+(LANG==='en'?'Minutes':'Minuty')],['gk','🧤 '+(LANG==='en'?'Keepers':'Brankáři')]];
   ctrl.innerHTML='<div class="tier3" style="margin-bottom:8px">'+modes.map(function(m){ return '<button class="fchip'+(hraciMode===m[0]?' on':'')+'" data-hmode="'+m[0]+'" type="button">'+m[1]+'</button>'; }).join('')+'</div>'+
     '<input id="hraci-q" type="text" placeholder="'+(LANG==='en'?'Search player or team…':'Hledej hráče nebo tým…')+'" value="'+escAttr(hraciSearch)+'" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--bd2);border-radius:9px;color:var(--tx);padding:7px 11px;font-size:.8rem;margin-bottom:8px" autocomplete="off">';
-  var rows=names.map(function(n){ var q=playerStatsByName[n]; return {n:n,p:q,g:q.g,a:q.a,kb:q.g+q.a,sh:q.sh,cards:q.y+q.r,sv:q.sv}; });
+  var rows=names.map(function(n){ var q=playerStatsByName[n]; return {n:n,p:q,g:q.g,a:q.a,kb:q.g+q.a,sh:q.sh,cards:q.y+q.r,sv:q.sv,min:q.min||0}; });
   var qs=hraciSearch.toLowerCase().trim();
   if(qs){ rows=rows.filter(function(r){ var lt=(typeof espnToLocalTeam==='function')?espnToLocalTeam(r.p.team):''; return r.n.toLowerCase().indexOf(qs)>=0 || String(r.p.team).toLowerCase().indexOf(qs)>=0 || (lt&&tN(lt).toLowerCase().indexOf(qs)>=0); }); }
   var isGkMode=hraciMode==='gk';
@@ -8899,11 +9040,11 @@ function renderHraci(){
   function teamCell(p){ var lt=(typeof espnToLocalTeam==='function')?espnToLocalTeam(p.team):''; if(!lt) return escHtml(p.team); return '<span class="link-team" data-team="'+escAttr(lt)+'">'+(fl(lt)?fl(lt)+' ':'')+escHtml(tN(lt))+'</span>'; }
   var head=isGkMode
     ? '<th style="text-align:right">'+(LANG==='en'?'Saves':'Zákroky')+'</th><th style="text-align:right">'+(LANG==='en'?'Conceded':'Obdrž.')+'</th><th style="text-align:right">'+(LANG==='en'?'Clean sheets':'Čistá konta')+'</th>'
-    : '<th style="text-align:right">⚽</th><th style="text-align:right">🅰️</th><th style="text-align:right">🥅</th><th style="text-align:right">🟨/🟥</th>';
+    : '<th style="text-align:right">⚽</th><th style="text-align:right">🅰️</th><th style="text-align:right">🥅</th><th style="text-align:right">🟨/🟥</th><th style="text-align:right">⏱</th>';
   var body=rows.map(function(r,i){
     var cells=isGkMode
       ? '<td style="text-align:right;font-weight:700">'+r.p.sv+'</td><td style="text-align:right">'+r.p.gc+'</td><td style="text-align:right">'+r.p.cs+'</td>'
-      : '<td style="text-align:right;font-weight:'+(hraciMode==='g'?'700':'400')+'">'+r.g+'</td><td style="text-align:right;font-weight:'+(hraciMode==='a'?'700':'400')+'">'+r.a+'</td><td style="text-align:right">'+r.sh+'</td><td style="text-align:right">'+r.p.y+'/'+r.p.r+'</td>';
+      : '<td style="text-align:right;font-weight:'+(hraciMode==='g'?'700':'400')+'">'+r.g+'</td><td style="text-align:right;font-weight:'+(hraciMode==='a'?'700':'400')+'">'+r.a+'</td><td style="text-align:right">'+r.sh+'</td><td style="text-align:right">'+r.p.y+'/'+r.p.r+'</td><td style="text-align:right;font-weight:'+(hraciMode==='min'?'700':'400')+';color:'+(hraciMode==='min'?'var(--tx)':'var(--mu2)')+'">'+(r.min||0)+'′</td>';
     return '<tr><td style="color:var(--mu2)">'+(i+1)+'.</td><td><span class="link-player" data-player="'+escAttr(r.n)+'">'+escHtml(r.n)+'</span></td><td>'+teamCell(r.p)+'</td>'+cells+'<td style="text-align:right;color:var(--mu2)">'+r.p.apps+'</td></tr>';
   }).join('');
   listEl.innerHTML=(rows.length?('<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th></th><th>'+(LANG==='en'?'Player':'Hráč')+'</th><th>'+(LANG==='en'?'Team':'Tým')+'</th>'+head+'<th style="text-align:right">'+(LANG==='en'?'Apps':'Záp.')+'</th></tr></thead><tbody>'+body+'</tbody></table></div>'):'<div class="empty">'+(LANG==='en'?'No players found.':'Nikdo nenalezen.')+'</div>')+
@@ -9454,7 +9595,7 @@ function teamSquadHtml(name,rows){
 }
 function teamAggStatsHtml(name){
   var ms=SZ.concat(PZ).filter(function(z){ return z[2]===name||z[3]===name; });
-  var W=0,D=0,L=0,gf=0,ga=0,n=0,poss=[],pass=[],shots=0,sot=0,corn=0,fouls=0,yc=0,rc=0,offs=0,passT=0,passA=0;
+  var W=0,D=0,L=0,gf=0,ga=0,n=0,poss=[],pass=[],shots=0,sot=0,corn=0,fouls=0,yc=0,rc=0,offs=0,passT=0,passA=0,tkl=0,tklE=0,itc=0,blk=0,clr=0,crT=0,crA=0,formCnt={};
   ms.forEach(function(z){
     var res=results[z[0]];
     if(/^\d+:\d+$/.test(String(res||''))){
@@ -9468,6 +9609,10 @@ function teamAggStatsHtml(name){
     var po=parseFloat(sd.possessionPct); if(isFinite(po)) poss.push(po);
     var pp=parseFloat(sd.passPct); if(isFinite(pp)) pass.push(pp*100);
     passT+=parseInt(sd.totalPasses,10)||0; passA+=parseInt(sd.accuratePasses,10)||0;
+    tkl+=parseInt(sd.totalTackles,10)||0; tklE+=parseInt(sd.effectiveTackles,10)||0;
+    itc+=parseInt(sd.interceptions,10)||0; blk+=parseInt(sd.blockedShots,10)||0; clr+=parseInt(sd.totalClearance,10)||0;
+    crT+=parseInt(sd.totalCrosses,10)||0; crA+=parseInt(sd.accurateCrosses,10)||0;
+    var fo=(z[2]===name)?st.hf:st.af; if(fo) formCnt[fo]=(formCnt[fo]||0)+1;
     shots+=parseInt(sd.totalShots,10)||0; sot+=parseInt(sd.shotsOnTarget,10)||0;
     corn+=parseInt(sd.wonCorners,10)||0; fouls+=parseInt(sd.foulsCommitted,10)||0;
     yc+=parseInt(sd.yellowCards,10)||0; rc+=parseInt(sd.redCards,10)||0; offs+=parseInt(sd.offsides,10)||0;
@@ -9491,6 +9636,14 @@ function teamAggStatsHtml(name){
       tile(passA?(passA+' / '+passT):'—',(LANG==='en'?'passes accurate/total':'přihrávky přesné / celkem'))+
       tile(n&&passT?Math.round(passT/n):'—',(LANG==='en'?'passes per match':'⌀ přihrávek na zápas'))+
       tile(ppa!=null?ppa.toFixed(0)+' %':'—',(LANG==='en'?'pass accuracy':'⌀ přesnost přihrávek'))+
+    '</div><div class="fin-tiles">'+
+      tile(shots?Math.round(100*gf/shots)+' %':'—',(LANG==='en'?'shot conversion':'konverze střel'))+
+      tile(tkl?(tklE+' / '+tkl):'—',(LANG==='en'?'tackles won/total':'skluzy úspěšné / celkem'))+
+      tile(itc+' · '+blk,(LANG==='en'?'interceptions · blocks':'zachycené · bloky'))+
+      tile(clr,(LANG==='en'?'clearances':'odkopů'))+
+    '</div><div class="fin-tiles">'+
+      tile(crA?(crA+' / '+crT):'—',(LANG==='en'?'crosses accurate/total':'centry přesné / celkem'))+
+      tile((function(){var ks=Object.keys(formCnt).sort(function(a,b){return formCnt[b]-formCnt[a];});return ks.length?(ks[0]+' ('+formCnt[ks[0]]+'×)'):'—';})(),(LANG==='en'?'usual formation':'nejčastější formace'))+
     '</div>';
   }
   return h;

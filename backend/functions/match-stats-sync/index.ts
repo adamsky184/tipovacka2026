@@ -1,4 +1,4 @@
-// match-stats-sync edge function (v5.12.59 - +minutes/offsides per hrac)
+// match-stats-sync edge function (v5.12.69 - +formace, +minuta prichodu stridajiciho)
 // Stahne z ESPN summary tymove boxscore statistiky zapasu + penaltove udalosti + hracske radky a nacachuje do match_stats / player_match_stats.
 // Klient posle vyreseny event_id (ma alias logiku). Volani: POST {zapas_id, event_id} (anon JWT staci).
 // Cte jen verejna ESPN data. Zapisuje pouze do match_stats.
@@ -95,10 +95,12 @@ Deno.serve(async (req) => {
     // v5.12.40: hracske per-zapas statistiky ze soupisek (jen hraci, kteri nastoupili)
     // deno-lint-ignore no-explicit-any
     const pRows: any[] = [];
+    const formations: Record<string, string> = { H: "", A: "" };
     // deno-lint-ignore no-explicit-any
     for (const r of (d?.rosters || []) as any[]) {
       const side = r?.homeAway === "home" ? "H" : r?.homeAway === "away" ? "A" : "";
       if (!side) continue;
+      if (typeof r?.formation === "string" && /^[\d-]{3,9}$/.test(r.formation)) formations[side] = r.formation;
       const teamName = String(r?.team?.displayName || "");
       // deno-lint-ignore no-explicit-any
       for (const p of (r?.roster || []) as any[]) {
@@ -131,6 +133,7 @@ Deno.serve(async (req) => {
         const minutes = Math.max(0, Math.min(matchLen, mTo) - mFrom);
         pRows.push({
           minutes: minutes, offsides: st["offsides"] || 0,
+          sub_in_min: p?.subbedIn ? mFrom : null,
           zapas_id: zid, side, player: name, team: teamName,
           pos: String(p?.position?.abbreviation || ""),
           starter: !!p?.starter, sub_in: !!p?.subbedIn,
@@ -160,6 +163,7 @@ Deno.serve(async (req) => {
     const { error: upErr } = await sb.from("match_stats").upsert({
       zapas_id: zid, event_id: event,
       home: sides.H, away: sides.A, pen_events: penEvents,
+      home_formation: formations.H || null, away_formation: formations.A || null,
       attendance: attendance, referee: referee,
       synced_at: new Date().toISOString(),
     }, { onConflict: "zapas_id" });
