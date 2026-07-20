@@ -2744,7 +2744,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.69';
+var APP_VERSION='v5.12.70';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -8883,10 +8883,10 @@ function loadAllRosters(){
   }
   return page(0).then(function(){ rosterAll=all; return all; });
 }
-function tourExtraStatsHtml(){
+function tourExtraSections(){
   var zmap={}; SZ.concat(PZ).forEach(function(z){ zmap[z[0]]=z; });
   function ml2(zid){ var z=zmap[zid]; if(!z) return ''; return '<span class="fin-mlink" data-mcard="'+zid+'">'+escHtml(tN(z[2]))+' – '+escHtml(tN(z[3]))+'</span>'; }
-  var h='';
+  var out={pen:'',refs:'',timing:'',effort:'',age:''};
   // --- Penalty (mimo rozstrely) ---
   var penAll=[];
   Object.keys(matchStatsByZapas).forEach(function(zs){ var zid=parseInt(zs,10); if(!zmap[zid]) return;
@@ -8896,7 +8896,7 @@ function tourExtraStatsHtml(){
     var penSc=penAll.filter(function(x){return x.e.outcome==='scored';}).length;
     var missed=penAll.filter(function(x){return x.e.outcome!=='scored';});
     var missHtml=missed.length?missed.map(function(x){ return (x.e.player?plink(x.e.player):'?')+' <span style="color:var(--mu2)">('+(x.e.outcome==='saved'?'chycena':'zahozena')+(x.e.minute?', '+x.e.minute+'.\u2032':'')+')</span> · '+ml2(x.zid); }).join('<br>'):'—';
-    h+='<div class="fin-sec"><h4>🎯 Penalty (mimo rozstřely)</h4><div class="fin-drows">'+
+    out.pen='<div class="fin-sec"><h4>🎯 Penalty (mimo rozstřely)</h4><div class="fin-drows">'+
       '<div><span>Nařízeno / proměněno</span><b>'+penAll.length+' / '+penSc+' ('+Math.round(100*penSc/penAll.length)+' %)</b></div>'+
     '</div>'+(missed.length?('<div style="font-size:.7rem;color:var(--mu2);margin-top:4px">Neproměněné:</div><div style="font-size:.74rem;line-height:1.8">'+missHtml+'</div>'):'')+'</div>';
   }
@@ -8913,7 +8913,7 @@ function tourExtraStatsHtml(){
     var eligible=refNames.filter(function(r){return refA[r].n>=3;});
     var strict=eligible.slice().sort(function(a,b){return (refA[b].y+3*refA[b].r)/refA[b].n-(refA[a].y+3*refA[a].r)/refA[a].n;});
     function refLbl(r){ var a=refA[r]; return escHtml(r)+' <span style="color:var(--mu2)">('+a.n+' záp., ⌀ '+((a.y+a.r)/a.n).toFixed(1)+' karet'+(a.r?', '+a.r+'×🟥':'')+')</span>'; }
-    h+='<div class="fin-sec"><h4>🧑‍⚖️ Rozhodčí</h4><div class="fin-drows">'+
+    out.refs='<div class="fin-sec"><h4>🧑‍⚖️ Rozhodčí</h4><div class="fin-drows">'+
       '<div><span>Nejvytíženější</span><b>'+byN.map(refLbl).join('<br>')+'</b></div>'+
       (strict.length?('<div><span>Nejpřísnější (min. 3 záp.)</span><b>'+refLbl(strict[0])+'</b></div>'+
       '<div><span>Nejmírnější (min. 3 záp.)</span><b>'+refLbl(strict[strict.length-1])+'</b></div>'):'')+
@@ -8935,7 +8935,7 @@ function tourExtraStatsHtml(){
     var mx=Math.max.apply(null,buckets.map(function(b){return b[1];}));
     var barRows=buckets.map(function(b){ var pct=Math.round(100*b[1]/tot);
       return '<div class="ank-bar-row"><span class="ank-bar-lbl" style="flex-basis:86px">'+b[0]+'</span><span class="ank-track"><span class="ank-bar" style="width:'+(mx?Math.max(2,Math.round(100*b[1]/mx)):2)+'%"></span></span><span class="ank-bar-n">'+b[1]+' ('+pct+'%)</span></div>'; }).join('');
-    h+='<div class="fin-sec"><h4>⏱️ Kdy padají góly</h4><div class="ank-bars" style="margin-top:2px">'+barRows+'</div>'+
+    out.timing='<div class="fin-sec"><h4>⏱️ Kdy padají góly</h4><div class="ank-bars" style="margin-top:2px">'+barRows+'</div>'+
       '<div style="font-size:.64rem;color:var(--mu2);margin-top:4px">'+tot+' gólů celkem · '+Math.round(100*half2/tot)+' % po pauze · '+stopp+' v nastavení</div></div>';
   }
   // --- Zelezny muz + superzolik ---
@@ -8953,7 +8953,7 @@ function tourExtraStatsHtml(){
     });
     jolly.sort(function(a,b){return a.delta-b.delta;});
     var jollyHtml=jolly.slice(0,3).map(function(j,i){ return meds[i]+' '+plink(j.n)+' <span style="color:var(--mu2)">('+(j.delta===0?'okamžitě po příchodu':'gól za '+j.delta+'′ po příchodu')+', '+j.min+'.\u2032)</span> · '+ml2(j.zid); }).join('<br>');
-    h+='<div class="fin-sec"><h4>💪 Vytížení a žolíci</h4><div class="fin-drows">'+
+    out.effort='<div class="fin-sec"><h4>💪 Vytížení a žolíci</h4><div class="fin-drows">'+
       '<div><span>🦾 Železný muž (nejvíc minut)</span><b>'+ironHtml+'</b></div>'+
       (jolly.length?('<div><span>🃏 Superžolík (nejrychlejší gól po příchodu)</span><b>'+jollyHtml+'</b></div>'):'')+
     '</div></div>';
@@ -8973,7 +8973,7 @@ function tourExtraStatsHtml(){
       var yTeams=tA.slice(0,3).map(function(x){return _finTeamLbl(x.t)+' <span style="color:var(--mu2)">(⌀ '+x.avg.toFixed(1)+')</span>';}).join(', ');
       var oTeams=tA.slice(-3).reverse().map(function(x){return _finTeamLbl(x.t)+' <span style="color:var(--mu2)">(⌀ '+x.avg.toFixed(1)+')</span>';}).join(', ');
       var champ=tA.filter(function(x){return x.t==='Spanelsko';})[0];
-      h+='<div class="fin-sec"><h4>🎂 Věk turnaje</h4><div class="fin-drows">'+
+      out.age='<div class="fin-sec"><h4>🎂 Věk turnaje</h4><div class="fin-drows">'+
         '<div><span>👶 Nejmladší se starty</span><b>'+plink(yng.player)+' <span style="color:var(--mu2)">('+yng.age+' let, '+escHtml(tN(yng.team))+')</span></b></div>'+
         '<div><span>🧓 Nejstarší se starty</span><b>'+plink(oldp.player)+' <span style="color:var(--mu2)">('+oldp.age+' let, '+escHtml(tN(oldp.team))+')</span></b></div>'+
         '<div><span>Nejmladší kádry</span><b>'+yTeams+'</b></div>'+
@@ -8982,7 +8982,24 @@ function tourExtraStatsHtml(){
       '</div></div>';
     }
   }
-  return h;
+  return out;
+}
+// v5.12.70: stupne vitezu turnaje
+function tourPodiumHtml(){
+  function pod(team,place){
+    var hgt=place===1?84:place===2?62:46;
+    var med=place===1?'🥇':place===2?'🥈':'🥉';
+    var grad=place===1?'linear-gradient(180deg,#fde68a,#eab308)':place===2?'linear-gradient(180deg,#e5edf6,#94a3b8)':'linear-gradient(180deg,#f0a860,#b45309)';
+    var lbl=place===1?(LANG==='en'?'World champions':'Mistr světa'):place===2?(LANG==='en'?'Runners-up':'Finalista'):(LANG==='en'?'Third place':'3. místo');
+    return '<div class="fin-pod fin-pod-'+place+'">'+
+      '<div class="fin-pod-med">'+med+'</div>'+
+      '<div style="font-size:1.6rem;line-height:1.2">'+(fl(team)||'')+'</div>'+
+      '<div class="fin-pod-name"'+(place===1?' style="color:#fde68a"':'')+'><span class="link-team" data-team="'+escAttr(team)+'">'+escHtml(tN(team))+'</span></div>'+
+      '<div class="fin-pod-pts">'+lbl+'</div>'+
+      '<div class="fin-pod-bar" style="height:'+hgt+'px;background:'+grad+'"><span class="fin-pod-place">'+place+'.</span></div>'+
+    '</div>';
+  }
+  return '<div class="fin-podium">'+pod('Argentina',2)+pod('Spanelsko',1)+pod('Anglie',3)+'</div>';
 }
 function finaleTourGlobalHtml(){
   var G=finaleGlobalStats([]);
@@ -8991,17 +9008,26 @@ function finaleTourGlobalHtml(){
       '<div><span>🕐 Nejpozdější gól</span><b>'+(G.latest?(G.latest.g.minute+(G.latest.g.stoppage?'+'+G.latest.g.stoppage:'')+"' "+plink(G.latest.g.scorer||'')+(G.latest.g.penalty?' (pen)':'')+' · '+ml(G.latest)):'—')+'</b></div>'+
       '<div><span>🎭 Rozhodnuto pozdním gólem</span><b>'+G.lateDecided+'× zápas otočen v 85.–90.+ min</b></div>'+
     '</div></div>'):'';
-  return '<div class="fin-globalwrap">'+wc26AwardsHtml()+tourExtraStatsHtml()+
+  // v5.12.70: logicke poradi - bedna, oceneni, strelci/hraci, goly, tymy, ostatni
+  var X=tourExtraSections();
+  return '<div class="fin-globalwrap">'+
+    tourPodiumHtml()+
+    wc26AwardsHtml()+
     '<div style="font-size:.9rem;font-weight:800;text-align:center;margin:20px 0 4px">🏟️ Turnaj v číslech — týmy a hráči</div>'+
     '<div style="font-size:.66rem;color:var(--mu);text-align:center;margin-bottom:8px">'+G.matches+' odehraných zápasů</div>'+
     finaleScorersHtml()+
     finalePlayerAggHtml()+
     finaleGoalFactsHtml()+
     lateHtml+
-    finaleStadiumHtml()+
+    X.timing+
+    X.pen+
     finaleTeamPowerHtml()+
     finaleTeamStatsHtml()+
     finaleTeamAggHtml()+
+    X.effort+
+    X.age+
+    finaleStadiumHtml()+
+    X.refs+
   '</div>';
 }
 // ===== ZALOZKA STATISTIKY TURNAJE (v5.12.43, verejna) =====
