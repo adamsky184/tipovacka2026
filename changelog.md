@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.72 - 20. 7. 2026
+
+Oficiální ocenění: na desktopu vždy všechny 4 karty na jednom řádku (repeat(4,1fr)); tablet 2×2, mobil pod sebou.
+
 ## v5.12.71 - 20. 7. 2026
 
 Oficiální ocenění MS 2026 přes celou šířku appky: na desktopu 4 karty vedle sebe (auto-fit, žádné prázdné sloupce), na mobilu karty pod sebou na plnou šířku.

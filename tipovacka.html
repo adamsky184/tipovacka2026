@@ -430,7 +430,8 @@ body.theme-light .venue{color:#5f7690}
 .fin-award-row{font-size:.64rem;color:var(--tx);line-height:1.5;margin:3px 0;white-space:normal}
 .fin-award-row span{color:var(--mu2)}
 .fin-awards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.fin-awards.wc26{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));width:100%}
+.fin-awards.wc26{grid-template-columns:repeat(4,1fr);width:100%}
+@media(max-width:860px){.fin-awards.wc26{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.fin-awards.wc26{grid-template-columns:1fr}}
 .fin-award{display:flex;align-items:center;gap:9px;background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:8px 10px}
 .fin-award-ic{font-size:1.35rem;flex-shrink:0}
@@ -2746,7 +2747,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.71';
+var APP_VERSION='v5.12.72';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
