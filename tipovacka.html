@@ -2747,7 +2747,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.72';
+var APP_VERSION='v5.12.73';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -8525,6 +8525,15 @@ function finaleAwardsHtml(reps){
   '</div><div style="font-size:.58rem;color:var(--mu2);text-align:center;margin-top:4px">Klepni na cenu pro top 3.</div></div>';
 }
 // ===== TURNAJ V CISLECH (globalni statistiky, admin-only) =====
+// v5.12.73: skutecne goly zapasu vc. prodlouzeni (z goal_minutes; side = strana, ktere gol prospiva).
+// Fallback na skore po 90', kdyz minuty golu nejsou nactene/kompletni.
+function realScore(zid){
+  var sp=String(results[zid]||'').split(':'),h=+sp[0],a=+sp[1];
+  if(isNaN(h)||isNaN(a)) return null;
+  var gl=goalMinsByZapas[zid];
+  if(gl&&gl.length){ var rh=0,ra=0; gl.forEach(function(g){ if(g.side==='H')rh++; else if(g.side==='A')ra++; }); if(rh+ra>=h+a){ h=rh; a=ra; } }
+  return {h:h,a:a};
+}
 function _finZids(){ return SZ.concat(PZ).map(function(z){return z[0];}).filter(function(z){return results[z];}).sort(function(a,b){return a-b;}); }
 function _finZmap(){ var m={}; SZ.concat(PZ).forEach(function(z){ m[z[0]]=z; }); return m; }
 function finaleGlobalStats(reps){
@@ -8644,7 +8653,7 @@ function finaleGoalFactsHtml(){
   var regGoals=all.filter(function(x){return x.g.minute<=90;}).length;
   var resZids=Object.keys(results).map(Number).filter(function(z){return zmap[z]&&/^\d+:\d+$/.test(String(results[z]));});
   var gSum=0,maxG=null,nilN=0;
-  resZids.forEach(function(zid){ var sp=String(results[zid]).split(':'),n=(+sp[0])+(+sp[1]); gSum+=n; if(!maxG||n>maxG.n) maxG={zid:zid,n:n,res:results[zid]}; if(n===0) nilN++; });
+  resZids.forEach(function(zid){ var rs=realScore(zid); if(!rs) return; var n=rs.h+rs.a; gSum+=n; if(!maxG||n>maxG.n) maxG={zid:zid,n:n,res:rs.h+':'+rs.a}; if(n===0) nilN++; });
   var avgG=resZids.length?(gSum/resZids.length).toFixed(2):'0';
   var etZ=[],penZ=[];
   resZids.forEach(function(zid){ if(zid<73||!resultsAdvance[zid]) return; var hasEt=(goalMinsByZapas[zid]||[]).some(function(g){return g.minute>90;}); etZ.push(zid); if(!hasEt) penZ.push(zid); });
@@ -8713,7 +8722,7 @@ function _finTeamAgg(){
   Object.keys(results).forEach(function(zidS){
     var zid=parseInt(zidS,10), z=zmap[zid]; if(!z) return;
     var hN=z[2],aN=z[3]; if(isPlaceholderTeam(hN)||isPlaceholderTeam(aN)) return;
-    var sp=String(results[zid]).split(':'),hg=+sp[0],ag=+sp[1]; if(isNaN(hg)||isNaN(ag)) return;
+    var rs=realScore(zid); if(!rs) return; var hg=rs.h,ag=rs.a;
     var th=T(hN),ta=T(aN);
     th.m++;ta.m++; th.gf+=hg;th.ga+=ag; ta.gf+=ag;ta.ga+=hg;
     if(ag===0)th.cs++; if(hg===0)ta.cs++;
@@ -9630,7 +9639,8 @@ function teamAggStatsHtml(name){
     if(/^\d+:\d+$/.test(String(res||''))){
       var sp=String(res).split(':').map(Number), home=(z[2]===name);
       var my=home?sp[0]:sp[1], op=home?sp[1]:sp[0];
-      gf+=my; ga+=op; if(my>op)W++; else if(my<op)L++; else D++;
+      if(my>op)W++; else if(my<op)L++; else { var adv2=resultsAdvance&&resultsAdvance[z[0]]; if(adv2){ if(adv2===(home?'H':'A'))W++; else L++; } else D++; }
+      var rs2=realScore(z[0]); if(rs2){ gf+=home?rs2.h:rs2.a; ga+=home?rs2.a:rs2.h; } else { gf+=my; ga+=op; }
     }
     var st=matchStatsByZapas[z[0]]; if(!st) return;
     var sd=(z[2]===name)?st.home:st.away; if(!sd||!Object.keys(sd).length) return;

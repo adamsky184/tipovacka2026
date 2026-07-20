@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.73 - 20. 7. 2026
+
+**Oprava fotbalových statistik — góly včetně prodloužení.** Síla týmů (ofenzivy/defenzivy), gólovost, „nejgólovější zápas", čistá konta i skóre v bilanci týmu počítaly jen góly do 90. minuty (tipovací konvence). Nový helper `realScore()` bere skutečné góly z minut gólů (vlastní góly nese tým, kterému prospěly; fallback na 90', když minuty chybí). Argentina správně 19 gólů (dřív 15), gólovost ⌀ 2,96, součet gólů všech týmů = 308 = přesný počet gólů v DB (křížově ověřeno). Bilance v modalu týmu nově počítá výhru i při postupu po remíze (penalty/prodloužení).
+
 ## v5.12.72 - 20. 7. 2026
 
 Oficiální ocenění: na desktopu vždy všechny 4 karty na jednom řádku (repeat(4,1fr)); tablet 2×2, mobil pod sebou.
