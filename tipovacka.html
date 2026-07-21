@@ -407,6 +407,8 @@ body.theme-light .venue{color:#5f7690}
 .pf-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;border:2px solid transparent;background:var(--bg3);flex-shrink:0}
 .pf-av.on{border-color:var(--ac);background:rgba(59,130,246,.18)}
 .pf-cur.emo{font-size:1.5rem;background:var(--bg3);border:1px solid var(--bd2)}
+.pf-col{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0}
+.pf-col.on{border-color:#fff;box-shadow:0 0 0 2px var(--ac)}
 .mcard-more{margin-top:4px}
 .mcard-more summary{font-size:.66rem;color:var(--ac2);cursor:pointer;text-align:center;padding:4px 0;list-style:none}
 .mcard-more summary::-webkit-details-marker{display:none}
@@ -2747,7 +2749,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.73';
+var APP_VERSION='v5.12.74';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -4883,7 +4885,7 @@ function renderDiscussion(){
     var isPinned=!!post.pinned&&!isReply;
     return '<div class="discussion-post'+(isReply?' reply':'')+(isPinned?' pinned':'')+'">'+
       (isPinned?'<div class="discussion-pin-badge">📌 Připnutý příspěvek</div>':'')+
-      '<div class="discussion-top"><div class="discussion-author">'+avaHtml(post.hrac_id,getDiscussionAuthorName(post),'disc-ava')+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong>'+favFlagHtml(post.hrac_id)+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
+      '<div class="discussion-top"><div class="discussion-author"><span data-tiper="'+escAttr(post.hrac_id)+'" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px">'+avaHtml(post.hrac_id,getDiscussionAuthorName(post),'disc-ava')+(medal?'<span class="discussion-medal">'+medal+'</span>':'')+'<strong>'+escHtml(getDiscussionAuthorName(post))+'</strong></span>'+favFlagHtml(post.hrac_id)+(isAdmin?'<span class="discussion-admin">ADMIN</span>':'')+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(rank?'<span class="discussion-rank">#'+rank.rank+' · '+rank.total+'b</span>':'')+'</div><div class="discussion-time">'+escHtml(formatAnyUpdated(post.created_at))+'</div></div>'+
       '<div class="discussion-body">'+escHtml(post.body)+'</div>'+
       '<div class="discussion-reactions">'+reacts.map(function(item){
         return '<button class="discussion-react-btn'+(item.mine?' on':'')+'" type="button" data-react-post="'+escAttr(post.id)+'" data-react-emoji="'+escAttr(item.emoji)+'"'+(item.title?' title="'+escAttr(item.title)+'"':'')+'>'+item.emoji+' <span>'+(item.count||0)+'</span></button>';
@@ -4893,6 +4895,9 @@ function renderDiscussion(){
     '</div>';
   }
   el.innerHTML=(rootPosts.length>visibleRoots.length?'<div class="discussion-more"><button class="btn ghost" id="discussion-more-btn" type="button">'+escHtml(tr('discussion_more'))+' ('+(rootPosts.length-visibleRoots.length)+')</button></div>':'')+visibleRoots.map(function(post){ return renderPost(post,false); }).join('');
+  el.querySelectorAll('[data-tiper]').forEach(function(sp){
+    sp.addEventListener('click',function(){ openPlayerDetail(sp.getAttribute('data-tiper')); });
+  });
   el.querySelectorAll('[data-react-post]').forEach(function(btn){
     btn.addEventListener('click',function(){
       if(!me){ var st=document.getElementById('discussion-status'); if(st) st.textContent=tr('discussion_login'); return; }
@@ -5844,8 +5849,11 @@ function openPlayerDetail(playerId){
 
   overlay.innerHTML='<div class="pdet-card">'+
     '<button class="pdet-close" id="pdet-close">×</button>'+
-    '<div class="pdet-h1">'+escHtml(player.jmeno)+(player.je_admin?' <span class="abadge2">ADMIN</span>':'')+'</div>'+
-    '<div class="pdet-sub">'+(LANG==='en'?'Player profile':'Profil hráče')+'</div>'+
+    '<div style="display:flex;align-items:center;gap:10px;padding-right:24px">'+avaHtml(pid,player.jmeno,'pp-ava')+'<div>'+
+    '<div class="pdet-h1" style="margin:0">'+escHtml(player.jmeno)+(player.je_admin?' <span class="abadge2">ADMIN</span>':'')+favFlagHtml(pid)+'</div>'+
+    '<div class="pdet-sub" style="margin:0">'+(LANG==='en'?'Player profile':'Profil tipéra')+'</div>'+
+    '</div></div>'+
+    '<div id="pdet-trof"></div>'+
     '<div class="pdet-stats">'+
     '<div class="pdet-stat"><div class="pdet-stat-v">'+totalPts+'</div><div class="pdet-stat-l">'+(LANG==='en'?'Total pts':'Celkem b')+'</div></div>'+
     '<div class="pdet-stat"><div class="pdet-stat-v" style="color:var(--gn2)">'+exactCount+'</div><div class="pdet-stat-l">'+(LANG==='en'?'Exact':'Přesné')+'</div></div>'+
@@ -5859,6 +5867,37 @@ function openPlayerDetail(playerId){
     '</div>';
   document.body.appendChild(overlay);
   overlay.querySelector('#pdet-close').onclick=close;
+  fillTiperTrophies(pid,player.jmeno,overlay);
+}
+// v5.12.74: trofejova skrinka tipera - umisteni z archivu turnaju + vyhrane ceny turnaje
+function fillTiperTrophies(pid,jmeno,overlay){
+  var host=overlay.querySelector('#pdet-trof'); if(!host) return;
+  var chips=[];
+  try{
+    if(finaleIsPublic&&finaleIsPublic()){
+      if(!window.__awCache){ try{ window.__awCache=finaleAwards(finaleBuildReps()); }catch(_e){ window.__awCache=null; } }
+      (window.__awCache||[]).forEach(function(a){ if(a.w===jmeno) chips.push(a.ic+' '+a.t); });
+    }
+  }catch(_e){}
+  function render(archChips){
+    var all=archChips.concat(chips);
+    if(!all.length){ host.innerHTML=''; return; }
+    host.innerHTML='<div style="display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 2px">'+all.map(function(c){
+      return '<span class="sq-chip" style="background:rgba(251,191,36,.1);color:var(--gd);border:1px solid rgba(251,191,36,.28);font-size:.62rem">'+escHtml(c)+'</span>';
+    }).join('')+'</div>';
+  }
+  render([]);
+  sbf('turnaj_archiv?hrac_id=eq.'+encodeURIComponent(pid)+'&select=turnaj_id,poradi,body').then(function(rows){
+    var arch=[];
+    (rows||[]).forEach(function(r){
+      var nm=(typeof TURNAJ_NAZVY!=='undefined'&&TURNAJ_NAZVY[r.turnaj_id])||r.turnaj_id;
+      if(r.poradi===1) arch.push('🏆 Vítěz '+nm);
+      else if(r.poradi===2) arch.push('🥈 2. místo '+nm);
+      else if(r.poradi===3) arch.push('🥉 3. místo '+nm);
+      else arch.push('🎗️ '+nm+' · '+r.poradi+'. místo');
+    });
+    render(arch);
+  }).catch(function(){});
 }
 // v5.9.1: Auto-resolve play-off dvojic - cron uklada realne ESPN nazvy do zapasy_meta,
 // frontend je po loginu precte a prepise placeholdery ("2. sk.A") v PZ na lokalni nazvy tymu.
@@ -7807,7 +7846,7 @@ function renderOstStrip(title,others){
   others.forEach(function(p){
     var ci=players.indexOf(p);
     var badges=getPlayerDiscussionBadges(p.id,rankMap[String(p.id)]);
-    html+='<th class="ost-player-col'+(isRivalId(p.id)?' is-rival':'')+'" style="min-width:70px;color:'+AVC[ci%AVC.length]+'" title="'+escAttr(p.jmeno)+'">'+escHtml(p.jmeno)+(isRivalId(p.id)?' ★':'')+'</th>'; void badges;
+    html+='<th class="ost-player-col'+(isRivalId(p.id)?' is-rival':'')+'" style="min-width:70px;color:'+AVC[ci%AVC.length]+'" title="'+escAttr(p.jmeno)+'">'+avaMini(p.id)+escHtml(p.jmeno)+(isRivalId(p.id)?' ★':'')+'</th>'; void badges;
   });
   return html+'</tr>';
 }
@@ -8091,17 +8130,19 @@ function fillAcctEmail(){
 // v5.12.67: personifikace profilu (avatar, oblibeny tym) + modal Muj profil
 var profilByHrac={};
 function loadProfily(){
-  return sbf('hrac_profil?select=hrac_id,avatar,fav_team').then(function(d){
+  return sbf('hrac_profil?select=hrac_id,avatar,fav_team,avatar_color').then(function(d){
     profilByHrac={};
-    (d||[]).forEach(function(r){ profilByHrac[String(r.hrac_id)]={avatar:r.avatar||'',fav:r.fav_team||''}; });
+    (d||[]).forEach(function(r){ profilByHrac[String(r.hrac_id)]={avatar:r.avatar||'',fav:r.fav_team||'',color:r.avatar_color||''}; });
   }).catch(function(){});
 }
 function avaHtml(pid,jmeno,cls){
   var pr=profilByHrac[String(pid)];
   var emo=pr&&pr.avatar;
+  var col=pr&&pr.color;
   var inner=emo?escHtml(pr.avatar):escHtml(String(jmeno||'?').slice(0,2).toUpperCase());
-  return '<span class="'+cls+(emo?' emo':'')+'">'+inner+'</span>';
+  return '<span class="'+cls+(emo?' emo':'')+'"'+(col?' style="background:'+escAttr(col)+';border-color:transparent'+(emo?'':';color:#fff')+'"':'')+'>'+inner+'</span>';
 }
+function avaMini(pid){ var pr=profilByHrac[String(pid)]; return (pr&&pr.avatar)?(pr.avatar+' '):''; }
 function favFlagHtml(pid){
   var pr=profilByHrac[String(pid)]; if(!pr||!pr.fav) return '';
   var f=fl(pr.fav); return f?' <span title="'+escAttr((LANG==='en'?'Supports ':'Fandí: ')+tN(pr.fav))+'" style="font-size:.85em">'+f+'</span>':'';
@@ -8111,29 +8152,52 @@ function applyHeaderAvatar(){
   var pr=profilByHrac[String(me.id)];
   if(pr&&pr.avatar){ el.textContent=pr.avatar; el.classList.add('emo'); }
   else { el.textContent=me.jmeno?me.jmeno.slice(0,2).toUpperCase():'?'; el.classList.remove('emo'); }
+  var prc=profilByHrac[String(me.id)];
+  el.style.background=(prc&&prc.color)?prc.color:'';
 }
-var AVA_EMOJIS=['⚽','🥅','🏆','🎯','🔥','⭐','⚡','🚀','👑','🧠','🍀','🎲','🦁','🐺','🦊','🐻','🦅','🦈','🐙','🐐','🐸','🐧','😎','🤠','👻','🤖','🍺','☕'];
+var AVA_COLORS=['#2563eb','#7c3aed','#059669','#dc2626','#d97706','#0891b2','#db2777','#65a30d','#64748b','#b45309'];
+var AVA_CATS=[
+  {k:'fot',l:'⚽ Fotbal',list:['⚽','🥅','🏆','🥇','🥈','🥉','🏅','🎖️','🧤','👟','🎽','🟨','🟥','📣','🔔','⏱️','🏟️','🚩','🎯','💪','👑','🦵']},
+  {k:'zvi',l:'🦁 Zvířata',list:['🦁','🐯','🐺','🦊','🐻','🐨','🐼','🐸','🐵','🦍','🐶','🐱','🐭','🐹','🐰','🦝','🐗','🐴','🦄','🐮','🐷','🐔','🐧','🦅','🦉','🦆','🦢','🐙','🦑','🦀','🐬','🦈','🐊','🐢','🐍','🦖','🐲','🐝','🦋','🐞']},
+  {k:'obl',l:'😎 Obličeje',list:['😀','😎','🤓','🥳','🤩','😜','🤪','😇','🥸','🤠','👻','🤖','👽','💀','🎃','😤','🥶','🥵','😴','🫡','🤔','🤯','😱','🤡','🥷','🦸','🧙','🎅']},
+  {k:'jid',l:'🍕 Jídlo & pití',list:['🍺','🍻','🥃','🍷','🍕','🌭','🍔','🍟','🌮','🍿','🍩','🍪','☕','🥤','🧋','🍦','🥓','🍗','🍉','🍌','🥑','🌶️','🍒','🥨']},
+  {k:'sym',l:'🚀 Symboly',list:['⭐','🌟','✨','⚡','🔥','💥','🚀','🛸','🎲','🎮','🕹️','🎸','🥁','🎧','💎','🪙','💰','🧲','🧨','🗿','🌈','🍀','🎱','♟️','🎪','🎢','🌋','🌪️']}
+];
+var pfCat='fot';
 var TURNAJ_NAZVY={ms2026:'MS 2026'};
 function openMyProfile(){
   if(!me) return;
   var pr=profilByHrac[String(me.id)]||{avatar:'',fav:''};
-  var sel={avatar:pr.avatar||'',fav:pr.fav||''};
+  var sel={avatar:pr.avatar||'',fav:pr.fav||'',color:pr.color||''};
   var pl=(players||[]).find(function(x){ return String(x.id)===String(me.id); })||{};
   var since=pl.vytvoreno?new Date(pl.vytvoreno):null;
   var sinceTx=since?(since.getDate()+'. '+(since.getMonth()+1)+'. '+since.getFullYear()):'';
   var teams=[]; Object.keys(TEAMS).forEach(function(sk){ TEAMS[sk].forEach(function(t){ teams.push(t[0]); }); });
   teams.sort(function(a,b){ return tN(a).localeCompare(tN(b),'cs'); });
+  function catChips(){
+    var cats=AVA_CATS.map(function(c){ return '<button type="button" class="fchip pf-cat'+(pfCat===c.k?' on':'')+'" data-cat="'+c.k+'">'+c.l+'</button>'; }).join('');
+    return '<div style="margin:2px 0 6px;display:flex;flex-wrap:wrap;gap:5px">'+cats+'<button type="button" class="fchip pf-cat'+(pfCat==='vlj'?' on':'')+'" data-cat="vlj">🏳️ Vlajky</button></div>';
+  }
   function grid(){
     var h='<div class="pf-grid"><span class="pf-av'+(sel.avatar===''?' on':'')+'" data-av="" title="Iniciály">Aa</span>';
-    AVA_EMOJIS.forEach(function(e){ h+='<span class="pf-av'+(sel.avatar===e?' on':'')+'" data-av="'+escAttr(e)+'">'+e+'</span>'; });
-    teams.forEach(function(t){ var f=fl(t); if(!f) return; h+='<span class="pf-av'+(sel.avatar===f?' on':'')+'" data-av="'+escAttr(f)+'" title="'+escAttr(tN(t))+'">'+f+'</span>'; });
+    if(pfCat==='vlj'){
+      teams.forEach(function(t){ var f=fl(t); if(!f) return; h+='<span class="pf-av'+(sel.avatar===f?' on':'')+'" data-av="'+escAttr(f)+'" title="'+escAttr(tN(t))+'">'+f+'</span>'; });
+    } else {
+      var cat=AVA_CATS.filter(function(c){return c.k===pfCat;})[0]||AVA_CATS[0];
+      cat.list.forEach(function(e){ h+='<span class="pf-av'+(sel.avatar===e?' on':'')+'" data-av="'+escAttr(e)+'">'+e+'</span>'; });
+    }
     return h+'</div>';
+  }
+  function colorRow(){
+    return '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">'+
+      '<span class="pf-col'+(!sel.color?' on':'')+'" data-col="" title="Výchozí" style="background:linear-gradient(135deg,#2563eb,#7c3aed)"></span>'+
+      AVA_COLORS.map(function(c){ return '<span class="pf-col'+(sel.color===c?' on':'')+'" data-col="'+c+'" style="background:'+c+'"></span>'; }).join('')+'</div>';
   }
   var favOpts='<option value="">— žádný —</option>'+teams.map(function(t){ return '<option value="'+escAttr(t)+'"'+(sel.fav===t?' selected':'')+'>'+escHtml(tN(t))+'</option>'; }).join('');
   var ov=document.createElement('div'); ov.className='onb-overlay'; ov.style.zIndex='1160';
   ov.innerHTML='<div class="onb-card" style="max-height:88vh;overflow-y:auto;text-align:left;width:min(520px,94vw)">'+
     '<div class="pp-head">'+avaHtml(me.id,me.jmeno,'pp-ava pf-cur')+'<div><div class="pp-name">'+escHtml(me.jmeno)+(me.je_admin?' <span class="discussion-admin">ADMIN</span>':'')+'</div><div class="ank-note">'+(sinceTx?('Členem od '+sinceTx):'')+'</div></div></div>'+
-    '<div class="sq-sec"><span class="sq-sec-badge pos-D">Avatar</span><span class="sq-sec-line"></span></div>'+grid()+
+    '<div class="sq-sec"><span class="sq-sec-badge pos-D">Avatar</span><span class="sq-sec-line"></span></div>'+catChips()+'<div id="pf-grid-host">'+grid()+'</div>'+colorRow()+
     '<div class="sq-sec"><span class="sq-sec-badge pos-M">Oblíbený tým</span><span class="sq-sec-line"></span></div>'+
     '<select class="fin-sel" id="pf-fav" style="max-width:none">'+favOpts+'</select>'+
     '<div style="text-align:right;margin-top:8px"><button type="button" class="ank-mail-btn" id="pf-save">Uložit profil</button></div>'+
@@ -8146,20 +8210,28 @@ function openMyProfile(){
     '<div class="sq-sec"><span class="sq-sec-badge pos-X">Moje historie</span><span class="sq-sec-line"></span></div>'+
     '<div id="pf-hist" class="ank-note">Načítám…</div>'+
     '<div class="onb-actions" style="justify-content:center;margin-top:12px"><button class="onb-next" type="button">Zavřít</button></div></div>';
+  function refreshCur(){
+    var cur=ov.querySelector('.pf-cur'); if(!cur) return;
+    if(sel.avatar){ cur.textContent=sel.avatar; cur.classList.add('emo'); } else { cur.textContent=String(me.jmeno||'?').slice(0,2).toUpperCase(); cur.classList.remove('emo'); }
+    cur.style.background=sel.color||''; cur.style.color=sel.avatar?'':'#fff';
+  }
   ov.addEventListener('click',function(e){
     if(e.target===ov||e.target.closest('.onb-next')){ ov.remove(); return; }
+    var ct=e.target.closest('.pf-cat');
+    if(ct){ pfCat=ct.dataset.cat; ov.querySelectorAll('.pf-cat').forEach(function(x){ x.classList.toggle('on',x.dataset.cat===pfCat); }); var gh=ov.querySelector('#pf-grid-host'); if(gh) gh.innerHTML=grid(); return; }
+    var co=e.target.closest('.pf-col');
+    if(co){ sel.color=co.dataset.col||''; ov.querySelectorAll('.pf-col').forEach(function(x){ x.classList.toggle('on',(x.dataset.col||'')===sel.color); }); refreshCur(); return; }
     var av=e.target.closest('.pf-av');
-    if(av){ sel.avatar=av.dataset.av||''; ov.querySelectorAll('.pf-av').forEach(function(x){ x.classList.toggle('on',(x.dataset.av||'')===sel.avatar); });
-      var cur=ov.querySelector('.pf-cur'); if(cur){ if(sel.avatar){ cur.textContent=sel.avatar; cur.classList.add('emo'); } else { cur.textContent=String(me.jmeno||'?').slice(0,2).toUpperCase(); cur.classList.remove('emo'); } } return; }
+    if(av){ sel.avatar=av.dataset.av||''; ov.querySelectorAll('.pf-av').forEach(function(x){ x.classList.toggle('on',(x.dataset.av||'')===sel.avatar); }); refreshCur(); return; }
   });
   document.body.appendChild(ov);
   var favSel=ov.querySelector('#pf-fav');
   ov.querySelector('#pf-save').addEventListener('click',function(){
     var btn=this; btn.disabled=true;
-    rpcWithRetry('set_profil_secure',{p_hrac_id:me.id,p_pin:myPin,p_avatar:sel.avatar||null,p_fav_team:(favSel&&favSel.value)||null}).then(function(r){
+    rpcWithRetry('set_profil_secure',{p_hrac_id:me.id,p_pin:myPin,p_avatar:sel.avatar||null,p_fav_team:(favSel&&favSel.value)||null,p_avatar_color:sel.color||null}).then(function(r){
       btn.disabled=false;
       if(r&&r.chyba) throw new Error(r.chyba);
-      profilByHrac[String(me.id)]={avatar:sel.avatar||'',fav:(favSel&&favSel.value)||''};
+      profilByHrac[String(me.id)]={avatar:sel.avatar||'',fav:(favSel&&favSel.value)||'',color:sel.color||''};
       applyHeaderAvatar(); try{ renderDiscussion(); }catch(_e){}
       showToast('Profil uložen. ✓','ok');
     }).catch(function(e2){ btn.disabled=false; showToast('Chyba: '+((e2&&e2.message)||e2),'err'); });
@@ -9291,7 +9363,7 @@ function renderZeb(){
     return '<div class="lbr'+(isMe?' me':'')+rankClass+'">'+
       '<div style="width:28px;text-align:center;font-size:1rem;flex-shrink:0">'+(med[rank]||(rank+1))+'</div>'+
       '<div class="lav" style="background:'+AVC[s.i%AVC.length]+'">'+escHtml(ini(s.p.jmeno))+'</div>'+
-      '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer">'+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
+      '<div style="flex:1"><div class="ln-row"><div class="ln-main"><div class="ln"><span class="ln-name-clickable" data-pdet="'+escAttr(s.p.id)+'" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">'+avaHtml(s.p.id,s.p.jmeno,'disc-ava')+escHtml(s.p.jmeno)+'</span>'+(s.p.in_paid_league?'<span class="badge badge-paid" title="'+escAttr(LANG==='en'?'Paid league':'V paid lize')+'">💰</span>':'')+(isMe?'<span style="font-size:.62rem;color:var(--gn2);margin-left:5px">'+tr('you')+'</span>':'')+pulseHtml+badges.map(function(b){ return '<span class="badge '+b.cls+'">'+b.label+'</span>'; }).join('')+(isRival?'<span class="badge badge-rival">RIVAL</span>':'')+'</div></div><div class="ln-actions">'+(!isMe?'<button class="rival-toggle'+(isRival?' on':'')+'" type="button" data-rival="'+escAttr(s.p.id)+'" title="'+escAttr(LANG==='en'?'Toggle rival':'Přepnout rivala')+'">★</button>':'')+'</div></div>'+
       '<div class="ls"><span>'+s.pre+'× '+tr('exact')+'</span><span>'+s.spr+'× '+tr('correct')+'</span><span>'+s.dif+'× '+tr('goal_diff_bonus')+'</span><span>'+s.spa+'× '+tr('wrong')+'</span><span style="color:var(--ac2)">'+s.uzam+' '+tr('saved_tips')+'</span><span style="color:var(--mu)">'+s.hod+' '+tr('rated')+'</span>'+(s.adv?'<span style="color:var(--gd)" title="'+escAttr(LANG==='en'?'Advance bonus':'Bonus za postupujícího')+'">+'+s.adv+'b '+(LANG==='en'?'advance':'postup')+'</span>':'')+(s.extra?'<span style="color:#fbbf24">'+s.extra+' extra</span>':'')+'</div>'+
       (s.hod>0?(function(){var sr=Math.round(((s.pre+s.spr)/s.hod)*100);return '<div class="zeb-success-bar" title="'+escAttr((LANG==='en'?'Success rate: ':'Úspěšnost: ')+sr+'% ('+(s.pre+s.spr)+'/'+s.hod+')')+'"><div class="zeb-success-fill" style="width:'+Math.min(100,sr)+'%"></div></div>';})():'')+sparklineSvg(s.history)+'</div>'+
       '<div class="lp">'+s.total+'</div></div>';

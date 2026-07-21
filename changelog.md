@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.74 - 21. 7. 2026
+
+**Personifikace profilů II.**
+- **~160 avatarů v kategoriích**: ⚽ Fotbal · 🦁 Zvířata · 😎 Obličeje · 🍕 Jídlo & pití · 🚀 Symboly · 🏳️ Vlajky (48) + iniciály.
+- **Barva avataru**: paleta 10 barev + výchozí gradient — platí pro iniciály i emoji, živý náhled v pickeru (sloupec `avatar_color`, RPC v2).
+- **Veřejný profil tipéra**: rozšířený detail hráče (klik na jméno v žebříčku a nově i v diskuzi) — avatar s barvou, vlajka oblíbeného týmu a **trofejová skříňka**: 🏆/🥈/🥉 umístění z archivu turnajů + vyhrané ceny turnaje (Snajpr, Prorok…) automaticky z dat.
+- **Avatary všude**: kroužek v žebříčku před jménem, mini emoji v hlavičce Tipů ostatních (vedle diskuze a headeru).
+
 ## v5.12.73 - 20. 7. 2026
 
 **Oprava fotbalových statistik — góly včetně prodloužení.** Síla týmů (ofenzivy/defenzivy), gólovost, „nejgólovější zápas", čistá konta i skóre v bilanci týmu počítaly jen góly do 90. minuty (tipovací konvence). Nový helper `realScore()` bere skutečné góly z minut gólů (vlastní góly nese tým, kterému prospěly; fallback na 90', když minuty chybí). Argentina správně 19 gólů (dřív 15), gólovost ⌀ 2,96, součet gólů všech týmů = 308 = přesný počet gólů v DB (křížově ověřeno). Bilance v modalu týmu nově počítá výhru i při postupu po remíze (penalty/prodloužení).
