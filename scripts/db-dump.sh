@@ -6,11 +6,12 @@
 #   - GIGS (tabulky s prefixem gigs_)
 # Tenhle dump pokryva OBE appky. GIGS vlastni zalohu NEMA.
 #
-# Pouziti:  DB_URL='postgresql://...' ./scripts/db-dump.sh [vystupni_soubor.sql.gz]
-# DB_URL = Session pooler connection string (IPv4, port 5432) ze Supabase dashboardu.
+# Pouziti:  SUPABASE_DB_URL='postgresql://...' ./scripts/db-dump.sh [vystupni_soubor.sql.gz]
+# SUPABASE_DB_URL = Session pooler connection string (IPv4, port 5432) ze Supabase dashboardu.
 set -euo pipefail
 
-: "${DB_URL:?Chybi promenna DB_URL (connection string na Supabase Postgres)}"
+# shellcheck source=scripts/db-conn.sh
+. "$(dirname "$0")/db-conn.sh"    # nastavi a overi $PGURL
 
 OUT="${1:-backup_$(date -u +%Y%m%d_%H%M%S).sql.gz}"
 
@@ -19,7 +20,7 @@ OUT="${1:-backup_$(date -u +%Y%m%d_%H%M%S).sql.gz}"
 # Bez --no-owner / --no-privileges: dump je plnohodnotny vcetne vlastnictvi, GRANTu a RLS policies,
 # aby sel obnovit do noveho Supabase projektu 1:1. Restore do holeho Postgresu resi restore-test
 # (predvytvori role a odfiltruje extension pg_net) - viz docs/restore.md.
-pg_dump "$DB_URL" \
+pg_dump "$PGURL" \
   --schema=public \
   --schema=auth \
   --no-sync \

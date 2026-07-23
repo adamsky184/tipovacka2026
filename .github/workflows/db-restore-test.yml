@@ -31,6 +31,7 @@ jobs:
 
     env:
       TARGET_URL: postgresql://postgres:testpass@localhost:5433/restoretest
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -45,12 +46,17 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq postgresql-client-17
 
-      - name: Dump produkce
-        env:
-          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      - name: Kontrola připojení k produkci
         run: |
           set -euo pipefail
-          chmod +x scripts/db-dump.sh scripts/db-verify-dump.sh
+          chmod +x scripts/*.sh
+          . scripts/db-conn.sh
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 -c "select 'spojeni OK, tabulek: '||count(*) from pg_tables where schemaname in ('public','auth')"
+
+      - name: Dump produkce
+        run: |
+          set -euo pipefail
+          chmod +x scripts/*.sh
           ./scripts/db-dump.sh restore-test.sql.gz
           ./scripts/db-verify-dump.sh restore-test.sql.gz
 
@@ -92,10 +98,9 @@ jobs:
           grep -c '^psql:.*ERROR' /tmp/restore.err || true
 
       - name: Ověření obsahu (řádky produkce vs obnovená DB)
-        env:
-          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           set -euo pipefail
+          . scripts/db-conn.sh
           COUNT_SQL="select table_schema||'.'||table_name,
                        (xpath('/row/cnt/text()',
                               query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name),
@@ -103,7 +108,7 @@ jobs:
                      from information_schema.tables
                      where table_schema in ('public','auth') and table_type='BASE TABLE'
                      order by 1;"
-          psql "$DB_URL"     -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/prod.tsv
+          psql "$PGURL"     -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/prod.tsv
           psql "$TARGET_URL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/rest.tsv
 
           echo "tabulek produkce: $(wc -l < /tmp/prod.tsv) | obnoveno: $(wc -l < /tmp/rest.tsv)"
@@ -114,11 +119,11 @@ jobs:
           fi
 
           # RLS a policies musí přežít obnovu
-          POL_P=$(psql "$DB_URL"     -At -c "select count(*) from pg_policies where schemaname='public'")
+          POL_P=$(psql "$PGURL"     -At -c "select count(*) from pg_policies where schemaname='public'")
           POL_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_policies where schemaname='public'")
-          RLS_P=$(psql "$DB_URL"     -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
+          RLS_P=$(psql "$PGURL"     -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
           RLS_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
-          FN_P=$(psql "$DB_URL"      -At -c "select count(*) from information_schema.routines where routine_schema='public'")
+          FN_P=$(psql "$PGURL"      -At -c "select count(*) from information_schema.routines where routine_schema='public'")
           FN_R=$(psql "$TARGET_URL"  -At -c "select count(*) from information_schema.routines where routine_schema='public'")
           echo "policies $POL_P/$POL_R | RLS tabulek $RLS_P/$RLS_R | funkcí $FN_P/$FN_R"
           [ "$POL_P" = "$POL_R" ] || { echo "❌ počet RLS policies nesedí"; exit 1; }

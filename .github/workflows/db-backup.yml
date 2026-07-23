@@ -21,6 +21,9 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # secret na urovni jobu -> je dostupny ve VSECH krocich, nejde ho nikde zapomenout
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -35,9 +38,14 @@ jobs:
           sudo apt-get install -y -qq postgresql-client-17
           pg_dump --version
 
+      - name: Kontrola připojení k produkci
+        run: |
+          set -euo pipefail
+          chmod +x scripts/*.sh
+          . scripts/db-conn.sh
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 -c "select 'spojeni OK, tabulek: '||count(*) from pg_tables where schemaname in ('public','auth')"
+
       - name: pg_dump (public + auth)
-        env:
-          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           set -euo pipefail
           chmod +x scripts/db-dump.sh
@@ -46,8 +54,6 @@ jobs:
           echo "DUMP_FILE=$NAME" >> "$GITHUB_ENV"
 
       - name: Health-check zálohy (tabulky + řádky vs produkce)
-        env:
-          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           set -euo pipefail
           chmod +x scripts/db-verify-dump.sh

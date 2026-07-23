@@ -2,10 +2,11 @@
 # Health-check zalohy: porovna dump s produkci (pocet tabulek + pocet radku KAZDE tabulky)
 # a zkontroluje velikost + kompletnost souboru. Nekontroluje exit status pg_dumpu, ale VYSLEDEK.
 #
-# Pouziti: DB_URL='postgresql://...' ./scripts/db-verify-dump.sh backup.sql.gz
+# Pouziti: SUPABASE_DB_URL='postgresql://...' ./scripts/db-verify-dump.sh backup.sql.gz
 set -euo pipefail
 
-: "${DB_URL:?Chybi promenna DB_URL}"
+# shellcheck source=scripts/db-conn.sh
+. "$(dirname "$0")/db-conn.sh"    # nastavi a overi $PGURL
 DUMP="${1:?Chybi cesta k dumpu (.sql.gz)}"
 MIN_BYTES="${MIN_DUMP_BYTES:-500000}"   # brana na velikost: pod 500 kB je dump podezrele maly
 
@@ -21,7 +22,7 @@ zcat "$DUMP" | tail -5 | grep -q 'PostgreSQL database dump complete' \
   || fail "dump neni kompletni (chybi zaverecny marker 'PostgreSQL database dump complete')"
 
 # --- 2) pocty radku na produkci (presne, jednim dotazem) ---
-psql "$DB_URL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "
+psql "$PGURL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "
   select table_schema||'.'||table_name,
          (xpath('/row/cnt/text()',
                 query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name),

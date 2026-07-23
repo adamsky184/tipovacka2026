@@ -33,6 +33,17 @@ Co se **nezálohuje**: Storage buckety (appky je nepoužívají), Edge Functions
 
    (příkaz se na hodnotu zeptá interaktivně; alternativně GitHub → Settings → Secrets and
    variables → Actions → New repository secret, název `SUPABASE_DB_URL`)
+
+   > **Formát hodnoty:** musí začínat `postgresql://` a být na jednom řádku — **bez uvozovek**,
+   > bez prefixu `psql` a bez zalomení. Když se uloží něco jiného (třeba celý příkaz `psql "..."`),
+   > `pg_dump` to vezme jako název databáze a spadne na lokálním socketu
+   > (`connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed`).
+   > Workflow to dnes pozná dopředu v kroku *Kontrola připojení k produkci* a napíše, co je špatně.
+   > Spolehlivé uložení bez neviditelného konce řádku:
+   > ```bash
+   > printf '%s' 'postgresql://postgres.<ref>:<heslo>@aws-0-eu-west-1.pooler.supabase.com:5432/postgres' \
+   >   | gh secret set SUPABASE_DB_URL --repo adamsky184/tipovacka2026
+   > ```
 3. Spusť ověřovací běhy:
 
    ```bash
