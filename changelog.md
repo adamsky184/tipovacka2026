@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.75 - 21. 7. 2026
+
+**Záloha, právní vrstva, bezpečnější přihlášení, PWA ikony.**
+- **Záloha celého sdíleného Supabase projektu** (Tipovačka *i* GIGS): GitHub Actions denně v 03:15 UTC dělá `pg_dump` schémat `public`+`auth`, gzipuje a ukládá jako artefakt na 7 dní. Health-check porovnává počet řádků **každé** tabulky v dumpu proti produkci + kontroluje velikost a kompletnost souboru. Druhý workflow (týdně) zálohu obnoví do čisté PostgreSQL 17 databáze a porovná ji s produkcí. Postup obnovy: `docs/restore.md`.
+- **Podmínky užití a Ochrana osobních údajů** na `/terms` a `/privacy` (samostatné stránky, fungují i bez JS appky), odkazy v obou footerech. Appka nepoužívá cookies ani analytiku, proto bez cookie lišty — vysvětleno v zásadách.
+- **Registrace jen na zvací kód** — kód spravuje admin v sekci Admin (prázdný = registrace otevřená).
+- **Ochrana proti hádání PINu**: po 8 neúspěšných pokusech na jméno se přihlášení na 15 minut zablokuje.
+- **Admin přehled hráčů**: registrace, poslední přihlášení, počet tipů, e-mail; nové registrace se zvýrazní a na záložce Admin svítí odznak.
+- **PWA ikony**: přibyly `icon-192`, `icon-512`, maskable varianta a `apple-touch-icon` (dřív jen inline SVG).
+
 ## v5.12.74 - 21. 7. 2026
 
 **Personifikace profilů II.**
