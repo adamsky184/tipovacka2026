@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow">
+<title>Ochrana osobních údajů — Tipovačka</title>
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+<style>
+:root{--bg:#0a1524;--bg2:#122235;--bg3:#0e1c2e;--bd:#1c3050;--tx:#eef5ff;--mu:#5d7a99;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#070f1b}
+body{background:radial-gradient(ellipse at top,#0d1b2e,#070f1b);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.65;min-height:100vh;padding:0 0 60px}
+.wrap{max-width:820px;margin:0 auto;padding:28px 18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--ac2);text-decoration:none;font-size:.82rem;font-weight:700;border:1px solid var(--bd);border-radius:10px;padding:7px 13px;background:var(--bg2)}
+.back:hover{border-color:var(--ac)}
+h1{font-size:1.5rem;font-weight:900;margin-bottom:4px}
+.sub{color:var(--mu2);font-size:.78rem;margin-bottom:26px}
+h2{font-size:1rem;font-weight:800;margin:26px 0 8px;padding-top:14px;border-top:1px solid var(--bd)}
+h2:first-of-type{border-top:none;padding-top:0}
+p,li{font-size:.86rem;color:#dbe7f5}
+ul{margin:6px 0 6px 20px}
+li{margin:4px 0}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.8rem;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+th{text-align:left;padding:8px 10px;background:rgba(255,255,255,.03);color:var(--mu2);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em}
+td{padding:8px 10px;border-top:1px solid var(--bd);vertical-align:top}
+a{color:var(--ac2)}
+.box{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;margin:12px 0}
+.ftr{margin-top:34px;padding-top:14px;border-top:1px solid var(--bd);color:var(--mu);font-size:.72rem;text-align:center}
+.ftr a{color:var(--mu2)}
+@media(prefers-color-scheme:light){
+  html{background:#f2f6fb}
+  body{background:#f2f6fb;color:#102133}
+  :root{--bg2:#fff;--bd:#d7e3f0;--mu2:#6f86a0;--ac2:#2563eb}
+  p,li{color:#26384c}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="/">← Zpět do Tipovačky</a>
+    <a class="back" href="/terms">Podmínky užití</a>
+  </div>
+
+  <h1>Ochrana osobních údajů</h1>
+  <div class="sub">Tipovačka MS 2026 · účinné od 21. 7. 2026</div>
+
+  <h2>1. Kdo zpracovává tvoje údaje</h2>
+  <p>Tipovačka je soukromý neziskový projekt provozovaný fyzickou osobou (dále „provozovatel“) pro uzavřenou skupinu známých. Kontakt: <a href="mailto:adam184@chabrycity.cz">adam184@chabrycity.cz</a> — na tuhle adresu piš cokoliv ohledně svých údajů.</p>
+
+  <h2>2. Jaké údaje se ukládají</h2>
+  <table>
+    <tr><th>Údaj</th><th>Proč</th><th>Povinné</th></tr>
+    <tr><td>Přezdívka (jméno v appce)</td><td>identifikace hráče, žebříček, diskuze</td><td>ano</td></tr>
+    <tr><td>PIN</td><td>přihlášení; ukládá se pouze jako <strong>bcrypt hash</strong>, ne čitelně</td><td>ano</td></tr>
+    <tr><td>E-mail</td><td>pozvánka do dalšího ročníku, přihlášení e-mailem, obnova přístupu</td><td><strong>ne</strong></td></tr>
+    <tr><td>Tipy na zápasy a extra tipy</td><td>vyhodnocení hry a žebříčku</td><td>vzniká hraním</td></tr>
+    <tr><td>Příspěvky a reakce v diskuzi</td><td>komunitní část appky</td><td>vzniká používáním</td></tr>
+    <tr><td>Avatar, barva, oblíbený tým, hlas v anketě</td><td>personalizace profilu</td><td>ne</td></tr>
+    <tr><td>Datum registrace a poslední přihlášení</td><td>správa účtů, bezpečnost</td><td>vzniká automaticky</td></tr>
+    <tr><td>Neúspěšné pokusy o přihlášení</td><td>ochrana proti hádání PINu; maže se automaticky</td><td>vzniká automaticky</td></tr>
+  </table>
+  <p>Appka <strong>nesbírá</strong> polohu, telefonní číslo, adresu ani platební údaje a nepoužívá žádnou analytiku ani reklamní nástroje.</p>
+
+  <h2>3. Právní základ a účel</h2>
+  <ul>
+    <li><strong>Plnění služby / oprávněný zájem</strong> — bez přezdívky, PINu a tipů nelze hru provozovat.</li>
+    <li><strong>Souhlas</strong> — u nepovinných údajů (e-mail, avatar, oblíbený tým, anketa). Souhlas můžeš kdykoli odvolat tím, že údaj v profilu smažeš.</li>
+  </ul>
+
+  <h2>4. Kdo se k údajům dostane</h2>
+  <ul>
+    <li><strong>Ostatní hráči</strong> vidí tvoji přezdívku, avatar, body, tipy (u zápasů, kde už mají uložený vlastní tip), příspěvky v diskuzi a statistiky. <strong>E-mail ani PIN nevidí nikdo z hráčů.</strong></li>
+    <li><strong>Provozovatel (admin)</strong> vidí navíc e-maily, datum registrace a poslední přihlášení.</li>
+    <li>Údaje se <strong>neprodávají</strong> a nepředávají nikomu dalšímu k marketingu.</li>
+  </ul>
+
+  <h2>5. Zpracovatelé a kde data leží</h2>
+  <table>
+    <tr><th>Služba</th><th>Role</th><th>Umístění</th></tr>
+    <tr><td>Supabase (databáze)</td><td>uložení všech dat appky</td><td>EU — Irsko (eu-west-1)</td></tr>
+    <tr><td>Vercel (hosting)</td><td>doručení stránky, provozní logy s IP adresou</td><td>EU/global CDN, USA (standardní smluvní doložky)</td></tr>
+    <tr><td>Google Fonts</td><td>načtení písma při každé návštěvě — přenáší se IP adresa</td><td>USA</td></tr>
+    <tr><td>YouTube (Google)</td><td>přehrání sestřihu zápasu — <strong>až když na přehrání sám klikneš</strong></td><td>USA</td></tr>
+  </table>
+  <p>Data pro appku (výsledky, statistiky, kurzy) se stahují ze zdrojů ESPN, FIFA a The Odds API — děje se to <strong>na serveru</strong>, tvoje údaje se jim neposílají. Odkazy na Wikipedii, ESPN, Google Maps a FIFA jsou běžné externí odkazy: po kliknutí platí pravidla těch webů.</p>
+
+  <h2>6. Cookies a úložiště v prohlížeči</h2>
+  <p>Appka <strong>nepoužívá cookies</strong> a nemá žádnou analytiku ani sledování — proto tu není cookie lišta. Ukládá si jen technicky nezbytné položky do <code>localStorage</code> tvého zařízení: přihlášení (přezdívka a PIN, aby appka nemusela ptát se na PIN u každé akce), zvolený motiv a časy poslední synchronizace dat. Ty položky nikam neodcházejí a smažeš je odhlášením nebo vymazáním dat webu v prohlížeči.</p>
+  <div class="box"><strong>Doporučení:</strong> nepoužívej stejný PIN jako u jiných služeb a nepřihlašuj se na cizím zařízení, které nemáš pod kontrolou.</div>
+
+  <h2>7. Jak dlouho se údaje uchovávají</h2>
+  <ul>
+    <li>Účet a jeho obsah — dokud účet existuje.</li>
+    <li>Neúspěšné pokusy o přihlášení — automaticky se mažou (hodinová údržba).</li>
+    <li>Archiv turnaje (konečné pořadí a body pod přezdívkou) zůstává i po skončení ročníku jako historická tabulka.</li>
+  </ul>
+
+  <h2>8. Tvoje práva</h2>
+  <p>Máš právo na přístup ke svým údajům, jejich opravu, výmaz, omezení zpracování, přenositelnost a právo vznést námitku. Prakticky:</p>
+  <ul>
+    <li><strong>Oprava a doplnění</strong> — v appce po kliknutí na svoje jméno vpravo nahoře (avatar, e-mail, PIN).</li>
+    <li><strong>Výmaz účtu</strong> — v appce v sekci <em>FAQ → Můj účet → Smazat účet</em>. Smaže účet i všechny tvoje tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.</li>
+    <li><strong>Export nebo jakýkoli dotaz</strong> — napiš na <a href="mailto:adam184@chabrycity.cz">adam184@chabrycity.cz</a>.</li>
+  </ul>
+  <p>Pokud budeš mít pocit, že se s tvými údaji nakládá špatně, můžeš se obrátit na Úřad pro ochranu osobních údajů (<a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>).</p>
+
+  <h2>9. Zabezpečení</h2>
+  <ul>
+    <li>PIN se ukládá jen jako bcrypt hash, nikdy v čitelné podobě.</li>
+    <li>Databáze má zapnuté row-level security; zápisy jdou výhradně přes serverové funkce ověřené PINem.</li>
+    <li>Přihlašování je chráněné proti opakovanému hádání PINu (dočasné zablokování po několika neúspěšných pokusech).</li>
+    <li>Data se pravidelně zálohují.</li>
+  </ul>
+  <p>Appka je hobby projekt bez záruky nepřetržitého provozu — neukládej do ní nic, co nechceš mít v soukromé hře pro partu.</p>
+
+  <h2>10. Změny</h2>
+  <p>Když se zpracování změní, upravím tuhle stránku a změním datum účinnosti nahoře.</p>
+
+  <div class="ftr">
+    <a href="/">Tipovačka</a> · <a href="/terms">Podmínky užití</a> · <a href="mailto:adam184@chabrycity.cz">kontakt</a>
+  </div>
+</div>
+</body>
+</html>
