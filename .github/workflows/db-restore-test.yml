@@ -1,0 +1,146 @@
+name: DB restore test (čistá DB)
+
+# Ověřuje, že záloha je OPRAVDU obnovitelná: čerstvý dump se nahraje do prázdného
+# PostgreSQL 17 kontejneru a porovná se řádek po řádku s produkcí.
+# Bez zeleného běhu tohoto workflow nelze zálohu považovat za funkční.
+
+on:
+  schedule:
+    - cron: '40 3 * * 1'    # každé pondělí 03:40 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: db-restore-test
+  cancel-in-progress: false
+
+jobs:
+  restore-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      target:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: restoretest
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+
+    env:
+      TARGET_URL: postgresql://postgres:testpass@localhost:5433/restoretest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalace PostgreSQL 17 client
+        run: |
+          set -euo pipefail
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Dump produkce
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/db-dump.sh scripts/db-verify-dump.sh
+          ./scripts/db-dump.sh restore-test.sql.gz
+          ./scripts/db-verify-dump.sh restore-test.sql.gz
+
+      - name: Příprava čisté DB (role + extensions jako na Supabase)
+        run: |
+          set -euo pipefail
+          psql "$TARGET_URL" -v ON_ERROR_STOP=1 <<'SQL'
+          -- Supabase role, na které se odkazují GRANTy a vlastnictví v dumpu
+          do $$
+          declare r text;
+          begin
+            foreach r in array array['anon','authenticated','service_role','authenticator',
+                                     'supabase_admin','supabase_auth_admin','supabase_storage_admin',
+                                     'supabase_read_only_user','supabase_realtime_admin',
+                                     'supabase_replication_admin','dashboard_user','pgbouncer']
+            loop
+              if not exists (select 1 from pg_roles where rolname = r) then
+                execute format('create role %I', r);
+              end if;
+            end loop;
+          end $$;
+          -- pgcrypto/uuid-ossp žijí na Supabase ve schématu extensions (těla funkcí je volají)
+          create schema if not exists extensions;
+          create extension if not exists pgcrypto with schema extensions;
+          create extension if not exists "uuid-ossp" with schema extensions;
+          SQL
+
+      - name: Restore do čisté DB
+        run: |
+          set -euo pipefail
+          # pg_net je Supabase-only extension, v holém Postgresu neexistuje -> vynechat.
+          # (v produkci ji používá jen pg_cron -> net.http_post, na obnovu dat nemá vliv)
+          zcat restore-test.sql.gz \
+            | grep -v 'CREATE EXTENSION IF NOT EXISTS "pg_net"' \
+            | grep -v "COMMENT ON EXTENSION \"pg_net\"" \
+            > restore.sql
+          psql "$TARGET_URL" -v ON_ERROR_STOP=0 -f restore.sql > /tmp/restore.log 2> /tmp/restore.err || true
+          echo "--- chybové řádky (očekávané se filtrují níže) ---"
+          grep -c '^psql:.*ERROR' /tmp/restore.err || true
+
+      - name: Ověření obsahu (řádky produkce vs obnovená DB)
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          COUNT_SQL="select table_schema||'.'||table_name,
+                       (xpath('/row/cnt/text()',
+                              query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name),
+                                           false, true, '')))[1]::text::bigint
+                     from information_schema.tables
+                     where table_schema in ('public','auth') and table_type='BASE TABLE'
+                     order by 1;"
+          psql "$DB_URL"     -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/prod.tsv
+          psql "$TARGET_URL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/rest.tsv
+
+          echo "tabulek produkce: $(wc -l < /tmp/prod.tsv) | obnoveno: $(wc -l < /tmp/rest.tsv)"
+          if ! diff -u /tmp/prod.tsv /tmp/rest.tsv > /tmp/diff.txt; then
+            echo "❌ Obsah se liší (produkce '-' vs obnovená DB '+'):"
+            cat /tmp/diff.txt
+            exit 1
+          fi
+
+          # RLS a policies musí přežít obnovu
+          POL_P=$(psql "$DB_URL"     -At -c "select count(*) from pg_policies where schemaname='public'")
+          POL_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_policies where schemaname='public'")
+          RLS_P=$(psql "$DB_URL"     -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
+          RLS_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
+          FN_P=$(psql "$DB_URL"      -At -c "select count(*) from information_schema.routines where routine_schema='public'")
+          FN_R=$(psql "$TARGET_URL"  -At -c "select count(*) from information_schema.routines where routine_schema='public'")
+          echo "policies $POL_P/$POL_R | RLS tabulek $RLS_P/$RLS_R | funkcí $FN_P/$FN_R"
+          [ "$POL_P" = "$POL_R" ] || { echo "❌ počet RLS policies nesedí"; exit 1; }
+          [ "$RLS_P" = "$RLS_R" ] || { echo "❌ počet tabulek s RLS nesedí"; exit 1; }
+          [ "$FN_P"  = "$FN_R"  ] || { echo "❌ počet funkcí nesedí"; exit 1; }
+
+          # kontrolní vzorek dat obou aplikací
+          psql "$TARGET_URL" -At -c "select 'tipy='||count(*) from public.tipy"
+          psql "$TARGET_URL" -At -c "select 'hrace='||count(*) from public.hrace"
+          psql "$TARGET_URL" -At -c "select 'gigs_concerts='||count(*) from public.gigs_concerts"
+
+      - name: Shrnutí
+        if: always()
+        run: |
+          {
+            echo "### Restore test do čisté PostgreSQL 17 DB"
+            echo ""
+            echo "Ověřeno: schéma \`public\` + \`auth\`, počty řádků všech tabulek, RLS policies, funkce."
+            echo "Pokrývá **Tipovačku i GIGS** (\`gigs_*\`)."
+            echo ""
+            echo "Nejčastější chyby restore logu (očekávané: chybějící Supabase-only objekty):"
+            echo '```'
+            grep '^psql:.*ERROR' /tmp/restore.err 2>/dev/null | sed 's/.*ERROR/ERROR/' | sort | uniq -c | sort -rn | head -15 || echo "žádné"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

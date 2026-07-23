@@ -29,3 +29,10 @@ build/
 
 # Claude Code lokalni konfigurace (preview server apod.)
 .claude/
+
+# DB dumpy (lokalni zalohy, nikdy do gitu)
+*.sql.gz
+restore-test.sql
+restore.sql
+backup_*.sql
+tipovacka-gigs_*.sql

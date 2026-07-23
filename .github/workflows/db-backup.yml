@@ -1,0 +1,77 @@
+name: DB backup (Tipovačka + GIGS)
+
+# Zálohuje CELÝ sdílený Supabase projekt xzlebpzepnhkedlxntgv:
+#   - tabulky Tipovačky (hrace, tipy, vysledky, ...)
+#   - tabulky GIGS (gigs_*)  <- GIGS vlastní zálohu NEMÁ, kryje ho tenhle workflow
+# Free tier Supabase nemá automatické zálohy ani PITR, tohle je jediná pojistka.
+#
+# Secret: SUPABASE_DB_URL = Session pooler connection string (port 5432, IPv4).
+# Artefakt se drží 7 dní (retention-days), pak ho GitHub smaže.
+
+on:
+  schedule:
+    - cron: '15 3 * * *'    # denně 03:15 UTC (05:15 CEST)
+  workflow_dispatch:
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalace PostgreSQL 17 client
+        run: |
+          set -euo pipefail
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+          pg_dump --version
+
+      - name: pg_dump (public + auth)
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/db-dump.sh
+          NAME="tipovacka-gigs_$(date -u +%Y%m%d_%H%M%S).sql.gz"
+          ./scripts/db-dump.sh "$NAME"
+          echo "DUMP_FILE=$NAME" >> "$GITHUB_ENV"
+
+      - name: Health-check zálohy (tabulky + řádky vs produkce)
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/db-verify-dump.sh
+          ./scripts/db-verify-dump.sh "$DUMP_FILE" | tee /tmp/health.txt
+
+      - name: Upload zálohy (artefakt, 7 dní)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.DUMP_FILE }}
+          path: ${{ env.DUMP_FILE }}
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Shrnutí
+        if: always()
+        run: |
+          {
+            echo "### Záloha sdíleného Supabase projektu"
+            echo ""
+            echo "- soubor: \`${DUMP_FILE:-?}\`"
+            echo "- pokrývá: **Tipovačka MS 2026 + GIGS** (\`gigs_*\`), schémata \`public\` + \`auth\`"
+            echo "- retence artefaktu: 7 dní"
+            echo ""
+            echo '```'
+            cat /tmp/health.txt 2>/dev/null || echo "health-check neproběhl"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
