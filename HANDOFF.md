@@ -177,14 +177,25 @@ selže a jdou sdílet/indexovat samostatně). Odkazy jsou v obou footerech. Zás
 
 ### Co zbývá
 
-1. **Nastavit secret a spustit ověřovací běhy** (bez toho záloha neběží — jediný zbývající krok
-   Bloku 1). Connection string vezmi ze Supabase → Database → **Session pooler** (port 5432):
+1. **Uložit secret ve správném tvaru a spustit ověřovací běhy** (jediný zbývající krok Bloku 1).
+   Aktuálně uložená hodnota má **20 znaků**, takže to není connection string (~110 znaků) —
+   `pg_dump` ji bral jako název databáze a padal na lokálním socketu. Vezmi celý řetězec ze
+   Supabase → Database → **Session pooler** (port 5432) a ulož ho bez uvozovek a bez zalomení:
    ```bash
-   gh secret set SUPABASE_DB_URL --repo adamsky184/tipovacka2026
-   gh workflow run "DB backup (Tipovačka + GIGS)" --repo adamsky184/tipovacka2026
-   gh workflow run "DB restore test (čistá DB)"   --repo adamsky184/tipovacka2026
+   printf '%s' 'postgresql://postgres.xzlebpzepnhkedlxntgv:<HESLO>@aws-0-eu-west-1.pooler.supabase.com:5432/postgres' \
+     | gh secret set SUPABASE_DB_URL --repo adamsky184/tipovacka2026
+   gh workflow run "DB restore test (čistá DB)" --repo adamsky184/tipovacka2026
    ```
    Restore test je „ostrá“ zkouška obnovy — dokud neproběhne zeleně, zálohu neber jako hotovou.
+   Workflow dnes špatnou hodnotu odhalí hned v kroku *Kontrola připojení k produkci* a napíše
+   délku/schéma/host (nikdy samotnou hodnotu).
+
+   **Ověřeno bez produkce:** `db-selftest.yml` (běží při každé změně skriptů, bez secretu) postaví
+   dvě dočasné databáze a projede celý řetězec dump → health-check → restore → porovnání.
+   Poslední běh zelený: 6 tabulek, tipy 1300 řádků, gigs_concerts 641, policies 3/3, funkce 1/1,
+   plus test, že vadný connection string je odhalen dřív než spadne `pg_dump`.
+   Self-test rovnou odhalil, že v CI byl v PATH `pg_dump` 16 (proti produkčnímu Postgresu 17.6
+   by dump spadl na *server version mismatch*) — opraveno předřazením `/usr/lib/postgresql/17/bin`.
 2. **PIN v `localStorage`** (klíč `ms26s`) zůstává v plaintextu — je to nutné, protože každé RPC
    posílá PIN k ověření. Riziko: kdo se dostane k prohlížeči/XSS, získá PIN. Přepis na tokenovou
    session je větší architektonická změna, vhodná až k dalšímu turnaji.
