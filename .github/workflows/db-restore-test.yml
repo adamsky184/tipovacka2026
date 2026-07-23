@@ -45,6 +45,10 @@ jobs:
             | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
           sudo apt-get update -qq
           sudo apt-get install -y -qq postgresql-client-17
+          # PGDG balik nemeni vychozi verzi v PATH (zustal by pg_dump 16 -> "server version mismatch"),
+          # proto binarky 17 predradime
+          echo "/usr/lib/postgresql/17/bin" >> "$GITHUB_PATH"
+          /usr/lib/postgresql/17/bin/pg_dump --version
 
       - name: Kontrola připojení k produkci
         run: |
