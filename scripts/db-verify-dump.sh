@@ -9,6 +9,9 @@ set -euo pipefail
 . "$(dirname "$0")/db-conn.sh"    # nastavi a overi $PGURL
 DUMP="${1:?Chybi cesta k dumpu (.sql.gz)}"
 MIN_BYTES="${MIN_DUMP_BYTES:-500000}"   # brana na velikost: pod 500 kB je dump podezrele maly
+MIN_TABLES="${MIN_TABLES:-30}"          # produkce: 26 Tipovacka + 12 gigs_ + auth
+MIN_POLICIES="${MIN_POLICIES:-20}"
+MIN_FUNCS="${MIN_FUNCS:-50}"
 
 fail() { echo "❌ $*" >&2; exit 1; }
 
@@ -33,7 +36,7 @@ psql "$PGURL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "
 
 PROD_TABLES=$(wc -l < /tmp/prod_counts.tsv | tr -d ' ')
 echo "tabulek na produkci (public+auth): $PROD_TABLES"
-[ "$PROD_TABLES" -ge 30 ] || fail "produkce hlasi jen $PROD_TABLES tabulek - neceka se mene nez 30 (Tipovacka 26 + gigs_ 12 + auth)"
+[ "$PROD_TABLES" -ge "$MIN_TABLES" ] || fail "zdroj hlasi jen $PROD_TABLES tabulek (limit $MIN_TABLES)"
 
 # --- 3) pocty radku v dumpu (COPY bloky) ---
 zcat "$DUMP" | awk '
@@ -64,8 +67,8 @@ done
 POLICIES=$(zcat "$DUMP" | grep -c '^CREATE POLICY' || true)
 FUNCS=$(zcat "$DUMP" | grep -c '^CREATE FUNCTION' || true)
 echo "RLS policies v dumpu: $POLICIES | funkci: $FUNCS"
-[ "$POLICIES" -ge 20 ] || fail "v dumpu je jen $POLICIES RLS policies (ocekava se 20+)"
-[ "$FUNCS" -ge 50 ] || fail "v dumpu je jen $FUNCS funkci (ocekava se 50+)"
+[ "$POLICIES" -ge "$MIN_POLICIES" ] || fail "v dumpu je jen $POLICIES RLS policies (limit $MIN_POLICIES)"
+[ "$FUNCS" -ge "$MIN_FUNCS" ] || fail "v dumpu je jen $FUNCS funkci (limit $MIN_FUNCS)"
 
 TIPY=$(awk -F'\t' '$1=="public.tipy"{print $2}' /tmp/prod_counts.tsv)
 GIGS=$(awk -F'\t' '$1=="public.gigs_concerts"{print $2}' /tmp/prod_counts.tsv)

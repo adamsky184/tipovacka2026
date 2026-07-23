@@ -52,8 +52,11 @@ if [ "$_host" = "" ] || [ "$_host" = "$_v" ]; then
   exit 1
 fi
 if [ "$_host" = "localhost" ] || [ "$_host" = "127.0.0.1" ]; then
-  echo "❌ Connection string ukazuje na localhost — to neni produkcni Supabase." >&2
-  exit 1
+  # localhost povolen jen v self-testu (db-selftest.yml), jinak jde skoro jiste o chybu
+  if [ "${ALLOW_LOCAL_DB:-0}" != "1" ]; then
+    echo "❌ Connection string ukazuje na localhost — to neni produkcni Supabase." >&2
+    exit 1
+  fi
 fi
 case "$_v" in
   *"[YOUR-PASSWORD]"*|*"<heslo>"*|*"YOUR_PASSWORD"*)

@@ -1,0 +1,144 @@
+name: DB self-test (bez produkce)
+
+# Ověřuje MECHANIKU zálohy bez přístupu k produkci: vytvoří zdrojovou databázi
+# se strukturou podobnou ostré (tabulky obou appek, RLS policies, funkce, schéma auth),
+# spustí na ni stejné skripty jako ostrá záloha, obnoví dump do druhé čisté DB
+# a porovná řádky. Nepotřebuje žádný secret — hlídá regrese ve skriptech.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/db-*.sh'
+      - '.github/workflows/db-*.yml'
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      source:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: srcpass
+          POSTGRES_DB: srcdb
+        ports: ['5434:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+      target:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: restoretest
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+
+    env:
+      SUPABASE_DB_URL: postgresql://postgres:srcpass@localhost:5434/srcdb
+      TARGET_URL: postgresql://postgres:testpass@localhost:5433/restoretest
+      ALLOW_LOCAL_DB: '1'
+      # zdrojová DB je malá, prahy health-checku se posunou dolů
+      MIN_DUMP_BYTES: '800'
+      MIN_TABLES: '6'
+      MIN_POLICIES: '2'
+      MIN_FUNCS: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalace PostgreSQL 17 client
+        run: |
+          set -euo pipefail
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Naplnění zdrojové DB (imituje strukturu produkce)
+        run: |
+          set -euo pipefail
+          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
+          create schema if not exists auth;
+          create schema if not exists extensions;
+          create extension if not exists pgcrypto with schema extensions;
+
+          create table public.hrace (id uuid primary key default gen_random_uuid(), jmeno text unique not null,
+                                     vytvoreno timestamptz default now(), last_login timestamptz);
+          create table public.tipy (id bigserial primary key, hrac_id uuid references public.hrace(id), zapas_id int, tip text);
+          create table public.vysledky (zapas_id int primary key, skore text);
+          create table public.gigs_concerts (id bigserial primary key, nazev text);
+          create table public.gigs_artists (id bigserial primary key, jmeno text);
+          create table auth.users (id uuid primary key default gen_random_uuid(), email text);
+
+          alter table public.hrace enable row level security;
+          alter table public.tipy enable row level security;
+          alter table public.gigs_concerts enable row level security;
+          create policy p_hrace on public.hrace for select using (true);
+          create policy p_tipy on public.tipy for select using (true);
+          create policy p_gigs on public.gigs_concerts for select using (true);
+
+          create function public.test_rpc(p int) returns int language sql as $$ select p * 2 $$;
+
+          insert into public.hrace (jmeno) select 'hrac_'||g from generate_series(1,13) g;
+          insert into public.tipy (hrac_id, zapas_id, tip)
+            select h.id, g, (g%4)||':'||(g%3) from public.hrace h, generate_series(1,100) g;
+          insert into public.vysledky select g, '2:1' from generate_series(1,104) g;
+          insert into public.gigs_concerts (nazev) select 'koncert_'||g from generate_series(1,641) g;
+          insert into public.gigs_artists (jmeno) select 'kapela_'||g from generate_series(1,120) g;
+          insert into auth.users (email) values ('test@example.com');
+          SQL
+          psql "$SUPABASE_DB_URL" -At -c "select 'zdroj: '||count(*)||' tabulek' from pg_tables where schemaname in ('public','auth')"
+
+      - name: Dump + health-check (stejné skripty jako ostrá záloha)
+        run: |
+          set -euo pipefail
+          chmod +x scripts/*.sh
+          ./scripts/db-dump.sh selftest.sql.gz
+          ./scripts/db-verify-dump.sh selftest.sql.gz
+
+      - name: Příprava cílové DB + restore
+        run: |
+          set -euo pipefail
+          psql "$TARGET_URL" -v ON_ERROR_STOP=1 -c "create schema if not exists extensions; create extension if not exists pgcrypto with schema extensions;"
+          zcat selftest.sql.gz | psql "$TARGET_URL" -v ON_ERROR_STOP=0 > /dev/null 2> /tmp/restore.err || true
+          echo "chyb pri restore: $(grep -c 'ERROR' /tmp/restore.err || true)"
+
+      - name: Porovnání zdroj vs obnovená DB
+        run: |
+          set -euo pipefail
+          COUNT_SQL="select table_schema||'.'||table_name,
+                       (xpath('/row/cnt/text()',
+                              query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name),
+                                           false, true, '')))[1]::text::bigint
+                     from information_schema.tables
+                     where table_schema in ('public','auth') and table_type='BASE TABLE'
+                     order by 1;"
+          psql "$SUPABASE_DB_URL" -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/src.tsv
+          psql "$TARGET_URL"      -At -F$'\t' -v ON_ERROR_STOP=1 -c "$COUNT_SQL" | sort > /tmp/dst.tsv
+          echo "--- zdroj ---"; cat /tmp/src.tsv
+          diff -u /tmp/src.tsv /tmp/dst.tsv || { echo "❌ obsah se liší"; exit 1; }
+
+          POL_S=$(psql "$SUPABASE_DB_URL" -At -c "select count(*) from pg_policies where schemaname='public'")
+          POL_D=$(psql "$TARGET_URL"      -At -c "select count(*) from pg_policies where schemaname='public'")
+          FN_S=$(psql "$SUPABASE_DB_URL"  -At -c "select count(*) from information_schema.routines where routine_schema='public'")
+          FN_D=$(psql "$TARGET_URL"       -At -c "select count(*) from information_schema.routines where routine_schema='public'")
+          echo "policies $POL_S/$POL_D | funkcí $FN_S/$FN_D"
+          [ "$POL_S" = "$POL_D" ] || { echo "❌ RLS policies se neobnovily"; exit 1; }
+          [ "$FN_S"  = "$FN_D"  ] || { echo "❌ funkce se neobnovily"; exit 1; }
+          echo "✅ Mechanika zálohy i obnovy funguje (dump → health-check → restore → porovnání)."
+
+      - name: Test detekce vadného connection stringu
+        run: |
+          set -euo pipefail
+          chmod +x scripts/*.sh
+          # hodnota, která není URI (přesně případ, kdy pg_dump spadne na lokálním socketu)
+          if SUPABASE_DB_URL="xzlebpzepnhkedlxntgv" ALLOW_LOCAL_DB=0 ./scripts/db-dump.sh /tmp/x.sql.gz 2>/tmp/err.txt; then
+            echo "❌ vadný connection string neprošel kontrolou"; exit 1
+          fi
+          grep -q "nema tvar connection stringu" /tmp/err.txt && echo "✅ vadná hodnota je odhalena před spuštěním pg_dump"
