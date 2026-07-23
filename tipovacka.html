@@ -409,6 +409,7 @@ body.theme-light .venue{color:#5f7690}
 .pf-cur.emo{font-size:1.5rem;background:var(--bg3);border:1px solid var(--bd2)}
 .pf-col{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0}
 .pf-col.on{border-color:#fff;box-shadow:0 0 0 2px var(--ac)}
+.reg-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;margin-left:5px;border-radius:999px;background:#22c55e;color:#04220f;font-size:.58rem;font-weight:900;vertical-align:middle}
 .mcard-more{margin-top:4px}
 .mcard-more summary{font-size:.66rem;color:var(--ac2);cursor:pointer;text-align:center;padding:4px 0;list-style:none}
 .mcard-more summary::-webkit-details-marker{display:none}
@@ -2337,6 +2338,8 @@ body.admin-user #btn-logout{padding:0 10px}
       <input class="lo-inp" id="rp" name="new-password" type="password" placeholder="Zvol si PIN..." autocomplete="new-password">
       <div class="lo-lbl" id="lbl-pin3">POTVRD PIN</div>
       <input class="lo-inp" id="rp2" name="confirm-password" type="password" placeholder="Znovu PIN..." autocomplete="new-password">
+      <div class="lo-lbl" id="lbl-invite">ZVACÍ KÓD</div>
+      <input class="lo-inp" id="rinv" name="invite" type="text" placeholder="Kód od správce tipovačky..." autocomplete="off">
       <button class="lo-btn r" id="brg" type="submit">Registrovat se</button>
       <div class="lo-err" id="re"></div>
     </form>
@@ -2642,6 +2645,7 @@ body.admin-user #btn-logout{padding:0 10px}
         <div class="aov-card aov-warn" id="aov-card-missing"><div class="aov-val" id="aov-missing">0</div><div class="aov-lbl">Bez tipu dnes</div></div>
       </div>
       <div id="aov-missing-list" class="aov-missing-list" style="display:none"></div>
+      <div id="admin-users-box"></div>
       <div class="card">
         <div class="clbl" id="admin-clbl">Admin - přehled všech tipů</div>
         <div class="ibox" id="admin-extra-info">Admin může ručně nastavit oficiálního vítěze turnaje a krále střelců. Extra body se promítnou do žebříčku automaticky.</div>
@@ -2749,7 +2753,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.74';
+var APP_VERSION='v5.12.75';
 var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
@@ -2925,6 +2929,7 @@ var T={
     ost_top3:'Top 3 v žebříčku',
     account_clbl:'Můj účet',
     account_pin_info:'PIN slouží k přihlášení i potvrzení uložení tipů. Doporučujeme změnit z výchozí hodnoty.',
+    invite_lbl:'ZVACÍ KÓD',invite_ph:'Kód od správce tipovačky...',invite_required:'Vyplň zvací kód, který ti poslal správce.',
     account_pin_btn:'🔑 Změnit PIN',
     account_info_txt:'Pokud chceš smazat svůj účet, smažou se i všechny tvé tipy, extra tipy, příspěvky v diskuzi a reakce. Akce je nevratná.',
     account_delete_btn:'🗑 Smazat účet',
@@ -3040,6 +3045,7 @@ var T={
     phase_extra:'Overall winner',
     account_clbl:'My account',
     account_pin_info:'PIN is used for login and saving tips. We recommend changing the default value.',
+    invite_lbl:'INVITE CODE',invite_ph:'Code from the organiser...',invite_required:'Enter the invite code you received.',
     account_pin_btn:'🔑 Change PIN',
     account_info_txt:'Deleting your account also removes all your match tips, extra tips, discussion posts and reactions. This action cannot be undone.',
     account_delete_btn:'🗑 Delete account',
@@ -5072,14 +5078,16 @@ function doLogin(){
 function doReg(){
   if(authBusy) return;
   var j=document.getElementById('rj').value.trim(),p=document.getElementById('rp').value.trim(),p2=document.getElementById('rp2').value.trim();
+  var inv=(document.getElementById('rinv')||{}).value; inv=(inv||'').trim();
   if(!j||!p){setText('re',tr('fill_name_pin'));return;}
+  if(!inv){setText('re',tr('invite_required'));return;}
   if(p!==p2){setText('re',tr('pins_no_match'));return;}
   if(p.length<4){setText('re',tr('pin_too_short'));return;}
   authBusy=true;
   document.getElementById('brg').disabled=true;
   setText('re',tr('loading_register'));
   withTimeout(sha256Hex(p).then(function(pinHash){
-    return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p});
+    return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p,p_invite:inv});
   }),12000,'Registrace').then(function(d){
       if(d&&d.chyba){setText('re',d.chyba);return;}
       myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
@@ -5123,6 +5131,11 @@ function finishLogin(d){
   }
   loadFifaRankingData();
   setTimeout(function(){ try{ if(!Object.keys(playerStatsByName).length) loadPlayerStats(); }catch(_e){} },2500);
+  if(me.je_admin) setTimeout(function(){ try{
+    rpcWithRetry('admin_users_overview_secure',{p_admin_id:me.id,p_pin:myPin}).then(function(d){
+      if(d&&d.ok){ adminUsersCache=d; updateAdminRegBadge(); }
+    }).catch(function(){});
+  }catch(_e){} },3500);
   Promise.all([loadExtraMeta(),loadExtraTips(),loadDiscussion(),loadDiscussionReactions(),loadMatchOdds(),applyZapasyMetaNames(),loadProfily()]).then(function(){
     return loadResults().then(loadPlayers).then(loadMyTips).then(function(){
       return Promise.all([loadAllTips(),loadTipTrends(),loadLeaderboardSnapshot('cel')]);
@@ -5360,6 +5373,8 @@ function applyI18n(){
   document.getElementById('lj').placeholder=LANG==='en'?'Your name or e-mail...':'Tvoje jméno nebo e-mail...';
   document.getElementById('lp').placeholder=LANG==='en'?'Your PIN...':'Tvůj PIN...';
   document.getElementById('rj').placeholder=LANG==='en'?'Your name...':'Tvoje jméno...';
+  var invL=document.getElementById('lbl-invite'); if(invL) invL.textContent=tr('invite_lbl');
+  var invI=document.getElementById('rinv'); if(invI) invI.placeholder=tr('invite_ph');
   document.getElementById('rp').placeholder=LANG==='en'?'Choose PIN...':'Zvol si PIN...';
   document.getElementById('rp2').placeholder=LANG==='en'?'PIN again...':'Znovu PIN...';
   document.getElementById('extra-winner').placeholder=LANG==='en'?'Pick a team or type the name':'Vyber tým nebo napiš název';
@@ -5439,7 +5454,7 @@ function showTab(name){
   if(name==='vysledky') renderVys();
   if(name==='tabulka'){ renderTab(); renderTableNote(); }
   if(name==='historie') renderHistory();
-  if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(renderAdmin);
+  if(name==='admin') Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel')]).then(function(){ renderAdmin(); renderAdminUsers(); });
   if(name==='diskuze') Promise.all([loadDiscussion(),loadDiscussionReactions(),loadDailyRecap()]).then(renderDiscussion);
   if(name==='pravidla'&&me) fillAcctEmail();
   if(name==='finale'){ var fe=document.getElementById('finale-list'); if(fe) fe.innerHTML='<div class="empty">Načítám…</div>'; Promise.all([loadAllTips(),loadLeaderboardSnapshot('cel'),loadLeaderboardSnapshot('sk'),loadLeaderboardSnapshot('po'),loadMatchOdds(),loadExtraTips(),loadExtraMeta(),loadGoalMinutes(),loadMatchStats(),loadPlayerStats()]).then(renderFinale); }
@@ -6611,6 +6626,75 @@ function checkRankChange(){
   }catch(_){}
 }
 // F13: Live admin overview
+// v5.12.75: admin prehled uzivatelu (registrace, posledni prihlaseni) + sprava zvaciho kodu
+var adminUsersCache=null;
+function fmtDT(iso){
+  if(!iso) return '—';
+  var d=new Date(iso); if(isNaN(d)) return '—';
+  var dd=d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear();
+  return dd+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+}
+function newRegCount(list){
+  var seen=0;
+  try{ seen=parseInt(localStorage.getItem('ms26_admin_seen_reg')||'0',10)||0; }catch(_e){}
+  // prvni pouziti: nastav baseline na ted, at se nehlasi vsichni historicti hraci
+  if(!seen){ seen=Date.now(); try{ localStorage.setItem('ms26_admin_seen_reg',String(seen)); }catch(_e){} }
+  return (list||[]).filter(function(u){ return new Date(u.vytvoreno).getTime()>seen; }).length;
+}
+function markRegSeen(){ try{ localStorage.setItem('ms26_admin_seen_reg',String(Date.now())); }catch(_e){} updateAdminRegBadge(); }
+function updateAdminRegBadge(){
+  var tab=document.getElementById('tab-admin'); if(!tab) return;
+  var n=adminUsersCache?newRegCount(adminUsersCache.hraci):0;
+  var b=tab.querySelector('.reg-badge');
+  if(n>0){
+    if(!b){ b=document.createElement('span'); b.className='reg-badge'; tab.appendChild(b); }
+    b.textContent=n;
+  } else if(b){ b.remove(); }
+}
+function renderAdminUsers(){
+  var host=document.getElementById('admin-users-box'); if(!host||!me||!me.je_admin) return;
+  if(!adminUsersCache){
+    if(!myPin) return;
+    host.innerHTML='<div class="empty">Načítám hráče…</div>';
+    rpcWithRetry('admin_users_overview_secure',{p_admin_id:me.id,p_pin:myPin}).then(function(d){
+      if(!d||d.chyba) throw new Error((d&&d.chyba)||'chyba');
+      adminUsersCache=d; renderAdminUsers(); updateAdminRegBadge();
+    }).catch(function(e){ host.innerHTML='<div class="empty">Nepodařilo se načíst: '+escHtml((e&&e.message)||'')+'</div>'; });
+    return;
+  }
+  var d=adminUsersCache, nNew=newRegCount(d.hraci);
+  var rows=(d.hraci||[]).map(function(u){
+    var isNew=new Date(u.vytvoreno).getTime()>(parseInt(localStorage.getItem('ms26_admin_seen_reg')||'0',10)||0);
+    return '<tr'+(isNew?' style="background:rgba(74,222,128,.07)"':'')+'>'+
+      '<td>'+(isNew?'🆕 ':'')+escHtml(u.jmeno)+(u.je_admin?' <span class="discussion-admin">ADMIN</span>':'')+'</td>'+
+      '<td style="color:var(--mu2)">'+fmtDT(u.vytvoreno)+'</td>'+
+      '<td style="color:var(--mu2)">'+fmtDT(u.last_login)+'</td>'+
+      '<td style="text-align:right">'+(u.tipu||0)+'</td>'+
+      '<td style="color:var(--mu2);font-size:.66rem">'+(u.email?escHtml(u.email):'—')+'</td></tr>';
+  }).join('');
+  host.innerHTML='<div class="card" style="margin-top:.8rem">'+
+    '<div class="clbl">👥 Hráči a registrace</div>'+
+    (nNew?'<div class="ibox" style="border-color:rgba(74,222,128,.4)">🆕 <b>'+nNew+'</b> nová registrace od tvé poslední kontroly. <button type="button" class="fin-syncbtn" id="adm-reg-seen">Vzít na vědomí</button></div>':'')+
+    '<div style="font-size:.72rem;color:var(--mu2);margin-bottom:6px">Celkem <b>'+d.pocet+'</b> hráčů · za posledních 7 dní přibylo <b>'+d.novych_7d+'</b></div>'+
+    '<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th>Hráč</th><th>Registrace</th><th>Poslední přihlášení</th><th style="text-align:right">Tipů</th><th>E-mail</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="sq-sec" style="margin-top:12px"><span class="sq-sec-badge pos-G">Zvací kód</span><span class="sq-sec-line"></span></div>'+
+    '<div style="font-size:.72rem;color:var(--mu2);margin-bottom:6px">Bez tohohle kódu se nikdo nezaregistruje. Prázdný kód = registrace otevřená všem.</div>'+
+    '<div class="ank-mail-row" style="max-width:360px"><input type="text" class="ank-mail-in" id="adm-invite-in" maxlength="40" value="'+escAttr(d.invite_code||'')+'"><button type="button" class="ank-mail-btn" id="adm-invite-save">Uložit</button></div>'+
+  '</div>';
+  var seenBtn=document.getElementById('adm-reg-seen');
+  if(seenBtn) seenBtn.onclick=function(){ markRegSeen(); renderAdminUsers(); };
+  var invBtn=document.getElementById('adm-invite-save');
+  if(invBtn) invBtn.onclick=function(){
+    var v=(document.getElementById('adm-invite-in')||{}).value||'';
+    invBtn.disabled=true;
+    rpcWithRetry('admin_set_invite_secure',{p_admin_id:me.id,p_pin:myPin,p_code:v.trim()}).then(function(r){
+      invBtn.disabled=false;
+      if(r&&r.chyba) throw new Error(r.chyba);
+      if(adminUsersCache) adminUsersCache.invite_code=v.trim();
+      showToast(v.trim()?'Zvací kód uložen.':'Registrace je nyní otevřená všem!','ok');
+    }).catch(function(e){ invBtn.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
+  };
+}
 function renderAdminOverview(){
   if(!me||!me.je_admin) return;
   var grid=document.getElementById('admin-overview-grid');
