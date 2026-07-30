@@ -8,7 +8,7 @@ set -euo pipefail
 # shellcheck source=scripts/db-conn.sh
 . "$(dirname "$0")/db-conn.sh"    # nastavi a overi $PGURL
 DUMP="${1:?Chybi cesta k dumpu (.sql.gz)}"
-MIN_BYTES="${MIN_DUMP_BYTES:-500000}"   # brana na velikost: pod 500 kB je dump podezrele maly
+MIN_BYTES="${MIN_DUMP_BYTES:-250000}"   # brana na velikost: pod ~250 kB je dump podezrele maly (realny dump ~392 kB)
 MIN_TABLES="${MIN_TABLES:-30}"          # produkce: 26 Tipovacka + 12 gigs_ + auth
 MIN_POLICIES="${MIN_POLICIES:-20}"
 MIN_FUNCS="${MIN_FUNCS:-50}"
