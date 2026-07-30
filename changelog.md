@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.77 - 30. 7. 2026
+
+**Nové logo** — facetová zlatá trofej (low-poly AYDEA styl) na tmavě modré dlaždici `#0a1524`. Zdroj `assets/icons/logo-tipovacka.svg`; vygenerované PNG (icon-192/512, icon-512-maskable se safe-zónou, apple-touch-icon 180, favicon-32) nahradily starou inline ⚽ ikonu v manifestu. `manifest.json` icons + `<head>` (favicon SVG/PNG, apple-touch) aktualizovány, theme-color `#0a1524` beze změny.
+
 ## v5.12.76 - 30. 7. 2026
 
 **AYDEA footer, dvourežimová registrace, bezpečnostní hardening.**
