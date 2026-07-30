@@ -86,6 +86,9 @@ jobs:
           create schema if not exists extensions;
           create extension if not exists pgcrypto with schema extensions;
           create extension if not exists "uuid-ossp" with schema extensions;
+          -- contrib extensions, které produkce má v schématu public (pg_net je Supabase-only -> filtruje se v restore)
+          create extension if not exists pg_trgm;
+          create extension if not exists unaccent;
           SQL
 
       - name: Restore do čisté DB
@@ -127,9 +130,12 @@ jobs:
           POL_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_policies where schemaname='public'")
           RLS_P=$(psql "$PGURL"     -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
           RLS_R=$(psql "$TARGET_URL" -At -c "select count(*) from pg_tables where schemaname='public' and rowsecurity")
-          FN_P=$(psql "$PGURL"      -At -c "select count(*) from information_schema.routines where routine_schema='public'")
-          FN_R=$(psql "$TARGET_URL"  -At -c "select count(*) from information_schema.routines where routine_schema='public'")
-          echo "policies $POL_P/$POL_R | RLS tabulek $RLS_P/$RLS_R | funkcí $FN_P/$FN_R"
+          # jen VLASTNI funkce (RPC) - vyloucit funkce dodane extensionama (pg_net/pg_trgm/unaccent),
+          # ktere v holem restore prostredi nemusi byt (pg_net je Supabase-only)
+          FN_SQL="select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and not exists (select 1 from pg_depend d where d.objid=p.oid and d.deptype='e')"
+          FN_P=$(psql "$PGURL"      -At -c "$FN_SQL")
+          FN_R=$(psql "$TARGET_URL"  -At -c "$FN_SQL")
+          echo "policies $POL_P/$POL_R | RLS tabulek $RLS_P/$RLS_R | vlastní funkce $FN_P/$FN_R"
           [ "$POL_P" = "$POL_R" ] || { echo "❌ počet RLS policies nesedí"; exit 1; }
           [ "$RLS_P" = "$RLS_R" ] || { echo "❌ počet tabulek s RLS nesedí"; exit 1; }
           [ "$FN_P"  = "$FN_R"  ] || { echo "❌ počet funkcí nesedí"; exit 1; }
