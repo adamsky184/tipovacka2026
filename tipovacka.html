@@ -2345,8 +2345,11 @@ body.admin-user #btn-logout{padding:0 10px}
       <input class="lo-inp" id="rp" name="new-password" type="password" placeholder="Zvol si PIN..." autocomplete="new-password">
       <div class="lo-lbl" id="lbl-pin3">POTVRD PIN</div>
       <input class="lo-inp" id="rp2" name="confirm-password" type="password" placeholder="Znovu PIN..." autocomplete="new-password">
-      <div class="lo-lbl" id="lbl-invite">ZVACÍ KÓD</div>
-      <input class="lo-inp" id="rinv" name="invite" type="text" placeholder="Kód od správce tipovačky..." autocomplete="off">
+      <div id="reg-invite-wrap">
+        <div class="lo-lbl" id="lbl-invite">ZVACÍ KÓD</div>
+        <input class="lo-inp" id="rinv" name="invite" type="text" placeholder="Kód od správce tipovačky..." autocomplete="off">
+      </div>
+      <div id="reg-approval-note" style="display:none;font-size:.72rem;color:var(--mu2);background:rgba(59,130,246,.08);border:1px solid var(--bd2);border-radius:9px;padding:8px 10px;line-height:1.5">📝 Registrace je na schválení. Po odeslání počká tvá žádost, než ji správce schválí — pak se přihlásíš jménem a PINem.</div>
       <button class="lo-btn r" id="brg" type="submit">Registrovat se</button>
       <div class="lo-err" id="re"></div>
     </form>
@@ -5107,7 +5110,7 @@ function doReg(){
   var j=document.getElementById('rj').value.trim(),p=document.getElementById('rp').value.trim(),p2=document.getElementById('rp2').value.trim();
   var inv=(document.getElementById('rinv')||{}).value; inv=(inv||'').trim();
   if(!j||!p){setText('re',tr('fill_name_pin'));return;}
-  if(!inv){setText('re',tr('invite_required'));return;}
+  if(regModeCache!=='approval' && !inv){setText('re',tr('invite_required'));return;}
   if(p!==p2){setText('re',tr('pins_no_match'));return;}
   if(p.length<4){setText('re',tr('pin_too_short'));return;}
   authBusy=true;
@@ -5117,6 +5120,14 @@ function doReg(){
     return rpcWithRetry('registruj_hrace_secure',{p_jmeno:j,p_pin_hash:pinHash,p_pin_plain:p,p_invite:inv});
   }),12000,'Registrace').then(function(d){
       if(d&&d.chyba){setText('re',d.chyba);return;}
+      if(d&&d.pending){ // rezim na schvaleni - ucet vznikne az po schvaleni adminem
+        swLTab('l');
+        setText('le', LANG==='en' ? 'Request sent — waiting for the organiser to approve it. You will be able to log in afterwards.' : 'Žádost odeslána — čeká na schválení správcem. Pak se přihlásíš jménem a PINem.');
+        setText('re','');
+        var rj=document.getElementById('rj'),rp=document.getElementById('rp'),rp2=document.getElementById('rp2');
+        if(rj)rj.value='';if(rp)rp.value='';if(rp2)rp2.value='';
+        return;
+      }
       myPin=p; // plain PIN potreba pro bcrypt+salted SHA-256 verify v naslednych RPC
       finishLogin(d);
   }).catch(function(e){
@@ -5170,6 +5181,7 @@ function finishLogin(d){
   }).then(function(){
     applyHeaderAvatar();
     applyFooter(); // admin nyni vidi presne datum deploye
+    notifyAdminPending(); // in-app notifikace o cekajicich zadostech
     updSavedProgress();
     renderTipy();
     updateHeaderRanking();
@@ -5317,6 +5329,18 @@ function swLTab(t){
   document.getElementById('rf').style.display=il?'none':'block';
   document.getElementById('ltl').classList.toggle('on',il);
   document.getElementById('ltr').classList.toggle('on',!il);
+  if(!il) applyRegMode(); // pri prepnuti na registraci zjisti rezim (zvaci kod / na schvaleni)
+}
+// Blok 3: registracni rezim - podle nej ukaz pole zvaciho kodu nebo hlasku o schvaleni
+var regModeCache='invite';
+function applyRegMode(){
+  rpc('get_reg_mode',{}).then(function(d){
+    regModeCache=(d&&d.mode)||'invite';
+    var wrap=document.getElementById('reg-invite-wrap'), note=document.getElementById('reg-approval-note');
+    var approval=(regModeCache==='approval');
+    if(wrap) wrap.style.display=approval?'none':'';
+    if(note) note.style.display=approval?'block':'none';
+  }).catch(function(){});
 }
 function applyI18n(){
   document.title=tr('app_title');
@@ -6670,7 +6694,7 @@ function newRegCount(list){
 function markRegSeen(){ try{ localStorage.setItem('ms26_admin_seen_reg',String(Date.now())); }catch(_e){} updateAdminRegBadge(); }
 function updateAdminRegBadge(){
   var tab=document.getElementById('tab-admin'); if(!tab) return;
-  var n=adminUsersCache?newRegCount(adminUsersCache.hraci):0;
+  var n=adminUsersCache?(newRegCount(adminUsersCache.hraci)+((adminUsersCache.pending&&adminUsersCache.pending.length)||0)):0;
   var b=tab.querySelector('.reg-badge');
   if(n>0){
     if(!b){ b=document.createElement('span'); b.className='reg-badge'; tab.appendChild(b); }
@@ -6682,8 +6706,14 @@ function renderAdminUsers(){
   if(!adminUsersCache){
     if(!myPin) return;
     host.innerHTML='<div class="empty">Načítám hráče…</div>';
-    rpcWithRetry('admin_users_overview_secure',{p_admin_id:me.id,p_pin:myPin}).then(function(d){
+    Promise.all([
+      rpcWithRetry('admin_users_overview_secure',{p_admin_id:me.id,p_pin:myPin}),
+      rpcWithRetry('admin_list_requests_secure',{p_admin_id:me.id,p_pin:myPin}).catch(function(){return{pending:[]};}),
+      rpc('get_reg_mode',{}).catch(function(){return{mode:'invite'};})
+    ]).then(function(res){
+      var d=res[0];
       if(!d||d.chyba) throw new Error((d&&d.chyba)||'chyba');
+      d.pending=(res[1]&&res[1].pending)||[]; d.reg_mode=(res[2]&&res[2].mode)||'invite';
       adminUsersCache=d; renderAdminUsers(); updateAdminRegBadge();
     }).catch(function(e){ host.innerHTML='<div class="empty">Nepodařilo se načíst: '+escHtml((e&&e.message)||'')+'</div>'; });
     return;
@@ -6703,10 +6733,25 @@ function renderAdminUsers(){
     (nNew?'<div class="ibox" style="border-color:rgba(74,222,128,.4)">🆕 <b>'+nNew+'</b> nová registrace od tvé poslední kontroly. <button type="button" class="fin-syncbtn" id="adm-reg-seen">Vzít na vědomí</button></div>':'')+
     '<div style="font-size:.72rem;color:var(--mu2);margin-bottom:6px">Celkem <b>'+d.pocet+'</b> hráčů · za posledních 7 dní přibylo <b>'+d.novych_7d+'</b></div>'+
     '<div style="overflow-x:auto"><table class="fin-xtab"><thead><tr><th>Hráč</th><th>Registrace</th><th>Poslední přihlášení</th><th style="text-align:right">Tipů</th><th>E-mail</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="sq-sec" style="margin-top:12px"><span class="sq-sec-badge pos-M">Režim registrace</span><span class="sq-sec-line"></span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">'+
+      '<button class="fchip'+(d.reg_mode!=='approval'?' on':'')+'" data-regmode="invite" type="button">🔑 Otevřený zvací kód</button>'+
+      '<button class="fchip'+(d.reg_mode==='approval'?' on':'')+'" data-regmode="approval" type="button">✅ Jen na schválení</button>'+
+    '</div>'+
+    '<div style="font-size:.68rem;color:var(--mu2);margin-bottom:6px">'+(d.reg_mode==='approval'?'Nový hráč pošle žádost, ty ji níže schválíš/zamítneš.':'Kdo zná zvací kód, zaregistruje se rovnou.')+'</div>'+
+    ((d.reg_mode==='approval'||(d.pending&&d.pending.length))?(
+      '<div class="sq-sec" style="margin-top:10px"><span class="sq-sec-badge pos-F">Žádosti o registraci'+(d.pending&&d.pending.length?' ('+d.pending.length+')':'')+'</span><span class="sq-sec-line"></span></div>'+
+      ((d.pending&&d.pending.length)?d.pending.map(function(rq){
+        return '<div class="ank-mail-row" style="max-width:440px;align-items:center;margin-bottom:5px"><span style="flex:1;min-width:0">'+escHtml(rq.jmeno)+' <span style="color:var(--mu2);font-size:.64rem">'+fmtDT(rq.created_at)+'</span></span>'+
+          '<button type="button" class="ank-mail-btn" data-appr="'+escAttr(rq.id)+'" data-jm="'+escAttr(rq.jmeno)+'">Schválit</button>'+
+          '<button type="button" class="fin-syncbtn" data-rej="'+escAttr(rq.id)+'" style="border-color:var(--rd);color:var(--rd)">Zamítnout</button></div>';
+      }).join(''):'<div style="font-size:.72rem;color:var(--mu2)">Žádné čekající žádosti.</div>')
+    ):'')+
     '<div class="sq-sec" style="margin-top:12px"><span class="sq-sec-badge pos-G">Zvací kód</span><span class="sq-sec-line"></span></div>'+
-    '<div style="font-size:.72rem;color:var(--mu2);margin-bottom:6px">Bez tohohle kódu se nikdo nezaregistruje. Prázdný kód = registrace otevřená všem.</div>'+
+    '<div style="font-size:.72rem;color:var(--mu2);margin-bottom:6px">Platí v režimu „zvací kód". Prázdný kód = registrace otevřená všem.</div>'+
     '<div class="ank-mail-row" style="max-width:360px"><input type="text" class="ank-mail-in" id="adm-invite-in" maxlength="40" value="'+escAttr(d.invite_code||'')+'"><button type="button" class="ank-mail-btn" id="adm-invite-save">Uložit</button></div>'+
   '</div>';
+  el_bindRegMode(host);
   var seenBtn=document.getElementById('adm-reg-seen');
   if(seenBtn) seenBtn.onclick=function(){ markRegSeen(); renderAdminUsers(); };
   var invBtn=document.getElementById('adm-invite-save');
@@ -6720,6 +6765,43 @@ function renderAdminUsers(){
       showToast(v.trim()?'Zvací kód uložen.':'Registrace je nyní otevřená všem!','ok');
     }).catch(function(e){ invBtn.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
   };
+}
+function el_bindRegMode(host){
+  host.querySelectorAll('[data-regmode]').forEach(function(b){ b.addEventListener('click',function(){
+    var m=b.getAttribute('data-regmode');
+    rpcWithRetry('admin_set_reg_mode_secure',{p_admin_id:me.id,p_pin:myPin,p_mode:m}).then(function(r){
+      if(r&&r.chyba) throw new Error(r.chyba);
+      showToast(m==='approval'?'Režim registrace: jen na schválení.':'Režim registrace: otevřený zvací kód.','ok');
+      adminUsersCache=null; renderAdminUsers();
+    }).catch(function(e){ showToast('Chyba: '+((e&&e.message)||e),'err'); });
+  }); });
+  host.querySelectorAll('[data-appr]').forEach(function(b){ b.addEventListener('click',function(){
+    b.disabled=true;
+    rpcWithRetry('admin_approve_request_secure',{p_admin_id:me.id,p_pin:myPin,p_request_id:b.getAttribute('data-appr')}).then(function(r){
+      if(r&&r.chyba) throw new Error(r.chyba);
+      showToast('Schváleno: '+(b.getAttribute('data-jm')||'')+' — účet vytvořen.','ok');
+      adminUsersCache=null; renderAdminUsers();
+    }).catch(function(e){ b.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
+  }); });
+  host.querySelectorAll('[data-rej]').forEach(function(b){ b.addEventListener('click',function(){
+    if(!window.confirm('Zamítnout tuto žádost o registraci?')) return;
+    b.disabled=true;
+    rpcWithRetry('admin_reject_request_secure',{p_admin_id:me.id,p_pin:myPin,p_request_id:b.getAttribute('data-rej')}).then(function(r){
+      if(r&&r.chyba) throw new Error(r.chyba);
+      showToast('Žádost zamítnuta.','ok');
+      adminUsersCache=null; renderAdminUsers();
+    }).catch(function(e){ b.disabled=false; showToast('Chyba: '+((e&&e.message)||e),'err'); });
+  }); });
+}
+// in-app notifikace adminovi o cekajicich zadostech (appka nema mailovy kanal)
+function notifyAdminPending(){
+  if(!me||!me.je_admin||!myPin) return;
+  rpcWithRetry('admin_list_requests_secure',{p_admin_id:me.id,p_pin:myPin}).then(function(r){
+    var n=(r&&r.pending&&r.pending.length)||0; if(!n) return;
+    showToast('📝 '+n+' '+(n===1?'čekající žádost o registraci':(n<5?'čekající žádosti o registraci':'čekajících žádostí o registraci'))+' → Admin.','info');
+    var tab=document.getElementById('tab-admin');
+    if(tab){ var b=tab.querySelector('.reg-badge'); if(!b){ b=document.createElement('span'); b.className='reg-badge'; tab.appendChild(b); } b.textContent=n; }
+  }).catch(function(){});
 }
 function renderAdminOverview(){
   if(!me||!me.je_admin) return;
