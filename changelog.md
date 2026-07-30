@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.76 - 30. 7. 2026
+
+**AYDEA footer, dvourežimová registrace, bezpečnostní hardening.**
+- **Footer (přihlášení i appka)**: `© {rok} Tipovačka by AYDEA · v{verze} · {datum} · Podmínky · Zásady · Podpora`. „Tipovačka" → tipovacka.chabrycity.cz, „AYDEA" → aydea.app, Podpora → support@aydea.app. Verzi vidí všichni, přesné datum deploye jen admin, ostatní jen rok. Responzivní (desktop řádek, mobil pod sebou), CZ/EN. V terms.html/privacy.html přepsán kontakt na support@aydea.app.
+- **Registrace — dva režimy** (admin přepíná v Admin sekci): (a) otevřený zvací kód, (b) jen na schválení — nový hráč pošle žádost, adminovi přijde in-app notifikace (badge na Admin tabu + toast po přihlášení) a v Admin sekci žádost schválí/zamítne. Ověřeno end-to-end.
+- **Hardening**: všech 41 dosud nezajištěných SECURITY DEFINER RPC dostalo fixní `search_path` (celkem 48/48). Bez dopadu na RLS a funkčnost.
+- Blok zálohy DB (GitHub Actions) čeká na finální nastavení secretu — viz HANDOFF.md.
+
 ## v5.12.75 - 21. 7. 2026
 
 **Záloha, právní vrstva, bezpečnější přihlášení, PWA ikony.**
