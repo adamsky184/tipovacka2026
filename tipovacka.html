@@ -696,6 +696,11 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .stad-fact{margin-top:7px;font-size:.72rem;color:var(--ac2);line-height:1.45}
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
+.aydea-ftr{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px 7px}
+.aydea-ftr .ftr-links{flex-basis:100%;margin-top:2px}
+.aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
+.aydea-ftr .ftr-sep{opacity:.5}
+@media(max-width:480px){.aydea-ftr .ftr-brand{flex-basis:100%}.aydea-ftr>span:nth-child(2){display:none}}
 .ftr span{color:var(--mu2)}
 .mail-link{color:inherit;text-decoration:none;transition:color .15s ease, opacity .15s ease}
 .mail-link:hover{color:var(--ac2);opacity:1}
@@ -2346,8 +2351,11 @@ body.admin-user #btn-logout{padding:0 10px}
       <div class="lo-err" id="re"></div>
     </form>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
-    <div class="lo-ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="lo-ver-lbl">v5.4.4</span> · <span id="lo-date-lbl">7. 5. 2026</span> · <a class="mail-link" href="/privacy">Soukromí</a> · <a class="mail-link" href="/terms">Podmínky</a>
+    <div class="lo-ftr aydea-ftr">
+      <span class="ftr-brand">© <span id="lo-ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a></span>
+      <span class="ftr-sep">·</span><span id="lo-ver-lbl">v5.4.4</span>
+      <span class="ftr-sep">·</span><span id="lo-date-lbl">2026</span>
+      <span class="ftr-links"><a class="mail-link" href="/terms" id="lo-ftr-terms">Podmínky</a> <span class="ftr-sep">·</span> <a class="mail-link" href="/privacy" id="lo-ftr-priv">Zásady</a> <span class="ftr-sep">·</span> <a class="mail-link" href="mailto:support@aydea.app" id="lo-ftr-supp">Podpora</a></span>
     </div>
   </div>
 </div>
@@ -2747,8 +2755,11 @@ body.admin-user #btn-logout{padding:0 10px}
       <button class="btn btn-gn" id="float-sav-btn">&#128190; Uložit tipy</button>
     </div>
 
-    <div class="ftr">
-      <span>© <a class="mail-link" href="mailto:adam184@chabrycity.cz">Adam184</a></span> · <span id="ver-lbl">v5.4.4</span> · <span id="date-lbl">7. 5. 2026</span> · <a class="mail-link" href="/privacy">Soukromí</a> · <a class="mail-link" href="/terms">Podmínky</a>
+    <div class="ftr aydea-ftr">
+      <span class="ftr-brand">© <span id="ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a></span>
+      <span class="ftr-sep">·</span><span id="ver-lbl">v5.4.4</span>
+      <span class="ftr-sep">·</span><span id="date-lbl">2026</span>
+      <span class="ftr-links"><a class="mail-link" href="/terms" id="ftr-terms">Podmínky</a> <span class="ftr-sep">·</span> <a class="mail-link" href="/privacy" id="ftr-priv">Zásady</a> <span class="ftr-sep">·</span> <a class="mail-link" href="mailto:support@aydea.app" id="ftr-supp">Podpora</a></span>
     </div>
   </div>
 </div>
@@ -2760,12 +2771,26 @@ var APP_VERSION_DATE_CS='30. 6. 2026';
 var APP_VERSION_DATE_EN='30 June 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse
 var __deployDate=null;
+function applyFooter(){
+  var yr=String(new Date().getFullYear());
+  var admin=!!(typeof me!=='undefined'&&me&&me.je_admin);
+  var en=(typeof LANG!=='undefined'&&LANG==='en');
+  setText('ver-lbl',APP_VERSION); setText('lo-ver-lbl',APP_VERSION);
+  ['ftr-year','lo-ftr-year'].forEach(function(id){ var e=document.getElementById(id); if(e) e.textContent=yr; });
+  // login footer vzdy jen rok; app footer: admin presne datum deploye, ostatni jen rok
+  var lo=document.getElementById('lo-date-lbl'); if(lo) lo.textContent=yr;
+  var dl=document.getElementById('date-lbl'); if(dl) dl.textContent=yr;
+  if(admin) setAutoFooterDate();
+  var L=en?{t:'Terms',p:'Privacy',s:'Support'}:{t:'Podmínky',p:'Zásady',s:'Podpora'};
+  [['ftr-terms',L.t],['lo-ftr-terms',L.t],['ftr-priv',L.p],['lo-ftr-priv',L.p],['ftr-supp',L.s],['lo-ftr-supp',L.s]]
+    .forEach(function(p){ var e=document.getElementById(p[0]); if(e) e.textContent=p[1]; });
+}
 function setAutoFooterDate(){
   function apply(){
     if(!__deployDate) return;
     var d=__deployDate, mo=['January','February','March','April','May','June','July','August','September','October','November','December'];
     var txt=(typeof LANG!=='undefined'&&LANG==='en')?(d.getDate()+' '+mo[d.getMonth()]+' '+d.getFullYear()):(d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear());
-    ['date-lbl','lo-date-lbl'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=txt; });
+    var el=document.getElementById('date-lbl'); if(el) el.textContent=txt; // jen app footer (admin); login footer zustava rok
   }
   if(__deployDate){ apply(); return; }
   try{
@@ -5144,6 +5169,7 @@ function finishLogin(d){
     });
   }).then(function(){
     applyHeaderAvatar();
+    applyFooter(); // admin nyni vidi presne datum deploye
     updSavedProgress();
     renderTipy();
     updateHeaderRanking();
@@ -5362,9 +5388,7 @@ function applyI18n(){
   setText('cp-lbl-new2',tr('cp_lbl_new2'));
   var bcc=document.getElementById('cp-cancel'); if(bcc) bcc.textContent=tr('cp_cancel');
   var bcs=document.getElementById('cp-save'); if(bcs) bcs.textContent=tr('cp_save');
-  setText('ver-lbl',tr('footer_ver')); setText('date-lbl',tr('footer_date'));
-  setText('lo-ver-lbl',tr('footer_ver')); setText('lo-date-lbl',tr('footer_date'));
-  setAutoFooterDate(); // datum ve footeru = realne datum posledniho deploye (Last-Modified), ne natvrdo
+  applyFooter(); // AYDEA footer: verze vsem, rok vsem, presne datum deploye jen adminovi
   updateInstallButton();
   updateThemeButton();
   setText('sim-h',tr('similar_player'));setText('today-h',tr('today_matches'));
