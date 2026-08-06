@@ -1,14 +1,14 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v5.12.78 · 30. 7. 2026
+**Aktuální verze:** v5.12.80 · 3. 8. 2026
 **Poslední session:** 3. 8. 2026
 
 ## Kde jsme
 Turnaj MS 2026 dohraný, appka v archivním/po-turnajovém režimu, live na tipovacka.chabrycity.cz (cíl: tipovacka.aydea.app). Single-file vanilla JS PWA (`tipovacka.html`) + Supabase (projekt `xzleb…` SDÍLENÝ s GIGS) + Vercel. Vše funkční, zálohované, footer v AYDEA formátu.
 
 ## Otevřené úkoly
-- [ ] SEO základ - meta description, OG/Twitter, sitemap.xml, robots.txt (střední)
-- [ ] Footer mobil - odkazy nad copyright (kosmetika)
+- [x] SEO základ - hotovo (v5.12.79)
+- [x] Footer mobil - hotovo (v5.12.80)
 - [ ] Migrace domény → tipovacka.aydea.app + Supabase Auth redirect (mimo repo, až se rozhodne)
 - [ ] v6.0 rebrand pro další turnaj - config.js, dropdown vítěze/střelce z `team_rosters` (budoucí)
 
@@ -25,4 +25,4 @@ Turnaj MS 2026 dohraný, appka v archivním/po-turnajovém režimu, live na tipo
 - Tech historie (DB schéma, edge funkce, session log): `changelog.md`, `backend/sql/`, `docs/handoff-archiv-2026-07.md`.
 
 ## Další krok
-Dodělat SEO základ (meta tagy + robots.txt + sitemap.xml), pak footer mobil.
+Migrace domény na tipovacka.aydea.app až padne rozhodnutí; jinak appka splňuje AYDEA pravidla.
