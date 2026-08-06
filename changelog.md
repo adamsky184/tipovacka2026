@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.79 - 3. 8. 2026
+
+**SEO základ** (AYDEA pravidla §14). Do `<head>` přidán meta description, canonical, Open Graph + Twitter card (title/description/image = icon-512). Nové `robots.txt` a `sitemap.xml` (/, /terms, /privacy) v rootu. Sdílený odkaz appky má teď hezký náhled.
+
 ## v5.12.78 - 30. 7. 2026
 
 **Oprava home-screen ikony a názvu.** Ikony na plochu jsou nově plný neprůhledný čtverec (tmavě modrá + celá zlatá trofej, bez vlastního zaoblení → žádný bílý okraj) — hotové soubory z AYDEA_APP nakopírovány do `assets/icons/` (icon-192/512, icon-512-maskable, apple-touch-icon 180, favicon-32 z 512). Z manifestu odebrán transparentní SVG (aby PWA nepoužila trofej bez pozadí). `manifest.json` name i short_name = **„Tipovačka"** (dřív „Tipovačka 2026"), `<meta apple-mobile-web-app-title>` = „Tipovačka" → „Přidat na plochu" nabídne správný název.

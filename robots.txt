@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tipovacka.chabrycity.cz/sitemap.xml
