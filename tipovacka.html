@@ -712,7 +712,7 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .aydea-ftr .ftr-links{flex-basis:100%;margin-top:2px}
 .aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
 .aydea-ftr .ftr-sep{opacity:.5}
-@media(max-width:480px){.aydea-ftr .ftr-brand{flex-basis:100%}.aydea-ftr>span:nth-child(2){display:none}}
+@media(max-width:480px){.aydea-ftr .ftr-brand{flex-basis:100%}.aydea-ftr>span:nth-child(2){display:none}.aydea-ftr .ftr-links{order:-1;flex-basis:100%;margin:0 0 5px}}
 .ftr span{color:var(--mu2)}
 .mail-link{color:inherit;text-decoration:none;transition:color .15s ease, opacity .15s ease}
 .mail-link:hover{color:var(--ac2);opacity:1}
@@ -2781,7 +2781,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.79';
+var APP_VERSION='v5.12.80';
 var APP_VERSION_DATE_CS='30. 7. 2026';
 var APP_VERSION_DATE_EN='30 July 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse

@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.80 - 3. 8. 2026
+
+**Footer mobil** (AYDEA §11): na úzkých displejích (≤480px) jsou odkazy Podmínky · Zásady · Podpora nově NAD copyrightem (dřív pod). Desktop beze změny.
+
 ## v5.12.79 - 3. 8. 2026
 
 **SEO základ** (AYDEA pravidla §14). Do `<head>` přidán meta description, canonical, Open Graph + Twitter card (title/description/image = icon-512). Nové `robots.txt` a `sitemap.xml` (/, /terms, /privacy) v rootu. Sdílený odkaz appky má teď hezký náhled.
