@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tipovačka - tipovací liga na fotbalové turnaje</title>
+<meta name="description" content="Tipovačka - soukromá tipovací liga na velké fotbalové turnaje. Rozcestník ročníků, síň slávy vítězů a all-time žebříček tipérů.">
+<link rel="canonical" href="https://tipovacka.chabrycity.cz/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tipovačka">
+<meta property="og:title" content="Tipovačka - tipovací liga na fotbalové turnaje">
+<meta property="og:description" content="Rozcestník ročníků, síň slávy vítězů a all-time žebříček tipérů.">
+<meta property="og:url" content="https://tipovacka.chabrycity.cz/">
+<meta property="og:image" content="https://tipovacka.chabrycity.cz/assets/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tipovačka - tipovací liga na fotbalové turnaje">
+<meta name="twitter:description" content="Rozcestník ročníků, síň slávy vítězů a all-time žebříček tipérů.">
+<meta name="twitter:image" content="https://tipovacka.chabrycity.cz/assets/icons/icon-512.png">
+<meta name="theme-color" content="#0a1524">
+<link rel="icon" type="image/svg+xml" href="./assets/icons/logo-tipovacka.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7}
+body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--pu:#7c3aed}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#070f1b}
+body{background:radial-gradient(ellipse at top,#0d1b2e,#070f1b);color:var(--tx);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;min-height:100vh}
+body.theme-light{background:radial-gradient(ellipse at top,#ffffff,#eef4fb)}
+h1,h2,h3,.brand{font-family:'Space Grotesk','Inter',sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+/* topbar */
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;max-width:1040px;margin:0 auto}
+.top-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem}
+.top-logo img{width:30px;height:30px;border-radius:8px}
+.top-ctrls{display:flex;gap:8px}
+.tbtn{border:1px solid var(--bd2);background:var(--bg2);color:var(--mu2);border-radius:10px;padding:6px 11px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.tbtn:hover{border-color:var(--ac);color:var(--ac2)}
+/* hero */
+.hero{text-align:center;padding:40px 18px 30px}
+.hero .logo-lg{font-size:3rem;line-height:1;margin-bottom:8px}
+.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:.01em}
+.hero .sub{color:var(--mu2);font-size:1.05rem;margin-top:8px}
+.hero .cta{display:inline-block;margin-top:22px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-weight:800;padding:13px 28px;border-radius:14px;box-shadow:0 8px 24px rgba(37,99,235,.35);font-size:.95rem}
+.hero .cta:hover{filter:brightness(1.08)}
+/* section */
+section{padding:26px 0}
+.sec-h{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:800;margin-bottom:16px}
+.sec-h .line{flex:1;height:1px;background:var(--bd)}
+/* turnaj karty */
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
+.tcard{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.tcard .ic{font-size:2rem;line-height:1}
+.tcard .nm{font-weight:800;font-size:1.1rem;margin-top:4px}
+.tcard .yr{color:var(--mu);font-size:.8rem}
+.tcard .badge{position:absolute;top:14px;right:14px;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.badge.archived{background:rgba(245,158,11,.14);color:var(--gd);border:1px solid rgba(245,158,11,.3)}
+.badge.active{background:rgba(34,197,94,.14);color:var(--gn2);border:1px solid rgba(34,197,94,.35)}
+.badge.planned{background:rgba(59,130,246,.14);color:var(--ac2);border:1px solid rgba(59,130,246,.3)}
+.tcard .info{color:var(--mu2);font-size:.82rem;line-height:1.7;margin-top:4px;flex:1}
+.tcard .info b{color:var(--tx)}
+.tcard .go{margin-top:12px;display:inline-block;text-align:center;border:1px solid var(--bd2);background:var(--bg3);color:var(--ac2);border-radius:11px;padding:9px 14px;font-size:.82rem;font-weight:700}
+.tcard.archived .go{background:rgba(59,130,246,.12);border-color:var(--ac);color:var(--ac2)}
+.tcard .go.disabled{opacity:.5;pointer-events:none}
+/* halloffame + alltime */
+.hof{display:flex;flex-direction:column;gap:8px}
+.hof-row{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:11px 14px}
+.hof-row .med{font-size:1.4rem;flex:0 0 auto}
+.hof-row .who{font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hof-row .det{color:var(--mu2);font-size:.8rem;text-align:right}
+.hof-row .det b{color:var(--gd)}
+table.at{width:100%;border-collapse:collapse;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden;font-size:.86rem}
+table.at th{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--bg3)}
+table.at td{padding:10px 14px;border-bottom:1px solid var(--bd)}
+table.at tr:last-child td{border-bottom:none}
+table.at td.r,table.at th.r{text-align:right}
+table.at .rank{color:var(--mu2);width:36px}
+table.at .b{font-weight:800;color:var(--gd)}
+tr.top1 td{background:rgba(245,158,11,.07)}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:16px;text-align:center}
+.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.7rem;color:var(--ac2)}
+.stat span{font-size:.72rem;color:var(--mu2)}
+.empty{color:var(--mu);font-size:.85rem;text-align:center;padding:16px}
+/* footer AYDEA */
+.ftr{margin-top:34px;padding:18px;border-top:1px solid var(--bd);color:var(--mu2);font-size:.7rem}
+.aydea-ftr{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
+.aydea-ftr .ftr-copy,.aydea-ftr .ftr-links{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
+.aydea-ftr .ftr-sep{opacity:.5}
+.aydea-ftr a:hover{color:var(--ac2)}
+@media(max-width:560px){.aydea-ftr{flex-direction:column;align-items:center;text-align:center}.aydea-ftr .ftr-links{order:-1}}
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="top-logo"><img src="./assets/icons/icon-192.png" alt="Tipovačka"><span class="brand">Tipovačka</span></span>
+  <span class="top-ctrls">
+    <button class="tbtn" id="btn-lang" type="button">EN</button>
+    <button class="tbtn" id="btn-theme" type="button" title="Přepnout téma">🌙</button>
+  </span>
+</div>
+
+<header class="hero">
+  <div class="logo-lg">🏆</div>
+  <h1 data-i18n="hero_title">Tipovačka</h1>
+  <div class="sub" data-i18n="hero_sub">Tipovací liga na velké fotbalové turnaje</div>
+  <a class="cta" id="hero-cta" href="/ms2026" data-i18n="hero_cta">Otevřít MS 2026</a>
+</header>
+
+<main class="wrap">
+  <section>
+    <div class="sec-h"><span>🏟️</span><span data-i18n="sec_turnaje">Turnaje</span><span class="line"></span></div>
+    <div class="grid" id="turnaje-grid"><div class="empty" data-i18n="loading">Načítám…</div></div>
+  </section>
+
+  <section id="hall-sec">
+    <div class="sec-h"><span>🏆</span><span data-i18n="sec_hall">Síň slávy</span><span class="line"></span></div>
+    <div class="hof" id="hall"><div class="empty" data-i18n="loading">Načítám…</div></div>
+  </section>
+
+  <section id="at-sec">
+    <div class="sec-h"><span>📊</span><span data-i18n="sec_alltime">All-time žebříček</span><span class="line"></span></div>
+    <div id="alltime"><div class="empty" data-i18n="loading">Načítám…</div></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span>📈</span><span data-i18n="sec_stats">Statistiky</span><span class="line"></span></div>
+    <div class="stats" id="stats">
+      <div class="stat"><b id="st-hraci">-</b><span data-i18n="st_hraci">tipérů</span></div>
+      <div class="stat"><b id="st-turnaje">-</b><span data-i18n="st_turnaje">turnajů</span></div>
+      <div class="stat"><b id="st-zapasy">-</b><span data-i18n="st_zapasy">zápasů</span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="aydea-ftr">
+    <span class="ftr-copy">© <span id="ftr-year">2026</span> <a href="https://tipovacka.chabrycity.cz">Tipovačka</a> by <a class="ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ftr-ver">v6.0.0</span> <span class="ftr-sep">·</span> <span id="ftr-year2">2026</span></span>
+    <span class="ftr-links"><a href="/terms" id="l-terms">Podmínky</a> <span class="ftr-sep">·</span> <a href="/privacy" id="l-priv">Zásady</a> <span class="ftr-sep">·</span> <a href="mailto:support@aydea.app" id="l-supp">Podpora</a></span>
+  </div>
+</footer>
+
+<script>
+var APP_VERSION='v6.0.0';
+var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
+var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
+
+// ---- i18n ----
+var T={
+  cs:{hero_title:'Tipovačka',hero_sub:'Tipovací liga na velké fotbalové turnaje',hero_cta:'Otevřít MS 2026',
+    sec_turnaje:'Turnaje',sec_hall:'Síň slávy',sec_alltime:'All-time žebříček',sec_stats:'Statistiky',
+    st_hraci:'tipérů',st_turnaje:'turnajů',st_zapasy:'zápasů',loading:'Načítám…',
+    b_archived:'Dohráno',b_active:'Probíhá',b_planned:'Plánováno',
+    champ:'Šampion',winner:'Vítěz tipovačky',players:'tipérů',matches:'zápasů',
+    open_archive:'Otevřít archiv',open:'Otevřít',soon:'Již brzy',reg_open:'Registrace',
+    at_player:'Tipér',at_pts:'Body',at_tourn:'Turnajů',pts:'b',
+    l_terms:'Podmínky',l_priv:'Zásady',l_supp:'Podpora',empty_hall:'Zatím žádný dokončený turnaj.',err:'Data se nepodařilo načíst.'},
+  en:{hero_title:'Tipovačka',hero_sub:'Prediction league for major football tournaments',hero_cta:'Open WC 2026',
+    sec_turnaje:'Tournaments',sec_hall:'Hall of Fame',sec_alltime:'All-time ranking',sec_stats:'Stats',
+    st_hraci:'players',st_turnaje:'tournaments',st_zapasy:'matches',loading:'Loading…',
+    b_archived:'Finished',b_active:'Live',b_planned:'Planned',
+    champ:'Champion',winner:'League winner',players:'players',matches:'matches',
+    open_archive:'Open archive',open:'Open',soon:'Coming soon',reg_open:'Registration',
+    at_player:'Player',at_pts:'Points',at_tourn:'Tournaments',pts:'pts',
+    l_terms:'Terms',l_priv:'Privacy',l_supp:'Support',empty_hall:'No finished tournament yet.',err:'Failed to load data.'}
+};
+var LANG=(function(){ try{ return localStorage.getItem('ms26_lang')==='en'?'en':'cs'; }catch(e){ return 'cs'; } })();
+function t(k){ return (T[LANG]&&T[LANG][k])||(T.cs[k])||k; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+var DATA={turnaje:[],archiv:[]};
+
+function applyI18n(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent=t(el.getAttribute('data-i18n')); });
+  var bl=document.getElementById('btn-lang'); if(bl) bl.textContent=(LANG==='cs'?'EN':'CZ');
+  ['l-terms:l_terms','l-priv:l_priv','l-supp:l_supp'].forEach(function(p){ var a=p.split(':'); var e=document.getElementById(a[0]); if(e) e.textContent=t(a[1]); });
+  render();
+}
+function applyTheme(){
+  var th='dark'; try{ th=localStorage.getItem('ms26_theme')||'dark'; }catch(e){}
+  document.body.classList.toggle('theme-light', th==='light');
+  var b=document.getElementById('btn-theme'); if(b) b.textContent=(th==='light'?'☀️':'🌙');
+  var mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute('content', th==='light'?'#f3f7fc':'#0a1524');
+}
+
+function statusBadge(s){ var cls=(s==='active'?'active':s==='planned'?'planned':'archived'); var lbl=t(s==='active'?'b_active':s==='planned'?'b_planned':'b_archived'); return '<span class="badge '+cls+'">'+lbl+'</span>'; }
+
+function render(){
+  var ty=String(new Date().getFullYear());
+  ['ftr-year','ftr-year2'].forEach(function(id){ var e=document.getElementById(id); if(e) e.textContent=ty; });
+  var fv=document.getElementById('ftr-ver'); if(fv) fv.textContent=APP_VERSION;
+  renderTurnaje(); renderHall(); renderAlltime(); renderStats();
+}
+function renderTurnaje(){
+  var g=document.getElementById('turnaje-grid'); if(!g) return;
+  if(!DATA.turnaje.length){ g.innerHTML='<div class="empty">'+t('err')+'</div>'; return; }
+  g.innerHTML=DATA.turnaje.map(function(tr){
+    var arch=tr.status==='archived';
+    var info;
+    if(arch){ info='🏆 '+t('champ')+': <b>'+esc(tr.sampion||'-')+'</b><br>👑 '+t('winner')+': <b>'+esc(tr.tiper_sampion||'-')+'</b><br>'+(tr.pocet_hracu||0)+' '+t('players')+' · '+(tr.pocet_zapasu||0)+' '+t('matches'); }
+    else { info=t('soon'); }
+    var url=tr.url_path||('/'+tr.id);
+    var btn=arch?('<a class="go" href="'+esc(url)+'">'+t('open_archive')+' →</a>')
+                :('<span class="go disabled">'+t('soon')+'</span>');
+    return '<div class="tcard '+(arch?'archived':tr.status)+'">'+statusBadge(tr.status)+
+      '<div class="ic">'+esc(tr.icon||'🏆')+'</div>'+
+      '<div class="nm">'+esc(tr.nazev||tr.id)+'</div>'+
+      '<div class="yr">'+esc(tr.rok||'')+'</div>'+
+      '<div class="info">'+info+'</div>'+btn+'</div>';
+  }).join('');
+}
+function renderHall(){
+  var h=document.getElementById('hall'); if(!h) return;
+  var meds=['🥇','🥈','🥉'];
+  var arch=DATA.turnaje.filter(function(tr){ return tr.status==='archived'; })
+    .sort(function(a,b){ return (b.rok||0)-(a.rok||0); });
+  if(!arch.length){ h.innerHTML='<div class="empty">'+t('empty_hall')+'</div>'; return; }
+  h.innerHTML=arch.map(function(tr,i){
+    var win=DATA.archiv.filter(function(r){ return r.turnaj_id===tr.id; }).sort(function(a,b){return a.poradi-b.poradi;})[0];
+    var body=win?win.body:'';
+    return '<div class="hof-row"><span class="med">'+(meds[i]||'🏅')+'</span>'+
+      '<span class="who">'+esc((win&&win.jmeno)||tr.tiper_sampion||'-')+'</span>'+
+      '<span class="det">'+esc(tr.nazev||tr.id)+(body!==''?' · <b>'+body+' '+t('pts')+'</b>':'')+'</span></div>';
+  }).join('');
+}
+function renderAlltime(){
+  var el=document.getElementById('alltime'); if(!el) return;
+  var agg={};
+  DATA.archiv.forEach(function(r){ var k=r.jmeno; if(!agg[k]) agg[k]={jmeno:k,body:0,n:0}; agg[k].body+=(r.body||0); agg[k].n++; });
+  var rows=Object.keys(agg).map(function(k){return agg[k];}).sort(function(a,b){return b.body-a.body;}).slice(0,10);
+  if(!rows.length){ el.innerHTML='<div class="empty">'+t('err')+'</div>'; return; }
+  el.innerHTML='<table class="at"><thead><tr><th class="rank">#</th><th>'+t('at_player')+'</th><th class="r">'+t('at_pts')+'</th><th class="r">'+t('at_tourn')+'</th></tr></thead><tbody>'+
+    rows.map(function(r,i){ return '<tr'+(i===0?' class="top1"':'')+'><td class="rank">'+(i+1)+'.</td><td>'+(i===0?'🥇 ':'')+esc(r.jmeno)+'</td><td class="r b">'+r.body+' '+t('pts')+'</td><td class="r">'+r.n+'</td></tr>'; }).join('')+
+    '</tbody></table>';
+}
+function renderStats(){
+  var hraci={}; DATA.archiv.forEach(function(r){ hraci[r.jmeno]=1; });
+  var arch=DATA.turnaje.filter(function(tr){return tr.status==='archived';});
+  var zap=arch.reduce(function(s,tr){ return s+(tr.pocet_zapasu||0); },0);
+  var set=function(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; };
+  set('st-hraci', Object.keys(hraci).length||'-');
+  set('st-turnaje', arch.length||'-');
+  set('st-zapasy', zap||'-');
+}
+function setHeroCta(){
+  var a=document.getElementById('hero-cta'); if(!a) return;
+  // priorita: active > nejblizsi planned > posledni archived
+  var act=DATA.turnaje.filter(function(t){return t.status==='active';})[0];
+  var arch=DATA.turnaje.filter(function(t){return t.status==='archived';}).sort(function(x,y){return (y.rok||0)-(x.rok||0);})[0];
+  var target=act||arch;
+  if(target){ a.href=target.url_path||('/'+target.id);
+    a.textContent=(act?t('open'):t('open_archive'))+' '+(target.nazev||'').replace(/^Tipovačka\s*/i,''); }
+}
+
+function sb(path){
+  return fetch(SBU+'/rest/v1/'+path,{headers:{apikey:SBK,Authorization:'Bearer '+SBK}}).then(function(r){ return r.ok?r.json():[]; }).catch(function(){ return []; });
+}
+function load(){
+  Promise.all([
+    sb('turnaje?select=id,nazev,rok,status,url_path,icon,start_date,end_date,sampion,tiper_sampion,pocet_hracu,pocet_zapasu&order=rok.desc'),
+    sb('turnaj_archiv?select=turnaj_id,jmeno,poradi,body,extra_body')
+  ]).then(function(res){ DATA.turnaje=res[0]||[]; DATA.archiv=res[1]||[]; render(); setHeroCta(); });
+}
+
+document.getElementById('btn-lang').addEventListener('click',function(){ LANG=(LANG==='cs'?'en':'cs'); try{ localStorage.setItem('ms26_lang',LANG); }catch(e){} applyI18n(); setHeroCta(); });
+document.getElementById('btn-theme').addEventListener('click',function(){ var cur='dark'; try{cur=localStorage.getItem('ms26_theme')||'dark';}catch(e){} var nx=(cur==='light'?'dark':'light'); try{ localStorage.setItem('ms26_theme',nx); }catch(e){} applyTheme(); });
+
+applyTheme(); applyI18n(); load();
+</script>
+</body>
+</html>

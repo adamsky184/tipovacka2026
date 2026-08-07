@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v6.0.0 - 8. 8. 2026
+
+**Landing hub.** Nový statický `/` (index.html) - rozcestník turnajů, síň slávy MS 2026 vítězů, all-time žebříček (SUM body per hráč), statistiky (13 hráčů · 1 turnaj · 104 zápasů). Data z DB `turnaje` + `turnaj_archiv` (anon SELECT). CZ/EN switcher (localStorage `ms26_lang`), světlé/tmavé téma (`ms26_theme`), AYDEA footer + SEO (meta/OG/Twitter/canonical), bez manifestu (nerozbít PWA install). URL alias `/ms2026` → `/tipovacka.html` (backward compat pro PWA installs zachován, `/` → index.html). Migrace `turnaje` +status/url_path/start_date/end_date/icon. Fáze A z rebrand-guide, Sprint 1 z v5.7.3+ backlogu.
+
 ## v5.12.81 - 3. 8. 2026
 
 **Footer layout dle AYDEA.** App footer na desktopu: copyright (© … by AYDEA · verze · datum) vlevo, odkazy (Podmínky · Zásady · Podpora) vpravo (space-between). Mobil: odkazy nad copyrightem. Login karta (vždy úzká) je pod sebou - odkazy nad copyrightem. Copyright je nově jeden celek (`.ftr-copy`), doména zůstává chabrycity.cz.

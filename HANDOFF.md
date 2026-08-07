@@ -1,16 +1,16 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v5.12.81 · 3. 8. 2026
-**Poslední session:** 3. 8. 2026
+**Aktuální verze:** v6.0.0 · 8. 8. 2026
+**Poslední session:** 8. 8. 2026
 
 ## Kde jsme
-Turnaj MS 2026 dohraný, appka v archivním/po-turnajovém režimu, live na tipovacka.chabrycity.cz (cíl: tipovacka.aydea.app). Single-file vanilla JS PWA (`tipovacka.html`) + Supabase (projekt `xzleb…` SDÍLENÝ s GIGS) + Vercel. Vše funkční, zálohované, footer v AYDEA formátu.
+MS 2026 dohráno a archivováno. Nově **landing hub na `/`** (`index.html`) - rozcestník turnajů, síň slávy, all-time žebříček; archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány). Single-file vanilla JS (`tipovacka.html`) + statický landing + Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Vše funkční, zálohované, footer AYDEA.
 
 ## Otevřené úkoly
-- [x] SEO základ - hotovo (v5.12.79)
-- [x] Footer mobil - hotovo (v5.12.80)
+- [x] Landing hub v6.0 - hotovo (v6.0.0): index.html, rozcestník + síň slávy + all-time
+- [ ] Sprint 2 v6.1: config.js + seed JSONs (rebrand-ready pro další turnaj)
 - [ ] Migrace domény → tipovacka.aydea.app + Supabase Auth redirect (mimo repo, až se rozhodne)
-- [ ] v6.0 rebrand pro další turnaj - config.js, dropdown vítěze/střelce z `team_rosters` (budoucí)
+- [ ] Další turnaj: dropdown vítěze/střelce z `team_rosters` u extra tipů (budoucí)
 
 ## Známé problémy
 - Žádné kritické. PIN v localStorage plaintext (nutné pro RPC ověření) - přepis na token session až ve v6.0.

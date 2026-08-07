@@ -3,6 +3,10 @@
   "rewrites": [
     {
       "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ms2026",
       "destination": "/tipovacka.html"
     },
     {
@@ -32,6 +36,15 @@
     },
     {
       "source": "/tipovacka.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
       "headers": [
         {
           "key": "Cache-Control",
