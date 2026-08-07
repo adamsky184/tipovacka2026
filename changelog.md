@@ -2,6 +2,10 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v5.12.81 - 3. 8. 2026
+
+**Footer layout dle AYDEA.** App footer na desktopu: copyright (© … by AYDEA · verze · datum) vlevo, odkazy (Podmínky · Zásady · Podpora) vpravo (space-between). Mobil: odkazy nad copyrightem. Login karta (vždy úzká) je pod sebou - odkazy nad copyrightem. Copyright je nově jeden celek (`.ftr-copy`), doména zůstává chabrycity.cz.
+
 ## v5.12.80 - 3. 8. 2026
 
 **Footer mobil** (AYDEA §11): na úzkých displejích (≤480px) jsou odkazy Podmínky · Zásady · Podpora nově NAD copyrightem (dřív pod). Desktop beze změny.

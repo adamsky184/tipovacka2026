@@ -708,11 +708,16 @@ body.theme-light .ibox::before{border-color:rgba(37,99,235,.5);color:#1e40af}
 .stad-fact{margin-top:7px;font-size:.72rem;color:var(--ac2);line-height:1.45}
 .stad-ph{display:none}
 .ftr{margin-top:1.1rem;padding:1rem .25rem 1.5rem;text-align:center;color:var(--mu);font-size:.67rem;line-height:1.6}
-.aydea-ftr{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px 7px}
-.aydea-ftr .ftr-links{flex-basis:100%;margin-top:2px}
+.aydea-ftr{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
+.aydea-ftr .ftr-copy{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.aydea-ftr .ftr-links{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
 .aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
 .aydea-ftr .ftr-sep{opacity:.5}
-@media(max-width:480px){.aydea-ftr .ftr-brand{flex-basis:100%}.aydea-ftr>span:nth-child(2){display:none}.aydea-ftr .ftr-links{order:-1;flex-basis:100%;margin:0 0 5px}}
+/* login karta je uzka -> vzdy pod sebou, odkazy nad copyrightem */
+.lo-ftr.aydea-ftr{flex-direction:column;align-items:center;text-align:center}
+.lo-ftr.aydea-ftr .ftr-links{order:-1}
+/* app footer: desktop copyright vlevo + odkazy vpravo; mobil pod sebou, odkazy nad */
+@media(max-width:560px){.ftr.aydea-ftr{flex-direction:column;align-items:center;text-align:center}.ftr.aydea-ftr .ftr-links{order:-1}}
 .ftr span{color:var(--mu2)}
 .mail-link{color:inherit;text-decoration:none;transition:color .15s ease, opacity .15s ease}
 .mail-link:hover{color:var(--ac2);opacity:1}
@@ -2367,9 +2372,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </form>
     <div class="lo-meta" id="lo-meta">PIN slouží k přihlášení i potvrzení uložení tipů.</div>
     <div class="lo-ftr aydea-ftr">
-      <span class="ftr-brand">© <span id="lo-ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a></span>
-      <span class="ftr-sep">·</span><span id="lo-ver-lbl">v5.4.4</span>
-      <span class="ftr-sep">·</span><span id="lo-date-lbl">2026</span>
+      <span class="ftr-copy">© <span id="lo-ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="lo-ver-lbl">v5.4.4</span> <span class="ftr-sep">·</span> <span id="lo-date-lbl">2026</span></span>
       <span class="ftr-links"><a class="mail-link" href="/terms" id="lo-ftr-terms">Podmínky</a> <span class="ftr-sep">·</span> <a class="mail-link" href="/privacy" id="lo-ftr-priv">Zásady</a> <span class="ftr-sep">·</span> <a class="mail-link" href="mailto:support@aydea.app" id="lo-ftr-supp">Podpora</a></span>
     </div>
   </div>
@@ -2771,9 +2774,7 @@ body.admin-user #btn-logout{padding:0 10px}
     </div>
 
     <div class="ftr aydea-ftr">
-      <span class="ftr-brand">© <span id="ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a></span>
-      <span class="ftr-sep">·</span><span id="ver-lbl">v5.4.4</span>
-      <span class="ftr-sep">·</span><span id="date-lbl">2026</span>
+      <span class="ftr-copy">© <span id="ftr-year">2026</span> <a class="mail-link" href="https://tipovacka.chabrycity.cz" target="_blank" rel="noopener">Tipovačka</a> by <a class="mail-link ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ver-lbl">v5.4.4</span> <span class="ftr-sep">·</span> <span id="date-lbl">2026</span></span>
       <span class="ftr-links"><a class="mail-link" href="/terms" id="ftr-terms">Podmínky</a> <span class="ftr-sep">·</span> <a class="mail-link" href="/privacy" id="ftr-priv">Zásady</a> <span class="ftr-sep">·</span> <a class="mail-link" href="mailto:support@aydea.app" id="ftr-supp">Podpora</a></span>
     </div>
   </div>
@@ -2781,7 +2782,7 @@ body.admin-user #btn-logout{padding:0 10px}
 
 <script>
 // === APP CONFIG (single source of truth) ===
-var APP_VERSION='v5.12.80';
+var APP_VERSION='v5.12.81';
 var APP_VERSION_DATE_CS='30. 7. 2026';
 var APP_VERSION_DATE_EN='30 July 2026';
 // Footer datum automaticky = realne datum posledniho deploye (Last-Modified hlavicka souboru), fallback = konstanty vyse

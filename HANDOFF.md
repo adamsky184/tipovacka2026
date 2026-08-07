@@ -1,6 +1,6 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v5.12.80 · 3. 8. 2026
+**Aktuální verze:** v5.12.81 · 3. 8. 2026
 **Poslední session:** 3. 8. 2026
 
 ## Kde jsme
