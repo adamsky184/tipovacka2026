@@ -1,0 +1,290 @@
+[
+  {
+    "code": "mexiko",
+    "name_cs": "Mexiko",
+    "name_en": "Mexico",
+    "group": "A"
+  },
+  {
+    "code": "jihoafricka-rep",
+    "name_cs": "Jihoafricka rep.",
+    "name_en": "South Africa",
+    "group": "A"
+  },
+  {
+    "code": "jizni-korea",
+    "name_cs": "Jizni Korea",
+    "name_en": "South Korea",
+    "group": "A"
+  },
+  {
+    "code": "cesko",
+    "name_cs": "Cesko",
+    "name_en": "Czechia",
+    "group": "A"
+  },
+  {
+    "code": "kanada",
+    "name_cs": "Kanada",
+    "name_en": "Canada",
+    "group": "B"
+  },
+  {
+    "code": "katar",
+    "name_cs": "Katar",
+    "name_en": "Qatar",
+    "group": "B"
+  },
+  {
+    "code": "svycarsko",
+    "name_cs": "Svycarsko",
+    "name_en": "Switzerland",
+    "group": "B"
+  },
+  {
+    "code": "bosna-a-hercegovina",
+    "name_cs": "Bosna a Hercegovina",
+    "name_en": "Bosnia and Herzegovina",
+    "group": "B"
+  },
+  {
+    "code": "brazilie",
+    "name_cs": "Brazilie",
+    "name_en": "Brazil",
+    "group": "C"
+  },
+  {
+    "code": "maroko",
+    "name_cs": "Maroko",
+    "name_en": "Morocco",
+    "group": "C"
+  },
+  {
+    "code": "haiti",
+    "name_cs": "Haiti",
+    "name_en": "Haiti",
+    "group": "C"
+  },
+  {
+    "code": "skotsko",
+    "name_cs": "Skotsko",
+    "name_en": "Scotland",
+    "group": "C"
+  },
+  {
+    "code": "usa",
+    "name_cs": "USA",
+    "name_en": "USA",
+    "group": "D"
+  },
+  {
+    "code": "paraguay",
+    "name_cs": "Paraguay",
+    "name_en": "Paraguay",
+    "group": "D"
+  },
+  {
+    "code": "australie",
+    "name_cs": "Australie",
+    "name_en": "Australia",
+    "group": "D"
+  },
+  {
+    "code": "turecko",
+    "name_cs": "Turecko",
+    "name_en": "Türkiye",
+    "group": "D"
+  },
+  {
+    "code": "nemecko",
+    "name_cs": "Nemecko",
+    "name_en": "Germany",
+    "group": "E"
+  },
+  {
+    "code": "curacao",
+    "name_cs": "Curacao",
+    "name_en": "Curaçao",
+    "group": "E"
+  },
+  {
+    "code": "pobrezi-slonoviny",
+    "name_cs": "Pobrezi slonoviny",
+    "name_en": "Ivory Coast",
+    "group": "E"
+  },
+  {
+    "code": "ekvador",
+    "name_cs": "Ekvador",
+    "name_en": "Ecuador",
+    "group": "E"
+  },
+  {
+    "code": "nizozemsko",
+    "name_cs": "Nizozemsko",
+    "name_en": "Netherlands",
+    "group": "F"
+  },
+  {
+    "code": "japonsko",
+    "name_cs": "Japonsko",
+    "name_en": "Japan",
+    "group": "F"
+  },
+  {
+    "code": "svedsko",
+    "name_cs": "Svedsko",
+    "name_en": "Sweden",
+    "group": "F"
+  },
+  {
+    "code": "tunisko",
+    "name_cs": "Tunisko",
+    "name_en": "Tunisia",
+    "group": "F"
+  },
+  {
+    "code": "belgie",
+    "name_cs": "Belgie",
+    "name_en": "Belgium",
+    "group": "G"
+  },
+  {
+    "code": "egypt",
+    "name_cs": "Egypt",
+    "name_en": "Egypt",
+    "group": "G"
+  },
+  {
+    "code": "iran",
+    "name_cs": "Iran",
+    "name_en": "Iran",
+    "group": "G"
+  },
+  {
+    "code": "novy-zeland",
+    "name_cs": "Novy Zeland",
+    "name_en": "New Zealand",
+    "group": "G"
+  },
+  {
+    "code": "spanelsko",
+    "name_cs": "Spanelsko",
+    "name_en": "Spain",
+    "group": "H"
+  },
+  {
+    "code": "kapverdy",
+    "name_cs": "Kapverdy",
+    "name_en": "Cape Verde",
+    "group": "H"
+  },
+  {
+    "code": "saudska-arabie",
+    "name_cs": "Saudska Arabie",
+    "name_en": "Saudi Arabia",
+    "group": "H"
+  },
+  {
+    "code": "uruguay",
+    "name_cs": "Uruguay",
+    "name_en": "Uruguay",
+    "group": "H"
+  },
+  {
+    "code": "francie",
+    "name_cs": "Francie",
+    "name_en": "France",
+    "group": "I"
+  },
+  {
+    "code": "senegal",
+    "name_cs": "Senegal",
+    "name_en": "Senegal",
+    "group": "I"
+  },
+  {
+    "code": "irak",
+    "name_cs": "Irak",
+    "name_en": "Iraq",
+    "group": "I"
+  },
+  {
+    "code": "norsko",
+    "name_cs": "Norsko",
+    "name_en": "Norway",
+    "group": "I"
+  },
+  {
+    "code": "argentina",
+    "name_cs": "Argentina",
+    "name_en": "Argentina",
+    "group": "J"
+  },
+  {
+    "code": "alzirsko",
+    "name_cs": "Alzirsko",
+    "name_en": "Algeria",
+    "group": "J"
+  },
+  {
+    "code": "rakousko",
+    "name_cs": "Rakousko",
+    "name_en": "Austria",
+    "group": "J"
+  },
+  {
+    "code": "jordansko",
+    "name_cs": "Jordansko",
+    "name_en": "Jordan",
+    "group": "J"
+  },
+  {
+    "code": "portugalsko",
+    "name_cs": "Portugalsko",
+    "name_en": "Portugal",
+    "group": "K"
+  },
+  {
+    "code": "dr-kongo",
+    "name_cs": "DR Kongo",
+    "name_en": "DR Congo",
+    "group": "K"
+  },
+  {
+    "code": "uzbekistan",
+    "name_cs": "Uzbekistan",
+    "name_en": "Uzbekistan",
+    "group": "K"
+  },
+  {
+    "code": "kolumbie",
+    "name_cs": "Kolumbie",
+    "name_en": "Colombia",
+    "group": "K"
+  },
+  {
+    "code": "anglie",
+    "name_cs": "Anglie",
+    "name_en": "England",
+    "group": "L"
+  },
+  {
+    "code": "chorvatsko",
+    "name_cs": "Chorvatsko",
+    "name_en": "Croatia",
+    "group": "L"
+  },
+  {
+    "code": "ghana",
+    "name_cs": "Ghana",
+    "name_en": "Ghana",
+    "group": "L"
+  },
+  {
+    "code": "panama",
+    "name_cs": "Panama",
+    "name_en": "Panama",
+    "group": "L"
+  }
+]
