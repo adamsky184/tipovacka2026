@@ -1,6 +1,6 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v6.3.0 (tipovacka.html i landing) · 8. 8. 2026
+**Aktuální verze:** landing v6.4.0 · tipovacka.html v6.3.0 · 8. 8. 2026
 **Poslední session:** 8. 8. 2026
 
 ## Kde jsme

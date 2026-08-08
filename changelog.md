@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v6.4.0 - 8. 8. 2026 (landing only)
+
+**Landing polish — footer a hover efekty.** Jen `index.html`; `tipovacka.html`/`sw.js` nedotčené (archiv i PWA beze změny).
+
+- **Neon hover na turnajové karty** — decentní barevný ring + glow dle typu: archived zlatý (`rgba(245,158,11)`), planned modrý (`rgba(59,130,246)`). Navazuje na stávající lift + stín, plynulý přechod.
+- **AYDEA odkaz ve footeru** má konečně viditelný hover — dosud byl trvale modrý a `a:hover` na něm nebyl poznat. Nově bílá + modrý glow (v light tématu tmavě modrá), plus jemné podtržení na všech footer odkazech.
+- **Odstraněn duplicitní rok** — footer ukazoval `© 2026 … · v6.x · 2026`. Druhý výskyt je teď plné datum vydání: `© 2026 Tipovačka by AYDEA · v6.4.0 · 8. 8. 2026` (dvojjazyčně, EN `8 August 2026`), přes nové konstanty `APP_VERSION_DATE_CS/EN`.
+- **Footer zarovnán se šířkou obsahu** — border-top šel přes celý viewport, zatímco obsah končil na 1040 px. Nově `.ftr` má `max-width:1040px` a border-top sedí na `.aydea-ftr`, takže linka lícuje **přesně** s hranami turnajových karet a sekcí.
+- **Oprava překladu footer odkazů (bug)** — Podmínky/Zásady/Podpora zůstávaly v EN česky, protože odkazům chyběly atributy `data-i18n` (klíče `l_terms`/`l_priv`/`l_supp` v `T` existovaly, jen se nepoužívaly). Nyní EN → Terms · Privacy · Support. Odkazy zůstávají na landingu záměrně — Podmínky a Zásady musí být veřejně dostupné bez loginu (legal/GDPR).
+
 ## v6.3.0 - 8. 8. 2026
 
 **Admin přiřazení e-mailu hráči (recovery anchor).** Účty MS 2026 jsou jen jméno+PIN; e-mail je jediná cesta k obnovení při budoucí migraci auth/domény. Dosud šlo e-mail nastavit jen self-service (PIN hráče) → 3/13 hráčů. Nově admin doplní e-mail za hráče.

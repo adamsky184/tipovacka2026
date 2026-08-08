@@ -78,8 +78,8 @@ section{padding:26px 0}
 .tcard{background:linear-gradient(160deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:16px;padding:20px 18px 18px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)}
 .tcard::before{content:"";position:absolute;top:0;right:0;border-top:20px solid var(--bd2);border-left:20px solid transparent;opacity:.6}
 .tcard:hover{transform:translateY(-4px);border-color:var(--bd2);box-shadow:0 14px 34px rgba(0,0,0,.32)}
-.tcard.archived:hover{box-shadow:0 14px 34px rgba(245,158,11,.16)}
-.tcard.planned:hover{box-shadow:0 14px 34px rgba(59,130,246,.16)}
+.tcard.archived:hover{box-shadow:0 14px 34px rgba(245,158,11,.16),0 0 0 1px rgba(245,158,11,.35),0 0 18px rgba(245,158,11,.22)}
+.tcard.planned:hover{box-shadow:0 14px 34px rgba(59,130,246,.16),0 0 0 1px rgba(59,130,246,.35),0 0 18px rgba(59,130,246,.22)}
 .tcard .ic{font-size:2.1rem;line-height:1}
 .tcard .nm{font-weight:800;font-size:1.15rem;margin-top:6px;font-family:'Space Grotesk',sans-serif}
 .tcard .yr{color:var(--mu);font-size:.78rem}
@@ -148,12 +148,15 @@ section{padding:26px 0}
 .toast.err{background:var(--rd);color:#fff}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 /* footer AYDEA */
-.ftr{margin-top:34px;padding:18px;border-top:1px solid var(--bd);color:var(--mu2);font-size:.7rem}
-.aydea-ftr{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
+.ftr{margin:34px auto 0;max-width:1040px;padding:0 18px;color:var(--mu2);font-size:.7rem}
+.aydea-ftr{border-top:1px solid var(--bd);padding:18px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
 .aydea-ftr .ftr-copy,.aydea-ftr .ftr-links{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
-.aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
+.aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2);transition:.15s}
+.aydea-ftr .ftr-aydea:hover{color:#fff;text-shadow:0 0 10px rgba(96,165,250,.6)}
+body.theme-light .aydea-ftr .ftr-aydea:hover{color:#1d4ed8;text-shadow:0 0 10px rgba(37,99,235,.35)}
 .aydea-ftr .ftr-sep{opacity:.5}
-.aydea-ftr a:hover{color:var(--ac2)}
+.aydea-ftr a{transition:.15s}
+.aydea-ftr a:hover{color:var(--ac2);text-decoration:underline;text-underline-offset:2px}
 @media(max-width:560px){.hero h1{font-size:2.3rem}.aydea-ftr{flex-direction:column;align-items:center;text-align:center}.aydea-ftr .ftr-links{order:-1}}
 </style>
 </head>
@@ -225,15 +228,17 @@ section{padding:26px 0}
 
 <footer class="ftr">
   <div class="aydea-ftr">
-    <span class="ftr-copy">© <span id="ftr-year">2026</span> <a href="https://tipovacka.chabrycity.cz">Tipovačka</a> by <a class="ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ftr-ver">v6.2.0</span> <span class="ftr-sep">·</span> <span id="ftr-year2">2026</span></span>
-    <span class="ftr-links"><a href="/terms" id="l-terms">Podmínky</a> <span class="ftr-sep">·</span> <a href="/privacy" id="l-priv">Zásady</a> <span class="ftr-sep">·</span> <a href="mailto:support@aydea.app" id="l-supp">Podpora</a></span>
+    <span class="ftr-copy">© <span id="ftr-year">2026</span> <a href="https://tipovacka.chabrycity.cz">Tipovačka</a> by <a class="ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ftr-ver">v6.4.0</span> <span class="ftr-sep">·</span> <span id="ftr-date">8. 8. 2026</span></span>
+    <span class="ftr-links"><a href="/terms" id="l-terms" data-i18n="l_terms">Podmínky</a> <span class="ftr-sep">·</span> <a href="/privacy" id="l-priv" data-i18n="l_priv">Zásady</a> <span class="ftr-sep">·</span> <a href="mailto:support@aydea.app" id="l-supp" data-i18n="l_supp">Podpora</a></span>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-var APP_VERSION='v6.2.0';
+var APP_VERSION='v6.4.0';
+var APP_VERSION_DATE_CS='8. 8. 2026';
+var APP_VERSION_DATE_EN='8 August 2026';
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 
@@ -310,7 +315,8 @@ function statusBadge(s){ var cls=(s==='active'?'active':s==='planned'?'planned':
 
 function render(){
   var ty=String(new Date().getFullYear());
-  ['ftr-year','ftr-year2'].forEach(function(id){ var e=document.getElementById(id); if(e) e.textContent=ty; });
+  var fy=document.getElementById('ftr-year'); if(fy) fy.textContent=ty;
+  var fd=document.getElementById('ftr-date'); if(fd) fd.textContent=(LANG==='en'?APP_VERSION_DATE_EN:APP_VERSION_DATE_CS);
   var fv=document.getElementById('ftr-ver'); if(fv) fv.textContent=APP_VERSION;
   renderTurnaje(); renderHall(); renderAlltime(); renderStats(); setTicker(); setHeroCta();
   primeCounts(); observeCounts();
