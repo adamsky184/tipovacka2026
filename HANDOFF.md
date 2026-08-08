@@ -1,16 +1,17 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v6.1.0 landing (tipovacka.html archiv zůstává v6.0.0) · 8. 8. 2026
+**Aktuální verze:** v6.2.0 landing (tipovacka.html archiv zůstává v6.0.0) · 8. 8. 2026
 **Poslední session:** 8. 8. 2026
 
 ## Kde jsme
-MS 2026 dohráno a archivováno. **Landing `/` (index.html) přepracován na world-class low-poly** (v6.1.0): skutečné logo, faceted grafika, hero stat ticker s count-up, teasery AFCON 2027 + EURO 2028 s předběžným zájmem (RPC → `turnaj_zajem`), pódium síň slávy, all-time žebříček všech hráčů, 6 statistik. Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány, nezměněn). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
+MS 2026 dohráno a archivováno. Landing `/` (index.html) world-class low-poly (v6.1) + **rebrand-ready groundwork a teaser stránky (v6.2.0, NASAZENO)**: `config/ms2026.js` + `assets/seed/ms2026/*.json` (48 týmů / 104 zápasů / 16 stadionů, extrakt z tipovacka.html, validace `scripts/validate-seed.mjs`); samostatné teaser stránky **`/AFCON2027`** a **`/EURO2028`** (countdown, předběžný zájem → RPC, CZ/EN, dark/light), landing planned karty mají odkaz „Více info →". Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány, nezměněn). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
 
 ## Otevřené úkoly
-- [ ] **Branch `feat/v6.2-rebrand-ready` čeká na review + merge** (rebrand-ready config/seed + teaser stránky AFCON/EURO). Viz `docs/OVERNIGHT-REPORT.md`. Produkce zůstává v6.1.0, nic nenasazeno.
+- [x] v6.2.0 rebrand-ready config/seed + teaser stránky AFCON/EURO — **nasazeno** (merge `feat/v6.2-rebrand-ready`). Viz `docs/OVERNIGHT-REPORT.md`.
 - [x] Landing hub v6.0 (v6.0.0) + world-class redesign v6.1 (v6.1.0)
-- [ ] Sprint 2 v6.1+: config.js + seed JSONs (rebrand-ready pro další turnaj)
-- [ ] Až se rozjede AFCON/EURO: samostatné stránky `/AFCON2027` `/EURO2028` (dnes teaser vede na předběžný zájem); e-maily zájemců v `turnaj_zajem`
+- [ ] Ostrý test předběžného zájmu na produkci `/AFCON2027` + `/EURO2028` → ověřit `select count(*) from turnaj_zajem` (první reálný write RPC v produkci)
+- [ ] Loader: HTML čte z `config/seed` místo hardcoded polí — až na klonu pro nový turnaj (ne na archivu)
+- [ ] Až se rozjede AFCON/EURO: překlopit teaser na živý turnaj (nový Supabase projekt vs. reuse — viz `backend/sql/21_future_tournament.sql.draft`)
 - [ ] Migrace domény → tipovacka.aydea.app + Supabase Auth redirect (mimo repo, až se rozhodne)
 - [ ] Další turnaj: dropdown vítěze/střelce z `team_rosters` u extra tipů (budoucí)
 

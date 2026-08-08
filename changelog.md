@@ -2,9 +2,9 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
-## v6.2.0 - 8. 8. 2026 (branch `feat/v6.2-rebrand-ready`, NENASAZENO — čeká na review)
+## v6.2.0 - 8. 8. 2026 (NASAZENO)
 
-**Rebrand-ready architektura + teaser stránky.** Noční běh, vše na feature branchi, produkce nedotčena.
+**Rebrand-ready architektura + teaser stránky.** Vyvinuto na branchi `feat/v6.2-rebrand-ready`, zreviewováno a mergnuto do main (merge commit, `--no-ff`). `tipovacka.html`/`sw.js` nedotčené.
 
 - **Config extraction (fáze 1):** tournament data MS 2026 vytažená z `tipovacka.html` (bez její editace) do `config/ms2026.js` (`TOURNAMENT_CONFIG`: scoring, hosty, statistiky) + `assets/seed/ms2026/{teams,matches,stadiums}.json` (48 týmů, 104 zápasů, 16 stadionů). Generátor `scripts/gen-seed-ms2026.mjs` (jen čte), validace `scripts/validate-seed.mjs` (TEST GATE — seed == SZ/PZ/TEAMS, **PASS**), dokumentace `config/_schema.md`.
 - **Teaser stránky (fáze 2):** `AFCON2027/index.html` + `EURO2028/index.html` — samostatné coming-soon stránky s low-poly identitou (logo, faceted grafika), živým countdownem do výkopu, hostiteli+vlajkami, sekcí „Co to bude" a předběžným zájmem (RPC). Plná CZ/EN, dark/light, a11y, SEO, bez manifestu. `vercel.json` +rewrites `/AFCON2027` `/EURO2028` (vše ostatní zachováno).
