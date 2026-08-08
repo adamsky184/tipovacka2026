@@ -1,0 +1,1042 @@
+[
+  {
+    "id": 1,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Mexiko",
+    "team2": "Jihoafricka rep.",
+    "datetime": "2026-06-11T21:00",
+    "venue": "Mexico City / Azteca"
+  },
+  {
+    "id": 2,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Jizni Korea",
+    "team2": "Cesko",
+    "datetime": "2026-06-12T04:00",
+    "venue": "Guadalajara / Akron"
+  },
+  {
+    "id": 3,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Mexiko",
+    "team2": "Jizni Korea",
+    "datetime": "2026-06-19T03:00",
+    "venue": "Guadalajara / Akron"
+  },
+  {
+    "id": 4,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Cesko",
+    "team2": "Jihoafricka rep.",
+    "datetime": "2026-06-18T18:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 5,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Cesko",
+    "team2": "Mexiko",
+    "datetime": "2026-06-25T03:00",
+    "venue": "Mexico City / Azteca"
+  },
+  {
+    "id": 6,
+    "phase": "group",
+    "group": "A",
+    "round": null,
+    "team1": "Jihoafricka rep.",
+    "team2": "Jizni Korea",
+    "datetime": "2026-06-25T03:00",
+    "venue": "Monterrey / BBVA"
+  },
+  {
+    "id": 7,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Kanada",
+    "team2": "Bosna a Hercegovina",
+    "datetime": "2026-06-12T21:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 8,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Katar",
+    "team2": "Svycarsko",
+    "datetime": "2026-06-13T21:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 9,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Kanada",
+    "team2": "Katar",
+    "datetime": "2026-06-19T00:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 10,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Svycarsko",
+    "team2": "Bosna a Hercegovina",
+    "datetime": "2026-06-18T21:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 11,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Svycarsko",
+    "team2": "Kanada",
+    "datetime": "2026-06-24T21:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 12,
+    "phase": "group",
+    "group": "B",
+    "round": null,
+    "team1": "Bosna a Hercegovina",
+    "team2": "Katar",
+    "datetime": "2026-06-24T21:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 13,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Brazilie",
+    "team2": "Maroko",
+    "datetime": "2026-06-14T00:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 14,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Haiti",
+    "team2": "Skotsko",
+    "datetime": "2026-06-14T03:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 15,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Brazilie",
+    "team2": "Haiti",
+    "datetime": "2026-06-20T02:30",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 16,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Skotsko",
+    "team2": "Maroko",
+    "datetime": "2026-06-20T00:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 17,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Skotsko",
+    "team2": "Brazilie",
+    "datetime": "2026-06-25T00:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 18,
+    "phase": "group",
+    "group": "C",
+    "round": null,
+    "team1": "Maroko",
+    "team2": "Haiti",
+    "datetime": "2026-06-25T00:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 19,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "USA",
+    "team2": "Paraguay",
+    "datetime": "2026-06-13T03:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 20,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "Australie",
+    "team2": "Turecko",
+    "datetime": "2026-06-14T06:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 21,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "USA",
+    "team2": "Australie",
+    "datetime": "2026-06-19T21:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 22,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "Turecko",
+    "team2": "Paraguay",
+    "datetime": "2026-06-20T05:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 23,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "Turecko",
+    "team2": "USA",
+    "datetime": "2026-06-26T04:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 24,
+    "phase": "group",
+    "group": "D",
+    "round": null,
+    "team1": "Paraguay",
+    "team2": "Australie",
+    "datetime": "2026-06-26T04:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 25,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Nemecko",
+    "team2": "Curacao",
+    "datetime": "2026-06-14T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 26,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Pobrezi slonoviny",
+    "team2": "Ekvador",
+    "datetime": "2026-06-15T01:00",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 27,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Ekvador",
+    "team2": "Nemecko",
+    "datetime": "2026-06-25T22:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 28,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Curacao",
+    "team2": "Pobrezi slonoviny",
+    "datetime": "2026-06-25T22:00",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 29,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Nemecko",
+    "team2": "Pobrezi slonoviny",
+    "datetime": "2026-06-20T22:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 30,
+    "phase": "group",
+    "group": "E",
+    "round": null,
+    "team1": "Ekvador",
+    "team2": "Curacao",
+    "datetime": "2026-06-21T02:00",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 31,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Nizozemsko",
+    "team2": "Japonsko",
+    "datetime": "2026-06-14T22:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 32,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Svedsko",
+    "team2": "Tunisko",
+    "datetime": "2026-06-15T04:00",
+    "venue": "Monterrey / BBVA"
+  },
+  {
+    "id": 33,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Tunisko",
+    "team2": "Nizozemsko",
+    "datetime": "2026-06-26T01:00",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 34,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Japonsko",
+    "team2": "Svedsko",
+    "datetime": "2026-06-26T01:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 35,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Tunisko",
+    "team2": "Japonsko",
+    "datetime": "2026-06-21T06:00",
+    "venue": "Monterrey / BBVA"
+  },
+  {
+    "id": 36,
+    "phase": "group",
+    "group": "F",
+    "round": null,
+    "team1": "Nizozemsko",
+    "team2": "Svedsko",
+    "datetime": "2026-06-20T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 37,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Belgie",
+    "team2": "Egypt",
+    "datetime": "2026-06-15T21:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 38,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Iran",
+    "team2": "Novy Zeland",
+    "datetime": "2026-06-16T03:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 39,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Novy Zeland",
+    "team2": "Belgie",
+    "datetime": "2026-06-27T05:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 40,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Egypt",
+    "team2": "Iran",
+    "datetime": "2026-06-27T05:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 41,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Belgie",
+    "team2": "Iran",
+    "datetime": "2026-06-21T21:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 42,
+    "phase": "group",
+    "group": "G",
+    "round": null,
+    "team1": "Novy Zeland",
+    "team2": "Egypt",
+    "datetime": "2026-06-22T03:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 43,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Spanelsko",
+    "team2": "Kapverdy",
+    "datetime": "2026-06-15T18:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 44,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Saudska Arabie",
+    "team2": "Uruguay",
+    "datetime": "2026-06-16T00:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 45,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Spanelsko",
+    "team2": "Saudska Arabie",
+    "datetime": "2026-06-21T18:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 46,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Uruguay",
+    "team2": "Kapverdy",
+    "datetime": "2026-06-22T00:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 47,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Uruguay",
+    "team2": "Spanelsko",
+    "datetime": "2026-06-27T02:00",
+    "venue": "Guadalajara / Akron"
+  },
+  {
+    "id": 48,
+    "phase": "group",
+    "group": "H",
+    "round": null,
+    "team1": "Kapverdy",
+    "team2": "Saudska Arabie",
+    "datetime": "2026-06-27T02:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 49,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Francie",
+    "team2": "Senegal",
+    "datetime": "2026-06-16T21:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 50,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Irak",
+    "team2": "Norsko",
+    "datetime": "2026-06-17T00:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 51,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Francie",
+    "team2": "Irak",
+    "datetime": "2026-06-22T23:00",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 52,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Norsko",
+    "team2": "Senegal",
+    "datetime": "2026-06-23T02:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 53,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Norsko",
+    "team2": "Francie",
+    "datetime": "2026-06-26T21:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 54,
+    "phase": "group",
+    "group": "I",
+    "round": null,
+    "team1": "Senegal",
+    "team2": "Irak",
+    "datetime": "2026-06-26T21:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 55,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Argentina",
+    "team2": "Alzirsko",
+    "datetime": "2026-06-17T03:00",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 56,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Rakousko",
+    "team2": "Jordansko",
+    "datetime": "2026-06-17T06:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 57,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Jordansko",
+    "team2": "Argentina",
+    "datetime": "2026-06-28T04:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 58,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Alzirsko",
+    "team2": "Rakousko",
+    "datetime": "2026-06-28T04:00",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 59,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Argentina",
+    "team2": "Rakousko",
+    "datetime": "2026-06-22T19:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 60,
+    "phase": "group",
+    "group": "J",
+    "round": null,
+    "team1": "Jordansko",
+    "team2": "Alzirsko",
+    "datetime": "2026-06-23T05:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 61,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "Portugalsko",
+    "team2": "DR Kongo",
+    "datetime": "2026-06-17T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 62,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "Uzbekistan",
+    "team2": "Kolumbie",
+    "datetime": "2026-06-18T04:00",
+    "venue": "Mexico City / Azteca"
+  },
+  {
+    "id": 63,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "Kolumbie",
+    "team2": "Portugalsko",
+    "datetime": "2026-06-28T01:30",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 64,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "DR Kongo",
+    "team2": "Uzbekistan",
+    "datetime": "2026-06-28T01:30",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 65,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "Portugalsko",
+    "team2": "Uzbekistan",
+    "datetime": "2026-06-23T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 66,
+    "phase": "group",
+    "group": "K",
+    "round": null,
+    "team1": "Kolumbie",
+    "team2": "DR Kongo",
+    "datetime": "2026-06-24T04:00",
+    "venue": "Guadalajara / Akron"
+  },
+  {
+    "id": 67,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Anglie",
+    "team2": "Chorvatsko",
+    "datetime": "2026-06-17T22:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 68,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Ghana",
+    "team2": "Panama",
+    "datetime": "2026-06-18T01:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 69,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Anglie",
+    "team2": "Ghana",
+    "datetime": "2026-06-23T22:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 70,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Panama",
+    "team2": "Chorvatsko",
+    "datetime": "2026-06-24T01:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 71,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Panama",
+    "team2": "Anglie",
+    "datetime": "2026-06-27T23:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 72,
+    "phase": "group",
+    "group": "L",
+    "round": null,
+    "team1": "Chorvatsko",
+    "team2": "Ghana",
+    "datetime": "2026-06-27T23:00",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 73,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "2. sk.A",
+    "team2": "2. sk.B",
+    "datetime": "2026-06-28T21:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 74,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.C",
+    "team2": "2. sk.F",
+    "datetime": "2026-06-29T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 75,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.E",
+    "team2": "3. nejl.",
+    "datetime": "2026-06-29T22:30",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 76,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.F",
+    "team2": "2. sk.C",
+    "datetime": "2026-06-30T03:00",
+    "venue": "Monterrey / BBVA"
+  },
+  {
+    "id": 77,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "2. sk.E",
+    "team2": "2. sk.I",
+    "datetime": "2026-06-30T19:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 78,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.I",
+    "team2": "3. nejl.",
+    "datetime": "2026-06-30T23:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 79,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.A",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-01T03:00",
+    "venue": "Mexico City / Azteca"
+  },
+  {
+    "id": 80,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.L",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-01T18:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 81,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.G",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-01T22:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 82,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.D",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-02T02:00",
+    "venue": "San Francisco / Levi's"
+  },
+  {
+    "id": 83,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.H",
+    "team2": "2. sk.J",
+    "datetime": "2026-07-02T21:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 84,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "2. sk.K",
+    "team2": "2. sk.L",
+    "datetime": "2026-07-03T01:00",
+    "venue": "Toronto / BMO Field"
+  },
+  {
+    "id": 85,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.B",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-03T05:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 86,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "2. sk.D",
+    "team2": "2. sk.G",
+    "datetime": "2026-07-03T20:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 87,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.J",
+    "team2": "2. sk.H",
+    "datetime": "2026-07-04T00:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 88,
+    "phase": "playoff",
+    "group": null,
+    "round": "16F",
+    "team1": "1. sk.K",
+    "team2": "3. nejl.",
+    "datetime": "2026-07-04T03:30",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 89,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z73",
+    "team2": "Vitez Z76",
+    "datetime": "2026-07-04T19:00",
+    "venue": "Houston / NRG"
+  },
+  {
+    "id": 90,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z75",
+    "team2": "Vitez Z78",
+    "datetime": "2026-07-04T23:00",
+    "venue": "Philadelphia / Lincoln Financial"
+  },
+  {
+    "id": 91,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z74",
+    "team2": "Vitez Z77",
+    "datetime": "2026-07-05T22:00",
+    "venue": "New York / MetLife"
+  },
+  {
+    "id": 92,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z79",
+    "team2": "Vitez Z80",
+    "datetime": "2026-07-06T02:00",
+    "venue": "Mexico City / Azteca"
+  },
+  {
+    "id": 93,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z83",
+    "team2": "Vitez Z84",
+    "datetime": "2026-07-06T21:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 94,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z81",
+    "team2": "Vitez Z82",
+    "datetime": "2026-07-07T02:00",
+    "venue": "Seattle / Lumen Field"
+  },
+  {
+    "id": 95,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z86",
+    "team2": "Vitez Z87",
+    "datetime": "2026-07-07T18:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 96,
+    "phase": "playoff",
+    "group": null,
+    "round": "OF",
+    "team1": "Vitez Z85",
+    "team2": "Vitez Z88",
+    "datetime": "2026-07-07T22:00",
+    "venue": "Vancouver / BC Place"
+  },
+  {
+    "id": 97,
+    "phase": "playoff",
+    "group": null,
+    "round": "CF",
+    "team1": "Vitez OF1",
+    "team2": "Vitez OF2",
+    "datetime": "2026-07-09T22:00",
+    "venue": "Boston / Gillette"
+  },
+  {
+    "id": 98,
+    "phase": "playoff",
+    "group": null,
+    "round": "CF",
+    "team1": "Vitez OF5",
+    "team2": "Vitez OF6",
+    "datetime": "2026-07-10T21:00",
+    "venue": "Los Angeles / SoFi"
+  },
+  {
+    "id": 99,
+    "phase": "playoff",
+    "group": null,
+    "round": "CF",
+    "team1": "Vitez OF3",
+    "team2": "Vitez OF4",
+    "datetime": "2026-07-11T23:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 100,
+    "phase": "playoff",
+    "group": null,
+    "round": "CF",
+    "team1": "Vitez OF7",
+    "team2": "Vitez OF8",
+    "datetime": "2026-07-12T03:00",
+    "venue": "Kansas City / Arrowhead"
+  },
+  {
+    "id": 101,
+    "phase": "playoff",
+    "group": null,
+    "round": "SF",
+    "team1": "Vitez CF1",
+    "team2": "Vitez CF2",
+    "datetime": "2026-07-14T21:00",
+    "venue": "Dallas / AT&T"
+  },
+  {
+    "id": 102,
+    "phase": "playoff",
+    "group": null,
+    "round": "SF",
+    "team1": "Vitez CF3",
+    "team2": "Vitez CF4",
+    "datetime": "2026-07-15T21:00",
+    "venue": "Atlanta / Mercedes-Benz"
+  },
+  {
+    "id": 103,
+    "phase": "playoff",
+    "group": null,
+    "round": "O3",
+    "team1": "Porazeny SF1",
+    "team2": "Porazeny SF2",
+    "datetime": "2026-07-18T23:00",
+    "venue": "Miami / Hard Rock"
+  },
+  {
+    "id": 104,
+    "phase": "playoff",
+    "group": null,
+    "round": "FIN",
+    "team1": "Vitez SF1",
+    "team2": "Vitez SF2",
+    "datetime": "2026-07-19T21:00",
+    "venue": "New York / MetLife"
+  }
+]

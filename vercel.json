@@ -10,6 +10,14 @@
       "destination": "/tipovacka.html"
     },
     {
+      "source": "/AFCON2027",
+      "destination": "/AFCON2027/index.html"
+    },
+    {
+      "source": "/EURO2028",
+      "destination": "/EURO2028/index.html"
+    },
+    {
       "source": "/terms",
       "destination": "/terms.html"
     },

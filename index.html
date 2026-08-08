@@ -95,6 +95,8 @@ section{padding:26px 0}
 .tcard.archived .go{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(245,158,11,.06));border-color:rgba(245,158,11,.4);color:var(--gd2)}
 .tcard.archived .go:hover{background:rgba(245,158,11,.22)}
 .tcard.planned .go:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.1)}
+.tcard .go.go-info{margin-top:8px;background:transparent;border-color:var(--bd);color:var(--mu2);font-size:.78rem;padding:8px 14px}
+.tcard .go.go-info:hover{border-color:var(--ac);color:var(--ac2);background:transparent}
 /* interest form */
 .zajem{margin-top:10px;display:none}
 .zajem.open{display:block;animation:slidein .25s ease}
@@ -231,7 +233,7 @@ section{padding:26px 0}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-var APP_VERSION='v6.1.0';
+var APP_VERSION='v6.2.0';
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 
@@ -251,7 +253,7 @@ var T={
     st_hraci:'tipérů',st_turnaje:'turnajů',st_zapasy:'zápasů',st_tipy:'tipů celkem',st_max:'nejvyšší skóre',st_avg:'průměr vítězů',loading:'Načítám…',
     b_archived:'Dohráno',b_active:'Probíhá',b_planned:'Již brzy',
     champ:'Šampion',winner:'Vítěz tipovačky',players:'tipérů',matches:'zápasů',teams_l:'týmů',kickoff:'Výkop',
-    open_archive:'Otevřít archiv',open:'Otevřít',interest:'Předběžný zájem',interest_cta:'Předběžný zájem',
+    open_archive:'Otevřít archiv',open:'Otevřít',interest:'Předběžný zájem',interest_cta:'Předběžný zájem',more_info:'Více info',
     at_tourn:'turnajů',at_tourn1:'turnaj',pts:'b',
     z_ph:'tvůj e-mail',z_send:'Chci vědět',z_hint:'Dáme ti vědět, až se rozjede přihlašování. Žádný spam.',
     z_ok:'Díky! Dáme vědět.',z_bad:'Zadej platný e-mail.',z_err:'Nepodařilo se odeslat, zkus to znovu.',
@@ -263,7 +265,7 @@ var T={
     st_hraci:'players',st_turnaje:'tournaments',st_zapasy:'matches',st_tipy:'total predictions',st_max:'highest score',st_avg:'winners avg',loading:'Loading…',
     b_archived:'Finished',b_active:'Live',b_planned:'Coming soon',
     champ:'Champion',winner:'League winner',players:'players',matches:'matches',teams_l:'teams',kickoff:'Kick-off',
-    open_archive:'Open archive',open:'Open',interest:'Register interest',interest_cta:'Register interest',
+    open_archive:'Open archive',open:'Open',interest:'Register interest',interest_cta:'Register interest',more_info:'More info',
     at_tourn:'tournaments',at_tourn1:'tournament',pts:'pts',
     z_ph:'your e-mail',z_send:'Notify me',z_hint:"We'll let you know when sign-ups open. No spam.",
     z_ok:'Thanks! We\'ll be in touch.',z_bad:'Enter a valid e-mail.',z_err:'Could not send, try again.',
@@ -335,10 +337,12 @@ function renderTurnaje(){
         (tr.start_date?'📅 '+t('kickoff')+': <b>'+fmtDate(tr.start_date)+'</b><br>':'')+
         (ts.teams?'👥 '+ts.teams+' '+t('teams_l'):'')+
         (note?'<br><span class="note">'+esc(note)+'</span>':'');
+      var moreUrl=tr.url_path||('/'+tr.id);
       btn='<button class="go" type="button" data-zajem="'+esc(tr.id)+'">✉️ '+t('interest_cta')+'</button>';
       zaj='<div class="zajem" id="z-'+esc(tr.id)+'">'+
         '<form data-zform="'+esc(tr.id)+'"><input type="email" required placeholder="'+t('z_ph')+'" aria-label="'+t('z_ph')+'"><button type="submit">'+t('z_send')+'</button></form>'+
-        '<div class="hint">'+t('z_hint')+'</div></div>';
+        '<div class="hint">'+t('z_hint')+'</div></div>'+
+        '<a class="go go-info" href="'+esc(moreUrl)+'">'+t('more_info')+' →</a>';
     } else {
       info=t('b_active'); btn='<a class="go" href="'+esc(tr.url_path||('/'+tr.id))+'">'+t('open')+' →</a>';
     }

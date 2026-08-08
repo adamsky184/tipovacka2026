@@ -2,6 +2,16 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v6.2.0 - 8. 8. 2026 (branch `feat/v6.2-rebrand-ready`, NENASAZENO — čeká na review)
+
+**Rebrand-ready architektura + teaser stránky.** Noční běh, vše na feature branchi, produkce nedotčena.
+
+- **Config extraction (fáze 1):** tournament data MS 2026 vytažená z `tipovacka.html` (bez její editace) do `config/ms2026.js` (`TOURNAMENT_CONFIG`: scoring, hosty, statistiky) + `assets/seed/ms2026/{teams,matches,stadiums}.json` (48 týmů, 104 zápasů, 16 stadionů). Generátor `scripts/gen-seed-ms2026.mjs` (jen čte), validace `scripts/validate-seed.mjs` (TEST GATE — seed == SZ/PZ/TEAMS, **PASS**), dokumentace `config/_schema.md`.
+- **Teaser stránky (fáze 2):** `AFCON2027/index.html` + `EURO2028/index.html` — samostatné coming-soon stránky s low-poly identitou (logo, faceted grafika), živým countdownem do výkopu, hostiteli+vlajkami, sekcí „Co to bude" a předběžným zájmem (RPC). Plná CZ/EN, dark/light, a11y, SEO, bez manifestu. `vercel.json` +rewrites `/AFCON2027` `/EURO2028` (vše ostatní zachováno).
+- **Landing (fáze 3):** planned karty mají navíc odkaz „Více info →" na teaser stránky; bump `APP_VERSION` na v6.2.0.
+- **Dokumentace (fáze 4):** aktualizovaný `docs/rebrand-guide.md`, `backend/sql/21_future_tournament.sql.draft` (reference, nespuštěno), `docs/OVERNIGHT-REPORT.md`.
+- **Bez DB write, bez editace `tipovacka.html`, bez deploye.** Formuláře zájmu ověřeny přes fetch stub (žádný reálný zápis). Datumy ověřeny web searchem (AFCON 19. 6. 2027; EURO 9. 6. 2028, hostitelé Anglie/Skotsko/Wales/Irsko — Sev. Irsko vypadlo).
+
 ## v6.1.0 - 8. 8. 2026
 
 **Landing world-class redesign.** Kompletní přepracování `/` (index.html) do low-poly vizuálního jazyka konzistentního s AYDEA logem.
