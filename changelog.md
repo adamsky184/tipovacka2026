@@ -2,6 +2,14 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v6.3.0 - 8. 8. 2026
+
+**Admin přiřazení e-mailu hráči (recovery anchor).** Účty MS 2026 jsou jen jméno+PIN; e-mail je jediná cesta k obnovení při budoucí migraci auth/domény. Dosud šlo e-mail nastavit jen self-service (PIN hráče) → 3/13 hráčů. Nově admin doplní e-mail za hráče.
+
+- **DB (aditivní):** `admin_set_email_secure(admin_id, admin_pin, target_id, email)` — admin ověří SVŮJ PIN (bcrypt/legacy sha256+aliasy, kopie z `admin_reset_pin_secure`), pak upsert/odebrání do `hrac_emaily` (validace formátu jako `set_email_secure`, ochrana proti duplicitě). `admin_list_emails_secure(admin_id, admin_pin)` — read pro admin UI (RLS jinak čtení blokuje). Píše jen do `hrac_emaily`. Viz `backend/sql/22`.
+- **Admin UI (tipovacka.html):** v přehledové tabulce hráčů nový sloupec **E-mail** + tlačítko „✉️ Přiřadit/Upravit" u každého hráče (prompt → RPC → refresh). Coverage indikátor „📧 X/13 hráčů má e-mail". Prázdný e-mail = odebrat (s potvrzením). Chyby lokalizované CZ/EN. Ne-admin pohled beze změny.
+- Bump `APP_VERSION` + `CACHE_VERSION` na v6.3.0. Reálné e-maily hráčů doplňuje Adam sám průběžně.
+
 ## v6.2.0 - 8. 8. 2026 (NASAZENO)
 
 **Rebrand-ready architektura + teaser stránky.** Vyvinuto na branchi `feat/v6.2-rebrand-ready`, zreviewováno a mergnuto do main (merge commit, `--no-ff`). `tipovacka.html`/`sw.js` nedotčené.

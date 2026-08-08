@@ -1,13 +1,14 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v6.2.0 landing (tipovacka.html archiv zůstává v6.0.0) · 8. 8. 2026
+**Aktuální verze:** v6.3.0 (tipovacka.html i landing) · 8. 8. 2026
 **Poslední session:** 8. 8. 2026
 
 ## Kde jsme
-MS 2026 dohráno a archivováno. Landing `/` (index.html) world-class low-poly (v6.1) + **rebrand-ready groundwork a teaser stránky (v6.2.0, NASAZENO)**: `config/ms2026.js` + `assets/seed/ms2026/*.json` (48 týmů / 104 zápasů / 16 stadionů, extrakt z tipovacka.html, validace `scripts/validate-seed.mjs`); samostatné teaser stránky **`/AFCON2027`** a **`/EURO2028`** (countdown, předběžný zájem → RPC, CZ/EN, dark/light), landing planned karty mají odkaz „Více info →". Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány, nezměněn). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
+MS 2026 dohráno a archivováno. Landing `/` (index.html) world-class low-poly (v6.1) + rebrand-ready groundwork a teaser stránky `/AFCON2027` `/EURO2028` (v6.2). **v6.3.0: admin může přiřadit e-mail hráči** (recovery anchor) — v tipovacka.html admin sekci sloupec E-mail + „✉️ Přiřadit/Upravit" + coverage „X/13", přes RPC `admin_set_email_secure`/`admin_list_emails_secure`. Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
 
 ## Otevřené úkoly
-- [x] v6.2.0 rebrand-ready config/seed + teaser stránky AFCON/EURO — **nasazeno** (merge `feat/v6.2-rebrand-ready`). Viz `docs/OVERNIGHT-REPORT.md`.
+- [x] v6.3.0 admin UI pro e-maily hotové — Adam doplňuje e-maily hráčů průběžně (3/13 → cíl 13/13) přes admin sekci
+- [x] v6.2.0 rebrand-ready config/seed + teaser stránky AFCON/EURO — **nasazeno**. Viz `docs/OVERNIGHT-REPORT.md`.
 - [x] Landing hub v6.0 (v6.0.0) + world-class redesign v6.1 (v6.1.0)
 - [ ] Ostrý test předběžného zájmu na produkci `/AFCON2027` + `/EURO2028` → ověřit `select count(*) from turnaj_zajem` (první reálný write RPC v produkci)
 - [ ] Loader: HTML čte z `config/seed` místo hardcoded polí — až na klonu pro nový turnaj (ne na archivu)
