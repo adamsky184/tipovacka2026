@@ -1,0 +1,30 @@
+-- 21 · DRAFT / REFERENCE — NESPOUŠTĚT.
+-- Groundwork v6.2: co by budoucí turnaj (AFCON 2027 / EURO 2028 / …) potřeboval v DB,
+-- až se z teaseru stane živý turnaj. Přípona .sql.draft = tento soubor se NEaplikuje
+-- žádným migračním nástrojem; slouží jen jako reference pro ranní rozhodnutí Adama.
+--
+-- Kontext: v6.1.0 už existuje `turnaje` (+status/url_path/…/pocet_tipu) a `turnaj_zajem`
+-- + RPC zapis_zajem_secure. Teasery afcon2027/euro2028 jsou už INSERTnuté (status='planned').
+--
+-- DŮLEŽITÉ ROZHODNUTÍ (viz rebrand-guide): každý turnaj = VLASTNÍ Supabase projekt
+-- (žádné mixování hráčů/tipů mezi ročníky). Tzn. `hrace`/`tipy` se NErozšiřují o turnaj_id;
+-- místo toho se klonuje celý projekt. Následující je proto jen pro landing/rozcestník
+-- (společná tabulka `turnaje`), NE pro herní data.
+
+-- Až AFCON 2027 přejde z teaseru na živý turnaj (v cílovém, novém projektu):
+--   1) v novém Supabase projektu aplikovat migrace 02..20 (jako u MS 2026)
+--   2) v landing DB jen překlopit status teaseru:
+-- update public.turnaje
+--   set status='active', url_path='https://tipovacka-afcon2027.<host>'  -- odkaz na živou instanci
+--   where id='afcon2027';
+--
+--   3) po skončení turnaje archivovat (jako ms2026):
+-- update public.turnaje set status='archived', sampion=<vítěz>, tiper_sampion=<vítěz tipovačky>,
+--   pocet_hracu=<n>, pocet_zapasu=52, pocet_tipu=<n> where id='afcon2027';
+-- insert into public.turnaj_archiv (turnaj_id, jmeno, poradi, body, extra_body) values (...);  -- výsledná tabulka
+
+-- E-maily předběžného zájmu (sběr běží už teď přes zapis_zajem_secure):
+--   select turnaj_id, count(*) from public.turnaj_zajem group by 1 order by 1;  -- (SELECT je bezpečný)
+
+-- Poznámka: nic z výše uvedeného nespouštěj automaticky — vyžaduje rozhodnutí,
+-- kdy a kam se turnaj rozjede (nový projekt vs. reuse), a je mimo rozsah nočního běhu.

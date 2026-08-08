@@ -32,6 +32,37 @@ Aktuální v5.x je hardcoded na MS 2026. Pro Euro 2028 / MS 2030 / jakýkoli dal
 | Hráči | každý turnaj nová DB → hráči se znovu registrují (žádný carry-over) |
 | Branding | colors v CSS variables (root), title v HTML, app_title v T.cs/T.en |
 
+## v6.2 — config-driven groundwork (HOTOVO, branch feat/v6.2-rebrand-ready)
+
+První krok skutečného rebrandu: tournament-specific data MS 2026 jsou vytažená
+z `tipovacka.html` do strukturovaných souborů (bez jakékoli změny `tipovacka.html`).
+
+**Soubory pro jeden turnaj `<id>`:**
+```
+config/<id>.js                  # window.TOURNAMENT_CONFIG (scoring, hosty, statistiky)
+assets/seed/<id>/teams.json     # týmy + skupiny
+assets/seed/<id>/matches.json   # zápasy (group + playoff)
+assets/seed/<id>/stadiums.json  # stadiony
+```
+Formát detailně: **`config/_schema.md`**.
+
+**Nástroje:**
+```bash
+node scripts/gen-seed-ms2026.mjs   # extrahuje seed z tipovacka.html (jen čte)
+node scripts/validate-seed.mjs     # TEST GATE: seed == SZ/PZ/TEAMS  (exit 0 = PASS)
+```
+
+**Rebrand na nový turnaj (cílový proces):**
+1. `config/<id>.js` — vyplň data nového turnaje dle `_schema.md`
+2. `assets/seed/<id>/*.json` — týmy, zápasy, stadiony (obdoba generátoru, nebo ručně)
+3. napiš/uprav validaci a spusť → PASS
+4. nový Supabase projekt + nový GitHub repo (viz checklist níže)
+5. (budoucí krok) loader v HTML: čte z configu místo hardcoded `SZ`/`PZ`/`TEAMS`
+
+> ⚠️ Loader zatím NEEXISTUJE — `tipovacka.html` má data stále hardcoded a je to
+> zmrazený archiv MS 2026 (needitovat). Config/seed jsou zatím jen datová příprava
+> a zdroj pro landing/teaser stránky. Loader se implementuje na klonu pro nový turnaj.
+
 ## Plán v6.0 (cestovní mapa pro snadný rebrand)
 
 Aktuální v5.1 zatím vyžaduje editovat HTML. Verze v6.0 plánovaná **po MS 2026** udělá:

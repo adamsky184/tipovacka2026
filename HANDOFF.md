@@ -7,6 +7,7 @@
 MS 2026 dohráno a archivováno. **Landing `/` (index.html) přepracován na world-class low-poly** (v6.1.0): skutečné logo, faceted grafika, hero stat ticker s count-up, teasery AFCON 2027 + EURO 2028 s předběžným zájmem (RPC → `turnaj_zajem`), pódium síň slávy, all-time žebříček všech hráčů, 6 statistik. Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány, nezměněn). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
 
 ## Otevřené úkoly
+- [ ] **Branch `feat/v6.2-rebrand-ready` čeká na review + merge** (rebrand-ready config/seed + teaser stránky AFCON/EURO). Viz `docs/OVERNIGHT-REPORT.md`. Produkce zůstává v6.1.0, nic nenasazeno.
 - [x] Landing hub v6.0 (v6.0.0) + world-class redesign v6.1 (v6.1.0)
 - [ ] Sprint 2 v6.1+: config.js + seed JSONs (rebrand-ready pro další turnaj)
 - [ ] Až se rozjede AFCON/EURO: samostatné stránky `/AFCON2027` `/EURO2028` (dnes teaser vede na předběžný zájem); e-maily zájemců v `turnaj_zajem`
