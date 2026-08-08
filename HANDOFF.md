@@ -1,14 +1,15 @@
 # Handoff - Tipovačka
 
-**Aktuální verze:** v6.0.0 · 8. 8. 2026
+**Aktuální verze:** v6.1.0 landing (tipovacka.html archiv zůstává v6.0.0) · 8. 8. 2026
 **Poslední session:** 8. 8. 2026
 
 ## Kde jsme
-MS 2026 dohráno a archivováno. Nově **landing hub na `/`** (`index.html`) - rozcestník turnajů, síň slávy, all-time žebříček; archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány). Single-file vanilla JS (`tipovacka.html`) + statický landing + Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Vše funkční, zálohované, footer AYDEA.
+MS 2026 dohráno a archivováno. **Landing `/` (index.html) přepracován na world-class low-poly** (v6.1.0): skutečné logo, faceted grafika, hero stat ticker s count-up, teasery AFCON 2027 + EURO 2028 s předběžným zájmem (RPC → `turnaj_zajem`), pódium síň slávy, all-time žebříček všech hráčů, 6 statistik. Archiv MS 2026 na `/ms2026` (= `/tipovacka.html`, PWA installs zachovány, nezměněn). Supabase (`xzleb…` SDÍLENÝ s GIGS) + Vercel. Zálohované, footer AYDEA.
 
 ## Otevřené úkoly
-- [x] Landing hub v6.0 - hotovo (v6.0.0): index.html, rozcestník + síň slávy + all-time
-- [ ] Sprint 2 v6.1: config.js + seed JSONs (rebrand-ready pro další turnaj)
+- [x] Landing hub v6.0 (v6.0.0) + world-class redesign v6.1 (v6.1.0)
+- [ ] Sprint 2 v6.1+: config.js + seed JSONs (rebrand-ready pro další turnaj)
+- [ ] Až se rozjede AFCON/EURO: samostatné stránky `/AFCON2027` `/EURO2028` (dnes teaser vede na předběžný zájem); e-maily zájemců v `turnaj_zajem`
 - [ ] Migrace domény → tipovacka.aydea.app + Supabase Auth redirect (mimo repo, až se rozhodne)
 - [ ] Další turnaj: dropdown vítěze/střelce z `team_rosters` u extra tipů (budoucí)
 

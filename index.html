@@ -20,72 +20,131 @@
 <link rel="icon" type="image/svg+xml" href="./assets/icons/logo-tipovacka.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--pu:#a855f7}
-body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--pu:#7c3aed}
+:root{--bg:#0a1524;--bg2:#122235;--bg3:#111f30;--bg4:#172840;--bd:#1c3050;--bd2:#254266;--tx:#eef5ff;--mu:#7fa3c7;--mu2:#8fb2d3;--ac:#3b82f6;--ac2:#60a5fa;--gn:#22c55e;--gn2:#4ade80;--rd:#ef4444;--gd:#f59e0b;--gd2:#fbbf24;--pu:#a855f7}
+body.theme-light{--bg:#f3f7fc;--bg2:#ffffff;--bg3:#f6f9fd;--bg4:#edf3fb;--bd:#d7e3f0;--bd2:#bfd1e6;--tx:#102133;--mu:#5f7690;--mu2:#6f86a0;--ac:#2563eb;--ac2:#3b82f6;--gn:#16a34a;--gn2:#16a34a;--rd:#dc2626;--gd:#d97706;--gd2:#f59e0b;--pu:#7c3aed}
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#070f1b}
-body{background:radial-gradient(ellipse at top,#0d1b2e,#070f1b);color:var(--tx);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;min-height:100vh}
+body{background:radial-gradient(ellipse at top,#0d1b2e,#070f1b);color:var(--tx);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
 body.theme-light{background:radial-gradient(ellipse at top,#ffffff,#eef4fb)}
 h1,h2,h3,.brand{font-family:'Space Grotesk','Inter',sans-serif}
 a{color:inherit;text-decoration:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .wrap{max-width:1040px;margin:0 auto;padding:0 18px}
 /* topbar */
-.top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;max-width:1040px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;max-width:1040px;margin:0 auto;position:relative;z-index:3}
 .top-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem}
-.top-logo img{width:30px;height:30px;border-radius:8px}
+.top-logo img{width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(245,158,11,.35))}
 .top-ctrls{display:flex;gap:8px}
-.tbtn{border:1px solid var(--bd2);background:var(--bg2);color:var(--mu2);border-radius:10px;padding:6px 11px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.tbtn{border:1px solid var(--bd2);background:var(--bg2);color:var(--mu2);border-radius:10px;padding:6px 11px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
 .tbtn:hover{border-color:var(--ac);color:var(--ac2)}
+.tbtn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px}
 /* hero */
-.hero{text-align:center;padding:40px 18px 30px}
-.hero .logo-lg{font-size:3rem;line-height:1;margin-bottom:8px}
-.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:.01em}
-.hero .sub{color:var(--mu2);font-size:1.05rem;margin-top:8px}
-.hero .cta{display:inline-block;margin-top:22px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-weight:800;padding:13px 28px;border-radius:14px;box-shadow:0 8px 24px rgba(37,99,235,.35);font-size:.95rem}
-.hero .cta:hover{filter:brightness(1.08)}
+.hero{position:relative;text-align:center;padding:34px 18px 34px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55}
+body.theme-light .hero-bg{opacity:.4}
+.hero-in{position:relative;z-index:1}
+.hero .logo-lg{width:88px;height:88px;margin:0 auto 10px;filter:drop-shadow(0 0 26px rgba(245,158,11,.55)) drop-shadow(0 6px 14px rgba(0,0,0,.4));animation:floaty 5.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hero h1{font-size:2.9rem;font-weight:700;letter-spacing:.01em;line-height:1.05}
+.hero .sub{color:var(--mu2);font-size:1.08rem;margin-top:8px}
+/* stat ticker */
+.ticker{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:20px auto 0;max-width:560px}
+.tick{display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:8px 15px;min-width:78px}
+.tick b{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--gd2);line-height:1.1}
+.tick span{font-size:.66rem;color:var(--mu2);text-transform:uppercase;letter-spacing:.05em}
+.cta-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
+.cta{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gd),var(--gd2));color:#3a2606;font-weight:800;padding:13px 26px;border-radius:14px;box-shadow:0 8px 26px rgba(245,158,11,.35);font-size:.95rem;cursor:pointer;border:none;font-family:inherit;transition:.16s}
+.cta:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.cta:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.cta.ghost{background:transparent;color:var(--ac2);border:1px solid var(--bd2);box-shadow:none}
+.cta.ghost:hover{border-color:var(--ac);background:var(--bg2)}
 /* section */
 section{padding:26px 0}
-.sec-h{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:800;margin-bottom:16px}
-.sec-h .line{flex:1;height:1px;background:var(--bd)}
+.sec-h{display:flex;align-items:center;gap:11px;font-size:1.3rem;font-weight:700;margin-bottom:18px}
+.sec-h .tri{width:0;height:0;border-left:9px solid var(--gd);border-top:7px solid transparent;border-bottom:7px solid transparent;flex:0 0 auto}
+.sec-h .line{flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent)}
+.sec-h .ico{font-size:1.15rem}
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero .logo-lg{animation:none}}
 /* turnaj karty */
 .grid{display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
-.tcard{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
-.tcard .ic{font-size:2rem;line-height:1}
-.tcard .nm{font-weight:800;font-size:1.1rem;margin-top:4px}
-.tcard .yr{color:var(--mu);font-size:.8rem}
-.tcard .badge{position:absolute;top:14px;right:14px;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
-.badge.archived{background:rgba(245,158,11,.14);color:var(--gd);border:1px solid rgba(245,158,11,.3)}
-.badge.active{background:rgba(34,197,94,.14);color:var(--gn2);border:1px solid rgba(34,197,94,.35)}
-.badge.planned{background:rgba(59,130,246,.14);color:var(--ac2);border:1px solid rgba(59,130,246,.3)}
-.tcard .info{color:var(--mu2);font-size:.82rem;line-height:1.7;margin-top:4px;flex:1}
+.tcard{background:linear-gradient(160deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:16px;padding:20px 18px 18px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)}
+.tcard::before{content:"";position:absolute;top:0;right:0;border-top:20px solid var(--bd2);border-left:20px solid transparent;opacity:.6}
+.tcard:hover{transform:translateY(-4px);border-color:var(--bd2);box-shadow:0 14px 34px rgba(0,0,0,.32)}
+.tcard.archived:hover{box-shadow:0 14px 34px rgba(245,158,11,.16)}
+.tcard.planned:hover{box-shadow:0 14px 34px rgba(59,130,246,.16)}
+.tcard .ic{font-size:2.1rem;line-height:1}
+.tcard .nm{font-weight:800;font-size:1.15rem;margin-top:6px;font-family:'Space Grotesk',sans-serif}
+.tcard .yr{color:var(--mu);font-size:.78rem}
+.tcard .badge{position:absolute;top:15px;right:15px;font-size:.58rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px;z-index:1}
+.badge.archived{background:rgba(245,158,11,.16);color:var(--gd);border:1px solid rgba(245,158,11,.32)}
+.badge.active{background:rgba(34,197,94,.16);color:var(--gn2);border:1px solid rgba(34,197,94,.35)}
+.badge.planned{background:rgba(59,130,246,.16);color:var(--ac2);border:1px solid rgba(59,130,246,.32)}
+.tcard .info{color:var(--mu2);font-size:.83rem;line-height:1.7;margin-top:6px;flex:1}
 .tcard .info b{color:var(--tx)}
-.tcard .go{margin-top:12px;display:inline-block;text-align:center;border:1px solid var(--bd2);background:var(--bg3);color:var(--ac2);border-radius:11px;padding:9px 14px;font-size:.82rem;font-weight:700}
-.tcard.archived .go{background:rgba(59,130,246,.12);border-color:var(--ac);color:var(--ac2)}
-.tcard .go.disabled{opacity:.5;pointer-events:none}
-/* halloffame + alltime */
-.hof{display:flex;flex-direction:column;gap:8px}
-.hof-row{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:11px 14px}
-.hof-row .med{font-size:1.4rem;flex:0 0 auto}
-.hof-row .who{font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hof-row .det{color:var(--mu2);font-size:.8rem;text-align:right}
-.hof-row .det b{color:var(--gd)}
-table.at{width:100%;border-collapse:collapse;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden;font-size:.86rem}
-table.at th{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--bg3)}
-table.at td{padding:10px 14px;border-bottom:1px solid var(--bd)}
-table.at tr:last-child td{border-bottom:none}
-table.at td.r,table.at th.r{text-align:right}
-table.at .rank{color:var(--mu2);width:36px}
-table.at .b{font-weight:800;color:var(--gd)}
-tr.top1 td{background:rgba(245,158,11,.07)}
+.tcard .flags{font-size:1rem;letter-spacing:2px;margin:2px 0}
+.tcard .note{display:inline-block;margin-top:4px;font-size:.72rem;color:var(--ac2);background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.22);padding:2px 8px;border-radius:8px}
+.tcard .go{margin-top:14px;display:inline-flex;justify-content:center;align-items:center;gap:6px;text-align:center;border:1px solid var(--bd2);background:var(--bg3);color:var(--ac2);border-radius:11px;padding:10px 14px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;width:100%}
+.tcard.archived .go{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(245,158,11,.06));border-color:rgba(245,158,11,.4);color:var(--gd2)}
+.tcard.archived .go:hover{background:rgba(245,158,11,.22)}
+.tcard.planned .go:hover{border-color:var(--ac);color:var(--ac2);background:rgba(59,130,246,.1)}
+/* interest form */
+.zajem{margin-top:10px;display:none}
+.zajem.open{display:block;animation:slidein .25s ease}
+@keyframes slidein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.zajem form{display:flex;gap:6px}
+.zajem input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--bd2);border-radius:10px;padding:9px 11px;color:var(--tx);font-family:inherit;font-size:.83rem}
+.zajem input:focus{outline:none;border-color:var(--ac)}
+.zajem button{border:none;background:var(--ac);color:#fff;font-weight:800;border-radius:10px;padding:9px 14px;cursor:pointer;font-family:inherit;font-size:.83rem}
+.zajem button:disabled{opacity:.6;cursor:default}
+.zajem .hint{font-size:.7rem;color:var(--mu);margin-top:5px}
+/* podium */
+.hall-block{margin-bottom:22px}
+.hall-block .ht{font-weight:700;font-size:.95rem;color:var(--mu2);margin-bottom:14px;text-align:center;font-family:'Space Grotesk',sans-serif}
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:10px;max-width:500px;margin:0 auto}
+.pod{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.pod .medal{font-size:1.7rem;line-height:1}
+.pod .pname{font-weight:800;font-size:.86rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .ppts{font-size:.78rem;font-weight:800;color:var(--gd2)}
+.pod .block{width:100%;border-radius:12px 12px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;margin-top:3px}
+.pod.p1 .block{height:98px;background:linear-gradient(180deg,rgba(245,158,11,.4),rgba(245,158,11,.06));border:1px solid rgba(245,158,11,.45);border-bottom:none;box-shadow:0 0 34px rgba(245,158,11,.28);color:var(--gd2)}
+.pod.p2 .block{height:72px;background:linear-gradient(180deg,rgba(148,163,184,.34),rgba(148,163,184,.05));border:1px solid rgba(148,163,184,.4);border-bottom:none;color:#cbd5e1}
+.pod.p3 .block{height:54px;background:linear-gradient(180deg,rgba(180,120,60,.34),rgba(180,120,60,.05));border:1px solid rgba(180,120,60,.4);border-bottom:none;color:#d9a679}
+.champline{margin-top:14px;text-align:center;font-size:.84rem;color:var(--mu2);background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:10px 14px}
+.champline b{color:var(--tx)}
+/* all-time */
+.at2{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:720px){.at2{grid-template-columns:1fr 1fr;gap:8px 18px}}
+.atrow{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:9px 13px}
+.atrow.top1{border-color:rgba(245,158,11,.4);background:linear-gradient(90deg,rgba(245,158,11,.09),var(--bg2))}
+.atrow .rk{flex:0 0 30px;font-weight:800;color:var(--mu2);font-size:.85rem;text-align:center}
+.atrow .mid{flex:1;min-width:0}
+.atrow .nm{font-weight:700;font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.atrow .pbar{height:5px;background:var(--bd);border-radius:3px;overflow:hidden;margin-top:5px}
+.atrow .pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--gd2));border-radius:3px;width:0;transition:width .9s ease}
+.atrow .rt{flex:0 0 auto;text-align:right}
+.atrow .rt b{display:block;font-weight:800;color:var(--gd2);font-size:.9rem}
+.atrow .rt span{font-size:.66rem;color:var(--mu)}
 /* stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.stat{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:16px;text-align:center}
-.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.7rem;color:var(--ac2)}
-.stat span{font-size:.72rem;color:var(--mu2)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:720px){.stats{grid-template-columns:repeat(3,1fr)}}
+.stat{background:linear-gradient(160deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:14px;padding:18px 14px;text-align:center;position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;top:0;right:0;border-top:16px solid var(--bd2);border-left:16px solid transparent;opacity:.5}
+.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.85rem;color:var(--ac2);line-height:1.1}
+.stat.gold b{color:var(--gd2)}
+.stat span{font-size:.72rem;color:var(--mu2);display:block;margin-top:3px}
 .empty{color:var(--mu);font-size:.85rem;text-align:center;padding:16px}
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--gn);color:#04210f;font-weight:800;padding:12px 20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;z-index:50;font-size:.9rem}
+.toast.err{background:var(--rd);color:#fff}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 /* footer AYDEA */
 .ftr{margin-top:34px;padding:18px;border-top:1px solid var(--bd);color:var(--mu2);font-size:.7rem}
 .aydea-ftr{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
@@ -93,93 +152,150 @@ tr.top1 td{background:rgba(245,158,11,.07)}
 .aydea-ftr .ftr-aydea{font-weight:800;color:var(--ac2)}
 .aydea-ftr .ftr-sep{opacity:.5}
 .aydea-ftr a:hover{color:var(--ac2)}
-@media(max-width:560px){.aydea-ftr{flex-direction:column;align-items:center;text-align:center}.aydea-ftr .ftr-links{order:-1}}
+@media(max-width:560px){.hero h1{font-size:2.3rem}.aydea-ftr{flex-direction:column;align-items:center;text-align:center}.aydea-ftr .ftr-links{order:-1}}
 </style>
 </head>
 <body>
 <div class="top">
-  <span class="top-logo"><img src="./assets/icons/icon-192.png" alt="Tipovačka"><span class="brand">Tipovačka</span></span>
+  <span class="top-logo"><img src="./assets/icons/logo-tipovacka.svg" alt="Tipovačka logo" width="32" height="32"><span class="brand">Tipovačka</span></span>
   <span class="top-ctrls">
-    <button class="tbtn" id="btn-lang" type="button">EN</button>
-    <button class="tbtn" id="btn-theme" type="button" title="Přepnout téma">🌙</button>
+    <button class="tbtn" id="btn-lang" type="button" aria-label="Language">EN</button>
+    <button class="tbtn" id="btn-theme" type="button" title="Přepnout téma" aria-label="Přepnout téma">🌙</button>
   </span>
 </div>
 
 <header class="hero">
-  <div class="logo-lg">🏆</div>
-  <h1 data-i18n="hero_title">Tipovačka</h1>
-  <div class="sub" data-i18n="hero_sub">Tipovací liga na velké fotbalové turnaje</div>
-  <a class="cta" id="hero-cta" href="/ms2026" data-i18n="hero_cta">Otevřít MS 2026</a>
+  <svg class="hero-bg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <polygon points="0,0 260,0 120,150" fill="#3b82f6" opacity="0.12"/>
+    <polygon points="260,0 120,150 340,180" fill="#f59e0b" opacity="0.10"/>
+    <polygon points="1200,0 940,0 1080,170" fill="#f59e0b" opacity="0.12"/>
+    <polygon points="940,0 1080,170 860,140" fill="#3b82f6" opacity="0.10"/>
+    <polygon points="0,400 220,400 90,240" fill="#f59e0b" opacity="0.08"/>
+    <polygon points="1200,400 980,400 1110,250" fill="#3b82f6" opacity="0.10"/>
+    <polygon points="600,60 700,150 520,150" fill="#fbbf24" opacity="0.07"/>
+    <polygon points="600,400 760,400 680,300" fill="#60a5fa" opacity="0.07"/>
+  </svg>
+  <div class="hero-in">
+    <img class="logo-lg" src="./assets/icons/logo-tipovacka.svg" alt="Tipovačka" width="88" height="88">
+    <h1><span class="sr-only" data-i18n="hero_h1">Tipovačka - tipovací liga na fotbalové turnaje</span><span aria-hidden="true" data-i18n="hero_title">Tipovačka</span></h1>
+    <div class="sub" data-i18n="hero_sub">Tipovací liga na velké fotbalové turnaje</div>
+    <div class="ticker" id="ticker">
+      <div class="tick"><b data-cnt id="tk-hraci">0</b><span data-i18n="tk_hraci">tipérů</span></div>
+      <div class="tick"><b data-cnt id="tk-tipy">0</b><span data-i18n="tk_tipy">tipů</span></div>
+      <div class="tick"><b data-cnt id="tk-zapasy">0</b><span data-i18n="tk_zapasy">zápasů</span></div>
+      <div class="tick"><b data-cnt id="tk-turnaje">0</b><span data-i18n="tk_turnaje">turnajů</span></div>
+    </div>
+    <div class="cta-row">
+      <a class="cta" id="hero-cta" href="/ms2026"><span id="hero-cta-tx">Otevřít MS 2026</span></a>
+      <a class="cta ghost" id="hero-cta2" href="/ms2026" data-i18n="hero_cta2" style="display:none">Prohlédnout archiv MS 2026</a>
+    </div>
+  </div>
 </header>
 
 <main class="wrap">
-  <section>
-    <div class="sec-h"><span>🏟️</span><span data-i18n="sec_turnaje">Turnaje</span><span class="line"></span></div>
+  <section class="reveal" id="sec-turnaje">
+    <div class="sec-h"><span class="tri"></span><span class="ico">🏟️</span><span data-i18n="sec_turnaje">Turnaje</span><span class="line"></span></div>
     <div class="grid" id="turnaje-grid"><div class="empty" data-i18n="loading">Načítám…</div></div>
   </section>
 
-  <section id="hall-sec">
-    <div class="sec-h"><span>🏆</span><span data-i18n="sec_hall">Síň slávy</span><span class="line"></span></div>
-    <div class="hof" id="hall"><div class="empty" data-i18n="loading">Načítám…</div></div>
+  <section class="reveal" id="hall-sec">
+    <div class="sec-h"><span class="tri"></span><span class="ico">🏆</span><span data-i18n="sec_hall">Síň slávy</span><span class="line"></span></div>
+    <div id="hall"><div class="empty" data-i18n="loading">Načítám…</div></div>
   </section>
 
-  <section id="at-sec">
-    <div class="sec-h"><span>📊</span><span data-i18n="sec_alltime">All-time žebříček</span><span class="line"></span></div>
+  <section class="reveal" id="at-sec">
+    <div class="sec-h"><span class="tri"></span><span class="ico">📊</span><span data-i18n="sec_alltime">All-time žebříček</span><span class="line"></span></div>
     <div id="alltime"><div class="empty" data-i18n="loading">Načítám…</div></div>
   </section>
 
-  <section>
-    <div class="sec-h"><span>📈</span><span data-i18n="sec_stats">Statistiky</span><span class="line"></span></div>
+  <section class="reveal" id="stats-sec">
+    <div class="sec-h"><span class="tri"></span><span class="ico">📈</span><span data-i18n="sec_stats">Statistiky</span><span class="line"></span></div>
     <div class="stats" id="stats">
-      <div class="stat"><b id="st-hraci">-</b><span data-i18n="st_hraci">tipérů</span></div>
-      <div class="stat"><b id="st-turnaje">-</b><span data-i18n="st_turnaje">turnajů</span></div>
-      <div class="stat"><b id="st-zapasy">-</b><span data-i18n="st_zapasy">zápasů</span></div>
+      <div class="stat"><b data-cnt id="st-hraci">0</b><span data-i18n="st_hraci">tipérů</span></div>
+      <div class="stat"><b data-cnt id="st-turnaje">0</b><span data-i18n="st_turnaje">turnajů</span></div>
+      <div class="stat"><b data-cnt id="st-zapasy">0</b><span data-i18n="st_zapasy">zápasů</span></div>
+      <div class="stat gold"><b data-cnt id="st-tipy">0</b><span data-i18n="st_tipy">tipů celkem</span></div>
+      <div class="stat gold"><b data-cnt id="st-max">0</b><span data-i18n="st_max">nejvyšší skóre</span></div>
+      <div class="stat"><b data-cnt id="st-avg">0</b><span data-i18n="st_avg">průměr vítězů</span></div>
     </div>
   </section>
 </main>
 
 <footer class="ftr">
   <div class="aydea-ftr">
-    <span class="ftr-copy">© <span id="ftr-year">2026</span> <a href="https://tipovacka.chabrycity.cz">Tipovačka</a> by <a class="ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ftr-ver">v6.0.0</span> <span class="ftr-sep">·</span> <span id="ftr-year2">2026</span></span>
+    <span class="ftr-copy">© <span id="ftr-year">2026</span> <a href="https://tipovacka.chabrycity.cz">Tipovačka</a> by <a class="ftr-aydea" href="https://aydea.app" target="_blank" rel="noopener">AYDEA</a> <span class="ftr-sep">·</span> <span id="ftr-ver">v6.1.0</span> <span class="ftr-sep">·</span> <span id="ftr-year2">2026</span></span>
     <span class="ftr-links"><a href="/terms" id="l-terms">Podmínky</a> <span class="ftr-sep">·</span> <a href="/privacy" id="l-priv">Zásady</a> <span class="ftr-sep">·</span> <a href="mailto:support@aydea.app" id="l-supp">Podpora</a></span>
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-var APP_VERSION='v6.0.0';
+var APP_VERSION='v6.1.0';
 var SBU='https://xzlebpzepnhkedlxntgv.supabase.co';
 var SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6bGVicHplcG5oa2VkbHhudGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDg0OTQsImV4cCI6MjA5MDcyNDQ5NH0.YKEc3ToBLiOSJbCE_U6MFHHKr_IFfQnVoSBIqaIAgcA';
 
+// ---- statická data budoucích turnajů (planned nemají hostitele v DB) ----
+var TEASER={
+  afcon2027:{hosts_cs:'Keňa · Tanzanie · Uganda',hosts_en:'Kenya · Tanzania · Uganda',flags:'🇰🇪🇹🇿🇺🇬',teams:24,note_cs:'',note_en:''},
+  euro2028:{hosts_cs:'Anglie · Skotsko · Wales · Irsko',hosts_en:'England · Scotland · Wales · Ireland',flags:'🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁳󠁣󠁴󠁿🏴󠁧󠁢󠁷󠁬󠁳󠁿🇮🇪',teams:24,note_cs:'ČR se kvalifikuje',note_en:'Czechia qualifies'}
+};
+// král střelců per turnaj (hardcoded, MS2026)
+var SCORER={ms2026:{cs:'Kylian Mbappé (10)',en:'Kylian Mbappé (10)'}};
+
 // ---- i18n ----
 var T={
-  cs:{hero_title:'Tipovačka',hero_sub:'Tipovací liga na velké fotbalové turnaje',hero_cta:'Otevřít MS 2026',
+  cs:{hero_h1:'Tipovačka - tipovací liga na fotbalové turnaje',hero_title:'Tipovačka',hero_sub:'Tipovací liga na velké fotbalové turnaje',hero_cta2:'Prohlédnout archiv MS 2026',
+    tk_hraci:'tipérů',tk_tipy:'tipů',tk_zapasy:'zápasů',tk_turnaje:'turnajů',
     sec_turnaje:'Turnaje',sec_hall:'Síň slávy',sec_alltime:'All-time žebříček',sec_stats:'Statistiky',
-    st_hraci:'tipérů',st_turnaje:'turnajů',st_zapasy:'zápasů',loading:'Načítám…',
-    b_archived:'Dohráno',b_active:'Probíhá',b_planned:'Plánováno',
-    champ:'Šampion',winner:'Vítěz tipovačky',players:'tipérů',matches:'zápasů',
-    open_archive:'Otevřít archiv',open:'Otevřít',soon:'Již brzy',reg_open:'Registrace',
-    at_player:'Tipér',at_pts:'Body',at_tourn:'Turnajů',pts:'b',
+    st_hraci:'tipérů',st_turnaje:'turnajů',st_zapasy:'zápasů',st_tipy:'tipů celkem',st_max:'nejvyšší skóre',st_avg:'průměr vítězů',loading:'Načítám…',
+    b_archived:'Dohráno',b_active:'Probíhá',b_planned:'Již brzy',
+    champ:'Šampion',winner:'Vítěz tipovačky',players:'tipérů',matches:'zápasů',teams_l:'týmů',kickoff:'Výkop',
+    open_archive:'Otevřít archiv',open:'Otevřít',interest:'Předběžný zájem',interest_cta:'Předběžný zájem',
+    at_tourn:'turnajů',at_tourn1:'turnaj',pts:'b',
+    z_ph:'tvůj e-mail',z_send:'Chci vědět',z_hint:'Dáme ti vědět, až se rozjede přihlašování. Žádný spam.',
+    z_ok:'Díky! Dáme vědět.',z_bad:'Zadej platný e-mail.',z_err:'Nepodařilo se odeslat, zkus to znovu.',
+    ms_champ:'Mistr světa',king:'Král střelců',
     l_terms:'Podmínky',l_priv:'Zásady',l_supp:'Podpora',empty_hall:'Zatím žádný dokončený turnaj.',err:'Data se nepodařilo načíst.'},
-  en:{hero_title:'Tipovačka',hero_sub:'Prediction league for major football tournaments',hero_cta:'Open WC 2026',
+  en:{hero_h1:'Tipovačka - prediction league for football tournaments',hero_title:'Tipovačka',hero_sub:'Prediction league for major football tournaments',hero_cta2:'View WC 2026 archive',
+    tk_hraci:'players',tk_tipy:'predictions',tk_zapasy:'matches',tk_turnaje:'tournaments',
     sec_turnaje:'Tournaments',sec_hall:'Hall of Fame',sec_alltime:'All-time ranking',sec_stats:'Stats',
-    st_hraci:'players',st_turnaje:'tournaments',st_zapasy:'matches',loading:'Loading…',
-    b_archived:'Finished',b_active:'Live',b_planned:'Planned',
-    champ:'Champion',winner:'League winner',players:'players',matches:'matches',
-    open_archive:'Open archive',open:'Open',soon:'Coming soon',reg_open:'Registration',
-    at_player:'Player',at_pts:'Points',at_tourn:'Tournaments',pts:'pts',
+    st_hraci:'players',st_turnaje:'tournaments',st_zapasy:'matches',st_tipy:'total predictions',st_max:'highest score',st_avg:'winners avg',loading:'Loading…',
+    b_archived:'Finished',b_active:'Live',b_planned:'Coming soon',
+    champ:'Champion',winner:'League winner',players:'players',matches:'matches',teams_l:'teams',kickoff:'Kick-off',
+    open_archive:'Open archive',open:'Open',interest:'Register interest',interest_cta:'Register interest',
+    at_tourn:'tournaments',at_tourn1:'tournament',pts:'pts',
+    z_ph:'your e-mail',z_send:'Notify me',z_hint:"We'll let you know when sign-ups open. No spam.",
+    z_ok:'Thanks! We\'ll be in touch.',z_bad:'Enter a valid e-mail.',z_err:'Could not send, try again.',
+    ms_champ:'World champion',king:'Top scorer',
     l_terms:'Terms',l_priv:'Privacy',l_supp:'Support',empty_hall:'No finished tournament yet.',err:'Failed to load data.'}
 };
 var LANG=(function(){ try{ return localStorage.getItem('ms26_lang')==='en'?'en':'cs'; }catch(e){ return 'cs'; } })();
 function t(k){ return (T[LANG]&&T[LANG][k])||(T.cs[k])||k; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+var MONTHS={cs:['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'],
+  en:['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']};
+function fmtDate(d){ if(!d) return ''; var p=String(d).split('-'); if(p.length<3) return d; var y=+p[0],m=+p[1],day=+p[2];
+  return LANG==='cs'?(day+'. '+MONTHS.cs[m]+' '+y):(day+' '+MONTHS.en[m]+' '+y); }
 
 var DATA={turnaje:[],archiv:[]};
+var reduceMotion=false; try{ reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
+
+// ---- count-up ----
+function countUp(el){
+  if(el.dataset.done==='1') return; el.dataset.done='1';
+  var target=+el.getAttribute('data-target')||0, dur=reduceMotion?0:800, start=null;
+  if(dur===0){ el.textContent=target.toLocaleString(LANG==='cs'?'cs-CZ':'en-US'); return; }
+  function step(ts){ if(start===null) start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e).toLocaleString(LANG==='cs'?'cs-CZ':'en-US'); if(p<1) requestAnimationFrame(step); }
+  requestAnimationFrame(step);
+}
+function primeCounts(){ document.querySelectorAll('[data-cnt]').forEach(function(el){ el.dataset.done=''; }); }
 
 function applyI18n(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent=t(el.getAttribute('data-i18n')); });
   var bl=document.getElementById('btn-lang'); if(bl) bl.textContent=(LANG==='cs'?'EN':'CZ');
-  ['l-terms:l_terms','l-priv:l_priv','l-supp:l_supp'].forEach(function(p){ var a=p.split(':'); var e=document.getElementById(a[0]); if(e) e.textContent=t(a[1]); });
   render();
 }
 function applyTheme(){
@@ -188,74 +304,190 @@ function applyTheme(){
   var b=document.getElementById('btn-theme'); if(b) b.textContent=(th==='light'?'☀️':'🌙');
   var mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute('content', th==='light'?'#f3f7fc':'#0a1524');
 }
-
 function statusBadge(s){ var cls=(s==='active'?'active':s==='planned'?'planned':'archived'); var lbl=t(s==='active'?'b_active':s==='planned'?'b_planned':'b_archived'); return '<span class="badge '+cls+'">'+lbl+'</span>'; }
 
 function render(){
   var ty=String(new Date().getFullYear());
   ['ftr-year','ftr-year2'].forEach(function(id){ var e=document.getElementById(id); if(e) e.textContent=ty; });
   var fv=document.getElementById('ftr-ver'); if(fv) fv.textContent=APP_VERSION;
-  renderTurnaje(); renderHall(); renderAlltime(); renderStats();
+  renderTurnaje(); renderHall(); renderAlltime(); renderStats(); setTicker(); setHeroCta();
+  primeCounts(); observeCounts();
 }
+
 function renderTurnaje(){
   var g=document.getElementById('turnaje-grid'); if(!g) return;
   if(!DATA.turnaje.length){ g.innerHTML='<div class="empty">'+t('err')+'</div>'; return; }
-  g.innerHTML=DATA.turnaje.map(function(tr){
-    var arch=tr.status==='archived';
-    var info;
-    if(arch){ info='🏆 '+t('champ')+': <b>'+esc(tr.sampion||'-')+'</b><br>👑 '+t('winner')+': <b>'+esc(tr.tiper_sampion||'-')+'</b><br>'+(tr.pocet_hracu||0)+' '+t('players')+' · '+(tr.pocet_zapasu||0)+' '+t('matches'); }
-    else { info=t('soon'); }
-    var url=tr.url_path||('/'+tr.id);
-    var btn=arch?('<a class="go" href="'+esc(url)+'">'+t('open_archive')+' →</a>')
-                :('<span class="go disabled">'+t('soon')+'</span>');
-    return '<div class="tcard '+(arch?'archived':tr.status)+'">'+statusBadge(tr.status)+
+  var order={active:0,planned:1,archived:2};
+  var list=DATA.turnaje.slice().sort(function(a,b){ var d=(order[a.status]||9)-(order[b.status]||9); if(d) return d;
+    return a.status==='planned' ? (a.rok||0)-(b.rok||0) : (b.rok||0)-(a.rok||0); });
+  g.innerHTML=list.map(function(tr){
+    var arch=tr.status==='archived', plan=tr.status==='planned';
+    var info,btn,zaj='';
+    if(arch){
+      info='🏆 '+t('champ')+': <b>'+esc(tr.sampion||'-')+'</b><br>👑 '+t('winner')+': <b>'+esc(tr.tiper_sampion||'-')+'</b><br>'+(tr.pocet_hracu||0)+' '+t('players')+' · '+(tr.pocet_zapasu||0)+' '+t('matches');
+      btn='<a class="go" href="'+esc(tr.url_path||('/'+tr.id))+'">'+t('open_archive')+' →</a>';
+    } else if(plan){
+      var ts=TEASER[tr.id]||{};
+      var hosts=(LANG==='cs'?ts.hosts_cs:ts.hosts_en)||'';
+      var note=(LANG==='cs'?ts.note_cs:ts.note_en)||'';
+      info=(ts.flags?'<div class="flags">'+ts.flags+'</div>':'')+
+        (hosts?esc(hosts)+'<br>':'')+
+        (tr.start_date?'📅 '+t('kickoff')+': <b>'+fmtDate(tr.start_date)+'</b><br>':'')+
+        (ts.teams?'👥 '+ts.teams+' '+t('teams_l'):'')+
+        (note?'<br><span class="note">'+esc(note)+'</span>':'');
+      btn='<button class="go" type="button" data-zajem="'+esc(tr.id)+'">✉️ '+t('interest_cta')+'</button>';
+      zaj='<div class="zajem" id="z-'+esc(tr.id)+'">'+
+        '<form data-zform="'+esc(tr.id)+'"><input type="email" required placeholder="'+t('z_ph')+'" aria-label="'+t('z_ph')+'"><button type="submit">'+t('z_send')+'</button></form>'+
+        '<div class="hint">'+t('z_hint')+'</div></div>';
+    } else {
+      info=t('b_active'); btn='<a class="go" href="'+esc(tr.url_path||('/'+tr.id))+'">'+t('open')+' →</a>';
+    }
+    return '<div class="tcard '+(arch?'archived':tr.status)+'" id="t-'+esc(tr.id)+'">'+statusBadge(tr.status)+
       '<div class="ic">'+esc(tr.icon||'🏆')+'</div>'+
       '<div class="nm">'+esc(tr.nazev||tr.id)+'</div>'+
       '<div class="yr">'+esc(tr.rok||'')+'</div>'+
-      '<div class="info">'+info+'</div>'+btn+'</div>';
+      '<div class="info">'+info+'</div>'+btn+zaj+'</div>';
   }).join('');
+  // listenery na zájem
+  g.querySelectorAll('[data-zajem]').forEach(function(b){ b.addEventListener('click',function(){ toggleZajem(b.getAttribute('data-zajem')); }); });
+  g.querySelectorAll('[data-zform]').forEach(function(f){ f.addEventListener('submit',function(e){ e.preventDefault(); submitZajem(f.getAttribute('data-zform'), f); }); });
 }
+
+function toggleZajem(id, forceOpen){
+  var z=document.getElementById('z-'+id); if(!z) return;
+  if(forceOpen) z.classList.add('open'); else z.classList.toggle('open');
+  if(z.classList.contains('open')){ var i=z.querySelector('input'); if(i) setTimeout(function(){ i.focus(); },60); }
+}
+function submitZajem(id, form){
+  var inp=form.querySelector('input'), btn=form.querySelector('button');
+  var email=(inp.value||'').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast(t('z_bad'), true); inp.focus(); return; }
+  btn.disabled=true;
+  fetch(SBU+'/rest/v1/rpc/zapis_zajem_secure',{method:'POST',headers:{apikey:SBK,Authorization:'Bearer '+SBK,'Content-Type':'application/json'},body:JSON.stringify({p_turnaj_id:id,p_email:email})})
+    .then(function(r){ return r.json().catch(function(){return {};}); })
+    .then(function(res){
+      if(res&&res.ok){ toast(t('z_ok')); inp.value=''; var z=document.getElementById('z-'+id); if(z) z.classList.remove('open'); }
+      else { toast((res&&res.chyba)?t('z_bad'):t('z_err'), true); }
+    })
+    .catch(function(){ toast(t('z_err'), true); })
+    .then(function(){ btn.disabled=false; });
+}
+var toastTmr;
+function toast(msg, isErr){
+  var el=document.getElementById('toast'); if(!el) return;
+  el.textContent=msg; el.className='toast'+(isErr?' err':'')+' show';
+  clearTimeout(toastTmr); toastTmr=setTimeout(function(){ el.className='toast'+(isErr?' err':''); },3200);
+}
+
 function renderHall(){
   var h=document.getElementById('hall'); if(!h) return;
   var meds=['🥇','🥈','🥉'];
-  var arch=DATA.turnaje.filter(function(tr){ return tr.status==='archived'; })
-    .sort(function(a,b){ return (b.rok||0)-(a.rok||0); });
+  var arch=DATA.turnaje.filter(function(tr){ return tr.status==='archived'; }).sort(function(a,b){ return (b.rok||0)-(a.rok||0); });
   if(!arch.length){ h.innerHTML='<div class="empty">'+t('empty_hall')+'</div>'; return; }
-  h.innerHTML=arch.map(function(tr,i){
-    var win=DATA.archiv.filter(function(r){ return r.turnaj_id===tr.id; }).sort(function(a,b){return a.poradi-b.poradi;})[0];
-    var body=win?win.body:'';
-    return '<div class="hof-row"><span class="med">'+(meds[i]||'🏅')+'</span>'+
-      '<span class="who">'+esc((win&&win.jmeno)||tr.tiper_sampion||'-')+'</span>'+
-      '<span class="det">'+esc(tr.nazev||tr.id)+(body!==''?' · <b>'+body+' '+t('pts')+'</b>':'')+'</span></div>';
+  h.innerHTML=arch.map(function(tr){
+    var top3=DATA.archiv.filter(function(r){ return r.turnaj_id===tr.id; }).sort(function(a,b){return a.poradi-b.poradi;}).slice(0,3);
+    if(!top3.length) return '';
+    var pods=[top3[1],top3[0],top3[2]]; // 2. 1. 3.
+    var cls=['p2','p1','p3'], rk=[2,1,3];
+    var podHtml=pods.map(function(p,i){ if(!p) return '<div class="pod '+cls[i]+'"></div>';
+      return '<div class="pod '+cls[i]+'"><span class="medal">'+meds[rk[i]-1]+'</span>'+
+        '<span class="pname">'+esc(p.jmeno)+'</span>'+
+        '<span class="ppts">'+p.body+' '+t('pts')+'</span>'+
+        '<span class="block">'+rk[i]+'</span></div>'; }).join('');
+    var sc=SCORER[tr.id]?(LANG==='cs'?SCORER[tr.id].cs:SCORER[tr.id].en):'';
+    var champ='🏆 '+t('ms_champ')+' '+esc(tr.rok||'')+': <b>'+esc(tr.sampion||'-')+'</b>'+(sc?' <span class="ftr-sep">·</span> 👟 '+t('king')+': <b>'+esc(sc)+'</b>':'');
+    return '<div class="hall-block"><div class="ht">'+esc(tr.nazev||tr.id)+'</div>'+
+      '<div class="podium">'+podHtml+'</div>'+
+      '<div class="champline">'+champ+'</div></div>';
   }).join('');
+}
+
+function aggAlltime(){
+  var agg={};
+  DATA.archiv.forEach(function(r){ var k=r.jmeno; if(!agg[k]) agg[k]={jmeno:k,body:0,n:0}; agg[k].body+=(r.body||0); agg[k].n++; });
+  return Object.keys(agg).map(function(k){return agg[k];}).sort(function(a,b){return b.body-a.body;});
 }
 function renderAlltime(){
   var el=document.getElementById('alltime'); if(!el) return;
-  var agg={};
-  DATA.archiv.forEach(function(r){ var k=r.jmeno; if(!agg[k]) agg[k]={jmeno:k,body:0,n:0}; agg[k].body+=(r.body||0); agg[k].n++; });
-  var rows=Object.keys(agg).map(function(k){return agg[k];}).sort(function(a,b){return b.body-a.body;}).slice(0,10);
+  var rows=aggAlltime();
   if(!rows.length){ el.innerHTML='<div class="empty">'+t('err')+'</div>'; return; }
-  el.innerHTML='<table class="at"><thead><tr><th class="rank">#</th><th>'+t('at_player')+'</th><th class="r">'+t('at_pts')+'</th><th class="r">'+t('at_tourn')+'</th></tr></thead><tbody>'+
-    rows.map(function(r,i){ return '<tr'+(i===0?' class="top1"':'')+'><td class="rank">'+(i+1)+'.</td><td>'+(i===0?'🥇 ':'')+esc(r.jmeno)+'</td><td class="r b">'+r.body+' '+t('pts')+'</td><td class="r">'+r.n+'</td></tr>'; }).join('')+
-    '</tbody></table>';
+  var max=rows[0].body||1;
+  var meds=['🥇','🥈','🥉'];
+  el.innerHTML='<div class="at2">'+rows.map(function(r,i){
+    var w=Math.max(4,Math.round(r.body/max*100));
+    var tl=(r.n===1?t('at_tourn1'):t('at_tourn'));
+    return '<div class="atrow'+(i===0?' top1':'')+'">'+
+      '<span class="rk">'+(i<3?meds[i]:(i+1)+'.')+'</span>'+
+      '<span class="mid"><span class="nm">'+esc(r.jmeno)+'</span><span class="pbar"><i data-w="'+w+'"></i></span></span>'+
+      '<span class="rt"><b>'+r.body+' '+t('pts')+'</b><span>'+r.n+' '+tl+'</span></span></div>';
+  }).join('')+'</div>';
 }
+
 function renderStats(){
-  var hraci={}; DATA.archiv.forEach(function(r){ hraci[r.jmeno]=1; });
   var arch=DATA.turnaje.filter(function(tr){return tr.status==='archived';});
+  var rows=aggAlltime();
   var zap=arch.reduce(function(s,tr){ return s+(tr.pocet_zapasu||0); },0);
-  var set=function(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; };
-  set('st-hraci', Object.keys(hraci).length||'-');
-  set('st-turnaje', arch.length||'-');
-  set('st-zapasy', zap||'-');
+  var tipy=arch.reduce(function(s,tr){ return s+(tr.pocet_tipu||0); },0);
+  var maxb=rows.reduce(function(m,r){ return Math.max(m,r.body); },0);
+  var winners=arch.map(function(tr){ var w=DATA.archiv.filter(function(r){return r.turnaj_id===tr.id&&r.poradi===1;})[0]; return w?w.body:null; }).filter(function(x){return x!=null;});
+  var avg=winners.length?Math.round(winners.reduce(function(s,x){return s+x;},0)/winners.length):0;
+  var set=function(id,v){ var e=document.getElementById(id); if(e) e.setAttribute('data-target', v); };
+  set('st-hraci', rows.length); set('st-turnaje', arch.length); set('st-zapasy', zap);
+  set('st-tipy', tipy); set('st-max', maxb); set('st-avg', avg);
+}
+function setTicker(){
+  var arch=DATA.turnaje.filter(function(tr){return tr.status==='archived';});
+  var rows=aggAlltime();
+  var zap=arch.reduce(function(s,tr){ return s+(tr.pocet_zapasu||0); },0);
+  var tipy=arch.reduce(function(s,tr){ return s+(tr.pocet_tipu||0); },0);
+  var set=function(id,v){ var e=document.getElementById(id); if(e) e.setAttribute('data-target', v); };
+  set('tk-hraci', rows.length); set('tk-tipy', tipy); set('tk-zapasy', zap); set('tk-turnaje', arch.length);
 }
 function setHeroCta(){
-  var a=document.getElementById('hero-cta'); if(!a) return;
-  // priorita: active > nejblizsi planned > posledni archived
+  var a=document.getElementById('hero-cta'), tx=document.getElementById('hero-cta-tx'), a2=document.getElementById('hero-cta2');
+  if(!a) return;
   var act=DATA.turnaje.filter(function(t){return t.status==='active';})[0];
+  var plan=DATA.turnaje.filter(function(t){return t.status==='planned';}).sort(function(x,y){return (x.rok||0)-(y.rok||0);})[0];
   var arch=DATA.turnaje.filter(function(t){return t.status==='archived';}).sort(function(x,y){return (y.rok||0)-(x.rok||0);})[0];
-  var target=act||arch;
-  if(target){ a.href=target.url_path||('/'+target.id);
-    a.textContent=(act?t('open'):t('open_archive'))+' '+(target.nazev||'').replace(/^Tipovačka\s*/i,''); }
+  function shortNm(tr){ return (tr.nazev||'').replace(/^Tipovačka\s*/i,''); }
+  a.onclick=null;
+  if(act){
+    a.href=act.url_path||('/'+act.id); tx.textContent=t('open')+' '+shortNm(act);
+    if(a2&&arch){ a2.style.display=''; a2.href=arch.url_path||('/'+arch.id); a2.textContent=t('open_archive')+' '+shortNm(arch); }
+  } else if(plan){
+    a.href='#t-'+plan.id; tx.textContent='✉️ '+t('interest')+' · '+shortNm(plan);
+    a.onclick=function(e){ e.preventDefault(); var el=document.getElementById('t-'+plan.id); if(el) el.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}); toggleZajem(plan.id,true); };
+    if(a2&&arch){ a2.style.display=''; a2.href=arch.url_path||('/'+arch.id); a2.textContent=t('open_archive')+' '+shortNm(arch); }
+  } else if(arch){
+    a.href=arch.url_path||('/'+arch.id); tx.textContent=t('open_archive')+' '+shortNm(arch);
+    if(a2) a2.style.display='none';
+  }
+}
+
+// ---- observers: count-up + reveal + points bars ----
+var io;
+function observeCounts(){
+  var all=document.querySelectorAll('[data-cnt]');
+  if(!('IntersectionObserver' in window)){ all.forEach(countUp); fillBars(); return; }
+  if(io) io.disconnect();
+  io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ if(en.target.hasAttribute('data-cnt')) countUp(en.target); io.unobserve(en.target); } });
+  },{threshold:.4});
+  all.forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('#ticker [data-cnt]').forEach(countUp); // hero vždy viditelný – spusť hned
+  // pojistka: pokud rAF neběží (skrytá záložka) nebo IO nezafunguje, dosaď finální čísla přímo
+  setTimeout(function(){ all.forEach(function(el){ var tv=+el.getAttribute('data-target')||0;
+    var cur=parseInt(String(el.textContent).replace(/\D/g,''),10)||0; if(cur!==tv) el.textContent=tv.toLocaleString(LANG==='cs'?'cs-CZ':'en-US'); }); }, 2600);
+}
+function fillBars(){ document.querySelectorAll('.pbar>i[data-w]').forEach(function(i){ i.style.width=i.getAttribute('data-w')+'%'; }); }
+function setupReveal(){
+  var secs=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)||reduceMotion){ secs.forEach(function(s){s.classList.add('in');}); fillBars(); return; }
+  var ro=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); if(en.target.id==='at-sec') fillBars(); ro.unobserve(en.target); } });
+  },{threshold:.12});
+  secs.forEach(function(s){ ro.observe(s); });
+  setTimeout(fillBars, 1200); // fallback
 }
 
 function sb(path){
@@ -263,15 +495,15 @@ function sb(path){
 }
 function load(){
   Promise.all([
-    sb('turnaje?select=id,nazev,rok,status,url_path,icon,start_date,end_date,sampion,tiper_sampion,pocet_hracu,pocet_zapasu&order=rok.desc'),
+    sb('turnaje?select=id,nazev,rok,status,url_path,icon,start_date,end_date,sampion,tiper_sampion,pocet_hracu,pocet_zapasu,pocet_tipu&order=rok.desc'),
     sb('turnaj_archiv?select=turnaj_id,jmeno,poradi,body,extra_body')
-  ]).then(function(res){ DATA.turnaje=res[0]||[]; DATA.archiv=res[1]||[]; render(); setHeroCta(); });
+  ]).then(function(res){ DATA.turnaje=res[0]||[]; DATA.archiv=res[1]||[]; render(); });
 }
 
-document.getElementById('btn-lang').addEventListener('click',function(){ LANG=(LANG==='cs'?'en':'cs'); try{ localStorage.setItem('ms26_lang',LANG); }catch(e){} applyI18n(); setHeroCta(); });
+document.getElementById('btn-lang').addEventListener('click',function(){ LANG=(LANG==='cs'?'en':'cs'); try{ localStorage.setItem('ms26_lang',LANG); }catch(e){} applyI18n(); });
 document.getElementById('btn-theme').addEventListener('click',function(){ var cur='dark'; try{cur=localStorage.getItem('ms26_theme')||'dark';}catch(e){} var nx=(cur==='light'?'dark':'light'); try{ localStorage.setItem('ms26_theme',nx); }catch(e){} applyTheme(); });
 
-applyTheme(); applyI18n(); load();
+applyTheme(); applyI18n(); setupReveal(); load();
 </script>
 </body>
 </html>

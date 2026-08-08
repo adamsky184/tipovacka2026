@@ -2,6 +2,21 @@
 
 Formát `vMAJOR.MINOR.PATCH - D. M. RRRR`. Stejný formát jako footer.
 
+## v6.1.0 - 8. 8. 2026
+
+**Landing world-class redesign.** Kompletní přepracování `/` (index.html) do low-poly vizuálního jazyka konzistentního s AYDEA logem.
+
+- **Identita:** skutečné logo (transparentní low-poly zlatá trofej `logo-tipovacka.svg`) v top baru i hero se zlatým glow místo emoji; faceted low-poly polygony v pozadí hero (SVG), seříznuté rohy karet, trojúhelníkové akcenty v hlavičkách sekcí.
+- **Hero:** stat ticker (tipérů · tipů · zápasů · turnajů) s count-up animací, primary CTA (dynamicky míří na active > nejbližší planned > archiv) + ghost CTA na archiv.
+- **Teasery budoucích turnajů:** AFCON 2027 (Keňa/Tanzanie/Uganda, výkop 19. 6. 2027, 24 týmů) a EURO 2028 (Anglie/Skotsko/Wales/Irsko, výkop 9. 6. 2028) s vlajkami. Data-driven z `turnaje` (status=planned), hostitelé/vlajky jako JS mapa.
+- **Předběžný zájem:** inline email capture u planned karet → RPC `zapis_zajem_secure` (SECURITY DEFINER, nová tabulka `turnaj_zajem`, žádná přímá anon policy), klientská i serverová validace, success toast.
+- **Síň slávy:** stepped pódium TOP 3 (2.-1.-3.) s medailemi + řádek mistr světa / král střelců (Mbappé 10).
+- **All-time žebříček:** všech 13 hráčů (bez ořezu), 2 sloupce na desktopu, mini points bary.
+- **Statistiky:** 6 karet (tipérů, turnajů, zápasů, tipů celkem 2787, nejvyšší skóre, průměr vítězů) s count-up při scroll-into-view.
+- **UX:** count-up (IntersectionObserver + rAF, ease-out, pojistka na přímé dosazení), reveal-on-scroll s respektem `prefers-reduced-motion`, plná dvojjazyčnost CZ/EN, dark+light, přístupnost (sr-only h1, aria, alt).
+- **DB (aditivní, reverzibilní):** `turnaje` +sloupec `pocet_tipu` (ms2026=2787), INSERT teasery afcon2027/euro2028, nová `turnaj_zajem` + RPC. Viz `backend/sql/20`.
+- `tipovacka.html` / archiv MS 2026 beze změny (landing je nezávislý).
+
 ## v6.0.0 - 8. 8. 2026
 
 **Landing hub.** Nový statický `/` (index.html) - rozcestník turnajů, síň slávy MS 2026 vítězů, all-time žebříček (SUM body per hráč), statistiky (13 hráčů · 1 turnaj · 104 zápasů). Data z DB `turnaje` + `turnaj_archiv` (anon SELECT). CZ/EN switcher (localStorage `ms26_lang`), světlé/tmavé téma (`ms26_theme`), AYDEA footer + SEO (meta/OG/Twitter/canonical), bez manifestu (nerozbít PWA install). URL alias `/ms2026` → `/tipovacka.html` (backward compat pro PWA installs zachován, `/` → index.html). Migrace `turnaje` +status/url_path/start_date/end_date/icon. Fáze A z rebrand-guide, Sprint 1 z v5.7.3+ backlogu.
